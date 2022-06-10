@@ -1,3 +1,13 @@
+//todo: move these to a dedicated define file
+///rareness weight defines
+#define XENOB_COMMON 5
+#define XENOB_UNCOMMON 3
+#define XENOB_RARE 1
+///List of available textures for slimes
+#define XENOB_TEXTURES list("polka", "nostalgia", "counterstrike", "alert", "bouncy", "spooky", "alphabet", "unpacking", "default")
+///List of approved colors for slimes
+#define XENOB_COLORS list("#00ff44", "#006eff", "#ff0000", "#f6ff00", "#ff00d9", "#00e5ff")
+
 /mob/living/simple_animal/slime_uni
 	name = "slime"
 	icon = 'icons/mob/xenobiology/slime.dmi'
@@ -6,56 +16,52 @@
 	var/icon/species_texture
 	///Color, slime racism :pensive:
 	var/species_color
+	///Icon the actual mob uses, contains animated frames
+	var/icon/final_icon
 
-	var/tex_speed
-	var/tex_dir
+	var/tex_speed = 1
+	var/tex_dir = NORTH
 
 /mob/living/simple_animal/slime_uni/Initialize(mapload, parent_texture = null, parent_color = null)
 	. = ..()
 	species_texture = parent_texture
 	species_color = parent_color
 
+	tex_speed = pick(list(1,2,3))
+	tex_dir = pick(list(NORTH, SOUTH, EAST, WEST))
+
 	//apply textures, colors, and outlines
 	setup_texture()
 	add_filter("outline", 3, list("type" = "outline", "color" = species_color, "size" = 1))
 	add_filter("outline_inner", 2, list("type" = "outline", "color" = "#000000", "size" = 1))
 
-	tex_speed = pick(list(1,2,3))
-	tex_dir = pick(list(NORTH, SOUTH, EAST, WEST))
-	do_texture_shift()
-
-	var/icon/face = new('icons/mob/xenobiology/slime.dmi', "major_feature_[pick("1", "2", "3)]")
-	add_overlay(face)
-	face = new('icons/mob/xenobiology/slime.dmi', "minor_feature_[pick("1", "2", "3")]")
-	add_overlay(face)
+	var/icon/dynamic = new('icons/mob/xenobiology/slime.dmi', "dynamic")
+	dynamic.ChangeOpacity(0.45)
+	add_overlay(dynamic)
 
 /mob/living/simple_animal/slime_uni/Destroy()
 	. = ..()
 
-///initializes texture, adressing species_texture
-/mob/living/simple_animal/slime_uni/proc/setup_texture()
+///initializes texture, adressing species_texture & color, calls texture application
+/mob/living/simple_animal/slime_uni/proc/setup_texture(large = FALSE, icon = null)
+	//Grab missing textures & colors, if needed
 	if(!species_texture)
-		random_slime_texture()
+		species_texture = new(large ? 'icons/mob/xenobiology/slime_texture_96x96.dmi' : 'icons/mob/xenobiology/slime_texture.dmi', (icon ? icon : pick(XENOB_TEXTURES)))
 	if(!species_color)
-		//todo: change this to a define somwhere
-		species_color = pick(list("#00ff44", "#006eff", "#ff0000", "#f6ff00", "#ff00d9", "#00e5ff"))
+		species_color = pick(XENOB_COLORS)
 	species_texture.ColorTone(species_color)
+
 	apply_texture()
 
-///apply species_texture to mob icon
+///Animate and apply final icon from species_texture
 /mob/living/simple_animal/slime_uni/proc/apply_texture()
-	var/icon/temp_icon = new(species_texture)
-	var/icon/alpha_mask = new('icons/mob/xenobiology/slime.dmi',"default" )
-	temp_icon.AddAlphaMask(alpha_mask)
-	icon = temp_icon
+	final_icon = new(species_texture)
+	final_icon.Insert(species_texture)
 
-///update species_texture to a random, or picked, icon
-/mob/living/simple_animal/slime_uni/proc/random_slime_texture(large = FALSE, icon)
-	//todo: change this to a define somewhere
-	var/list/available_icons = list("polka", "nostalgia", "counterstrike", "alert", "bouncy", "spooky")
-	species_texture = new(large ? 'icons/mob/xenobiology/slime_texture_96x96.dmi' : 'icons/mob/xenobiology/slime_texture.dmi', (icon ? icon : pick(available_icons)))
+	for(var/i in 2 to 32)
+		species_texture.Shift(tex_dir, tex_speed, TRUE) //update texure
+		final_icon.Insert(species_texture, frame=i) //insert frames into icon
 
-/mob/living/simple_animal/slime_uni/proc/do_texture_shift()
-	species_texture.Shift(tex_dir, tex_speed, TRUE)
-	apply_texture()
-	addtimer(CALLBACK(src, .proc/do_texture_shift), 0 SECONDS)
+	var/icon/alpha_mask = new('icons/mob/xenobiology/slime.dmi',"default" ) //Alpha mask for cutting out excess
+	final_icon.AddAlphaMask(alpha_mask)
+	icon = final_icon
