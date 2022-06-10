@@ -4,7 +4,7 @@
 #define XENOB_UNCOMMON 3
 #define XENOB_RARE 1
 ///List of available textures for slimes
-#define XENOB_TEXTURES list("polka", "nostalgia", "counterstrike", "alert", "bouncy", "spooky", "alphabet", "unpacking", "default")
+#define XENOB_TEXTURES list("polka", "nostalgia", "counterstrike", "alert", "bouncy", "spooky", "alphabet", "unpacking", "default", "sus")
 ///List of approved colors for slimes
 #define XENOB_COLORS list("#00ff44", "#006eff", "#ff0000", "#f6ff00", "#ff00d9", "#00e5ff")
 
@@ -62,6 +62,6 @@
 		species_texture.Shift(tex_dir, tex_speed, TRUE) //update texure
 		final_icon.Insert(species_texture, frame=i) //insert frames into icon
 
-	var/icon/alpha_mask = new('icons/mob/xenobiology/slime.dmi',"default" ) //Alpha mask for cutting out excess
+	var/icon/alpha_mask = new('icons/mob/xenobiology/slime.dmi',"default") //Alpha mask for cutting out excess
 	final_icon.AddAlphaMask(alpha_mask)
 	icon = final_icon
