@@ -3,9 +3,7 @@
 	name = "slime"
 	icon = 'icons/mob/xenobiology/slime.dmi'
 	icon_state = "random"
-	alpha = 200
-	//alpha = 127
-	appearance_flags = KEEP_TOGETHER
+	alpha = 210
 	///Slime DNA, contains traits and visual features
 	var/datum/slime_dna/dna
 	///Icon the actual mob uses, contains animated frames
@@ -20,8 +18,11 @@
 	dna = (parent ? new(parent?.dna) : new())
 
 	//apply textures, colors, and outlines
+	//var/icon/M = new('icons/mob/xenobiology/slime.dmi', "tumor")
+	//dna.combine_alpha_masks(list(M))
 	setup_texture()
-	add_filter("outline", 3, list("type" = "outline", "color" = gradient(dna.features["color"], "#000000ff", 0.7), "size" = 1))
+	add_filter("outline", 2, list("type" = "outline", "color" = gradient(dna.features["color"], "#000000ff", 0.56), "size" = 1))
+	//add_filter("outline_outer", 3, list("type" = "outline", "color" = dna.features["color"], "size" = 1))
 
 /mob/living/simple_animal/slime_uni/Destroy()
 	. = ..()

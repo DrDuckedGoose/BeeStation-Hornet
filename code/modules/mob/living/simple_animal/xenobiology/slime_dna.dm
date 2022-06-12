@@ -7,7 +7,7 @@
 */
 /datum/slime_dna
     ///List of visual features for main texture
-    var/features = list("texture" = null, "mask" = null, "color" = null, "sub_color" = null, "exotic_color" = null, "speed" = null, "direction" = null, "rotation" = null)
+    var/features = list("texture" = null, "mask" = null, "sub_masks" = list(), "color" = null, "sub_color" = null, "exotic_color" = null, "speed" = null, "direction" = null, "rotation" = null)
     ///List of technical features 
     var/traits = list()
     ///chance to mutate as a percentage. The higher the percentage the greater the changes
@@ -19,21 +19,30 @@
         features = inherited.features
         traits = inherited.traits
         instability = inherited.instability
-        features["direction"] = inherited.features["direction"]
     else
         //If no inheritance, initialize missing features
-        var/icon/hold_mask = new('icons/mob/xenobiology/slime.dmi', (mask ? mask : "test"))
+        //masking stuffs
+        var/icon/hold_mask = new('icons/mob/xenobiology/slime.dmi', (mask ? mask : "m_default")) //main mask
+        features["sub_masks"] += pick(XENOB_SUB_MASKS) //bonus sub mask
+        //Add any extra icons to the alpha_mask icon
+        if(features["sub_masks"])
+            for(var/i in features["sub_masks"])
+                var/icon/M = new('icons/mob/xenobiology/slime.dmi', i)
+                hold_mask.Blend(M, ICON_OVERLAY)
         features["mask"] = hold_mask
 
         var/icon/hold_text = new('icons/mob/xenobiology/slime_texture.dmi', (texture ? texture : pick(XENOB_TEXTURES)))
 
         //color process
-        var/r = pick(255, rand(0, 255))
-        var/g = r != 255 ? pick(255, rand(0, 180)) : rand(0, 180)
-        var/b = r != 255 && g != 255 ? 255 : rand(0, 180)
+        var/clr = pick(XENOB_COLORS)
+        var/r = pick(clr)
+        clr -= r
+        var/g = pick(clr)
+        clr -= g
+        var/b = pick(clr)
         features["color"] = (color ? color : rgb(r, g, b))
-        features["sub_color"] = (color ? color : rgb(255-r, 255-g, 255-b))
-        features["exotic_color"] = (color ? color : rgb(120-r, 120-g, 120-b))
+        features["sub_color"] = (color ? color : rgb(b, r, g))
+        features["exotic_color"] = (color ? color : rgb(g, b, r))
         hold_text.SwapColor("#DDDDDD", features["color"])
         hold_text.SwapColor("#A7A7A7", features["sub_color"])
         hold_text.SwapColor("#6E6E6E", features["exotic_color"])
@@ -44,4 +53,5 @@
         features["texture"] = hold_text
 
         features["direction"] = pick(NORTH, SOUTH, EAST, WEST)
-    features["speed"] = 1 + ((instability / 100) * 4)
+
+    features["speed"] = 1 + ((instability / 100) * 3)
