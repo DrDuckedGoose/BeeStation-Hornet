@@ -19,21 +19,37 @@
         features = inherited.features
         traits = inherited.traits
         instability = inherited.instability
-    else
-        //If no inheritance, initialize missing features
-        //masking stuffs
-        var/icon/hold_mask = new('icons/mob/xenobiology/slime.dmi', (mask ? mask : "m_default")) //main mask
-        features["sub_masks"] += pick(XENOB_SUB_MASKS) //bonus sub mask
+        mutate()
+    else //If no inheritance, initialize missing features
+        mutate(TRUE)
+
+    features["speed"] = 1 + ((instability / 100) * 3)
+
+///mutate existing stats, or generate completely new ones
+/datum/slime_dna/proc/mutate(always_mutate = FALSE, modifier = 0, texture, mask, sub_masks = list(), color)
+    if(!prob(instability+modifier) && !always_mutate)
+        return
+
+    var/icon/hold_mask = features["mask"]
+    if(always_mutate || prob(instability+modifier) || mask) //masking
+        hold_mask = new('icons/mob/xenobiology/slime.dmi', (mask ? mask : pick(XENOB_MASKS))) //main mask
+        //instability -= XENOB_MUTATE_MEDIUM
+    if(always_mutate || prob(instability+modifier) || sub_masks)
+        features["sub_masks"] += (sub_masks ? sub_masks : pick(XENOB_SUB_MASKS)) //bonus sub mask
         //Add any extra icons to the alpha_mask icon
         if(features["sub_masks"])
             for(var/i in features["sub_masks"])
                 var/icon/M = new('icons/mob/xenobiology/slime.dmi', i)
                 hold_mask.Blend(M, ICON_OVERLAY)
-        features["mask"] = hold_mask
+        instability -= XENOB_MUTATE_MEDIUM
+    features["mask"] = hold_mask
 
-        var/icon/hold_text = new('icons/mob/xenobiology/slime_texture.dmi', (texture ? texture : pick(XENOB_TEXTURES)))
+    var/icon/hold_text = features["texture"]
+    if(always_mutate || prob(instability+modifier)) //texture
+        hold_text = new('icons/mob/xenobiology/slime_texture.dmi', (texture ? texture : pick(XENOB_TEXTURES)))
+        instability -= XENOB_MUTATE_MAJOR
 
-        //color process
+    if(always_mutate || prob(instability+modifier)) //texture color
         var/clr = pick(XENOB_COLORS)
         var/r = pick(clr)
         clr -= r
@@ -43,15 +59,19 @@
         features["color"] = (color ? color : rgb(r, g, b))
         features["sub_color"] = (color ? color : rgb(b, r, g))
         features["exotic_color"] = (color ? color : rgb(g, b, r))
-        hold_text.SwapColor("#DDDDDD", features["color"])
-        hold_text.SwapColor("#A7A7A7", features["sub_color"])
-        hold_text.SwapColor("#6E6E6E", features["exotic_color"])
-
-        features["rotation"] = 90 * pick(0, 1, 2, 3)
-        hold_text.Turn(features["rotation"])
+        instability -= XENOB_MUTATE_MINOR
+    hold_text.SwapColor("#DDDDDD", features["color"])
+    hold_text.SwapColor("#A7A7A7", features["sub_color"])
+    hold_text.SwapColor("#6E6E6E", features["exotic_color"])
         
-        features["texture"] = hold_text
+    if(always_mutate || prob(instability+modifier)) //texture rotation
+        features["rotation"] = 90 * pick(0, 1, 2, 3)
+        instability -= XENOB_MUTATE_MINOR
+    hold_text.Turn(features["rotation"])
+    features["texture"] = hold_text //load holder into actual dna, post transformations
 
+    if(always_mutate || prob(instability+modifier)) //pan direction
         features["direction"] = pick(NORTH, SOUTH, EAST, WEST)
+        instability -= XENOB_MUTATE_MINOR
 
-    features["speed"] = 1 + ((instability / 100) * 3)
+    instability = max(instability, 0)
