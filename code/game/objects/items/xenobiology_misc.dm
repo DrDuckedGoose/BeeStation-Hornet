@@ -45,11 +45,13 @@
 	desc = "slime...NOW!"
 	icon = 'icons/obj/guns/magic.dmi'
 	icon_state = "revivewand"
+	var/targets = list()
 
 /obj/item/slime_wand/afterattack(atom/target, mob/user, proximity_flag, click_parameters)
 	. = ..()
-	if(istype(target, /mob/living/simple_animal/slime_uni))
-		var/mob/living/simple_animal/slime_uni/S = target
-		S.reproduce()
+	if(istype(target, /mob/living/simple_animal/slime_uni) && targets < 2)
+		targets += target
+	//else if(targets >= 2)
+		//continue
 	else
 		new /mob/living/simple_animal/slime_uni/(get_turf(target))

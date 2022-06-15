@@ -16,7 +16,8 @@
 	var/icon/final_icon
 	///texture for overlay reference
 	var/icon/animated_texture
-
+	///technical name seen by science goggles
+	var/species_name = ""
 
 /mob/living/simple_animal/slime_uni/Initialize(mapload, var/mob/living/simple_animal/slime_uni/parent)
 	..()
@@ -25,7 +26,7 @@
 
 	//apply textures, colors, and outlines
 	setup_texture()
-	add_filter("outline", 2, list("type" = "outline", "color" = gradient(dna.features["color"], "#000000ff", 0.56), "size" = 1))
+	add_filter("outline", 2, list("type" = "outline", "color" = gradient(dna.features["color"], "#000000ff", 0.59), "size" = 1))
 
 /mob/living/simple_animal/slime_uni/Destroy()
 	. = ..()
