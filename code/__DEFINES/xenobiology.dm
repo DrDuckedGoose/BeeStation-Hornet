@@ -20,3 +20,7 @@
 #define XENOB_MUTATE_MINOR 25
 #define XENOB_MUTATE_MEDIUM 50
 #define XENOB_MUTATE_MAJOR 75
+
+///slime litter sizes, how many children can slimes make in sim
+#define XENOB_MAX_LITTER 3
+#define XENOB_MIN_LITTER 1

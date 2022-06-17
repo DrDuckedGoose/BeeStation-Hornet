@@ -61,7 +61,6 @@
 		if(!power)
 			visible_message("<span class='danger'>The [src.name] shuts down due to lack of power!</span>", \
 			"<span class='italics'>You hear heavy droning fade out.</span>")
-			active = FALSE
 			return
 		project()
 

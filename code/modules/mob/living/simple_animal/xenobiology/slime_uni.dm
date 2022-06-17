@@ -19,10 +19,10 @@
 	///technical name seen by science goggles
 	var/species_name = ""
 
-/mob/living/simple_animal/slime_uni/Initialize(mapload, var/mob/living/simple_animal/slime_uni/parent)
+/mob/living/simple_animal/slime_uni/Initialize(mapload, var/mob/living/simple_animal/slime_uni/parent, texture, mask, sub_mask, color, rotation, pan)
 	..()
 	//Setup dna
-	dna = (parent ? new(src, parent?.dna) : new(src))
+	dna = new(src, parent, texture, mask, sub_mask, color, rotation, pan)
 
 	//apply textures, colors, and outlines
 	setup_texture()
@@ -44,10 +44,3 @@
 	animated_texture = new(final_icon)
 	final_icon.AddAlphaMask(alpha_mask)
 	icon = final_icon
-
-///:pensive:
-/mob/living/simple_animal/slime_uni/proc/reproduce()
-	//todo: consider using max() here
-	dna.instability += (XENOB_INSTABILITY_MOD + dna.instability > 100 ? XENOB_INSTABILITY_MOD-(XENOB_INSTABILITY_MOD+dna.instability-100) : XENOB_INSTABILITY_MOD)
-	adjustHealth((health < 5 ? health : health * ((20+dna.instability)/100)))
-	new /mob/living/simple_animal/slime_uni/(get_step(src, pick(NORTH, SOUTH, EAST, WEST)), src)

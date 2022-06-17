@@ -10,27 +10,25 @@
 */
 /datum/slime_dna
     ///List of visual features for main texture
-    var/features = list("texture" = null, "texture_path" = "", "mask" = null, "mask_path" = /datum/xenobiology_feature/mask, "sub_mask" = null, "color" = null, "color_path" = null, "sub_color" = null, "exotic_color" = null, "speed" = null, "direction" = null, "rotation" = null)
+    var/features = list("texture" = null, "texture_path" = "", "mask" = null, "mask_path" = null, "sub_mask" = null, "color" = null, "color_path" = null, "sub_color" = null, "exotic_color" = null, "speed" = null, "direction" = null, "rotation" = null)
     ///list of physical attributes
     var/attributes = list("health" = 0, "speed" = 0, "strength" = 0)
     ///List of technical features 
     var/traits = list()
     ///chance to mutate as a percentage. The higher the percentage the greater the changes
-    var/instability = 0
+    var/instability = XENOB_INSTABILITY_MOD
     ///Mastah Wayne
     var/mob/living/simple_animal/slime_uni/owner
 
-/datum/slime_dna/New(var/mob/living/simple_animal/slime_uni/argument_owner, var/datum/slime_dna/inherited, force = FALSE, texture, mask, sub_mask, color, rotation, pan)
+/datum/slime_dna/New(var/mob/living/simple_animal/slime_uni/argument_owner, var/mob/living/simple_animal/slime_uni/argument_parent, texture, mask, sub_mask, color, rotation, pan)
     . = ..()
     owner = argument_owner
-    if(!owner) //Needs an owner to work
-        return
-    if(inherited && !force)
-        features = inherited.features
-        traits = inherited.traits
-        instability = inherited.instability
-    else //If no inheritance, initialize missing features
-        setup()
+
+    //inherit parent variables, exlcuding lists, which are handled by setup
+    instability = argument_parent ? argument_parent?.dna.instability + XENOB_INSTABILITY_MOD : instability
+    
+    //no/partial inheritance, initialize missing features
+    setup(texture, mask, sub_mask, color, rotation, pan)
     features["speed"] = 1 + ((instability / 100) * 3)
 
     //set owner's attributes to dna
@@ -40,11 +38,16 @@
     owner.health = owner.maxHealth
     owner.damage_coeff[CLONE] += attributes["strength"]
 
-///setup stats and features if not directly inherited
-/datum/slime_dna/proc/setup(texture, mask, sub_mask, color, rotation, pan)
+///setup stats and features
+/datum/slime_dna/proc/setup(var/datum/xenobiology_feature/texture/texture, var/datum/xenobiology_feature/mask/mask, sub_mask, var/datum/xenobiology_feature/color/color, rotation, pan)
     //masking
     var/icon/hold_mask = features["mask"]
-    var/datum/xenobiology_feature/M = (mask ? mask : pickweight(XENOB_MASKS))
+    var/datum/xenobiology_feature/M = (mask?.type ? mask?.type : pickweight(XENOB_MASKS))
+    if(prob(instability))
+        M = pickweight(XENOB_MASKS)
+        instability -= (instability-XENOB_MUTATE_MAJOR < 0 ? XENOB_MUTATE_MAJOR-abs(instability-XENOB_MUTATE_MAJOR) : XENOB_MUTATE_MAJOR)
+    else
+        M = (mask?.type ? mask?.type : pickweight(XENOB_MASKS))
     M = new M()
     owner.species_name = "[owner.species_name ? "[owner.species_name] " : ""][M.epithet ? "[M.epithet]" : ""]"
     features["mask_path"] = M
@@ -59,14 +62,24 @@
 
     //texture
     var/icon/hold_text = features["texture"]
-    var/datum/xenobiology_feature/texture/T = (texture ? texture : pickweight(XENOB_TEXTURES))
+    var/datum/xenobiology_feature/texture/T 
+    if(prob(instability))
+        T = pickweight(XENOB_COLORS)
+        instability -= (instability-XENOB_MUTATE_MAJOR < 0 ? XENOB_MUTATE_MAJOR-abs(instability-XENOB_MUTATE_MAJOR) : XENOB_MUTATE_MAJOR)
+    else
+        T = (texture?.type ? texture?.type : pickweight(XENOB_TEXTURES))
     T = new T()
     owner.species_name = "[owner.species_name][T.epithet ? " [T.epithet]" : ""]"
     features["texture_path"] = T
     hold_text = new('icons/mob/xenobiology/slime_texture.dmi', T.address)
 
     //texture color
-    var/datum/xenobiology_feature/color/color_feature = (color ? color : pickweight(XENOB_COLORS))
+    var/datum/xenobiology_feature/color/color_feature
+    if(prob(instability))
+        color_feature = pickweight(XENOB_COLORS)
+        instability -= (instability-XENOB_MUTATE_MEDIUM < 0 ? XENOB_MUTATE_MEDIUM-abs(instability-XENOB_MUTATE_MEDIUM) : XENOB_MUTATE_MEDIUM)
+    else
+        color_feature = (color?.type ? color?.type : pickweight(XENOB_COLORS))
     color_feature = new color_feature()
     owner.species_name = "[owner.species_name][color_feature.epithet ? " [color_feature.epithet]" : ""]"
     features["color_path"] = color_feature
@@ -79,13 +92,22 @@
     hold_text.SwapColor("#6E6E6E", features["exotic_color"])
 
     //texture rotation
-    features["rotation"] = (rotation ? rotation : 90 * pick(0, 1, 2, 3))
+    if(prob(instability))
+        features["rotation"] = 90 * pick(0, 1, 2, 3)
+        instability -= (instability-XENOB_MUTATE_MINOR < 0 ? XENOB_MUTATE_MINOR-abs(instability-XENOB_MUTATE_MINOR) : XENOB_MUTATE_MINOR)
+    else
+        features["rotation"] = (rotation ? rotation : 90 * pick(0, 1, 2, 3))
     hold_text.Turn(features["rotation"])
 
-    features["texture"] = hold_text //load holder into actual dna, post transformations
-
     //pan direction
-    features["direction"] = (pan ? pan : pick(NORTH, SOUTH, EAST, WEST))
+    if(prob(instability))
+        features["direction"] = pick(NORTH, SOUTH, EAST, WEST)
+        instability -= (instability-XENOB_MUTATE_MINOR < 0 ? XENOB_MUTATE_MINOR-abs(instability-XENOB_MUTATE_MINOR) : XENOB_MUTATE_MINOR)
+    else
+        features["direction"] = (pan ? pan : pick(NORTH, SOUTH, EAST, WEST))
+
+    //load holder into actual dna, post transformations
+    features["texture"] = hold_text
 
 ///Visual feature datums
 /datum/xenobiology_feature
@@ -122,9 +144,9 @@
     epithet = "bulla"
     weight = XENOB_RARE
 
-/datum/xenobiology_feature/texture/pac
-    address = "e_pac"
-    epithet = "stipant"
+/datum/xenobiology_feature/texture/hat
+    address = "e_hat"
+    epithet = "petasum"
     weight = XENOB_RARE
 
 // -- masks -- 
@@ -169,19 +191,40 @@
     b = 216
     epithet = "pallide-ruber"
 
-/datum/xenobiology_feature/color/pink
+/datum/xenobiology_feature/color/lime
     // rgb(191, 255, 43)
     r = 191
     g = 255
     b = 43
     epithet = "calcis" 
 
-/datum/xenobiology_feature/color/pink
+/datum/xenobiology_feature/color/cyan
     // rgb(0, 255, 247)
     r = 0
     g = 255
     b = 247
-    epithet = "levis-hyacintho" 
+    epithet = "levis-hyacintho"
+
+/datum/xenobiology_feature/color/orange
+    // rgb(255, 153, 0)
+    r = 255
+    g = 106
+    b = 0
+    epithet = "aurantiaco"
+
+/datum/xenobiology_feature/color/sea_green
+    // rgb(0, 255, 174)
+    r = 0
+    g = 255
+    b = 174
+    epithet = "marina-viridis"    
+
+/datum/xenobiology_feature/color/purple
+    // rgb(217, 0, 255)
+    r = 217
+    g = 0
+    b = 255
+    epithet = "purpura"  
 
 ///This only works with xenobiology_features, takes a datum path and compiles it into a weighted list
 /proc/compileWeightedList(path)
