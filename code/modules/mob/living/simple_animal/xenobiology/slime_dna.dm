@@ -16,7 +16,7 @@
     ///List of technical features 
     var/traits = list()
     ///chance to mutate as a percentage. The higher the percentage the greater the changes
-    var/instability = XENOB_INSTABILITY_MOD
+    var/instability = XENOB_INSTABILITY_MAX
     ///Mastah Wayne
     var/mob/living/simple_animal/slime_uni/owner
 
@@ -25,7 +25,7 @@
     owner = argument_owner
 
     //inherit parent variables, exlcuding lists, which are handled by setup
-    instability = argument_parent ? argument_parent?.dna.instability + XENOB_INSTABILITY_MOD : instability
+    //instability = argument_parent ? max(argument_parent.dna.instability - XENOB_INSTABILITY_MOD, 0) : instability //inherit instability at a lower rate
     
     //no/partial inheritance, initialize missing features
     setup(texture, mask, sub_mask, color, rotation, pan)
@@ -137,6 +137,11 @@
 /datum/xenobiology_feature/texture/smile
     address = "r_smile"
     epithet = "faciem"
+    weight = XENOB_UNCOMMON
+
+/datum/xenobiology_feature/texture/smile
+    address = "r_arrow"
+    epithet = "sagitta"
     weight = XENOB_UNCOMMON
 
 /datum/xenobiology_feature/texture/bubble

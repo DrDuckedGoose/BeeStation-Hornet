@@ -1,4 +1,4 @@
-//containment field
+//todo: no power makes it spam message, 'the field turns off'
 /obj/machinery/slime_barrier_generator
 	name = "gelatinous exclusion field generator"
 	desc = "Keep in mind, it is not made of, nor makes, slime."

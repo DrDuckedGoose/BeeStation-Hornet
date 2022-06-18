@@ -54,7 +54,9 @@
 	else if(targets.len >= 2)
 		var/mob/living/simple_animal/slime_uni/O = targets[1]
 		var/mob/living/simple_animal/slime_uni/T = targets[2]
-		new /mob/living/simple_animal/slime_uni/(get_turf(target), pick(O, T), pick(O?.dna.features["texture_path"], T?.dna.features["texture_path"]),
+		new /mob/living/simple_animal/slime_uni/(get_turf(target), 
+		pick(O, T), //which parent takes main dominance
+		pick(O?.dna.features["texture_path"], T?.dna.features["texture_path"]),
 		pick(O?.dna.features["mask_path"], T?.dna.features["mask_path"]),
 		pick(O?.dna.features["sub_mask"], T?.dna.features["sub_mask"]),
 		pick(O?.dna.features["color_path"], T?.dna.features["color_path"]),

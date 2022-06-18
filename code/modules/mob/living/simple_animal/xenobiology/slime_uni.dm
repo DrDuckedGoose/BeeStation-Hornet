@@ -8,7 +8,7 @@
 	density = FALSE
 	ventcrawler = VENTCRAWLER_ALWAYS
 	pass_flags = PASSTABLE | PASSGRILLE | PASSMOB
-	mob_size = MOB_SIZE_TINY
+	mob_size = MOB_SIZE_SMALL
 	blood_volume = BLOOD_VOLUME_MAXIMUM
 	///Slime DNA, contains traits and visual features
 	var/datum/slime_dna/dna
@@ -27,6 +27,9 @@
 	//apply textures, colors, and outlines
 	setup_texture()
 	add_filter("outline", 2, list("type" = "outline", "color" = gradient(dna.features["color"], "#000000ff", 0.59), "size" = 1))
+
+/mob/living/simple_animal/slime_uni/examine(mob/user)
+	return ..() + "\n[species_name]"
 
 /mob/living/simple_animal/slime_uni/Destroy()
 	. = ..()

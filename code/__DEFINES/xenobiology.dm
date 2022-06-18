@@ -15,6 +15,8 @@
 
 ///slime instability itterator
 #define XENOB_INSTABILITY_MOD 25
+///Slime max instability allowed
+#define XENOB_INSTABILITY_MAX 100
 
 ///slime mutation costs
 #define XENOB_MUTATE_MINOR 25
