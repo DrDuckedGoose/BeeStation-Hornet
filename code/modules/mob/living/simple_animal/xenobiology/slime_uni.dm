@@ -1,7 +1,7 @@
 ///Universal slimes, not University slimes
 /mob/living/simple_animal/slime_uni
 	name = "slime"
-	desc = "A squishy disco-party!"
+	desc = "A squishy disco party!"
 	icon = 'icons/mob/xenobiology/slime.dmi'
 	icon_state = "random"
 	alpha = 210
@@ -18,6 +18,8 @@
 	var/icon/animated_texture
 	///technical name seen by science goggles
 	var/species_name = ""
+	///Whether this species is undicovered or not
+	var/discovered = FALSE
 
 /mob/living/simple_animal/slime_uni/Initialize(mapload, var/mob/living/simple_animal/slime_uni/parent, texture, mask, sub_mask, color, rotation, pan)
 	..()
@@ -28,8 +30,18 @@
 	setup_texture()
 	add_filter("outline", 2, list("type" = "outline", "color" = gradient(dna.features["color"], "#000000ff", 0.59), "size" = 1))
 
+	//Do component configuration
+	var/datum/component/discoverable/D = GetComponent(/datum/component/discoverable)
+	D?.unique = TRUE
+
+	//Preform subsystem tasks
+	discovered = (SSslime_species.append_species(src, TRUE) ? FALSE : TRUE) //If statement returns true it's undiscovered, this is wonky
+
+//Additionally handles species name & discover status
 /mob/living/simple_animal/slime_uni/examine(mob/user)
-	return ..() + "\n[species_name]"
+	. = ..()
+	if(user.can_see_reagents())
+		. = ..() + species_name + (discovered ? {"<span style="color:["#13a311"];">Discovered</span>"} : {"<span style="color:["#a71b1b"];">Undiscovered</span>"})
 
 /mob/living/simple_animal/slime_uni/Destroy()
 	. = ..()
