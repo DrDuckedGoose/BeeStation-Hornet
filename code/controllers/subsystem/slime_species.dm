@@ -1,3 +1,4 @@
+//todo: load database into slime_species roundstart
 ///Slime species data container for slime species subsystem
 /datum/slime_species
 	///Species name
@@ -11,9 +12,12 @@ SUBSYSTEM_DEF(slime_species)
 	name = "slime Species"
 	flags = SS_NO_FIRE
 	init_order = INIT_ORDER_ACHIEVEMENTS
-
+	///If enabled, species this round will be saved to the database
+	var/save_round_end = TRUE
 	///List of all known species
 	var/list/datum/slime_species = list()
+	///Cached icons for slime species
+	var/list/cached_icons = list()
 
 /datum/controller/subsystem/slime_species/Initialize(timeofday)
 	. = ..()
@@ -39,6 +43,8 @@ SUBSYSTEM_DEF(slime_species)
 
 ///Save new slime species to database
 /datum/controller/subsystem/slime_species/proc/save_species_to_db()
+	if(!save_round_end)
+		return
 	var/list/species_to_save = list()
 	for(var/datum/slime_species/S in slime_species)
 		species_to_save += S

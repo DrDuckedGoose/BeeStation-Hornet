@@ -1,8 +1,16 @@
 /*
     - Features - visual settings
         * texture - what texture/image the sprite uses/animates.
+            * texture_path - texture name, essentially   
         * mask - what alphamask the texture is clipped by, shaped.
+            * mask-path, same as texture_path
+        * sub_mask - additional masks for misc features, path to it
         * color - the color applied to the texture
+            * color_path - same as texture_path   
+            * sub_color / exotic_color - complementory colors
+        * speed - texture animation speed
+        * direction - texture animation direction
+        * rotation - initial texture rotation
     - Attributes - additional stats.
         * health, extra health
         * speed, extra speed
@@ -16,7 +24,7 @@
     ///List of technical features 
     var/list/traits = list()
     ///chance to mutate as a percentage. The higher the percentage the greater the changes
-    var/instability = XENOB_INSTABILITY_MAX
+    var/instability = 0
     ///Mastah Wayne
     var/mob/living/simple_animal/slime_uni/owner
 
@@ -24,14 +32,14 @@
     . = ..()
     owner = argument_owner
 
-    //inherit parent variables, exlcuding lists, which are handled by setup
-    //instability = argument_parent ? max(argument_parent.dna.instability - XENOB_INSTABILITY_MOD, 0) : instability //inherit instability at a lower rate
+    //instability inheritance
+    instability = argument_parent ? min(argument_parent.dna.instability + XENOB_INSTABILITY_MOD, XENOB_INSTABILITY_MAX) : instability
     
     //no/partial inheritance, initialize missing features
     setup(texture, mask, sub_mask, color, rotation, pan)
     features["speed"] = 1 + ((instability / 100) * 3)
 
-    //set owner's attributes to dna
+    //set owner'sub_mask attributes to dna
     owner.chat_color = features["color"]
     owner.speed += attributes["speed"]
     owner.maxHealth += attributes["health"]
@@ -39,83 +47,87 @@
     owner.damage_coeff[CLONE] += attributes["strength"]
 
 ///setup stats and features
-/datum/slime_dna/proc/setup(var/datum/xenobiology_feature/texture/texture, var/datum/xenobiology_feature/mask/mask, sub_mask, var/datum/xenobiology_feature/color/color, rotation, pan)
+/datum/slime_dna/proc/setup(var/datum/xenobiology_feature/texture/texture, var/datum/xenobiology_feature/mask/mask, var/datum/xenobiology_feature/sub_mask/sub_mask, var/datum/xenobiology_feature/color/color, rotation, pan)
     //masking
     var/icon/hold_mask = features["mask"]
-    var/datum/xenobiology_feature/M = (mask?.type ? mask?.type : pickweight(XENOB_MASKS))
-    if(prob(instability))
-        M = pickweight(XENOB_MASKS)
+    mask = (mask?.type ? mask?.type : pickweight(XENOB_MASKS)) //main mask
+    if(instability >= XENOB_MUTATE_MAJOR && prob(instability)) //apperently having 0 instability can still cause mutations? probablity moment.
+        mask = pickweight(XENOB_MASKS)
         instability -= (instability-XENOB_MUTATE_MAJOR < 0 ? XENOB_MUTATE_MAJOR-abs(instability-XENOB_MUTATE_MAJOR) : XENOB_MUTATE_MAJOR)
-    else
-        M = (mask?.type ? mask?.type : pickweight(XENOB_MASKS))
-    M = new M()
-    features["mask_path"] = M
-    hold_mask = new('icons/mob/xenobiology/slime.dmi', "default") //main mask
+    mask = new mask()
+    features["mask_path"] = mask
+    hold_mask = new('icons/mob/xenobiology/slime.dmi', mask.address)
 
-    features["sub_mask"] = (sub_mask ? sub_mask : pickweight(XENOB_SUB_MASKS)) //bonus sub mask
-    if(features["sub_mask"]) //Add any extra icons to the alpha_mask icon
-        var/icon/sub = new('icons/mob/xenobiology/slime.dmi', features["sub_mask"])
-        hold_mask.Blend(sub, ICON_OVERLAY)
+    //sub-masking
+    sub_mask = (sub_mask?.type ? sub_mask?.type : pickweight(XENOB_SUB_MASKS)) //bonus mask
+    if(instability >= XENOB_MUTATE_MAJOR && prob(instability))
+        sub_mask = pickweight(XENOB_SUB_MASKS)
+    sub_mask = new sub_mask()
+    instability -= (instability-XENOB_MUTATE_MAJOR < 0 ? XENOB_MUTATE_MAJOR-abs(instability-XENOB_MUTATE_MAJOR) : XENOB_MUTATE_MAJOR)
+    var/icon/sub = new('icons/mob/xenobiology/slime.dmi', sub_mask.address)
+    hold_mask.Blend(sub, ICON_OVERLAY)
+    features["sub_mask"] = sub_mask
     features["mask"] = hold_mask
 
     //texture
+    ///texture holder for transformations
     var/icon/hold_text = features["texture"]
-    var/datum/xenobiology_feature/texture/T 
-    if(prob(instability))
-        T = pickweight(XENOB_TEXTURES)
+    texture = (texture?.type ? texture?.type : pickweight(XENOB_TEXTURES))
+    if(instability >= XENOB_MUTATE_MAJOR && prob(instability))
+        texture = pickweight(XENOB_TEXTURES-texture)
         instability -= (instability-XENOB_MUTATE_MAJOR < 0 ? XENOB_MUTATE_MAJOR-abs(instability-XENOB_MUTATE_MAJOR) : XENOB_MUTATE_MAJOR)
-    else
-        T = (texture?.type ? texture?.type : pickweight(XENOB_TEXTURES))
-    T = new T()
-    features["texture_path"] = T
-    hold_text = new('icons/mob/xenobiology/slime_texture.dmi', T.address)
+    texture = new texture()
+    features["texture_path"] = texture
+    hold_text = new('icons/mob/xenobiology/slime_texture.dmi', texture.address)
+    features["texture"] = hold_text
 
     //texture color
-    var/datum/xenobiology_feature/color/color_feature
-    if(prob(instability))
-        color_feature = pickweight(XENOB_COLORS)
+    color = (color?.type ? color?.type : pickweight(XENOB_COLORS))
+    if(instability >= XENOB_MUTATE_MEDIUM && prob(instability))
+        color = pickweight(XENOB_COLORS-color)
         instability -= (instability-XENOB_MUTATE_MEDIUM < 0 ? XENOB_MUTATE_MEDIUM-abs(instability-XENOB_MUTATE_MEDIUM) : XENOB_MUTATE_MEDIUM)
-    else
-        color_feature = (color?.type ? color?.type : pickweight(XENOB_COLORS))
-    color_feature = new color_feature()
-    features["color_path"] = color_feature
+    color = new color()
+    features["color_path"] = color
 
-    features["color"] = rgb(color_feature.r, color_feature.g, color_feature.b)
-    features["sub_color"] = rgb(color_feature.b, color_feature.r, color_feature.g)
-    features["exotic_color"] = rgb(color_feature.g, color_feature.b, color_feature.r)
+    features["color"] = rgb(color.r, color.g, color.b)
+    features["sub_color"] = rgb(color.b, color.r, color.g)
+    features["exotic_color"] = rgb(color.g, color.b, color.r)
     hold_text.SwapColor("#DDDDDD", features["color"])
     hold_text.SwapColor("#A7A7A7", features["sub_color"])
     hold_text.SwapColor("#6E6E6E", features["exotic_color"])
 
-    //texture rotation
-    if(prob(instability))
-        features["rotation"] = 90 * pick(0, 1, 2, 3)
+    //texture rotation, not animation
+    if(instability >= XENOB_MUTATE_MINOR && prob(instability))
+        features["rotation"] = 90 * pick(list(0, 1, 2, 3)-features["rotation"])
         instability -= (instability-XENOB_MUTATE_MINOR < 0 ? XENOB_MUTATE_MINOR-abs(instability-XENOB_MUTATE_MINOR) : XENOB_MUTATE_MINOR)
     else
         features["rotation"] = (rotation ? rotation : 90 * pick(0, 1, 2, 3))
     hold_text.Turn(features["rotation"])
 
-    //pan direction
-    if(prob(instability))
-        features["direction"] = pick(NORTH, SOUTH, EAST, WEST)
+    //texture pan direction, animation
+    if(instability >= XENOB_MUTATE_MINOR && prob(instability))
+        features["direction"] = pick(list(NORTH, SOUTH, EAST, WEST)-features["direction"])
         instability -= (instability-XENOB_MUTATE_MINOR < 0 ? XENOB_MUTATE_MINOR-abs(instability-XENOB_MUTATE_MINOR) : XENOB_MUTATE_MINOR)
     else
         features["direction"] = (pan ? pan : pick(NORTH, SOUTH, EAST, WEST))
 
-    //load holder into actual dna, post transformations
-    features["texture"] = hold_text
-
     //final epithet stuff / species name
-    owner.species_name = "[owner.species_name ? "[owner.species_name]" : ""][M.epithet ? {"<span style="color:[rgb(color_feature.r, color_feature.g, color_feature.b)];">[M.epithet]</span>"} : ""]" //mask epithet
-    owner.species_name = "[owner.species_name][color_feature.epithet ? {"<span style="color:[rgb(color_feature.b, color_feature.r, color_feature.g)];"> [color_feature.epithet]</span>"} : ""]" //color epithet
-    owner.species_name = "[owner.species_name][T.epithet ? {"<span style="color:[rgb(color_feature.g, color_feature.b, color_feature.r)];"> [T.epithet]</span>"} : ""]" //texture epithet
+    owner.species_name = "[owner.species_name ? "[owner.species_name]" : ""][mask.epithet ? {"<span style="color:[rgb(color.g, color.b, color.r)];">[mask.epithet]</span>"} : ""]" //mask epithet
+    owner.species_name = "[owner.species_name][color.epithet ? {"<span style="color:[rgb(color.r, color.g, color.b)];"> [color.epithet]</span>"} : ""]" //color epithet
+    owner.species_name = "[owner.species_name][texture.epithet ? {"<span style="color:[rgb(color.b, color.r, color.g)];"> [texture.epithet]</span>"} : ""]" //texture epithet
+    owner.species_name = "[owner.species_name][sub_mask.epithet ? {"<span style="color:[rgb(color.g, color.b, color.r)];"> [sub_mask.epithet]</span>"} : ""]" //sub-mask epithet
+
+///Setup traits, builds from a list if provided
+/datum/slime_dna/proc/setup_traits(var/list/traits = list())
+    if(traits.len)
+        world.log << "test"
 
 ///Visual feature datums
 /datum/xenobiology_feature
     ///icon/resource address
     var/address
     ///genus epithet
-    var/epithet = "un-set-ium"
+    var/epithet = "un-set-um"
     ///list weight
     var/weight = XENOB_COMMON
 
@@ -136,12 +148,17 @@
     epithet = "fluctus"
 
 /datum/xenobiology_feature/texture/smile
-    address = "r_smile"
+    address = "e_smile"
     epithet = "faciem"
+    weight = XENOB_RARE
+
+/datum/xenobiology_feature/texture/arrow
+    address = "r_arrow"
+    epithet = "sagitta"
     weight = XENOB_UNCOMMON
 
-/datum/xenobiology_feature/texture/smile
-    address = "r_arrow"
+/datum/xenobiology_feature/texture/rattle
+    address = "r_rattle"
     epithet = "sagitta"
     weight = XENOB_UNCOMMON
 
@@ -159,8 +176,49 @@
 /datum/xenobiology_feature/mask
 
 /datum/xenobiology_feature/mask/default
-    address = "default"
+    address = "m_default"
     epithet = "gelatina"
+    weight = XENOB_VERY_COMMON
+
+/datum/xenobiology_feature/mask/square
+    address = "m_square"
+    epithet = "gelatina-cubena" //cubena is technically a genus of moths :)
+    weight = XENOB_EXOTIC
+
+/datum/xenobiology_feature/mask/dough
+    address = "m_dough"
+    epithet = "gelatina-torusa"
+    weight = XENOB_EXOTIC
+
+// -- sub-masks --
+//please don'texture parent these to masks
+/datum/xenobiology_feature/sub_mask
+    weight = XENOB_RARE
+
+/datum/xenobiology_feature/sub_mask/blank
+    address = "m_blank"
+    epithet = ""
+    weight = XENOB_COMMON
+
+/datum/xenobiology_feature/sub_mask/tumor
+    address = "m_tumor"
+    epithet = "bulbus"
+
+/datum/xenobiology_feature/sub_mask/shogun
+    address = "m_shogun"
+    epithet = "cornibus"
+
+/datum/xenobiology_feature/sub_mask/hat
+    address = "m_hat"
+    epithet = "parvum-petasum"
+
+/datum/xenobiology_feature/sub_mask/love
+    address = "m_love"
+    epithet = "amare"
+
+/datum/xenobiology_feature/sub_mask/halo
+    address = "m_halo"
+    epithet = "angelus" //this was orignally the latin word for halo...
 
 // -- colors --
 /datum/xenobiology_feature/color
@@ -232,7 +290,7 @@
     b = 255
     epithet = "purpura"  
 
-///This only works with xenobiology_features, takes a datum path and compiles it into a weighted list
+///Takes a datum path and compiles it into a weighted list, this only works with xenobiology_features
 /proc/compileWeightedList(path)
     if(!ispath(path))
         return

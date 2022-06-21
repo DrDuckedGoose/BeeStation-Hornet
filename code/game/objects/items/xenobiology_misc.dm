@@ -1,6 +1,6 @@
 //Tool to move slimes around
 /obj/item/slime_gun
-	name = "slime gun"
+	name = "slime vacuum"
 	desc = "It really sucks."
 	icon = 'icons/obj/guns/energy.dmi'
 	icon_state = "slime"

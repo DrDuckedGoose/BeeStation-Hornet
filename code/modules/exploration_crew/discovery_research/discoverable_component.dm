@@ -51,7 +51,6 @@
 			to_chat(user, "<span class='warning'>Datapoints about [A] already in system.</span>")
 			return
 		S.discovered = SSslime_species.append_species(parent)
-
 	scanned = TRUE
 	linked_techweb.add_point_type(TECHWEB_POINT_TYPE_DISCOVERY, point_reward)
 	linked_techweb.scanned_atoms[A.type] = TRUE

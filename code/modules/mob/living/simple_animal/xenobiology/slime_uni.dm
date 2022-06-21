@@ -14,6 +14,8 @@
 	var/datum/slime_dna/dna
 	///Icon the actual mob uses, contains animated frames
 	var/icon/final_icon
+	///Icon used for display
+	var/icon/still_icon
 	///texture for overlay reference
 	var/icon/animated_texture
 	///technical name seen by science goggles
@@ -28,7 +30,7 @@
 
 	//apply textures, colors, and outlines
 	setup_texture()
-	add_filter("outline", 2, list("type" = "outline", "color" = gradient(dna.features["color"], "#000000ff", 0.59), "size" = 1))
+	add_filter("outline", 2, list("type" = "outline", "color" = gradient(dna.features["color"], "#000", 0.59), "size" = 1))
 
 	//Do component configuration
 	var/datum/component/discoverable/D = GetComponent(/datum/component/discoverable)
@@ -37,15 +39,21 @@
 	//Preform subsystem tasks
 	discovered = (SSslime_species.append_species(src, TRUE) ? FALSE : TRUE) //If statement returns true it's undiscovered, this is wonky
 
+	//setup traits
+	var/datum/slime_species/S
+	S = SSslime_species.slime_species[species_name]
+	dna.setup_traits(S?.traits)
+
 //Additionally handles species name & discover status
 /mob/living/simple_animal/slime_uni/examine(mob/user)
 	. = ..()
 	if(user.can_see_reagents())
-		. = ..() + species_name + (discovered ? {"<span style="color:["#13a311"];">Discovered</span>"} : {"<span style="color:["#a71b1b"];">Undiscovered</span>"})
+		. = ..() + species_name + (discovered ? {"<span style="color:["#13a311"];">Discovered</span>"} : {"<span style="color:["#c12222"];">Undiscovered</span>"})
 
 /mob/living/simple_animal/slime_uni/Destroy()
 	. = ..()
 
+//todo: consider moving this to dna
 ///Animates texture for final use from dna
 /mob/living/simple_animal/slime_uni/proc/setup_texture()
 	//typecast to access procs & features
@@ -58,4 +66,6 @@
 	var/icon/alpha_mask = dna.features["mask"] //Alpha mask for cutting out excess
 	animated_texture = new(final_icon)
 	final_icon.AddAlphaMask(alpha_mask)
+	still_icon = new()
+	still_icon.Insert(final_icon, frame=1)
 	icon = final_icon
