@@ -4,7 +4,7 @@
 	desc = "A squishy disco party!"
 	icon = 'icons/mob/xenobiology/slime.dmi'
 	icon_state = "random"
-	alpha = 210
+	//alpha = 210
 	density = FALSE
 	ventcrawler = VENTCRAWLER_ALWAYS
 	pass_flags = PASSTABLE | PASSGRILLE | PASSMOB
@@ -23,10 +23,10 @@
 	///Whether this species is undicovered or not
 	var/discovered = FALSE
 
-/mob/living/simple_animal/slime_uni/Initialize(mapload, var/mob/living/simple_animal/slime_uni/parent, texture, mask, sub_mask, color, rotation, pan)
+/mob/living/simple_animal/slime_uni/Initialize(mapload, instability, texture, mask, sub_mask, color, rotation, pan)
 	..()
 	//Setup dna
-	dna = new(src, parent, texture, mask, sub_mask, color, rotation, pan)
+	dna = new(src, instability, texture, mask, sub_mask, color, rotation, pan)
 
 	//apply textures, colors, and outlines
 	setup_texture()

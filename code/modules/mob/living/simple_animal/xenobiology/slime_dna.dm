@@ -24,16 +24,14 @@
     ///List of technical features 
     var/list/traits = list()
     ///chance to mutate as a percentage. The higher the percentage the greater the changes
-    var/instability = 0
+    var/instability = 6
     ///Mastah Wayne
     var/mob/living/simple_animal/slime_uni/owner
 
-/datum/slime_dna/New(var/mob/living/simple_animal/slime_uni/argument_owner, var/mob/living/simple_animal/slime_uni/argument_parent, texture, mask, sub_mask, color, rotation, pan)
+/datum/slime_dna/New(var/mob/living/simple_animal/slime_uni/argument_owner, inst, texture, mask, sub_mask, color, rotation, pan)
     . = ..()
     owner = argument_owner
-
-    //instability inheritance
-    instability = argument_parent ? min(argument_parent.dna.instability + XENOB_INSTABILITY_MOD, XENOB_INSTABILITY_MAX) : instability
+    instability = inst
     
     //no/partial inheritance, initialize missing features
     setup(texture, mask, sub_mask, color, rotation, pan)
@@ -90,7 +88,8 @@
     features["color_path"] = color
 
     features["color"] = rgb(color.r, color.g, color.b)
-    features["sub_color"] = rgb(color.b, color.r, color.g)
+    //If the texture doesn't contain a third color, the used color will be a complementory instead of triadict
+    features["sub_color"] = (texture.weight <= 5 ? rgb(color.b, color.r, color.g) : rgb(255-color.r, 255-color.g, 255-color.b))
     features["exotic_color"] = rgb(color.g, color.b, color.r)
     hold_text.SwapColor("#DDDDDD", features["color"])
     hold_text.SwapColor("#A7A7A7", features["sub_color"])
@@ -228,64 +227,64 @@
     var/b
 
 /datum/xenobiology_feature/color/red
-    // rgb(255, 45, 45)
+    // rgb(255, 0, 0)
     r = 255
-    g = 45 
-    b = 45
+    g = 0 
+    b = 0
     epithet = "rubrum"
 
 /datum/xenobiology_feature/color/blue
-    // rgb(69, 69, 255)
-    r = 69
-    g = 69 
+    // rgb(0, 0, 255)
+    r = 0
+    g = 0 
     b = 255
     epithet = "caeruleum"
 
 /datum/xenobiology_feature/color/green
-    // rgb(26, 242, 58)
-    r = 26
-    g = 242
-    b = 58
+    // rgb(0, 255, 0)
+    r = 0
+    g = 255
+    b = 0
     epithet = "viridis"
 
 /datum/xenobiology_feature/color/pink
-    // rgb(255, 40, 216)
+    // rgb(255, 0, 225)
     r = 255
-    g = 40
-    b = 216
+    g = 0
+    b = 255
     epithet = "pallide-ruber"
 
 /datum/xenobiology_feature/color/lime
-    // rgb(191, 255, 43)
-    r = 191
+    // rgb(255, 255, 0)
+    r = 255
     g = 255
-    b = 43
+    b = 0
     epithet = "calcis" 
 
 /datum/xenobiology_feature/color/cyan
-    // rgb(0, 255, 247)
+    // rgb(0, 255, 255)
     r = 0
     g = 255
-    b = 247
+    b = 255
     epithet = "levis-hyacintho"
 
 /datum/xenobiology_feature/color/orange
-    // rgb(255, 153, 0)
+    // rgb(255, 128, 0)
     r = 255
-    g = 106
+    g = 128
     b = 0
     epithet = "aurantiaco"
 
 /datum/xenobiology_feature/color/sea_green
-    // rgb(0, 255, 174)
+    // rgb(0, 255, 128)
     r = 0
     g = 255
-    b = 174
+    b = 128
     epithet = "marina-viridis"    
 
 /datum/xenobiology_feature/color/purple
-    // rgb(217, 0, 255)
-    r = 217
+    // rgb(128, 0, 255)
+    r = 128
     g = 0
     b = 255
     epithet = "purpura"  

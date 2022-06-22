@@ -55,7 +55,7 @@
 		var/mob/living/simple_animal/slime_uni/O = targets[1]
 		var/mob/living/simple_animal/slime_uni/T = targets[2]
 		new /mob/living/simple_animal/slime_uni/(get_turf(target), 
-		pick(O, T), //which parent takes main dominance
+		18, //instability
 		pick(O?.dna.features["texture_path"], T?.dna.features["texture_path"]),
 		pick(O?.dna.features["mask_path"], T?.dna.features["mask_path"]),
 		pick(O?.dna.features["sub_mask"], T?.dna.features["sub_mask"]),

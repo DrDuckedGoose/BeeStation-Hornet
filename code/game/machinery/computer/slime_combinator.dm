@@ -22,7 +22,7 @@
 	reference = null
 	..()
 
-///Slime mixing sim computer
+///Slime mixing sim computer, the shut-the-fuck-up-i-can-name-it-whatever-inator!
 /obj/machinery/computer/slime_combinator
 	name = "slime generative simulator"
 	desc = "I love the 'puter, it's where all my slimes are."
@@ -38,6 +38,8 @@
 	var/datum/slime_data/selected_child
 	///Current UI tab
 	var/tab = "Select-Initial"
+	///simulation instability
+	var/instability = 0
 
 /obj/machinery/computer/slime_combinator/attackby(obj/item/I, mob/living/user, params) //Accept slime gun / swap out current
 	if(istype(I, /obj/item/slime_gun))
@@ -119,10 +121,10 @@
 		return
 	switch(action)
 		if("select-slime")
+			selected_child = slime_parents.len ? slime_parents[1] : null
 			var/datum/slime_data/S = (locate(params["ref"]) in available_slimes)
 			if(!S)
 				S = (locate(params["ref"]) in slime_combinations)
-				selected_child = (selected_child ? selected_child : S)
 			if(S in slime_parents)
 				slime_parents -= S
 			else
@@ -141,9 +143,12 @@
 				say("Error: not enough sample diversity.")
 
 		if("choose-selected")
+			if(!inserted_gun)
+				say("Error: no inserted buffer.")
+				return
 			say("choose selected")
 			var/mob/living/simple_animal/slime_uni/S = selected_child.reference
-			S?.forceMove(get_turf(src))
+			S?.forceMove(inserted_gun)
 			qdel(selected_child)
 			selected_child = null
 			//Kill old children
@@ -151,24 +156,21 @@
 				slime_combinations -= SD
 				qdel(SD)
 			tab = "Select-Initial"
+			slime_parents = list()
+			instability = 0
+			update_contents()
 	ui_update()
 
 /obj/machinery/computer/slime_combinator/ui_interact(mob/user, datum/tgui/ui)
 	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui)
-		ui = new(user, src, "SlimeDatabase")
+		ui = new(user, src, "SlimeCombinator")
 		ui.open()
 
 ///combine parents and make new slimes
 /obj/machinery/computer/slime_combinator/proc/combine_parents()
 	if(slime_parents.len < 2)
 		return FALSE
-
-	//Kill old children
-	for(var/datum/slime_data/SD as() in slime_combinations)
-		slime_combinations -= SD
-		qdel(SD)
-
 	//type casting
 	var/datum/slime_data/o = slime_parents[1]
 	var/datum/slime_data/t = slime_parents[2]
@@ -176,17 +178,27 @@
 	var/mob/living/simple_animal/slime_uni/O = o?.reference
 	var/mob/living/simple_animal/slime_uni/T = t?.reference
 	//create new slimes
-	var/litter_size = XENOB_MAX_LITTER
+	var/list/new_slimes = list()
+	var/litter_size = max(1, (XENOB_MAX_LITTER-(XENOB_MAX_LITTER*(instability/XENOB_INSTABILITY_MAX))))
 	for(var/i in 1 to litter_size)
 		var/mob/living/simple_animal/slime_uni/S = new(get_turf(src), 
-			pick(O, T), //which parent takes main dominance
+			instability,
 			pick(O?.dna.features["texture_path"], T?.dna.features["texture_path"]),
 			pick(O?.dna.features["mask_path"], T?.dna.features["mask_path"]),
 			pick(O?.dna.features["sub_mask"], T?.dna.features["sub_mask"]),
 			pick(O?.dna.features["color_path"], T?.dna.features["color_path"]),
 			pick(O?.dna.features["rotation"], T?.dna.features["rotation"]),
 			pick(O?.dna.features["direction"], T?.dna.features["direction"]))
-		slime_combinations += new /datum/slime_data/(S)
+		new_slimes += new /datum/slime_data/(S)
 		S.forceMove(src)
+	//Kill old children
+	for(var/datum/slime_data/SD as() in slime_combinations)
+		slime_combinations -= SD
+		qdel(SD)
+	//Load results into children
+	slime_combinations = new_slimes
+	//iterate instability
+	instability += XENOB_INSTABILITY_MOD
+
 	ui_update()
 	return TRUE

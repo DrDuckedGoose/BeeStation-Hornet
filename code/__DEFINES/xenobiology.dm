@@ -14,14 +14,14 @@
 #define XENOB_COLORS compileWeightedList(/datum/xenobiology_feature/color)
 
 ///slime instability itterator
-#define XENOB_INSTABILITY_MOD 0
+#define XENOB_INSTABILITY_MOD 12
 ///Slime max instability allowed
-#define XENOB_INSTABILITY_MAX 18
+#define XENOB_INSTABILITY_MAX 30
 
 ///slime mutation costs
-#define XENOB_MUTATE_MINOR 3
-#define XENOB_MUTATE_MEDIUM 6
-#define XENOB_MUTATE_MAJOR 12
+#define XENOB_MUTATE_MINOR 6
+#define XENOB_MUTATE_MEDIUM 12
+#define XENOB_MUTATE_MAJOR 18
 
 ///slime litter sizes, how many children can slimes make in sim
 #define XENOB_MAX_LITTER 9
