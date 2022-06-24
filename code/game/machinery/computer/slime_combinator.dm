@@ -24,12 +24,14 @@
 
 ///Slime mixing sim computer, the shut-the-fuck-up-i-can-name-it-whatever-inator!
 /obj/machinery/computer/slime_combinator
-	name = "slime generative simulator"
+	name = "slime combinator"
 	desc = "I love the 'puter, it's where all my slimes are."
 	///combination of slimes from original parents after simulation
 	var/list/slime_combinations = list()
 	///list of original parent slimes inserted into simulation
 	var/list/slime_parents = list()
+	///list of previous parents
+	var/list/slime_parents_previous = list()
 	///list of all available slimes to mix
 	var/list/available_slimes = list()
 	///Inserted slime gun
@@ -40,9 +42,14 @@
 	var/tab = "Select-Initial"
 	///simulation instability
 	var/instability = 0
+	///Availability flag, toggled after use
+	var/available = TRUE
 
 /obj/machinery/computer/slime_combinator/attackby(obj/item/I, mob/living/user, params) //Accept slime gun / swap out current
 	if(istype(I, /obj/item/slime_gun))
+		if(tab != "Select-Initial")
+			say("Error: cannot swap volume. Please finish task.")
+			return
 		if(inserted_gun)
 			inserted_gun.forceMove(get_turf(src)) //remove old gun if it exists
 		I.forceMove(src)
@@ -51,10 +58,12 @@
 	..()
 
 /obj/machinery/computer/slime_combinator/AltClick(mob/user) //drop gun & update UI
-	if(inserted_gun)
+	if(inserted_gun && tab == "Select-Initial")
 		inserted_gun.forceMove(get_turf(src))
 		inserted_gun = null
 		update_contents()
+	else if(tab != "Select-Initial")
+		say("Error: cannot unisert volume. Please finish task.")
 	..()
 
 /obj/machinery/computer/slime_combinator/proc/update_contents()
@@ -68,9 +77,6 @@
 	if(inserted_gun)
 		for(var/mob/living/simple_animal/slime_uni/S in inserted_gun.contents)
 			available_slimes += new /datum/slime_data(S)
-			if(slime_parents.len < 2) //Add to parents
-				var/datum/slime_data/SD = available_slimes[available_slimes.len]
-				slime_parents += SD
 
 	ui_update()
 
@@ -100,7 +106,6 @@
 				name = D.reference.species_name,
 			)
 			.["litter_slimes"] += list(data)
-
 	//List of parents
 	.["parent_slimes"] = list()
 	if(slime_parents.len)
@@ -114,14 +119,16 @@
 			.["parent_slimes"] += list(data)
 	//selected child
 	.["choosen_slime"] = selected_child
+	///availability
+	.["availability"] = available
 
 /obj/machinery/computer/slime_combinator/ui_act(action, params)
 	. = ..()
-	if(.)
+	if(. || !available)
+		say("Error: simulation still resetting.") //Probably doesn't matter that the other thing could trigger this
 		return
 	switch(action)
 		if("select-slime")
-			selected_child = slime_parents.len ? slime_parents[1] : null
 			var/datum/slime_data/S = (locate(params["ref"]) in available_slimes)
 			if(!S)
 				S = (locate(params["ref"]) in slime_combinations)
@@ -131,12 +138,14 @@
 				if(slime_parents.len >= 2)
 					slime_parents.Cut(1,1)
 				slime_parents += S
+			selected_child = slime_parents.len ? slime_parents[1] : null
 
 		if("combine-selected")
 			if(slime_parents.len > 1)
 				say("Process: combining samples...")
 				combine_parents()
 				tab = "Promote-Outcomes"
+				slime_parents_previous = slime_parents
 				slime_parents = list()
 				selected_child = null
 			else
@@ -146,7 +155,6 @@
 			if(!inserted_gun)
 				say("Error: no inserted buffer.")
 				return
-			say("choose selected")
 			var/mob/living/simple_animal/slime_uni/S = selected_child.reference
 			S?.forceMove(inserted_gun)
 			qdel(selected_child)
@@ -157,8 +165,11 @@
 				qdel(SD)
 			tab = "Select-Initial"
 			slime_parents = list()
-			instability = 0
 			update_contents()
+			inserted_gun.change_overlay(S)
+			available = FALSE
+			addtimer(CALLBACK(src, .proc/reenable), (XENOB_REFRESH_TIME*(instability/XENOB_INSTABILITY_MAX)), TIMER_STOPPABLE)
+			instability = 0
 	ui_update()
 
 /obj/machinery/computer/slime_combinator/ui_interact(mob/user, datum/tgui/ui)
@@ -199,6 +210,12 @@
 	slime_combinations = new_slimes
 	//iterate instability
 	instability += XENOB_INSTABILITY_MOD
+	instability = min(XENOB_INSTABILITY_MAX, instability) //Better ways of doing this but, this is easier to read
 
 	ui_update()
 	return TRUE
+
+///Simple proc for callbacks, reenable usage
+/obj/machinery/computer/slime_combinator/proc/reenable()
+	available = TRUE
+	ui_update()

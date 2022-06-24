@@ -125,6 +125,12 @@
 	name = "gelatinous exclusion barrier"
 	desc = "Keeps them in, and us out... but also us in."
 	reinf = FALSE
+	heat_resistance = 75000
+	armor = list("melee" = 75, "bullet" = 5, "laser" = 0, "energy" = 0, "bomb" = 45, "bio" = 100, "rad" = 100, "fire" = 99, "acid" = 100, "stamina" = 0)
+	max_integrity = 10000
+
+/obj/structure/window/slime_barrier/deconstruct(disassembled)
+	return
 
 /obj/structure/window/slime_barrier/Initialize(mapload, dir)
 	. = ..()
@@ -134,6 +140,10 @@
 	. = ..()
 	if(!(istype(mover, /mob/living/simple_animal/slime_uni)))
 		return TRUE
+	else
+		var/mob/living/simple_animal/slime_uni/S = mover
+		if(S.health <= 0)
+			return TRUE
 	if(.)
 		return
 	if(dir == FULLTILE_WINDOW_DIR)
@@ -157,6 +167,10 @@
 /obj/structure/window/slime_barrier/on_exit(datum/source, atom/movable/leaving, direction)
 	if(!(istype(leaving, /mob/living/simple_animal/slime_uni)))
 		return
+	else
+		var/mob/living/simple_animal/slime_uni/S = leaving
+		if(S.health <= 0)
+			return
 
 	if (istype(leaving) && (leaving.pass_flags & PASSGLASS))
 		return

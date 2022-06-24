@@ -50,8 +50,10 @@
     var/icon/hold_mask = features["mask"]
     mask = (mask?.type ? mask?.type : pickweight(XENOB_MASKS)) //main mask
     if(instability >= XENOB_MUTATE_MAJOR && prob(instability)) //apperently having 0 instability can still cause mutations? probablity moment.
-        mask = pickweight(XENOB_MASKS)
-        instability -= (instability-XENOB_MUTATE_MAJOR < 0 ? XENOB_MUTATE_MAJOR-abs(instability-XENOB_MUTATE_MAJOR) : XENOB_MUTATE_MAJOR)
+        var/datum/xenobiology_feature/M = pickweight(XENOB_MASKS)
+        if(M != mask) //Weird chance setup, this just helps with masks rolling the same output, removing the old output isn't intended behaviour. 
+            mask = M
+            instability -= (instability-XENOB_MUTATE_MAJOR < 0 ? XENOB_MUTATE_MAJOR-abs(instability-XENOB_MUTATE_MAJOR) : XENOB_MUTATE_MAJOR)
     mask = new mask()
     features["mask_path"] = mask
     hold_mask = new('icons/mob/xenobiology/slime.dmi', mask.address)

@@ -2,25 +2,29 @@ import { map, toArray } from 'common/collections';
 import { classes } from 'common/react';
 import { render } from 'inferno';
 import { useBackend } from '../backend';
-import { Box, Tabs, Section, Flex, Button, BlockQuote, Icon, Collapsible, AnimatedNumber, Table } from '../components';
+import { Box, Tabs, Section, Flex, Button, BlockQuote, Icon, Collapsible, AnimatedNumber, Table, Dimmer } from '../components';
 import { ButtonCheckbox } from '../components/Button';
 import { Window } from '../layouts';
 
 export const SlimeCombinator = (props, context) => {
 	const { act, data } = useBackend(context);
 	const current_tab=(data.tab);
+	const available=(data.availability);
 return (
 	<Window
 	width={450}
 	height={460}>
 	<Window.Content scrollable>
-		<Flex>
+		{!available && (<Dimmer><Box>Resetting simulation... <Icon name="cog" spin={true}/></Box></Dimmer>)}
+
+		<Flex align="center">
 			{current_tab === "Select-Initial" && (
 			<SlimeOptions_Parent/>)}
 
 			{current_tab === "Promote-Outcomes" && (
 			<SlimeOptions_Child/>)}
 		</Flex>
+
 	</Window.Content>
 	</Window>
 );
@@ -96,12 +100,15 @@ const SlimeEntry = (props, context) => {
 	const { act, data } = useBackend(context);
 	const {
 		slime,
+		interactable = true,
 	} = props;
 return (
-	<Button tooltip={slime.name} onClick={() => act('select-slime', {ref : slime.self_ref,})}>
+	<Button tooltip={<div dangerouslySetInnerHTML={{ __html: slime.name}}/>} onClick={() => interactable ? act('select-slime', {ref : slime.self_ref,}) : null}>
 		<Box>
 			{<img
 			src={`data:image/jpeg;base64,${slime.img}`}
+			height={48}
+			width={48}
 			style={{
 				'vertical-align': 'middle',
 				'horizontal-align': 'middle',
