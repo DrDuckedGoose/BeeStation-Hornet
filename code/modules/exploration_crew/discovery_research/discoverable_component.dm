@@ -47,6 +47,7 @@
 	//handle slime species interactions
 	if(istype(A, /mob/living/simple_animal/slime_uni))
 		var/mob/living/simple_animal/slime_uni/S = A
+		S.check_discovery()
 		if(S.discovered)
 			to_chat(user, "<span class='warning'>Datapoints about [A] already in system.</span>")
 			return

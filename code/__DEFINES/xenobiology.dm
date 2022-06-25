@@ -32,3 +32,8 @@
 
 ///Max reagents slimes can hold
 #define XENOB_SLIME_VOLUME 15
+
+///Discovey point values
+#define XENOB_DISC_COMMON 0
+#define XENOB_DISC_RARE 100
+#define XENOB_DISC_EXOTIC 200

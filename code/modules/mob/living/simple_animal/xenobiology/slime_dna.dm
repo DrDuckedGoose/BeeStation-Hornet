@@ -57,6 +57,7 @@
     mask = new mask()
     features["mask_path"] = mask
     hold_mask = new('icons/mob/xenobiology/slime.dmi', mask.address)
+    owner.discovery_points += mask.extra_discovery
 
     //sub-masking
     sub_mask = (sub_mask?.type ? sub_mask?.type : pickweight(XENOB_SUB_MASKS)) //bonus mask
@@ -68,6 +69,7 @@
     hold_mask.Blend(sub, ICON_OVERLAY)
     features["sub_mask"] = sub_mask
     features["mask"] = hold_mask
+    owner.discovery_points += sub_mask.extra_discovery
 
     //texture
     ///texture holder for transformations
@@ -80,6 +82,7 @@
     features["texture_path"] = texture
     hold_text = new('icons/mob/xenobiology/slime_texture.dmi', texture.address)
     features["texture"] = hold_text
+    owner.discovery_points += texture.extra_discovery
 
     //texture color
     color = (color?.type ? color?.type : pickweight(XENOB_COLORS))
@@ -88,6 +91,7 @@
         instability -= (instability-XENOB_MUTATE_MEDIUM < 0 ? XENOB_MUTATE_MEDIUM-abs(instability-XENOB_MUTATE_MEDIUM) : XENOB_MUTATE_MEDIUM)
     color = new color()
     features["color_path"] = color
+    owner.discovery_points += color.extra_discovery
 
     features["color"] = rgb(color.r, color.g, color.b)
     //If the texture doesn't contain a third color, the used color will be a complementory instead of triadict
@@ -131,6 +135,8 @@
     var/epithet = "un-set-um"
     ///list weight
     var/weight = XENOB_COMMON
+    ///Extra discovery points provided by feature
+    var/extra_discovery = XENOB_DISC_COMMON
 
 // -- textures --
 /datum/xenobiology_feature/texture
@@ -148,30 +154,35 @@
     address = "c_waves"
     epithet = "fluctus"
 
-/datum/xenobiology_feature/texture/smile
-    address = "e_smile"
-    epithet = "faciem"
-    weight = XENOB_RARE
-
 /datum/xenobiology_feature/texture/arrow
     address = "r_arrow"
     epithet = "sagitta"
     weight = XENOB_UNCOMMON
+    extra_discovery = XENOB_DISC_RARE
 
 /datum/xenobiology_feature/texture/rattle
     address = "r_rattle"
     epithet = "sagitta"
     weight = XENOB_UNCOMMON
+    extra_discovery = XENOB_DISC_RARE
 
 /datum/xenobiology_feature/texture/bubble
     address = "e_bouncy"
     epithet = "bulla"
     weight = XENOB_RARE
+    extra_discovery = XENOB_DISC_EXOTIC
 
 /datum/xenobiology_feature/texture/hat
     address = "e_hat"
     epithet = "petasum"
     weight = XENOB_RARE
+    extra_discovery = XENOB_DISC_EXOTIC
+
+/datum/xenobiology_feature/texture/smile
+    address = "e_smile"
+    epithet = "faciem"
+    weight = XENOB_RARE
+    extra_discovery = XENOB_DISC_EXOTIC
 
 // -- masks -- 
 /datum/xenobiology_feature/mask
@@ -185,21 +196,25 @@
     address = "m_square"
     epithet = "gelatina-cubena" //cubena is technically a genus of moths :)
     weight = XENOB_EXOTIC
+    extra_discovery = XENOB_DISC_EXOTIC
 
 /datum/xenobiology_feature/mask/dough
     address = "m_dough"
     epithet = "gelatina-torusa"
     weight = XENOB_EXOTIC
+    extra_discovery = XENOB_DISC_EXOTIC
 
 // -- sub-masks --
 //please don'texture parent these to masks
 /datum/xenobiology_feature/sub_mask
     weight = XENOB_RARE
+    extra_discovery = XENOB_DISC_RARE
 
 /datum/xenobiology_feature/sub_mask/blank
     address = "m_blank"
     epithet = ""
     weight = XENOB_COMMON
+    extra_discovery = XENOB_DISC_COMMON
 
 /datum/xenobiology_feature/sub_mask/tumor
     address = "m_tumor"
