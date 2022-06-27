@@ -138,6 +138,7 @@
 #define BB_DOG_ORDER_MODE "BB_DOG_ORDER_MODE"
 #define BB_DOG_PLAYING_DEAD "BB_DOG_PLAYING_DEAD"
 #define BB_DOG_HARASS_TARGET "BB_DOG_HARASS_TARGET"
+#define BB_DOG_FOLLOW_TARGET "BB_DOG_FOLLOW_TARGET"
 
 /// Basically, what is our vision/hearing range for picking up on things to fetch/
 #define AI_DOG_VISION_RANGE	10
@@ -165,6 +166,7 @@
 #define COMMAND_STOP "Stop"
 #define COMMAND_ATTACK "Attack"
 #define COMMAND_DIE "Play Dead"
+#define COMMAND_WANDER "Wander"
 
 ///bane ai
 #define BB_BANE_BATMAN "BB_bane_batman"
@@ -184,3 +186,7 @@
 #define BB_BASIC_MOB_CURRENT_TARGET "BB_basic_current_target"
 #define BB_BASIC_MOB_CURRENT_TARGET_HIDING_LOCATION "BB_basic_current_target_hiding_location"
 #define BB_TARGETTING_DATUM "targetting_datum"
+
+///blackboard component for slime team
+#define BB_SLIME_TEAM "BB_SLIME_TEAM"
+#define BB_SLIME_OWNER "BB_SLIME_OWNER"

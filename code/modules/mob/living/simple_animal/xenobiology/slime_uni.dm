@@ -10,6 +10,7 @@
 	mob_size = MOB_SIZE_SMALL
 	gender = NEUTER
 	faction = list("slime")
+	ai_controller = /datum/ai_controller/slime
 	///Slime DNA, contains traits and visual features
 	var/datum/slime_dna/dna
 	///Icon the actual mob uses, contains animated frames
@@ -26,6 +27,8 @@
 	var/discovered = FALSE
 	///This slimes team
 	var/datum/component/slime_team/slime_team
+	///Position in slime team list
+	var/position = 0
 
 /mob/living/simple_animal/slime_uni/Initialize(mapload, instability, texture, mask, sub_mask, color, rotation, pan)
 	..()
@@ -55,6 +58,7 @@
 		. += species_name + (check_discovery() ? {"<span style="color:["#13a311"];">\nDiscovered</span>"} : {"<span style="color:["#c12222"];">\nUndiscovered</span>"})
 	
 /mob/living/simple_animal/slime_uni/attackby(obj/item/I, mob/living/user, params)
+	. = ..()
 	if(istype(I, /obj/item/reagent_containers/syringe))
 		if(slime_team)
 			to_chat(user, "<span class ='warning'>[slime_team.owner == user ? "This slime is already on your team!" : "This slime already has a team!"]</span>")
@@ -72,7 +76,7 @@
 			faction |= B.data["factions"]
 			//add factions to mob
 			var/datum/mind/M = B.data["mind"]
-			var/mob/living/owner = M.current
+			var/mob/living/owner = M?.current
 			owner.faction |= "slime_faction_[B.data["blood_DNA"]]"	
 			
 			//handle team component

@@ -549,3 +549,6 @@
 #define COMSIG_MOVABLE_LIGHT_OVERLAY_TOGGLE_ON "movable_light_overlay_toggle_on"
 
 #define COMSIG_GREYSCALE_CONFIG_REFRESHED "greyscale_config_refreshed"
+
+///Slime team signal
+#define SLIME_TEAM_UPDATE "slime_team_update"

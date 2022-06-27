@@ -109,6 +109,7 @@ return (
 			src={`data:image/jpeg;base64,${slime.img}`}
 			height={48}
 			width={48}
+			image-rendering={"pixelated"}
 			style={{
 				'vertical-align': 'middle',
 				'horizontal-align': 'middle',

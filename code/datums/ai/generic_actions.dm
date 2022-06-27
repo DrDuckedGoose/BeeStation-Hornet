@@ -244,7 +244,7 @@
 		return
 
 	var/datum/weakref/follow_ref = controller.blackboard[BB_FOLLOW_TARGET]
-	var/atom/movable/follow_target = follow_ref?.resolve()
+	var/atom/movable/follow_target = (istype(follow_ref) ? follow_ref?.resolve() : follow_ref)
 	if(!follow_target || get_dist(living_pawn, follow_target) > controller.blackboard[BB_VISION_RANGE])
 		finish_action(controller, FALSE)
 		return

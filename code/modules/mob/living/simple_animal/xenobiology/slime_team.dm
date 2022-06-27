@@ -14,5 +14,7 @@
 /datum/component/slime_team/proc/append_player(var/mob/living/simple_animal/slime_uni/S)
     if(istype(S))
         players |= S
+        S.position = players.len
+        SEND_SIGNAL(src, null, SLIME_TEAM_UPDATE, S) //Send the appended slime to the AI
         return TRUE
     return FALSE
