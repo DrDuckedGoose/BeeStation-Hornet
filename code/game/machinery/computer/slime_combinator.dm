@@ -45,7 +45,13 @@
 	///Availability flag, toggled after use
 	var/available = TRUE
 
+/obj/machinery/computer/slime_combinator/Destroy()
+	. = ..()
+	if(inserted_gun)
+		inserted_gun.forceMove(get_turf(src))
+
 /obj/machinery/computer/slime_combinator/attackby(obj/item/I, mob/living/user, params) //Accept slime gun / swap out current
+	. = ..()
 	if(istype(I, /obj/item/slime_gun))
 		if(tab != "Select-Initial")
 			say("Error: cannot swap volume. Please finish task.")
@@ -55,7 +61,6 @@
 		I.forceMove(src)
 		inserted_gun = I
 		update_contents()
-	..()
 
 /obj/machinery/computer/slime_combinator/AltClick(mob/user) //drop gun & update UI
 	if(inserted_gun && tab == "Select-Initial")

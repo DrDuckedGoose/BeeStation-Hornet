@@ -52906,8 +52906,8 @@
 /turf/open/floor/plating,
 /area/engine/atmos)
 "ccY" = (
-/obj/effect/turf_decal/stripes/line{
-	dir = 1
+/obj/effect/turf_decal/stripes/corner{
+	dir = 4
 	},
 /obj/structure/cable/yellow{
 	icon_state = "1-2"
@@ -76665,6 +76665,7 @@
 /obj/effect/turf_decal/stripes/line{
 	dir = 9
 	},
+/obj/item/slime_gun,
 /turf/open/floor/plasteel,
 /area/science/xenobiology)
 "fwb" = (
@@ -76845,10 +76846,10 @@
 /turf/open/floor/plasteel/showroomfloor,
 /area/crew_quarters/cryopods)
 "gbp" = (
-/obj/structure/table/glass,
 /obj/effect/turf_decal/stripes/line{
 	dir = 1
 	},
+/obj/machinery/slime_cloner,
 /turf/open/floor/plasteel,
 /area/science/xenobiology)
 "gdD" = (
@@ -77199,6 +77200,16 @@
 	},
 /turf/open/floor/plasteel/white,
 /area/science/misc_lab/range)
+"hte" = (
+/obj/structure/table/glass,
+/obj/effect/turf_decal/stripes/line{
+	dir = 9
+	},
+/obj/item/storage/box/beakers,
+/obj/machinery/reagentgrinder,
+/obj/item/stack/sheet/mineral/plasma/fifty,
+/turf/open/floor/plasteel,
+/area/science/xenobiology)
 "htz" = (
 /obj/effect/spawner/structure/window/reinforced,
 /obj/machinery/door/firedoor/window,
@@ -77270,10 +77281,10 @@
 /turf/open/floor/plasteel,
 /area/hallway/secondary/exit/departure_lounge)
 "hBI" = (
-/obj/structure/table/glass,
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
 	},
+/obj/machinery/slime_cloner,
 /turf/open/floor/plasteel,
 /area/science/xenobiology)
 "hCF" = (
@@ -77330,9 +77341,11 @@
 /turf/open/floor/plasteel,
 /area/engine/break_room)
 "hOM" = (
-/obj/structure/table/glass,
 /obj/effect/turf_decal/stripes/line{
-	dir = 5
+	dir = 1
+	},
+/obj/machinery/computer/slime_cloner_console{
+	dir = 1
 	},
 /turf/open/floor/plasteel,
 /area/science/xenobiology)
@@ -78070,6 +78083,14 @@
 	},
 /turf/open/floor/plasteel,
 /area/science/mixing)
+"khA" = (
+/obj/structure/table/glass,
+/obj/effect/turf_decal/stripes/line{
+	dir = 10
+	},
+/obj/item/clothing/glasses/science,
+/turf/open/floor/plasteel,
+/area/science/xenobiology)
 "kie" = (
 /obj/structure/dresser,
 /obj/machinery/newscaster{
@@ -79589,6 +79610,17 @@
 	},
 /turf/open/floor/plasteel/dark/corner,
 /area/engine/storage_shared)
+"oQP" = (
+/obj/structure/table/glass,
+/obj/effect/turf_decal/stripes/line{
+	dir = 5
+	},
+/obj/item/clothing/glasses/science,
+/obj/structure/cable/yellow{
+	icon_state = "1-2"
+	},
+/turf/open/floor/plasteel,
+/area/science/xenobiology)
 "oRL" = (
 /obj/docking_port/stationary{
 	dir = 2;
@@ -80108,9 +80140,11 @@
 /turf/open/floor/engine/cult,
 /area/library)
 "qLD" = (
-/obj/structure/table/glass,
 /obj/effect/turf_decal/stripes/line{
-	dir = 10
+	dir = 8
+	},
+/obj/machinery/computer/slime_cloner_console{
+	dir = 8
 	},
 /turf/open/floor/plasteel,
 /area/science/xenobiology)
@@ -81435,12 +81469,6 @@
 	},
 /turf/open/floor/plasteel,
 /area/science/shuttledock)
-"vUg" = (
-/obj/effect/turf_decal/stripes/corner{
-	dir = 4
-	},
-/turf/open/floor/plasteel,
-/area/science/xenobiology)
 "vUC" = (
 /obj/structure/window/reinforced,
 /turf/open/space/basic,
@@ -115923,7 +115951,7 @@ cRU
 cRU
 cRU
 hOM
-vUg
+ddk
 ddk
 uwk
 ddk
@@ -116179,7 +116207,7 @@ ksa
 ksa
 ksa
 ksa
-ksa
+oQP
 ccY
 mal
 lYJ
@@ -116687,11 +116715,11 @@ eec
 eec
 pJY
 cRU
-fvR
+hte
 wAd
 hBI
 qLD
-cRU
+khA
 cRU
 sKX
 jCf
@@ -116947,8 +116975,8 @@ clh
 jCf
 uwk
 ddk
+ddk
 snh
-tCU
 tCU
 jCf
 ddk

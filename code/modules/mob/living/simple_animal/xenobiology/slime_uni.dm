@@ -6,8 +6,6 @@
 	icon_state = "random"
 	density = FALSE
 	ventcrawler = VENTCRAWLER_ALWAYS
-	pass_flags = PASSTABLE | PASSGRILLE | PASSMOB
-	mob_size = MOB_SIZE_SMALL
 	gender = NEUTER
 	faction = list("slime")
 	ai_controller = /datum/ai_controller/slime
