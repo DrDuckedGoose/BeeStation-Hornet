@@ -9,6 +9,7 @@
 	gender = NEUTER
 	faction = list("slime")
 	ai_controller = /datum/ai_controller/slime
+	atmos_requirements = list("min_oxy" = 5, "max_oxy" = 0, "min_tox" = 0, "max_tox" = INFINITY, "min_co2" = 0, "max_co2" = 5, "min_n2" = 0, "max_n2" = 0)
 	///Slime DNA, contains traits and visual features
 	var/datum/slime_dna/dna
 	///Icon the actual mob uses, contains animated frames
@@ -23,10 +24,16 @@
 	var/species_name = ""
 	///Whether this species is undicovered or not
 	var/discovered = FALSE
+	///Measurement of happiness from 0 to 100
+	var/happiness = 0
 	///This slimes team
 	var/datum/component/slime_team/slime_team
 	///Position in slime team list
 	var/position = 0
+	///Hunger
+	var/saturation = 0
+	///Prefered gas for consumption
+	var/gas_consume_type = GAS_PLASMA
 
 /mob/living/simple_animal/slime_uni/Initialize(mapload, instability, texture, mask, sub_mask, color, rotation, pan)
 	..()
@@ -48,8 +55,47 @@
 	var/datum/slime_species/S
 	S = SSslime_species.slime_species[species_name]
 	dna.setup_traits(S?.traits)
+	
+	START_PROCESSING(SSobj, src)
 
-//Additionally handles species name & discover status
+/mob/living/simple_animal/slime_uni/Destroy()
+	qdel(dna)
+	dna = null
+	..()
+
+///Used to adjust happiness
+/mob/living/simple_animal/slime_uni/process(delta_time)
+	///Positive & negative points that effect mood
+	var/mood_factor = 0
+
+	//Hunger satiated by gasses
+	var/turf/T = get_turf(src)
+	var/datum/gas_mixture/environment = T.return_air()
+	var/plasma_concentration = environment.get_moles(gas_consume_type)
+	if(plasma_concentration)
+		mood_factor += 1
+		if(saturation < 200)
+			saturation = min(200, saturation+min(25, plasma_concentration))
+			environment.adjust_moles(gas_consume_type,-1*min(25, plasma_concentration))
+	else
+		mood_factor -= 1
+
+	if(saturation >= 200)
+		saturation = 0
+		do_produce()
+
+	///Mood
+	var/nearby_slimes = 0
+	for(var/mob/living/simple_animal/slime_uni/S in oview(3, src))
+		nearby_slimes++
+		mood_factor += (istype(dna.features["texture_path"], S.dna.features["texture_path"]) ? 1 : -1) //texture
+		mood_factor += (istype(dna.features["color_path"], S.dna.features["color_path"]) ? 1 : -1) //color
+		mood_factor += (istype(dna.features["sub_mask"], S.dna.features["sub_mask"]) ? 1 : -1) //color
+		mood_factor += (istype(dna.features["mask_path"], S.dna.features["mask_path"]) ? 1 : -1) //mask
+	mood_factor += (nearby_slimes < 3 ? 0 : (3-nearby_slimes))
+	happiness = min(50+(50*(mood_factor/4)), 100)
+
+//Additionally handles species name & discovered status
 /mob/living/simple_animal/slime_uni/examine(mob/user)
 	. = ..()
 	if(user.can_see_reagents())
@@ -83,11 +129,6 @@
 			var/datum/component/slime_team/ST = owner.GetComponent(/datum/component/slime_team)
 			ST?.append_player(src)
 			slime_team = ST
-
-/mob/living/simple_animal/slime_uni/Destroy()
-	qdel(dna)
-	dna = null
-	..()
 
 /mob/living/simple_animal/slime_uni/death(gibbed)
 	. = ..()
@@ -145,7 +186,7 @@
 	//inherit parent name, if we can
 	species_name = P.species_name
 	//create custom icon if parent exists
-	var/icon/temp = P.animated_texture
+	var/icon/temp = new(P.animated_texture)
 	var/icon/mask = new('icons/mob/xenobiology/slime.dmi', "produce")
 	temp.AddAlphaMask(mask)
 	//filtering
@@ -163,4 +204,6 @@
 	texture = new /datum/xenobiology_feature/texture/plain()
 	mask = new /datum/xenobiology_feature/mask/default()
 	sub_mask = new /datum/xenobiology_feature/sub_mask/blank()
+	color = pick(/datum/xenobiology_feature/color/red, /datum/xenobiology_feature/color/green, /datum/xenobiology_feature/color/blue)
+	color = new color
 	..()
