@@ -62,9 +62,11 @@
 	//sub-masking
 	sub_mask = (sub_mask?.type ? sub_mask?.type : pickweight(XENOB_SUB_MASKS)) //bonus mask
 	if(instability >= XENOB_MUTATE_MAJOR && prob(instability))
-		sub_mask = pickweight(XENOB_SUB_MASKS)
+		var/datum/xenobiology_feature/M  = pickweight(XENOB_SUB_MASKS)
+		if(M != sub_mask)
+			sub_mask = M
+			instability -= (instability-XENOB_MUTATE_MAJOR < 0 ? XENOB_MUTATE_MAJOR-abs(instability-XENOB_MUTATE_MAJOR) : XENOB_MUTATE_MAJOR)
 	sub_mask = new sub_mask()
-	instability -= (instability-XENOB_MUTATE_MAJOR < 0 ? XENOB_MUTATE_MAJOR-abs(instability-XENOB_MUTATE_MAJOR) : XENOB_MUTATE_MAJOR)
 	var/icon/sub = new('icons/mob/xenobiology/slime.dmi', sub_mask.address)
 	hold_mask.Blend(sub, ICON_OVERLAY)
 	features["sub_mask"] = sub_mask
@@ -86,9 +88,9 @@
 
 	//texture color
 	color = (color?.type ? color?.type : pickweight(XENOB_COLORS))
-	if(instability >= XENOB_MUTATE_MEDIUM && prob(instability))
+	if(instability >= XENOB_MUTATE_MINOR && prob(instability))
 		color = pickweight(XENOB_COLORS-color)
-		instability -= (instability-XENOB_MUTATE_MEDIUM < 0 ? XENOB_MUTATE_MEDIUM-abs(instability-XENOB_MUTATE_MEDIUM) : XENOB_MUTATE_MEDIUM)
+		instability -= (instability-XENOB_MUTATE_MINOR < 0 ? XENOB_MUTATE_MINOR-abs(instability-XENOB_MUTATE_MINOR) : XENOB_MUTATE_MINOR)
 	color = new color()
 	features["color_path"] = color
 	owner.discovery_points += color.extra_discovery

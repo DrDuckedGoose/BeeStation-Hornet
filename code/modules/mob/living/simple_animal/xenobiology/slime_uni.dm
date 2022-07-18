@@ -55,6 +55,9 @@
 	var/datum/slime_species/S
 	S = SSslime_species.slime_species[species_name]
 	dna.setup_traits(S?.traits)
+
+	//Give it some volume
+	reagents = new(500)
 	
 	START_PROCESSING(SSobj, src)
 
@@ -80,55 +83,32 @@
 	else
 		mood_factor -= 1
 
+	//Hunger satiated by reagents
+	var/datum/reagent/toxin/plasma/P = reagents.get_reagent(/datum/reagent/toxin/plasma)
+	if(P)
+		saturation += 10 * P.volume
+		reagents.remove_all_type(/datum/reagent/toxin/plasma, P.volume)
+
 	if(saturation >= 200)
-		saturation = 0
+		saturation -= 200
 		do_produce()
 
 	///Mood
 	var/nearby_slimes = 0
 	for(var/mob/living/simple_animal/slime_uni/S in oview(3, src))
 		nearby_slimes++
-		mood_factor += (istype(dna.features["texture_path"], S.dna.features["texture_path"]) ? 1 : -1) //texture
-		mood_factor += (istype(dna.features["color_path"], S.dna.features["color_path"]) ? 1 : -1) //color
+		mood_factor += (istype(dna.features["texture_path"], S.dna.features["texture_path"]) ? 1 : -2) //texture
+		mood_factor += (istype(dna.features["color_path"], S.dna.features["color_path"]) ? 1 : -2) //color
 		mood_factor += (istype(dna.features["sub_mask"], S.dna.features["sub_mask"]) ? 1 : -1) //color
 		mood_factor += (istype(dna.features["mask_path"], S.dna.features["mask_path"]) ? 1 : -1) //mask
 	mood_factor += (nearby_slimes < 3 ? 0 : (3-nearby_slimes))
-	happiness = min(50+(50*(mood_factor/4)), 100)
+	happiness = max(0, min(50+(50*(mood_factor/4)), 100))
 
 //Additionally handles species name & discovered status
 /mob/living/simple_animal/slime_uni/examine(mob/user)
 	. = ..()
 	if(user.can_see_reagents())
 		. += species_name + (check_discovery() ? {"<span style="color:["#13a311"];">\nDiscovered</span>"} : {"<span style="color:["#c12222"];">\nUndiscovered</span>"})
-	
-/mob/living/simple_animal/slime_uni/attackby(obj/item/I, mob/living/user, params)
-	. = ..()
-	if(istype(I, /obj/item/reagent_containers/syringe))
-		if(slime_team)
-			to_chat(user, "<span class ='warning'>[slime_team.owner == user ? "This slime is already on your team!" : "This slime already has a team!"]</span>")
-			return
-		var/obj/item/reagent_containers/syringe/S = I
-		var/datum/reagent/blood/B = S.reagents.has_reagent(/datum/reagent/blood)
-		if(B)
-			//notify
-			user.visible_message("<span class ='warning'>[user] injects [src] with blood, binding the DNA!</span>","<span class ='warning'>You inject [src] with blood, binding the DNA!</span>")
-			
-			//remove our reagents
-			S.reagents.remove_reagent(/datum/reagent/blood, 5)
-			//add factions to slime
-			faction |= "slime_faction_[B.data["blood_DNA"]]"
-			faction |= B.data["factions"]
-			//add factions to mob
-			var/datum/mind/M = B.data["mind"]
-			var/mob/living/owner = M?.current
-			owner.faction |= "slime_faction_[B.data["blood_DNA"]]"	
-			
-			//handle team component
-			if(!owner.GetComponent(/datum/component/slime_team))
-				owner.AddComponent(/datum/component/slime_team)
-			var/datum/component/slime_team/ST = owner.GetComponent(/datum/component/slime_team)
-			ST?.append_player(src)
-			slime_team = ST
 
 /mob/living/simple_animal/slime_uni/death(gibbed)
 	. = ..()

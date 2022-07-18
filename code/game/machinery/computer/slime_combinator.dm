@@ -214,9 +214,7 @@
 	//Load results into children
 	slime_combinations = new_slimes
 	//iterate instability
-	instability += XENOB_INSTABILITY_MOD
-	instability = min(XENOB_INSTABILITY_MAX, instability) //Better ways of doing this but, this is easier to read
-
+	instability = min(XENOB_INSTABILITY_MAX, (instability+XENOB_INSTABILITY_MOD))
 	ui_update()
 	return TRUE
 

@@ -17,11 +17,10 @@
 #define XENOB_INSTABILITY_MOD 25
 ///Slime max instability allowed
 #define XENOB_INSTABILITY_MAX 100
-
 ///slime mutation costs
 #define XENOB_MUTATE_MINOR 10
 #define XENOB_MUTATE_MEDIUM 25
-#define XENOB_MUTATE_MAJOR 40
+#define XENOB_MUTATE_MAJOR 50
 
 ///slime litter sizes, how many children can slimes make in sim
 #define XENOB_MAX_LITTER 9
