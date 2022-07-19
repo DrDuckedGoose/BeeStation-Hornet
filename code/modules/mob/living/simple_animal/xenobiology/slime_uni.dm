@@ -66,6 +66,15 @@
 	dna = null
 	..()
 
+/mob/living/simple_animal/slime_uni/prepare_data_huds()
+	. = ..()
+	adjust_slime_mood()
+	
+//Adjust mood HUD
+/mob/living/simple_animal/slime_uni/proc/adjust_slime_mood()
+	var/image/holder = hud_list[SLIME_MOOD]
+	holder.icon_state = "electrified"
+
 ///Used to adjust happiness
 /mob/living/simple_animal/slime_uni/process(delta_time)
 	///Positive & negative points that effect mood

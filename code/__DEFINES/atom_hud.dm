@@ -26,6 +26,8 @@
 #define DIAG_LAUNCHPAD_HUD "22" //Displays launchpads' targeting reticle
 //for antag huds. these are used at the /mob level
 #define ANTAG_HUD		"23"
+//For xenobiology mood
+#define SLIME_MOOD "24"
 
 //by default everything in the hud_list of an atom is an image
 //a value in hud_list with one of these will change that behavior
