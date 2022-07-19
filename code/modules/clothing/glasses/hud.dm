@@ -301,7 +301,7 @@
 	vision_correction = 1
 	clothing_flags = SCAN_REAGENTS
 	lighting_alpha = LIGHTING_PLANE_ALPHA_MOSTLY_INVISIBLE
-	hud_type = list(DATA_HUD_MEDICAL_ADVANCED, DATA_HUD_DIAGNOSTIC_ADVANCED, DATA_HUD_SECURITY_ADVANCED)
+	hud_type = list(DATA_HUD_MEDICAL_ADVANCED, DATA_HUD_DIAGNOSTIC_ADVANCED, DATA_HUD_SECURITY_ADVANCED, DATA_HUD_SCIENCE)
 	resistance_flags = INDESTRUCTIBLE
 	actions_types = list(/datum/action/item_action/toggle,/datum/action/item_action/toggle_research_scanner)
 	var/xray = TRUE
@@ -316,3 +316,39 @@
 	xray = !xray
 	var/mob/living/carbon/human/wearer = user
 	wearer.update_sight()
+
+/obj/item/clothing/glasses/hud/science
+	name = "science goggles"
+	desc = "A pair of snazzy goggles used to protect against chemical spills. Fitted with an analyzer for scanning items and reagents."
+	icon_state = "purple"
+	item_state = "glasses"
+	clothing_flags = SCAN_REAGENTS
+	hud_type = DATA_HUD_SECURITY_ADVANCED
+	actions_types = list(/datum/action/item_action/toggle_research_scanner)
+	glass_colour_type = /datum/client_colour/glass_colour/purple
+	resistance_flags = ACID_PROOF
+	armor = list("melee" = 0, "bullet" = 0, "laser" = 0, "energy" = 0, "bomb" = 0, "bio" = 0, "rad" = 0, "fire" = 80, "acid" = 100, "stamina" = 0)
+
+/obj/item/clothing/glasses/hud/science/item_action_slot_check(slot)
+	if(slot == ITEM_SLOT_EYES)
+		return 1
+
+/obj/item/clothing/glasses/hud/science/prescription
+	name = "prescription science goggles"
+	desc = "A crude combination between a pair of prescription glasses and the electronics of science goggles."
+	icon_state = "prescscihud"
+	resistance_flags = NONE
+	armor = list("melee" = 0, "bullet" = 0, "laser" = 0, "energy" = 0, "bomb" = 0, "bio" = 0, "rad" = 0, "fire" = 20, "acid" = 40, "stamina" = 0)
+	vision_correction = 1
+
+/obj/item/clothing/glasses/hud/science/sciencesun
+	name = "science sunglasses"
+	desc = "A pair of sunglasses outfitted with apparatus to scan reagents, as well as providing an innate understanding of liquid viscosity while in motion. Has enhanced shielding which blocks flashes."
+	icon_state = "sunhudscience"
+	item_state = "sunhudscience"
+	flash_protect = 1
+
+/obj/item/clothing/glasses/hud/science/sciencesun/degraded
+	name = "degraded science sunglasses"
+	desc = "A pair of sunglasses outfitted with apparatus to scan reagents, as well as providing an innate understanding of liquid viscosity while in motion."
+	flash_protect = 0

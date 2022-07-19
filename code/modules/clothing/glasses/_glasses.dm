@@ -96,41 +96,6 @@
 	item_state = "glasses"
 	vision_correction = 1
 
-/obj/item/clothing/glasses/science
-	name = "science goggles"
-	desc = "A pair of snazzy goggles used to protect against chemical spills. Fitted with an analyzer for scanning items and reagents."
-	icon_state = "purple"
-	item_state = "glasses"
-	clothing_flags = SCAN_REAGENTS
-	actions_types = list(/datum/action/item_action/toggle_research_scanner)
-	glass_colour_type = /datum/client_colour/glass_colour/purple
-	resistance_flags = ACID_PROOF
-	armor = list("melee" = 0, "bullet" = 0, "laser" = 0, "energy" = 0, "bomb" = 0, "bio" = 0, "rad" = 0, "fire" = 80, "acid" = 100, "stamina" = 0)
-
-/obj/item/clothing/glasses/science/item_action_slot_check(slot)
-	if(slot == ITEM_SLOT_EYES)
-		return 1
-
-/obj/item/clothing/glasses/science/prescription
-	name = "prescription science goggles"
-	desc = "A crude combination between a pair of prescription glasses and the electronics of science goggles."
-	icon_state = "prescscihud"
-	resistance_flags = NONE
-	armor = list("melee" = 0, "bullet" = 0, "laser" = 0, "energy" = 0, "bomb" = 0, "bio" = 0, "rad" = 0, "fire" = 20, "acid" = 40, "stamina" = 0)
-	vision_correction = 1
-
-/obj/item/clothing/glasses/science/sciencesun
-	name = "science sunglasses"
-	desc = "A pair of sunglasses outfitted with apparatus to scan reagents, as well as providing an innate understanding of liquid viscosity while in motion. Has enhanced shielding which blocks flashes."
-	icon_state = "sunhudscience"
-	item_state = "sunhudscience"
-	flash_protect = 1
-
-/obj/item/clothing/glasses/science/sciencesun/degraded
-	name = "degraded science sunglasses"
-	desc = "A pair of sunglasses outfitted with apparatus to scan reagents, as well as providing an innate understanding of liquid viscosity while in motion."
-	flash_protect = 0
-
 /obj/item/clothing/glasses/night
 	name = "night vision goggles"
 	desc = "You can totally see in the dark now!"
@@ -140,7 +105,7 @@
 	lighting_alpha = LIGHTING_PLANE_ALPHA_MOSTLY_INVISIBLE
 	glass_colour_type = /datum/client_colour/glass_colour/green
 
-/obj/item/clothing/glasses/science/suicide_act(mob/living/carbon/user)
+/obj/item/clothing/glasses/hud/science/suicide_act(mob/living/carbon/user)
 	user.visible_message("<span class='suicide'>[user] is tightening \the [src]'s straps around [user.p_their()] neck! It looks like [user.p_theyre()] trying to commit suicide!</span>")
 	return OXYLOSS
 

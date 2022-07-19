@@ -18,7 +18,7 @@
 /datum/atom_hud/data
 
 /datum/atom_hud/data/human/medical
-	hud_icons = list(STATUS_HUD, HEALTH_HUD, NANITE_HUD, SLIME_MOOD)
+	hud_icons = list(STATUS_HUD, HEALTH_HUD, NANITE_HUD)
 
 /datum/atom_hud/data/human/medical/basic
 
@@ -474,3 +474,6 @@
 		holder.icon_state = "electrified"
 	else
 		holder.icon_state = ""
+
+/datum/atom_hud/science
+	hud_icons = list(NANITE_HUD, SLIME_MOOD)

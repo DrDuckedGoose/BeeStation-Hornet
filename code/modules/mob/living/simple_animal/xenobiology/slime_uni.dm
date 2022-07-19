@@ -8,6 +8,7 @@
 	ventcrawler = VENTCRAWLER_ALWAYS
 	gender = NEUTER
 	faction = list("slime")
+	hud_possible = list(HEALTH_HUD,STATUS_HUD,ANTAG_HUD,NANITE_HUD,DIAG_NANITE_FULL_HUD,SLIME_MOOD)
 	ai_controller = /datum/ai_controller/slime
 	atmos_requirements = list("min_oxy" = 5, "max_oxy" = 0, "min_tox" = 0, "max_tox" = INFINITY, "min_co2" = 0, "max_co2" = 5, "min_n2" = 0, "max_n2" = 0)
 	///Slime DNA, contains traits and visual features
@@ -66,15 +67,6 @@
 	dna = null
 	..()
 
-/mob/living/simple_animal/slime_uni/prepare_data_huds()
-	. = ..()
-	adjust_slime_mood()
-	
-//Adjust mood HUD
-/mob/living/simple_animal/slime_uni/proc/adjust_slime_mood()
-	var/image/holder = hud_list[SLIME_MOOD]
-	holder.icon_state = "electrified"
-
 ///Used to adjust happiness
 /mob/living/simple_animal/slime_uni/process(delta_time)
 	///Positive & negative points that effect mood
@@ -113,11 +105,32 @@
 	mood_factor += (nearby_slimes < 3 ? 0 : (3-nearby_slimes))
 	happiness = max(0, min(50+(50*(mood_factor/4)), 100))
 
+	adjust_slime_mood()
+
+//Adjust mood HUD
+/mob/living/simple_animal/slime_uni/proc/adjust_slime_mood()
+	var/image/holder = hud_list[SLIME_MOOD]
+	var/state = 0
+	switch(happiness)
+		if(0 to 29)
+			state = 0
+		if(30 to 49)
+			state = 30
+		if(50 to 69)
+			state = 50
+		if(70 to 99)
+			state = 70
+		if(100)
+			state = 100
+		else
+			state = -1
+	holder.icon_state = "slimemood_[state]"
+
 //Additionally handles species name & discovered status
 /mob/living/simple_animal/slime_uni/examine(mob/user)
 	. = ..()
 	if(user.can_see_reagents())
-		. += species_name + (check_discovery() ? {"<span style="color:["#13a311"];">\nDiscovered</span>"} : {"<span style="color:["#c12222"];">\nUndiscovered</span>"})
+		. += species_name + (check_discovery() ? {"<span style="color:["#13a311"];">\nDiscovered</span>"} : {"<span style="color:["#c12222"];">\nUndiscovered</span>"}) + "\n- Happiness: [happiness]\n- Saturation: [saturation]"
 
 /mob/living/simple_animal/slime_uni/death(gibbed)
 	. = ..()

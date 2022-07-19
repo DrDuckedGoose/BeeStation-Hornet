@@ -173,7 +173,7 @@
 	id = "scigoggles"
 	build_type = PROTOLATHE
 	materials = list(/datum/material/iron = 500, /datum/material/glass = 500)
-	build_path = /obj/item/clothing/glasses/science
+	build_path = /obj/item/clothing/glasses/hud/science
 	category = list("Equipment")
 	departmental_flags = DEPARTMENTAL_FLAG_SCIENCE
 

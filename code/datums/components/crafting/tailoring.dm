@@ -112,7 +112,7 @@
 	result = /obj/item/clothing/glasses/sunglasses/advanced/reagent
 	time = 20
 	tools = list(TOOL_SCREWDRIVER, TOOL_WIRECUTTER)
-	reqs = list(/obj/item/clothing/glasses/science = 1,
+	reqs = list(/obj/item/clothing/glasses/hud/science = 1,
 				/obj/item/clothing/glasses/sunglasses/advanced = 1,
 				/obj/item/stack/cable_coil = 5)
 	category = CAT_EYEWEAR
@@ -127,10 +127,10 @@
 
 /datum/crafting_recipe/sunhudscience
 	name = "Science Sunglasses"
-	result = /obj/item/clothing/glasses/science/sciencesun
+	result = /obj/item/clothing/glasses/hud/science/sciencesun
 	time = 20
 	tools = list(TOOL_SCREWDRIVER, TOOL_WIRECUTTER)
-	reqs = list(/obj/item/clothing/glasses/science = 1,
+	reqs = list(/obj/item/clothing/glasses/hud/science = 1,
 				/obj/item/clothing/glasses/sunglasses/advanced = 1,
 				/obj/item/stack/cable_coil = 5)
 	category = CAT_EYEWEAR
@@ -140,8 +140,8 @@
 	result = /obj/item/clothing/glasses/sunglasses/advanced
 	time = 20
 	tools = list(TOOL_SCREWDRIVER, TOOL_WIRECUTTER)
-	reqs = list(/obj/item/clothing/glasses/science/sciencesun = 1)
-	blacklist = list(/obj/item/clothing/glasses/science/sciencesun/degraded)
+	reqs = list(/obj/item/clothing/glasses/hud/science/sciencesun = 1)
+	blacklist = list(/obj/item/clothing/glasses/hud/science/sciencesun/degraded)
 	category = CAT_EYEWEAR
 
 /datum/crafting_recipe/deghudsunsec
@@ -200,10 +200,10 @@
 
 /datum/crafting_recipe/degsunhudscience
 	name = "Degraded Science Sunglasses"
-	result = /obj/item/clothing/glasses/science/sciencesun/degraded
+	result = /obj/item/clothing/glasses/hud/science/sciencesun/degraded
 	time = 20
 	tools = list(TOOL_SCREWDRIVER, TOOL_WIRECUTTER)
-	reqs = list(/obj/item/clothing/glasses/science = 1,
+	reqs = list(/obj/item/clothing/glasses/hud/science = 1,
 				/obj/item/clothing/glasses/sunglasses = 1,
 				/obj/item/stack/cable_coil = 5)
 	category = CAT_EYEWEAR
@@ -213,7 +213,7 @@
 	result = /obj/item/clothing/glasses/sunglasses
 	time = 20
 	tools = list(TOOL_SCREWDRIVER, TOOL_WIRECUTTER)
-	reqs = list(/obj/item/clothing/glasses/science/sciencesun/degraded = 1)
+	reqs = list(/obj/item/clothing/glasses/hud/science/sciencesun/degraded = 1)
 	category = CAT_EYEWEAR
 
 /datum/crafting_recipe/hudpresmed
@@ -238,10 +238,10 @@
 
 /datum/crafting_recipe/hudpressci
 	name = "Prescription Science Goggles"
-	result = /obj/item/clothing/glasses/science/prescription
+	result = /obj/item/clothing/glasses/hud/science/prescription
 	time = 20
 	tools = list(TOOL_SCREWDRIVER, TOOL_WIRECUTTER)
-	reqs = list(/obj/item/clothing/glasses/science = 1,
+	reqs = list(/obj/item/clothing/glasses/hud/science = 1,
 				/obj/item/clothing/glasses/regular/ = 1,
 				/obj/item/stack/cable_coil = 5)
 	category = CAT_EYEWEAR

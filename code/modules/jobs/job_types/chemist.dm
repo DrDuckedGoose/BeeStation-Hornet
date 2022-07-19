@@ -33,7 +33,7 @@
 	jobtype = /datum/job/chemist
 
 	id = /obj/item/card/id/job/chemist
-	glasses = /obj/item/clothing/glasses/science
+	glasses = /obj/item/clothing/glasses/hud/science
 	belt = /obj/item/pda/chemist
 	ears = /obj/item/radio/headset/headset_med
 	uniform = /obj/item/clothing/under/rank/medical/chemist

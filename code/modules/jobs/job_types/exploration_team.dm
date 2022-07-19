@@ -96,7 +96,7 @@
 /datum/outfit/job/exploration/scientist
 	name = "Exploration Crew (Scientist)"
 
-	glasses = /obj/item/clothing/glasses/science
+	glasses = /obj/item/clothing/glasses/hud/science
 
 	backpack_contents = list(
 		/obj/item/kitchen/knife/combat/survival=1,
