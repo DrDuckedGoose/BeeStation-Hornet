@@ -44,7 +44,7 @@
 	owner.health = owner.maxHealth
 	owner.damage_coeff[CLONE] += attributes["strength"]
 
-///setup stats and features
+///setup stats, features, traits
 /datum/slime_dna/proc/setup(var/datum/xenobiology_feature/texture/texture, var/datum/xenobiology_feature/mask/mask, var/datum/xenobiology_feature/sub_mask/sub_mask, var/datum/xenobiology_feature/color/color, rotation, pan)
 	//masking
 	var/icon/hold_mask = features["mask"]
@@ -125,10 +125,20 @@
 	owner.species_name = "[owner.species_name][texture.epithet ? {"<span style="color:[features["sub_color"]];"> [texture.epithet]</span>"} : ""]" //texture epithet
 	owner.species_name = "[owner.species_name][sub_mask.epithet ? {"<span style="color:[features["exotic_color"]];"> [sub_mask.epithet]</span>"} : ""]" //sub-mask epithet
 
-///Setup traits, builds from a list if provided
-/datum/slime_dna/proc/setup_traits(var/list/traits = list())
-	if(traits.len)
-		world.log << "test"
+	//Traits
+	var/datum/slime_species/SP = SSslime_species.slime_species[owner.species_name]
+	traits = SP?.traits
+	//if no traits, make our own
+	if(!traits?.len)
+		//Make new traits
+		var/datum/xenobiology_trait/material/bananium/B = new(list(owner))
+		traits = list(B)
+
+/datum/slime_dna/Destroy(force, ...)
+	. = ..()
+	for(var/datum/xenobiology_trait/X as() in traits)
+		qdel(X)
+	traits = null
 
 ///Takes a datum path and compiles it into a weighted list, this only works with xenobiology_features currently
 /proc/compileWeightedList(path)

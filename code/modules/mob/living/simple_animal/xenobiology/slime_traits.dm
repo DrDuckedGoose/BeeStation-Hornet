@@ -1,21 +1,19 @@
 /datum/xenobiology_trait
 	var/name
 	var/desc
-	var/mob/living/simple_animal/slime_uni/owner
+	var/atom/owner
 
+//This is practically the same as other components, how can you blame me?
 /datum/xenobiology_trait/New(list/raw_args)
 	. = ..()
-	owner = raw_args[1]
-	if(!istype(owner))
-		qdel(src)
-		return
-	initialize() //forgive me
+	owner = raw_args?.len ? raw_args[1] : null
+	initialize()
   
 //This doesn't have a traditional initialize() otherwise
 /datum/xenobiology_trait/proc/initialize()
 	return
 
-//Used for trait use
+//Used for trait use / function
 /datum/xenobiology_trait/proc/activate()
 	return
 
@@ -25,7 +23,11 @@
 	var/obj/item/stack/material
 
 /datum/xenobiology_trait/material/activate()
-	material = new(get_turf(owner), 25*(owner.happiness/100))
+	var/amount = 10
+	if(istype(owner, /mob/living/simple_animal/slime_uni))
+		var/mob/living/simple_animal/slime_uni/S = owner
+		amount = 25*(S.happiness/100)
+	material = new(get_turf(owner), amount)
 
 /datum/xenobiology_trait/material/bananium
 	name = "Bananium Production"

@@ -14,8 +14,10 @@ SUBSYSTEM_DEF(slime_species)
 	init_order = INIT_ORDER_ACHIEVEMENTS
 	///If enabled, species this round will be saved to the database
 	var/save_round_end = TRUE
-	///List of all known species
+	///List of all player logged species
 	var/list/datum/slime_species = list()
+	///List of every species, ever...
+	var/list/datum/slime_species_all = list()
 	///Cached icons for slime species
 	var/list/cached_icons = list()
 
@@ -29,14 +31,16 @@ SUBSYSTEM_DEF(slime_species)
 		save_species_to_db()
 
 ///Insert new slime species into slime_species list
-/datum/controller/subsystem/slime_species/proc/append_species(var/mob/living/simple_animal/slime_uni/S, checking = FALSE)
+/datum/controller/subsystem/slime_species/proc/append_species(var/mob/living/simple_animal/slime_uni/S, checking = FALSE, add_to_discovered = TRUE)
 	if(S && !slime_species[S?.species_name])
 		if(!checking)
 			var/datum/slime_species/SP = new()
 			SP.name = S.species_name
 			SP.features = S.dna.features
 			SP.traits = S.dna.traits
-			slime_species[S.species_name] = SP
+			if(add_to_discovered)
+				slime_species[S.species_name] = SP
+			slime_species_all[S.species_name] = SP
 		return TRUE //Sucessfully added new species
 	else
 		return FALSE //Failed to add species, usually means it already exists

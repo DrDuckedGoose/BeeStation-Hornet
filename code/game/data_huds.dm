@@ -475,5 +475,5 @@
 	else
 		holder.icon_state = ""
 
-/datum/atom_hud/science
+/datum/atom_hud/data/human/science
 	hud_icons = list(NANITE_HUD, SLIME_MOOD)

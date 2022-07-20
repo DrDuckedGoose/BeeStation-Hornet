@@ -323,7 +323,7 @@
 	icon_state = "purple"
 	item_state = "glasses"
 	clothing_flags = SCAN_REAGENTS
-	hud_type = DATA_HUD_SECURITY_ADVANCED
+	hud_type = list(DATA_HUD_SCIENCE)
 	actions_types = list(/datum/action/item_action/toggle_research_scanner)
 	glass_colour_type = /datum/client_colour/glass_colour/purple
 	resistance_flags = ACID_PROOF

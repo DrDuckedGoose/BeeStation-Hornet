@@ -24,10 +24,8 @@
 #define NANITE_HUD "20"
 #define DIAG_NANITE_FULL_HUD "21"
 #define DIAG_LAUNCHPAD_HUD "22" //Displays launchpads' targeting reticle
-//for antag huds. these are used at the /mob level
-#define ANTAG_HUD		"23"
-//For xenobiology mood
-#define SLIME_MOOD "24"
+#define ANTAG_HUD		"23" //for antag huds. these are used at the /mob level
+#define SLIME_MOOD "24" //For xenobiology mood
 
 //by default everything in the hud_list of an atom is an image
 //a value in hud_list with one of these will change that behavior
@@ -44,30 +42,30 @@
 #define DATA_HUD_ABDUCTOR				7
 #define DATA_HUD_SENTIENT_DISEASE		8
 #define DATA_HUD_AI_DETECT				9
-#define DATA_HUD_SCIENCE	            31
+#define DATA_HUD_SCIENCE                10
 
 //antag HUD defines
-#define ANTAG_HUD_CULT			10
-#define ANTAG_HUD_REV			11
-#define ANTAG_HUD_OPS			12
-#define ANTAG_HUD_WIZ			13
-#define ANTAG_HUD_SHADOW    	14
-#define ANTAG_HUD_TRAITOR 		15
-#define ANTAG_HUD_NINJA 		16
-#define ANTAG_HUD_CHANGELING 	17
-#define ANTAG_HUD_ABDUCTOR 		18
-#define ANTAG_HUD_DEVIL			19
-#define ANTAG_HUD_SINTOUCHED	20
-#define ANTAG_HUD_SOULLESS		21
-#define ANTAG_HUD_CLOCKWORK		22
-#define ANTAG_HUD_BROTHER		23
-#define ANTAG_HUD_HIVE			24
-#define ANTAG_HUD_OBSESSED	25
-#define ANTAG_HUD_FUGITIVE	26
-#define ANTAG_HUD_BRAINWASHED   27
-#define ANTAG_HUD_SURVIVALIST   28
-#define ANTAG_HUD_INCURSION 29
-#define ANTAG_HUD_HERETIC	30
+#define ANTAG_HUD_CULT			11
+#define ANTAG_HUD_REV			12
+#define ANTAG_HUD_OPS			13
+#define ANTAG_HUD_WIZ			14
+#define ANTAG_HUD_SHADOW    	15
+#define ANTAG_HUD_TRAITOR 		16
+#define ANTAG_HUD_NINJA 		17
+#define ANTAG_HUD_CHANGELING 	18
+#define ANTAG_HUD_ABDUCTOR 		19
+#define ANTAG_HUD_DEVIL			20
+#define ANTAG_HUD_SINTOUCHED	21
+#define ANTAG_HUD_SOULLESS		22
+#define ANTAG_HUD_CLOCKWORK		23
+#define ANTAG_HUD_BROTHER		24
+#define ANTAG_HUD_HIVE			25
+#define ANTAG_HUD_OBSESSED	26
+#define ANTAG_HUD_FUGITIVE	27
+#define ANTAG_HUD_BRAINWASHED   28
+#define ANTAG_HUD_SURVIVALIST   29
+#define ANTAG_HUD_INCURSION 30
+#define ANTAG_HUD_HERETIC	31
 
 // Notification action types
 #define NOTIFY_JUMP "jump"
