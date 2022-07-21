@@ -32,11 +32,6 @@
 	///Prefered gas for consumption
 	var/gas_consume_type = GAS_PLASMA
 
-	///This slimes team
-	var/datum/component/slime_team/slime_team
-	///Position in slime team list
-	var/position = 0
-
 /mob/living/simple_animal/slime_uni/Initialize(mapload, instability, texture, mask, sub_mask, color, rotation, pan)
 	..()
 	//Setup dna
@@ -84,12 +79,7 @@
 	else
 		mood_factor -= 1
 
-	//Hunger satiated by reagents
-	var/datum/reagent/toxin/plasma/P = reagents.get_reagent(/datum/reagent/toxin/plasma)
-	if(P)
-		saturation += 10 * P.volume
-		reagents.remove_all_type(/datum/reagent/toxin/plasma, P.volume)
-
+	//Do produce
 	if(saturation >= 200)
 		saturation -= 200
 		do_produce()
@@ -104,8 +94,12 @@
 		mood_factor += (istype(dna.features["mask_path"], S.dna.features["mask_path"]) ? 1 : -1) //mask
 	mood_factor += (nearby_slimes < 3 ? 0 : (3-nearby_slimes))
 	happiness = max(0, min(50+(50*(mood_factor/4)), 100))
-
 	adjust_slime_mood()
+
+	//Damage mobs we may be buckled to
+	if(isliving(buckled))
+		var/mob/living/M = buckled
+		M.adjustCloneLoss(15)
 
 //Adjust mood HUD
 /mob/living/simple_animal/slime_uni/proc/adjust_slime_mood()
@@ -125,6 +119,14 @@
 		else
 			state = -1
 	holder.icon_state = "slimemood_[state]"
+
+//Hunger satiated by reagents
+/mob/living/simple_animal/slime_uni/on_reagent_change()
+	. = ..()
+	var/datum/reagent/toxin/plasma/P = reagents.get_reagent(/datum/reagent/toxin/plasma)
+	if(P)
+		saturation += 10 * P.volume
+		reagents.remove_all_type(/datum/reagent/toxin/plasma, P.volume)
 
 //Additionally handles species name & discovered status
 /mob/living/simple_animal/slime_uni/examine(mob/user)
@@ -175,84 +177,10 @@
 ///makes produce / slime core
 /mob/living/simple_animal/slime_uni/proc/do_produce()
 	new /obj/item/reagent_containers/slime_produce(get_turf(src), src)
-
-///slime_uni brand slime core
-/obj/item/reagent_containers/slime_produce
-	name = "slime core"
-	desc = "Excess slime produced by slimes turns into loose slime, slimy!"
-	///Inhertied species content
-	var/species_name
-	var/list/traits = list()
-	///Activation type "touch" "reagent" "target" todo: consider using defines
-	var/activation = "touch"
-	///Required activation elements, including reagent & target
-	var/datum/reagent/activation_reagent
-	var/atom/activation_target
-
-/obj/item/reagent_containers/slime_produce/Initialize(mapload, var/mob/living/simple_animal/slime_uni/P)
-	//stop admins runtiming
-	if(!P)
-		return
-
-	//inherit parent stuff
-	species_name = P.species_name
-	for(var/datum/xenobiology_trait/T in P.dna.traits)
-		T = new(list(src))
-		traits += T
-
-	//create custom icon if parent exists.
-	var/icon/temp = new(P.animated_texture)
-	var/icon/mask = new('icons/mob/xenobiology/slime.dmi', "produce")
-	temp.AddAlphaMask(mask)
-	//filtering
-	add_filter("outline", 2, list("type" = "outline", "color" = gradient(P.dna.features["color"], "#000", 0.59), "size" = 1))
-	icon = temp
-
-	//Setup activation
-	activation = pick("touch", "reagent", "target")
-	switch(activation)
-		if("touch")
-			RegisterSignal(src, COMSIG_MOB_ATTACK_HAND, .proc/check_source)
-		if("reagent")
-			activation_reagent = pick(/datum/reagent/toxin/plasma, /datum/reagent/blood, /datum/reagent/water)
-			RegisterSignal(src, COMSIG_PARENT_ATTACKBY, .proc/check_source)
-		if("target")
-			activation_target = pick(/obj/structure/chair, /mob/living/carbon/human)
-			RegisterSignal(src, COMSIG_ITEM_AFTERATTACK, .proc/check_source)
-	..()
-
-/obj/item/reagent_containers/slime_produce/examine(mob/user)
-	. = ..()
-	if(user.can_see_reagents())
-		. += "[species_name] excess"
-
-///Used to check activation source
-/obj/item/reagent_containers/slime_produce/proc/check_source(datum/source, atom/target, atom/user, params)
-	switch(activation)
-		if("touch")
-			if(!isliving(target))
-				return
-		if("reagent")
-			if(istype(target, /obj/item/reagent_containers/syringe))
-				var/obj/item/reagent_containers/syringe/S = target
-				var/datum/reagent/toxin/plasma/P = S.reagents.get_reagent(/datum/reagent/toxin/plasma)
-				if(!P?.volume < 5)
-					return
-			else
-				return
-		if("target")
-			if(!istype(target, activation_target))
-				return
-	activate()
-
-///Activate from DNA reference
-/obj/item/reagent_containers/slime_produce/proc/activate()
-	//todo: Consider using signals for this, could mess with the order
-	for(var/datum/xenobiology_trait/X as() in traits)
-		X.activate()
-
+	
 //mapping variant. Please use this when adding slimes to maps.
 /mob/living/simple_animal/slime_uni/map_variant/Initialize(mapload, instability, var/datum/xenobiology_feature/texture, var/datum/xenobiology_feature/mask, var/datum/xenobiology_feature/sub_mask, color, rotation, pan)
+	//Set values before proper initialize
 	texture = new /datum/xenobiology_feature/texture/plain()
 	mask = new /datum/xenobiology_feature/mask/default()
 	sub_mask = new /datum/xenobiology_feature/sub_mask/blank()

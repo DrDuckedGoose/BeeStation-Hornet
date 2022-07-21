@@ -53,7 +53,7 @@
 	var/list/datum/bioware = list()
 
 	var/creamed = FALSE //to use with creampie overlays
-	var/static/list/can_ride_typecache = typecacheof(list(/mob/living/carbon/human, /mob/living/simple_animal/slime, /mob/living/simple_animal/parrot, /mob/living/carbon/monkey))
+	var/static/list/can_ride_typecache = typecacheof(list(/mob/living/carbon/human, /mob/living/simple_animal/slime, /mob/living/simple_animal/parrot, /mob/living/carbon/monkey, /mob/living/simple_animal/slime_uni))
 	var/lastpuke = 0
 	var/last_fire_update
 	var/account_id

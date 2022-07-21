@@ -131,7 +131,7 @@
 	//if no traits, make our own
 	if(!traits?.len)
 		//Make new traits
-		var/datum/xenobiology_trait/material/bananium/B = new(list(owner))
+		var/datum/xenobiology_trait/behaviour/live_feeding/B = new(list(owner))
 		traits = list(B)
 
 /datum/slime_dna/Destroy(force, ...)
