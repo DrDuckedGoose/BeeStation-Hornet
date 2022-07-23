@@ -14,13 +14,13 @@
 #define XENOB_COLORS compileWeightedList(/datum/xenobiology_feature/color)
 
 ///slime instability itterator
-#define XENOB_INSTABILITY_MOD 25
+#define XENOB_INSTABILITY_MOD 20
 ///Slime max instability allowed
 #define XENOB_INSTABILITY_MAX 100
 ///slime mutation costs
-#define XENOB_MUTATE_MINOR 10
-#define XENOB_MUTATE_MEDIUM 25
-#define XENOB_MUTATE_MAJOR 50
+#define XENOB_MUTATE_MINOR 20
+#define XENOB_MUTATE_MEDIUM 40
+#define XENOB_MUTATE_MAJOR 60
 
 ///slime litter sizes, how many children can slimes make in sim
 #define XENOB_MAX_LITTER 9
@@ -31,6 +31,9 @@
 
 ///Max reagents slimes can hold
 #define XENOB_SLIME_VOLUME 15
+
+///Max slime saturation for hunger
+#define SLIME_SATURATION_MAX 200
 
 ///Discovey point values
 #define XENOB_DISC_COMMON 0

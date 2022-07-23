@@ -97,6 +97,7 @@
 				self_ref = REF(D),
 				ref = REF(D.reference),
 				img = D.base_icon,
+				selected = (locate(D) in slime_parents),
 				name = D.reference.species_name,
 			)
 			.["all_slimes"] += list(data)
@@ -108,6 +109,7 @@
 				self_ref = REF(D),
 				ref = REF(D.reference),
 				img = D.base_icon,
+				selected = (locate(D) in slime_parents),
 				name = D.reference.species_name,
 			)
 			.["litter_slimes"] += list(data)
@@ -119,6 +121,7 @@
 				self_ref = REF(D),
 				ref = REF(D.reference),
 				img = D.base_icon,
+				selected = (locate(D) in slime_parents),
 				name = D.reference.species_name,
 			)
 			.["parent_slimes"] += list(data)
@@ -126,14 +129,19 @@
 	.["choosen_slime"] = selected_child
 	///availability
 	.["availability"] = available
+	///Instability
+	.["instability"] = instability
 
 /obj/machinery/computer/slime_combinator/ui_act(action, params)
 	. = ..()
 	if(. || !available)
-		say("Error: simulation still resetting.") //Probably doesn't matter that the other thing could trigger this
+		say("Error: simulation still resetting.")
 		return
 	switch(action)
 		if("select-slime")
+			if(slime_parents?.len >= 2)
+				say("Error: Diversity buffer full.")
+				return
 			var/datum/slime_data/S = (locate(params["ref"]) in available_slimes)
 			if(!S)
 				S = (locate(params["ref"]) in slime_combinations)

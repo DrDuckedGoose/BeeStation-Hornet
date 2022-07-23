@@ -83,7 +83,7 @@ All foods are distributed among various categories. Use common sense.
 	return
 
 
-/obj/item/reagent_containers/food/snacks/attack(mob/living/M, mob/living/user, def_zone)
+/obj/item/reagent_containers/food/snacks/attack(mob/living/M, mob/living/user, def_zone, force)
 	if(user.a_intent == INTENT_HARM)
 		return ..()
 	if(!eatverb)
@@ -93,7 +93,7 @@ All foods are distributed among various categories. Use common sense.
 		qdel(src)
 		return FALSE
 	if(iscarbon(M))
-		if(!canconsume(M, user))
+		if(!canconsume(M, user) || !force)
 			return FALSE
 
 		var/fullness = M.nutrition + 10

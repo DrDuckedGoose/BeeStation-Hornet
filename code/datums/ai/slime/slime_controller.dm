@@ -1,8 +1,10 @@
 #define BB_ALLIES "bb_allies"
 #define BB_ENEMIES "bb_enemies"
 
+//Behaviour cases
 #define SLIME_ATTACK "slime_attack"
 #define SLIME_TAP "slime_tap" //love tap, barely hit someone
+#define SLIME_EAT "slime_eat"
 
 /datum/ai_controller/slime
 	blackboard = list(\
@@ -12,8 +14,12 @@
 		)
 	ai_movement = /datum/ai_movement/jps
 	planning_subtrees = /datum/ai_planning_subtree/slime
+
 	///List of items that wont aggro slimes
 	var/list/item_whitelist = list()
+	///Cooldown for ditzing
+	COOLDOWN_DECLARE(slime_spin)
+	COOLDOWN_DECLARE(eat_cooldown)
 
 /datum/ai_controller/slime/process(delta_time)
 	if(ismob(pawn))
@@ -49,20 +55,22 @@
 
 ///Used to do behaviours while also working with behaviour mutations, data contains contextual info, like target ect.
 /datum/ai_controller/slime/proc/prepare_action(action, data)
-	var/mob/living/target = (isliving(data) ? data : null)
+	var/atom/target = data
+	var/datum/weakref/target_ref = WEAKREF(target)
 	CancelActions()
 	switch(action)
 		if(SLIME_ATTACK)
-			var/datum/weakref/attack_ref = WEAKREF(data)
-			blackboard[BB_ATTACK_TARGET] = attack_ref
+			blackboard[BB_ATTACK_TARGET] = target_ref
 			current_movement_target = target
 			queue_behavior(/datum/ai_behavior/attack)
-	switch(action)
 		if(SLIME_TAP)
-			var/datum/weakref/attack_ref = WEAKREF(data)
-			blackboard[BB_ATTACK_TARGET] = attack_ref
+			blackboard[BB_ATTACK_TARGET] = target_ref
 			current_movement_target = target
 			queue_behavior(/datum/ai_behavior/attack/once)
+		if(SLIME_EAT)
+			blackboard[BB_FOLLOW_TARGET] = target_ref
+			current_movement_target = target
+			queue_behavior(/datum/ai_behavior/follow/eat)
 
 /datum/ai_controller/slime/able_to_run()
 	var/mob/living/living_pawn = pawn
@@ -80,3 +88,17 @@
 	var/mob/living/living_pawn = pawn
 	if(!isturf(living_pawn.loc) || living_pawn.pulledby)
 		return
+
+	if(COOLDOWN_FINISHED(src, slime_spin)) //Speeen
+		COOLDOWN_START(src, slime_spin, 10 SECONDS)
+		if(prob(1))
+			living_pawn.emote("flip") //I lied, he flips
+			living_pawn.visible_message("[living_pawn] flips in the air!")
+	if(COOLDOWN_FINISHED(src, eat_cooldown) && istype(living_pawn, /mob/living/simple_animal/slime_uni) && !current_behaviors?.len) //Eat nearby food, if we're the real slime shady
+		var/mob/living/simple_animal/slime_uni/S = living_pawn
+		if(S.saturation <= SLIME_SATURATION_MAX && COOLDOWN_FINISHED(src, eat_cooldown))
+			for(var/obj/item/reagent_containers/food/F in oview(3, S))
+				COOLDOWN_START(src, eat_cooldown, 10 SECONDS)
+				S.visible_message("[S] looks at [F] hungrily!")
+				prepare_action(SLIME_EAT, F)
+				return

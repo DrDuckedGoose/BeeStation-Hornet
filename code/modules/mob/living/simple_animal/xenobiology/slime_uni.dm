@@ -10,6 +10,7 @@
 	hud_possible = list(HEALTH_HUD,STATUS_HUD,ANTAG_HUD,NANITE_HUD,DIAG_NANITE_FULL_HUD,SLIME_MOOD)
 	ai_controller = /datum/ai_controller/slime
 	unique_name = TRUE
+	
 	atmos_requirements = list("min_oxy" = 5, "max_oxy" = 0, "min_tox" = 0, "max_tox" = INFINITY, "min_co2" = 0, "max_co2" = 5, "min_n2" = 0, "max_n2" = 0)
 	///Slime DNA, contains traits and visual features
 	var/datum/slime_dna/dna
@@ -73,15 +74,15 @@
 	var/plasma_concentration = environment.get_moles(gas_consume_type)
 	if(plasma_concentration)
 		mood_factor += 1
-		if(saturation < 200)
-			saturation = min(200, saturation+min(25, plasma_concentration))
+		if(saturation < SLIME_SATURATION_MAX)
+			saturation = min(SLIME_SATURATION_MAX, saturation+min(25, plasma_concentration))
 			environment.adjust_moles(gas_consume_type,-1*min(25, plasma_concentration))
 	else
 		mood_factor -= 1
 
 	//Do produce
-	if(saturation >= 200)
-		saturation -= 200
+	if(saturation >= SLIME_SATURATION_MAX)
+		saturation -= SLIME_SATURATION_MAX
 		do_produce()
 
 	///Mood
@@ -99,7 +100,10 @@
 	//Damage mobs we may be buckled to
 	if(isliving(buckled))
 		var/mob/living/M = buckled
-		M.adjustCloneLoss(15)
+		if(IS_DEAD_OR_INCAP(M))
+			M.unbuckle_all_mobs()
+		else
+			M.adjustCloneLoss(pick(5, 10, 15))
 
 //Adjust mood HUD
 /mob/living/simple_animal/slime_uni/proc/adjust_slime_mood()
@@ -139,6 +143,13 @@
 	if(gibbed)
 		return
 	icon = icon_dead //Doesn't otherwise?
+
+/mob/living/simple_animal/slime_uniroc/apply_water()
+	var/new_damage = rand(15,20)
+	adjustBruteLoss(new_damage)
+	if(!client)
+		ai_controller?.CancelActions()
+	return
 
 //todo: consider moving this to dna
 ///Animates texture for final use from dna

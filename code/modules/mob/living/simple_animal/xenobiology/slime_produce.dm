@@ -7,8 +7,8 @@
 	///Inhertied species content
 	var/species_name
 	var/list/traits = list()
-	///Activation type "touch" "reagent" "target" todo: consider using defines
-	var/activation = "touch"
+	///Activation method
+	var/activation
 	///Required activation elements, including reagent & target
 	var/datum/reagent/activation_reagent
 	var/atom/activation_target
@@ -32,16 +32,19 @@
 	add_filter("outline", 2, list("type" = "outline", "color" = gradient(P.dna.features["color"], "#000", 0.65), "size" = 1))
 	icon = temp
 
-	//Setup activation
-	activation = pick("touch", "reagent", "target")
+	//Setup activation todo: making path_choosen a new type might be icky
+	var/datum/xenobiology_trait/trait_choosen = pick(traits)
+	var/atom/path_choosen = pick(trait_choosen?.possible_targets)
+	path_choosen = new path_choosen
+	activation = (istype(path_choosen, /datum/reagent) ? "reagent" : istype(path_choosen, /obj) ? "target" : "touch")
 	switch(activation)
 		if("touch")
 			RegisterSignal(src, COMSIG_ITEM_ATTACK_SELF, .proc/check_source)
 		if("reagent")
-			activation_reagent = pick(/datum/reagent/toxin/plasma, /datum/reagent/blood, /datum/reagent/water)
+			activation_reagent = path_choosen
 			RegisterSignal(src, COMSIG_PARENT_ATTACKBY, .proc/check_source)
 		if("target")
-			activation_target = pick(/obj/structure/chair, /mob/living/carbon/human)
+			activation_target = path_choosen
 			RegisterSignal(src, COMSIG_ITEM_AFTERATTACK, .proc/check_source)
 	..()
 
@@ -52,10 +55,6 @@
 
 ///Used to check activation source
 /obj/item/reagent_containers/slime_produce/proc/check_source(datum/source, atom/target, atom/user, params)
-	say("source: [source]")
-	say("target: [target]")
-	say("user: [user]")
-	say("params: [params]")
 	switch(activation)
 		if("touch")
 			if(!isliving(target))

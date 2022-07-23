@@ -1301,3 +1301,6 @@
 		client.movingmob.client_mobs_in_contents -= src
 		UNSETEMPTY(client.movingmob.client_mobs_in_contents)
 		client.movingmob = null
+
+/mob/proc/apply_water()
+	return
