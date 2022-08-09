@@ -126,13 +126,20 @@
 	owner.species_name = "[owner.species_name][sub_mask.epithet ? {"<span style="color:[features["exotic_color"]];"> [sub_mask.epithet]</span>"} : ""]" //sub-mask epithet
 
 	//Traits
+	//Check species database for our species, grab some traits
 	var/datum/slime_species/SP = SSslime_species.slime_species[owner.species_name]
 	traits = SP?.traits
-	//if no traits, make our own
-	if(!traits?.len)
-		//Make new traits
-		var/datum/xenobiology_trait/behaviour/live_feeding/B = new(list(owner))
-		traits = list(B)
+	//If no traits, make our own
+	//behaviour
+	generate_trait(XENOB_BEHAVIOUR_TRAITS)
+	//major function
+	generate_trait(XENOB_PRODUCTION_TRAITS)
+
+/datum/slime_dna/proc/generate_trait(type)
+	var/datum/xenobiology_trait/T
+	T = pick(type)
+	T = new T
+	traits += T
 
 /datum/slime_dna/Destroy(force, ...)
 	. = ..()
@@ -140,12 +147,17 @@
 		qdel(X)
 	traits = null
 
-///Takes a datum path and compiles it into a weighted list, this only works with xenobiology_features currently
-/proc/compileWeightedList(path)
+///Takes a datum path and compiles it into a weighted list
+//todo: this is fragile
+/proc/compileWeightedList(atom/path)
 	if(!ispath(path))
 		return
+		
 	var/list/temp = subtypesof(path)
+	///Output list of waited entries
 	var/list/weighted = list()
+
 	for(var/datum/xenobiology_feature/F as() in temp)
 		weighted += list((F) = initial(F.weight))
+
 	return weighted

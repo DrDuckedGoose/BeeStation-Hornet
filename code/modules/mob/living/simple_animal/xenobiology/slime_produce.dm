@@ -78,7 +78,7 @@
 
 ///Activate from DNA reference
 /obj/item/reagent_containers/slime_produce/proc/activate()
-	//todo: Consider using signals for this, could mess with the order
+	//todo: Consider using signals for this, could mess with the order however
 	say("activated")
 	for(var/datum/xenobiology_trait/X as() in traits)
 		X.activate()

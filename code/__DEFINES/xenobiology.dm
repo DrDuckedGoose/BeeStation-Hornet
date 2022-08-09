@@ -13,6 +13,13 @@
 ///List of approved color sets
 #define XENOB_COLORS compileWeightedList(/datum/xenobiology_feature/color)
 
+///List of all traits
+#define XENOB_TRAITS compileWeightedList(/datum/xenobiology_trait)
+///List of behaviour traits
+#define XENOB_BEHAVIOUR_TRAITS compileWeightedList(/datum/xenobiology_trait/behaviour)
+///List of material traits
+#define XENOB_PRODUCTION_TRAITS compileWeightedList(/datum/xenobiology_trait/production)
+
 ///slime instability itterator
 #define XENOB_INSTABILITY_MOD 20
 ///Slime max instability allowed
