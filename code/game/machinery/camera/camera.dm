@@ -463,3 +463,16 @@
 		user.sight = 0
 		user.see_in_dark = 2
 	return 1
+
+//lazy :)
+/obj/item/portable_camera
+	name = "portable camera"
+	desc = "Typically used to watch remote locations, by telescience."
+	icon = 'icons/obj/machines/camera.dmi'
+	icon_state = "camera"
+
+/obj/item/portable_camera/Initialize(mapload)
+	. = ..()
+	var/obj/machinery/camera/C = new()
+	C.name = name
+	C.forceMove(src)

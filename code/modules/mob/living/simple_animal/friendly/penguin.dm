@@ -54,3 +54,9 @@
 	pass_flags = PASSMOB
 	mob_size = MOB_SIZE_SMALL
 	butcher_results = list(/obj/item/organ/ears/penguin = 1, /obj/item/reagent_containers/food/snacks/meat/slab/penguin = 1)
+
+/mob/living/simple_animal/pet/penguin/baby/gunter
+	name = "gunter"
+	real_name = "gunter"
+	desc = "He's clearly out of his element. Despite this he's trying his best, as should you."
+	butcher_results = list(/obj/item/organ/ears/penguin = 1, /obj/item/reagent_containers/food/snacks/meat/slab/penguin = 1, /obj/item/toy/snowball)
