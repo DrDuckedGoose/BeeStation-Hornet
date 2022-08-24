@@ -61,7 +61,6 @@
 	return ..()
 
 /obj/item/portable_display/process(delta_time)
-	say("update")
 	update_active_camera_screen()
 	ui_update()
 
