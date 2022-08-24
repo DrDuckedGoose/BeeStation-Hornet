@@ -47,11 +47,13 @@
 	if(door_here)
 		qdel(door_here)
 	if(door_there)
-		qdel(door_here)
+		qdel(door_there)
 	//Handle new doors
 	if(door_mode == TELE_MODE_OPEN)
+		//instantiate
 		door_here = new(get_turf(src))
 		door_there = new(locate(target_x, target_y, target_z))
+		//signals for teleporting
 		RegisterSignal(door_here, COMSIG_ATOM_ENTERED, .proc/push)
 		RegisterSignal(door_there, COMSIG_ATOM_ENTERED, .proc/pull)
 		return
@@ -96,6 +98,7 @@
 
 /obj/structure/teleporter_door/Initialize(mapload)
 	. = ..()
+	//Technical
 	var/static/list/loc_connections = list(
 		COMSIG_ATOM_ENTERED = .proc/on_entered,
 	)
