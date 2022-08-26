@@ -8,6 +8,16 @@ export const TeleportControl = (props, context) => {
     const {
         points,
     } = data;
+
+    const [
+        xOffset,
+        setXOffset,
+      ] = useLocalState(context, 'xOffset', 0);
+    const [
+    yOffset,
+    setYOffset,
+    ] = useLocalState(context, 'yOffset', 0);
+
     const lineStyle = {
         stroke: '#BBBBBB',
         strokeWidth: '2',
@@ -21,32 +31,43 @@ export const TeleportControl = (props, context) => {
         width={700}
         height={600}>
         <Window.Content fitted>
-            <Box>
-                <svg
-                    position="absolute"
-                    height="500px"
-                    width="700px"
-                    viewBox="0 0 100% 100%">
-                    <defs>
-                        <pattern id="grid" width={200} height={200} patternUnits="userSpaceOnUse">
-                            <rect width={200} height={200} fill="url(#smallgrid)" />
-                            <path d={"M 200 0 L 0 0 0 200"} fill="none" stroke="#4665DE" stroke-width="1" />
-                        </pattern>
-                        <pattern id="smallgrid" width={100} height={100} patternUnits="userSpaceOnUse">
-                            <rect width={100} height={100} fill="#2B2E3B" />
-                            <path d={"M 100 0 L 0 0 0 100"} fill="none" stroke="#4665DE" stroke-width="0.5" />
-                        </pattern>
-                    </defs>
-                    <rect width="100%" height="100%" fill="url(#grid)" />
-                    {points.map(point => <circle
-                        cx={`${point.x+50}%`}
-                        cy={`${point.y+50}%`}
-                        r="1px"
-                        stroke="rgba(255,255,255,255)"
-                        stroke-width="1"
-                        fill="rgba(255,255,255,255)" />)}                 
-                </svg>
-            </Box>
+            <Box>{`${xOffset}`}</Box>
+            <DraggableClickableControl
+            position="absolute"
+            value={1}
+            dragMatrix={[-1, 0]}
+            step={1}
+            stepPixelSize={2 * 1}
+            onDrag={(e, value) => {setXOffset(value)}}
+            onClick={(e, value) => {}}
+            updateRate={5}>
+                {control => (
+                    <svg
+                        position="absolute"
+                        height="500px"
+                        width="700px"
+                        viewBox="0 0 100% 100%">
+                        <defs>
+                            <pattern id="grid" width={200} height={200} patternUnits="userSpaceOnUse">
+                                <rect width={200} height={200} fill="url(#smallgrid)" />
+                                <path d={"M 200 0 L 0 0 0 200"} fill="none" stroke="#4665DE" stroke-width="1" />
+                            </pattern>
+                            <pattern id="smallgrid" width={100} height={100} patternUnits="userSpaceOnUse">
+                                <rect width={100} height={100} fill="#2B2E3B" />
+                                <path d={"M 100 0 L 0 0 0 100"} fill="none" stroke="#4665DE" stroke-width="0.5" />
+                            </pattern>
+                        </defs>
+                        <rect width="100%" height="100%" fill="url(#grid)" />
+                        {points.map(point => <circle
+                            cx={`${point.x+50}%`}
+                            cy={`${point.y+50}%`}
+                            r="1px"
+                            stroke="rgba(255,255,255,255)"
+                            stroke-width="1"
+                            fill="rgba(255,255,255,255)" />)}                 
+                    </svg>
+                )}
+            </DraggableClickableControl>
             <Box>
                 Y = 
                 <Input flow/>
