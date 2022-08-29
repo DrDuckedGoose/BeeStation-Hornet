@@ -1,13 +1,3 @@
-///Teleport type go to
-#define TELE_MODE_PUSH "tele_mode_push"
-///Teleport type get from
-#define TELE_MODE_PULL "tele_mode_pull"
-
-///Teleport type stay open
-#define TELE_MODE_OPEN "tele_mode_open"
-///Teleport type quickly open & close
-#define TELE_MODE_QUICK "tele_mode_quick"
-
 /obj/machinery/teleporter_base
 	name = "dimensional matrix"
 	desc = "A neutral point in space. Utilized to wrap 3D spaces around one another."
@@ -34,10 +24,6 @@
 	target_y = y
 	target_z = z
 
-/obj/machinery/teleporter_base/AltClick(mob/user)
-	. = ..()
-	activate()
-
 //General proc used to teleport
 /obj/machinery/teleporter_base/proc/activate()
 	//Adjust telescience weight
@@ -53,6 +39,9 @@
 		//instantiate
 		door_here = new(get_turf(src))
 		door_there = new(locate(target_x, target_y, target_z))
+		//setup appearences
+		door_here.build_appearance(get_turf(door_there))
+		door_there.build_appearance(get_turf(door_here))
 		//signals for teleporting
 		RegisterSignal(door_here, COMSIG_ATOM_ENTERED, .proc/push)
 		RegisterSignal(door_there, COMSIG_ATOM_ENTERED, .proc/pull)
@@ -94,17 +83,48 @@
 	name = "dimensional fold"
 	desc = "Folded space curved around a central axis, dsitributed between two points."
 	icon = 'icons/obj/machines/telescience.dmi'
-	icon_state = "door_mask"
+	icon_state = ""
+	layer = MOB_LAYER //Hopefully the highest layer
 
 /obj/structure/teleporter_door/Initialize(mapload)
 	. = ..()
+	//If space is occupied
+	for(var/obj/structure/teleporter_door/D in get_turf(src))
+		if(D != src)
+			SStelescience.do_door_collapse(src)
+			qdel(D)
+			qdel(src)
 	//Technical
+	appearance_flags |= KEEP_TOGETHER
 	var/static/list/loc_connections = list(
 		COMSIG_ATOM_ENTERED = .proc/on_entered,
 	)
 	AddElement(/datum/element/connect_loc, loc_connections)
 
+/obj/structure/teleporter_door/attacked_by(obj/item/I, mob/living/user)
+	. = ..()
+	on_entered(src, user)
+
+/obj/structure/teleporter_door/attack_hand(mob/user)
+	. = ..()
+	on_entered(src, user)
+
 /obj/structure/teleporter_door/proc/on_entered(datum/source, H as mob|obj)
 	if(SStelescience.last_effect  != world.time)
 		SStelescience.last_effect = world.time
 		SEND_SIGNAL(src, COMSIG_ATOM_ENTERED, H)
+
+///Build appearnce from given turf
+/obj/structure/teleporter_door/proc/build_appearance(turf/T)
+	//When trying to access outer map
+	if(!T)
+		return
+	//filters
+	add_filter("alpha_mask", 1.1, alpha_mask_filter(icon = icon('icons/obj/machines/telescience.dmi', "door_mask")))
+	add_filter("outline_inner", 1.2, outline_filter(1, "#1900ff"))
+	add_filter("outline_outer", 1.3, outline_filter(1, "#7768f8"))
+	add_filter("ripple", 1.4, ripple_filter(1, 2, 1))
+	var/filter = get_filter("ripple")
+	animate(filter, 1.3 SECONDS, 10, LINEAR_EASING, radius = 32)
+	//Vis contents / turf
+	vis_contents += get_turf(locate(T.x + (x > T.x ? -1 : x == T.x ? 0 : 1), T.y + (y > T.y ? -1 : y == T.y ? 0 : 1), T.z))

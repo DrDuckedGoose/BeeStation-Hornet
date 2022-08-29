@@ -7,6 +7,7 @@ export const TeleportControl = (props, context) => {
     const { act, data } = useBackend(context);
     const {
         points,
+        rounded_points,
         point_limit,
     } = data;
 
@@ -46,8 +47,8 @@ export const TeleportControl = (props, context) => {
                 {control => (
                     <svg
                         position="absolute"
-                        height="500px"
-                        width="700px"
+                        height="512px"
+                        width="720px"
                         viewBox="0 0 100% 100%">
                         <defs>
                             <pattern id="grid" width={32} height={32} patternUnits="userSpaceOnUse">
@@ -60,19 +61,34 @@ export const TeleportControl = (props, context) => {
                             </pattern>
                         </defs>
                         <rect width="100%" height="100%" fill="url(#grid)" />
+                        {rounded_points.map(point => <rect
+                            //rounded points
+                            x={`${(point.x*16)+352}`}
+                            y={`${(-point.y*16)+256}`}
+                            width="16px"
+                            height="16px"
+                            stroke="rgba(100,255,100,128)"
+                            stroke-width="1"
+                            fill="rgba(100,255,100,128)" />)}   
                         {points.map(point => <circle
-                            cx={`${point.x+359}`}
-                            cy={`${point.y+251}`}
-                            r="1px"
+                            //float points
+                            cx={`${(point.x*16)+360}`}
+                            cy={`${(-point.y*16)+264}`}
+                            r="2px"
                             stroke="rgba(255,255,255,255)"
                             stroke-width="1"
-                            fill="rgba(255,255,255,255)" />)}                 
+                            fill="rgba(255,255,255,255)" />)}             
                     </svg>
                 )}
             </DraggableClickableControl>
             <Box flow>
+                {`Y = `}
                 <Input flow
                 onChange={(e, value) => {act("compile_formula", {points: compile_formula(value)})}}/>
+                <Button
+                onClick={(e, value) => {act("activate")}}>Activate</Button>
+            </Box>
+            <Box>
                 <Slider value={point_limit} minValue={0} maxValue={100} onChange={(e, value) => {act("input_limit", {limit: value})}}/>
             </Box>
         </Window.Content>
@@ -82,7 +98,7 @@ export const TeleportControl = (props, context) => {
 
 function compile_formula(value){
     const points = []
-    for(let i = 0; i < 800; i+=8){
+    for(let i = 1; i < 100; i+=1){
         let text = value.replace(/x/g, i);
         points[i] = eval(text)
     }
