@@ -29,11 +29,8 @@
 	//Adjust telescience weight
 	SStelescience.weight += emmission
 
-	//Delete any old doors
-	if(door_here)
-		qdel(door_here)
-	if(door_there)
-		qdel(door_there)
+	//door stuck
+	close()
 	//Handle new doors
 	if(door_mode == TELE_MODE_OPEN)
 		//instantiate
@@ -65,6 +62,15 @@
 	for(var/atom/movable/M as() in targets)
 		do_teleport(M, destination, 0)
 
+//Delete  doors
+/obj/machinery/teleporter_base/proc/close()
+	if(door_here)
+		qdel(door_here)
+		door_here = null
+	if(door_there)
+		qdel(door_there)
+		door_there = null
+
 //Used for door stuff
 /obj/machinery/teleporter_base/proc/push(datum/source, atom/movable/AM)
 	SIGNAL_HANDLER
@@ -85,6 +91,7 @@
 	icon = 'icons/obj/machines/telescience.dmi'
 	icon_state = ""
 	layer = MOB_LAYER //Hopefully the highest layer
+	anchored = TRUE
 
 /obj/structure/teleporter_door/Initialize(mapload)
 	. = ..()
@@ -100,10 +107,6 @@
 		COMSIG_ATOM_ENTERED = .proc/on_entered,
 	)
 	AddElement(/datum/element/connect_loc, loc_connections)
-
-/obj/structure/teleporter_door/attacked_by(obj/item/I, mob/living/user)
-	. = ..()
-	on_entered(src, user)
 
 /obj/structure/teleporter_door/attack_hand(mob/user)
 	. = ..()
@@ -121,10 +124,13 @@
 		return
 	//filters
 	add_filter("alpha_mask", 1.1, alpha_mask_filter(icon = icon('icons/obj/machines/telescience.dmi', "door_mask")))
-	add_filter("outline_inner", 1.2, outline_filter(1, "#1900ff"))
-	add_filter("outline_outer", 1.3, outline_filter(1, "#7768f8"))
+	add_filter("outline_inner", 1.2, outline_filter(1, "#421c77"))
+	add_filter("outline_outer", 1.3, outline_filter(1, "#7684ff"))
 	add_filter("ripple", 1.4, ripple_filter(1, 2, 1))
+	apply_wibbly_filters(src, 0.2)
 	var/filter = get_filter("ripple")
-	animate(filter, 1.3 SECONDS, 10, LINEAR_EASING, radius = 32)
+	animate(filter, 1.3 SECONDS, -1, LINEAR_EASING, radius = 32)
+	animate(radius = 1)
 	//Vis contents / turf
-	vis_contents += get_turf(locate(T.x + (x > T.x ? -1 : x == T.x ? 0 : 1), T.y + (y > T.y ? -1 : y == T.y ? 0 : 1), T.z))
+	vis_contents += T
+	vis_contents -= locate(/obj/structure/teleporter_door) in vis_contents

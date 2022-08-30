@@ -5,9 +5,11 @@
 	var/list/plotted_points = list(list("x" = 0, "y" = 0))
 	var/list/rounded_plotted_points = list(list("x" = 0, "y" = 0))
 	///limit on plotted points, currently
-	var/plot_limit = MAX_PLOTS
+	var/plot_limit = 100
 	///Connected matrix, AKA I hope to god he remebers to not let this hard delete
 	var/obj/machinery/teleporter_base/connected_base
+	///Wether to invert the directional component
+	var/invert = 1
 
 /obj/machinery/computer/teleporter_control/Initialize(mapload, obj/item/circuitboard/C)
 	. = ..()
@@ -46,6 +48,10 @@
 				"y" = rounded_plotted_points[i]["y"],
 			)
 			)
+	//Inverted status
+	data["inverted"] = (invert < 0)
+	//Open status
+	data["active"] = (connected_base?.door_here ? 1: 0)
 
 	return data
 
@@ -58,12 +64,17 @@
 			compile_ponts(points)
 		if("input_limit")
 			plot_limit = min(MAX_PLOTS, params["limit"])
+		if("invert")
+			invert = (invert > 0 ? -1 : 1)
 		if("activate")
 			//Set updated positions
 			connected_base?.target_x = connected_base?.x+rounded_plotted_points[rounded_plotted_points.len]["x"]
 			connected_base?.target_y = connected_base?.y+rounded_plotted_points[rounded_plotted_points.len]["y"]
 			//Send it!
 			connected_base?.activate()
+		if("close")
+			//Send it the other way!
+			connected_base?.close()
 		if("swap_door_mode")
 			connected_base?.door_mode = !connected_base?.door_mode
 		if("swap_transit_mode")
@@ -71,13 +82,13 @@
 	ui_update()
 
 ///Compiles a given list of points into local list, compliant with limit
-/obj/machinery/computer/teleporter_control/proc/compile_ponts(list/points, invert)
+/obj/machinery/computer/teleporter_control/proc/compile_ponts(list/points)
 	//Reset current
 	plotted_points = list(list("x" = 0, "y" = 0))
 	rounded_plotted_points = list(list("x" = 0, "y" = 0))
 	for(var/i in 2 to min(plot_limit, points.len))
-		plotted_points += list(list("x" = i-1, "y" = points[i]))
-		rounded_plotted_points += list(list("x" = i-1, "y" = round(points[i], 1)))
+		plotted_points += list(list("x" = (i-1)*invert, "y" = points[i]*invert))
+		rounded_plotted_points += list(list("x" = (i-1)*invert, "y" = round(points[i]*invert, 1)))
 
 ///Sync all nearby relevant machinery
 /obj/machinery/computer/teleporter_control/proc/sync_machines()

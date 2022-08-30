@@ -11,6 +11,6 @@
 
 // ===== CONSOLE ======
 ///Max amount of plottable points, period
-#define MAX_PLOTS 100
+#define MAX_PLOTS 300
 ///Max range to connect machines
 #define SYNC_RANGE 8

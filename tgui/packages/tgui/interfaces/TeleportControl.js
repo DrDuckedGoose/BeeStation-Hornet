@@ -2,6 +2,7 @@ import { Box, Button, Section, Table, DraggableClickableControl, Dropdown, Divid
 import { useBackend, useLocalState } from '../backend';
 import { Window } from '../layouts';
 import { toArray } from '../../common/collections';
+import { ButtonCheckbox } from '../components/Button';
 
 export const TeleportControl = (props, context) => {
     const { act, data } = useBackend(context);
@@ -9,6 +10,8 @@ export const TeleportControl = (props, context) => {
         points,
         rounded_points,
         point_limit,
+        inverted,
+        active,
     } = data;
 
     const [
@@ -86,10 +89,14 @@ export const TeleportControl = (props, context) => {
                 <Input flow
                 onChange={(e, value) => {act("compile_formula", {points: compile_formula(value)})}}/>
                 <Button
-                onClick={(e, value) => {act("activate")}}>Activate</Button>
+                color={`${active ? "red" : "green"}`}
+                onClick={(e, value) => {act(`${active ? 'close' : 'activate'}`)}}>{`${active ? 'Close' : 'Activate'}`}</Button>
+                <ButtonCheckbox checked={inverted} onClick={(e, value) => {act("invert")}}> 
+                    Invert
+                </ButtonCheckbox>
             </Box>
             <Box>
-                <Slider value={point_limit} minValue={0} maxValue={100} onChange={(e, value) => {act("input_limit", {limit: value})}}/>
+                <Slider value={point_limit} minValue={0} maxValue={300} onChange={(e, value) => {act("input_limit", {limit: value})}}/>
             </Box>
         </Window.Content>
     </Window>
@@ -98,7 +105,7 @@ export const TeleportControl = (props, context) => {
 
 function compile_formula(value){
     const points = []
-    for(let i = 1; i < 100; i+=1){
+    for(let i = 1; i < 300; i+=1){
         let text = value.replace(/x/g, i);
         points[i] = eval(text)
     }
@@ -109,12 +116,24 @@ function sin(value){
     return Math.sin(value);
 }
 
+function arcsin(value){
+    return Math.asin(value)
+}
+
 function cos(value){
     return Math.cos(value);
 }
 
+function arccos(value){
+    return Math.acos(value);
+}
+
 function tan(value){
     return Math.tan(value);
+}
+
+function arctan(value){
+    return Math.atan(value);
 }
 
 function abs(value){
