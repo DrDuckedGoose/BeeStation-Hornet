@@ -259,3 +259,51 @@ INITIALIZE_IMMEDIATE(/obj/effect/mapping_helpers/no_lava)
 				O.organ_flags |= ORGAN_FROZEN
 		j.update_icon()
 	qdel(src)
+
+/obj/effect/mapping_helpers/telescience_block //Set the baseturfs of every turf in the /area/ it is placed.
+	name = "telescience dark zone 3x3 - small"
+	icon = 'icons/effects/mapping_helpers.dmi'
+	icon_state = "telescience_block"
+	late = TRUE
+	//size for blocked radius
+	var/size = 3
+
+/obj/effect/mapping_helpers/telescience_block/Initialize(mapload)
+	. = ..()
+	for(var/lx in x-size/2 to x+(size-1)/2)
+		for(var/ly in y-size/2 to y+(size-1)/2)
+			SStelescience.blocked_coords += list(list("x" = lx, "y" = ly))
+			SStelescience.blocked += get_turf(locate(lx, ly, z))
+	qdel(src)
+
+/obj/effect/mapping_helpers/telescience_block/lower_medium
+	name = "telescience dark zone 5x5 - lower_medium"
+	size = 5
+
+/obj/effect/mapping_helpers/telescience_block/medium
+	name = "telescience dark zone 10x10 - medium"
+	size = 10
+
+/obj/effect/mapping_helpers/telescience_block/upper_medium
+	name = "telescience dark zone 15x15 - upper_medium"
+	size = 15
+
+/obj/effect/mapping_helpers/telescience_block/lower_large
+	name = "telescience dark zone 5x5 - lower_large"
+	size = 20
+
+/obj/effect/mapping_helpers/telescience_block/large
+	name = "telescience dark zone 25x25 - large"
+	size = 25
+
+/obj/effect/mapping_helpers/telescience_block/upper_large
+	name = "telescience dark zone 30x30 - upper_large"
+	size = 30
+
+/obj/effect/mapping_helpers/telescience_block/extra_large
+	name = "telescience dark zone 50x50 - extra_large"
+	size = 50
+
+/obj/effect/mapping_helpers/telescience_block/gigantic
+	name = "telescience dark zone 100x100 - gigantic"
+	size = 100

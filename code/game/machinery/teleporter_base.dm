@@ -102,7 +102,7 @@
 	//If space is occupied
 	for(var/obj/structure/teleporter_door/D in get_turf(src))
 		if(D != src)
-			SStelescience.do_door_collapse(src)
+			SStelescience.do_door_collapse(src, DOOR_EFFECTS)
 			qdel(D)
 			qdel(src)
 	//handle on-enter
@@ -144,7 +144,6 @@
 	//filters
 	add_filter("outline_inner", 1.2, outline_filter(1, "#421c77"))
 	add_filter("outline_outer", 1.3, outline_filter(1, "#7684ff"))
-	apply_wibbly_filters(src, 0.2)
 	render.filters += filter(type="alpha", icon = icon('icons/obj/machines/telescience.dmi', "door_mask"))
 	//visuals
 	render.vis_contents = T

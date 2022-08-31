@@ -10,6 +10,9 @@
 	var/obj/machinery/teleporter_base/connected_base
 	///Wether to invert the directional component
 	var/invert = 1
+	///Stability for plots
+	var/max_stability = 100
+	var/stability = 100
 
 /obj/machinery/computer/teleporter_control/Initialize(mapload, obj/item/circuitboard/C)
 	. = ..()
@@ -46,6 +49,15 @@
 			data["rounded_points"] += list(list(
 				"x" = rounded_plotted_points[i]["x"],
 				"y" = rounded_plotted_points[i]["y"],
+			)
+			)
+	//Blocked points, as per SStelescience
+	data["blocked_points"] = list(list("x" = 0, "y" = 0))
+	if(SStelescience.blocked_coords.len)
+		for(var/i in 1 to SStelescience.blocked_coords.len)
+			data["blocked_points"] += list(list(
+				"x" = SStelescience.blocked_coords[i]["x"]-x,
+				"y" = SStelescience.blocked_coords[i]["y"]-y,
 			)
 			)
 	//Inverted status
@@ -86,9 +98,14 @@
 	//Reset current
 	plotted_points = list(list("x" = 0, "y" = 0))
 	rounded_plotted_points = list(list("x" = 0, "y" = 0))
+	stability = max_stability
+	//Do plots
 	for(var/i in 2 to min(plot_limit, points.len))
 		plotted_points += list(list("x" = (i-1)*invert, "y" = points[i]*invert))
 		rounded_plotted_points += list(list("x" = (i-1)*invert, "y" = round(points[i]*invert, 1)))
+		var/dist = get_dist(get_turf(locate(rounded_plotted_points[i]["x"]+x, rounded_plotted_points[i]["y"]+y, z)), get_turf(locate(rounded_plotted_points[i-1]["x"]+x, rounded_plotted_points[i-1]["y"]+y, z)))
+		stability -= 10*max(0, dist-1)
+	stability = max(0, stability)
 
 ///Sync all nearby relevant machinery
 /obj/machinery/computer/teleporter_control/proc/sync_machines()

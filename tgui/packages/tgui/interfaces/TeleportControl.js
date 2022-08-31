@@ -9,6 +9,7 @@ export const TeleportControl = (props, context) => {
     const {
         points,
         rounded_points,
+        blocked_points,
         point_limit,
         inverted,
         active,
@@ -72,7 +73,16 @@ export const TeleportControl = (props, context) => {
                             height="16px"
                             stroke="rgba(100,255,100,128)"
                             stroke-width="1"
-                            fill="rgba(100,255,100,128)" />)}   
+                            fill="rgba(100,255,100,128)" />)}
+                        {blocked_points.map(point => <rect
+                            //blocked points
+                            x={`${(point.x*16)+352}`}
+                            y={`${(-point.y*16)+256}`}
+                            width="16px"
+                            height="16px"
+                            stroke="rgba(25,25,25,128)"
+                            stroke-width="1"
+                            fill="rgba(25,25,25,128)" />)} 
                         {points.map(point => <circle
                             //float points
                             cx={`${(point.x*16)+360}`}
@@ -80,7 +90,7 @@ export const TeleportControl = (props, context) => {
                             r="2px"
                             stroke="rgba(255,255,255,255)"
                             stroke-width="1"
-                            fill="rgba(255,255,255,255)" />)}             
+                            fill="rgba(255,255,255,255)" />)}          
                     </svg>
                 )}
             </DraggableClickableControl>
@@ -154,4 +164,8 @@ function inverse (value){
 
 function exp (value){
     return Math.exp(value);
+}
+
+function pow (value, value_e){
+    return Math.pow(value, value_e);
 }

@@ -20,7 +20,7 @@
 // ===== Fire =====
 /datum/telescience_effect/fire
 	name = "Pyrodimensional Eruption"
-	desc = "A wave of heat as erupted from the portal."
+	desc = "A wave of heat has erupted from the portal."
 	///Size of fire
 	var/size = 3
 
@@ -29,3 +29,9 @@
 	for(var/turf/open/turf in RANGE_TURFS(size, T))
 		if(!locate(/obj/effect/safe_fire) in turf)
 			new /obj/effect/safe_fire(turf)
+
+// ===== Fire BEEEG =====
+/datum/telescience_effect/fire
+	name = "Giga Pyrodimensional Eruption"
+	desc = "A massive wave of heat has erupted from the portal."
+	size = 8

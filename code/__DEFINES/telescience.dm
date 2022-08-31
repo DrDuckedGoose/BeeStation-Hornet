@@ -14,3 +14,8 @@
 #define MAX_PLOTS 300
 ///Max range to connect machines
 #define SYNC_RANGE 8
+
+// ===== Effects =====
+#define DOOR_EFFECTS list(/datum/telescience_effect/fire)
+///Not blocked as in blacklisted, blocked as in blocked space, but not blocked space as in blacklisted :)
+#define BLOCKED_EFFECTS list(/datum/telescience_effect/incurson)
