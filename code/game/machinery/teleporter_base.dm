@@ -37,8 +37,8 @@
 		door_here = new(get_turf(src))
 		door_there = new(locate(target_x, target_y, target_z))
 		//setup appearences
-		door_here.build_appearance(get_turf(door_there))
-		door_there.build_appearance(get_turf(door_here))
+		door_here.build_appearance(locate(target_x, target_y, target_z))
+		door_there.build_appearance(get_turf(src))
 		//signals for teleporting
 		RegisterSignal(door_here, COMSIG_ATOM_ENTERED, .proc/push)
 		RegisterSignal(door_there, COMSIG_ATOM_ENTERED, .proc/pull)
@@ -89,9 +89,13 @@
 	name = "dimensional fold"
 	desc = "Folded space curved around a central axis, dsitributed between two points."
 	icon = 'icons/obj/machines/telescience.dmi'
-	icon_state = ""
-	layer = MOB_LAYER //Hopefully the highest layer
+	icon_state = "door_mask"
+	layer = 4 //Hopefully the highest layer
 	anchored = TRUE
+	appearance_flags = TILE_BOUND|PIXEL_SCALE|KEEP_TOGETHER
+	vis_flags = VIS_INHERIT_PLANE|VIS_HIDE
+	var/image/render
+	var/turf/mirror_loc
 
 /obj/structure/teleporter_door/Initialize(mapload)
 	. = ..()
@@ -101,12 +105,22 @@
 			SStelescience.do_door_collapse(src)
 			qdel(D)
 			qdel(src)
-	//Technical
-	appearance_flags |= KEEP_TOGETHER
+	//handle on-enter
 	var/static/list/loc_connections = list(
 		COMSIG_ATOM_ENTERED = .proc/on_entered,
 	)
 	AddElement(/datum/element/connect_loc, loc_connections)
+	//Start processing
+	START_PROCESSING(SSobj, src)
+
+/obj/structure/teleporter_door/Destroy()
+	. = ..()
+	//Kill render
+	for(var/mob/living/M in GLOB.mob_list)
+		M.client?.images -= render
+	qdel(render)
+	//stahp processing
+	STOP_PROCESSING(SSobj, src)
 
 /obj/structure/teleporter_door/attack_hand(mob/user)
 	. = ..()
@@ -117,20 +131,28 @@
 		SStelescience.last_effect = world.time
 		SEND_SIGNAL(src, COMSIG_ATOM_ENTERED, H)
 
-///Build appearnce from given turf
+///Build appearance from given turf
 /obj/structure/teleporter_door/proc/build_appearance(turf/T)
 	//When trying to access outer map
 	if(!T)
 		return
+	//setup image
+	render = new(T.icon, T.icon_state)
+	render.appearance_flags |= KEEP_TOGETHER
+	render.plane = 0
+	render.loc = loc
 	//filters
-	add_filter("alpha_mask", 1.1, alpha_mask_filter(icon = icon('icons/obj/machines/telescience.dmi', "door_mask")))
 	add_filter("outline_inner", 1.2, outline_filter(1, "#421c77"))
 	add_filter("outline_outer", 1.3, outline_filter(1, "#7684ff"))
-	add_filter("ripple", 1.4, ripple_filter(1, 2, 1))
 	apply_wibbly_filters(src, 0.2)
-	var/filter = get_filter("ripple")
-	animate(filter, 1.3 SECONDS, -1, LINEAR_EASING, radius = 32)
-	animate(radius = 1)
-	//Vis contents / turf
-	vis_contents += T
-	vis_contents -= locate(/obj/structure/teleporter_door) in vis_contents
+	render.filters += filter(type="alpha", icon = icon('icons/obj/machines/telescience.dmi', "door_mask"))
+	//visuals
+	render.vis_contents = T
+	mirror_loc = T
+	for(var/mob/living/M in GLOB.mob_list)
+		M.client?.images += render
+
+//Update visuals
+/obj/structure/teleporter_door/process(delta_time)
+	render?.vis_contents = mirror_loc
+	

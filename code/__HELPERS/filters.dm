@@ -295,7 +295,7 @@ GLOBAL_LIST_INIT(master_filter_info, list(
 		.["flags"] = flags
 
 //Size relates to extra, the filter will still wibble without it
-/proc/apply_wibbly_filters(atom/in_atom, size)
+/proc/apply_wibbly_filters(atom/in_atom, size, seeded_size = rand())
 	for(var/i in 1 to 7)
 		//This is a very baffling and strange way of doing this but I am just preserving old functionality
 		var/X
@@ -307,7 +307,7 @@ GLOBAL_LIST_INIT(master_filter_info, list(
 			rsq = X*X + Y*Y
 		while(rsq<100 || rsq>900) // Yeah let's just loop infinitely due to bad luck what's the worst that could happen?
 		var/random_roll = rand()
-		in_atom.add_filter("wibbly-[i]", 5, wave_filter(x = X, y = Y, size = rand() * (2.5*size) + (0.5*size), offset = random_roll))
+		in_atom.add_filter("wibbly-[i]", 5, wave_filter(x = X, y = Y, size = seeded_size * (2.5*size) + (0.5*size), offset = random_roll))
 		var/filter = in_atom.get_filter("wibbly-[i]")
 		animate(filter, offset = random_roll, time = 0, loop = -1, flags = ANIMATION_PARALLEL)
 		animate(offset = random_roll - 1, time = rand() * 20 + 10)
