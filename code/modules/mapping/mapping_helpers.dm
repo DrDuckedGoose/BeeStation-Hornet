@@ -265,16 +265,29 @@ INITIALIZE_IMMEDIATE(/obj/effect/mapping_helpers/no_lava)
 	icon = 'icons/effects/mapping_helpers.dmi'
 	icon_state = "telescience_block"
 	late = TRUE
+	invisibility = 100
 	//size for blocked radius
 	var/size = 3
 
 /obj/effect/mapping_helpers/telescience_block/Initialize(mapload)
 	. = ..()
+	SStelescience.blockers += src
+
+/obj/effect/mapping_helpers/telescience_block/proc/append_block()
 	for(var/lx in x-size/2 to x+(size-1)/2)
 		for(var/ly in y-size/2 to y+(size-1)/2)
-			SStelescience.blocked_coords += list(list("x" = lx, "y" = ly))
-			SStelescience.blocked += get_turf(locate(lx, ly, z))
-	qdel(src)
+			var/rlx = round(lx, 1)
+			var/rly = round(ly, 1)
+			SStelescience.blocked_coords += list(list("x" = rlx, "y" = rly))
+			SStelescience.blocked += get_turf(locate(rlx, rly, z))
+
+/obj/effect/mapping_helpers/telescience_block/proc/unappend_block()
+	for(var/lx in x-size/2 to x+(size-1)/2)
+		for(var/ly in y-size/2 to y+(size-1)/2)
+			var/rlx = round(lx, 1)
+			var/rly = round(ly, 1)
+			SStelescience.blocked_coords -= list(list("x" = rlx, "y" = rly))
+			SStelescience.blocked -= get_turf(locate(rlx, rly, z))
 
 /obj/effect/mapping_helpers/telescience_block/lower_medium
 	name = "telescience dark zone 5x5 - lower_medium"

@@ -90,7 +90,7 @@
 	desc = "Folded space curved around a central axis, dsitributed between two points."
 	icon = 'icons/obj/machines/telescience.dmi'
 	icon_state = "door_mask"
-	layer = 4 //Hopefully the highest layer
+	layer = 4
 	anchored = TRUE
 	appearance_flags = TILE_BOUND|PIXEL_SCALE|KEEP_TOGETHER
 	vis_flags = VIS_INHERIT_PLANE|VIS_HIDE
@@ -102,7 +102,7 @@
 	//If space is occupied
 	for(var/obj/structure/teleporter_door/D in get_turf(src))
 		if(D != src)
-			SStelescience.do_door_collapse(src, DOOR_EFFECTS)
+			SStelescience.do_collapse(src, DOOR_EFFECTS)
 			qdel(D)
 			qdel(src)
 	//handle on-enter

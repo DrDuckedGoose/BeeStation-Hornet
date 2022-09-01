@@ -13,10 +13,16 @@
 	///Stability for plots
 	var/max_stability = 100
 	var/stability = 100
+	///Notes wether the activation will yield an issue
+	var/door_fail = FALSE
+
+	var/list/test = list()
 
 /obj/machinery/computer/teleporter_control/Initialize(mapload, obj/item/circuitboard/C)
 	. = ..()
 	sync_machines()
+	test = SStelescience.blocked_coords
+	SStelescience.blocked_coords += list(list("x" = x+10, "y" = y+10))
 
 /obj/machinery/computer/teleporter_control/ui_interact(mob/user, datum/tgui/ui)
 	//Ash walkers cannot use the console because they are unga bungas - PowerfulBacon 2021
@@ -52,7 +58,7 @@
 			)
 			)
 	//Blocked points, as per SStelescience
-	data["blocked_points"] = list(list("x" = 0, "y" = 0))
+	data["blocked_points"] = list()
 	if(SStelescience.blocked_coords.len)
 		for(var/i in 1 to SStelescience.blocked_coords.len)
 			data["blocked_points"] += list(list(
@@ -64,6 +70,8 @@
 	data["inverted"] = (invert < 0)
 	//Open status
 	data["active"] = (connected_base?.door_here ? 1: 0)
+	//stability
+	data["stability"] = stability/max_stability
 
 	return data
 
@@ -79,6 +87,10 @@
 		if("invert")
 			invert = (invert > 0 ? -1 : 1)
 		if("activate")
+			//If we're accessing bad space
+			if(door_fail && connected_base)
+				SStelescience.do_collapse(connected_base, DOOR_EFFECTS)
+				return
 			//Set updated positions
 			connected_base?.target_x = connected_base?.x+rounded_plotted_points[rounded_plotted_points.len]["x"]
 			connected_base?.target_y = connected_base?.y+rounded_plotted_points[rounded_plotted_points.len]["y"]
@@ -99,10 +111,13 @@
 	plotted_points = list(list("x" = 0, "y" = 0))
 	rounded_plotted_points = list(list("x" = 0, "y" = 0))
 	stability = max_stability
+	door_fail = FALSE
 	//Do plots
 	for(var/i in 2 to min(plot_limit, points.len))
 		plotted_points += list(list("x" = (i-1)*invert, "y" = points[i]*invert))
 		rounded_plotted_points += list(list("x" = (i-1)*invert, "y" = round(points[i]*invert, 1)))
+		if(get_turf(locate(rounded_plotted_points[i]["x"]+x, rounded_plotted_points[i]["y"]+y, z)) in SStelescience.blocked)
+			door_fail = TRUE
 		var/dist = get_dist(get_turf(locate(rounded_plotted_points[i]["x"]+x, rounded_plotted_points[i]["y"]+y, z)), get_turf(locate(rounded_plotted_points[i-1]["x"]+x, rounded_plotted_points[i-1]["y"]+y, z)))
 		stability -= 10*max(0, dist-1)
 	stability = max(0, stability)
@@ -116,3 +131,6 @@
 
 /obj/machinery/computer/teleporter_control/proc/handle_del(atom/A)
 	connected_base = null
+
+/obj/machinery/computer/teleporter_control/proc/random_block()
+	SStelescience.shuffle_blockers()

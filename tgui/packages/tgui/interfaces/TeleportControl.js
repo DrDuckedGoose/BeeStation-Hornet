@@ -13,16 +13,23 @@ export const TeleportControl = (props, context) => {
         point_limit,
         inverted,
         active,
+        stability,
     } = data;
 
     const [
         xOffset,
         setXOffset,
-      ] = useLocalState(context, 'xOffset', 0);
+    ] = useLocalState(context, 'xOffset', 0);
+    let dynamicXOffset = xOffset;
     const [
-    yOffset,
-    setYOffset,
+        yOffset,
+        setYOffset,
     ] = useLocalState(context, 'yOffset', 0);
+    let dynamicYOffset = yOffset
+    const [
+        zoomScale,
+        setZoomScale,
+      ] = useLocalState(context, 'zoomScale', 1);
 
     const lineStyle = {
         stroke: '#BBBBBB',
@@ -36,64 +43,22 @@ export const TeleportControl = (props, context) => {
   return (
     <Window
         width={700}
-        height={600}>
+        height={650}>
         <Window.Content fitted>
-            <Box>{`${xOffset}`}</Box>
-            <DraggableClickableControl
-            position="absolute"
-            value={1}
-            dragMatrix={[-1, 0]}
-            step={1}
-            stepPixelSize={2 * 1}
-            onDrag={(e, value) => {setXOffset(value)}}
-            onClick={(e, value) => {}}
-            updateRate={5}>
-                {control => (
-                    <svg
-                        position="absolute"
-                        height="512px"
-                        width="720px"
-                        viewBox="0 0 100% 100%">
-                        <defs>
-                            <pattern id="grid" width={32} height={32} patternUnits="userSpaceOnUse">
-                                <rect width={32} height={32} fill="url(#smallgrid)" />
-                                <path d={"M 32 0 L 0 0 0 32"} fill="none" stroke="#4665DE" stroke-width="1" />
-                            </pattern>
-                            <pattern id="smallgrid" width={16} height={16} patternUnits="userSpaceOnUse">
-                                <rect width={16} height={16} fill="#2B2E3B" />
-                                <path d={"M 16 0 L 0 0 0 16"} fill="none" stroke="#4665DE" stroke-width="0.5" />
-                            </pattern>
-                        </defs>
-                        <rect width="100%" height="100%" fill="url(#grid)" />
-                        {rounded_points.map(point => <rect
-                            //rounded points
-                            x={`${(point.x*16)+352}`}
-                            y={`${(-point.y*16)+256}`}
-                            width="16px"
-                            height="16px"
-                            stroke="rgba(100,255,100,128)"
-                            stroke-width="1"
-                            fill="rgba(100,255,100,128)" />)}
-                        {blocked_points.map(point => <rect
-                            //blocked points
-                            x={`${(point.x*16)+352}`}
-                            y={`${(-point.y*16)+256}`}
-                            width="16px"
-                            height="16px"
-                            stroke="rgba(25,25,25,128)"
-                            stroke-width="1"
-                            fill="rgba(25,25,25,128)" />)} 
-                        {points.map(point => <circle
-                            //float points
-                            cx={`${(point.x*16)+360}`}
-                            cy={`${(-point.y*16)+264}`}
-                            r="2px"
-                            stroke="rgba(255,255,255,255)"
-                            stroke-width="1"
-                            fill="rgba(255,255,255,255)" />)}          
-                    </svg>
-                )}
-            </DraggableClickableControl>
+            <Box>{dynamicXOffset}</Box>
+            <ProgressBar value={stability}ranges={{
+            good: [0.5, Infinity],
+            average: [0.25, 0.5],
+            bad: [-Infinity, 0.25],}}>Stability</ProgressBar>
+
+            <PlotDisplay
+            xOffset={dynamicXOffset}
+            yOffset={dynamicYOffset}
+            zoomScale={zoomScale}
+            setZoomScale={setZoomScale}
+            setXOffset={setXOffset}
+            setYOffset={setYOffset} />
+
             <Box flow>
                 {`Y = `}
                 <Input flow
@@ -111,6 +76,109 @@ export const TeleportControl = (props, context) => {
         </Window.Content>
     </Window>
   );
+};
+
+export const PlotDisplay = (props, context) => {
+    const { act, data } = useBackend(context);
+    const {
+        xOffset,
+        yOffset,
+        zoomScale,
+        setXOffset,
+        setYOffset,
+    } = props;
+    const {
+        points,
+        rounded_points,
+        blocked_points,
+        point_limit,
+        inverted,
+        active,
+        stability,
+    } = data;
+    let lockedZoomScale = Math.max(Math.min(zoomScale, 4), 0.125);
+    return(
+        <DraggableClickableControl
+        position="absolute"
+        value={xOffset}
+        dragMatrix={[-1, 0]}
+        step={1}
+        stepPixelSize={2 * zoomScale}
+        onDrag={(e, value) => {
+          setXOffset(value);
+        }}
+        onClick={(e, value) => {}}
+        updateRate={5}>
+        {control => (
+          <DraggableClickableControl
+            position="absolute"
+            value={yOffset}
+            dragMatrix={[0, -1]}
+            step={1}
+            stepPixelSize={2 * zoomScale}
+            onDrag={(e, value) => {
+              setYOffset(value);
+            }}
+            onClick={(e, value) => {}}
+            updateRate={5}>
+            {control1 => (
+              <>
+                {control.inputElement}
+                {control1.inputElement}
+                <svg
+                  onMouseDown={e => {
+                    control.handleDragStart(e);
+                    control1.handleDragStart(e);
+                  }}
+                  height="512px"
+                  width="720px"
+                  viewBox="0 0 100% 100%"
+                  position="absolute"
+                  overflowY="hidden">
+                        <defs>
+                          <pattern id="grid" width={32*lockedZoomScale} height={32*lockedZoomScale} patternUnits="userSpaceOnUse">
+                              <rect width={32*lockedZoomScale} height={32*lockedZoomScale} fill="url(#smallgrid)" />
+                              <path d={"M " + (32*lockedZoomScale) + " 0 L 0 0 0 " + (32*lockedZoomScale)} fill="none" stroke="#4665DE" stroke-width="1" />
+                          </pattern>
+                          <pattern id="smallgrid" width={16*lockedZoomScale} height={16*lockedZoomScale} patternUnits="userSpaceOnUse">
+                              <rect width={16*lockedZoomScale} height={16*lockedZoomScale} fill="#2B2E3B" />
+                              <path d={"M " + (16*lockedZoomScale) + " 0 L 0 0 0 " + (16*lockedZoomScale)} fill="none" stroke="#4665DE" stroke-width="0.5" />
+                          </pattern>
+                        </defs>
+                        <rect width={"100%"} height="100%" fill="url(#grid)" />
+                        {blocked_points.map(point => <rect
+                            //blocked points
+                            x={`${(((point.x*16)+352)-xOffset)*zoomScale}`}
+                            y={`${(((-point.y*16)+256)-yOffset)*zoomScale}`}
+                            width="16px"
+                            height="16px"
+                            stroke="rgba(25,25,25,128)"
+                            stroke-width="1"
+                            fill="rgba(25,25,25,128)" />)} 
+                        {rounded_points.map(point => <rect
+                            //rounded points
+                            x={`${(((point.x*16)+352)-xOffset)*zoomScale}`}
+                            y={`${(((-point.y*16)+256)-yOffset)*zoomScale}`}
+                            width="16px"
+                            height="16px"
+                            stroke="rgba(100,255,100,128)"
+                            stroke-width="1"
+                            fill="rgba(100,255,100,128)" />)}
+                        {points.map(point => <circle
+                            //float points
+                            cx={`${((point.x*16)+360-xOffset)*zoomScale}`}
+                            cy={`${((-point.y*16)+264-yOffset)*zoomScale}`}
+                            r="2px"
+                            stroke="rgba(255,255,255,255)"
+                            stroke-width="1"
+                            fill="rgba(255,255,255,255)" />)} 
+                </svg>
+              </>
+            )}
+          </DraggableClickableControl>
+        )}
+      </DraggableClickableControl>
+    );
 };
 
 function compile_formula(value){
