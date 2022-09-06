@@ -53,7 +53,7 @@
 		say("No valid targets") //todo: move this to computer
 		return
 	//get destination
-	var/turf/destination = (mode == TELE_MODE_PUSH ? locate(target_x, target_y, target_z) : get_turf(src))
+	var/turf/destination = SStelescience.handle_turf_access(mode == TELE_MODE_PUSH ? locate(target_x, target_y, target_z) : get_turf(src), src)
 	if(!destination)
 		say("Invalid destination") //todo: move this to computer
 		return
@@ -81,7 +81,7 @@
 	teleport_unique(TELE_MODE_PULL, AM)
 
 /obj/machinery/teleporter_base/proc/teleport_unique(mode, atom/movable/AM)
-	var/turf/T = (mode == TELE_MODE_PUSH ? locate(target_x, target_y, target_z) : get_turf(src))
+	var/turf/T = (mode == TELE_MODE_PUSH ? get_turf(door_there) : get_turf(get_turf(door_here)))
 	if(T && AM)
 		do_teleport(AM, T, 0)
 
@@ -103,7 +103,8 @@
 	for(var/obj/structure/teleporter_door/D in get_turf(src))
 		if(D != src)
 			SStelescience.do_collapse(src, DOOR_EFFECTS)
-			qdel(D)
+			if(get_turf(D) == mirror_loc)
+				qdel(D)
 			qdel(src)
 	//handle on-enter
 	var/static/list/loc_connections = list(

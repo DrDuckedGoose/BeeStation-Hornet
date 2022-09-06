@@ -89,7 +89,7 @@
 		if("activate")
 			//If we're accessing bad space
 			if(door_fail && connected_base)
-				SStelescience.do_collapse(connected_base, DOOR_EFFECTS)
+				SStelescience.do_collapse(connected_base, BLOCKED_EFFECTS)
 				return
 			//Set updated positions
 			connected_base?.target_x = connected_base?.x+rounded_plotted_points[rounded_plotted_points.len]["x"]

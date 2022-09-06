@@ -260,6 +260,22 @@ INITIALIZE_IMMEDIATE(/obj/effect/mapping_helpers/no_lava)
 		j.update_icon()
 	qdel(src)
 
+/obj/effect/mapping_helpers/telescience_effect/z_jump
+	name = "telescience z-jumper"
+	icon = 'icons/effects/mapping_helpers.dmi'
+	icon_state = "telescience_block"
+	late = TRUE
+	invisibility = 100
+	//Level to access
+	var/z_level = 2
+
+/obj/effect/mapping_helpers/telescience_effect/z_jump/Initialize(mapload)
+	. = ..()
+	var/datum/telescience_crash_effect/map/z_jump/Z = new()
+	Z.level = z_level
+	var/turf/T = get_turf(src)
+	SStelescience.effects["[T.id]"] = Z
+
 /obj/effect/mapping_helpers/telescience_block //Set the baseturfs of every turf in the /area/ it is placed.
 	name = "telescience dark zone 3x3 - small"
 	icon = 'icons/effects/mapping_helpers.dmi'

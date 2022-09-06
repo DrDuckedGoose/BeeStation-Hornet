@@ -16,6 +16,6 @@
 #define SYNC_RANGE 8
 
 // ===== Effects =====
-#define DOOR_EFFECTS list(/datum/telescience_effect/fire)
-///Not blocked as in blacklisted, blocked as in blocked space, but not blocked space as in blacklisted :)
-#define BLOCKED_EFFECTS list(/datum/telescience_effect/incurson)
+#define DOOR_EFFECTS list(/datum/telescience_crash_effect/fire)
+///Not blocked as in blacklisted, blocked as in blocked space, but not blocked space as in blacklisted
+#define BLOCKED_EFFECTS list(/datum/telescience_crash_effect/incurson, /datum/telescience_crash_effect/fire, /datum/telescience_crash_effect/fire/big)
