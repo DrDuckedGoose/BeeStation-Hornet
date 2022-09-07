@@ -21,7 +21,7 @@
 /obj/machinery/computer/teleporter_control/Initialize(mapload, obj/item/circuitboard/C)
 	. = ..()
 	sync_machines()
-	test = SStelescience.blocked_coords
+	test = SStelescience.effects
 	SStelescience.blocked_coords += list(list("x" = x+10, "y" = y+10))
 
 /obj/machinery/computer/teleporter_control/ui_interact(mob/user, datum/tgui/ui)

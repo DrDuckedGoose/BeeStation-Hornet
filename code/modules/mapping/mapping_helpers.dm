@@ -274,7 +274,7 @@ INITIALIZE_IMMEDIATE(/obj/effect/mapping_helpers/no_lava)
 	var/datum/telescience_crash_effect/map/z_jump/Z = new()
 	Z.level = z_level
 	var/turf/T = get_turf(src)
-	SStelescience.effects["[T.id]"] = Z
+	SStelescience.effects["[T.x][T.y][T.z]"] = Z
 
 /obj/effect/mapping_helpers/telescience_block //Set the baseturfs of every turf in the /area/ it is placed.
 	name = "telescience dark zone 3x3 - small"

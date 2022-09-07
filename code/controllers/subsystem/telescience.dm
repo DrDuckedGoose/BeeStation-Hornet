@@ -12,7 +12,7 @@ SUBSYSTEM_DEF(telescience)
 	var/list/blocked = list()
 	///List of blocked tiles for UI
 	var/list/blocked_coords = list(list("x" = -1, "y" = -1))
-	///List of effects - datums
+	///List of effects
 	var/list/effects = list()
 	///List of special tiles for UI
 	var/list/effects_coords = list(list("x" = -1, "y" = -1))
@@ -41,7 +41,8 @@ SUBSYSTEM_DEF(telescience)
 	if(locate(T) in blocked)
 		do_collapse(S, BLOCKED_EFFECTS)
 		return
-	var/datum/telescience_crash_effect/map/M = effects["[T.id]"]
+	var/datum/telescience_crash_effect/map/M = effects["[T.x][T.y][T.z]"]
+	S.say("[M ? "Found effect" : "No effect"]")
 	return M?.action(T) || T
 
 ///When multiple doors are layered
