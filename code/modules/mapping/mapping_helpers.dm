@@ -275,6 +275,7 @@ INITIALIZE_IMMEDIATE(/obj/effect/mapping_helpers/no_lava)
 	Z.level = z_level
 	var/turf/T = get_turf(src)
 	SStelescience.effects["[T.x][T.y][T.z]"] = Z
+	SStelescience.effects_coords += list(list("x" = T.x, "y" = T.y, "z" = T.z))
 
 /obj/effect/mapping_helpers/telescience_block //Set the baseturfs of every turf in the /area/ it is placed.
 	name = "telescience dark zone 3x3 - small"

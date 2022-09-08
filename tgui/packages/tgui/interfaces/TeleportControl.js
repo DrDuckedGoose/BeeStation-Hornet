@@ -91,6 +91,7 @@ export const PlotDisplay = (props, context) => {
         points,
         rounded_points,
         blocked_points,
+        effects_points,
         point_limit,
         inverted,
         active,
@@ -136,7 +137,9 @@ export const PlotDisplay = (props, context) => {
                   position="absolute"
                   overflowY="hidden">
                         <defs>
-                          <pattern id="grid" width={32*lockedZoomScale} height={32*lockedZoomScale} patternUnits="userSpaceOnUse">
+                          <pattern id="grid" width={32*lockedZoomScale} height={32*lockedZoomScale} patternUnits="userSpaceOnUse" 
+                            x={-xOffset * zoomScale}
+                            y={-yOffset * zoomScale}>
                               <rect width={32*lockedZoomScale} height={32*lockedZoomScale} fill="url(#smallgrid)" />
                               <path d={"M " + (32*lockedZoomScale) + " 0 L 0 0 0 " + (32*lockedZoomScale)} fill="none" stroke="#4665DE" stroke-width="1" />
                           </pattern>
@@ -154,7 +157,16 @@ export const PlotDisplay = (props, context) => {
                             height="16px"
                             stroke="rgba(25,25,25,128)"
                             stroke-width="1"
-                            fill="rgba(25,25,25,128)" />)} 
+                            fill="rgba(25,25,25,128)" />)}
+                        {effects_points.map(point => <rect
+                            //effects points
+                            x={`${(((point.x*16)+352)-xOffset)*zoomScale}`}
+                            y={`${(((-point.y*16)+256)-yOffset)*zoomScale}`}
+                            width="16px"
+                            height="16px"
+                            stroke="rgba(255,25,225,128)"
+                            stroke-width="1"
+                            fill="rgba(255,25,255,128)" />)} 
                         {rounded_points.map(point => <rect
                             //rounded points
                             x={`${(((point.x*16)+352)-xOffset)*zoomScale}`}

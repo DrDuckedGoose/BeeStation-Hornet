@@ -21,8 +21,7 @@
 /obj/machinery/computer/teleporter_control/Initialize(mapload, obj/item/circuitboard/C)
 	. = ..()
 	sync_machines()
-	test = SStelescience.effects
-	SStelescience.blocked_coords += list(list("x" = x+10, "y" = y+10))
+	test = SStelescience.effects_coords
 
 /obj/machinery/computer/teleporter_control/ui_interact(mob/user, datum/tgui/ui)
 	//Ash walkers cannot use the console because they are unga bungas - PowerfulBacon 2021
@@ -61,11 +60,22 @@
 	data["blocked_points"] = list()
 	if(SStelescience.blocked_coords.len)
 		for(var/i in 1 to SStelescience.blocked_coords.len)
-			data["blocked_points"] += list(list(
-				"x" = SStelescience.blocked_coords[i]["x"]-x,
-				"y" = SStelescience.blocked_coords[i]["y"]-y,
-			)
-			)
+			if(SStelescience.blocked_coords[i]["z"] == z)
+				data["blocked_points"] += list(list(
+					"x" = SStelescience.blocked_coords[i]["x"]-x,
+					"y" = SStelescience.blocked_coords[i]["y"]-y,
+				)
+				)
+	//effects points, as per SStelescience
+	data["effects_points"] = list()
+	if(SStelescience.effects_coords.len)
+		for(var/i in 1 to SStelescience.effects_coords.len)
+			if(SStelescience.effects_coords[i]["z"] == z)
+				data["effects_points"] += list(list(
+					"x" = SStelescience.effects_coords[i]["x"]-x,
+					"y" = SStelescience.effects_coords[i]["y"]-y,
+				)
+				)
 	//Inverted status
 	data["inverted"] = (invert < 0)
 	//Open status

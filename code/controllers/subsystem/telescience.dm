@@ -11,11 +11,11 @@ SUBSYSTEM_DEF(telescience)
 	///List of blocked - tiles
 	var/list/blocked = list()
 	///List of blocked tiles for UI
-	var/list/blocked_coords = list(list("x" = -1, "y" = -1))
-	///List of effects
+	var/list/blocked_coords = list(list("x" = -1, "y" = -1, "z" = -1))
+	///List of effects, accessed through coords, doesn't store them
 	var/list/effects = list()
-	///List of special tiles for UI
-	var/list/effects_coords = list(list("x" = -1, "y" = -1))
+	///Effects coords
+	var/list/effects_coords = list(list("x" = -1, "y" = -1, "z" = -1))
 	///List of active adventure levels
 	var/list/levels = list()
 
@@ -38,11 +38,7 @@ SUBSYSTEM_DEF(telescience)
 
 ///Handles turf access in the constant of one-time operations
 /datum/controller/subsystem/telescience/proc/handle_turf_access(turf/T, obj/structure/S)
-	if(locate(T) in blocked)
-		do_collapse(S, BLOCKED_EFFECTS)
-		return
-	var/datum/telescience_crash_effect/map/M = effects["[T.x][T.y][T.z]"]
-	S.say("[M ? "Found effect" : "No effect"]")
+	var/datum/telescience_crash_effect/map/M = SStelescience.effects["[T.x][T.y][T.z]"]
 	return M?.action(T) || T
 
 ///When multiple doors are layered

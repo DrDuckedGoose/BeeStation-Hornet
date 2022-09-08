@@ -35,9 +35,9 @@
 	if(door_mode == TELE_MODE_OPEN)
 		//instantiate
 		door_here = new(get_turf(src))
-		door_there = new(locate(target_x, target_y, target_z))
+		door_there = new(SStelescience.handle_turf_access(locate(target_x, target_y, target_z)))
 		//setup appearences
-		door_here.build_appearance(locate(target_x, target_y, target_z))
+		door_here.build_appearance(SStelescience.handle_turf_access(locate(target_x, target_y, target_z)))
 		door_there.build_appearance(get_turf(src))
 		//signals for teleporting
 		RegisterSignal(door_here, COMSIG_ATOM_ENTERED, .proc/push)
