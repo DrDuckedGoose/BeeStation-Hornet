@@ -1,7 +1,7 @@
 /// ======= produces a material, amount based on happiness if coming directly from a slime =======
 /datum/xenobiology_trait/production/material
 	///produced material
-	var/obj/item/stack/production/material
+	var/obj/item/stack/sheet/material
 
 /datum/xenobiology_trait/production/material/activate()
 	var/amount = 10
