@@ -130,6 +130,14 @@
 /obj/effect/spawner/structure/window,
 /turf/open/floor/plating,
 /area/storage/primary)
+"eb" = (
+/obj/structure/table/wood,
+/obj/item/reagent_containers/food/drinks/bottle/holywater{
+	pixel_x = -2;
+	pixel_y = 2
+	},
+/turf/open/floor/plasteel/cult,
+/area/space)
 "ec" = (
 /obj/effect/turf_decal/stripes/line,
 /obj/effect/turf_decal/stripes/line{
@@ -211,6 +219,11 @@
 /obj/structure/chair/stool/bar,
 /turf/open/floor/plasteel,
 /area/crew_quarters/bar)
+"eR" = (
+/obj/structure/table/wood,
+/obj/item/soulstone/anybody/chaplain,
+/turf/open/floor/plasteel/cult,
+/area/space)
 "fd" = (
 /obj/structure/table,
 /turf/open/floor/plasteel/white,
@@ -507,6 +520,14 @@
 	},
 /turf/open/floor/plasteel,
 /area/quartermaster/storage)
+"lF" = (
+/obj/machinery/door/window/eastleft{
+	dir = 8;
+	name = "Coffin Storage";
+	req_access_txt = "22"
+	},
+/turf/open/floor/plating,
+/area/space)
 "lL" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 5
@@ -549,6 +570,13 @@
 /obj/machinery/door/airlock/maintenance,
 /turf/open/floor/plasteel/dark,
 /area/quartermaster/storage)
+"mn" = (
+/obj/structure/closet/crate/coffin,
+/obj/structure/window/reinforced{
+	dir = 8
+	},
+/turf/open/floor/plating,
+/area/space)
 "my" = (
 /obj/machinery/portable_atmospherics/canister/oxygen,
 /obj/machinery/atmospherics/components/unary/portables_connector/visible{
@@ -701,6 +729,12 @@
 	},
 /turf/open/floor/plating,
 /area/space)
+"pp" = (
+/obj/structure/bodycontainer/morgue{
+	dir = 8
+	},
+/turf/open/floor/plasteel/dark,
+/area/space)
 "pw" = (
 /obj/effect/turf_decal/stripes/corner{
 	dir = 4
@@ -849,6 +883,13 @@
 /obj/structure/rack,
 /turf/open/floor/plasteel/dark,
 /area/quartermaster/miningoffice)
+"se" = (
+/obj/structure/window/reinforced{
+	dir = 8
+	},
+/obj/structure/closet/crate/coffin,
+/turf/open/floor/plating,
+/area/space)
 "sg" = (
 /obj/structure/curtain/bounty,
 /turf/open/floor/wood,
@@ -1499,6 +1540,9 @@
 	},
 /turf/open/floor/plasteel,
 /area/science/xenobiology)
+"FH" = (
+/turf/open/floor/plasteel/grimy,
+/area/space)
 "FI" = (
 /obj/machinery/door/airlock/maintenance,
 /turf/open/floor/plating,
@@ -1784,6 +1828,10 @@
 	},
 /turf/open/floor/plasteel,
 /area/science/explab)
+"KF" = (
+/obj/structure/closet/crate/coffin,
+/turf/open/floor/plating,
+/area/space)
 "KI" = (
 /obj/structure/table,
 /turf/open/floor/plasteel/dark,
@@ -1884,6 +1932,13 @@
 	},
 /turf/open/floor/plating,
 /area/space)
+"MD" = (
+/obj/machinery/door/morgue{
+	name = "Relic Closet";
+	req_access_txt = "22"
+	},
+/turf/open/floor/plasteel/grimy,
+/area/space)
 "ME" = (
 /obj/structure/closet/wardrobe/miner,
 /turf/open/floor/plasteel,
@@ -1905,6 +1960,10 @@
 "Nd" = (
 /turf/open/floor/plasteel/freezer,
 /area/crew_quarters/kitchen)
+"Ne" = (
+/obj/machinery/door/airlock/maintenance,
+/turf/open/floor/plasteel/grimy,
+/area/space)
 "Nr" = (
 /obj/machinery/vending/tool,
 /turf/open/floor/plasteel/dark,
@@ -1938,6 +1997,14 @@
 	dir = 5
 	},
 /area/crew_quarters/kitchen)
+"Oi" = (
+/obj/structure/table,
+/obj/item/storage/box/bodybags{
+	pixel_x = 2;
+	pixel_y = 2
+	},
+/turf/open/floor/plasteel/dark,
+/area/space)
 "Ok" = (
 /turf/open/floor/plasteel/white,
 /area/medical/medbay/aft)
@@ -2151,6 +2218,12 @@
 "Ss" = (
 /obj/structure/table,
 /turf/open/floor/plating,
+/area/space)
+"SK" = (
+/obj/structure/table/wood,
+/obj/item/book/granter/spell/smoke/lesser,
+/obj/item/organ/heart,
+/turf/open/floor/plasteel/cult,
 /area/space)
 "SP" = (
 /obj/effect/turf_decal/stripes/line,
@@ -2417,6 +2490,13 @@
 /obj/machinery/computer/scan_consolenew,
 /turf/open/floor/plasteel/dark,
 /area/medical/genetics)
+"YT" = (
+/obj/structure/bodycontainer/crematorium{
+	dir = 8;
+	id = "crematoriumChapel"
+	},
+/turf/open/floor/plasteel/dark,
+/area/space)
 "YZ" = (
 /turf/open/floor/plasteel/dark,
 /area/medical/morgue)
@@ -107185,7 +107265,7 @@ eH
 eH
 eH
 oJ
-PO
+ff
 oJ
 fz
 Jg
@@ -107956,7 +108036,7 @@ eH
 eH
 eH
 oJ
-PO
+ff
 ap
 Cb
 sx
@@ -108213,7 +108293,7 @@ eH
 eH
 eH
 oJ
-PO
+ff
 ic
 ic
 ic
@@ -108225,7 +108305,7 @@ vl
 vl
 vl
 Vh
-CA
+oJ
 eH
 eH
 eH
@@ -108470,7 +108550,7 @@ eH
 eH
 eH
 oJ
-PO
+ff
 OC
 VR
 vj
@@ -109241,7 +109321,7 @@ eH
 eH
 eH
 oJ
-PO
+ff
 oJ
 oJ
 Jg
@@ -109508,7 +109588,7 @@ oJ
 oJ
 oJ
 oJ
-oJ
+Ne
 oJ
 oJ
 eH
@@ -109757,17 +109837,17 @@ eH
 eH
 eH
 oJ
-ic
+Od
 ic
 ic
 ic
 qu
 RQ
 oJ
-eH
-eH
-eH
-eH
+FH
+FH
+FH
+oJ
 eH
 eH
 eH
@@ -110014,17 +110094,17 @@ eH
 eH
 eH
 oJ
-ic
+Od
 ic
 ic
 ic
 oJ
 iy
 oJ
-eH
-eH
-eH
-eH
+FH
+FH
+FH
+oJ
 eH
 eH
 eH
@@ -110271,17 +110351,17 @@ eH
 eH
 eH
 oJ
-ic
+Od
 ic
 ic
 ic
 oJ
 hH
 ln
-eH
-eH
-eH
-eH
+FH
+FH
+FH
+oJ
 eH
 eH
 eH
@@ -110529,16 +110609,16 @@ eH
 eH
 oJ
 Od
-Od
-Od
+ic
+ic
 Od
 oJ
 oJ
 oJ
-eH
-eH
-eH
-eH
+FH
+FH
+FH
+oJ
 eH
 eH
 eH
@@ -110785,17 +110865,17 @@ eH
 eH
 eH
 oJ
+mn
+lO
+lF
+se
 oJ
+eR
+MD
+FH
+FH
+FH
 oJ
-oJ
-oJ
-oJ
-eH
-eH
-eH
-eH
-eH
-eH
 eH
 eH
 eH
@@ -111041,18 +111121,18 @@ eH
 eH
 eH
 eH
-eH
-eH
-eH
-eH
-eH
-eH
-eH
-eH
-eH
-eH
-eH
-eH
+oJ
+KF
+ug
+ug
+KF
+oJ
+SK
+MD
+FH
+FH
+FH
+oJ
 eH
 eH
 eH
@@ -111298,18 +111378,18 @@ eH
 eH
 eH
 eH
-eH
-eH
-eH
-eH
-eH
-eH
-eH
-eH
-eH
-eH
-eH
-eH
+oJ
+KF
+ug
+ug
+KF
+oJ
+eb
+MD
+FH
+FH
+FH
+oJ
 eH
 eH
 eH
@@ -111555,18 +111635,18 @@ eH
 eH
 eH
 eH
-eH
-eH
-eH
-eH
-eH
-eH
-eH
-eH
-eH
-eH
-eH
-eH
+oJ
+oJ
+oJ
+xo
+oJ
+oJ
+oJ
+oJ
+oJ
+xo
+oJ
+oJ
 eH
 eH
 eH
@@ -111814,15 +111894,15 @@ eH
 eH
 eH
 eH
-eH
-eH
-eH
-eH
-eH
-eH
-eH
-eH
-eH
+oJ
+ug
+oJ
+ic
+YT
+Oi
+oJ
+ug
+oJ
 eH
 eH
 eH
@@ -112071,15 +112151,15 @@ eH
 eH
 eH
 eH
-eH
-eH
-eH
-eH
-eH
-eH
-eH
-eH
-eH
+oJ
+ug
+xo
+ic
+ic
+ic
+xo
+ug
+oJ
 eH
 eH
 eH
@@ -112328,15 +112408,15 @@ eH
 eH
 eH
 eH
-eH
-eH
-eH
-eH
-eH
-eH
-eH
-eH
-eH
+oJ
+ug
+oJ
+ic
+ic
+ic
+oJ
+ug
+oJ
 eH
 eH
 eH
@@ -112586,13 +112666,13 @@ eH
 eH
 eH
 eH
-eH
-eH
-eH
-eH
-eH
-eH
-eH
+ug
+oJ
+ic
+pp
+ic
+oJ
+ug
 eH
 eH
 eH
@@ -112843,13 +112923,13 @@ eH
 eH
 eH
 eH
-eH
-eH
-eH
-eH
-eH
-eH
-eH
+ug
+oJ
+oJ
+oJ
+oJ
+oJ
+ug
 eH
 eH
 eH
@@ -113100,13 +113180,13 @@ eH
 eH
 eH
 eH
-eH
-eH
-eH
-eH
-eH
-eH
-eH
+ug
+ug
+ug
+ug
+ug
+ug
+ug
 eH
 eH
 eH
