@@ -421,3 +421,9 @@
 
 /obj/effect/turf_decal/siding/wideplating_new/terracotta/end
 	icon_state = "siding_wideplating_new_end"
+
+/obj/effect/turf_decal/stripes/med_line
+	icon_state = "med_warningline"
+
+/obj/effect/turf_decal/stripes/med_corner
+	icon_state = "med_warninglinecorner"
