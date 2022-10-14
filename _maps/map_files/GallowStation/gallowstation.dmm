@@ -1688,6 +1688,17 @@
 "us" = (
 /turf/open/floor/plasteel,
 /area/quartermaster/qm)
+"uv" = (
+/obj/docking_port/stationary{
+	dwidth = 3;
+	height = 15;
+	id = "arrivals_stationary";
+	name = "arrivals";
+	roundstart_template = /datum/map_template/shuttle/arrival/box;
+	width = 7
+	},
+/turf/open/space/basic,
+/area/space)
 "uw" = (
 /obj/structure/closet/crate/coffin,
 /turf/open/floor/plating,
@@ -3104,6 +3115,18 @@
 /obj/structure/closet/emcloset,
 /turf/open/floor/plasteel,
 /area/hallway/primary/fore)
+"IK" = (
+/obj/docking_port/stationary{
+	dir = 2;
+	dwidth = 16;
+	height = 15;
+	id = "exploration_home";
+	name = "Exploration Dock";
+	roundstart_template = /datum/map_template/shuttle/exploration/corg;
+	width = 23
+	},
+/turf/open/space/basic,
+/area/space)
 "IM" = (
 /obj/effect/turf_decal/delivery,
 /obj/effect/turf_decal/stripes/line{
@@ -4092,6 +4115,17 @@
 	},
 /turf/open/floor/plasteel/white,
 /area/hydroponics)
+"TA" = (
+/obj/docking_port/stationary{
+	dir = 8;
+	dwidth = 5;
+	height = 7;
+	id = "supply_home";
+	name = "Cargo Bay";
+	width = 12
+	},
+/turf/open/space/basic,
+/area/space)
 "TB" = (
 /obj/structure/table,
 /turf/open/floor/plasteel/dark,
@@ -29760,7 +29794,7 @@ eH
 eH
 eH
 eH
-eH
+TA
 eH
 eH
 eH
@@ -39253,7 +39287,7 @@ eH
 eH
 eH
 eH
-eH
+uv
 MS
 cd
 cd
@@ -46517,7 +46551,7 @@ Fl
 eC
 Tu
 eC
-eH
+IK
 eH
 eH
 eH
