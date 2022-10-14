@@ -105,7 +105,7 @@
 
 /datum/xenobiology_feature/sub_mask/halo
 	address = "m_halo"
-	epithet = "angelus" //this was orignally the latin word for halo...
+	epithet = "angelus" //Look up the latin word for halo :)
 
 // -- colors --
 /datum/xenobiology_feature/color
