@@ -1227,6 +1227,16 @@
 /obj/item/paicard,
 /turf/open/floor/plasteel,
 /area/crew_quarters/bar)
+"oF" = (
+/obj/effect/turf_decal/tile/bar,
+/obj/effect/turf_decal/tile/bar{
+	dir = 1
+	},
+/obj/machinery/light{
+	bulb_colour = "#f5b996"
+	},
+/turf/open/floor/plasteel,
+/area/crew_quarters/bar)
 "oG" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 4
@@ -2539,6 +2549,13 @@
 	},
 /turf/open/floor/plating,
 /area/space)
+"Cy" = (
+/obj/machinery/light/small{
+	bulb_colour = "#f5b996";
+	dir = 1
+	},
+/turf/open/floor/wood,
+/area/crew_quarters/bar)
 "CA" = (
 /obj/machinery/door/airlock/maintenance,
 /turf/open/floor/wood,
@@ -2799,6 +2816,13 @@
 "FI" = (
 /obj/machinery/door/airlock/maintenance,
 /turf/open/floor/plating,
+/area/crew_quarters/kitchen)
+"FN" = (
+/obj/structure/table,
+/obj/item/kitchen/rollingpin,
+/turf/open/floor/plasteel/cafeteria{
+	dir = 5
+	},
 /area/crew_quarters/kitchen)
 "FO" = (
 /obj/effect/turf_decal/tile/yellow{
@@ -3297,6 +3321,14 @@
 	},
 /turf/open/floor/plasteel,
 /area/quartermaster/miningoffice)
+"Kb" = (
+/obj/structure/table,
+/obj/item/stack/package_wrap,
+/obj/item/hand_labeler,
+/turf/open/floor/plasteel/cafeteria{
+	dir = 5
+	},
+/area/crew_quarters/kitchen)
 "Kd" = (
 /obj/machinery/hydroponics/constructable,
 /turf/open/floor/plasteel/white,
@@ -3340,6 +3372,17 @@
 /obj/structure/table,
 /turf/open/floor/plasteel,
 /area/hallway/primary/fore)
+"KF" = (
+/obj/effect/turf_decal/tile/bar,
+/obj/effect/turf_decal/tile/bar{
+	dir = 1
+	},
+/obj/machinery/light{
+	bulb_colour = "#f5b996";
+	dir = 8
+	},
+/turf/open/floor/plasteel,
+/area/crew_quarters/bar)
 "KM" = (
 /obj/machinery/light/small{
 	dir = 1
@@ -3631,6 +3674,9 @@
 /area/crew_quarters/heads/hor)
 "NP" = (
 /mob/living/carbon/monkey/punpun,
+/obj/machinery/light{
+	bulb_colour = "#f5b996"
+	},
 /turf/open/floor/wood,
 /area/crew_quarters/bar)
 "NR" = (
@@ -3880,6 +3926,17 @@
 	},
 /turf/open/floor/plasteel/dark,
 /area/crew_quarters/fitness/recreation)
+"QF" = (
+/obj/effect/turf_decal/tile/bar,
+/obj/effect/turf_decal/tile/bar{
+	dir = 1
+	},
+/obj/machinery/light{
+	bulb_colour = "#f5b996";
+	dir = 4
+	},
+/turf/open/floor/plasteel,
+/area/crew_quarters/bar)
 "QG" = (
 /obj/structure/window/reinforced{
 	dir = 8
@@ -3904,6 +3961,16 @@
 /obj/effect/turf_decal/tile/blue,
 /turf/open/floor/plasteel/white,
 /area/medical/cryo)
+"QV" = (
+/obj/structure/table,
+/obj/item/reagent_containers/glass/beaker{
+	pixel_x = 5
+	},
+/obj/item/reagent_containers/food/condiment/enzyme{
+	layer = 5
+	},
+/turf/open/floor/plasteel/cafeteria,
+/area/crew_quarters/kitchen)
 "Rg" = (
 /obj/machinery/suit_storage_unit/exploration,
 /turf/open/floor/plasteel,
@@ -4058,6 +4125,11 @@
 "SP" = (
 /turf/open/floor/carpet/purple,
 /area/crew_quarters/heads/hor)
+"SR" = (
+/obj/structure/table,
+/obj/item/reagent_containers/food/snacks/mint,
+/turf/open/floor/plasteel/cafeteria,
+/area/crew_quarters/kitchen)
 "SS" = (
 /obj/structure/bodycontainer/morgue{
 	dir = 8
@@ -38341,13 +38413,13 @@ ue
 on
 on
 on
-iA
+KF
 iA
 wE
 wE
 iA
 iA
-iA
+oF
 IQ
 IQ
 IQ
@@ -38609,7 +38681,7 @@ Ku
 qe
 qe
 Oq
-mB
+SR
 IQ
 IQ
 Vz
@@ -38866,7 +38938,7 @@ Ku
 JS
 JS
 Oq
-mB
+QV
 Ku
 ug
 ug
@@ -39123,7 +39195,7 @@ Ku
 rt
 rt
 Ak
-mB
+Kb
 Ku
 ug
 VE
@@ -39374,11 +39446,11 @@ WS
 yf
 NP
 ze
-yf
+Cy
 yf
 Gu
 rt
-mB
+FN
 rt
 Ey
 Ku
@@ -39894,7 +39966,7 @@ Ku
 Zn
 mB
 rt
-JT
+Oe
 Ku
 ug
 VE
@@ -40151,7 +40223,7 @@ Ku
 rt
 rt
 rt
-JT
+mB
 Ku
 ug
 VE
@@ -40397,18 +40469,18 @@ oJ
 on
 on
 on
-iA
+QF
 iA
 AZ
 AZ
 iA
 bD
-iA
+oF
 Ku
 tF
 rt
 rt
-Oe
+mB
 Ku
 ug
 VE
@@ -40665,7 +40737,7 @@ Ku
 XD
 rt
 rt
-Oe
+JT
 Ku
 ug
 MN
