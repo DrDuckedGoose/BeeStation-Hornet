@@ -139,7 +139,7 @@
 	var/datum/xenobiology_trait/T
 	T = pick(type)
 	T = new T
-	traits += T
+	traits += list(T)
 
 /datum/slime_dna/Destroy(force, ...)
 	. = ..()

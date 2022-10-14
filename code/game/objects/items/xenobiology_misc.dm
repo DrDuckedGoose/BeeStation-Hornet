@@ -65,3 +65,24 @@
 		targets = list()
 	else
 		new /mob/living/simple_animal/slime_uni(get_turf(target))
+
+/obj/item/cell_sampler
+	name = "cell sampler"
+	desc = "A device used to collect cell samples from various living animals"
+	icon = 'icons/obj/guns/magic.dmi'
+	icon_state = "revivewand"
+	///mask from the sample
+	var/icon/sample_mask
+
+/obj/item/cell_sampler/afterattack(atom/target, mob/user, proximity_flag, click_parameters)
+	. = ..()
+	if(target)
+		sample_mask = icon(target.icon, target.icon_state)
+
+/obj/item/cell_sampler/interact(mob/user)
+	. = ..()
+	if(sample_mask)
+		var/mob/living/simple_animal/slime_uni/S = new(get_turf(src))
+		S.name = "Cell Sample"
+		S.dna.features["mask"] = sample_mask
+		S.setup_texture()
