@@ -69,20 +69,59 @@
 /obj/item/cell_sampler
 	name = "cell sampler"
 	desc = "A device used to collect cell samples from various living animals"
-	icon = 'icons/obj/guns/magic.dmi'
-	icon_state = "revivewand"
-	///mask from the sample
-	var/icon/sample_mask
+	icon = 'icons/obj/xenobiology.dmi'
+	icon_state = "slime_sampler"
+	///Taken samples
+	var/list/samples = list()
+	///Combined samples
+	var/list/combined = list()
+	///Mask used to create a slime
+	var/icon/mask
 
 /obj/item/cell_sampler/afterattack(atom/target, mob/user, proximity_flag, click_parameters)
 	. = ..()
-	if(target)
-		sample_mask = icon(target.icon, target.icon_state)
+	if(isliving(target) && do_after(user, 3 SECONDS, FALSE, target))
+		samples += list(icon(target.icon, target.icon_state))
+		to_chat(user, "<span class='notcie'>You take a cell sample  of [target].</span>")
+
+/obj/item/cell_sampler/AltClick(mob/user)
+	. = ..()
+	to_chat(user, "<span class='warning'>You clear the sample buffer</span>")
+	new /obj/effect/decal/cleanable/blood(get_turf(src))
+	samples.Cut(1,0)
+	combined.Cut(1,0)
+	QDEL_NULL(mask)
 
 /obj/item/cell_sampler/interact(mob/user)
 	. = ..()
-	if(sample_mask)
-		var/mob/living/simple_animal/slime_uni/S = new(get_turf(src))
-		S.name = "Cell Sample"
-		S.dna.features["mask"] = sample_mask
-		S.setup_texture()
+	var/list/commands = list(
+		"Make slime" = image(icon = 'icons/obj/xenobiology.dmi', icon_state = "slime_sampler-make_slime"),
+		"Combine samples" = image(icon = 'icons/obj/xenobiology.dmi', icon_state = "slime_sampler-combine_samples"),
+		"Select samples" = image(icon = 'icons/obj/xenobiology.dmi', icon_state = "slime_sampler-select_samples"))
+	var/choice = show_radial_menu(user, user, commands, tooltips = TRUE)
+	switch(choice)
+		if("Select samples")
+			commands = list()
+			for(var/i in 1 to samples.len)
+				commands += list("[samples.len]" = samples[i])
+			choice = show_radial_menu(user, user, commands)
+			combined += list(samples[text2num(choice)])
+		if("Combine samples")
+			if(!combined.len)
+				return
+			mask = icon(combined[1])
+			for(var/i in 1 to combined.len)
+				mask.Blend(combined[i], ICON_OVERLAY)
+		if("Make slime")
+			if(!mask)
+				return
+			commands = list("E" = mask)
+			choice = show_radial_menu(user, user, commands)
+			if(!choice)
+				return
+			var/mob/living/simple_animal/slime_uni/S = new(get_turf(src))
+			S.name = "Cell Sample"
+			S.dna.features["mask"] = mask
+			S.setup_texture()
+		else
+			return

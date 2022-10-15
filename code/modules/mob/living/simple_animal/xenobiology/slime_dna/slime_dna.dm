@@ -27,6 +27,8 @@
 	var/instability = 6
 	///Mastah Wayne
 	var/mob/living/simple_animal/slime_uni/owner
+	///How many more time we can be bred - DNA LENGTH
+	var/length = 3
 
 /datum/slime_dna/New(var/mob/living/simple_animal/slime_uni/argument_owner, inst, texture, mask, sub_mask, color, rotation, pan)
 	. = ..()
