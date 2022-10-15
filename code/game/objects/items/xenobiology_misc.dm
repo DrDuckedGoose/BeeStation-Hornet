@@ -127,5 +127,8 @@
 				qdel(S)
 				return
 			S.forceMove(get_turf(src))
+		if("Clear combination")
+			combined = list()
+			QDEL_NULL(mask)
 		else
 			return
