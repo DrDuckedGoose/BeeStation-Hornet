@@ -98,7 +98,7 @@
 		"Make slime" = image(icon = 'icons/obj/xenobiology.dmi', icon_state = "slime_sampler-make_slime"),
 		"Combine samples" = image(icon = 'icons/obj/xenobiology.dmi', icon_state = "slime_sampler-combine_samples"),
 		"Select samples" = image(icon = 'icons/obj/xenobiology.dmi', icon_state = "slime_sampler-select_samples"),
-		"Clear combination" = image(icon = 'icons/obj/xenobiology.dmi', icon_state = "slime_sampler-clear_combinations"))
+		"Clear combination" = image(icon = 'icons/obj/xenobiology.dmi', icon_state = "slime_sampler-clear_samples"))
 	var/choice = show_radial_menu(user, user, commands, tooltips = TRUE)
 	switch(choice)
 		if("Select samples")
