@@ -103,7 +103,7 @@
 		if("Select samples")
 			commands = list()
 			for(var/i in 1 to samples.len)
-				commands += list("[samples.len]" = samples[i])
+				commands += list("[i]" = samples[i])
 			choice = show_radial_menu(user, user, commands)
 			combined += list(samples[text2num(choice)])
 		if("Combine samples")
