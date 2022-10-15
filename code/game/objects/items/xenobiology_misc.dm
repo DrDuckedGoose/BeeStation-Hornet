@@ -97,7 +97,8 @@
 	var/list/commands = list(
 		"Make slime" = image(icon = 'icons/obj/xenobiology.dmi', icon_state = "slime_sampler-make_slime"),
 		"Combine samples" = image(icon = 'icons/obj/xenobiology.dmi', icon_state = "slime_sampler-combine_samples"),
-		"Select samples" = image(icon = 'icons/obj/xenobiology.dmi', icon_state = "slime_sampler-select_samples"))
+		"Select samples" = image(icon = 'icons/obj/xenobiology.dmi', icon_state = "slime_sampler-select_samples"),
+		"Clear combination" = image(icon = 'icons/obj/xenobiology.dmi', icon_state = "slime_sampler-clear_combinations"))
 	var/choice = show_radial_menu(user, user, commands, tooltips = TRUE)
 	switch(choice)
 		if("Select samples")
@@ -115,13 +116,16 @@
 		if("Make slime")
 			if(!mask)
 				return
-			commands = list("E" = mask)
-			choice = show_radial_menu(user, user, commands)
-			if(!choice)
-				return
-			var/mob/living/simple_animal/slime_uni/S = new(get_turf(src))
+			var/mob/living/simple_animal/slime_uni/S = new()
 			S.name = "Cell Sample"
 			S.dna.features["mask"] = mask
 			S.setup_texture()
+
+			commands = list("E" = S.appearance)
+			choice = show_radial_menu(user, user, commands)
+			if(!choice)
+				qdel(S)
+				return
+			S.forceMove(get_turf(src))
 		else
 			return
