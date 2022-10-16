@@ -79,11 +79,13 @@
 	var/list/combined = list()
 	///Mask used to create a slime
 	var/icon/mask
+	///Ref to generated slime
+	var/mob/living/simple_animal/slime_uni/held_slime
 
 /obj/item/cell_sampler/afterattack(atom/target, mob/user, proximity_flag, click_parameters)
 	. = ..()
 	if(isliving(target) && proximity_flag && do_after(user, 3 SECONDS, FALSE, target))
-		samples += list(icon(target.appearance))
+		samples += list(icon(target.icon, target.appearance.icon_state))
 		to_chat(user, "<span class='notcie'>You take a cell sample  of [target].</span>")
 
 /obj/item/cell_sampler/AltClick(mob/user)
@@ -100,7 +102,7 @@
 		"Make slime" = image(icon = 'icons/obj/xenobiology.dmi', icon_state = "slime_sampler-make_slime"),
 		"Combine samples" = image(icon = 'icons/obj/xenobiology.dmi', icon_state = "slime_sampler-combine_samples"),
 		"Select samples" = image(icon = 'icons/obj/xenobiology.dmi', icon_state = "slime_sampler-select_samples"),
-		"Clear combination" = image(icon = 'icons/obj/xenobiology.dmi', icon_state = "slime_sampler-clear_samples"))
+		"Clear combination" = image(icon = 'icons/obj/xenobiology.dmi', icon_state = "slime_sampler-clear_combinations"))
 	var/choice = show_radial_menu(user, user, commands, tooltips = TRUE)
 	switch(choice)
 		if("Select samples")
@@ -117,18 +119,17 @@
 				mask.Blend(combined[i], ICON_OVERLAY)
 		if("Make slime")
 			if(!mask)
+				say("Error: No sample.")
 				return
+			QDEL_NULL(held_slime)
 			var/mob/living/simple_animal/slime_uni/S = new()
 			S.name = "Cell Sample"
 			S.dna.features["mask"] = mask
 			S.setup_texture()
+			held_slime = S
 
 			commands = list("E" = S.appearance)
 			choice = show_radial_menu(user, user, commands)
-			if(!choice)
-				qdel(S)
-				return
-			S.forceMove(get_turf(src))
 		if("Clear combination")
 			combined = list()
 			QDEL_NULL(mask)
