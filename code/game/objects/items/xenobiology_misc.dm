@@ -2,16 +2,18 @@
 /obj/item/slime_gun
 	name = "slime vacuum"
 	desc = "It really sucks."
-	icon = 'icons/obj/guns/energy.dmi'
-	icon_state = "slime"
+	icon = 'icons/obj/xenobiology.dmi'
+	icon_state = "slime_gun"
 	///Maximum distance a slime can be picked up from
 	var/max_distance_input = 6
 	///Maximum distance a slime can be placed down from
 	var/max_distance_output = 3
+	///Max capacity for how many slimes we can hold
+	var/max_capacity = 3
 
 /obj/item/slime_gun/afterattack(atom/target, mob/user, proximity_flag, click_parameters)
 	..()
-	if(istype(target, /mob/living/simple_animal/slime_uni) && get_dist(get_turf(src), get_turf(target)) < max_distance_input) //inhale
+	if(istype(target, /mob/living/simple_animal/slime_uni) && get_dist(get_turf(src), get_turf(target)) < max_distance_input && contents.len < max_capacity) //inhale
 		var/atom/movable/AM = target
 		AM.throw_at(get_turf(src), get_dist(get_turf(src), get_turf(target)), 1, force = MOVE_FORCE_EXTREMELY_WEAK)
 		RegisterSignal(AM, COMSIG_MOVABLE_IMPACT, .proc/inhale, AM)
@@ -35,7 +37,7 @@
 /obj/item/slime_gun/proc/change_overlay(var/mob/living/simple_animal/slime_uni/slime)
 	cut_overlays()
 	var/icon/overlay = new(slime.animated_texture)
-	var/icon/mask = new('icons/obj/guns/energy.dmi', "slime_overlay")
+	var/icon/mask = new('icons/obj/xenobiology.dmi', "slime_gun_mask")
 	overlay.AddAlphaMask(mask)
 	add_overlay(overlay)
 
@@ -80,8 +82,8 @@
 
 /obj/item/cell_sampler/afterattack(atom/target, mob/user, proximity_flag, click_parameters)
 	. = ..()
-	if(isliving(target) && do_after(user, 3 SECONDS, FALSE, target))
-		samples += list(icon(target.icon, target.icon_state))
+	if(isliving(target) && proximity_flag && do_after(user, 3 SECONDS, FALSE, target))
+		samples += list(icon(target.appearance))
 		to_chat(user, "<span class='notcie'>You take a cell sample  of [target].</span>")
 
 /obj/item/cell_sampler/AltClick(mob/user)

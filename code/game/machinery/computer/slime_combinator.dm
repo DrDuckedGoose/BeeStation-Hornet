@@ -154,13 +154,21 @@
 			selected_child = slime_parents.len ? slime_parents[1] : null
 
 		if("combine-selected")
-			if(slime_parents.len > 1)
+			//Check if all the parents have enough DNA to breed
+			var/is_short = FALSE
+			for(var/mob/living/simple_animal/slime_uni/S as() in slime_parents)
+				if(!S.dna.length > 0)
+					is_short = TRUE
+
+			if(slime_parents.len > 1 && !is_short)
 				say("Process: combining samples...")
 				combine_parents()
 				tab = "Promote-Outcomes"
 				slime_parents_previous = slime_parents
 				slime_parents = list()
 				selected_child = null
+			else if(is_short)
+				say("Error: sample pool DNA too thin.")
 			else
 				say("Error: not enough sample diversity.")
 
@@ -177,6 +185,9 @@
 				slime_combinations -= SD
 				qdel(SD)
 			tab = "Select-Initial"
+			//Cut parent's dna length
+			for(var/mob/living/simple_animal/slime_uni/L as() in slime_parents)
+				L.dna.length -= 1
 			slime_parents = list()
 			update_contents()
 			inserted_gun.change_overlay(S)
@@ -230,3 +241,5 @@
 /obj/machinery/computer/slime_combinator/proc/reenable()
 	available = TRUE
 	ui_update()
+
+#undef XENOB_MAX_PARENTS
