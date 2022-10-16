@@ -99,7 +99,7 @@
 /obj/item/cell_sampler/interact(mob/user)
 	. = ..()
 	var/list/commands = list(
-		"Make slime" = image(icon = 'icons/obj/xenobiology.dmi', icon_state = "slime_sampler-make_slime"),
+		"Preview combination" = image(icon = 'icons/obj/xenobiology.dmi', icon_state = "slime_sampler-make_slime"),
 		"Combine samples" = image(icon = 'icons/obj/xenobiology.dmi', icon_state = "slime_sampler-combine_samples"),
 		"Select samples" = image(icon = 'icons/obj/xenobiology.dmi', icon_state = "slime_sampler-select_samples"),
 		"Clear combination" = image(icon = 'icons/obj/xenobiology.dmi', icon_state = "slime_sampler-clear_combinations"))
@@ -117,9 +117,8 @@
 			mask = icon(combined[1])
 			for(var/i in 1 to combined.len)
 				mask.Blend(combined[i], ICON_OVERLAY)
-		if("Make slime")
 			if(!mask)
-				say("Error: No sample.")
+				say("Error: No selected samples.")
 				return
 			QDEL_NULL(held_slime)
 			var/mob/living/simple_animal/slime_uni/S = new()
@@ -127,8 +126,8 @@
 			S.dna.features["mask"] = mask
 			S.setup_texture()
 			held_slime = S
-
-			commands = list("E" = S.appearance)
+		if("Preview combination")
+			commands = list("E" = held_slime.appearance)
 			choice = show_radial_menu(user, user, commands)
 		if("Clear combination")
 			combined = list()
