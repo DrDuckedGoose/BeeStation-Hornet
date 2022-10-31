@@ -402,7 +402,8 @@
 	switch(process_type)
 		if(PROCESS_TYPE_LIT) //Burning
 			true_target = list(get_target_in_proximity(min(max_range, 5)))
-			if(isliving(true_target[1]))
+			var/mob/living/M = true_target[1]
+			if(isliving(M))
 				visible_message("<span class='danger' size='4'>The [name] flicks out.</span>")
 				default_activate(25, null, null)
 				process_type = null
