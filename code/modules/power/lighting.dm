@@ -348,6 +348,8 @@
 		spawn(1)
 			update(0)
 
+	setup_normal_lighting(get_turf(src))
+
 /obj/machinery/light/Destroy()
 	var/area/A = get_area(src)
 	if(A)
@@ -464,10 +466,11 @@
 		lighting_direction[2],lighting_direction[2],lighting_direction[2], //gr, gg, gb
 		lighting_direction[3],lighting_direction[3],lighting_direction[3], //br, bg, bb
 		1,1,1) //Constant
+	color_matrix = list(1,0,0, 0,0,0, 0,0,0, 1,0,0)
 	//Apply matrix to target's normal map
 	var/icon/normal_map = icon(target.normal_icon, target.normal_state)
 	target.icon = normal_map
-	target.add_filter(color_matrix_filter(color_matrix))
+	target.add_filter("normal_light", 1, list("type" = "color", "color" = color_matrix))
 
 /obj/machinery/light/update_atom_colour()
 	..()

@@ -23,14 +23,15 @@ GLOBAL_LIST_INIT(master_filter_info, list(
 		)
 	),
 	/* Not supported because making a proper matrix editor on the frontend would be a huge dick pain.
-		Uncomment if you ever implement it
+		Uncomment if you ever implement it*/
+	
 	"color" = list(
 		"defaults" = list(
-			"color" = matrix(),
+			"color" = list(),
 			"space" = FILTER_COLOR_RGB
 		)
 	),
-	*/
+	
 	"displace" = list(
 		"defaults" = list(
 			"x" = 0,
