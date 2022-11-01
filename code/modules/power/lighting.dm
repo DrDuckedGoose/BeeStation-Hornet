@@ -442,6 +442,33 @@
 
 	broken_sparks(start_only=TRUE)
 
+/obj/machinery/light/proc/setup_normal_lighting(turf/target)
+	//Check if target is setup for normal lighting
+	if(!target.normal_icon)
+		return
+	//Calculate lighting direction - subtract light & target position, then normalize the result
+	var/list/target_position = list(target.x, target.y, 0)
+	var/list/light_position = list(x, y, 0.8)
+	var/list/lighting_direction = list()
+	var/max
+	var/min
+		//Setup params for nomalize
+	for(var/i in 1 to 3)
+		max = max(max, target_position[i] - light_position[i])
+		min = min(min, target_position[i] - light_position[i])
+		//Append values to lighting_direction, normalized
+	for(var/i in 1 to 3)
+		lighting_direction += (((target_position[i] - light_position[i])-min)/(max-min))
+	//Setup color matrix - reference lighting direction to change rgb component
+	var/list/color_matrix = list(lighting_direction[1],lighting_direction[1],lighting_direction[1], //rr rg rb
+		lighting_direction[2],lighting_direction[2],lighting_direction[2], //gr, gg, gb
+		lighting_direction[3],lighting_direction[3],lighting_direction[3], //br, bg, bb
+		1,1,1) //Constant
+	//Apply matrix to target's normal map
+	var/icon/normal_map = icon(target.normal_icon, target.normal_state)
+	target.icon = normal_map
+	target.add_filter(color_matrix_filter(color_matrix))
+
 /obj/machinery/light/update_atom_colour()
 	..()
 	update()
