@@ -348,7 +348,9 @@
 		spawn(1)
 			update(0)
 
-	setup_normal_lighting(get_turf(src))
+	var/list/tiles = view(5, src)
+	for(var/turf/T in tiles)
+		setup_normal_lighting(T)
 
 /obj/machinery/light/Destroy()
 	var/area/A = get_area(src)
@@ -465,10 +467,9 @@
 	var/list/color_matrix = list(lighting_direction[1],lighting_direction[1],lighting_direction[1], //rr rg rb ra
 		lighting_direction[2],lighting_direction[2],lighting_direction[2], //gr, gg, gb ga
 		lighting_direction[3],lighting_direction[3],lighting_direction[3], //br, bg, bb ba
-		0,0,0,// ar ag ab aa
-		0,0,0) //Constant
-	color_matrix = list(1,1,1, 0,0,0, 0,0,0, 0,0,0)
-	//Apply matrix to target's normal map
+		0,0,0)// ar ag ab aa
+	//color_matrix = list(0.5,0.5,0.5, 1,1,1, 0,0,0, 0,0,0)
+	//Apply matrix to target's normal map - image
 	var/icon/normal_map = icon(target.normal_icon, target.normal_state)
 	target.icon = normal_map
 	target.color = color_matrix
