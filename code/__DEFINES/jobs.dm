@@ -272,11 +272,12 @@
 #define JOB_HUD_SYNDICATE "syndicate"
 #define JOB_HUD_PRISONER "prisoner"
 #define JOB_HUD_UNKNOWN "unknown"
+#define JOB_HUD_PAPER "paper"
 
 
 //////////// Color defines
 // Command
-#define JOB_CHATCOLOR_RAWCOMMAND    "#FFECCA" // custom command color
+#define JOB_CHATCOLOR_RAWCOMMAND    "#AFB4D3" // custom command color
 #define JOB_CHATCOLOR_CAPTAIN       "#FFDC9B"
 #define JOB_CHATCOLOR_ACTINGCAPTAIN "#FFDC9B"
 

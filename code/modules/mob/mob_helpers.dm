@@ -448,8 +448,7 @@
 /**
   * Heal a robotic body part on a mob
   */
-/proc/item_heal_robotic(mob/living/carbon/human/H, mob/user, brute_heal, burn_heal)
-	var/obj/item/bodypart/affecting = H.get_bodypart(check_zone(user.zone_selected))
+/proc/item_heal_robotic(mob/living/carbon/human/H, mob/user, brute_heal, burn_heal, obj/item/bodypart/affecting)
 	if(affecting && (!IS_ORGANIC_LIMB(affecting)))
 		var/dam //changes repair text based on how much brute/burn was supplied
 		if(brute_heal > burn_heal)
@@ -592,4 +591,19 @@
 
 //Can the mob see reagents inside of containers?
 /mob/proc/can_see_reagents()
-	return stat == DEAD || has_unlimited_silicon_privilege //Dead guys and silicons can always see reagents
+	. = FALSE
+	if(stat == DEAD) // Dead guys and silicons can always see reagents
+		return TRUE
+	else if(has_unlimited_silicon_privilege)
+		return TRUE
+	else if(HAS_TRAIT(src, TRAIT_BARMASTER)) // If they're a bar master, they know what reagents are at a glance
+		return TRUE
+
+/mob/proc/can_see_boozepower() // same rule above
+	. = FALSE
+	if(stat == DEAD)
+		return TRUE
+	else if(has_unlimited_silicon_privilege)
+		return TRUE
+	else if(HAS_TRAIT(src, TRAIT_BARMASTER))
+		return TRUE

@@ -1,39 +1,24 @@
 //Major traits - The artifact's main gimmick, how it interacts with the world
-//============
-// Simple debug trait, keep this in
-//============
-/datum/xenoartifact_trait/major/sing
-	desc = "Bugged"
-	label_desc = "Bugged: The shape resembles nothing. You are Godless."
-
-/datum/xenoartifact_trait/major/sing/activate(obj/item/xenoartifact/X, atom/target)
-	X.say("DEBUG::XENOARTIFACT::SING")
-	X.say(X.charge)
-	X.say(target)
-
-//============
-// Capture, moves target inside the artifact
-//============
+///============
+/// Capture, moves target inside the artifact
+///============
 /datum/xenoartifact_trait/major/capture
 	desc = "Hollow"
 	label_desc = "Hollow: The shape is hollow, however the inside is deceptively large."
 	flags = BLUESPACE_TRAIT | PLASMA_TRAIT | URANIUM_TRAIT
-	var/fren
+	var/spawn_russian = FALSE
 
 /datum/xenoartifact_trait/major/capture/on_init(obj/item/xenoartifact/X)
-	if(prob(0.5)) 
-		fren = TRUE
+	if(prob(1))
+		spawn_russian = TRUE
 
 /datum/xenoartifact_trait/major/capture/activate(obj/item/xenoartifact/X, atom/target)
-	if(!(SSzclear.get_free_z_level())) //Sometimes we can get pressed on z-levels
-		playsound(get_turf(X), 'sound/machines/buzz-sigh.ogg', 50, TRUE) //this shouldn't happen too often but, exploration can eat a few zlevels.
-		return
 	if(isliving(X.loc))
 		var/mob/living/holder = X.loc
 		holder.dropItemToGround(X, thrown = TRUE)
-	if(ismovable(target) && !(istype(target, /obj/structure)) || !(istype(target, /obj/machinery)))
+	if(ismovable(target) && (istype(target, /obj/item) || istype(target, /mob/living)))
 		var/atom/movable/AM = target
-		if(AM.anchored)
+		if(AM?.anchored || !AM)
 			return
 		addtimer(CALLBACK(src, .proc/release, X, AM), X.charge*0.5 SECONDS)
 		AM.forceMove(X)
@@ -49,14 +34,14 @@
 	var/turf/T = get_turf(X.loc)
 	AM.anchored = FALSE
 	AM.forceMove(T)
-	if(fren)
+	if(spawn_russian)
 		new /mob/living/simple_animal/hostile/russian(T)
-		log_game("[X] spawned (/mob/living/simple_animal/hostile/russian) at [world.time]. [X] located at [X.x] [X.y] [X.z]")
-		fren = FALSE
+		log_game("[X] spawned (/mob/living/simple_animal/hostile/russian) at [world.time]. [X] located at [AREACOORD(X)]")
+		spawn_russian = FALSE
 
-//============
-// Shock, the artifact electrocutes the target
-//============
+///============
+/// Shock, the artifact electrocutes the target
+///============
 /datum/xenoartifact_trait/major/shock
 	desc = "Conductive"
 	label_desc = "Conductive: The shape resembles two lighting forks. Subtle arcs seem to leaps across them."
@@ -79,39 +64,40 @@
 		playsound(get_turf(X), 'sound/machines/defib_zap.ogg', 50, TRUE)
 	X.cooldownmod = (X.charge*0.1) SECONDS
 
-//============
-// Timestop, spawns time-stop effect
-//============
+///============
+/// Timestop, spawns time-stop effect
+///============
 /datum/xenoartifact_trait/major/timestop
-	desc = "Melted"
-	label_desc = "Melted: The shape is drooling and sluggish. Additionally, light around it seems to invert."
+	desc = "Temporal"
+	label_desc = "Temporal: The shape is drooling and sluggish. Additionally, light around it seems to invert."
 
 /datum/xenoartifact_trait/major/timestop/on_touch(obj/item/xenoartifact/X, mob/user)
 	to_chat(user, "<span class='notice'>Your hand feels slow while stroking the [X.name].</span>")
 	return TRUE
 
 /datum/xenoartifact_trait/major/timestop/activate(obj/item/xenoartifact/X, atom/target)
-	var/turf/T = get_turf(X.loc)
-	if(!X)
-		T = get_turf(target.loc)     
+	var/turf/T = (get_turf(X?.loc) || get_turf(target?.loc))
+	if(!T)
+		return
 	new /obj/effect/timestop(T, 2, (X.charge*0.2) SECONDS)
 	X.cooldownmod = (X.charge*0.35) SECONDS
 
-//============
-// Laser, shoots varying laser based on charge
-//============
+///============
+/// Laser, shoots varying laser based on charge
+///============
 /datum/xenoartifact_trait/major/laser
 	desc = "Barreled"
 	label_desc = "Barreled: The shape resembles the barrel of a gun. It's possible that it might dispense candy."
 	flags = PLASMA_TRAIT | URANIUM_TRAIT
 
 /datum/xenoartifact_trait/major/laser/activate(obj/item/xenoartifact/X, atom/target, mob/living/user)
-	if(isliving(target))
-		if(get_dist(target, user) <= 1)
-			var/mob/living/victim = target
-			victim.adjust_fire_stacks(5*(X.charge/X.charge_req))
-			victim.IgniteMob()
-			return
+	//light target on fire if we're close
+	if(isliving(target) && get_dist(target, X.loc || user) <= 1)
+		var/mob/living/victim = target
+		victim.adjust_fire_stacks(5*(X.charge/X.charge_req))
+		victim.IgniteMob()
+		return
+	//otherwise shoot laser
 	var/obj/item/projectile/A
 	switch(X.charge)
 		if(0 to 24)
@@ -119,33 +105,33 @@
 		if(25 to 79)
 			A = new /obj/item/projectile/beam/laser
 		if(80 to 200)
-			A = new /obj/item/ammo_casing/energy/laser/heavy
+			A = new /obj/item/projectile/beam/laser/heavylaser
+	//If target is our own turf, aka someone probably threw us, target a random direction to avoid always shooting east
+	if(istype(target, /turf) && X.loc == target)
+		target = get_edge_target_turf(pick(NORTH, EAST, SOUTH, WEST))
+	//FIRE!
 	A.preparePixelProjectile(get_turf(target), X)
 	A.fire()
 	playsound(get_turf(src), 'sound/mecha/mech_shield_deflect.ogg', 50, TRUE) 
 
-//============
-// Corginator, turns the target into a corgi for a short time
-//============
-/datum/xenoartifact_trait/major/corginator //All of this is stolen from corgium. 
+///============
+/// Corginator, turns the target into a corgi for a short time
+///============
+/datum/xenoartifact_trait/major/corginator ///All of this is stolen from corgium. 
 	desc = "Fuzzy" //Weirdchamp
 	label_desc = "Fuzzy: The shape is hard to discern under all the hair sprouting out from the surface. You swear you've heard it bark before."
 	flags = BLUESPACE_TRAIT
-	var/list/victims = list() //List of all affected targets, used for early qdel
-	var/list/target_keys = list() //list of targets by corgi
-	var/list/timers = list() //list of timers for transform back
-
+	///List of all affected targets, used for early qdel
+	var/list/victims = list()
+	///Ref to timer - if corgi is deleted early remove this reference to the puppy
+	var/timer
 
 /datum/xenoartifact_trait/major/corginator/activate(obj/item/xenoartifact/X, mob/living/target)
 	X.say(pick("Woof!", "Bark!", "Yap!"))
-	if(!(SSzclear.get_free_z_level()))
-		playsound(get_turf(X), 'sound/machines/buzz-sigh.ogg', 50, TRUE)
-		return
-	if(istype(target, /mob/living) && !(istype(target, /mob/living/simple_animal/pet/dog/corgi)))
+	if(istype(target, /mob/living) && !(istype(target, /mob/living/simple_animal/pet/dog/corgi)) && !IS_DEAD_OR_INCAP(target))
 		var/mob/living/simple_animal/pet/dog/corgi/new_corgi = transform(target)
-		timers[new_corgi] = addtimer(CALLBACK(src, .proc/transform_back, new_corgi), (X.charge*0.6) SECONDS, TIMER_STOPPABLE)
+		timer = addtimer(CALLBACK(src, .proc/transform_back, new_corgi), (X.charge*0.6) SECONDS, TIMER_STOPPABLE)
 		victims |= new_corgi
-		target_keys[new_corgi] = target
 		X.cooldownmod = (X.charge*0.8) SECONDS
 
 /datum/xenoartifact_trait/major/corginator/proc/transform(mob/living/target)
@@ -153,10 +139,9 @@
 		return
 	var/obj/shapeshift_holder/H = locate() in target
 	if(H)
-		to_chat(target, "<span class='warning'>You're already corgified!</span>")
 		playsound(get_turf(target), 'sound/machines/buzz-sigh.ogg', 50, TRUE)
 		return
-	ADD_TRAIT(target, TRAIT_NOBREATH, CORGIUM_TRAIT)
+	ADD_TRAIT(target, TRAIT_NOBREATH, TRAIT_NOMOBSWAP)
 	var/mob/living/simple_animal/pet/dog/corgi/new_corgi = new(target.loc)
 	H = new(new_corgi,src,target)
 	//hat check
@@ -169,106 +154,35 @@
 	return new_corgi
 
 /datum/xenoartifact_trait/major/corginator/proc/transform_back(mob/living/simple_animal/pet/dog/corgi/new_corgi)
-	var/mob/living/target = (target_keys[new_corgi])
+	//Kill timer
+	deltimer(timer)
+	timer = null
+	
+	var/obj/shapeshift_holder/H = locate() in new_corgi
+	if(!H)
+		return
+	var/mob/living/target = H.stored
 	UnregisterSignal(new_corgi, COMSIG_MOB_DEATH)
-	REMOVE_TRAIT(target, TRAIT_MUTE, CORGIUM_TRAIT)
+	REMOVE_TRAIT(target, TRAIT_NOBREATH, TRAIT_NOMOBSWAP)
 	victims -= new_corgi
-	target_keys[new_corgi] = null
 	var/turf/T = get_turf(new_corgi)
 	if(new_corgi.inventory_head && !target.equip_to_slot_if_possible(new_corgi.inventory_head, ITEM_SLOT_HEAD,disable_warning = TRUE, bypass_equip_delay_self=TRUE))
 		new_corgi.inventory_head.forceMove(T)
 	new_corgi.inventory_back?.forceMove(T)
 	new_corgi.inventory_head = null
 	new_corgi.inventory_back = null
-	var/obj/shapeshift_holder/H = locate() in new_corgi
-	if(!H)
-		return
 	H.restore(FALSE, FALSE)
-	target.Knockdown(SHOVE_KNOCKDOWN_SOLID)
+	target.Knockdown(0.2 SECONDS)
 
-/datum/xenoartifact_trait/major/corginator/Destroy(force, ...) //Transform goobers back if artifact is deleted.
+/datum/xenoartifact_trait/major/corginator/Destroy() //Transform goobers back if artifact is deleted.
 	. = ..()
 	if(victims.len)
 		for(var/mob/living/simple_animal/pet/dog/corgi/H as() in victims)
 			transform_back(H)
-		target_keys = list()
 
-//============
-// Mirrored, temporarily swaps last two target's minds
-//============
-/datum/xenoartifact_trait/major/mirrored
-	desc = "Mirrored"
-	label_desc = "Mirrored: The shape is perfectly symetrical. Perhaps you could interest the Captain?"
-	flags = BLUESPACE_TRAIT | URANIUM_TRAIT
-	weight = 25
-	///List generally used for initial swap, contains the swapping mobs
-	var/list/victims = list()
-	///List used to hold lists that contain swapped mobs
-	var/list/reverse_victims = list()
-
-/datum/xenoartifact_trait/major/mirrored/activate(obj/item/xenoartifact/X, mob/target, atom/user)
-	if(victims.len < 2)
-		if(!isliving(target) || IS_DEAD_OR_INCAP(target) || HAS_TRAIT(target, TRAIT_MINDSWAPPED))
-			playsound(get_turf(X), 'sound/machines/buzz-sigh.ogg', 50, TRUE)
-			return
-		else
-			victims += target
-			if(victims.len < 2) //one last check before hand
-				return
-	//type cast to check qdel
-	var/atom/a = victims[1]
-	var/atom/b = victims[2]
-	if(QDELETED(a) || QDELETED(b))
-		victims = list()
-		return
-	swap(victims[1], victims[2])
-	log_game("[X] swapped the identities of [key_name_admin(victims[1])] & [key_name_admin(victims[2])] at [world.time]. [X] located at [X.x] [X.y] [X.z]")
-	addtimer(CALLBACK(src, .proc/undo_swap), ((X.charge*0.20) SECONDS)+ 6 SECONDS) //6 extra seconds while targets are asleep
-	X.cooldownmod = ((X.charge*0.3)SECONDS)+ 6 SECONDS
-	victims = list()
-
-/datum/xenoartifact_trait/major/mirrored/proc/swap(var/atom/victim_a, var/atom/victim_b)
-	if(QDELETED(victim_a) || QDELETED(victim_b))
-		victims = list()
-		return
-	var/mob/living/caster = victim_a
-	var/mob/living/victim = victim_b
-	if(HAS_TRAIT(caster, TRAIT_MINDSWAPPED)) //doesn't really matter which we check
-		REMOVE_TRAIT(caster, TRAIT_MINDSWAPPED, type)
-		REMOVE_TRAIT(victim, TRAIT_MINDSWAPPED, type)
-	else
-		ADD_TRAIT(caster, TRAIT_MINDSWAPPED, type)
-		ADD_TRAIT(victim, TRAIT_MINDSWAPPED, type)
-
-	var/mob/dead/observer/ghost_v = victim.ghostize(0)
-	var/mob/dead/observer/ghost_c = caster.ghostize(0)
-	ghost_v?.mind.transfer_to(caster)
-	ghost_c?.mind.transfer_to(victim)
-	if(ghost_v?.key)
-		caster?.key = ghost_v?.key
-	if(ghost_c?.key)
-		victim?.key = ghost_c?.key
-	qdel(ghost_v)
-	qdel(ghost_c)
-
-	caster.Unconscious(6 SECONDS)
-	victim.Unconscious(6 SECONDS)
-	reverse_victims += list(list(caster, victim))
-
-/datum/xenoartifact_trait/major/mirrored/proc/undo_swap()
-	for(var/list/L as() in reverse_victims)
-		if(L.len > 1)
-			//convert to atoms to check qdel
-			var/mob/living/a = L[1]
-			var/mob/living/b = L[2]
-			if(!QDELETED(a) && !QDELETED(b))
-				swap(L[1], L[2])
-	reverse_victims = list()
-
-
-//============
-// EMP, produces an empulse
-//============
+///============
+/// EMP, produces an empulse
+///============
 /datum/xenoartifact_trait/major/emp
 	label_name = "EMP"
 	label_desc = "EMP: The shape of the Artifact doesn't resemble anything particularly interesting. Technology around the Artifact seems to malfunction."
@@ -279,48 +193,47 @@
 	playsound(get_turf(X), 'sound/magic/disable_tech.ogg', 50, TRUE)
 	empulse(get_turf(X.loc), max(1, X.charge*0.03), max(1, X.charge*0.07, 1)) //This might be too big
 
-//============
-// Invisible, makes the target invisible for a short time
-//============
+///============
+/// Invisible, makes the target invisible for a short time
+///============
 /datum/xenoartifact_trait/major/invisible //One step closer to the one ring
 	label_name = "Transparent"
 	label_desc = "Transparent: The shape of the Artifact is difficult to percieve. You feel the need to call it, precious..."
 	weight = 25
 	var/list/victims = list()
 
-/datum/xenoartifact_trait/major/invisible/on_item(obj/item/xenoartifact/X, atom/user, atom/item)
-	if(istype(item, /obj/item/laser_pointer))
-		var/obj/item/laser_pointer/L = item
-		if(L.energy)
-			to_chat(user, "<span class='info'>The [item.name]'s light passes through the structure.</span>")
-			return TRUE
+/datum/xenoartifact_trait/major/invisible/on_item(obj/item/xenoartifact/X, atom/user, obj/item/I)
+	if(istype(I) && I.light_power > 0)
+		to_chat(user, "<span class='info'>The [I.name]'s light passes through the structure.</span>")
+		return TRUE
 	..()
 
 /datum/xenoartifact_trait/major/invisible/activate(obj/item/xenoartifact/X, mob/living/target)
 	if(isliving(target))
-		victims += target
+		victims += WEAKREF(target)
 		hide(target)
 		addtimer(CALLBACK(src, .proc/reveal, target), ((X.charge*0.4) SECONDS))
 		X.cooldownmod = ((X.charge*0.4)+1) SECONDS
 
 /datum/xenoartifact_trait/major/invisible/proc/hide(mob/living/target)
 	ADD_TRAIT(target, TRAIT_PACIFISM, type)
-	animate(target, ,alpha = 0, time = 5)
+	animate(target, alpha = 0, time = 5)
 
 /datum/xenoartifact_trait/major/invisible/proc/reveal(mob/living/target)
 	if(target)
 		REMOVE_TRAIT(target, TRAIT_PACIFISM, type)
-		animate(target, ,alpha = 255, time = 5)
-		target = null
+		animate(target, alpha = 255, time = 5)
 
-/datum/xenoartifact_trait/major/invisible/Destroy(force, ...)
+/datum/xenoartifact_trait/major/invisible/Destroy()
 	. = ..()
-	for(var/mob/living/M in victims)
-		reveal(M)
+	for(var/M in victims)
+		var/datum/weakref/r = M
+		var/mob/living/L = r.resolve()
+		reveal(L)
 
-//============
-// Teleports the target to a random nearby location
-//============
+///============
+/// Teleports the target to a random nearby location
+///============
 /datum/xenoartifact_trait/major/teleporting
 	desc = "Displaced"
 	label_desc = "Displaced: The shape's state is unstable, causing it to shift through planes at a localized axis. Just ask someone from science..."
@@ -332,9 +245,9 @@
 		if(!victim.anchored)
 			do_teleport(victim, get_turf(victim), (X.charge*0.3)+1, channel = TELEPORT_CHANNEL_BLUESPACE)
 
-//============
-// Lamp, creates a light with random color for a short time
-//============
+///============
+/// Lamp, creates a light with random color for a short time
+///============
 /datum/xenoartifact_trait/major/lamp
 	label_name = "Lamp"
 	label_desc = "Lamp: The Artifact emits light. Nothing in its shape suggests this."
@@ -342,54 +255,20 @@
 	var/light_mod
 
 /datum/xenoartifact_trait/major/lamp/on_init(obj/item/xenoartifact/X)
-	X.light_system = MOVABLE_LIGHT
 	X.light_color = pick(LIGHT_COLOR_FIRE, LIGHT_COLOR_BLUE, LIGHT_COLOR_GREEN, LIGHT_COLOR_RED, LIGHT_COLOR_ORANGE, LIGHT_COLOR_PINK)
 
 /datum/xenoartifact_trait/major/lamp/activate(obj/item/xenoartifact/X, atom/target, atom/user)
-	X.AddComponent(/datum/component/overlay_lighting, 1.4+(X.charge*0.5), max(X.charge*0.05, 0.1), X.light_color)
+	X.visible_message("<span class='notice'>The [X] lights up!</span>")
+	X.set_light(X.charge*0.08, max(X.charge*0.05, 5), X.light_color)
 	addtimer(CALLBACK(src, .proc/unlight, X), (X.charge*0.6) SECONDS)
 	X.cooldownmod = (X.charge*0.6) SECONDS
 
 /datum/xenoartifact_trait/major/lamp/proc/unlight(var/obj/item/xenoartifact/X)
-	var/datum/component/overlay_lighting/L = X.GetComponent(/datum/component/overlay_lighting)
-	if(L)
-		qdel(L)
+	X.set_light(0, 0)
 
-//============
-// Dark, opposite of lamp, creates darkness
-//============
-/datum/xenoartifact_trait/major/lamp/dark
-	label_name = "Shade"
-	label_desc = "Shade: The Artifact retracts light. Nothing in its shape suggests this."
-	flags = BLUESPACE_TRAIT | PLASMA_TRAIT | URANIUM_TRAIT
-
-/datum/xenoartifact_trait/major/lamp/dark/on_init(obj/item/xenoartifact/X)
-	X.light_system = MOVABLE_LIGHT
-	X.light_color = "#000000"
-	if(prob(0.01)) //It's hard to explain
-		X.icon_state = "IB901"
-		X.icon_slots[1] = ""
-		X.icon_slots[2] = ""
-		X.icon_slots[3] = ""
-		X.icon_slots[4] = ""
-
-/datum/xenoartifact_trait/major/lamp/dark/activate(obj/item/xenoartifact/X)
-	for(var/C in 1 to 3)
-		X.AddComponent(/datum/component/overlay_lighting/dupable, 1.4+(X.charge*0.5), max(X.charge*0.05, 0.1), X.light_color)
-		addtimer(CALLBACK(src, .proc/unlight, X), (X.charge*0.6) SECONDS)
-		X.cooldownmod = (X.charge*0.6) SECONDS
-		
-/datum/xenoartifact_trait/major/lamp/dark/unlight(var/obj/item/xenoartifact/X)
-	var/datum/component/overlay_lighting/dupable/L = X.GetComponent(/datum/component/overlay_lighting/dupable)
-	if(L)
-		qdel(L)
-
-/datum/component/overlay_lighting/dupable //Lighting component for shade
-	dupe_mode = COMPONENT_DUPE_ALLOWED
-
-//============
-// Forcefield, creates a random shape wizard wall
-//============
+///============
+/// Forcefield, creates a random shape wizard wall
+///============
 /datum/xenoartifact_trait/major/forcefield
 	label_name = "Wall"
 	label_desc = "Wall: The Artifact produces a resonance that forms impenetrable walls. Here's one you'll never crawl!"
@@ -403,8 +282,13 @@
 	if(size >= 1)
 		new /obj/effect/forcefield/xenoartifact_type(get_turf(X.loc), (X.charge*0.4) SECONDS)
 	if(size >= 3)
-		new /obj/effect/forcefield/xenoartifact_type(get_step(X, NORTH), (X.charge*0.4) SECONDS)
-		new /obj/effect/forcefield/xenoartifact_type(get_step(X, SOUTH), (X.charge*0.4) SECONDS)
+		var/outcome = pick(0, 1)
+		if(outcome || size >= 5)
+			new /obj/effect/forcefield/xenoartifact_type(get_step(X, NORTH), (X.charge*0.4) SECONDS)
+			new /obj/effect/forcefield/xenoartifact_type(get_step(X, SOUTH), (X.charge*0.4) SECONDS)
+		else
+			new /obj/effect/forcefield/xenoartifact_type(get_step(X, EAST), (X.charge*0.4) SECONDS)
+			new /obj/effect/forcefield/xenoartifact_type(get_step(X, WEST), (X.charge*0.4) SECONDS)
 	if(size >= 5)
 		new /obj/effect/forcefield/xenoartifact_type(get_step(X, WEST), (X.charge*0.4) SECONDS)
 		new /obj/effect/forcefield/xenoartifact_type(get_step(X, EAST), (X.charge*0.4) SECONDS)
@@ -414,9 +298,9 @@
 /obj/effect/forcefield/xenoartifact_type //Special wall type for artifact
 	desc = "An impenetrable artifact wall."
 
-//============
-// Heal, heals a random damage type
-//============
+///============
+/// Heal, heals a random damage type
+///============
 /datum/xenoartifact_trait/major/heal
 	label_name = "Healing"
 	label_desc = "Healing: The Artifact repeairs any damaged organic tissue the targat may contain. Widely considered the Holy Grail of Artifact traits."
@@ -425,7 +309,7 @@
 	var/healing_type
 
 /datum/xenoartifact_trait/major/heal/on_init(obj/item/xenoartifact/X)
-	healing_type = pick("brute", "burn", "toxin", "stamina")
+	healing_type = pick("brute", "burn", "toxin")
 
 /datum/xenoartifact_trait/major/heal/on_item(obj/item/xenoartifact/X, atom/user, atom/item)
 	if(istype(item, /obj/item/healthanalyzer))
@@ -444,33 +328,32 @@
 				victim.adjustFireLoss((X.charge*0.25)*-1)
 			if("toxin")
 				victim.adjustToxLoss((X.charge*0.25)*-1)
-			if("stamina")
-				victim.adjustOxyLoss((X.charge*0.25)*-1)
 
-//============
-// Chem, injects a random safe chem into target
-//============
+///============
+/// Chem, injects a random safe chem into target
+///============
 /datum/xenoartifact_trait/major/chem
-	desc = "Tubed"
-	label_desc = "Tubed: The Artifact's shape is comprised of many twisting tubes and vials, it seems a liquid may be inside."
+	desc = "Hypodermic"
+	label_desc = "Hypodermic: The Artifact's shape is comprised of many twisting tubes and vials, it seems a liquid may be inside."
 	flags = BLUESPACE_TRAIT | PLASMA_TRAIT | URANIUM_TRAIT
+	blacklist_traits = list(/datum/xenoartifact_trait/minor/long)
 	var/datum/reagent/formula
 	var/amount
 
 /datum/xenoartifact_trait/major/chem/on_init(obj/item/xenoartifact/X)
-	amount = pick(5, 9, 10, 15)
+	amount = pick(7, 14, 21)
 	formula = get_random_reagent_id(CHEMICAL_RNG_GENERAL)
 
 /datum/xenoartifact_trait/major/chem/activate(obj/item/xenoartifact/X, atom/target)
 	if(target?.reagents)
 		playsound(get_turf(X), pick('sound/items/hypospray.ogg','sound/items/hypospray2.ogg'), 50, TRUE)
 		var/datum/reagents/R = target.reagents
-		R.add_reagent(formula, amount)
-		log_game("[X] injected [key_name_admin(target)] with [amount]u of [formula] at [world.time]. [X] located at [X.x] [X.y] [X.z]")
+		R.add_reagent(formula, amount*(initial(formula.metabolization_rate)))
+		log_game("[X] injected [key_name_admin(target)] with [amount]u of [formula] at [world.time]. [X] located at [AREACOORD(X)]")
 
-//============
-// Push, pushes target away from artifact
-//============
+///============
+/// Push, pushes target away from artifact
+///============
 /datum/xenoartifact_trait/major/push
 	label_name = "Push"
 	label_desc = "Push: The Artifact pushes anything not bolted down. The shape doesn't suggest this."
@@ -479,12 +362,14 @@
 /datum/xenoartifact_trait/major/push/activate(obj/item/xenoartifact/X, atom/target)
 	if(ismovable(target))
 		var/atom/movable/victim = target
+		if(victim.anchored)
+			return
 		var/atom/trg = get_edge_target_turf(X.loc, get_dir(X.loc, target.loc) || pick(NORTH, EAST, SOUTH, WEST))
 		victim.throw_at(get_turf(trg), (X.charge*0.07)+1, 8)
 
-//============
-// Pull, pulls target towards artifact
-//============
+///============
+/// Pull, pulls target towards artifact
+///============
 /datum/xenoartifact_trait/major/pull
 	label_name = "Pull"
 	label_desc = "Pull: The Artifact pulls anything not bolted down. The shape doesn't suggest this."
@@ -496,14 +381,16 @@
 /datum/xenoartifact_trait/major/pull/activate(obj/item/xenoartifact/X, atom/target)
 	if(ismovable(target))
 		var/atom/movable/victim = target
+		if(victim.anchored)
+			return
 		if(get_dist(X, target) <= 1 && isliving(target))
 			var/mob/living/living_victim = target
 			living_victim.Knockdown(SHOVE_KNOCKDOWN_SOLID)
 		victim.throw_at(get_turf(X), X.charge*0.08, 8)
 
-//============
-// Horn, produces a random noise
-//============
+///============
+/// Horn, produces a random noise
+///============
 /datum/xenoartifact_trait/major/horn
 	desc = "Horned"
 	label_name = "Horn"
@@ -521,9 +408,9 @@
 /datum/xenoartifact_trait/major/horn/activate(obj/item/xenoartifact/X, atom/target, atom/user)
 	playsound(get_turf(target), sound, 50, FALSE)
 
-//============
-// Gas, replaces a random gas with another random gas
-//============
+///============
+/// Gas, replaces a random gas with another random gas
+///============
 /datum/xenoartifact_trait/major/gas
 	desc = "Porous"
 	label_desc = "Porous: The Artifact absorbs a specific nearby gas and replaces it with an undeterminable one."
@@ -566,23 +453,26 @@
 		air.adjust_moles(input_id, -moles)
 		air.adjust_moles(output_id, moles)
 
-//============
-// Destabilizing, teleports the victim to that weird place from the exploration meme.
-//============
+///============
+/// Destabilizing, teleports the victim to that weird place from the exploration meme.
+///============
 /datum/xenoartifact_trait/major/distablizer
 	desc = "Destabilizing"
 	label_desc = "Destabilizing: The Artifact collapses an improper bluespace matrix on the target, sending them to an unknown location."
 	weight = 25
 	flags = URANIUM_TRAIT
+	blacklist_traits = list(/datum/xenoartifact_trait/minor/aura)
 	var/obj/item/xenoartifact/exit
 
 /datum/xenoartifact_trait/major/distablizer/on_init(obj/item/xenoartifact/X)
 	exit = X
 	GLOB.destabliization_exits += X
 
-/datum/xenoartifact_trait/major/distablizer/on_item(obj/item/xenoartifact/X, atom/user, atom/item)
-	var/obj/item/clothing/gloves/artifact_pinchers/P = locate(/obj/item/clothing/gloves/artifact_pinchers) in user.contents
-	if(do_banish(item) && !P?.safety)
+/datum/xenoartifact_trait/major/distablizer/on_item(obj/item/xenoartifact/X, mob/living/carbon/human/user, atom/item)
+	var/obj/item/clothing/gloves/artifact_pinchers/P
+	if(istype(user))
+		P = user.get_item_by_slot(ITEM_SLOT_GLOVES)
+	if(!P?.safety && do_banish(item))
 		to_chat(user, "<span class='warning'>The [item] dissapears!</span>")
 		return TRUE
 	..()
@@ -605,6 +495,64 @@
 		if(AM.forceMove(pick(GLOB.destabilization_spawns)))
 			return TRUE
 
-/datum/xenoartifact_trait/major/distablizer/Destroy(force, ...)
+/datum/xenoartifact_trait/major/distablizer/Destroy()
 	GLOB.destabliization_exits -= exit
 	..()
+
+///============
+/// Dissipating, the artifact creates a could of smoke.
+///============
+/datum/xenoartifact_trait/major/smokey
+	desc = "Dissipating"
+	label_desc = "Dissipating: The Artifact is dissipating as if it was made of smoke."
+	flags = URANIUM_TRAIT | PLASMA_TRAIT | BLUESPACE_TRAIT
+
+/datum/xenoartifact_trait/major/smokey/activate(obj/item/xenoartifact/X, atom/target, atom/user, setup)
+	var/datum/effect_system/smoke_spread/E = new()
+	E.set_up(max(3, X.charge*0.08), get_turf(X))
+	E.start()
+
+///============
+/// Marker, colors target with a random color
+///============
+/datum/xenoartifact_trait/major/marker
+	label_name = "Marker"
+	label_desc = "Marker: The Artifact causes the target to refract a unique color index."
+	flags = PLASMA_TRAIT | BLUESPACE_TRAIT
+	///The color this artifact dispenses
+	var/color
+
+/datum/xenoartifact_trait/major/marker/on_init(obj/item/xenoartifact/X)
+	color = pick(COLOR_RED, COLOR_GREEN, COLOR_BLUE, COLOR_PURPLE, COLOR_ORANGE, COLOR_YELLOW, COLOR_CYAN, COLOR_PINK, "all")
+
+/datum/xenoartifact_trait/major/marker/activate(obj/item/xenoartifact/X, atom/target, atom/user, setup)
+	if(color == "all")
+		target.color = pick(COLOR_RED, COLOR_GREEN, COLOR_BLUE, COLOR_PURPLE, COLOR_ORANGE, COLOR_YELLOW, COLOR_CYAN, COLOR_PINK)
+	else
+		target.color = color
+
+///============
+/// emote, makes user do a random emote
+///============
+/datum/xenoartifact_trait/major/emote
+	label_name = "Emotional"
+	label_desc = "Emotional: The Artifact causes the target to experience, or preform, a random emotion."
+	flags = PLASMA_TRAIT | BLUESPACE_TRAIT | URANIUM_TRAIT
+	///Emote to preform
+	var/datum/emote/emote
+
+/datum/xenoartifact_trait/major/emote/on_init(obj/item/xenoartifact/X)
+	emote = pick(GLOB.xenoa_emote)
+	emote = new emote()
+
+/datum/xenoartifact_trait/major/emote/activate(obj/item/xenoartifact/X, atom/target, atom/user, setup)
+	if(iscarbon(target))
+		emote.run_emote(target)
+	//Not all mobs can preform the given emotes, spin is pretty common though
+	else if(isliving(target))
+		var/datum/emote/spin/E = new()
+		E.run_emote(target)
+
+/datum/xenoartifact_trait/major/emote/Destroy()
+	. = ..()
+	QDEL_NULL(emote)

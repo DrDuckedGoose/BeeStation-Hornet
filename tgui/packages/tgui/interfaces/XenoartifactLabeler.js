@@ -11,7 +11,7 @@ export const XenoartifactLabeler = (props, context) => {
         <XenoartifactLabelerSticker />
         <Flex direction="row">
           <Flex.Item>
-            <XenoartifactLabelerActivators />
+            <XenoartifactLabelerTraits />
           </Flex.Item>
 
           <Flex.Item>
@@ -23,26 +23,35 @@ export const XenoartifactLabeler = (props, context) => {
   );
 };
 
-const XenoartifactLabelerActivators = (props, context) => {
+const XenoartifactLabelerTraits = (props, context) => {
   const { act, data } = useBackend(context);
   const {
-    activator,
+    selected_activator_traits,
     activator_traits,
-    minor_trait,
+    selected_minor_traits,
     minor_traits,
-    major_trait,
+    selected_major_traits,
     major_traits,
     malfunction_list,
-    malfunction,
+    selected_malfunction_traits,
     info_list,
   } = data;
+
+  let alphasort = function (a, b) { return a.localeCompare(b, "en"); };
+
+  const sorted_activators = activator_traits.sort(alphasort);
+  const sorted_minors = minor_traits.sort(alphasort);
+  const sorted_majors = major_traits.sort(alphasort);
+  const sorted_malfs = malfunction_list.sort(alphasort);
+
   return (
     <Box px={1} grow={1} overflowY="auto" height="425px" width="150px">
       <Section title="Material">
         <Box>
           {
-            activator_traits.map(trait => (<XenoartifactLabelerGenerateList 
-              specific_trait={trait} check_against={activator} key={trait}
+            sorted_activators.map(trait => (<XenoartifactLabelerGenerateList 
+              specific_trait={trait} check_against={selected_activator_traits}
+              key={trait}
               trait_type="activator" />))
           }
         </Box>
@@ -50,8 +59,9 @@ const XenoartifactLabelerActivators = (props, context) => {
       <Section title="Notes">
         <Box>
           {
-            minor_traits.map(trait => (<XenoartifactLabelerGenerateList 
-              specific_trait={trait} check_against={minor_trait} key={trait}
+            sorted_minors.map(trait => (<XenoartifactLabelerGenerateList 
+              specific_trait={trait} check_against={selected_minor_traits}
+              key={trait}
               trait_type="minor" />))
           }
         </Box>
@@ -59,8 +69,9 @@ const XenoartifactLabelerActivators = (props, context) => {
       <Section title="Shape">
         <Box>
           {
-            major_traits.map(trait => (<XenoartifactLabelerGenerateList 
-              specific_trait={trait} check_against={major_trait} key={trait} 
+            sorted_majors.map(trait => (<XenoartifactLabelerGenerateList
+              specific_trait={trait} check_against={selected_major_traits}
+              key={trait} 
               trait_type="major" />))
           }
         </Box>
@@ -68,9 +79,10 @@ const XenoartifactLabelerActivators = (props, context) => {
       <Section title="Malfunction">
         <Box>
           {
-            malfunction_list.map(trait => (<XenoartifactLabelerGenerateList 
+            sorted_malfs.map(trait => (<XenoartifactLabelerGenerateList 
               key={trait}
-              specific_trait={trait} check_against={malfunction} 
+              specific_trait={trait} 
+              check_against={selected_malfunction_traits}
               trait_type="malfunction" />))
           }
         </Box>

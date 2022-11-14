@@ -41,8 +41,6 @@
 	var/list/atom_colours
 
 
-	///overlays that should remain on top and not normally removed when using cut_overlay functions, like c4.
-	var/list/priority_overlays
 	/// a very temporary list of overlays to remove
 	var/list/remove_overlays
 	/// a very temporary list of overlays to add
@@ -97,6 +95,9 @@
 	var/chat_color_name
 	/// Last color calculated for the the chatmessage overlays
 	var/chat_color
+
+	///Used for changing icon states for different base sprites.
+	var/base_icon_state
 
 	///The config type to use for greyscaled sprites. Both this and greyscale_colors must be assigned to work.
 	var/greyscale_config
@@ -255,7 +256,6 @@
 	orbiters = null // The component is attached to us normaly and will be deleted elsewhere
 
 	LAZYCLEARLIST(overlays)
-	LAZYCLEARLIST(priority_overlays)
 	LAZYCLEARLIST(managed_overlays)
 
 	for(var/i in targeted_by)
@@ -467,6 +467,10 @@
 /atom/proc/is_drainable()
 	return reagents && (reagents.flags & DRAINABLE)
 
+/// Is this atom grindable to get reagents
+/atom/proc/is_grindable()
+	return reagents && (reagents.flags & ABSOLUTELY_GRINDABLE)
+
 /// Are you allowed to drop this atom
 /atom/proc/AllowDrop()
 	return FALSE
@@ -555,6 +559,7 @@
 		if(reagents.flags & TRANSPARENT)
 			. += "It contains:"
 			if(length(reagents.reagent_list))
+				//-------- Reagent checks ---------
 				if(user.can_see_reagents()) //Show each individual reagent
 					for(var/datum/reagent/R in reagents.reagent_list)
 						. += "[R.volume] units of [R.name]"
@@ -563,6 +568,25 @@
 					for(var/datum/reagent/R in reagents.reagent_list)
 						total_volume += R.volume
 					. += "[total_volume] units of various reagents"
+				//-------- Beer goggles ---------
+				if(user.can_see_boozepower())
+					var/total_boozepower = 0
+					var/list/taste_list = list()
+
+					// calculates the total booze power from all 'ethanol' reagents
+					for(var/datum/reagent/consumable/ethanol/B in reagents.reagent_list)
+						total_boozepower += B.volume * max(B.boozepwr, 0) // minus booze power is reversed to light drinkers, but is actually 0 to normal drinkers.
+
+					// gets taste results from all reagents
+					for(var/datum/reagent/R in reagents.reagent_list)
+						if(istype(R, /datum/reagent/consumable/ethanol/fruit_wine) && !(user.stat == DEAD) && !(HAS_TRAIT(src, TRAIT_BARMASTER)) ) // taste of fruit wine is mysterious, but can be known by ghosts/some special bar master trait holders
+							taste_list += "<br/>   - unexplored taste of the winery (from [R.name])"
+						else
+							taste_list += "<br/>   - [R.taste_description] (from [R.name])"
+					if(reagents.total_volume)
+						. += "<span class='notice'>Booze Power: total [total_boozepower], average [round(total_boozepower/reagents.total_volume, 0.1)] ([get_boozepower_text(total_boozepower/reagents.total_volume, user)])</span>"
+						. += "<span class='notice'>It would taste like: [english_list(taste_list, comma_text="", and_text="")].</span>"
+				//-------------------------------
 			else
 				. += "Nothing."
 		else if(reagents.flags & AMOUNT_VISIBLE)
@@ -773,10 +797,19 @@
 /**
   * Respond to an emag being used on our atom
   *
-  * Default behaviour is to send COMSIG_ATOM_EMAG_ACT and return
+  * Default behaviour is to send COMSIG_ATOM_SHOULD_EMAG,
+  * if that is FALSE (due to the default being false, should_emag still occurs on /obj) then COMSIG_ATOM_ON_EMAG and return
+  *
+  * This typically should not be overriden, in favor of the /obj counterparts:
+  * - Override on_emag(mob/user)
+  * - Maintain parent calls in on_emag for good practice
+  * - If the item is "undo-emaggable" (can be flipped on/off), set emag_toggleable = TRUE
+  * For COMSIG_ATOM_SHOULD_EMAG, /obj uses should_emag.
+  * - Parent calls do not need to be maintained.
   */
-/atom/proc/emag_act()
-	SEND_SIGNAL(src, COMSIG_ATOM_EMAG_ACT)
+/atom/proc/use_emag(mob/user)
+	if(!SEND_SIGNAL(src, COMSIG_ATOM_SHOULD_EMAG, user))
+		SEND_SIGNAL(src, COMSIG_ATOM_ON_EMAG, user)
 
 /**
   * Respond to a radioactive wave hitting this atom
@@ -805,17 +838,17 @@
 /**
   * Called when lighteater is called on this.
   */
-/atom/proc/lighteater_act(obj/item/light_eater/light_eater)
+/atom/proc/lighteater_act(obj/item/light_eater/light_eater, atom/parent)
 	SHOULD_CALL_PARENT(TRUE)
 	SEND_SIGNAL(src,COMSIG_ATOM_LIGHTEATER_ACT)
 	for(var/datum/light_source/light_source in light_sources)
 		if(light_source.source_atom != src)
-			light_source.source_atom.lighteater_act(light_eater)
+			light_source.source_atom.lighteater_act(light_eater, src)
 
 /**
   * Respond to the eminence clicking on our atom
   *
-  * Default behaviour is to send COMSIG_ATOM_EMAG_ACT and return
+  * Default behaviour is to send COMSIG_ATOM_EMINENCE_ACT and return
   */
 /atom/proc/eminence_act(mob/living/simple_animal/eminence/eminence)
 	SEND_SIGNAL(src, COMSIG_ATOM_EMINENCE_ACT, eminence)
@@ -1071,10 +1104,10 @@
 							valid_id = TRUE
 						if(!valid_id)
 							to_chat(usr, "<span class='warning'>A reagent with that ID doesn't exist!</span>")
-				
+
 				if("Choose from a list")
 					chosen_id = input(usr, "Choose a reagent to add.", "Choose a reagent.") as null|anything in subtypesof(/datum/reagent)
-				
+
 				if("I'm feeling lucky")
 					chosen_id = pick(subtypesof(/datum/reagent))
 

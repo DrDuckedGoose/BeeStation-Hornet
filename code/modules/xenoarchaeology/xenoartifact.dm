@@ -1,8 +1,3 @@
-//Xenoartifact signals.
-#define XENOA_DEFAULT_SIGNAL "xenoa_default_signal" //Used for xenoartifact signal handlers
-#define XENOA_SIGNAL "xenoa_signal"
-#define XENOA_CHANGE_PRICE "xenoa_change_price" //Bacon requested it
-
 /obj/item/xenoartifact
 	name = "artifact"
 	icon = 'icons/obj/xenoarchaeology/xenoartifact.dmi'
@@ -25,6 +20,8 @@
 	var/material 
 	///activation trait, minor 1, minor 2, minor 3, major, malfunction
 	var/list/traits = list()
+	///Internal list of unallowed traits
+	var/list/blacklist = list()
 	///Touch hint
 	var/datum/xenoartifact_trait/touch_desc
 	///used for special examine circumstance, science goggles & ghosts
@@ -45,14 +42,12 @@
 	var/cooldownmod = 0
 	COOLDOWN_DECLARE(xenoa_cooldown)
 
-	//Associated with random sprite stuff. It's setup as [4] so it's easier to check for slots being assigned by traits and such
-	var/list/icon_slots[4]
-	var/mutable_appearance/icon_overlay 
-
 	///Everytime the artifact is used this increases. When this is successfully proc'd the artifact gains a malfunction and this is lowered.
 	var/malfunction_chance = 0
 	///How much the chance can change in a sinlge itteration
-	var/malfunction_mod = 0.3
+	var/malfunction_mod = 1
+	///Ref to trait list for malfunctions
+	var/list/blacklist_ref
 
 	//snowflake variable for shaped
 	var/transfer_prints = FALSE
@@ -65,6 +60,9 @@
 /obj/item/xenoartifact/Initialize(mapload, difficulty)
 	. = ..()
 
+	generate_xenoa_statics() //This wont load if it's already done, aka this wont spam
+
+	blacklist_ref = GLOB.xenoa_bluespace_blacklist
 	material = difficulty //Difficulty is set, in most cases
 	if(!material)
 		material = pickweight(list(XENOA_BLUESPACE = 8, XENOA_PLASMA = 5, XENOA_URANIUM = 3, XENOA_BANANIUM = 1)) //Maint artifacts and similar situations
@@ -74,33 +72,36 @@
 	switch(material)
 		if(XENOA_BLUESPACE) //Check xenoartifact_materials.dm for info on artifact materials/types/traits
 			name = "bluespace [name]"
-			generate_traits(XENOA_BLUESPACE_BLACKLIST)
+			generate_traits(GLOB.xenoa_bluespace_blacklist)
 			if(!price)
 				price = pick(100, 200, 300)
 			extra_masks = pick(1)
 
 		if(XENOA_PLASMA)
 			name = "plasma [name]"
-			generate_traits(XENOA_PLASMA_BLACKLIST)
+			blacklist_ref = GLOB.xenoa_plasma_blacklist
+			generate_traits(GLOB.xenoa_plasma_blacklist)
 			if(!price)
 				price = pick(200, 300, 500)
-			malfunction_mod = 0.5
+			malfunction_mod = 3
 			extra_masks = pick(1)
 
 		if(XENOA_URANIUM)
 			name = "uranium [name]"
-			generate_traits(XENOA_URANIUM_BLACKLIST, TRUE) 
+			blacklist_ref = GLOB.xenoa_uranium_blacklist
+			generate_traits(GLOB.xenoa_uranium_blacklist, TRUE) 
 			if(!price)
 				price = pick(300, 500, 800) 
-			malfunction_mod = 1
+			malfunction_mod = 5
 			extra_masks = pick(1)
 
 		if(XENOA_BANANIUM)
 			name = "bananium [name]"
-			generate_traits(list(/datum/xenoartifact_trait/major/sing))
+			generate_traits()
 			if(!price)
 				price = pick(500, 800, 1000)
-			extra_masks = pick(0)
+			malfunction_mod = 5
+			extra_masks = 0
 	SEND_SIGNAL(src, XENOA_CHANGE_PRICE, price) //update price, bacon requested signals
 
 	//Initialize traits that require that.
@@ -136,7 +137,7 @@
 			qdel(AM)
 		else
 			AM.forceMove((loc ? loc : get_turf(src)))
-	. = ..()
+	return ..()
 
 /obj/item/xenoartifact/CanAllowThrough(atom/movable/mover, turf/target) //tweedle dee, density feature
 	if(get_trait(/datum/xenoartifact_trait/minor/dense) || anchored)
@@ -222,12 +223,12 @@
 
 ///Run traits. Used to activate all minor, major, and malfunctioning traits in the artifact's trait list. Sets cooldown when properly finished.
 /obj/item/xenoartifact/proc/check_charge(mob/user, charge_mod)
-	log_game("[user] attempted to activate [src] at [world.time]. Located at [x] [y] [z].")
+	log_game("[user] attempted to activate [src] at [world.time]. Located at [AREACOORD(src)].")
 
-	if(COOLDOWN_FINISHED(src, xenoa_cooldown))
+	if(COOLDOWN_FINISHED(src, xenoa_cooldown) && !istype(loc, /obj/item/storage))
 		COOLDOWN_START(src, xenoa_cooldown, cooldown+cooldownmod)
-		if(prob(malfunction_chance) && traits.len < 6 + (material == XENOA_URANIUM ? 1 : 0)) //See if we pick up an malfunction
-			generate_trait_unique(XENOA_MALFS)
+		if(prob(malfunction_chance) && traits.len < 7 + (material == XENOA_URANIUM ? 1 : 0)) //See if we pick up an malfunction
+			generate_malfunction_unique()
 			malfunction_chance = 0 //Lower chance after contracting 
 		else //otherwise increase chance.
 			malfunction_chance = min(malfunction_chance + malfunction_mod, 100)
@@ -235,76 +236,100 @@
 		charge += charge_mod
 		charge = (charge+charge_req)/1.9 //Not quite an average. Generally produces better results.
 
-		for(var/datum/xenoartifact_trait/minor/t in traits)//Minor traits aren't apart of the target loop, specifically becuase they pass data into it
-			t?.activate(src, user, user)
-			log_game("[src] activated minor trait [t] at [world.time]. Located at [x] [y] [z]")
+		for(var/datum/xenoartifact_trait/minor/t in traits)//Minor traits aren't apart of the target loop, specifically becuase they pass data into it.
+			t.activate(src, user, user)
+			log_game("[src] activated minor trait [t] at [world.time]. Located at [AREACOORD(src)]")
 
 		//Clamp charge to avoid fucky wucky
 		charge = max(10, charge)
+
+		//Add holder for muh balance
+		/*
+		Uncomment this if artifact abuse becomes a huge issue
+
+		if(isliving(loc) || isliving(pulledby))
+			var/mob/living/M = isliving(loc) ? loc : pulledby
+			if(!istype(M.get_item_by_slot(ITEM_SLOT_GLOVES), /obj/item/clothing/gloves/artifact_pinchers) && !istype(get_area(M), /area/science))
+				true_target |= list(M)
+		*/
    
 		for(var/atom/M in true_target) //target loop, majors & malfunctions
 			if(get_dist(get_turf(src), get_turf(M)) <= max_range) 
 				create_beam(M) //Indicator beam, points to target, M
 				for(var/datum/xenoartifact_trait/t as() in traits) //Major traits
 					if(!istype(t, /datum/xenoartifact_trait/minor))
-						log_game("[src] activated trait [t] at [world.time]. Located at [x] [y] [z]")
+						log_game("[src] activated trait [t] at [world.time]. Located at [AREACOORD(src)]")
 						t.activate(src, M, user)
 		if(!get_trait(/datum/xenoartifact_trait/major/horn))
-			playsound(get_turf(src), 'sound/magic/blink.ogg', 25, TRUE) 
-	else
-		visible_message("<span class='notice'>[src] echos emptily.</span>")
+			playsound(get_turf(src), 'sound/magic/blink.ogg', 25, TRUE)
 
 	charge = 0
-	true_target = list()
+	true_target?.Cut(1, 0)
 
 ///Generate traits outside of blacklist. Malf = TRUE if you want malfunctioning traits.
-/obj/item/xenoartifact/proc/generate_traits(var/list/blacklist_traits, malf = FALSE)
+/obj/item/xenoartifact/proc/generate_traits(list/blacklist_traits, malf = FALSE)
+	//Provided blacklist or nothing, covers bananium
+	blacklist = blacklist_traits?.Copy() || list()
+
 	var/datum/xenoartifact_trait/desc_holder
-	desc_holder = generate_trait_unique(XENOA_ACTIVATORS, blacklist_traits, FALSE) //Activator
+	desc_holder = generate_trait_unique(GLOB.xenoa_activators, blacklist, FALSE) //Activator
 	special_desc = initial(desc_holder.desc) ? "[special_desc] [initial(desc_holder.desc)]" : "[special_desc]n Unknown"
 
 	desc_holder = null
 	var/datum/xenoartifact_trait/minor_desc_holder
 	for(var/i in 1 to 3)
-		minor_desc_holder = generate_trait_unique(XENOA_MINORS, blacklist_traits, FALSE) //Minor/s
+		minor_desc_holder = generate_trait_unique(GLOB.xenoa_minors, blacklist, FALSE) //Minor/s
 		desc_holder = desc_holder ? desc_holder : minor_desc_holder
 		if(!touch_desc)
-			touch_desc = traits[traits.len] 
+			touch_desc = traits[traits.len]
 			if(!touch_desc.on_touch(src, src))
 				touch_desc = null //not setting this to null fucks with check, qdel refuses to be helpful another day
 
 	special_desc = initial(desc_holder?.desc) ? "[special_desc] [initial(desc_holder.desc)] material." : "[special_desc] material."
 
 	if(malf)
-		generate_trait_unique(XENOA_MALFS, blacklist_traits) //Malf
+		generate_trait_unique(GLOB.xenoa_malfs, blacklist) //Malf
 
-	desc_holder = generate_trait_unique(XENOA_MAJORS, blacklist_traits, FALSE) //Major
+	desc_holder = generate_trait_unique(GLOB.xenoa_majors, blacklist, FALSE) //Major
 	special_desc = initial(desc_holder.desc) ? "[special_desc] The shape is [initial(desc_holder.desc)]." : "[special_desc] The shape is Unknown."
 
 	charge_req = rand(1, 10) * 10
 
 ///generate a single trait against a blacklist. Used in larger /obj/item/xenoartifact/proc/generate_traits()
-/obj/item/xenoartifact/proc/generate_trait_unique(var/list/trait_list, var/list/blacklist_traits = list())
+/obj/item/xenoartifact/proc/generate_trait_unique(list/trait_list, list/blacklist_traits = list())
 	var/datum/xenoartifact_trait/new_trait //Selection
-	var/list/selection = trait_list //Selectable traits
+	var/list/selection = trait_list.Copy() //Selectable traits
 	selection -= blacklist_traits
 	if(selection.len < 1)
-		log_game("An almost impossible event has occured. [src] has failed to generate any traits with [trait_list]!")
+		log_game("An impossible event has occured. [src] has failed to generate any traits!")
 		return
 	new_trait = pickweight(selection)
-	blacklist_traits += new_trait //Add chosen trait to blacklist
+	blacklist += new_trait //Add chosen trait to blacklist
 	traits += new new_trait
 	new_trait = new new_trait //type converting doesn't work too well here but this should be fine.
-	blacklist_traits += new_trait.blacklist_traits //Cant use initial() to access lists without bork'ing it
+	blacklist += new_trait.blacklist_traits //Cant use initial() to access lists without bork'ing it
 	return new_trait
 	
+///generates a malfunction respective to the artifact's type - don't use anywhere but for check_charge malfunctions
+/obj/item/xenoartifact/proc/generate_malfunction_unique(list/blacklist)
+	var/list/malfunctions = GLOB.xenoa_malfs.Copy()
+	malfunctions -= blacklist
+	malfunctions -= traits
+	if(!malfunctions.len)
+		return
+	//Pick one to use
+	var/datum/xenoartifact_trait/T = pick(malfunctions)
+	T = new T
+	traits += T
+
 ///Gets a singular entity, there's a specific traits that handles multiple.
 /obj/item/xenoartifact/proc/get_target_in_proximity(range)
 	for(var/mob/living/M in oview(range, get_turf(src)))
 		. = process_target(M)
 	if(isliving(loc) && !.)
 		. = process_target(loc)
-	return
+	//Return a list becuase byond is fucky and WILL overwrite the typing
+	return list(.)
 
 ///Returns the desired trait and it's values if it's in the artifact's list
 /obj/item/xenoartifact/proc/get_trait(typepath)
@@ -315,9 +340,7 @@
 	if(ishuman(target)) //early return if deflect chance
 		var/mob/living/carbon/human/H = target
 		if(H.wear_suit && H.head && isclothing(H.wear_suit) && isclothing(H.head))
-			var/obj/item/clothing/CS = H.wear_suit
-			var/obj/item/clothing/CH = H.head
-			if(((CS.resistance_flags & ARTIFACT_PROOF)||(CH.resistance_flags & ARTIFACT_PROOF)) && prob(min(XENOA_DEFLECT_CHANCE + (CS.armor["rad"]/3), 80)) || ((CS.resistance_flags & ARTIFACT_PROOF_EXTREME)||(CH.resistance_flags & ARTIFACT_PROOF_EXTREME)))
+			if(H.anti_artifact_check())
 				to_chat(target, "<span class='warning'>The [name] was unable to target you!</span>")
 				playsound(get_turf(target), 'sound/weapons/deflect.ogg', 25, TRUE) 
 				return
@@ -327,19 +350,19 @@
 		. = M?.pulling ? M.pulling : M
 	else
 		. = target
-	RegisterSignal(., COMSIG_PARENT_QDELETING, .proc/on_target_del, .)
+	RegisterSignal(., COMSIG_PARENT_QDELETING, .proc/on_target_del, TRUE)
 	return
 
 ///Hard del handle
 /obj/item/xenoartifact/proc/on_target_del(atom/target)
 	UnregisterSignal(target, COMSIG_PARENT_QDELETING)
-	true_target -= target
+	true_target -= list(target)
 
 ///Helps show how the artifact is working. Hint stuff. Draws a beam between artifact and target
 /obj/item/xenoartifact/proc/create_beam(atom/target)
 	if((locate(src) in target?.contents) || !get_turf(target))
 		return
-	var/datum/beam/xenoa_beam/B = new((!isturf(src.loc) ? src.loc : src), target, time=1.5 SECONDS, beam_icon='icons/obj/xenoarchaeology/xenoartifact.dmi', beam_icon_state="xenoa_beam", btype=/obj/effect/ebeam/xenoa_ebeam)
+	var/datum/beam/xenoa_beam/B = new((!isturf(loc) ? loc : src), target, time=1.5 SECONDS, beam_icon='icons/obj/xenoarchaeology/xenoartifact.dmi', beam_icon_state="xenoa_beam", btype=/obj/effect/ebeam/xenoa_ebeam)
 	B.set_color(material)
 	INVOKE_ASYNC(B, /datum/beam/xenoa_beam.proc/Start)
 
@@ -378,8 +401,8 @@
 /obj/item/xenoartifact/process(delta_time)
 	switch(process_type)
 		if(PROCESS_TYPE_LIT) //Burning
-			true_target = list(get_target_in_proximity(min(max_range, 5)))
-			if(isliving(true_target[1]))
+			true_target = get_target_in_proximity(min(max_range, 5))
+			if(true_target[1])
 				visible_message("<span class='danger' size='4'>The [name] flicks out.</span>")
 				default_activate(25, null, null)
 				process_type = null
@@ -387,7 +410,7 @@
 		if(PROCESS_TYPE_TICK) //Clock-ing
 			playsound(get_turf(src), 'sound/effects/clock_tick.ogg', 50, TRUE) 
 			visible_message("<span class='danger' size='10'>The [name] ticks.</span>")
-			true_target = list(get_target_in_proximity(min(max_range, 5)))
+			true_target = get_target_in_proximity(min(max_range, 5))
 			default_activate(25, null, null)
 			if(DT_PROB(XENOA_TICK_CANCEL_PROB, delta_time) && COOLDOWN_FINISHED(src, xenoa_cooldown))
 				process_type = null
@@ -405,8 +428,8 @@
 	..()
 
 /datum/component/xenoartifact_pricing ///Pricing component for shipping solution. Consider swapping to cargo after change.
-	///Buying and selling related
-	var/modifier = 0.65
+	///Buying and selling related, based on guess qaulity
+	var/modifier = 0.5
 	///default price gets generated if it isn't set by console. This only happens if the artifact spawns outside of that process
 	var/price
 
@@ -418,11 +441,12 @@
 	UnregisterSignal(parent, XENOA_CHANGE_PRICE)
 	..()
 
-///Typically used to change internally, Bacon requested?
+///Typically used to change internally
 /datum/component/xenoartifact_pricing/proc/update_price(datum/source, f_price)
 	price = f_price
 
-/obj/item/xenoartifact/objective/Initialize(mapload, difficulty) //Objective version for exploration
+ ///Objective version for exploration
+/obj/item/xenoartifact/objective/Initialize(mapload, difficulty)
 	traits += new /datum/xenoartifact_trait/special/objective
 	..()
 
@@ -440,7 +464,7 @@
 	color = col
 
 /datum/beam/xenoa_beam/Draw()
-	var/Angle = round(Get_Angle(origin,target))
+	var/Angle = round(get_angle(origin,target))
 	var/matrix/rot_matrix = matrix()
 	rot_matrix.Turn(Angle)
 

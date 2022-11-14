@@ -13,25 +13,14 @@
 	///Weight in trait list, most traits wont change this
 	var/weight = 50
 
-///Proc used to compile trait weights into a list
-/proc/compile_artifact_weights(path)
-	if(!ispath(path))
-		return
-	var/list/temp = subtypesof(path)
-	var/list/weighted = list()
-	for(var/datum/xenoartifact_trait/T as() in temp)
-		weighted += list((T) = initial(T?.weight))
-	return weighted
+//Subtype shenanigahns
+/datum/xenoartifact_trait/minor //leave these here for later.
 
-///Compile a blacklist of traits from a given flag/s
-/proc/compile_artifact_blacklist(var/flags)
-	var/list/output = list()
-	for(var/datum/xenoartifact_trait/T as() in XENOA_ALL_TRAITS)
-		if(!(initial(T.flags) & flags))
-			output += T
-	return output
+/datum/xenoartifact_trait/major
 
-//Activator signal shenanignas 
+/datum/xenoartifact_trait/malfunction
+	flags = BLUESPACE_TRAIT | PLASMA_TRAIT | URANIUM_TRAIT
+
 /datum/xenoartifact_trait/activator
 	///How much an activator trait can output on a standard, modified by the artifacts charge_req and circumstances.
 	var/charge
@@ -40,7 +29,27 @@
 	///Not used outside of signal handle, please
 	var/obj/item/xenoartifact/xenoa
 
-/datum/xenoartifact_trait/activator/proc/calculate_charge(obj/item/xenoartifact/X)
+///Proc used to compile trait weights into a list
+/proc/compile_artifact_weights(path)
+	if(!ispath(path))
+		return
+	var/list/temp = subtypesof(path)
+	var/list/weighted = list()
+	for(var/datum/xenoartifact_trait/T as() in temp)
+		weighted += list((T) = initial(T.weight))
+	return weighted
+
+///Compile a blacklist of traits from a given flag/s
+/proc/compile_artifact_blacklist(var/flags)
+	var/list/output = list()
+	for(var/datum/xenoartifact_trait/T as() in GLOB.xenoa_all_traits)	
+		if(!(initial(T.flags) & flags))
+			output += T
+	return output
+
+//Activator signal shenanignas 
+///Passes information into the activator datum to decide if, and how, the artifact activates
+/datum/xenoartifact_trait/activator/proc/pass_input(obj/item/xenoartifact/X)
 	return
 
 /datum/xenoartifact_trait/activator/on_init(obj/item/xenoartifact/X)
@@ -64,7 +73,7 @@
 				RegisterSignal(xenoa, COMSIG_ITEM_ATTACK_SELF, .proc/translate_attack_self)
 			if(XENOA_SIGNAL)
 				RegisterSignal(xenoa, XENOA_SIGNAL, .proc/translate_attackby)
-	RegisterSignal(xenoa, XENOA_DEFAULT_SIGNAL, .proc/calculate_charge) //Signal sent by handles
+	RegisterSignal(xenoa, XENOA_DEFAULT_SIGNAL, .proc/pass_input) //Signal sent by handles
 
 /datum/xenoartifact_trait/activator/Destroy(force, ...)
 	. = ..()
@@ -91,17 +100,10 @@
 	SEND_SIGNAL(xenoa, XENOA_DEFAULT_SIGNAL, target, params, user) //Weird order to fix this becuase signals are mean
 
 /datum/xenoartifact_trait/activator/proc/translate_pickup(mob/user, params)
-	SEND_SIGNAL(xenoa, XENOA_DEFAULT_SIGNAL, xenoa, params, params) //Weird order to fix this becuase signals are mean
+	SEND_SIGNAL(xenoa, XENOA_DEFAULT_SIGNAL, xenoa, params) //Weird order to fix this becuase signals are mean
 
 //End activator
 //Declare procs
-/datum/xenoartifact_trait/minor //Leave these here, for the future.
-
-/datum/xenoartifact_trait/major
-
-/datum/xenoartifact_trait/malfunction
-	flags = BLUESPACE_TRAIT | PLASMA_TRAIT | URANIUM_TRAIT
-
 /datum/xenoartifact_trait/proc/activate(obj/item/xenoartifact/X, atom/target, atom/user, setup = TRUE) //Typical behaviour
 	return
 

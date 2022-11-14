@@ -66,6 +66,7 @@
 	normalspeed = 1
 	explosion_block = 1
 	hud_possible = list(DIAG_AIRLOCK_HUD)
+	flags_1 = PREVENT_CLICK_UNDER_1 & HTML_USE_INITAL_ICON_1
 	var/allow_repaint = TRUE //Set to FALSE if the airlock should not be allowed to be repainted.
 
 	FASTDMM_PROP(\
@@ -152,6 +153,7 @@
 	rebuild_parts()
 
 	RegisterSignal(src, COMSIG_COMPONENT_NTNET_RECEIVE, .proc/ntnet_receive)
+	RegisterSignal(src, COMSIG_MACHINERY_BROKEN, .proc/on_break)
 
 	return INITIALIZE_HINT_LATELOAD
 
@@ -465,7 +467,7 @@
 /obj/machinery/door/airlock/hasPower()
 	if(protected_door)
 		return TRUE
-	return ((!secondsMainPowerLost || !secondsBackupPowerLost) && !(stat & NOPOWER))
+	return ((!secondsMainPowerLost || !secondsBackupPowerLost) && !(machine_stat & NOPOWER))
 
 /obj/machinery/door/airlock/id_scan_hacked()
 	return wires.is_cut(WIRE_IDSCAN) || aiDisabledIdScanner
@@ -707,7 +709,7 @@
 		if("closing")
 			update_icon(AIRLOCK_CLOSING)
 		if("deny")
-			if(!stat)
+			if(!machine_stat)
 				update_icon(AIRLOCK_DENY)
 				playsound(src,doorDeni,50,0,3)
 				sleep(6)
@@ -750,7 +752,7 @@
 		else
 			. += "It looks very robust."
 
-	if(issilicon(user) && !(stat & BROKEN))
+	if(issilicon(user) && !(machine_stat & BROKEN))
 		. += "<span class='notice'>Shift-click [src] to [ density ? "open" : "close"] it.</span>"
 		. += "<span class='notice'>Ctrl-click [src] to [ locked ? "raise" : "drop"] its bolts.</span>"
 		. += "<span class='notice'>Alt-click [src] to [ secondsElectrified ? "un-electrify" : "permanently electrify"] it.</span>"
@@ -1079,11 +1081,14 @@
 		if(isElectrified() && C?.siemens_coefficient)
 			shock(user,100)
 
-		if(locked) 
+		if(locked)
 			to_chat(user, "<span class='warning'>The bolts are down, it won't budge!</span>")
 			return
 
 		if(welded)
+			if(C.tool_behaviour == TOOL_CROWBAR)
+				if(try_to_crowbar(C, user))
+					return
 			to_chat(user, "<span class='warning'>It's welded, it won't budge!</span>")
 			return
 
@@ -1124,7 +1129,7 @@
 								"<span class='italics'>You hear welding.</span>")
 				if(W.use_tool(src, user, 40, volume=50, extra_checks = CALLBACK(src, .proc/weld_checks, W, user)))
 					obj_integrity = max_integrity
-					stat &= ~BROKEN
+					set_machine_stat(machine_stat & ~BROKEN)
 					user.visible_message("[user.name] has repaired [src].", \
 										"<span class='notice'>You finish repairing the airlock.</span>")
 					update_icon()
@@ -1157,7 +1162,7 @@
 							 "<span class='notice'>You start to remove electronics from the airlock assembly...</span>")
 		if(I.use_tool(src, user, 40, volume=100))
 			deconstruct(TRUE, user)
-			return
+			return TRUE
 	else if(hasPower())
 		to_chat(user, "<span class='warning'>The airlock's motors resist your efforts to force it!</span>")
 	else if(locked)
@@ -1171,7 +1176,7 @@
 		INVOKE_ASYNC(src, (density ? .proc/open : .proc/close), 2)
 
 
-/obj/machinery/door/airlock/open(forced=0)
+/obj/machinery/door/airlock/open(forced=0, ignore_emagged = FALSE)
 	if( operating || welded || locked )
 		return FALSE
 	if(!forced)
@@ -1192,7 +1197,7 @@
 			H.apply_damage(40, BRUTE, BODY_ZONE_CHEST)
 		return
 	if(forced < 2)
-		if(obj_flags & EMAGGED)
+		if(!ignore_emagged && (obj_flags & EMAGGED))
 			return FALSE
 		if(!protected_door)
 			use_power(50)
@@ -1327,24 +1332,34 @@
 //Airlock is passable if it is open (!density), bot has access, and is not bolted shut or powered off)
 	return !density || (check_access(ID) && !locked && hasPower())
 
-/obj/machinery/door/airlock/emag_act(mob/user)
+/obj/machinery/door/airlock/should_emag(mob/user)
+	if(!..())
+		return FALSE
 	if(protected_door)
 		to_chat(user, "<span class='warning'>[src] has no maintenance panel!</span>")
+		return FALSE
+	if(!hasPower())
+		to_chat(user, "<span class='warning'>The cryptographic sequencer connects to \the [src]'s ID scanner, but nothing happens.</span>")
+		return FALSE
+	// Don't allow emag if the door is currently open or moving
+	return !operating && density
+
+/obj/machinery/door/airlock/on_emag(mob/user)
+	..()
+	operating = TRUE
+	update_icon(AIRLOCK_EMAG, 1)
+	addtimer(CALLBACK(src, .proc/after_emag), 6)
+
+/obj/machinery/door/airlock/proc/after_emag()
+	if(QDELETED(src))
 		return
-	if(!operating && density && hasPower() && !(obj_flags & EMAGGED))
-		operating = TRUE
-		update_icon(AIRLOCK_EMAG, 1)
-		sleep(6)
-		if(QDELETED(src))
-			return
-		operating = FALSE
-		if(!open())
-			update_icon(AIRLOCK_CLOSED, 1)
-		obj_flags |= EMAGGED
-		lights = FALSE
-		locked = TRUE
-		loseMainPower()
-		loseBackupPower()
+	operating = FALSE
+	if(!open(ignore_emagged = TRUE))
+		update_icon(AIRLOCK_CLOSED, 1)
+	lights = FALSE
+	locked = TRUE
+	loseMainPower()
+	loseBackupPower()
 
 /obj/machinery/door/airlock/attack_alien(mob/living/carbon/alien/humanoid/user)
 	add_fingerprint(user)
@@ -1371,7 +1386,7 @@
 
 /obj/machinery/door/airlock/hostile_lockdown(mob/origin)
 	// Must be powered and have working AI wire.
-	if(canAIControl(src) && !stat)
+	if(canAIControl(src) && !machine_stat)
 		locked = FALSE //For airlocks that were bolted open.
 		safe = FALSE //DOOR CRUSH
 		close()
@@ -1383,20 +1398,16 @@
 
 /obj/machinery/door/airlock/disable_lockdown()
 	// Must be powered and have working AI wire.
-	if(canAIControl(src) && !stat)
+	if(canAIControl(src) && !machine_stat)
 		unbolt()
 		set_electrified(MACHINE_NOT_ELECTRIFIED)
 		open()
 		safe = TRUE
 
-
-/obj/machinery/door/airlock/obj_break(damage_flag)
-	if(!(flags_1 & BROKEN) && !(flags_1 & NODECONSTRUCT_1))
-		stat |= BROKEN
-		if(!panel_open)
-			panel_open = TRUE
-		wires.cut_all()
-		update_icon()
+/obj/machinery/door/airlock/proc/on_break()
+	if(!panel_open)
+		panel_open = TRUE
+	wires.cut_all()
 
 /obj/machinery/door/airlock/proc/set_electrified(seconds, mob/user)
 	secondsElectrified = seconds

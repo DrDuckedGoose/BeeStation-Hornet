@@ -8,17 +8,17 @@
 	w_class = WEIGHT_CLASS_TINY
 
 	///Checked trait
-	var/list/activator = list()
+	var/list/selected_activator_traits = list()
 	///Display names
 	var/list/activator_traits = list()
 
-	var/list/minor_trait = list()
+	var/list/selected_minor_traits = list()
 	var/list/minor_traits = list()
 
-	var/list/major_trait = list()
+	var/list/selected_major_traits = list()
 	var/list/major_traits = list()
 
-	var/list/malfunction = list()
+	var/list/selected_malfunction_traits = list()
 	var/list/malfunction_list = list()  
 
 	///trait dialogue essentially
@@ -32,6 +32,18 @@
 	///Cooldown for stickers
 	COOLDOWN_DECLARE(sticker_cooldown)
 
+/obj/item/xenoartifact_labeler/Initialize(mapload)
+	. = ..()
+	generate_xenoa_statics()
+	//Append activators
+	activator_traits = get_trait_list_desc(activator_traits, GLOB.xenoa_activators)
+	//Minors
+	minor_traits = get_trait_list_desc(minor_traits, GLOB.xenoa_minors)
+	//Majors
+	major_traits = get_trait_list_desc(major_traits, GLOB.xenoa_majors)
+	//Malfs
+	malfunction_list = get_trait_list_desc(malfunction_list, GLOB.xenoa_malfs)
+
 /obj/item/xenoartifact_labeler/ui_interact(mob/user, datum/tgui/ui)
 	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui)
@@ -40,17 +52,17 @@
 
 /obj/item/xenoartifact_labeler/ui_data(mob/user)
 	var/list/data = list()
-	data["activator"] = activator
-	data["activator_traits"] = get_trait_list_desc(activator_traits, /datum/xenoartifact_trait/activator)
+	data["selected_activator_traits"] = selected_activator_traits
+	data["activator_traits"] = activator_traits
 
-	data["minor_trait"] = minor_trait
-	data["minor_traits"] = get_trait_list_desc(minor_traits, /datum/xenoartifact_trait/minor)
+	data["selected_minor_traits"] = selected_minor_traits
+	data["minor_traits"] = minor_traits
 
-	data["major_trait"] = major_trait
-	data["major_traits"] = get_trait_list_desc(major_traits, /datum/xenoartifact_trait/major)
+	data["selected_major_traits"] = selected_major_traits
+	data["major_traits"] = major_traits
 
-	data["malfunction"] = malfunction
-	data["malfunction_list"] = get_trait_list_desc(malfunction_list, /datum/xenoartifact_trait/malfunction)
+	data["selected_malfunction_traits"] = selected_malfunction_traits
+	data["malfunction_list"] = malfunction_list
 
 	data["info_list"] = info_list
 
@@ -76,23 +88,18 @@
 		sticker_name = sanitize_text(params["name"])
 		return
 
-	trait_toggle(action, "activator", activator_traits, activator)
-	trait_toggle(action, "minor", minor_traits, minor_trait)
-	trait_toggle(action, "major", major_traits, major_trait)
-	trait_toggle(action, "malfunction", malfunction_list, malfunction)
+	trait_toggle(action, "activator", activator_traits, selected_activator_traits)
+	trait_toggle(action, "minor", minor_traits, selected_minor_traits)
+	trait_toggle(action, "major", major_traits, selected_major_traits)
+	trait_toggle(action, "malfunction", malfunction_list, selected_malfunction_traits)
 
-	. = TRUE
 	update_icon()
+	return TRUE
 
 //Get a list of all the specified trait types names, actually
-/obj/item/xenoartifact_labeler/proc/get_trait_list_desc(list/traits, trait_type)
-	trait_type = typesof(trait_type)
-	for(var/t in trait_type)
-		var/datum/xenoartifact_trait/X = t
-		if(initial(X.desc) && !(initial(X.desc) in traits) && !(initial(X.label_name)))
-			traits += initial(X.desc)
-		else if(initial(X.label_name) && !(initial(X.label_name) in traits)) //For cases where the trait doesn't have a desc or is tool cool to use one
-			traits += initial(X.label_name)
+/obj/item/xenoartifact_labeler/proc/get_trait_list_desc(list/traits, list/trait_type)
+	for(var/datum/xenoartifact_trait/X as() in trait_type)
+		traits += (initial(X.desc) || initial(X.label_name))
 	return traits
 
 /obj/item/xenoartifact_labeler/proc/look_for(list/place, culprit) //This isn't really needed but, It's easier to use as a function. What does this even do?
@@ -113,10 +120,10 @@
 	sticker_name = null
 	info_list = list()
 	sticker_traits = list()
-	activator = list()
-	minor_trait = list()
-	major_trait = list()
-	malfunction = list()
+	selected_activator_traits = list()
+	selected_minor_traits = list()
+	selected_major_traits = list()
+	selected_malfunction_traits = list()
 	ui_update()
 
 /obj/item/xenoartifact_labeler/proc/create_label(new_name, mob/target, mob/user)
@@ -125,7 +132,7 @@
 		P.name = new_name
 		P.set_name = TRUE
 	P.trait_list = sticker_traits
-	P.info = activator+minor_trait+major_trait+malfunction
+	P.info = selected_activator_traits+selected_minor_traits+selected_major_traits+selected_malfunction_traits
 	P.attempt_attach(target, user, TRUE)
 
 /obj/item/xenoartifact_labeler/proc/trait_toggle(action, toggle_type, var/list/trait_list, var/list/active_trait_list)
@@ -134,22 +141,22 @@
 	for(var/t in trait_list)
 		new_trait = desc2datum(t)
 		description_holder = new_trait
-		if(action == "assign_[toggle_type]_[t]")
-			if(!look_for(active_trait_list, t))
-				active_trait_list += t
-				info_list += initial(description_holder.label_desc)
-				sticker_traits += new_trait
-			else
-				active_trait_list -= t
-				info_list -= initial(description_holder.label_desc)
-				sticker_traits -= new_trait
+		if(action != "assign_[toggle_type]_[t]")
+			continue
+		if(!look_for(active_trait_list, t))
+			active_trait_list += t
+			info_list += initial(description_holder.label_desc)
+			sticker_traits += new_trait
+		else
+			active_trait_list -= t
+			info_list -= initial(description_holder.label_desc)
+			sticker_traits -= new_trait
 
 //This is just a hacky way of getting the info from a datum using its desc becuase I wrote this last and it's not heartbreaking
 /obj/item/xenoartifact_labeler/proc/desc2datum(udesc)
-	for(var/trait in typesof(/datum/xenoartifact_trait))
-		var/datum/xenoartifact_trait/X = trait //typecast
+	for(var/datum/xenoartifact_trait/X as() in GLOB.xenoa_all_traits)
 		if((udesc == initial(X.desc)) || (udesc == initial(X.label_name)))
-			return trait
+			return X
 	CRASH("The xenoartifact trait description '[udesc]' doesn't have a corresponding trait. Something fucked up.")
 
 // Not to be confused with labeler
