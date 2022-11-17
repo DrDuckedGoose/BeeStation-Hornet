@@ -89,6 +89,11 @@
 /obj/structure/lattice,
 /turf/open/space,
 /area/space)
+"bi" = (
+/obj/effect/turf_decal/tile/blue/fourcorners/contrasted,
+/obj/machinery/door/airlock/maintenance,
+/turf/open/floor/plasteel/white,
+/area/space)
 "bm" = (
 /obj/effect/turf_decal/stripes/line,
 /obj/effect/turf_decal/stripes/corner{
@@ -934,6 +939,13 @@
 	},
 /turf/open/floor/plasteel,
 /area/space)
+"nS" = (
+/obj/effect/turf_decal/stripes/line{
+	dir = 1
+	},
+/obj/machinery/modular_fabricator/exosuit_fab,
+/turf/open/floor/plasteel,
+/area/space)
 "nT" = (
 /obj/structure/punching_bag,
 /obj/effect/turf_decal/bot_white,
@@ -982,15 +994,11 @@
 	},
 /turf/open/floor/plasteel/white,
 /area/space)
-"oK" = (
-/obj/machinery/door/airlock/maintenance,
-/turf/open/floor/plasteel/grimy,
-/area/space)
 "oN" = (
 /obj/effect/turf_decal/stripes/corner{
 	dir = 8
 	},
-/turf/open/floor/plasteel/grimy,
+/turf/open/floor/wood,
 /area/space)
 "oO" = (
 /obj/effect/turf_decal/siding/wood{
@@ -998,9 +1006,6 @@
 	},
 /obj/structure/table/wood,
 /turf/open/floor/wood,
-/area/space)
-"oU" = (
-/turf/open/floor/plasteel/grimy,
 /area/space)
 "oW" = (
 /obj/effect/turf_decal/trimline/green/filled/line{
@@ -1032,6 +1037,15 @@
 /turf/open/floor/plating,
 /area/space)
 "pC" = (
+/obj/effect/turf_decal/stripes/corner{
+	dir = 8
+	},
+/turf/open/floor/plasteel,
+/area/space)
+"pF" = (
+/obj/effect/turf_decal/stripes/corner{
+	dir = 1
+	},
 /obj/effect/turf_decal/stripes/corner{
 	dir = 8
 	},
@@ -1097,6 +1111,13 @@
 	},
 /turf/open/floor/wood,
 /area/space)
+"ri" = (
+/obj/effect/turf_decal/stripes/line{
+	dir = 1
+	},
+/obj/structure/table,
+/turf/open/floor/plasteel,
+/area/space)
 "rj" = (
 /obj/structure/window/reinforced{
 	dir = 4;
@@ -1132,6 +1153,13 @@
 	},
 /turf/open/floor/plasteel/dark/telecomms,
 /area/space)
+"rH" = (
+/obj/effect/turf_decal/stripes/end{
+	dir = 8
+	},
+/obj/machinery/door/airlock/maintenance,
+/turf/open/floor/plasteel,
+/area/space)
 "rJ" = (
 /obj/effect/turf_decal/trimline/blue/filled/warning{
 	dir = 4
@@ -1147,6 +1175,16 @@
 	dir = 1
 	},
 /turf/open/floor/plasteel/dark,
+/area/space)
+"rW" = (
+/obj/effect/turf_decal/trimline/blue/filled/line{
+	dir = 6
+	},
+/obj/effect/turf_decal/trimline/blue/corner{
+	dir = 1
+	},
+/obj/machinery/rnd/production/techfab/department/medical,
+/turf/open/floor/plasteel/white,
 /area/space)
 "rX" = (
 /obj/machinery/vending/snack/random,
@@ -1317,8 +1355,16 @@
 /turf/open/floor/plasteel,
 /area/space)
 "us" = (
-/obj/effect/turf_decal/tile/blue/opposingcorners{
-	dir = 1
+/obj/effect/turf_decal/trimline/blue/filled/line{
+	dir = 10
+	},
+/obj/structure/table/glass,
+/obj/effect/turf_decal/trimline/blue/corner{
+	dir = 4
+	},
+/obj/structure/window/reinforced{
+	dir = 1;
+	pixel_y = 1
 	},
 /turf/open/floor/plasteel/white,
 /area/space)
@@ -1493,6 +1539,12 @@
 	dir = 1
 	},
 /obj/effect/turf_decal/tile/green/half/contrasted{
+	dir = 4
+	},
+/turf/open/floor/plasteel,
+/area/space)
+"yg" = (
+/obj/effect/turf_decal/stripes/corner{
 	dir = 4
 	},
 /turf/open/floor/plasteel,
@@ -1994,6 +2046,7 @@
 /area/space)
 "Fn" = (
 /obj/effect/turf_decal/tile/neutral/fourcorners/contrasted,
+/obj/machinery/door/airlock/maintenance,
 /turf/open/floor/plasteel,
 /area/space)
 "Fo" = (
@@ -2056,6 +2109,19 @@
 "GL" = (
 /obj/effect/turf_decal/trimline/dark_blue/filled/line{
 	dir = 6
+	},
+/turf/open/floor/plasteel/white,
+/area/space)
+"GN" = (
+/obj/effect/turf_decal/trimline/blue/filled/line{
+	dir = 1
+	},
+/obj/structure/table/glass,
+/obj/effect/turf_decal/trimline/blue/line,
+/obj/machinery/door/window/eastleft{
+	name = "First-Aid Supplies";
+	req_access_txt = "5";
+	dir = 2
 	},
 /turf/open/floor/plasteel/white,
 /area/space)
@@ -2129,6 +2195,19 @@
 	},
 /turf/open/floor/plasteel/white,
 /area/space)
+"Iw" = (
+/obj/effect/turf_decal/trimline/blue/filled/line{
+	dir = 5
+	},
+/obj/structure/table/glass,
+/obj/effect/turf_decal/trimline/blue/corner{
+	dir = 8
+	},
+/obj/structure/window/reinforced{
+	layer = 2.9
+	},
+/turf/open/floor/plasteel/white,
+/area/space)
 "IE" = (
 /obj/effect/turf_decal/siding/wood/corner{
 	dir = 1
@@ -2154,6 +2233,23 @@
 	},
 /obj/effect/turf_decal/trimline/blue/warning{
 	dir = 10
+	},
+/turf/open/floor/plasteel/white,
+/area/space)
+"JW" = (
+/obj/effect/turf_decal/trimline/blue/filled/line,
+/obj/structure/table/glass,
+/obj/effect/turf_decal/trimline/blue/line{
+	dir = 1
+	},
+/obj/structure/window/reinforced{
+	dir = 4;
+	layer = 2.9
+	},
+/obj/machinery/door/window/eastleft{
+	name = "First-Aid Supplies";
+	req_access_txt = "5";
+	dir = 1
 	},
 /turf/open/floor/plasteel/white,
 /area/space)
@@ -2322,6 +2418,14 @@
 	},
 /turf/open/floor/plasteel/dark/telecomms,
 /area/space)
+"Mm" = (
+/obj/machinery/conveyor{
+	dir = 4;
+	id = "QMUnload";
+	name = "Unloading ramp"
+	},
+/turf/open/floor/plasteel,
+/area/space)
 "MD" = (
 /obj/structure/bookcase/random/reference,
 /obj/effect/turf_decal/siding/wood{
@@ -2377,6 +2481,10 @@
 /turf/open/floor/plasteel/dark/corner{
 	dir = 4
 	},
+/area/space)
+"NA" = (
+/obj/machinery/door/airlock/maintenance,
+/turf/open/floor/plasteel/white,
 /area/space)
 "NB" = (
 /obj/structure/bookcase/random/reference,
@@ -2539,7 +2647,7 @@
 /obj/effect/turf_decal/stripes/line{
 	dir = 2
 	},
-/turf/open/floor/plasteel/grimy,
+/turf/open/floor/wood,
 /area/space)
 "PV" = (
 /obj/structure/chair/stool/bar,
@@ -2729,7 +2837,7 @@
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
 	},
-/turf/open/floor/plasteel/grimy,
+/turf/open/floor/wood,
 /area/space)
 "TG" = (
 /obj/effect/turf_decal/stripes/line,
@@ -2749,6 +2857,10 @@
 "TY" = (
 /obj/structure/table/optable,
 /turf/open/floor/plasteel/white,
+/area/space)
+"Ue" = (
+/obj/effect/turf_decal/bot,
+/turf/open/floor/plasteel,
 /area/space)
 "Ug" = (
 /obj/structure/table/wood,
@@ -3156,6 +3268,11 @@
 	},
 /turf/open/floor/wood,
 /area/space)
+"ZD" = (
+/obj/effect/spawner/structure/window/reinforced,
+/obj/machinery/door/airlock/maintenance,
+/turf/open/floor/plating,
+/area/space)
 "ZF" = (
 /obj/effect/turf_decal/trimline/blue/corner{
 	dir = 4
@@ -3174,6 +3291,17 @@
 	},
 /obj/effect/turf_decal/tile/green/half/contrasted,
 /turf/open/floor/plasteel,
+/area/space)
+"ZN" = (
+/obj/effect/turf_decal/trimline/blue/filled/line{
+	dir = 9
+	},
+/obj/structure/table/glass,
+/obj/effect/turf_decal/trimline/blue/corner,
+/obj/structure/window/reinforced{
+	layer = 2.9
+	},
+/turf/open/floor/plasteel/white,
 /area/space)
 "ZT" = (
 /obj/machinery/computer/arcade{
@@ -88390,21 +88518,21 @@ er
 er
 er
 er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
+QG
+QG
+QG
+QG
+QG
+QG
+QG
+QG
+QG
+QG
+QG
+QG
+QG
+QG
+QG
 er
 er
 er
@@ -88647,21 +88775,21 @@ er
 er
 er
 er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
+QG
+zf
+zf
+zf
+zf
+zf
+zf
+zf
+zf
+zf
+zf
+zf
+zf
+zf
+QG
 er
 er
 er
@@ -88904,21 +89032,21 @@ er
 er
 er
 er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
+QG
+zf
+zf
+zf
+zf
+zf
+zf
+zf
+zf
+zf
+zf
+zf
+zf
+zf
+QG
 er
 er
 er
@@ -89161,21 +89289,21 @@ er
 er
 er
 er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
+QG
+zf
+zf
+zf
+zf
+zf
+zf
+zf
+zf
+zf
+zf
+zf
+zf
+zf
+QG
 er
 er
 er
@@ -89418,32 +89546,32 @@ er
 er
 er
 er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
+QG
+zf
+zf
+zf
+QG
+QG
+pT
+pT
+pT
+QG
+QG
+zf
+zf
+zf
+QG
+QG
+QG
+QG
+QG
+QG
+QG
+QG
+QG
+QG
+QG
+QG
 er
 er
 er
@@ -89675,32 +89803,32 @@ er
 er
 er
 er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
+QG
+zf
+zf
+zf
+QG
+zf
+zf
+zf
+zf
+zf
+QG
+zf
+zf
+zf
+QG
+XM
+wO
+wO
+wO
+wO
+wO
+wO
+wO
+wO
+XM
+QG
 er
 er
 er
@@ -89932,32 +90060,32 @@ er
 er
 er
 er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
+QG
+zf
+zf
+zf
+QG
+zf
+zf
+zf
+zf
+zf
+pT
+zf
+zf
+zf
+pT
+wO
+wO
+Hg
+PX
+KM
+Hg
+PX
+KM
+wO
+XM
+QG
 er
 er
 er
@@ -90189,32 +90317,32 @@ er
 er
 er
 er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
+QG
+zf
+zf
+zf
+QG
+zf
+zf
+zf
+zf
+zf
+NA
+zf
+zf
+zf
+tx
+wO
+wO
+nS
+Mm
+To
+nS
+Mm
+To
+wO
+XM
+QG
 er
 er
 er
@@ -90446,32 +90574,32 @@ er
 er
 er
 er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
+QG
+QG
+NA
+QG
+QG
+zf
+zf
+zf
+zf
+zf
+pT
+zf
+zf
+zf
+pT
+wO
+wO
+ri
+Mm
+To
+ri
+Mm
+To
+wO
+wO
+QG
 er
 er
 er
@@ -90703,33 +90831,33 @@ er
 er
 er
 er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
+QG
+zf
+zf
+zf
+QG
+zf
+zf
+zf
+zf
+zf
+QG
+zf
+zf
+zf
+QG
+XM
+wO
+ri
+Ue
+To
+ri
+Ue
+To
+wO
+wO
+mP
+Hf
 er
 er
 er
@@ -90960,32 +91088,32 @@ er
 er
 er
 er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
+QG
+zf
+zf
+zf
+pT
+zf
+zf
+zf
+zf
+zf
+QG
+QG
+QG
+QG
+QG
+XM
+wO
+Nd
+Ad
+eC
+Nd
+Ad
+eC
+wO
+wO
+QG
 er
 er
 er
@@ -91217,32 +91345,32 @@ er
 er
 er
 er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
+QG
+zf
+zf
+zf
+QG
+zf
+zf
+zf
+zf
+zf
+QG
+zf
+zf
+zf
+QG
+XM
+wO
+wO
+wO
+wO
+wO
+wO
+wO
+wO
+XM
+QG
 er
 er
 er
@@ -91474,32 +91602,32 @@ er
 er
 er
 er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
+QG
+QG
+NA
+QG
+QG
+zf
+zf
+zf
+zf
+zf
+QG
+zf
+zf
+zf
+QG
+QG
+rH
+pT
+QG
+QG
+QG
+QG
+QG
+QG
+QG
+QG
 er
 er
 er
@@ -91731,26 +91859,26 @@ er
 er
 er
 er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
+QG
+zf
+zf
+zf
+QG
+QG
+pT
+nV
+vz
+QG
+QG
+zf
+zf
+zf
+QG
+Hg
+pF
+PX
+KM
+QG
 er
 er
 er
@@ -91988,26 +92116,26 @@ er
 er
 er
 er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
+QG
+zf
+zf
+zf
+zf
+zf
+zf
+zf
+zf
+zf
+zf
+zf
+zf
+zf
+Hg
+Vt
+Vr
+Vr
+To
+QG
 er
 er
 er
@@ -92245,26 +92373,26 @@ er
 er
 er
 er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
+QG
+zf
+zf
+zf
+zf
+zf
+zf
+zf
+zf
+zf
+zf
+zf
+zf
+zf
+Nd
+yg
+Vr
+Vr
+To
+QG
 er
 er
 er
@@ -92502,26 +92630,26 @@ er
 er
 er
 er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
+QG
+zf
+zf
+zf
+zf
+zf
+zf
+zf
+zf
+zf
+zf
+zf
+zf
+zf
+QG
+Nd
+Ad
+Ad
+eC
+QG
 er
 er
 er
@@ -92759,10 +92887,10 @@ er
 er
 er
 er
-er
-er
-er
-er
+QG
+QG
+QG
+QG
 QG
 QG
 Vr
@@ -92770,15 +92898,15 @@ Vr
 Vr
 QG
 QG
-er
-er
-er
-er
-er
-er
-er
-er
-er
+QG
+QG
+QG
+QG
+QG
+mP
+QG
+QG
+QG
 er
 er
 er
@@ -93032,7 +93160,7 @@ er
 er
 er
 er
-er
+Hf
 er
 er
 er
@@ -99961,9 +100089,9 @@ QG
 QG
 QG
 pT
-fW
+bi
 pT
-fW
+bi
 pT
 QG
 QG
@@ -102796,10 +102924,10 @@ wO
 Xf
 fH
 QG
-wO
-wO
-wO
-wO
+Ku
+tr
+tr
+Zr
 QG
 BS
 jG
@@ -103053,10 +103181,10 @@ wO
 Xf
 wj
 QG
-Ku
-tr
-tr
-Zr
+vf
+zf
+zf
+Xv
 QG
 wO
 sb
@@ -103291,7 +103419,7 @@ QM
 eM
 QG
 jy
-oK
+jN
 oN
 TD
 TD
@@ -103549,9 +103677,9 @@ of
 QG
 jy
 QG
-oU
-oU
-oU
+PB
+PB
+PB
 QG
 er
 QG
@@ -103806,9 +103934,9 @@ vZ
 NX
 nA
 QG
-oU
-oU
-oU
+PB
+PB
+PB
 QG
 er
 QG
@@ -104063,9 +104191,9 @@ ef
 aq
 ef
 QG
-oU
-oU
-oU
+PB
+PB
+PB
 QG
 er
 QG
@@ -104845,13 +104973,13 @@ wO
 Jb
 QG
 QG
-tx
-pT
-QG
 pT
 pT
+UM
 pT
-QG
+UM
+pT
+pT
 QG
 vf
 zf
@@ -105100,16 +105228,16 @@ QG
 wO
 wO
 wO
+XM
 QG
+ZN
+tr
+LI
+tr
+LI
+tr
 us
-us
-us
-us
-us
-us
-us
-us
-QG
+pT
 vf
 zf
 dr
@@ -105357,16 +105485,16 @@ QG
 wO
 wO
 wO
+XM
 QG
-us
-us
-us
-us
-us
-us
-us
-us
-QG
+GN
+zf
+zf
+zf
+zf
+zf
+JW
+pT
 vf
 zf
 jM
@@ -105613,17 +105741,17 @@ er
 QG
 WQ
 wO
-WQ
+wO
+XM
 QG
-us
-us
-us
-us
-us
-us
-us
-us
-QG
+Iw
+ah
+rJ
+ah
+rJ
+ah
+rW
+pT
 vf
 zf
 Id
@@ -105873,13 +106001,13 @@ wO
 Jb
 QG
 QG
-tx
-pT
-QG
 pT
 pT
+UM
 pT
-QG
+UM
+pT
+pT
 QG
 vf
 zf
@@ -107908,7 +108036,7 @@ ca
 VL
 nN
 WP
-pT
+ZD
 Vr
 Vr
 Vr
