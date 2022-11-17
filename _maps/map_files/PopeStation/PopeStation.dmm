@@ -81,6 +81,10 @@
 /obj/effect/turf_decal/tile/blue/fourcorners/contrasted,
 /turf/open/floor/plasteel,
 /area/space)
+"bd" = (
+/obj/structure/lattice,
+/turf/open/space,
+/area/space)
 "bm" = (
 /obj/effect/turf_decal/stripes/line,
 /obj/effect/turf_decal/stripes/corner{
@@ -469,6 +473,9 @@
 /obj/effect/turf_decal/tile/blue/anticorner/contrasted{
 	dir = 4
 	},
+/obj/effect/turf_decal/trimline/blue/corner{
+	dir = 8
+	},
 /turf/open/floor/plasteel/dark/corner{
 	dir = 8
 	},
@@ -545,6 +552,19 @@
 /mob/living/carbon/monkey,
 /turf/open/floor/grass,
 /area/space)
+"hM" = (
+/obj/machinery/light/small{
+	dir = 8
+	},
+/obj/effect/turf_decal/delivery,
+/obj/machinery/advanced_airlock_controller{
+	dir = 8;
+	pixel_x = 24
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
+/obj/machinery/atmospherics/components/binary/dp_vent_pump/layer2,
+/turf/open/floor/plasteel,
+/area/space)
 "hQ" = (
 /obj/effect/turf_decal/siding/wood{
 	dir = 10
@@ -572,9 +592,18 @@
 	dir = 1
 	},
 /area/space)
+"iV" = (
+/obj/effect/turf_decal/stripes/line{
+	dir = 1
+	},
+/turf/open/floor/plasteel/dark/telecomms,
+/area/space)
 "iW" = (
 /obj/effect/turf_decal/tile/blue/anticorner/contrasted{
 	dir = 8
+	},
+/obj/effect/turf_decal/trimline/blue/corner{
+	dir = 4
 	},
 /turf/open/floor/plasteel/dark/corner{
 	dir = 4
@@ -734,6 +763,12 @@
 /obj/effect/turf_decal/tile/blue/half/contrasted{
 	dir = 8
 	},
+/obj/effect/turf_decal/trimline/blue/line{
+	dir = 1
+	},
+/obj/effect/turf_decal/trimline/blue/corner{
+	dir = 4
+	},
 /turf/open/floor/plasteel/dark/side{
 	dir = 1
 	},
@@ -829,6 +864,9 @@
 /area/space)
 "mY" = (
 /obj/effect/turf_decal/tile/blue/anticorner/contrasted,
+/obj/effect/turf_decal/trimline/blue/corner{
+	dir = 1
+	},
 /turf/open/floor/plasteel/dark/corner{
 	dir = 1
 	},
@@ -838,6 +876,16 @@
 	dir = 8
 	},
 /turf/open/floor/plasteel/dark/telecomms,
+/area/space)
+"nf" = (
+/obj/machinery/door/airlock/external{
+	name = "Departure Lounge Airlock"
+	},
+/obj/effect/turf_decal/delivery,
+/obj/effect/mapping_helpers/airlock/cyclelink_helper,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2,
+/turf/open/floor/plasteel,
 /area/space)
 "nh" = (
 /obj/machinery/door/airlock/maintenance,
@@ -952,6 +1000,16 @@
 	},
 /turf/open/floor/plasteel/white,
 /area/space)
+"pc" = (
+/obj/effect/turf_decal/delivery,
+/obj/machinery/advanced_airlock_controller{
+	dir = 8;
+	pixel_x = 24
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
+/obj/machinery/atmospherics/components/binary/dp_vent_pump/layer2,
+/turf/open/floor/plasteel,
+/area/space)
 "pi" = (
 /obj/machinery/door/airlock/maintenance,
 /obj/effect/turf_decal/tile/brown/fourcorners/contrasted,
@@ -1060,6 +1118,12 @@
 	},
 /turf/open/floor/wood,
 /area/space)
+"rE" = (
+/obj/effect/turf_decal/stripes/corner{
+	dir = 4
+	},
+/turf/open/floor/plasteel/dark/telecomms,
+/area/space)
 "rJ" = (
 /obj/effect/turf_decal/trimline/blue/filled/warning{
 	dir = 4
@@ -1068,6 +1132,17 @@
 	dir = 8
 	},
 /turf/open/floor/plasteel/white,
+/area/space)
+"rS" = (
+/obj/machinery/disposal/bin,
+/obj/effect/turf_decal/bot{
+	dir = 1
+	},
+/turf/open/floor/plasteel/dark,
+/area/space)
+"rX" = (
+/obj/machinery/vending/snack/random,
+/turf/open/floor/plasteel/dark,
 /area/space)
 "rY" = (
 /obj/effect/turf_decal/stripes/line,
@@ -1120,6 +1195,17 @@
 /obj/structure/dresser,
 /turf/open/floor/wood,
 /area/space)
+"sN" = (
+/obj/effect/turf_decal/tile/blue/half/contrasted{
+	dir = 1
+	},
+/obj/effect/turf_decal/trimline/blue/line{
+	dir = 4
+	},
+/turf/open/floor/plasteel/dark/side{
+	dir = 4
+	},
+/area/space)
 "sU" = (
 /obj/machinery/deepfryer,
 /turf/open/floor/plasteel/cafeteria_dark,
@@ -1160,6 +1246,7 @@
 /obj/effect/turf_decal/tile/blue/anticorner/contrasted{
 	dir = 1
 	},
+/obj/effect/turf_decal/trimline/blue/corner,
 /turf/open/floor/plasteel/dark/corner,
 /area/space)
 "tG" = (
@@ -1179,6 +1266,10 @@
 	dir = 1
 	},
 /turf/open/floor/engine/light,
+/area/space)
+"tL" = (
+/obj/structure/closet/firecloset,
+/turf/open/floor/plasteel/dark,
 /area/space)
 "tQ" = (
 /obj/effect/turf_decal/stripes/line,
@@ -1329,6 +1420,12 @@
 	},
 /turf/open/floor/plasteel,
 /area/space)
+"wT" = (
+/obj/effect/turf_decal/stripes/corner{
+	dir = 8
+	},
+/turf/open/floor/plasteel/dark/telecomms,
+/area/space)
 "wX" = (
 /obj/effect/turf_decal/siding/wood/corner,
 /obj/effect/turf_decal/siding/wood/corner{
@@ -1388,6 +1485,19 @@
 /obj/structure/table/reinforced,
 /obj/effect/turf_decal/tile/green/fourcorners/contrasted,
 /turf/open/floor/plasteel/white,
+/area/space)
+"yq" = (
+/obj/machinery/light/small{
+	dir = 4
+	},
+/obj/effect/turf_decal/delivery,
+/obj/machinery/advanced_airlock_controller{
+	dir = 4;
+	pixel_x = -24
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
+/obj/machinery/atmospherics/components/binary/dp_vent_pump/layer2,
+/turf/open/floor/plasteel,
 /area/space)
 "yr" = (
 /obj/effect/turf_decal/stripes/line{
@@ -1591,6 +1701,17 @@
 /obj/effect/turf_decal/trimline/blue/corner{
 	dir = 1
 	},
+/turf/open/floor/plasteel,
+/area/space)
+"Bs" = (
+/obj/machinery/door/airlock/external{
+	name = "Departure Lounge Airlock"
+	},
+/obj/effect/turf_decal/delivery,
+/obj/effect/mapping_helpers/airlock/cyclelink_helper{
+	dir = 1
+	},
+/obj/machinery/atmospherics/pipe/layer_manifold,
 /turf/open/floor/plasteel,
 /area/space)
 "Bw" = (
@@ -1839,6 +1960,7 @@
 /obj/effect/turf_decal/tile/blue/half/contrasted{
 	dir = 4
 	},
+/obj/effect/turf_decal/trimline/blue/line,
 /turf/open/floor/plasteel/dark/side,
 /area/space)
 "Ff" = (
@@ -2087,6 +2209,10 @@
 /obj/effect/turf_decal/trimline/blue/warning,
 /turf/open/floor/plasteel/white,
 /area/space)
+"Lk" = (
+/obj/machinery/vending/coffee,
+/turf/open/floor/plasteel/dark,
+/area/space)
 "Lp" = (
 /turf/open/floor/plasteel/dark/side{
 	dir = 5
@@ -2287,6 +2413,10 @@
 	},
 /turf/open/floor/plasteel,
 /area/space)
+"OE" = (
+/obj/structure/closet/emcloset,
+/turf/open/floor/plasteel/dark,
+/area/space)
 "ON" = (
 /obj/effect/turf_decal/trimline/green/filled/line{
 	dir = 8
@@ -2337,6 +2467,21 @@
 	},
 /obj/effect/turf_decal/trimline/yellow/line,
 /turf/open/floor/plasteel/white,
+/area/space)
+"PQ" = (
+/obj/effect/turf_decal/stripes/line{
+	dir = 8
+	},
+/turf/open/floor/plasteel/dark/telecomms,
+/area/space)
+"PT" = (
+/obj/effect/turf_decal/tile/blue/half/contrasted,
+/obj/effect/turf_decal/trimline/blue/line{
+	dir = 8
+	},
+/turf/open/floor/plasteel/dark/side{
+	dir = 8
+	},
 /area/space)
 "PV" = (
 /obj/structure/chair/stool/bar,
@@ -2441,6 +2586,12 @@
 /area/space)
 "RK" = (
 /obj/effect/turf_decal/stripes/line,
+/turf/open/floor/plasteel/dark/telecomms,
+/area/space)
+"RX" = (
+/obj/effect/turf_decal/stripes/corner{
+	dir = 1
+	},
 /turf/open/floor/plasteel/dark/telecomms,
 /area/space)
 "Sp" = (
@@ -2559,6 +2710,10 @@
 /obj/machinery/biogenerator,
 /obj/effect/turf_decal/tile/green/half/contrasted,
 /turf/open/floor/plasteel,
+/area/space)
+"Uz" = (
+/obj/machinery/computer/arcade,
+/turf/open/floor/plasteel/dark,
 /area/space)
 "UA" = (
 /obj/effect/turf_decal/siding/wood{
@@ -2746,6 +2901,16 @@
 	},
 /turf/open/floor/plasteel/dark/telecomms,
 /area/space)
+"WV" = (
+/obj/effect/turf_decal/delivery,
+/obj/machinery/advanced_airlock_controller{
+	dir = 4;
+	pixel_x = -24
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
+/obj/machinery/atmospherics/components/binary/dp_vent_pump/layer2,
+/turf/open/floor/plasteel,
+/area/space)
 "WW" = (
 /obj/structure/table,
 /obj/structure/table,
@@ -2757,6 +2922,17 @@
 	id = "QMLoad2"
 	},
 /turf/open/floor/plating,
+/area/space)
+"Xf" = (
+/obj/effect/turf_decal/tile/blue/half/contrasted{
+	dir = 8
+	},
+/obj/effect/turf_decal/trimline/blue/line{
+	dir = 1
+	},
+/turf/open/floor/plasteel/dark/side{
+	dir = 1
+	},
 /area/space)
 "Xm" = (
 /obj/effect/turf_decal/trimline/green/filled/warning{
@@ -28284,22 +28460,22 @@ er
 er
 er
 er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-zf
-zf
-er
+QG
+QG
+QG
+QG
+QG
+QG
+QG
+QG
+QG
+QG
+QG
+QG
+QG
+QG
+QG
+QG
 er
 er
 er
@@ -28541,22 +28717,22 @@ er
 er
 er
 er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
+QG
+tL
+wO
+wO
+wO
+wO
+wO
+wO
+wO
+wO
+wO
+wO
+RK
+nf
+hM
+Bs
 er
 er
 er
@@ -28721,8 +28897,8 @@ er
 er
 er
 er
-zf
-zf
+er
+er
 er
 er
 er
@@ -28798,26 +28974,26 @@ er
 er
 er
 er
+QG
+OE
+wO
+wO
+wO
+wO
+wO
+wO
+wO
+wO
+wO
+wO
+RK
+pT
+QG
+pT
 er
 er
 er
 er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-zf
 er
 er
 er
@@ -28981,8 +29157,8 @@ er
 er
 er
 er
-zf
-zf
+er
+er
 er
 er
 er
@@ -29055,28 +29231,28 @@ er
 er
 er
 er
+QG
+Uz
+wO
+wO
+YW
+yr
+yr
+yr
+yr
+yr
+rE
+wO
+RK
+nf
+WV
+Bs
 er
 er
 er
 er
 er
 er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-zf
 er
 er
 er
@@ -29240,8 +29416,8 @@ er
 er
 er
 er
-zf
-zf
+er
+er
 er
 er
 er
@@ -29314,6 +29490,20 @@ QG
 QG
 QG
 QG
+wO
+wO
+RK
+QG
+pT
+pT
+pT
+QG
+iV
+wO
+RK
+pT
+pT
+pT
 er
 er
 er
@@ -29322,20 +29512,6 @@ er
 er
 er
 er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-zf
 er
 er
 er
@@ -29485,19 +29661,19 @@ er
 er
 er
 er
-zf
-zf
 er
 er
-zf
-zf
-zf
-zf
-zf
-zf
-zf
 er
-zf
+er
+er
+er
+er
+er
+er
+er
+er
+er
+er
 er
 er
 er
@@ -29571,30 +29747,30 @@ pw
 pw
 pw
 Hs
+wO
+wO
+RK
+pT
+er
+er
+er
+pT
+iV
+wO
+RK
+pT
+er
+bd
 er
 er
 er
 er
 er
 er
-zf
-zf
 er
 er
 er
 er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-zf
-zf
 er
 er
 er
@@ -29752,8 +29928,8 @@ er
 er
 er
 er
-zf
-zf
+er
+er
 er
 er
 er
@@ -29828,26 +30004,26 @@ Hf
 Hf
 Hf
 ke
+wO
+wO
+RK
+pT
+er
+er
+er
+pT
+iV
+wO
+RK
+pT
+er
+bd
 er
 er
 er
 er
 er
 er
-er
-er
-er
-zf
-zf
-er
-er
-zf
-er
-er
-zf
-er
-er
-zf
 er
 er
 er
@@ -30008,8 +30184,8 @@ er
 er
 er
 er
-zf
-zf
+er
+er
 er
 er
 er
@@ -30085,20 +30261,20 @@ pw
 pw
 pw
 Hs
+wO
+wO
+RK
+pT
 er
 er
 er
+pT
+iV
+wO
+RK
+pT
 er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
+bd
 er
 er
 er
@@ -30264,7 +30440,7 @@ er
 er
 er
 er
-zf
+er
 er
 er
 er
@@ -30342,20 +30518,20 @@ QG
 QG
 QG
 QG
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
+wO
+wO
+RK
+QG
+pT
+pT
+pT
+QG
+iV
+wO
+RK
+pT
+pT
+pT
 er
 er
 er
@@ -30597,25 +30773,25 @@ er
 er
 er
 er
+QG
+rS
+wO
+wO
+wT
+PQ
+PQ
+PQ
+PQ
+PQ
+RX
+wO
+RK
+nf
+pc
+Bs
 er
 er
 er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-zf
-zf
 er
 er
 er
@@ -30854,22 +31030,22 @@ er
 er
 er
 er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
+QG
+Lk
+wO
+wO
+wO
+wO
+wO
+wO
+wO
+wO
+wO
+wO
+RK
+pT
+QG
+pT
 er
 er
 er
@@ -31111,23 +31287,23 @@ er
 er
 er
 er
+QG
+rX
+wO
+wO
+wO
+wO
+wO
+wO
+wO
+wO
+wO
+wO
+RK
+nf
+yq
+Bs
 er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-zf
-zf
 er
 er
 er
@@ -31368,22 +31544,22 @@ er
 er
 er
 er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-er
-zf
-er
+QG
+QG
+QG
+QG
+QG
+QG
+QG
+QG
+QG
+QG
+QG
+QG
+QG
+QG
+QG
+QG
 er
 er
 er
@@ -31638,7 +31814,7 @@ er
 er
 er
 er
-zf
+er
 er
 er
 er
@@ -36497,7 +36673,7 @@ Lc
 zf
 aR
 tE
-zK
+sN
 iW
 tH
 QG
@@ -37012,7 +37188,7 @@ zf
 aR
 Fc
 wO
-lw
+Xf
 fH
 QG
 wO
@@ -37269,7 +37445,7 @@ zf
 aR
 Fc
 wO
-lw
+Xf
 wj
 QG
 Ku
@@ -37526,7 +37702,7 @@ zf
 aR
 Fc
 wO
-lw
+Xf
 eT
 QG
 vf
@@ -37782,7 +37958,7 @@ Lc
 zf
 aR
 gl
-jS
+PT
 mY
 tH
 QG
