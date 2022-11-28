@@ -260,3 +260,9 @@
 /obj/structure/door_assembly/door_assembly_bronze/seethru
 	name = "bronze pinion airlock assembly"
 	airlock_type = /obj/machinery/door/airlock/bronze/seethru
+
+/obj/structure/door_assembly/door_assembly_clown
+	name = "funny airlock assembly"
+	icon = 'icons/obj/doors/airlocks/station/command.dmi'
+	base_name = "clown airlock"
+	airlock_type = /obj/machinery/door/airlock/clown

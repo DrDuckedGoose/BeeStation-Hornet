@@ -59,6 +59,10 @@
 	icon = 'icons/obj/doors/airlocks/station/virology.dmi'
 	assemblytype = /obj/structure/door_assembly/door_assembly_viro
 
+/obj/machinery/door/airlock/clown
+	icon = 'icons/obj/doors/airlocks/station/clown.dmi'
+	assemblytype = /obj/structure/door_assembly/door_assembly_clown
+
 //////////////////////////////////
 /*
 	Station Airlocks Glass
