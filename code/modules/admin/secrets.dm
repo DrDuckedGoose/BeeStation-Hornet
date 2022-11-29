@@ -90,7 +90,8 @@ GLOBAL_DATUM_INIT(admin_secrets, /datum/admin_secrets, new)
 			list("Mass Remove Purrbation", "massremovepurrbation"),
 			list("Fully Immerse Everyone", "massimmerse"),
 			list("Un-Fully Immerse Everyone", "unmassimmerse"),
-			list("Make All Animals Playable", "animalsentience")
+			list("Make All Animals Playable", "animalsentience"),
+			list("Change all deep water", "changewater")
 			)
 
 	if(check_rights(R_DEBUG,0))
@@ -691,6 +692,8 @@ GLOBAL_DATUM_INIT(admin_secrets, /datum/admin_secrets, new)
 				if((L in GLOB.player_list) || L.mind || (L.flags_1 & HOLOGRAM_1))
 					continue
 				L.set_playable()
+		if("changewater")
+			SSdeep_water.change_water(/datum/reagent/blood)
 
 		if("flipmovement")
 			if(!check_rights(R_FUN))

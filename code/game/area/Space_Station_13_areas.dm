@@ -1605,3 +1605,23 @@ NOTE: there are two lists of areas in the end of this file: centcom and station 
 /area/tcommsat/relay
 	name = "Telecommunications Relay"
 	icon_state = "tcom_sat_cham"
+
+// Underwater
+/area/ocean
+	icon_state = "ocean"
+	has_gravity = STANDARD_GRAVITY
+	flags_1 = NONE
+	sound_environment = SOUND_AREA_SPACE
+	area_flags = VALID_TERRITORY | UNIQUE_AREA | FLORA_ALLOWED
+
+/area/ocean/surface
+	name = "Ocean"
+	always_unpowered = TRUE
+	poweralm = FALSE
+	power_environ = FALSE
+	power_equip = FALSE
+	power_light = FALSE
+	requires_power = TRUE
+	ambience_index = AMBIENCE_SPACE
+	min_ambience_cooldown = 70 SECONDS
+	max_ambience_cooldown = 220 SECONDS

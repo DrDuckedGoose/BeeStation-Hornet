@@ -584,17 +584,25 @@
 		if(R.process_flags != SYNTHETIC)
 			can_process = TRUE
 	return can_process
-
 /**
   * Applies the relevant expose_ proc for every reagent in this holder
   * * [/datum/reagent/proc/expose_mob]
   * * [/datum/reagent/proc/expose_turf]
   * * [/datum/reagent/proc/expose_obj]
   */
-/datum/reagents/proc/expose(atom/A, methods = TOUCH, volume_modifier = 1, show_message = 1)
-	if(isnull(A))
-		return null
-
+/datum/reagents/proc/reaction(atom/A, method = TOUCH, volume_modifier = 1, show_message = 1, obj/item/bodypart/affecting, exact_amount)
+	var/react_type
+	if(isliving(A))
+		react_type = "LIVING"
+		if(method == INGEST)
+			var/mob/living/L = A
+			L.taste(src)
+	else if(isturf(A))
+		react_type = "TURF"
+	else if(isobj(A))
+		react_type = "OBJ"
+	else
+		return
 	var/list/cached_reagents = reagent_list
 	if(!cached_reagents.len)
 		return null
@@ -603,7 +611,20 @@
 	for(var/reagent in cached_reagents)
 		var/datum/reagent/R = reagent
 		reagents[R] = R.volume * volume_modifier
-
+		switch(react_type)
+			if("LIVING")
+				var/check = reaction_check(A, R)
+				if(!check)
+					continue
+				var/touch_protection = 0
+				if(method == VAPOR)
+					var/mob/living/L = A
+					touch_protection = L.get_permeability_protection()
+				R.reaction_mob(A, method, exact_amount || R.volume * volume_modifier, show_message, touch_protection, affecting)
+			if("TURF")
+				R.reaction_turf(A, exact_amount || R.volume * volume_modifier, show_message)
+			if("OBJ")
+				R.reaction_obj(A, exact_amount || R.volume * volume_modifier, show_message)
 	return A.expose_reagents(reagents, src, methods, volume_modifier, show_message)
 
 
