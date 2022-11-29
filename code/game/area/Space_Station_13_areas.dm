@@ -1610,9 +1610,7 @@ NOTE: there are two lists of areas in the end of this file: centcom and station 
 /area/ocean
 	icon_state = "ocean"
 	has_gravity = STANDARD_GRAVITY
-	flags_1 = NONE
 	sound_environment = SOUND_AREA_SPACE
-	area_flags = VALID_TERRITORY | UNIQUE_AREA | FLORA_ALLOWED
 
 /area/ocean/surface
 	name = "Ocean"

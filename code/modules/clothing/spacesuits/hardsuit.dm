@@ -1061,8 +1061,8 @@
 /obj/item/clothing/head/helmet/space/hardsuit/diving
 	name = "diving hardsuit helmet"
 	desc = "A special helmet designed for work in a hazardous, low pressure environment."
-	icon_state = "diving_suit_helmet"
-	item_state = "diving_suit_helmet"
+	icon_state = "hardsuit0-diving_suit_helmet"
+	item_state = "hardsuit0-diving_suit_helmet"
 	hardsuit_type = "diving"
 	max_heat_protection_temperature = FIRE_SUIT_MAX_TEMP_PROTECT
 	resistance_flags = FIRE_PROOF
@@ -1085,11 +1085,11 @@
 
 	//mining diving suit
 /obj/item/clothing/suit/space/hardsuit/mining/diving
-	icon_state = "mining_diving_suit"
 	name = "mining diving hardsuit"
+	icon_state = "mining_diving_suit"
 	item_state = "mining_diving_suit"
 
 /obj/item/clothing/head/helmet/space/hardsuit/mining/diving
-	icon_state = "mining_diving_suit_helmet"
 	name = "mining diving hardsuit helmet"
-	item_state = "mining_diving_suit_helmet"
+	item_state = "hardsuit0-mining_diving_suit_helmet"
+	icon_state = "hardsuit0-mining_diving_suit_helmet"

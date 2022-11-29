@@ -243,7 +243,7 @@
 	gender = PLURAL
 	name = "sand"
 	desc = "rock bottom."
-	icon_state = "sand"
+	icon_state = "ocean_sand"
 	initial_gas_mix = AIRLESS_ATMOS
 	baseturfs = /turf/open/floor/plating/ocean_floor
 
