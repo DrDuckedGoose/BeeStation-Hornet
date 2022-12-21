@@ -6,6 +6,7 @@
 	icon_state = "base"
 	desc = "Walked all over."
 	max_integrity = 200
+	///Overlay we'll throw on-top
 	var/welcome_icon = ""
 
 /obj/structure/doormat/Initialize(mapload)
@@ -30,3 +31,6 @@
 
 /obj/structure/doormat/cap
 	welcome_icon = "cap"
+
+/obj/structure/doormat/ce
+	welcome_icon = "ce"
