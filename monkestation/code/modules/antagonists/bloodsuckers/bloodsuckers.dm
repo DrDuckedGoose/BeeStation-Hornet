@@ -65,6 +65,7 @@
 	var/frenzy_blood_drank = 0
 	var/task_blood_drank = 0
 	var/frenzies = 0
+	var/vassals_mutated = 0
 
 	/// Static typecache of all bloodsucker powers.
 	var/static/list/all_bloodsucker_powers = typecacheof(/datum/action/bloodsucker, TRUE)

@@ -387,7 +387,6 @@
 //////////////////////////////////////////////////////////////////////////////////////
 
 /// Mutilate a certain amount of Vassals
-/*
 /datum/objective/bloodsucker/vassal_mutilation
 	name = "steal kindred"
 /datum/objective/bloodsucker/vassal_mutilation/New()
@@ -405,7 +404,6 @@
 	if(bloodsuckerdatum.vassals_mutated >= target_amount)
 		return TRUE
 	return FALSE
-*/
 
 /// Convert a certain amount of vassals
 

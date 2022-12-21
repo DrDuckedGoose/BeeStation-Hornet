@@ -3,6 +3,7 @@
 /////////////////////////////////////////////////////////////////////////////////////////
 /datum/antagonist/bloodsucker/proc/AssignClanAndBane(tzimisce = FALSE)
 	var/mob/living/carbon/human/bloodsucker = owner.current
+	// Special case clan - Essential sedated version of bloodsuckers for midround
 	if(tzimisce)
 		my_clan = CLAN_TZIMISCE
 		to_chat(owner, span_announce("As you arrive near the station, you recall all you know and why you are here.\n\
@@ -19,6 +20,7 @@
 			if(is_type_in_list(P, powerstoremove))
 				RemovePower(P)
 		return
+	// Actual clan code beyond here
 	var/static/list/clans = list(
 		CLAN_GANGREL,
 		CLAN_LASOMBRA,
@@ -35,7 +37,12 @@
 	to_chat(owner, span_announce("List of all Clans:\n\
 		Gangrel - Prone to Frenzy, strange outcomes from being on frenzy, special power.\n\
 		Lasombra - Life in the shadows, very weak to fire but no brute damage, upgradable abilities through tasks.\n\
-		Toreador - More human then other bloodsucker, easily disguise among crew, but bound with morals."))
+		Toreador - More human then other bloodsucker, easily disguise among crew, but bound with morals.\n\
+		Brujah - Strong warriors, proficient in melee and calm under pressure, able to frenzy whenever they please.\n\
+		Nosferatu - The least human among bloodsuckers, hideous monsters that must stay hidden, able to lurk in ventilation.\n\
+		Tremere - Mythical in lore, able to deeply hypnotize vassals and revive the dead, despised by the Holy.\n\
+		Venture - Regarded as the upper class, only consumes the finest blood, produces strong vassals.\n\
+		Malkavian - Enlightened, diagnosably crazy, identifiably insane, arguably aware."))
 
 	var/answer = input("You have Ranked up far enough to remember your clan. Which clan are you part of?", "Your mind feels luxurious...") in options
 	if(!answer)
@@ -118,6 +125,7 @@
 				if(istype(power, /datum/action/bloodsucker/masquerade))
 					powers -= power
 					power.Remove(owner.current)
+				
 
 			blacklisted_powers += /datum/action/bloodsucker/masquerade
 
