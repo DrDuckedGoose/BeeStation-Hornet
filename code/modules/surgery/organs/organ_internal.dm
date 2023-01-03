@@ -24,8 +24,13 @@
 	var/now_fixed
 	var/high_threshold_cleared
 	var/low_threshold_cleared
+
 	///List of organ mutations this organ has
 	var/list/mutations = list()
+	///Organ quality for genetics
+	var/list/quality = list("A" = 0, "B" = 0, "C" = 0, "X" = 0, "Y" = 0, "Z" = 0)
+	///The mutation types this organ can potentially generate / have
+	var/datum/organ_mutation/mutation_type
 
 /obj/item/organ/proc/Insert(mob/living/carbon/M, special = 0, drop_if_replaced = TRUE)
 	if(!iscarbon(M) || owner == M)
@@ -38,11 +43,6 @@
 			replaced.forceMove(get_turf(M))
 		else
 			qdel(replaced)
-
-	//handle mutation owners
-	for(var/datum/organ_mutation/OM as() in mutations)
-		OM.on_gain()
-
 	SEND_SIGNAL(M, COMSIG_CARBON_GAIN_ORGAN, src)
 
 	owner = M
@@ -53,6 +53,10 @@
 		var/datum/action/A = X
 		A.Grant(M)
 	STOP_PROCESSING(SSobj, src)
+
+	//handle mutation owners
+	for(var/datum/organ_mutation/OM as() in mutations)
+		OM.on_gain()
 
 //Special is for instant replacement like autosurgeons
 /obj/item/organ/proc/Remove(mob/living/carbon/M, special = FALSE)
@@ -127,8 +131,7 @@
 
 /obj/item/organ/Initialize(mapload)
 	. = ..()
-	var/datum/organ_mutation/lungs/respiration/R = new(src)
-	mutations += R
+	setup_mutations()
 	START_PROCESSING(SSobj, src)
 
 /obj/item/organ/Destroy()
@@ -204,6 +207,21 @@
 			return high_threshold_cleared
 		if(prev_damage == maxHealth)
 			return now_fixed
+
+/obj/item/organ/proc/setup_mutations()
+	//Setup quality
+	var/points = 3 //Points to spend on quality attributes
+	for(var/i in quality)
+		if(points <= 0)
+			break
+		if(prob(25))
+			quality["[i]"] += 1
+			points-=1
+	//Add random mutation
+	if(points < 3 && mutation_type) //easy check for available mutation slots based on quality
+		var/datum/organ_mutation/M = pick(typesof(mutation_type))
+		M = new M(src)
+		mutations += M
 
 //Looking for brains?
 //Try code/modules/mob/living/carbon/brain/brain_item.dm

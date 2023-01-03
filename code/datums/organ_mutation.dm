@@ -20,6 +20,8 @@
 	var/weight = 100
 	///The mutation type operator - [input, output] - [powers = output] - [triggers = input]
 	var/operator_type = MUT_OUTPUT
+	///variable to override visuals and let the mutation handle it itself
+	var/override_visuals = FALSE
 
 /datum/organ_mutation/New(obj/item/organ/_organ_owner)
 	..()
@@ -28,8 +30,11 @@
 /datum/organ_mutation/proc/on_gain()
 	carbon_owner = organ_owner?.owner
 	
-	if(!carbon_owner || !organ_owner || locate(carbon_owner?.dna.species) in species_blacklist)
+	if(!carbon_owner || !organ_owner || locate(carbon_owner?.dna?.species) in species_blacklist)
 		return TRUE
+	if(!override_visuals)
+		handle_visuals()
+	to_chat(carbon_owner, text_gain_indication)
 	//Register signal with organ to listen for trigger
 	RegisterSignal(organ_owner, ORGAN_MUT_TRIGGER, .proc/trigger)
 	return
@@ -37,10 +42,16 @@
 /datum/organ_mutation/proc/on_loss()
 	if(!carbon_owner || !organ_owner || locate(carbon_owner?.dna.species) in species_blacklist)
 		return TRUE
+	if(!override_visuals)
+		handle_visuals(TRUE)
+	to_chat(carbon_owner, text_lose_indication)
 	UnregisterSignal(organ_owner, ORGAN_MUT_TRIGGER)
 	return
 
 /datum/organ_mutation/proc/trigger()
 	if(!carbon_owner || locate(carbon_owner?.dna.species) in species_blacklist)
 		return TRUE
+	return
+
+/datum/organ_mutation/proc/handle_visuals(remove = FALSE)
 	return

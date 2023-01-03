@@ -7,6 +7,7 @@
 	slot = ORGAN_SLOT_LUNGS
 	gender = PLURAL
 	w_class = WEIGHT_CLASS_SMALL
+	mutation_type = /datum/organ_mutation/lungs
 
 	healing_factor = STANDARD_ORGAN_HEALING
 	decay_factor = STANDARD_ORGAN_DECAY
