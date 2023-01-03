@@ -266,7 +266,7 @@
 		breath.adjust_moles(GAS_STIMULUM, -gas_breathed)
 
 		handle_breath_temperature(breath, H)
-	return TRUE
+	return
 
 /obj/item/organ/lungs/proc/handle_too_little_breath(mob/living/carbon/human/H = null, breath_pp = 0, safe_breath_min = 0, true_pp = 0)
 	. = 0

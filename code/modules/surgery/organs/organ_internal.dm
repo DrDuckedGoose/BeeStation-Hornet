@@ -16,7 +16,6 @@
 	var/decay_factor 	= 0										//same as above but when without a living owner, set to 0 for generic organs
 	var/high_threshold	= STANDARD_ORGAN_THRESHOLD * 0.45		//when severe organ damage occurs
 	var/low_threshold	= STANDARD_ORGAN_THRESHOLD * 0.1		//when minor organ damage occurs
-
 	///Organ variables for determining what we alert the owner with when they pass/clear the damage thresholds
 	var/prev_damage = 0
 	var/low_threshold_passed
@@ -25,6 +24,8 @@
 	var/now_fixed
 	var/high_threshold_cleared
 	var/low_threshold_cleared
+	///List of organ mutations this organ has
+	var/list/mutations = list()
 
 /obj/item/organ/proc/Insert(mob/living/carbon/M, special = 0, drop_if_replaced = TRUE)
 	if(!iscarbon(M) || owner == M)
@@ -37,6 +38,10 @@
 			replaced.forceMove(get_turf(M))
 		else
 			qdel(replaced)
+
+	//handle mutation owners
+	for(var/datum/organ_mutation/OM as() in mutations)
+		OM.on_gain()
 
 	SEND_SIGNAL(M, COMSIG_CARBON_GAIN_ORGAN, src)
 
@@ -61,6 +66,9 @@
 	for(var/X in actions)
 		var/datum/action/A = X
 		A.Remove(M)
+	//handle mutation owners
+	for(var/datum/organ_mutation/OM as() in mutations)
+		OM.on_loss()
 
 	SEND_SIGNAL(M, COMSIG_CARBON_LOSE_ORGAN, src)
 
@@ -119,6 +127,8 @@
 
 /obj/item/organ/Initialize(mapload)
 	. = ..()
+	var/datum/organ_mutation/lungs/respiration/R = new(src)
+	mutations += R
 	START_PROCESSING(SSobj, src)
 
 /obj/item/organ/Destroy()
