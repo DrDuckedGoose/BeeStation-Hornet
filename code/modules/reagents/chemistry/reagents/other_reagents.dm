@@ -2130,3 +2130,21 @@
 	L.set_light(-1)
 
 	..()
+
+//Dollar store blood
+/datum/reagent/organ_sample
+	data = list("quality" = list(), "mutations" = list(), "type" = null)
+	name = "Organ sample"
+	color = "#C80000"
+	chem_flags = CHEMICAL_RNG_GENERAL | CHEMICAL_RNG_BOTANY | CHEMICAL_GOAL_BOTANIST_HARVEST
+	metabolization_rate = 5 //fast rate so it disappears fast.
+	taste_description = "iron"
+	taste_mult = 1.3
+
+/datum/reagent/organ_sample/on_merge(list/mix_data)
+	if(data && mix_data && data["type"] == mix_data["type"])
+		var/final_quality = list()
+		//Combine qualities
+		for(var/i in data["quality"])
+			final_quality["[i]"] = (mix_data["quality"]["[i]"] || data["quality"]["[i]"])
+		data["quality"] = final_quality

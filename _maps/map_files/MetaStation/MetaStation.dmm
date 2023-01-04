@@ -17598,6 +17598,7 @@
 /obj/effect/turf_decal/trimline/purple/corner{
 	dir = 4
 	},
+/obj/effect/landmark/blobstart,
 /turf/open/floor/plasteel/dark,
 /area/medical/genetics)
 "bIS" = (
@@ -26190,6 +26191,9 @@
 	dir = 10
 	},
 /obj/structure/closet/secure_closet/personal/patient,
+/obj/effect/turf_decal/bot{
+	dir = 1
+	},
 /turf/open/floor/plasteel/dark,
 /area/medical/genetics)
 "cAe" = (
@@ -26198,6 +26202,10 @@
 	dir = 1;
 	pixel_y = -22
 	},
+/obj/effect/turf_decal/bot{
+	dir = 1
+	},
+/obj/structure/closet/secure_closet/personal/patient,
 /turf/open/floor/plasteel/dark,
 /area/medical/genetics)
 "cAo" = (
@@ -34566,10 +34574,7 @@
 	pixel_x = 29
 	},
 /obj/structure/window/reinforced,
-/obj/effect/turf_decal/stripes/line{
-	dir = 10
-	},
-/obj/effect/turf_decal/tile/neutral/fourcorners/contrasted,
+/obj/effect/turf_decal/stripes/box,
 /turf/open/floor/plasteel/dark,
 /area/medical/genetics/cloning)
 "ewj" = (
@@ -36951,6 +36956,16 @@
 	dir = 6
 	},
 /obj/structure/table,
+/obj/item/storage/box/syringes,
+/obj/item/storage/box/petri_dish{
+	pixel_y = 5
+	},
+/obj/item/reagent_containers/food/drinks/bottle/synthflesh{
+	pixel_x = 9
+	},
+/obj/item/pen{
+	pixel_x = -7
+	},
 /turf/open/floor/plasteel/white,
 /area/medical/genetics)
 "fyM" = (
@@ -37516,6 +37531,10 @@
 /obj/effect/turf_decal/tile/blue/half/contrasted{
 	dir = 8
 	},
+/obj/item/circular_saw,
+/obj/item/scalpel{
+	pixel_y = 12
+	},
 /turf/open/floor/plasteel/white,
 /area/medical/genetics)
 "fLl" = (
@@ -37855,7 +37874,6 @@
 	name = "sink";
 	pixel_y = 28
 	},
-/obj/effect/turf_decal/tile/neutral/fourcorners/contrasted,
 /turf/open/floor/plasteel/dark,
 /area/medical/genetics/cloning)
 "fRz" = (
@@ -43301,6 +43319,11 @@
 /obj/effect/turf_decal/trimline/purple/filled/line{
 	dir = 8
 	},
+/obj/structure/sink{
+	dir = 8;
+	pixel_x = -12;
+	pixel_y = 2
+	},
 /turf/open/floor/plasteel/white,
 /area/medical/genetics)
 "ith" = (
@@ -45453,7 +45476,6 @@
 	dir = 8;
 	pixel_x = 24
 	},
-/obj/effect/turf_decal/tile/neutral/fourcorners/contrasted,
 /turf/open/floor/plasteel/dark,
 /area/medical/genetics/cloning)
 "jBp" = (
@@ -47025,7 +47047,6 @@
 /obj/item/pen,
 /obj/structure/table/glass,
 /obj/structure/disposalpipe/segment,
-/obj/effect/turf_decal/tile/neutral/fourcorners/contrasted,
 /turf/open/floor/plasteel/dark,
 /area/medical/genetics/cloning)
 "kmY" = (
@@ -48864,6 +48885,15 @@
 /obj/machinery/light{
 	dir = 8
 	},
+/obj/structure/table/glass,
+/obj/item/storage/box/disks{
+	pixel_y = 4
+	},
+/obj/item/storage/box/disks{
+	pixel_y = 8;
+	pixel_x = 6
+	},
+/obj/item/storage/box/monkeycubes,
 /turf/open/floor/plasteel/white,
 /area/medical/genetics)
 "lbR" = (
@@ -51057,14 +51087,15 @@
 	},
 /area/engine/atmos)
 "mbh" = (
-/obj/structure/railing{
-	dir = 4
-	},
-/obj/structure/table/glass,
 /obj/effect/turf_decal/stripes/line{
 	dir = 4
 	},
 /obj/effect/turf_decal/trimline/purple/filled/line{
+	dir = 4
+	},
+/obj/effect/turf_decal/delivery,
+/obj/machinery/dna_scannernew,
+/obj/structure/railing{
 	dir = 4
 	},
 /turf/open/floor/plasteel/white,
@@ -52832,6 +52863,15 @@
 /obj/item/blood_filter,
 /turf/open/floor/plasteel/white/side,
 /area/medical/surgery)
+"mUa" = (
+/obj/effect/turf_decal/trimline/purple/filled/line{
+	dir = 8
+	},
+/obj/structure/table/glass,
+/obj/item/paper_bin,
+/obj/item/pen,
+/turf/open/floor/plasteel/white,
+/area/medical/genetics)
 "mUb" = (
 /obj/item/pen,
 /obj/structure/table/reinforced,
@@ -55796,6 +55836,10 @@
 	dir = 1;
 	pixel_y = -24
 	},
+/obj/effect/turf_decal/bot{
+	dir = 1
+	},
+/obj/structure/closet/secure_closet/personal/patient,
 /turf/open/floor/plasteel/dark,
 /area/medical/genetics)
 "opd" = (
@@ -59590,6 +59634,22 @@
 	dir = 5
 	},
 /obj/structure/table,
+/obj/item/cautery{
+	pixel_x = -6;
+	pixel_y = 8
+	},
+/obj/item/surgicaldrill{
+	pixel_x = 3;
+	pixel_y = -4
+	},
+/obj/item/blood_filter{
+	pixel_x = 8;
+	pixel_y = 3
+	},
+/obj/item/razor{
+	pixel_y = -4;
+	pixel_x = -6
+	},
 /turf/open/floor/plasteel/white,
 /area/medical/genetics)
 "qbu" = (
@@ -64270,6 +64330,7 @@
 "saL" = (
 /obj/effect/landmark/start/geneticist,
 /obj/effect/turf_decal/tile/blue/fourcorners/contrasted,
+/obj/effect/landmark/event_spawn,
 /turf/open/floor/plasteel/white,
 /area/medical/genetics)
 "sbc" = (
@@ -64898,6 +64959,9 @@
 	dir = 9
 	},
 /obj/structure/closet/crate/freezer,
+/obj/effect/turf_decal/bot{
+	dir = 1
+	},
 /obj/item/reagent_containers/food/drinks/bottle/synthflesh,
 /turf/open/floor/plasteel/dark,
 /area/medical/genetics)
@@ -65355,7 +65419,6 @@
 /obj/structure/mirror{
 	pixel_x = -28
 	},
-/obj/effect/turf_decal/tile/neutral/fourcorners/contrasted,
 /turf/open/floor/noslip/dark,
 /area/medical/genetics/cloning)
 "sCM" = (
@@ -66252,6 +66315,21 @@
 	dir = 10
 	},
 /obj/structure/table,
+/obj/item/glove_box,
+/obj/item/clothing/mask/surgical,
+/obj/item/clothing/mask/surgical,
+/obj/item/surgical_drapes{
+	pixel_y = 13
+	},
+/obj/item/clothing/suit/apron/surgical{
+	pixel_y = 10
+	},
+/obj/item/clothing/suit/apron/surgical{
+	pixel_y = 10
+	},
+/obj/item/clothing/suit/apron/surgical{
+	pixel_y = 10
+	},
 /turf/open/floor/plasteel/white,
 /area/medical/genetics)
 "sWU" = (
@@ -66851,16 +66929,19 @@
 /turf/open/floor/plasteel,
 /area/hydroponics/garden)
 "tky" = (
-/obj/machinery/computer/cloning{
-	dir = 8
-	},
-/obj/structure/railing{
-	dir = 6
-	},
 /obj/effect/turf_decal/stripes/line{
 	dir = 6
 	},
 /obj/effect/turf_decal/trimline/purple/filled/line{
+	dir = 6
+	},
+/obj/effect/turf_decal/bot{
+	dir = 1
+	},
+/obj/machinery/computer/scan_consolenew{
+	dir = 8
+	},
+/obj/structure/railing{
 	dir = 6
 	},
 /turf/open/floor/plasteel/white,
@@ -67328,7 +67409,6 @@
 	pixel_x = -24
 	},
 /obj/structure/table/glass,
-/obj/effect/turf_decal/tile/neutral/fourcorners/contrasted,
 /turf/open/floor/plasteel/dark,
 /area/medical/genetics/cloning)
 "tvY" = (
@@ -67599,11 +67679,14 @@
 	},
 /area/maintenance/port/fore)
 "tCU" = (
-/obj/effect/turf_decal/stripes/line,
 /obj/structure/table,
 /obj/machinery/light{
 	dir = 1
 	},
+/obj/effect/turf_decal/stripes/line{
+	dir = 10
+	},
+/obj/effect/landmark/xeno_spawn,
 /turf/open/floor/plasteel/white,
 /area/medical/genetics)
 "tDC" = (
@@ -67994,16 +68077,19 @@
 /turf/open/floor/plating,
 /area/maintenance/disposal)
 "tKD" = (
-/obj/machinery/computer/cloning{
-	dir = 8
-	},
-/obj/structure/railing{
-	dir = 4
-	},
 /obj/effect/turf_decal/stripes/line{
 	dir = 4
 	},
 /obj/effect/turf_decal/trimline/purple/filled/line{
+	dir = 4
+	},
+/obj/effect/turf_decal/bot{
+	dir = 1
+	},
+/obj/machinery/computer/scan_consolenew{
+	dir = 8
+	},
+/obj/structure/railing{
 	dir = 4
 	},
 /turf/open/floor/plasteel/white,
@@ -69869,10 +69955,9 @@
 /turf/open/floor/plasteel,
 /area/engine/storage_shared)
 "uET" = (
-/obj/effect/turf_decal/stripes/line{
-	dir = 10
-	},
 /obj/machinery/clonepod/prefilled,
+/obj/effect/turf_decal/stripes/box,
+/obj/effect/turf_decal/delivery,
 /turf/open/floor/plasteel/white,
 /area/medical/genetics)
 "uEU" = (
@@ -73902,6 +73987,11 @@
 	dir = 8
 	},
 /obj/machinery/power/apc/auto_name/west,
+/obj/structure/table/glass,
+/obj/item/folder/white,
+/obj/item/folder/white,
+/obj/item/folder/white,
+/obj/item/storage/pill_bottle/mannitol,
 /turf/open/floor/plasteel/white,
 /area/medical/genetics)
 "wwi" = (
@@ -75159,6 +75249,12 @@
 	dir = 9
 	},
 /obj/structure/table,
+/obj/item/hemostat{
+	pixel_x = -8
+	},
+/obj/item/retractor{
+	pixel_x = 6
+	},
 /turf/open/floor/plasteel/white,
 /area/medical/genetics)
 "wXy" = (
@@ -75394,6 +75490,9 @@
 	},
 /obj/effect/turf_decal/stripes/line{
 	dir = 6
+	},
+/obj/effect/turf_decal/bot{
+	dir = 1
 	},
 /turf/open/floor/plasteel/white,
 /area/medical/genetics)
@@ -76588,15 +76687,16 @@
 /turf/open/floor/plasteel,
 /area/hallway/primary/fore)
 "xCn" = (
-/obj/structure/railing{
-	dir = 4
-	},
-/obj/structure/table/glass,
 /obj/effect/turf_decal/stripes/line{
 	dir = 4
 	},
 /obj/effect/turf_decal/trimline/purple/filled/line{
 	dir = 5
+	},
+/obj/effect/turf_decal/delivery,
+/obj/machinery/dna_scannernew,
+/obj/structure/railing{
+	dir = 4
 	},
 /turf/open/floor/plasteel/white,
 /area/medical/genetics)
@@ -102887,7 +102987,7 @@ ctA
 lfp
 lbg
 wvI
-itb
+mUa
 bku
 itb
 cGy

@@ -129,9 +129,10 @@
 	list_reagents = list(/datum/reagent/consumable/nutriment = 5)
 	foodtype = RAW | MEAT | GROSS
 
-/obj/item/organ/Initialize(mapload)
+/obj/item/organ/Initialize(mapload, generate_quality = TRUE)
 	. = ..()
-	setup_mutations()
+	if(generate_quality)
+		setup_mutations()
 	START_PROCESSING(SSobj, src)
 
 /obj/item/organ/Destroy()
@@ -153,6 +154,27 @@
 					qdel(src)
 					if(H.put_in_active_hand(S))
 						S.attack(H, H)
+	else
+		..()
+
+/obj/item/organ/attackby(obj/item/I, mob/living/user, params)
+	//Syringe to extract sample for petri dish
+	var/obj/item/reagent_containers/syringe/S = I
+	if(istype(S) && S.mode == SYRINGE_DRAW && S.reagents.total_volume < S.volume)
+		to_chat(user, "<span class='notice'>You transfer [min(5, S.volume - S.reagents.total_volume)] units to [I].</span>")
+		S.reagents.add_reagent(/datum/reagent/organ_sample, min(5, S.volume - S.reagents.total_volume), list("quality" = quality, "mutations" = mutations, "type" = type))
+	//Med-scanner / Gene scanner to check organ quality
+	else if(istype(I, /obj/item/healthanalyzer) || istype(I, /obj/item/sequence_scanner))
+		//Build text
+		var/text = "<span class='notice'>[src] organ quality: </span>"
+		var/list/colors = list("#f00", "#ff9500", "#ddff00", "#00ff1e", "#00ff84", "#00ddff")
+		var/color_itt = 1
+		for(var/i in quality)
+			text = "[text]<span style='color:[colors[color_itt]];font-size:35px'>[quality["[i]"]?"■":"□"]</span>" //I'm sure these characters wont break anything in the near future...
+			color_itt += 1
+		to_chat(user, text)
+	else if(istype(I, /obj/item/pen))
+		rename(user)
 	else
 		..()
 
@@ -208,20 +230,33 @@
 		if(prev_damage == maxHealth)
 			return now_fixed
 
-/obj/item/organ/proc/setup_mutations()
+/obj/item/organ/proc/setup_mutations(quality_points = 3, quality_chance = 20)
 	//Setup quality
-	var/points = 3 //Points to spend on quality attributes
+	var/points = quality_points //Points to spend on quality attributes
 	for(var/i in quality)
 		if(points <= 0)
 			break
-		if(prob(25))
+		if(prob(quality_chance))
 			quality["[i]"] += 1
 			points-=1
 	//Add random mutation
-	if(points < 3 && mutation_type) //easy check for available mutation slots based on quality
+	if(points < quality_points && mutation_type) //easy check for available mutation slots based on quality
 		var/datum/organ_mutation/M = pick(typesof(mutation_type))
 		M = new M(src)
 		mutations += M
+
+/obj/item/organ/proc/rename(mob/user)
+	if(!user.is_literate())
+		to_chat(user, "<span class='notice'>You scribble illegibly on [src]!</span>")
+		return
+
+	var/inputvalue = stripped_input(user, "What would you like to label the organ?", "Organ Labelling", null, MAX_NAME_LEN)
+
+	if(!inputvalue)
+		return
+
+	if(user.canUseTopic(src, BE_CLOSE))
+		name = input_value == "" ? name : input_value
 
 //Looking for brains?
 //Try code/modules/mob/living/carbon/brain/brain_item.dm

@@ -1414,3 +1414,11 @@
 	new /obj/item/encryptionkey/heads/ce/fake(src)
 	new /obj/item/encryptionkey/heads/cmo/fake(src)
 	new /obj/item/encryptionkey/heads/hop/fake(src)
+
+/obj/item/storage/box/petri_dish
+	name = "box of petri dishes"
+	illustration = "beaker"
+
+/obj/item/storage/box/petri_dish/PopulateContents()
+	for(var/i in 1 to 7)
+		new /obj/item/reagent_containers/glass/petri_dish(src)
