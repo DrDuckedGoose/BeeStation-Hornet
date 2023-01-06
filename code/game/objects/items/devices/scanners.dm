@@ -827,91 +827,32 @@ GENE SCANNER
 	throw_speed = 3
 	throw_range = 7
 	materials = list(/datum/material/iron=200)
-	var/list/discovered = list() //hit a dna console to update the scanners database
-	var/list/buffer
-	var/ready = TRUE
-	var/cooldown = 200
 
-/obj/item/sequence_scanner/attack(mob/living/M, mob/living/user)
-	add_fingerprint(user)
-	if(!HAS_TRAIT(M, TRAIT_RADIMMUNE) && !HAS_TRAIT(M, TRAIT_BADDNA)) //no scanning if its a husk or DNA-less Species
-		user.visible_message("<span class='notice'>[user] analyzes [M]'s genetic sequence.</span>", \
-							"<span class='notice'>You analyze [M]'s genetic sequence.</span>")
-		gene_scan(M, user)
-		playsound(src, 'sound/effects/fastbeep.ogg', 20)
-
-	else
-		user.visible_message("<span class='notice'>[user] failed to analyse [M]'s genetic sequence.</span>", "<span class='warning'>[M] has no readable genetic sequence!</span>")
-
-/obj/item/sequence_scanner/attack_self(mob/user)
-	display_sequence(user)
-
-/obj/item/sequence_scanner/attack_self_tk(mob/user)
-	return
-
-/obj/item/sequence_scanner/afterattack(obj/O, mob/user, proximity)
+/obj/item/sequence_scanner/afterattack(atom/target, mob/user, proximity_flag, click_parameters)
 	. = ..()
-	if(!istype(O) || !proximity)
-		return
-
-	if(istype(O, /obj/machinery/computer/scan_consolenew))
-		var/obj/machinery/computer/scan_consolenew/C = O
-		if(C.stored_research)
-			to_chat(user, "<span class='notice'>[name] database updated.</span>")
-			discovered = C.stored_research.discovered_mutations
-		else
-			to_chat(user,"<span class='warning'>No database to update from.</span>")
-
-/obj/item/sequence_scanner/proc/gene_scan(mob/living/carbon/C, mob/living/user)
-	if(!iscarbon(C) || !C.has_dna())
-		return
-	buffer = C.dna.mutation_index
-	to_chat(user, "<span class='notice'>Subject [C.name]'s DNA sequence has been saved to buffer.</span>")
-	if(LAZYLEN(buffer))
-		for(var/A in buffer)
-			to_chat(user, "<span class='notice'>[get_display_name(A)]</span>")
-
-
-/obj/item/sequence_scanner/proc/display_sequence(mob/living/user)
-	if(!LAZYLEN(buffer) || !ready)
-		return
-	var/list/options = list()
-	for(var/A in buffer)
-		options += get_display_name(A)
-
-	var/answer = input(user, "Analyze Potential", "Sequence Analyzer")  as null|anything in sortList(options)
-	if(answer && ready && user.canUseTopic(src, BE_CLOSE, FALSE, NO_TK))
-		var/sequence
-		for(var/A in buffer) //this physically hurts but i dont know what anything else short of an assoc list
-			if(get_display_name(A) == answer)
-				sequence = buffer[A]
-				break
-
-		if(sequence)
-			var/display
-			for(var/i in 0 to length_char(sequence) / DNA_MUTATION_BLOCKS-1)
-				if(i)
-					display += "-"
-				display += copytext_char(sequence, 1 + i*DNA_MUTATION_BLOCKS, DNA_MUTATION_BLOCKS*(1+i) + 1)
-
-			to_chat(user, "<span class='boldnotice'>[display]</span><br>")
-
-		ready = FALSE
-		icon_state = "[icon_state]_recharging"
-		addtimer(CALLBACK(src, .proc/recharge), cooldown, TIMER_UNIQUE)
-
-/obj/item/sequence_scanner/proc/recharge()
-	icon_state = initial(icon_state)
-	ready = TRUE
-
-/obj/item/sequence_scanner/proc/get_display_name(mutation)
-	var/datum/mutation/HM = GET_INITIALIZED_MUTATION(mutation)
-	if(!HM)
-		return "ERROR"
-	if(discovered[mutation])
-		return  "[HM.name] ([HM.alias])"
-	else
-		return HM.alias
+	//List of available organs
+	var/list/organs = list()
+	//Collect organs from target
+	if(iscarbon(target))
+		var/mob/living/carbon/M = target
+		to_chat(user, "<spane class='notice'>[M]:</span>")
+		for(var/obj/item/organ/O as() in M.internal_organs)
+			organs += O
+	else if(istype(target, /obj/item/organ))
+		organs += target
+	//Display stats
+	if(organs.len)
+		for(var/obj/item/organ/O as() in organs)
+			//Qualities
+			var/text = "<span class='notice'>	- [capitalize(O.name)] organ quality: </span>"
+			var/list/colors = list("#f00", "#ff9500", "#ddff00", "#00ff1e", "#00ff84", "#00ddff")
+			var/color_itt = 1
+			for(var/i in O.quality)
+				text = "[text]<span style='color:[colors[color_itt]];font-size:20px'>[O.quality["[i]"]?"■":"□"]</span>" //I'm sure these characters wont break anything in the near future...
+				color_itt += 1
+			to_chat(user, text)
+			//Mutations
+			//todo
 
 /obj/item/extrapolator
 	name = "virus extrapolator"

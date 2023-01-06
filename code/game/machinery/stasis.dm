@@ -19,6 +19,12 @@
 	var/obj/effect/overlay/vis/mattress_on
 	var/obj/machinery/computer/operating/op_computer
 
+/obj/machinery/stasis/body_preserver
+	name = "cell stasis chamber"
+	desc = "A modified cryotube, used to preserve artificial bodies for later conscious tranferal."
+	icon = 'icons/obj/machines/stasis.dmi' //todo
+	icon_state = "stasis"
+
 /obj/machinery/stasis/Initialize(mapload)
 	. = ..()
 	for(var/direction in GLOB.cardinals)

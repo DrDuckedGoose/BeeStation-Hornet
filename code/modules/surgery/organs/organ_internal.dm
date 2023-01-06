@@ -162,21 +162,12 @@
 	var/obj/item/reagent_containers/syringe/S = I
 	if(istype(S) && S.mode == SYRINGE_DRAW && S.reagents.total_volume < S.volume)
 		to_chat(user, "<span class='notice'>You transfer [min(5, S.volume - S.reagents.total_volume)] units to [I].</span>")
-		S.reagents.add_reagent(/datum/reagent/organ_sample, min(5, S.volume - S.reagents.total_volume), list("quality" = quality, "mutations" = mutations, "type" = type))
-	//Med-scanner / Gene scanner to check organ quality
-	else if(istype(I, /obj/item/healthanalyzer) || istype(I, /obj/item/sequence_scanner))
-		//Build text
-		var/text = "<span class='notice'>[src] organ quality: </span>"
-		var/list/colors = list("#f00", "#ff9500", "#ddff00", "#00ff1e", "#00ff84", "#00ddff")
-		var/color_itt = 1
-		for(var/i in quality)
-			text = "[text]<span style='color:[colors[color_itt]];font-size:35px'>[quality["[i]"]?"■":"□"]</span>" //I'm sure these characters wont break anything in the near future...
-			color_itt += 1
-		to_chat(user, text)
+		S.reagents.add_reagent(/datum/reagent/organ_sample, min(5, S.volume - S.reagents.total_volume), list("quality" = quality, "mutations" = mutations, "type" = type))	
+	//Renaming
 	else if(istype(I, /obj/item/pen))
 		rename(user)
 	else
-		..()
+		return ..()
 
 /obj/item/organ/proc/check_for_surgery(mob/living/carbon/human/H)
 	for(var/datum/surgery/S in H.surgeries)
@@ -256,7 +247,7 @@
 		return
 
 	if(user.canUseTopic(src, BE_CLOSE))
-		name = input_value == "" ? name : input_value
+		name = inputvalue == "" ? name : inputvalue
 
 //Looking for brains?
 //Try code/modules/mob/living/carbon/brain/brain_item.dm
