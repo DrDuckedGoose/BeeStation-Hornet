@@ -8,6 +8,7 @@
 	density = FALSE
 	anchored = TRUE
 	layer = ABOVE_ALL_MOB_LAYER
+	mouse_opacity = MOUSE_OPACITY_TRANSPARENT
 	///How much we hold
 	var/volume = 800
 
