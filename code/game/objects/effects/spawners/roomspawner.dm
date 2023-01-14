@@ -7,6 +7,8 @@
 	dir = NORTH
 	var/room_width = 0
 	var/room_height = 0
+	///List of room IDs we want
+	var/list/rooms = list()
 
 /obj/effect/spawner/room/New(loc, ...)
 	. = ..()
@@ -23,7 +25,7 @@
 	shuffle_inplace(SSmapping.random_room_templates)
 	for(var/ID in SSmapping.random_room_templates)
 		candidate = SSmapping.random_room_templates[ID]
-		if(candidate.spawned || room_height != candidate.template_height || room_width != candidate.template_width)
+		if((!rooms.len && candidate.spawned) || (!rooms.len && (room_height != candidate.template_height || room_width != candidate.template_width)) || (rooms.len && !(candidate.room_id in rooms)))
 			candidate = null
 			continue
 		possibletemplates[candidate] = candidate.weight
@@ -72,3 +74,5 @@
 	room_width = 5
 	room_height = 11
 
+/obj/effect/spawner/room/test
+	rooms = list("sk_rdm006_gibs")
