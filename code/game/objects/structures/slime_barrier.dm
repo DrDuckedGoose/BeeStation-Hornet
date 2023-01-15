@@ -122,7 +122,7 @@
 	armor = list("melee" = 75, "bullet" = 5, "laser" = 0, "energy" = 0, "bomb" = 45, "bio" = 100, "rad" = 100, "fire" = 99, "acid" = 100, "stamina" = 0)
 	max_integrity = 10000
 	///List of types to block movement
-	var/list/pass_blacklist = list()
+	var/list/pass_blacklist
 
 /obj/structure/window/slime_barrier/deconstruct(disassembled)
 	return
@@ -130,11 +130,11 @@
 /obj/structure/window/slime_barrier/Initialize(mapload, dir, var/list/pass_list = list())
 	. = ..()
 	setDir(dir)
-	pass_blacklist = pass_list
+	pass_blacklist = typecacheof(pass_list)
 	
 /obj/structure/window/slime_barrier/CanAllowThrough(atom/movable/mover, turf/target)
 	. = ..()
-	if(!(mover.type in pass_blacklist))
+	if(!(is_type_in_typecache(target, pass_blacklist)))
 		return TRUE
 	else
 		var/mob/living/simple_animal/S = mover
@@ -161,7 +161,7 @@
 		return TRUE
 
 /obj/structure/window/slime_barrier/on_exit(datum/source, atom/movable/leaving, direction)
-	if(!(leaving.type in pass_blacklist))
+	if(!(is_type_in_typecache(leaving, pass_blacklist)))
 		return
 	else
 		var/mob/living/simple_animal/S = leaving

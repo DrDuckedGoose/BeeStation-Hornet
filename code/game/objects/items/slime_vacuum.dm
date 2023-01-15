@@ -11,7 +11,11 @@
 	///Max capacity for how many slimes we can hold
 	var/max_capacity = 3
 	///List of mobs we can succ
-	var/list/store_blacklist = list(/mob/living/simple_animal/slime)
+	var/list/store_blacklist
+
+/obj/item/slime_gun/Initialize(mapload)
+	. = ..()
+	store_blacklist = typecacheof(/mob/living/simple_animal/slime)
 
 /obj/item/slime_gun/examine(mob/user)
 	to_chat(user, "<span class='notice'>[contents.len ? "The vacuum contains [contents.len] slimes" : "The vacuum is empty"]</span>")
@@ -19,7 +23,7 @@
 
 /obj/item/slime_gun/afterattack(atom/target, mob/user, proximity_flag, click_parameters)
 	..()
-	if(target.type in store_blacklist && get_dist(get_turf(src), get_turf(target)) < max_distance_input && contents.len < max_capacity) //inhale
+	if(is_type_in_typecache(target, store_blacklist) && get_dist(get_turf(src), get_turf(target)) < max_distance_input && contents.len < max_capacity) //inhale
 		var/atom/movable/AM = target
 		AM.throw_at(get_turf(src), get_dist(get_turf(src), get_turf(target)), 1, force = MOVE_FORCE_EXTREMELY_WEAK)
 		RegisterSignal(AM, COMSIG_MOVABLE_IMPACT, .proc/inhale, AM)

@@ -1613,7 +1613,7 @@ NOTE: there are two lists of areas in the end of this file: centcom and station 
 	sound_environment = SOUND_AREA_SPACE
 
 /area/ocean/surface
-	name = "Ocean"
+	name = "deep ocean"
 	always_unpowered = TRUE
 	poweralm = FALSE
 	power_environ = FALSE

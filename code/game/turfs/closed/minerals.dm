@@ -511,3 +511,17 @@
 	baseturfs = /turf/open/floor/plating/asteroid/basalt/lava_land_surface
 	initial_gas_mix = LAVALAND_DEFAULT_ATMOS
 	defer_change = 1
+
+/turf/closed/mineral/ocean_wall
+	name = "deep rock"
+	icon = 'icons/turf/mining.dmi'
+	//smooth_icon = 'icons/turf/walls/rock_wall.dmi'
+	icon_state = "deeprock"
+	base_icon_state = "deeprock"
+	//smoothing_flags = SMOOTH_BITMASK | SMOOTH_BORDER
+	//canSmoothWith = list(SMOOTH_GROUP_CLOSED_TURFS)
+	baseturfs = /turf/open/floor/plating/ocean_floor
+	initial_gas_mix = OPENTURF_LOW_PRESSURE
+	environment_type = "waste"
+	turf_type = /turf/open/floor/plating/ocean_floor
+	defer_change = 1
