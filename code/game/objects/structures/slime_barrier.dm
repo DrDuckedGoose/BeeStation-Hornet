@@ -63,6 +63,7 @@
 			visible_message("<span class='danger'>The [src.name] shuts down due to lack of power!</span>", \
 			"<span class='italics'>You hear heavy droning fade out.</span>")
 			active = FALSE
+			icon_state = "slime_field-off"
 			return
 		project()
 
@@ -117,6 +118,7 @@
 /obj/structure/window/slime_barrier
 	name = "gelatinous exclusion barrier"
 	desc = "Keeps them in, and us out... but also us in."
+	icon_state = "slimewindow"
 	reinf = FALSE
 	heat_resistance = 75000
 	armor = list("melee" = 75, "bullet" = 5, "laser" = 0, "energy" = 0, "bomb" = 45, "bio" = 100, "rad" = 100, "fire" = 99, "acid" = 100, "stamina" = 0)
@@ -124,14 +126,19 @@
 	///List of types to block movement
 	var/list/pass_blacklist
 
+/obj/structure/window/slime_barrier/Initialize(mapload, dir, var/list/pass_list = list())
+	. = ..()
+	apply_wibbly_filters(src, -1)
+	setDir(dir)
+	pass_blacklist = typecacheof(pass_list)
+	//Animate colors
+	animate(src, color = "#f00",2 SECONDS, -1)
+	animate(color = "#0f0",2 SECONDS)
+	animate(color = "#00f",2 SECONDS)
+	
 /obj/structure/window/slime_barrier/deconstruct(disassembled)
 	return
 
-/obj/structure/window/slime_barrier/Initialize(mapload, dir, var/list/pass_list = list())
-	. = ..()
-	setDir(dir)
-	pass_blacklist = typecacheof(pass_list)
-	
 /obj/structure/window/slime_barrier/CanAllowThrough(atom/movable/mover, turf/target)
 	. = ..()
 	if(!(is_type_in_typecache(target, pass_blacklist)))
