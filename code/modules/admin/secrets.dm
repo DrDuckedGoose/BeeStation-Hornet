@@ -693,7 +693,9 @@ GLOBAL_DATUM_INIT(admin_secrets, /datum/admin_secrets, new)
 					continue
 				L.set_playable()
 		if("changewater")
-			SSdeep_water.change_water(/datum/reagent/blood)
+			var/list/paths = subtypesof(/datum/reagent)
+			var/reagent = input("Select reagent", "Ocean reagent") as null|anything in paths
+			SSdeep_water.change_water(reagent)
 
 		if("flipmovement")
 			if(!check_rights(R_FUN))

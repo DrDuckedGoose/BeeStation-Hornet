@@ -59,7 +59,10 @@
 	//Play funky water sound for that sweet immersion
 	playsound(src, 'sound/effects/splosh.ogg', 100, 1) //TODO: Change this to something more fitting
 	//Distribute contents onto target - 5 should be an okay average
-	reagents.reaction(entering, TOUCH, exact_amount = 5)
+	var/mob/living/carbon/C = entering
+	if(istype(C) && !C.get_item_by_slot(HEAD))
+		reagents.reaction(entering, INGEST, exact_amount = 5)
+	reagents.reaction(entering, TOUCH, exact_amount = 5) //The double time
 	//If we empty, we die
 	if(reagents.total_volume <= 0)
 		qdel(src)

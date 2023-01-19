@@ -128,13 +128,9 @@
 
 /obj/structure/window/slime_barrier/Initialize(mapload, dir, var/list/pass_list = list())
 	. = ..()
-	apply_wibbly_filters(src, -1)
+	apply_wibbly_filters(src, 1)
 	setDir(dir)
 	pass_blacklist = typecacheof(pass_list)
-	//Animate colors
-	animate(src, color = "#f00",2 SECONDS, -1)
-	animate(color = "#0f0",2 SECONDS)
-	animate(color = "#00f",2 SECONDS)
 	
 /obj/structure/window/slime_barrier/deconstruct(disassembled)
 	return
