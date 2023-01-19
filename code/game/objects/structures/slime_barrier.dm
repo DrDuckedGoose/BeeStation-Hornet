@@ -1,4 +1,3 @@
-//todo: no power makes it spam message, 'the field turns off'
 /obj/machinery/slime_barrier_generator
 	name = "gelatinous exclusion field generator"
 	desc = "Keep in mind, it is not made of, nor makes, slime."
@@ -63,6 +62,7 @@
 		if(!power)
 			visible_message("<span class='danger'>The [src.name] shuts down due to lack of power!</span>", \
 			"<span class='italics'>You hear heavy droning fade out.</span>")
+			active = FALSE
 			return
 		project()
 
@@ -189,3 +189,7 @@
 
 /obj/structure/window/slime_barrier/attack_hand(mob/user)
 	attack_hand(user)
+
+/obj/machinery/slime_barrier_generator/turned_on
+	icon_state = "slime_field-on"
+	active = TRUE
