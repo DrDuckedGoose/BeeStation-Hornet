@@ -386,23 +386,28 @@
 
 //////////////////////////////////////////////////////////////////////////////////////
 
-/// Mutilate a certain amount of Vassals
-/datum/objective/bloodsucker/vassal_mutilation
+/// Steal the Archive of the Kindred - Nosferatu Clan objective
+/datum/objective/bloodsucker/kindred
 	name = "steal kindred"
-/datum/objective/bloodsucker/vassal_mutilation/New()
-	target_amount = rand(2,3)
-	..()
 
 // EXPLANATION
-/datum/objective/bloodsucker/vassal_mutilation/update_explanation_text()
+/datum/objective/bloodsucker/kindred/update_explanation_text()
 	. = ..()
-	explanation_text = "Mutate [target_amount] of Vassals into vile sevant creatures."
+	explanation_text = "Ensure Nosferatu steals and keeps control over the Archive of the Kindred."
 
 // WIN CONDITIONS?
-/datum/objective/bloodsucker/vassal_mutilation/check_completion()
+/datum/objective/bloodsucker/kindred/check_completion()
+	if(!owner.current)
+		return FALSE
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = owner.current.mind.has_antag_datum(/datum/antagonist/bloodsucker)
-	if(bloodsuckerdatum.vassals_mutated >= target_amount)
-		return TRUE
+	if(!bloodsuckerdatum)
+		return FALSE
+
+	for(var/mob/living/all_nosferatu as anything in GLOB.bloodsucker_clan_members[CLAN_NOSFERATU])
+		var/list/all_items = all_nosferatu.get_all_contents_type()
+		for(var/obj/items as anything in all_items)
+			if(istype(items, /obj/item/book/kindred))
+				return TRUE
 	return FALSE
 
 /// Convert a certain amount of vassals
@@ -424,4 +429,24 @@
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = owner.current.mind.has_antag_datum(/datum/antagonist/bloodsucker)
 	if(bloodsuckerdatum && bloodsuckerdatum.vassals >= target_amount)
 		return TRUE
+	return FALSE
+
+/// Convert a crewmate - Ventrue Clan objective
+/datum/objective/bloodsucker/embrace
+	name = "embrace"
+
+// EXPLANATION
+/datum/objective/bloodsucker/embrace/update_explanation_text()
+	. = ..()
+	explanation_text = "Use the Candelabrum to Rank your Favorite Vassal up enough to become a Bloodsucker."
+
+// WIN CONDITIONS?
+/datum/objective/bloodsucker/embrace/check_completion()
+	var/datum/antagonist/bloodsucker/bloodsuckerdatum = owner.current.mind.has_antag_datum(/datum/antagonist/bloodsucker)
+	if(!bloodsuckerdatum)
+		return FALSE
+	for(var/datum/antagonist/vassal/vassaldatum in bloodsuckerdatum.vassals)
+		if(vassaldatum.favorite_vassal)
+			if(vassaldatum.owner.has_antag_datum(/datum/antagonist/bloodsucker))
+				return TRUE
 	return FALSE

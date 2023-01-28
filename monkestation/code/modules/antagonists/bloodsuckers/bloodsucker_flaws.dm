@@ -19,6 +19,7 @@
 		for(var/datum/action/bloodsucker/P in powers)
 			if(is_type_in_list(P, powerstoremove))
 				RemovePower(P)
+		GLOB.bloodsucker_clan_members[my_clan] = bloodsucker
 		return
 	// Actual clan code beyond here
 	var/static/list/clans = list(
@@ -136,6 +137,10 @@
 
 			if(!HAS_TRAIT(bloodsucker, TRAIT_DISFIGURED))
 				ADD_TRAIT(bloodsucker, TRAIT_DISFIGURED, BLOODSUCKER_TRAIT)
+			
+			var/datum/objective/bloodsucker/kindred/nosferatu_objective = new
+			nosferatu_objective.owner = owner
+			objectives += nosferatu_objective
 			return
 		if(CLAN_TREMERE)
 			my_clan = CLAN_TREMERE
@@ -151,6 +156,9 @@
 				* Additionally, you will no longer Rank up. You are now instead able to get a Favorite vassal, by putting a Vassal on the persuasion rack and attempting to Tortute them.<br> \
 				* Finally, you may Rank your Favorite Vassal up by buckling them onto a Candelabrum.</span>")
 			to_chat(owner, "<span class='announce'>* Bloodsucker Tip: Examine the Persuasion Rack/Candelabrum to see how they operate!</span>")
+			var/datum/objective/bloodsucker/embrace/venture_objective = new
+			venture_objective.owner = owner
+			objectives += venture_objective
 			return
 		if(CLAN_MALKAVIAN)
 			my_clan = CLAN_MALKAVIAN
@@ -161,4 +169,5 @@
 			bloodsucker.gain_trauma(/datum/brain_trauma/special/bluespace_prophet, TRAUMA_RESILIENCE_ABSOLUTE)
 			return
 
+	GLOB.bloodsucker_clan_members[my_clan] = bloodsucker
 	owner.announce_objectives()

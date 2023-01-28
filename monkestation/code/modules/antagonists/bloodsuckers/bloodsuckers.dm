@@ -1,3 +1,5 @@
+GLOBAL_LIST_EMPTY(bloodsucker_clan_members)
+
 /datum/antagonist/bloodsucker
 	name = "\improper Bloodsucker"
 	show_in_antagpanel = TRUE
