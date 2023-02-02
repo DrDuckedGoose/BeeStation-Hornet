@@ -41,7 +41,6 @@
 /turf/open/openspace/ocean/Initialize()
 	. = ..()
 
-
 /turf/open/floor/plating/ocean
 	gender = PLURAL
 	name = "ocean sand"
@@ -82,7 +81,6 @@
 	if(open_turfs.len)
 		SSliquids.active_ocean_turfs |= src
 	SSliquids.ocean_turfs |= src
-
 
 /turf/open/floor/plating/ocean/Destroy()
 	. = ..()
@@ -184,6 +182,7 @@
 	if(!(src in SSliquids.active_ocean_turfs))
 		SSliquids.active_ocean_turfs |= src
 
+//Subtypes for abyss station
 /area/ocean/deep
 	name = "Deep ocean"
 	dynamic_lighting = DYNAMIC_LIGHTING_ENABLED
