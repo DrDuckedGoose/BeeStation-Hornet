@@ -27,6 +27,9 @@ SUBSYSTEM_DEF(liquids)
 	var/list/burning_turfs = list()
 	var/fire_counter = 0
 
+	///Mapping - What reagent our ocean is comprised of
+	var/datum/reagent/ocean_reagent
+
 /datum/controller/subsystem/liquids/stat_entry(msg)
 	msg += "AT:[active_turfs.len]|AG:[active_groups.len]|BT:[burning_turfs.len]|EQ:[evaporation_queue.len]|AO:[active_ocean_turfs.len]"
 	return ..()

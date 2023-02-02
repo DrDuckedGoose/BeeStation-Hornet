@@ -238,15 +238,3 @@
 
 /turf/open/floor/plating/snowed/temperatre
 	initial_temperature = 255.37
-
-/turf/open/floor/plating/ocean_floor
-	gender = PLURAL
-	name = "sand"
-	desc = "rock bottom."
-	icon_state = "ocean_sand"
-	initial_gas_mix = AIRLESS_ATMOS
-	baseturfs = /turf/open/floor/plating/ocean_floor
-
-/turf/open/floor/plating/ocean_floor/Initialize(mapload)
-	. = ..()
-	new /obj/structure/deep_water(src)

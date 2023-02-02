@@ -519,7 +519,7 @@
 	icon_state = "deeprock"
 	//smoothing_flags = SMOOTH_BITMASK | SMOOTH_BORDER
 	//canSmoothWith = list(SMOOTH_GROUP_CLOSED_TURFS)
-	baseturfs = /turf/open/floor/plating/ocean_floor
+	baseturfs = /turf/open/floor/plating/ocean
 	initial_gas_mix = OPENTURF_LOW_PRESSURE
 	environment_type = "waste"
-	turf_type = /turf/open/floor/plating/ocean_floor
+	turf_type = /turf/open/floor/plating/ocean

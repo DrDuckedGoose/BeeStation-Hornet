@@ -55,7 +55,7 @@
 	heavyfootstep = FOOTSTEP_GENERIC_HEAVY
 	planetary_atmos = TRUE
 	var/static/obj/effect/abstract/ocean_overlay/static_overlay
-	var/static/list/ocean_reagents = list(/datum/reagent/water = 100)
+	var/list/ocean_reagents = list(/datum/reagent/water = 100)
 	var/ocean_temp = T20C - 150
 	var/list/ocean_turfs = list()
 	var/list/open_turfs = list()
@@ -183,3 +183,12 @@
 
 	if(!(src in SSliquids.active_ocean_turfs))
 		SSliquids.active_ocean_turfs |= src
+
+/turf/open/floor/plating/ocean/abyss
+	gender = PLURAL
+	name = "ocean sand"
+	baseturfs = /turf/open/floor/plating/ocean/abyss
+	icon = 'code/modules/liquids/icons/turf/seafloor.dmi'
+	icon_state = "seafloor_heavy"
+	base_icon_state = "seafloor_heavy"
+	ocean_reagents = list(/datum/reagent/blood = 100)

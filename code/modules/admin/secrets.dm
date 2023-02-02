@@ -91,7 +91,6 @@ GLOBAL_DATUM_INIT(admin_secrets, /datum/admin_secrets, new)
 			list("Fully Immerse Everyone", "massimmerse"),
 			list("Un-Fully Immerse Everyone", "unmassimmerse"),
 			list("Make All Animals Playable", "animalsentience"),
-			list("Change all deep water", "changewater")
 			)
 
 	if(check_rights(R_DEBUG,0))
@@ -692,11 +691,6 @@ GLOBAL_DATUM_INIT(admin_secrets, /datum/admin_secrets, new)
 				if((L in GLOB.player_list) || L.mind || (L.flags_1 & HOLOGRAM_1))
 					continue
 				L.set_playable()
-		if("changewater")
-			var/list/paths = subtypesof(/datum/reagent)
-			var/reagent = input("Select reagent", "Ocean reagent") as null|anything in paths
-			SSdeep_water.change_water(reagent)
-
 		if("flipmovement")
 			if(!check_rights(R_FUN))
 				return
