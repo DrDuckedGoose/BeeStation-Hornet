@@ -184,11 +184,16 @@
 	if(!(src in SSliquids.active_ocean_turfs))
 		SSliquids.active_ocean_turfs |= src
 
+/area/ocean/deep
+	name = "Deep ocean"
+	//dynamic_lighting = DYNAMIC_LIGHTING_ENABLED
+
 /turf/open/floor/plating/ocean/abyss
 	gender = PLURAL
-	name = "ocean sand"
+	name = "ocean floor"
 	baseturfs = /turf/open/floor/plating/ocean/abyss
 	icon = 'code/modules/liquids/icons/turf/seafloor.dmi'
 	icon_state = "seafloor_heavy"
 	base_icon_state = "seafloor_heavy"
-	ocean_reagents = list(/datum/reagent/blood = 100)
+	initial_temperature = T20C
+	//ocean_reagents = list(/datum/reagent/blood = 100)
