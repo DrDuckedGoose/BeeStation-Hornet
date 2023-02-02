@@ -186,7 +186,7 @@
 
 /area/ocean/deep
 	name = "Deep ocean"
-	//dynamic_lighting = DYNAMIC_LIGHTING_ENABLED
+	dynamic_lighting = DYNAMIC_LIGHTING_ENABLED
 
 /turf/open/floor/plating/ocean/abyss
 	gender = PLURAL
@@ -196,4 +196,4 @@
 	icon_state = "seafloor_heavy"
 	base_icon_state = "seafloor_heavy"
 	initial_temperature = T20C
-	//ocean_reagents = list(/datum/reagent/blood = 100)
+	ocean_reagents = list(/datum/reagent/blood = 100)
