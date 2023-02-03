@@ -238,6 +238,8 @@ GLOBAL_VAR_INIT(liquid_debug_colors, FALSE)
 			remove_from_group(member)
 			qdel(member.liquids)
 		return
+	if(!length(members) || !total_reagent_volume)
+		return
 
 	var/list/removed_turf = list()
 	while(reagents_per_turf < 5)
@@ -725,9 +727,18 @@ GLOBAL_VAR_INIT(liquid_debug_colors, FALSE)
 		var/turf/Z_turf_below = SSmapping.get_turf_below(new_turf)
 		if(isspaceturf(Z_turf_below))
 			return FALSE
+		
 		if(!Z_turf_below.liquids)
 			Z_turf_below.liquids = new(Z_turf_below)
+		if(!source_turf.liquids)
+			remove_from_group(source_turf)
+			if(source_turf in cached_edge_turfs)
+				cached_edge_turfs -= source_turf
+			return FALSE
+		if(!source_turf.liquids?.liquid_group)
+			return FALSE
 		source_turf.liquids.liquid_group.transfer_reagents_to_secondary_group(source_turf.liquids, Z_turf_below.liquids)
+
 		var/obj/splashy = new /obj/effect/temp_visual/liquid_splash(Z_turf_below)
 		if(Z_turf_below.liquids.liquid_group)
 			splashy.color = Z_turf_below.liquids.liquid_group.group_color
