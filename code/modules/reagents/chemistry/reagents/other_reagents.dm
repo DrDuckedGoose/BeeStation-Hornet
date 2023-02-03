@@ -2128,3 +2128,6 @@
 	L.set_light(-1)
 
 	..()
+
+/datum/reagent/blood/ocean
+	color = "#c8000066"

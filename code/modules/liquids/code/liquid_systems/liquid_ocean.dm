@@ -38,9 +38,6 @@
 	. = ..()
 	ChangeTurf(replacement_turf, null, CHANGETURF_IGNORE_AIR)
 
-/turf/open/openspace/ocean/Initialize()
-	. = ..()
-
 /turf/open/floor/plating/ocean
 	gender = PLURAL
 	name = "ocean sand"
@@ -185,14 +182,11 @@
 //Subtypes for abyss station
 /area/ocean/deep
 	name = "Deep ocean"
-	dynamic_lighting = DYNAMIC_LIGHTING_ENABLED
+	//dynamic_lighting = DYNAMIC_LIGHTING_ENABLED
 
 /turf/open/floor/plating/ocean/abyss
 	gender = PLURAL
 	name = "ocean floor"
 	baseturfs = /turf/open/floor/plating/ocean/abyss
-	icon = 'code/modules/liquids/icons/turf/seafloor.dmi'
-	icon_state = "seafloor_heavy"
-	base_icon_state = "seafloor_heavy"
 	initial_temperature = T20C
-	ocean_reagents = list(/datum/reagent/blood = 100)
+	ocean_reagents = list(/datum/reagent/blood/ocean = 100)
