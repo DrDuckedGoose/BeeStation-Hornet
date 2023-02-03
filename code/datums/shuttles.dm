@@ -766,6 +766,11 @@
 	name = "primary turbolift (multi-z debug)"
 	can_be_bought = FALSE
 
+/datum/map_template/shuttle/turbolift/debug/primary/default
+	prefix = "_maps/shuttles/turbolifts/"
+	port_id = "default"
+	name = "primary turbolift"
+
 /datum/map_template/shuttle/tram
 	port_id = "tram"
 	can_be_bought = FALSE

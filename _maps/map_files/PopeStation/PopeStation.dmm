@@ -17499,6 +17499,13 @@
 	},
 /turf/open/floor/wood,
 /area/library)
+"hoc" = (
+/obj/machinery/turbolift_button{
+	pixel_y = -23;
+	shuttle_id = "turbolift_primary"
+	},
+/turf/open/floor/plasteel/stairs,
+/area/hallway/secondary/exit/departure_lounge)
 "hoj" = (
 /obj/structure/table,
 /obj/effect/turf_decal/stripes/corner,
@@ -23045,6 +23052,16 @@
 "jCf" = (
 /turf/open/floor/wood,
 /area/crew_quarters/bar)
+"jCq" = (
+/obj/docking_port/stationary/turbolift{
+	dwidth = 3;
+	height = 5;
+	id = "turbolift_primary";
+	roundstart_template = /datum/map_template/shuttle/turbolift/debug/primary/default;
+	width = 5
+	},
+/turf/open/openspace,
+/area/hallway/secondary/exit/departure_lounge)
 "jCt" = (
 /obj/effect/turf_decal/trimline/purple/filled/end{
 	dir = 8
@@ -26658,6 +26675,10 @@
 	},
 /turf/open/floor/plasteel,
 /area/hallway/primary/central)
+"lgq" = (
+/obj/machinery/vending/autodrobe/all_access,
+/turf/open/floor/plasteel/dark,
+/area/crew_quarters/locker)
 "lgu" = (
 /obj/effect/turf_decal/trimline/green/filled/line{
 	dir = 8
@@ -49776,6 +49797,10 @@
 "uGj" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
 	dir = 10
+	},
+/obj/machinery/turbolift_button{
+	pixel_y = -23;
+	shuttle_id = "turbolift_primary"
 	},
 /turf/open/floor/plasteel/stairs,
 /area/hallway/secondary/exit/departure_lounge)
@@ -149459,7 +149484,7 @@ vZs
 vZs
 vZs
 vZs
-mOI
+vZs
 vZs
 jXM
 jXM
@@ -149715,9 +149740,9 @@ vZs
 vZs
 vZs
 vZs
-mOI
-mOI
-mOI
+vZs
+vZs
+vZs
 vZs
 jXM
 jXM
@@ -149972,10 +149997,10 @@ vZs
 vZs
 vZs
 vZs
-mOI
-mOI
-mOI
-mOI
+vZs
+vZs
+vZs
+vZs
 jXM
 jXM
 jXM
@@ -150228,11 +150253,11 @@ vZs
 vZs
 vZs
 vZs
-mOI
-mOI
-mOI
-mOI
-mOI
+vZs
+vZs
+vZs
+vZs
+vZs
 jXM
 jXM
 jXM
@@ -150486,9 +150511,9 @@ vZs
 vZs
 vZs
 vZs
-mOI
-mOI
-mOI
+vZs
+vZs
+vZs
 vZs
 jXM
 jXM
@@ -150744,7 +150769,7 @@ vZs
 vZs
 vZs
 vZs
-mOI
+vZs
 vZs
 vZs
 jXM
@@ -153280,7 +153305,7 @@ jCd
 jCd
 jCd
 jCd
-jCd
+jCq
 uYf
 llZ
 uwd
@@ -153531,7 +153556,7 @@ amL
 grl
 qkU
 xfp
-sgm
+hoc
 hIK
 jCd
 jCd
@@ -158613,7 +158638,7 @@ hPh
 kDI
 bbM
 eUs
-joQ
+lgq
 eUs
 bbM
 eTP
