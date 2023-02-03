@@ -66,7 +66,6 @@
 	SSliquids.unvalidated_oceans |= src
 	SSliquids.ocean_turfs |= src
 
-
 /turf/open/floor/plating/ocean/Destroy()
 	. = ..()
 	UnregisterSignal(src, list(COMSIG_ATOM_ENTERED, COMSIG_TURF_MOB_FALL))
@@ -90,7 +89,6 @@
 
 	if(open_turfs.len)
 		SSliquids.active_ocean_turfs |= src
-	SSliquids.ocean_turfs |= src
 	SSliquids.unvalidated_oceans -= src
 
 /turf/open/floor/plating/ocean/proc/process_turf()
@@ -195,4 +193,4 @@
 	name = "ocean floor"
 	baseturfs = /turf/open/floor/plating/ocean/abyss
 	initial_temperature = T20C
-	ocean_reagents = list(/datum/reagent/blood/ocean = 100)
+	//ocean_reagents = list(/datum/reagent/blood/ocean = 100)
