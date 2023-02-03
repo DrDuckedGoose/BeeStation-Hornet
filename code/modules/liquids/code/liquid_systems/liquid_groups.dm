@@ -73,9 +73,11 @@ GLOBAL_VAR_INIT(liquid_debug_colors, FALSE)
 	if(!T.liquids)
 		T.liquids = new(null, src)
 		cached_edge_turfs[T] = list(NORTH, SOUTH, EAST, WEST)
+
 	if(!members)
 		qdel(T.liquids)
 		return
+
 	members[T] = TRUE
 	T.liquids.liquid_group = src
 	reagents.maximum_volume += 1000 /// each turf will hold 1000 units plus the base amount spread across the group
@@ -237,8 +239,6 @@ GLOBAL_VAR_INIT(liquid_debug_colors, FALSE)
 		for(var/turf/member in members)
 			remove_from_group(member)
 			qdel(member.liquids)
-		return
-	if(!length(members) || !total_reagent_volume)
 		return
 
 	var/list/removed_turf = list()
@@ -727,15 +727,12 @@ GLOBAL_VAR_INIT(liquid_debug_colors, FALSE)
 		var/turf/Z_turf_below = SSmapping.get_turf_below(new_turf)
 		if(isspaceturf(Z_turf_below))
 			return FALSE
-		
 		if(!Z_turf_below.liquids)
 			Z_turf_below.liquids = new(Z_turf_below)
 		if(!source_turf.liquids)
 			remove_from_group(source_turf)
 			if(source_turf in cached_edge_turfs)
 				cached_edge_turfs -= source_turf
-			return FALSE
-		if(!source_turf.liquids?.liquid_group)
 			return FALSE
 		source_turf.liquids.liquid_group.transfer_reagents_to_secondary_group(source_turf.liquids, Z_turf_below.liquids)
 
@@ -744,7 +741,7 @@ GLOBAL_VAR_INIT(liquid_debug_colors, FALSE)
 			splashy.color = Z_turf_below.liquids.liquid_group.group_color
 		return FALSE
 
-	if(!new_turf.liquids && !isspaceturf(new_turf) && !istype(new_turf, /turf/open/floor/plating/ocean) && source_turf.turf_height == new_turf.turf_height) // no space turfs, or oceans turfs, also don't attempt to spread onto a turf that already has liquids wastes processing time
+	if(!new_turf.liquids && istype(new_turf, /turf/open/openspace) && !isspaceturf(new_turf) && !istype(new_turf, /turf/open/floor/plating/ocean) && source_turf.turf_height == new_turf.turf_height) // no space turfs, or oceans turfs, also don't attempt to spread onto a turf that already has liquids wastes processing time
 		if(reagents_per_turf < LIQUID_HEIGHT_DIVISOR)
 			return FALSE
 		if(!length(members))

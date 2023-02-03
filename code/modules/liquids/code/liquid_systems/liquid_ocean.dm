@@ -193,4 +193,4 @@
 	name = "ocean floor"
 	baseturfs = /turf/open/floor/plating/ocean/abyss
 	initial_temperature = T20C
-	//ocean_reagents = list(/datum/reagent/blood/ocean = 100)
+	ocean_reagents = list(/datum/reagent/blood/ocean = 100)
