@@ -242,7 +242,9 @@ GLOBAL_VAR_INIT(liquid_debug_colors, FALSE)
 		return
 
 	var/list/removed_turf = list()
-	while(reagents_per_turf < 5)
+	var/recursion_sanity = 0
+	while(reagents_per_turf < 5 && recursion_sanity <= 200)
+		recursion_sanity++
 		if(members && members.len)
 			var/turf/picked_turf = pick(members)
 			if(picked_turf.liquids)
@@ -741,7 +743,7 @@ GLOBAL_VAR_INIT(liquid_debug_colors, FALSE)
 			splashy.color = Z_turf_below.liquids.liquid_group.group_color
 		return FALSE
 
-	if(!new_turf.liquids && istype(new_turf, /turf/open/openspace) && !isspaceturf(new_turf) && !istype(new_turf, /turf/open/floor/plating/ocean) && source_turf.turf_height == new_turf.turf_height) // no space turfs, or oceans turfs, also don't attempt to spread onto a turf that already has liquids wastes processing time
+	if(!new_turf.liquids && !istype(new_turf, /turf/open/openspace) && !isspaceturf(new_turf) && !istype(new_turf, /turf/open/floor/plating/ocean) && source_turf.turf_height == new_turf.turf_height) // no space turfs, or oceans turfs, also don't attempt to spread onto a turf that already has liquids wastes processing time
 		if(reagents_per_turf < LIQUID_HEIGHT_DIVISOR)
 			return FALSE
 		if(!length(members))
