@@ -50,7 +50,7 @@
 	clawfootstep = FOOTSTEP_SAND
 	heavyfootstep = FOOTSTEP_GENERIC_HEAVY
 	planetary_atmos = TRUE
-	var/static/obj/effect/abstract/ocean_overlay/static_overlay
+	var/obj/effect/abstract/ocean_overlay/static_overlay
 	var/list/ocean_reagents = list(/datum/reagent/water = 100)
 	var/ocean_temp = T20C - 150
 	var/list/ocean_turfs = list()
@@ -188,11 +188,11 @@
 //Subtypes for abyss station
 /area/ocean/deep
 	name = "Deep ocean"
-	//dynamic_lighting = DYNAMIC_LIGHTING_ENABLED
+	dynamic_lighting = DYNAMIC_LIGHTING_ENABLED
 
 /turf/open/floor/plating/ocean/abyss
 	gender = PLURAL
 	name = "ocean floor"
 	baseturfs = /turf/open/floor/plating/ocean/abyss
 	initial_temperature = T20C
-	ocean_reagents = list(/datum/reagent/blood/ocean = 100)
+	ocean_reagents = list(/datum/reagent/blood = 100)

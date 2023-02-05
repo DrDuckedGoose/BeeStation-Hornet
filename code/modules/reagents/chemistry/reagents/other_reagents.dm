@@ -2128,7 +2128,3 @@
 	L.set_light(-1)
 
 	..()
-
-//Essentially a more transparent version of blood for ocean maps
-/datum/reagent/blood/ocean
-	color = "#c8000066"
