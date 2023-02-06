@@ -196,3 +196,20 @@
 	baseturfs = /turf/open/floor/plating/ocean/abyss
 	initial_temperature = T20C
 	ocean_reagents = list(/datum/reagent/blood = 100)
+
+
+/obj/effect/water_projection
+	icon = 'code/modules/liquids/icons/obj/effects/liquid.dmi'
+	icon_state = "fire_big"
+	base_icon_state = "fire_big"
+	layer = ABOVE_MOB_LAYER
+	mouse_opacity = FALSE
+
+/obj/effect/water_projection/Initialize(mapload)
+	. = ..()
+	//Ripple - use wave, not ripple
+	add_filter("water_ripple", 1, wave_filter(x = 1, y = 0, size = 1, offset = 1))
+	animate(get_filter("water_ripple"), offset = 10, time = 20 SECONDS, loop = -1)
+	animate(offset = 1, time = 20 SECONDS, loop = -1)
+	//Bloom
+	filters += filter(type = "bloom", threshold = rgb(1, 1, 1), size = 5)
