@@ -3429,6 +3429,14 @@
 /obj/effect/turf_decal/bot,
 /turf/open/floor/plasteel/white,
 /area/security/brig)
+"biV" = (
+/obj/machinery/door/airlock/wood{
+	doorClose = 'sound/effects/doorcreaky.ogg';
+	doorOpen = 'sound/effects/doorcreaky.ogg';
+	name = "The Gobetting Barmaid"
+	},
+/turf/open/floor/wood,
+/area/maintenance/starboard/fore)
 "bjm" = (
 /obj/structure/chair{
 	dir = 1
@@ -9069,12 +9077,16 @@
 /turf/open/floor/plasteel/white,
 /area/medical/medbay/aft)
 "dhi" = (
-/obj/machinery/door/airlock/maintenance,
 /obj/effect/turf_decal/siding/wood{
 	dir = 4
 	},
 /obj/effect/turf_decal/siding/wood{
 	dir = 8
+	},
+/obj/effect/turf_decal/stripes/closeup,
+/obj/machinery/door/firedoor,
+/obj/machinery/door/airlock/grunge{
+	name = "Quiet Room"
 	},
 /turf/open/floor/wood,
 /area/library)
@@ -13287,6 +13299,10 @@
 	},
 /turf/open/floor/plasteel/dark,
 /area/security/courtroom)
+"eGY" = (
+/obj/effect/spawner/room/threexfive,
+/turf/open/floor/plating/airless,
+/area/space)
 "eHa" = (
 /obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer2{
 	dir = 1
@@ -14827,6 +14843,10 @@
 /obj/effect/mapping_helpers/airlock/cyclelink_helper,
 /turf/open/floor/plating/airless,
 /area/engine/break_room)
+"flW" = (
+/obj/effect/spawner/room/tenxten,
+/turf/open/floor/plating/airless,
+/area/space)
 "fmi" = (
 /obj/effect/turf_decal/trimline/yellow/filled/line{
 	dir = 5
@@ -15146,6 +15166,10 @@
 	},
 /turf/open/floor/plasteel/dark,
 /area/engine/engineering)
+"fuw" = (
+/obj/effect/spawner/room/fivexthree,
+/turf/open/floor/plating/airless,
+/area/space)
 "fuF" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer2,
 /turf/open/floor/wood,
@@ -16166,15 +16190,16 @@
 /turf/open/floor/wood,
 /area/crew_quarters/heads/captain/private)
 "fNH" = (
-/obj/machinery/door/airlock/maintenance{
-	req_one_access_txt = "12;27;37"
-	},
 /obj/structure/lattice/catwalk/over,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
 	dir = 4
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
 	dir = 4
+	},
+/obj/machinery/door/airlock/maintenance_hatch{
+	name = "Maintenance Hatch";
+	req_access_txt = "12"
 	},
 /turf/open/floor/plating/airless,
 /area/maintenance/fore)
@@ -33443,6 +33468,14 @@
 /obj/structure/table/wood,
 /turf/open/floor/wood,
 /area/library)
+"mad" = (
+/obj/structure/table,
+/obj/item/paper_bin,
+/obj/item/pen{
+	pixel_x = -3
+	},
+/turf/open/floor/plasteel/dark,
+/area/security/courtroom)
 "mat" = (
 /obj/effect/turf_decal/trimline/yellow/filled/warning{
 	dir = 4
@@ -37355,6 +37388,7 @@
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
 	dir = 4
 	},
+/obj/effect/landmark/start/librarian,
 /turf/open/floor/wood,
 /area/library)
 "npt" = (
@@ -45940,6 +45974,9 @@
 	},
 /turf/open/floor/plasteel/white,
 /area/medical/medbay/aft)
+"qoq" = (
+/turf/open/floor/plating/airless,
+/area/space)
 "qos" = (
 /obj/effect/turf_decal/trimline/dark_blue/filled/line{
 	dir = 6
@@ -47104,10 +47141,12 @@
 /turf/open/floor/plasteel,
 /area/security/prison)
 "qJc" = (
-/obj/machinery/door/airlock/maintenance,
 /obj/structure/lattice/catwalk/over,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
+/obj/machinery/door/airlock/arrivals_external{
+	name = "Exterior Airlock"
+	},
 /turf/open/floor/plating/airless,
 /area/hallway/primary/aft)
 "qJd" = (
@@ -53368,10 +53407,12 @@
 /turf/open/floor/plasteel,
 /area/engine/break_room)
 "sYK" = (
-/obj/machinery/door/airlock/maintenance,
 /obj/structure/lattice/catwalk/over,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
+/obj/machinery/door/airlock/arrivals_external{
+	name = "Exterior Airlock"
+	},
 /turf/open/floor/plating/airless,
 /area/hallway/secondary/exit/departure_lounge)
 "sZq" = (
@@ -53856,7 +53897,7 @@
 /turf/open/floor/plasteel/dark,
 /area/medical/surgery)
 "thN" = (
-/obj/structure/table,
+/obj/item/kirbyplants/random,
 /turf/open/floor/plasteel/dark,
 /area/security/courtroom)
 "thU" = (
@@ -54618,6 +54659,10 @@
 	},
 /turf/open/floor/plasteel,
 /area/quartermaster/storage)
+"ttg" = (
+/obj/effect/spawner/room/threexthree,
+/turf/open/floor/plating/airless,
+/area/space)
 "tti" = (
 /obj/effect/turf_decal/tile/neutral/fourcorners/contrasted,
 /obj/machinery/flasher/portable,
@@ -54928,6 +54973,16 @@
 	},
 /turf/open/floor/carpet/green,
 /area/chapel/main)
+"twV" = (
+/obj/machinery/door/airlock/wood{
+	doorClose = 'sound/effects/doorcreaky.ogg';
+	doorOpen = 'sound/effects/doorcreaky.ogg';
+	name = "The Gobetting Barmaid"
+	},
+/turf/open/floor/wood{
+	icon_state = "wood-broken6"
+	},
+/area/maintenance/starboard/fore)
 "txj" = (
 /obj/structure/table/reinforced,
 /obj/effect/turf_decal/tile/green/fourcorners/contrasted,
@@ -62719,6 +62774,13 @@
 /obj/effect/turf_decal/trimline/dark_blue/corner,
 /turf/open/floor/plasteel/dark,
 /area/security/nuke_storage)
+"wmz" = (
+/obj/machinery/door/airlock/maintenance_hatch{
+	name = "Storage Room Maintenance Hatch";
+	req_access_txt = "12"
+	},
+/turf/open/floor/plating/airless,
+/area/space)
 "wmE" = (
 /obj/structure/cable/yellow{
 	icon_state = "4-8"
@@ -63873,6 +63935,13 @@
 	},
 /turf/open/floor/plasteel/white,
 /area/science/explab)
+"wKB" = (
+/obj/effect/turf_decal/siding/wood{
+	dir = 9
+	},
+/obj/structure/bookcase/random/reference,
+/turf/open/floor/wood,
+/area/library)
 "wKS" = (
 /obj/effect/turf_decal/trimline/blue/filled/line{
 	dir = 8
@@ -64360,10 +64429,12 @@
 /turf/open/floor/plasteel/white,
 /area/science/research)
 "wRr" = (
-/obj/machinery/door/airlock/maintenance,
 /obj/structure/lattice/catwalk/over,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2,
+/obj/machinery/door/airlock/arrivals_external{
+	name = "Exterior Airlock"
+	},
 /turf/open/floor/plating/airless,
 /area/maintenance/aft)
 "wRD" = (
@@ -68017,6 +68088,14 @@
 	},
 /turf/open/floor/circuit/telecomms,
 /area/science/xenobiology)
+"yhC" = (
+/obj/structure/lattice/catwalk/over,
+/obj/machinery/door/airlock/maintenance_hatch{
+	name = "Storage Room Maintenance Hatch";
+	req_access_txt = "12"
+	},
+/turf/open/floor/plating/airless,
+/area/maintenance/starboard/fore)
 "yie" = (
 /obj/effect/turf_decal/trimline/purple/filled/line{
 	dir = 4
@@ -95660,7 +95739,7 @@ gNC
 gNC
 gNC
 gNC
-thN
+mad
 jdC
 vSS
 gNC
@@ -109761,17 +109840,17 @@ qQY
 qQY
 kBy
 qQY
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
+hXV
+hXV
+hXV
+hXV
+hXV
+hXV
+hXV
+hXV
+hXV
+hXV
+hXV
 jXM
 jXM
 jXM
@@ -110018,17 +110097,17 @@ qQY
 hGk
 rnq
 qQY
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
+qoq
+qoq
+qoq
+qoq
+qoq
+qoq
+qoq
+qoq
+qoq
+flW
+hXV
 jXM
 jXM
 jXM
@@ -110275,17 +110354,17 @@ qQY
 hGk
 rnq
 qQY
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
+qoq
+qoq
+qoq
+qoq
+qoq
+qoq
+qoq
+qoq
+qoq
+qoq
+hXV
 jXM
 jXM
 jXM
@@ -110532,27 +110611,27 @@ qQY
 hGk
 rnq
 qQY
+qoq
+qoq
+qoq
+qoq
+qoq
+qoq
+qoq
+qoq
+qoq
+qoq
+hXV
 jXM
 jXM
 jXM
 jXM
 jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
+hXV
+hXV
+hXV
+hXV
+hXV
 jXM
 jXM
 jXM
@@ -110789,27 +110868,27 @@ qQY
 hGk
 rnq
 qQY
+qoq
+qoq
+qoq
+qoq
+qoq
+qoq
+qoq
+qoq
+qoq
+qoq
+hXV
 jXM
 jXM
 jXM
 jXM
 jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
+hXV
+qoq
+qoq
+ttg
+hXV
 jXM
 jXM
 jXM
@@ -111046,27 +111125,27 @@ qQY
 hGk
 rnq
 qQY
+qoq
+qoq
+qoq
+qoq
+qoq
+qoq
+qoq
+qoq
+qoq
+qoq
+hXV
 jXM
 jXM
 jXM
 jXM
 jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
+hXV
+qoq
+qoq
+qoq
+hXV
 jXM
 jXM
 jXM
@@ -111303,27 +111382,27 @@ qQY
 hGk
 rnq
 qQY
+qoq
+qoq
+qoq
+qoq
+qoq
+qoq
+qoq
+qoq
+qoq
+qoq
+hXV
 jXM
 jXM
 jXM
 jXM
 jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
+hXV
+qoq
+qoq
+qoq
+hXV
 jXM
 jXM
 jXM
@@ -111560,32 +111639,32 @@ qQY
 hGk
 rnq
 qQY
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
+qoq
+qoq
+qoq
+qoq
+qoq
+qoq
+qoq
+qoq
+qoq
+qoq
+hXV
+hXV
+hXV
+hXV
+hXV
+hXV
+hXV
+hXV
+wmz
+hXV
+hXV
+hXV
+hXV
+hXV
+hXV
+hXV
 dux
 utW
 utW
@@ -111817,32 +111896,32 @@ qQY
 hGk
 rnq
 qQY
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
+qoq
+qoq
+qoq
+qoq
+qoq
+qoq
+qoq
+qoq
+qoq
+qoq
+hXV
+qoq
+qoq
+qoq
+qoq
+eGY
+hXV
+qoq
+qoq
+ttg
+hXV
+qoq
+qoq
+qoq
+qoq
+eGY
 dux
 utW
 utW
@@ -112074,32 +112153,32 @@ hvP
 muH
 arM
 qQY
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
+qoq
+qoq
+qoq
+qoq
+qoq
+qoq
+qoq
+qoq
+qoq
+qoq
+hXV
+qoq
+qoq
+qoq
+qoq
+qoq
+wmz
+qoq
+qoq
+qoq
+wmz
+qoq
+qoq
+qoq
+qoq
+qoq
 dux
 utW
 utW
@@ -112331,32 +112410,32 @@ qQY
 hGk
 rnq
 qQY
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
+qoq
+qoq
+qoq
+qoq
+qoq
+qoq
+qoq
+qoq
+qoq
+qoq
+hXV
+qoq
+qoq
+qoq
+qoq
+qoq
+hXV
+qoq
+qoq
+qoq
+hXV
+qoq
+qoq
+qoq
+qoq
+qoq
 dux
 utW
 utW
@@ -112592,6 +112671,16 @@ qQY
 qQY
 qQY
 qQY
+biV
+twV
+qQY
+qQY
+qQY
+qQY
+qQY
+qQY
+qQY
+yhC
 qQY
 qQY
 qQY
@@ -112601,17 +112690,7 @@ qQY
 qQY
 qQY
 qQY
-qQY
-qQY
-qQY
-qQY
-qQY
-qQY
-qQY
-qQY
-qQY
-qQY
-qQY
+mRh
 qQY
 qQY
 qQY
@@ -112849,6 +112928,16 @@ hGk
 hGk
 hGk
 hGk
+vWY
+vWY
+hGk
+hGk
+hGk
+hGk
+hGk
+hGk
+hGk
+vWY
 hGk
 hGk
 hGk
@@ -112858,17 +112947,7 @@ hGk
 hGk
 hGk
 hGk
-hGk
-hGk
-hGk
-hGk
-hGk
-hGk
-hGk
-hGk
-hGk
-hGk
-hGk
+vWY
 hGk
 hGk
 qQY
@@ -113369,6 +113448,11 @@ qQY
 qQY
 qQY
 qQY
+mRh
+qQY
+qQY
+qQY
+mRh
 qQY
 qQY
 qQY
@@ -113377,12 +113461,7 @@ qQY
 qQY
 qQY
 qQY
-qQY
-qQY
-qQY
-qQY
-qQY
-qQY
+mRh
 qQY
 qQY
 qQY
@@ -113624,29 +113703,29 @@ qQY
 jXM
 jXM
 jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
+hXV
+qoq
+qoq
+ttg
+hXV
+qoq
+qoq
+ttg
+hXV
+qoq
+qoq
+ttg
+hXV
+qoq
+qoq
+qoq
+qoq
+eGY
+hXV
+qoq
+qoq
+fuw
+hXV
 jXM
 dux
 viW
@@ -113878,32 +113957,32 @@ qQY
 hGk
 rnq
 qQY
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
+hXV
+hXV
+hXV
+hXV
+qoq
+qoq
+qoq
+hXV
+qoq
+qoq
+qoq
+wmz
+qoq
+qoq
+qoq
+wmz
+qoq
+qoq
+qoq
+qoq
+qoq
+wmz
+qoq
+qoq
+qoq
+hXV
 jXM
 dux
 xDO
@@ -114135,32 +114214,32 @@ qQY
 hGk
 rnq
 qQY
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
+qoq
+qoq
+fuw
+hXV
+qoq
+qoq
+qoq
+hXV
+qoq
+qoq
+qoq
+hXV
+qoq
+qoq
+qoq
+hXV
+qoq
+qoq
+qoq
+qoq
+qoq
+hXV
+qoq
+qoq
+qoq
+hXV
 jXM
 dux
 dux
@@ -114392,32 +114471,32 @@ qQY
 hGk
 rnq
 qQY
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
+qoq
+qoq
+qoq
+hXV
+hXV
+hXV
+hXV
+hXV
+hXV
+hXV
+hXV
+hXV
+hXV
+hXV
+hXV
+hXV
+hXV
+hXV
+hXV
+hXV
+hXV
+hXV
+qoq
+qoq
+qoq
+hXV
 jXM
 jXM
 jXM
@@ -114649,6 +114728,10 @@ qQY
 hGk
 rnq
 qQY
+qoq
+qoq
+qoq
+hXV
 jXM
 jXM
 jXM
@@ -114666,15 +114749,11 @@ jXM
 jXM
 jXM
 jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
+hXV
+qoq
+qoq
+qoq
+hXV
 jXM
 jXM
 jXM
@@ -114906,6 +114985,10 @@ qQY
 hGk
 rnq
 qQY
+qoq
+qoq
+qoq
+hXV
 jXM
 jXM
 jXM
@@ -114923,15 +115006,11 @@ jXM
 jXM
 jXM
 jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
-jXM
+hXV
+hXV
+hXV
+hXV
+hXV
 jXM
 jXM
 jXM
@@ -115163,10 +115242,10 @@ qQY
 hGk
 rnq
 qQY
-jXM
-jXM
-jXM
-jXM
+qoq
+qoq
+qoq
+hXV
 jXM
 jXM
 jXM
@@ -115420,10 +115499,10 @@ qQY
 hGk
 rnq
 qQY
-jXM
-jXM
-jXM
-jXM
+hXV
+wmz
+hXV
+hXV
 jXM
 jXM
 jXM
@@ -115677,10 +115756,10 @@ qQY
 hGk
 rnq
 qQY
-jXM
-jXM
-jXM
-jXM
+qoq
+qoq
+ttg
+hXV
 jXM
 jXM
 jXM
@@ -115933,11 +116012,11 @@ jXM
 qQY
 hGk
 rnq
-qQY
-jXM
-jXM
-jXM
-jXM
+mRh
+qoq
+qoq
+qoq
+hXV
 jXM
 jXM
 jXM
@@ -116191,10 +116270,10 @@ qQY
 hGk
 rnq
 qQY
-jXM
-jXM
-jXM
-jXM
+qoq
+qoq
+qoq
+hXV
 jXM
 jXM
 jXM
@@ -116462,7 +116541,7 @@ qQY
 hGk
 vWY
 dDK
-nGj
+wKB
 tbx
 apZ
 wNZ
