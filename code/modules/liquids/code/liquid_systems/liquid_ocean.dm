@@ -65,6 +65,13 @@
 	vis_contents += static_overlay
 	SSliquids.unvalidated_oceans |= src
 	SSliquids.ocean_turfs |= src
+	//Setup cool water distort effect
+	var/image/I = new()
+	I.vis_contents = vis_contents
+	I.filters += filter(type = "wave", x = 1, size = 1, offset = 1)
+	animate(I.filters[I.filters.len], offset = 10, time = 20 SECONDS, loop = -1)
+	animate(offset = 1, time = 20 SECONDS, loop = -1)
+	add_overlay(I)
 
 /turf/open/floor/plating/ocean/Destroy()
 	. = ..()
@@ -201,17 +208,17 @@
 
 
 /obj/effect/water_projection
-	icon = 'code/modules/liquids/icons/obj/effects/liquid.dmi'
-	icon_state = "fire_big"
-	base_icon_state = "fire_big"
-	layer = ABOVE_MOB_LAYER
+	icon = 'code/modules/liquids/icons/obj/effects/ocean.dmi'
+	icon_state = "water"
+	base_icon_state = "water"
+	plane = LIGHTING_PLANE
 	mouse_opacity = FALSE
 
 /obj/effect/water_projection/Initialize(mapload)
 	. = ..()
 	//Ripple - use wave, not ripple
 	add_filter("water_ripple", 1, wave_filter(x = 1, y = 0, size = 1, offset = 1))
-	animate(get_filter("water_ripple"), offset = 10, time = 20 SECONDS, loop = -1)
+	animate(get_filter("water_ripple"), offset = 50, time = 20 SECONDS, loop = -1)
 	animate(offset = 1, time = 20 SECONDS, loop = -1)
 	//Bloom
 	filters += filter(type = "bloom", threshold = rgb(1, 1, 1), size = 5)
