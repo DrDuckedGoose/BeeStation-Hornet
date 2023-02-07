@@ -11407,6 +11407,7 @@
 /obj/structure/cable/yellow{
 	icon_state = "2-4"
 	},
+/obj/structure/ladder,
 /turf/open/floor/plating/airless,
 /area/hallway/secondary/exit/departure_lounge)
 "dPu" = (
@@ -16523,6 +16524,10 @@
 	},
 /turf/open/floor/plasteel/dark,
 /area/security/brig)
+"fGi" = (
+/obj/effect/mapping_helpers/liquid_spawner/piss_possiblity,
+/turf/open/floor/plasteel,
+/area/security/brig)
 "fGm" = (
 /obj/effect/turf_decal/tile/dark_red/fourcorners/contrasted,
 /obj/effect/turf_decal/stripes/closeup,
@@ -18037,6 +18042,10 @@
 	},
 /turf/open/floor/plasteel/dark,
 /area/chapel/main)
+"giM" = (
+/obj/structure/lattice/catwalk/over,
+/turf/open/openspace,
+/area/hallway/secondary/exit/departure_lounge)
 "gja" = (
 /obj/effect/turf_decal/trimline/dark_red/filled/line,
 /obj/effect/turf_decal/trimline/dark_red/line{
@@ -21510,13 +21519,6 @@
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2,
 /turf/open/floor/plasteel/dark,
 /area/medical/sleeper)
-"hoc" = (
-/obj/machinery/turbolift_button{
-	pixel_y = -23;
-	shuttle_id = "turbolift_primary"
-	},
-/turf/open/floor/plasteel/stairs,
-/area/hallway/secondary/exit/departure_lounge)
 "hoj" = (
 /obj/structure/table,
 /obj/effect/turf_decal/stripes/corner,
@@ -34306,6 +34308,10 @@
 /obj/effect/turf_decal/trimline/yellow/line{
 	dir = 4
 	},
+/obj/structure/liquid_pump,
+/obj/effect/turf_decal/bot{
+	dir = 1
+	},
 /turf/open/floor/plasteel/dark,
 /area/engine/atmos)
 "lKH" = (
@@ -37260,16 +37266,6 @@
 	},
 /turf/open/floor/plasteel/dark,
 /area/bridge)
-"mHF" = (
-/obj/docking_port/stationary/turbolift{
-	dwidth = 2;
-	height = 4;
-	id = "turbolift_primary";
-	roundstart_template = /datum/map_template/shuttle/turbolift/debug/primary;
-	width = 5
-	},
-/turf/open/openspace,
-/area/hallway/secondary/exit/departure_lounge)
 "mHQ" = (
 /obj/machinery/holopad,
 /obj/effect/turf_decal/bot,
@@ -41890,13 +41886,13 @@
 /obj/effect/turf_decal/trimline/dark_red/filled/line{
 	dir = 8
 	},
-/obj/effect/turf_decal/trimline/dark_red/line{
-	dir = 4
-	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
 	dir = 4
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
+	dir = 4
+	},
+/obj/effect/turf_decal/trimline/dark_red/warning{
 	dir = 4
 	},
 /turf/open/floor/plasteel/dark,
@@ -45301,9 +45297,6 @@
 "poG" = (
 /turf/open/openspace,
 /area/crew_quarters/bar)
-"ppa" = (
-/turf/open/floor/plating/ocean/abyss,
-/area/space)
 "ppe" = (
 /obj/structure/chair/fancy/sofa/corp/right,
 /obj/item/toy/figure/lawyer,
@@ -52161,12 +52154,6 @@
 /turf/open/floor/plasteel,
 /area/medical/virology)
 "rJd" = (
-/obj/effect/turf_decal/trimline/dark_red/filled/line{
-	dir = 4
-	},
-/obj/effect/turf_decal/trimline/dark_red/line{
-	dir = 8
-	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
 	dir = 4
 	},
@@ -52175,6 +52162,12 @@
 	},
 /obj/structure/cable/yellow{
 	icon_state = "4-8"
+	},
+/obj/effect/turf_decal/trimline/dark_red/warning{
+	dir = 8
+	},
+/obj/effect/turf_decal/trimline/dark_red/filled/warning{
+	dir = 4
 	},
 /turf/open/floor/plasteel/dark,
 /area/security/brig)
@@ -57417,6 +57410,11 @@
 "tvR" = (
 /turf/open/floor/plasteel/stairs,
 /area/construction/storage_wing)
+"twd" = (
+/obj/structure/lattice/catwalk/over,
+/obj/structure/ladder,
+/turf/open/openspace,
+/area/hallway/secondary/exit/departure_lounge)
 "twf" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 1
@@ -61149,10 +61147,6 @@
 "uGj" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
 	dir = 10
-	},
-/obj/machinery/turbolift_button{
-	pixel_y = -23;
-	shuttle_id = "turbolift_primary"
 	},
 /turf/open/floor/plasteel/stairs,
 /area/hallway/secondary/exit/departure_lounge)
@@ -97533,8 +97527,8 @@ oit
 yer
 nrX
 vOX
-ppa
-ppa
+vZs
+vZs
 vZs
 vZs
 vZs
@@ -97790,8 +97784,8 @@ oit
 yer
 nrX
 vOX
-ppa
-ppa
+vZs
+vZs
 vZs
 vZs
 vZs
@@ -98047,8 +98041,8 @@ oit
 yer
 nrX
 vOX
-ppa
-ppa
+vZs
+vZs
 vZs
 vZs
 vZs
@@ -104670,7 +104664,7 @@ aSn
 jFm
 jRA
 oLD
-oLD
+fGi
 wdM
 ayU
 ivV
@@ -165862,7 +165856,7 @@ iTQ
 hIK
 jCd
 jCd
-jCd
+giM
 jCd
 jCd
 itF
@@ -166119,7 +166113,7 @@ sgm
 hIK
 jCd
 jCd
-jCd
+giM
 jCd
 jCd
 uYf
@@ -166374,11 +166368,11 @@ kQS
 fdt
 hxG
 iqa
-jCd
-jCd
-jCd
-mHF
-jCd
+giM
+giM
+twd
+giM
+giM
 uYf
 llZ
 uwd
@@ -166629,11 +166623,11 @@ amL
 grl
 qkU
 xfp
-hoc
+sgm
 hIK
 jCd
 jCd
-jCd
+giM
 jCd
 jCd
 uYf
@@ -166890,7 +166884,7 @@ fFa
 hIK
 jCd
 jCd
-jCd
+giM
 jCd
 jCd
 uYf
