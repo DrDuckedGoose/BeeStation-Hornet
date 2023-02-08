@@ -13,8 +13,6 @@
 	critical_machine = TRUE
 	///Ratios of gasses near us - more like parts instead of ratios, measured from the smallest
 	var/list/gas_ratios = list()
-	///Volumes of gasses near us
-	var/list/gas_volumes = list()
 	///Ratios for effect potentials
 	var/list/potential_ratios = list("radiation_potential" = list(), "lighting_potential" = list(), "heat_potential" = list(), "cool_potential" = list())
 	///The minimum percentage to activate an effect
@@ -37,7 +35,6 @@
 	if(!G)
 		return
 	gas_ratios = list()
-	gas_volumes = list()
 	//Setup ratios from mixture
 	var/floor = 0
 	var/compile = FALSE
@@ -52,7 +49,6 @@
 			else if(floor && G.get_moles(id))
 				var/moles = G.get_moles(id)
 				gas_ratios += list("[id]" = round(moles / floor))
-				gas_volumes += list("[id]" = moles)
 		//Setup to build ratios once we have the largest value
 		compile = TRUE
 
@@ -70,7 +66,8 @@
 			available_gasses -= chosen_gas
 			reciped_gas_ratios += list("[chosen_gas]" = (e > 1 ? rand(2, 8) : 1))
 		potential_ratios[i] = reciped_gas_ratios
-		potential_percentages[i] = rand(6, 9) * 0.1 //gas ratios have to be around 60-90% identical to produce effects
+		potential_ratios[i]["temperature"] = list("setting" = pick("hot", "cold", "none"), "value" = T20C) //todo: explain this
+		potential_percentages[i] = rand(3, 6) * 0.1 //gas ratios have to be around 30-60% identical to produce effects
 
 /obj/machinery/power/enigma_matrix/proc/process_gas_ratios()
 	//List of achieved percentages
@@ -79,9 +76,18 @@
 	for(var/i in potential_ratios)
 		var/total_parts = 0
 		for(var/e in potential_ratios[i])
+			if(e == "temperature")
+				continue
 			total_parts += potential_ratios[i][e]
 			effect_percentages[i] += (gas_ratios[e] ? min(1, gas_ratios[e] / potential_ratios[i][e]) : 0)
 		effect_percentages[i] = min(1, effect_percentages[i]/total_parts)
+		//Handle temperature argument
+		var/turf/T = get_turf(src)
+		var/datum/gas_mixture/G = T?.return_air()
+		if(potential_ratios[i]["temperature"]["setting"] == "hot")
+			effect_percentages[i] *= (G.return_temperature() >= potential_ratios[i]["temperature"]["value"] ? 1 : 0)
+		else if(potential_ratios[i]["temperature"]["setting"] == "cold")
+			effect_percentages[i] *= (G.return_temperature() <= potential_ratios[i]["temperature"]["value"] ? 1 : 0)
 	//Award percentages
 	for(var/i in effect_percentages)
 		if(effect_percentages[i] < potential_percentages[i])
