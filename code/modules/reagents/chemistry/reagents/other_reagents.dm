@@ -2128,3 +2128,11 @@
 	L.set_light(-1)
 
 	..()
+
+/datum/reagent/expired_blood
+	name = "Expired Blood"
+	description = "A special concoction said to have been blessed by an ancient god. Makes the consumer glow with literal enlightenment."
+	color = "#C80000"
+	chem_flags = CHEMICAL_RNG_GENERAL | CHEMICAL_RNG_FUN | CHEMICAL_RNG_BOTANY
+	taste_description = "rust"
+	metabolization_rate = 5

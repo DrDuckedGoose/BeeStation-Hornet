@@ -66,12 +66,14 @@
 	SSliquids.unvalidated_oceans |= src
 	SSliquids.ocean_turfs |= src
 	//Setup cool water distort effect
+	/*
 	var/image/I = new()
 	I.vis_contents = vis_contents
 	I.filters += filter(type = "wave", x = 1, size = 1, offset = 1)
 	animate(I.filters[I.filters.len], offset = 10, time = 20 SECONDS, loop = -1)
 	animate(offset = 1, time = 20 SECONDS, loop = -1)
 	add_overlay(I)
+	*/
 
 /turf/open/floor/plating/ocean/Destroy()
 	. = ..()
@@ -204,7 +206,7 @@
 	name = "ocean floor"
 	baseturfs = /turf/open/floor/plating/ocean/abyss
 	initial_temperature = T20C
-	ocean_reagents = list(/datum/reagent/blood = 100)
+	ocean_reagents = list(/datum/reagent/expired_blood = 100)
 
 
 /obj/effect/water_projection
