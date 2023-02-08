@@ -3491,10 +3491,10 @@
 /obj/effect/turf_decal/siding/wood{
 	dir = 1
 	},
-/obj/structure/bed/dogbed,
 /obj/machinery/light{
 	dir = 1
 	},
+/obj/structure/displaycase/labcage,
 /turf/open/floor/wood,
 /area/crew_quarters/heads/hor)
 "bhc" = (
@@ -7819,6 +7819,10 @@
 /area/crew_quarters/heads/hor)
 "cCB" = (
 /obj/effect/spawner/structure/window/reinforced,
+/obj/machinery/door/poddoor/shutters/preopen{
+	id = "corporate_privacy";
+	name = "showroom shutters"
+	},
 /turf/open/floor/plating,
 /area/bridge/showroom/corporate)
 "cCK" = (
@@ -11400,7 +11404,7 @@
 	icon_state = "2-4"
 	},
 /obj/structure/ladder,
-/turf/open/floor/plating,
+/turf/open/floor/plasteel/elevatorshaft,
 /area/hallway/secondary/exit/departure_lounge)
 "dPu" = (
 /obj/effect/spawner/structure/window/reinforced,
@@ -12607,6 +12611,9 @@
 	},
 /obj/item/taperecorder{
 	pixel_x = -3
+	},
+/obj/effect/turf_decal/trimline/purple/corner{
+	dir = 1
 	},
 /turf/open/floor/plasteel/dark,
 /area/crew_quarters/heads/hor)
@@ -18467,6 +18474,15 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/starboard)
+"gsb" = (
+/obj/structure/table/wood,
+/obj/item/poster/random_official,
+/obj/item/paicard{
+	desc = "A real Nanotrasen success, these personal AIs provide all of the companionship of an AI without any law related red-tape.";
+	name = "Nanotrasen-brand personal AI device exhibit"
+	},
+/turf/open/floor/carpet/blue,
+/area/bridge/showroom/corporate)
 "gse" = (
 /obj/effect/turf_decal/trimline/dark_red/filled/line{
 	dir = 4
@@ -20343,6 +20359,10 @@
 /area/medical/medbay/central)
 "gWz" = (
 /obj/structure/table/wood,
+/obj/structure/showcase/machinery/microwave{
+	dir = 1;
+	pixel_y = 2
+	},
 /turf/open/floor/carpet/blue,
 /area/bridge/showroom/corporate)
 "gWF" = (
@@ -21634,7 +21654,7 @@
 	department = "Atmospherics";
 	departmentType = 3;
 	name = "Atmos RC";
-	pixel_x = 30
+	pixel_x = 32
 	},
 /turf/open/floor/plasteel/dark,
 /area/engine/atmos)
@@ -22806,6 +22826,15 @@
 /obj/effect/landmark/start/medical_doctor,
 /turf/open/floor/plasteel/dark,
 /area/medical/sleeper)
+"hIk" = (
+/obj/structure/stairs{
+	dir = 1
+	},
+/obj/machinery/light/small{
+	dir = 8
+	},
+/turf/open/floor/plasteel/dark,
+/area/science/research)
 "hIy" = (
 /obj/effect/turf_decal/trimline/dark_red/filled/corner{
 	dir = 1
@@ -28586,6 +28615,16 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/fore)
+"jKE" = (
+/obj/effect/turf_decal/tile/neutral/fourcorners/contrasted,
+/obj/structure/cable/yellow{
+	icon_state = "4-8"
+	},
+/obj/structure/cable/yellow{
+	icon_state = "2-8"
+	},
+/turf/open/floor/plasteel,
+/area/hallway/primary/aft)
 "jKJ" = (
 /obj/effect/turf_decal/trimline/green/filled/warning,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
@@ -29117,7 +29156,7 @@
 /obj/structure/cable/yellow{
 	icon_state = "1-2"
 	},
-/turf/open/floor/plating,
+/turf/open/floor/plasteel/elevatorshaft,
 /area/hallway/secondary/exit/departure_lounge)
 "jTj" = (
 /obj/effect/turf_decal/siding{
@@ -33789,7 +33828,7 @@
 	department = "Atmospherics";
 	departmentType = 3;
 	name = "Atmos RC";
-	pixel_x = 30
+	pixel_x = 32
 	},
 /turf/open/floor/plasteel,
 /area/engine/atmos)
@@ -34307,6 +34346,13 @@
 	},
 /turf/open/floor/plasteel,
 /area/hallway/primary/fore)
+"lLu" = (
+/obj/structure/table/wood,
+/obj/item/clothing/shoes/laceup,
+/obj/item/clothing/under/suit/black_really,
+/obj/item/clothing/glasses/sunglasses/advanced,
+/turf/open/floor/carpet/blue,
+/area/bridge/showroom/corporate)
 "lLC" = (
 /obj/structure/table,
 /obj/item/reagent_containers/food/snacks/grown/harebell,
@@ -34616,6 +34662,9 @@
 	pixel_y = 4
 	},
 /obj/item/toy/figure/rd,
+/obj/effect/turf_decal/trimline/purple/corner{
+	dir = 4
+	},
 /turf/open/floor/plasteel/dark,
 /area/crew_quarters/heads/hor)
 "lTj" = (
@@ -37524,6 +37573,7 @@
 /obj/machinery/light{
 	dir = 1
 	},
+/obj/effect/spawner/lootdrop/donkpockets,
 /turf/open/floor/carpet/blue,
 /area/bridge/showroom/corporate)
 "mMo" = (
@@ -41655,6 +41705,16 @@
 	},
 /turf/open/floor/plasteel,
 /area/engine/atmos)
+"ogg" = (
+/obj/structure/table/wood,
+/obj/machinery/light{
+	dir = 1
+	},
+/obj/item/clothing/shoes/laceup,
+/obj/item/clothing/under/suit/burgundy,
+/obj/item/clothing/glasses/sunglasses/advanced,
+/turf/open/floor/carpet/blue,
+/area/bridge/showroom/corporate)
 "ogp" = (
 /obj/structure/destructible/cult/tome/library,
 /obj/item/book/codex_gigas,
@@ -43426,7 +43486,7 @@
 /turf/open/floor/plasteel/dark,
 /area/quartermaster/office)
 "oIZ" = (
-/turf/open/floor/plating,
+/turf/open/floor/plasteel/elevatorshaft,
 /area/hallway/secondary/exit/departure_lounge)
 "oJg" = (
 /obj/effect/turf_decal/trimline/dark_red/filled/line{
@@ -45584,6 +45644,9 @@
 	},
 /obj/item/kirbyplants/random,
 /obj/machinery/firealarm/directional/east,
+/obj/effect/turf_decal/trimline/purple/corner{
+	dir = 8
+	},
 /turf/open/floor/plasteel/dark,
 /area/crew_quarters/heads/hor)
 "pww" = (
@@ -47086,8 +47149,22 @@
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer2{
 	dir = 8
 	},
+/obj/effect/turf_decal/trimline/purple/corner,
 /turf/open/floor/plasteel/dark,
 /area/crew_quarters/heads/hor)
+"pZF" = (
+/obj/structure/table/wood,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
+	dir = 8
+	},
+/obj/machinery/button/door{
+	id = "corporate_privacy";
+	name = "corporate showroom shutters control";
+	req_access_txt = "19";
+	pixel_y = 3
+	},
+/turf/open/floor/carpet/blue,
+/area/bridge/showroom/corporate)
 "pZI" = (
 /obj/effect/turf_decal/trimline/neutral/filled/line,
 /obj/effect/turf_decal/guideline/guideline_mid/red{
@@ -49640,6 +49717,21 @@
 	},
 /turf/open/floor/plasteel/dark,
 /area/ai_monitored/turret_protected/aisat_interior)
+"qPt" = (
+/obj/effect/turf_decal/trimline/neutral/filled/line{
+	dir = 1
+	},
+/obj/effect/turf_decal/trimline/neutral/filled/line,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
+	dir = 4
+	},
+/obj/machinery/power/apc/auto_name/south,
+/obj/structure/cable/yellow,
+/turf/open/floor/plasteel,
+/area/hallway/primary/aft)
 "qPF" = (
 /obj/structure/lattice/catwalk/over,
 /obj/structure/railing{
@@ -52454,6 +52546,9 @@
 /obj/machinery/light{
 	dir = 4
 	},
+/obj/effect/turf_decal/trimline/purple/line{
+	dir = 8
+	},
 /turf/open/floor/plasteel/dark,
 /area/crew_quarters/heads/hor)
 "rPt" = (
@@ -52576,6 +52671,7 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
 	dir = 9
 	},
+/obj/item/kirbyplants/random,
 /turf/open/floor/wood,
 /area/bridge/showroom/corporate)
 "rRD" = (
@@ -60892,6 +60988,12 @@
 /obj/effect/turf_decal/trimline/yellow/line{
 	dir = 4
 	},
+/obj/machinery/requests_console{
+	department = "Engineering";
+	departmentType = 3;
+	name = "Engineering RC";
+	pixel_x = -32
+	},
 /turf/open/floor/plasteel,
 /area/engine/break_room)
 "uDh" = (
@@ -61475,8 +61577,8 @@
 /area/chapel/main)
 "uMl" = (
 /obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer4,
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
-	dir = 4
+/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer2{
+	dir = 1
 	},
 /turf/open/floor/plasteel/dark,
 /area/bridge)
@@ -62239,6 +62341,13 @@
 	},
 /turf/open/floor/plasteel,
 /area/hallway/secondary/exit/departure_lounge)
+"uYl" = (
+/obj/structure/table/wood,
+/obj/item/clothing/shoes/laceup,
+/obj/item/clothing/under/suit/navy,
+/obj/item/clothing/glasses/sunglasses/advanced,
+/turf/open/floor/carpet/blue,
+/area/bridge/showroom/corporate)
 "uYu" = (
 /obj/machinery/atmospherics/components/unary/outlet_injector/atmos/nitrous_input,
 /turf/open/floor/engine/plasma,
@@ -62395,7 +62504,7 @@
 /obj/structure/cable/yellow{
 	icon_state = "4-8"
 	},
-/turf/open/floor/plating,
+/turf/open/floor/plasteel/elevatorshaft,
 /area/hallway/secondary/exit/departure_lounge)
 "vbH" = (
 /obj/effect/turf_decal/siding/wood{
@@ -64401,6 +64510,9 @@
 /obj/effect/turf_decal/trimline/purple/filled/line{
 	dir = 8
 	},
+/obj/effect/turf_decal/trimline/purple/line{
+	dir = 4
+	},
 /turf/open/floor/plasteel/dark,
 /area/crew_quarters/heads/hor)
 "vPN" = (
@@ -65503,6 +65615,14 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/starboard/aft)
+"wlm" = (
+/obj/structure/table/wood,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
+	dir = 8
+	},
+/obj/item/phone,
+/turf/open/floor/carpet/blue,
+/area/bridge/showroom/corporate)
 "wlu" = (
 /obj/effect/spawner/structure/window/reinforced,
 /obj/structure/transit_tube,
@@ -93553,7 +93673,7 @@ heU
 wqQ
 pKT
 gIg
-fcW
+jux
 fcW
 fcW
 vqW
@@ -94068,7 +94188,7 @@ nQa
 pxI
 gIg
 gpH
-gpH
+hIk
 nBt
 xhF
 oiS
@@ -97380,7 +97500,7 @@ xmR
 xmR
 xmR
 wDX
-gWz
+gsb
 fua
 hiR
 aiX
@@ -97640,7 +97760,7 @@ wDX
 dYQ
 fua
 nst
-qMF
+wlm
 oNO
 qap
 cCB
@@ -97894,10 +98014,10 @@ rtE
 lBS
 rtE
 wDX
-gWz
+uYl
 fua
 nst
-qMF
+pZF
 oNO
 qap
 cCB
@@ -98151,7 +98271,7 @@ pZy
 pZy
 iDV
 wDX
-mMg
+ogg
 fua
 nst
 qMF
@@ -98408,7 +98528,7 @@ xmR
 xmR
 xpk
 wDX
-gWz
+lLu
 fua
 upz
 cgN
@@ -105920,8 +106040,8 @@ mtM
 mtM
 mtM
 xDW
-eXJ
-vao
+jKE
+qPt
 dMx
 xqn
 lty
