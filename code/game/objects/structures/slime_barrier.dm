@@ -17,7 +17,7 @@
 	///accessible?
 	var/locked = FALSE
 	///List of types to block movement
-	var/list/pass_blacklist = list(/mob/living/simple_animal/slime)
+	var/list/pass_blacklist = list(/mob/living/simple_animal/slime, /mob/living/carbon/monkey)
 
 /obj/machinery/slime_barrier_generator/proc/power()
 	if(!anchored)
