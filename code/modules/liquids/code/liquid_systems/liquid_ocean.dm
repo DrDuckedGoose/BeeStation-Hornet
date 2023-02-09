@@ -215,8 +215,9 @@
 	warp = new(src)
 	vis_contents += warp
 	warp.add_filter("water_wobble", 1, wave_filter(1, 0, 1, 1))
-	animate(warp.get_filter("water_wobble"), offset = 10, time = 10 SECONDS, loop = -1)
-	animate(offset = 1, time = 10 SECONDS, loop = -1)
+	var/ripple_seed = rand(1, 10)
+	animate(warp.get_filter("water_wobble"), offset = ripple_seed, time = ripple_seed SECONDS, loop = -1)
+	animate(offset = 1, time = ripple_seed SECONDS, loop = -1)
 
 //Water ripple
 /atom/movable/warp_effect/ocean
