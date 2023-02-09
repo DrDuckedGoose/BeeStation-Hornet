@@ -7885,6 +7885,7 @@
 /obj/effect/turf_decal/delivery,
 /obj/item/xenoartifact,
 /obj/effect/landmark/xeno_spawn,
+/obj/effect/mapping_helpers/liquid_spawner/piss_possiblity,
 /turf/open/floor/engine,
 /area/science/explab)
 "cAK" = (
@@ -34071,18 +34072,6 @@
 /obj/machinery/firealarm/directional/west,
 /turf/open/floor/plasteel,
 /area/quartermaster/warehouse)
-"lqN" = (
-/obj/docking_port/stationary{
-	dir = 8;
-	dwidth = 4;
-	height = 14;
-	id = "arrivals_stationary";
-	name = "abyss arrivals";
-	roundstart_template = /datum/map_template/shuttle/arrival/abyss;
-	width = 25
-	},
-/turf/open/floor/plating/ocean/abyss,
-/area/ocean/deep)
 "lqY" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
 	dir = 8
@@ -43642,6 +43631,18 @@
 	},
 /turf/open/floor/plasteel/white,
 /area/medical/virology)
+"oqq" = (
+/obj/docking_port/stationary{
+	dir = 8;
+	dwidth = 4;
+	height = 11;
+	id = "arrivals_stationary";
+	name = "abyss arrivals";
+	roundstart_template = /datum/map_template/shuttle/arrival/abyss;
+	width = 11
+	},
+/turf/open/floor/plating/ocean/abyss,
+/area/ocean/deep)
 "oqt" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2,
@@ -169698,7 +169699,7 @@ vZs
 vZs
 vZs
 vZs
-vZs
+oqq
 vZs
 vZs
 vZs
@@ -171491,7 +171492,7 @@ vZs
 vZs
 vZs
 vZs
-lqN
+vZs
 vZs
 vZs
 vZs
