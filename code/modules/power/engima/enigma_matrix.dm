@@ -1,3 +1,7 @@
+#define RADIATION_UPPER_POWER 8
+#define TESLA_UPPER_RANGE 5
+#define TESLA_UPPER_POWER 50
+
 /obj/machinery/power/enigma_matrix
 	name = "enigma matrix"
 	desc = "A complex bluespace compression matrix."
@@ -46,7 +50,7 @@
 			if(!compile)
 				floor = floor ? min(floor, G.get_moles(id)) : G.get_moles(id)
 			//Build ratios from smallest
-			else if(floor && G.get_moles(id))
+			else if(floor && G.get_moles(id) > 1)
 				var/moles = G.get_moles(id)
 				gas_ratios += list("[id]" = round(moles / floor))
 		//Setup to build ratios once we have the largest value
@@ -67,6 +71,7 @@
 			reciped_gas_ratios += list("[chosen_gas]" = (e > 1 ? rand(2, 8) : 1))
 		potential_ratios[i] = reciped_gas_ratios
 		potential_ratios[i]["temperature"] = list("setting" = pick("hot", "cold", "none"), "value" = T20C) //todo: explain this
+		potential_ratios[i]["temperature"]["value"] = rand(T20C, (potential_ratios[i]["temperature"]["setting"] == "hot" ? 500 : 70))
 		potential_percentages[i] = rand(3, 6) * 0.1 //gas ratios have to be around 30-60% identical to produce effects
 
 /obj/machinery/power/enigma_matrix/proc/process_gas_ratios()
@@ -94,12 +99,18 @@
 			continue
 		switch(i)
 			if("radiation_potential")
-				say("Radiation")
+				say("Radiation [100 * effect_percentages[i]]%")
+				radiation_pulse(src, RADIATION_UPPER_POWER * effect_percentages[i])
 			if("lighting_potential")
-				say("Lightning")
+				say("Lightning [100 * effect_percentages[i]]%")
+				tesla_zap(src, max(1, TESLA_UPPER_RANGE * effect_percentages[i]), TESLA_UPPER_POWER * effect_percentages[i], TESLA_MOB_DAMAGE | TESLA_OBJ_DAMAGE | TESLA_MOB_STUN | TESLA_ALLOW_DUPLICATES)
 			if("heat_potential")
-				say("Heat")
+				say("Heat [100 * effect_percentages[i]]%")
 			if("cold_potential")
-				say("Cold")
+				say("Cold [100 * effect_percentages[i]]%")
 			else
 				continue
+
+#undef RADIATION_UPPER_POWER
+#undef TESLA_UPPER_RANGE
+#undef TESLA_UPPER_POWER

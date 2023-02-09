@@ -207,13 +207,32 @@
 	baseturfs = /turf/open/floor/plating/ocean/abyss
 	initial_temperature = T20C
 	ocean_reagents = list(/datum/reagent/expired_blood = 100)
+	///Warp effect holder for displacement filter
+	var/atom/movable/warp_effect/ocean/warp
 
+/turf/open/floor/plating/ocean/abyss/Initialize(mapload)
+	. = ..()
+	warp = new(src)
+	vis_contents += warp
+	warp.add_filter("water_wobble", 1, wave_filter(1, 0, 1, 1))
+	animate(warp.get_filter("water_wobble"), offset = 10, time = 10 SECONDS, loop = -1)
+	animate(offset = 1, time = 10 SECONDS, loop = -1)
 
+//Water ripple
+/atom/movable/warp_effect/ocean
+	icon = 'icons/effects/light_overlays/light_32.dmi'
+	icon_state = "light"
+	appearance_flags = PIXEL_SCALE | TILE_BOUND
+	pixel_x = 0
+	pixel_y = 0
+
+//Natural ocean lighting
 /obj/effect/water_projection
 	icon = 'code/modules/liquids/icons/obj/effects/ocean.dmi'
 	icon_state = "water"
 	base_icon_state = "water"
 	plane = LIGHTING_PLANE
+	appearance_flags = PIXEL_SCALE
 	mouse_opacity = FALSE
 
 /obj/effect/water_projection/Initialize(mapload)
