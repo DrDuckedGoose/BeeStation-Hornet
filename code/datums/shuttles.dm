@@ -819,3 +819,8 @@
 	suffix = "fland"
 	name = "fland transport ferry"
 	description = "Standard issue CentCom Ferry for the fland station. Includes additional equipment and a recharger."
+
+//Abyss stuff
+/datum/map_template/shuttle/arrival/abyss
+	suffix = "abyss"
+	name = "arrival shuttle (Abyss)"
