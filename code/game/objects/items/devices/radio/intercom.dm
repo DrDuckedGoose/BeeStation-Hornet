@@ -16,7 +16,7 @@
 /obj/item/radio/intercom/directional/south
 	pixel_y = -31
 
-/obj/item/radio/intercom/directional/est
+/obj/item/radio/intercom/directional/east
 	pixel_x = 33
 	pixel_y = -2
 
