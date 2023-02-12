@@ -465,12 +465,13 @@
 	anchored = TRUE
 	icon = 'code/modules/liquids/icons/obj/flora/ocean_flora.dmi'
 	//Number of alts
-	var/alt_appearences = 4
+	var/alt_appearences = 3
 
 /obj/structure/flora/ocean/Initialize(mapload)
 	. = ..()
 	//Slight jank but it doesn't really matter
-	icon_state = "[name][rand(1, alt_appearences)]"
+	if(prob(80))
+		icon_state = "[name][rand(1, alt_appearences)]"
 
 /obj/structure/flora/ocean/coral
 	name = "coral"
@@ -479,12 +480,12 @@
 /obj/structure/flora/ocean/seaweed
 	name = "seaweed"
 	icon_state = "longseaweed1"
-	alt_appearences = 6
+	alt_appearences = 4
 
 /obj/structure/flora/ocean/longseaweed
 	name = "longseaweed"
 	icon_state = "seaweed1"
-	alt_appearences = 5
+	alt_appearences = 4
 
 /obj/structure/flora/ocean/glowweed
 	name = "glowweed"
