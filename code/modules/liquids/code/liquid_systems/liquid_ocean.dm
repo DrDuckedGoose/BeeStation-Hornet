@@ -199,7 +199,17 @@
 //Subtypes for abyss station
 /area/ocean/deep
 	name = "Deep ocean"
+	icon_state = "dark"
 	dynamic_lighting = DYNAMIC_LIGHTING_ENABLED
+
+/area/ocean/deep/cavern
+	name = "Deep ocean cavern"
+	icon_state = "purple"
+	ambience_index = AMBIENCE_RUINS
+	sound_environment = SOUND_AREA_TUNNEL_ENCLOSED
+	area_flags = UNIQUE_AREA | FLORA_ALLOWED | CAVES_ALLOWED | MOB_SPAWN_ALLOWED
+	map_generator = /datum/map_generator/cave_generator/iceland
+	lighting_overlay_opacity = 0
 
 /turf/open/floor/plating/ocean/abyss
 	gender = PLURAL
