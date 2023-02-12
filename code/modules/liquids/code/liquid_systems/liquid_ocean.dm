@@ -201,7 +201,6 @@
 	name = "Deep ocean"
 	icon_state = "dark"
 	dynamic_lighting = DYNAMIC_LIGHTING_ENABLED
-	map_generator =  /datum/map_generator/cave_generator/ocean/open
 
 /area/ocean/deep/cavern
 	name = "Deep ocean cavern"
@@ -220,23 +219,6 @@
 	ocean_reagents = list(/datum/reagent/expired_blood = 100)
 	///Warp effect holder for displacement filter
 	var/atom/movable/warp_effect/ocean/warp
-
-/turf/open/floor/plating/ocean/abyss/Initialize(mapload)
-	. = ..()
-	warp = new(src)
-	vis_contents += warp
-	warp.add_filter("water_wobble", 1, wave_filter(1, 0, 1, 1))
-	var/ripple_seed = rand(1, 10)
-	animate(warp.get_filter("water_wobble"), offset = ripple_seed, time = ripple_seed SECONDS, loop = -1)
-	animate(offset = 1, time = ripple_seed SECONDS, loop = -1)
-
-//Water ripple
-/atom/movable/warp_effect/ocean
-	icon = 'icons/effects/light_overlays/light_32.dmi'
-	icon_state = "light"
-	appearance_flags = PIXEL_SCALE | TILE_BOUND
-	pixel_x = 0
-	pixel_y = 0
 
 //Natural ocean lighting
 /obj/effect/water_projection
