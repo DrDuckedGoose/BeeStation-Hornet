@@ -7,7 +7,7 @@
 	///What turf we'll throw under us when we kill daddy. If not set, we just use dad
 	var/turf/base_turf
 	///List of things we refuse to transport
-	var/static/list/move_blacklist = typecacheof(list(/atom/movable/lighting_object))
+	var/static/list/move_blacklist = typecacheof(list(/atom/movable/lighting_object, /obj/structure/cable, /obj/structure/disposalpipe, /obj/machinery/atmospherics/pipe))
 
 //Mapping preset - Primary Elevator
 /obj/structure/elevator_segment/primary
@@ -54,8 +54,8 @@
 	T.cut_overlays()
 
 //Get a turf and move all it's contents with us
-/obj/structure/elevator_segment/proc/travel(datum/source, _id, z_destination, calltime)
-	SIGNAL_HANDLER
+/obj/structure/elevator_segment/proc/travel(datum/source, _id, z_destination, calltime, crashing)
+	//We can't use SIGNAL_HANDLER since A.close() fucking sleeps
 
 	if(_id != id || z_destination == z)
 		return
@@ -86,12 +86,19 @@
 		//lock airlocks and setup a timer to undo them
 		if(istype(i, /obj/machinery/door/airlock))
 			var/obj/machinery/door/airlock/A = i
-			A.lock()
+			A.unbolt()
+			A.close()
+			A.bolt()
 			addtimer(CALLBACK(src, .proc/unlock, A), calltime || 2 SECONDS)
+		if(crashing && isliving(i))
+			var/mob/living/L = i
+			L.Paralyze(3 SECONDS)
+
 	elevator_fx(src, old_z_this, z_destination, calltime)
 
 /obj/structure/elevator_segment/proc/unlock(obj/machinery/door/airlock/A)
-	A.unlock()
+	A.unbolt()
+	A.open()
 
 /obj/structure/elevator_segment/proc/elevator_fx(atom/target, input_z, z_destination, calltime, icon_size = 32)
 	//animate us too - color

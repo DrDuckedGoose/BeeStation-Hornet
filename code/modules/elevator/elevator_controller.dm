@@ -6,6 +6,8 @@ SUBSYSTEM_DEF(elevator_controller)
 	var/list/elevator_groups = list()
 	///List of elevator group positional stuff
 	var/list/elevator_group_positions = list()
+	///List of elevator group timers - stops them being spammed
+	var/list/elevator_group_timers = list()
 
 /datum/controller/subsystem/elevator_controller/Initialize(start_timeofday)
 	. = ..()
@@ -24,7 +26,32 @@ SUBSYSTEM_DEF(elevator_controller)
 	elevator_group_positions[id]["middle"]["x"] = (elevator_group_positions[id]["bar"]["x"] + elevator_group_positions[id]["floor"]["x"]) / 2
 	elevator_group_positions[id]["middle"]["y"] = (elevator_group_positions[id]["bar"]["y"] + elevator_group_positions[id]["floor"]["y"]) / 2
 	//Append id
-	elevator_groups |= id
+	if(!elevator_groups[id])
+		elevator_groups[id] = list()
+	elevator_groups[id] |= EV
 	
-/datum/controller/subsystem/elevator_controller/proc/move_elevator(id, destination_z, calltime)
-	SEND_SIGNAL(src, COMSIG_ELEVATOR_MOVE, id, destination_z, calltime)
+/datum/controller/subsystem/elevator_controller/proc/move_elevator(id, destination_z, calltime, force)
+	. = TRUE
+	elevator_group_timers[id] = addtimer(CALLBACK(src, .proc/finish_timer, id), calltime || 2 SECONDS, TIMER_STOPPABLE)
+	//Loop through group ID, to assure there isn't anything blocking us
+	var/crashing = FALSE
+	var/obj/structure/elevator_segment/S = elevator_groups[id][1]
+	if((abs(destination_z - S.z) > 1 || destination_z > S.z))
+		for(var/i in min(S.z, destination_z) to max(S.z, destination_z))
+			for(var/obj/structure/elevator_segment/ES as() in elevator_groups[id])
+				if(!isopenspace(locate(ES.x, ES.y, i)) && i != ES.z && !(ES.z > destination_z && abs(ES.z - destination_z) <= 1)) //2 is default bottom ground floor
+					if(!force)
+						destination_z = i-1
+						if(destination_z == ES.z)
+							return
+						. =  FALSE
+					else
+						var/turf/T = locate(ES.x, ES.y, i)
+						T.ChangeTurf(/turf/open/openspace)
+						crashing = TRUE
+					
+	SEND_SIGNAL(src, COMSIG_ELEVATOR_MOVE, id, destination_z, calltime, crashing)
+	return .
+
+/datum/controller/subsystem/elevator_controller/proc/finish_timer(id)
+	QDEL_NULL(elevator_group_timers[id])
