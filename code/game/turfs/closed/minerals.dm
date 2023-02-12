@@ -536,8 +536,8 @@
 	name = "deep rock"
 	icon = 'icons/turf/mining.dmi'
 	smooth_icon = 'icons/turf/walls/rock_wall.dmi'
-	icon_state = "rock"
-	base_icon_state = "rock"
+	icon_state = "rock2"
+	base_icon_state = "rock2"
 	smoothing_flags = SMOOTH_BITMASK | SMOOTH_BORDER
 	canSmoothWith = list(SMOOTH_GROUP_CLOSED_TURFS)
 	baseturfs = /turf/open/floor/plating/ocean/abyss
@@ -550,8 +550,8 @@
 	name = "deep rock"
 	icon = 'icons/turf/mining.dmi'
 	smooth_icon = 'icons/turf/walls/rock_wall.dmi'
-	icon_state = "rock_highchance"
-	base_icon_state = "rock_highchance"
+	icon_state = "rock2"
+	base_icon_state = "rock2"
 	smoothing_flags = SMOOTH_BITMASK | SMOOTH_BORDER
 	canSmoothWith = list(SMOOTH_GROUP_CLOSED_TURFS)
 	baseturfs = /turf/open/floor/plating/ocean/abyss
