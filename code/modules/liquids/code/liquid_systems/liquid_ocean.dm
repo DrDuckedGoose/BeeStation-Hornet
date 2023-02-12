@@ -201,6 +201,7 @@
 	name = "Deep ocean"
 	icon_state = "dark"
 	dynamic_lighting = DYNAMIC_LIGHTING_ENABLED
+	map_generator =  /datum/map_generator/cave_generator/ocean/open
 
 /area/ocean/deep/cavern
 	name = "Deep ocean cavern"
@@ -208,7 +209,7 @@
 	ambience_index = AMBIENCE_RUINS
 	sound_environment = SOUND_AREA_TUNNEL_ENCLOSED
 	area_flags = UNIQUE_AREA | FLORA_ALLOWED | CAVES_ALLOWED | MOB_SPAWN_ALLOWED
-	map_generator = /datum/map_generator/cave_generator/iceland
+	map_generator = /datum/map_generator/cave_generator/ocean
 	lighting_overlay_opacity = 0
 
 /turf/open/floor/plating/ocean/abyss

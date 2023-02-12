@@ -12,3 +12,9 @@
 	birth_limit = 4
 	death_limit = 3
 	mob_spawn_chance = 0.2
+	flora_spawn_chance = 5
+
+/datum/map_generator/cave_generator/ocean/open
+	open_turf_types = list()
+	closed_turf_types =  list()
+	flora_spawn_chance = 6
