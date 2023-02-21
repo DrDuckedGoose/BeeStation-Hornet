@@ -5,9 +5,9 @@
 /obj/machinery/power/enigma_matrix
 	name = "enigma matrix"
 	desc = "A complex bluespace compression matrix."
-	icon = 'icons/obj/supermatter.dmi'
-	icon_state = "darkmatter"
-	base_icon_state = "darkmatter"
+	icon = 'icons/obj/enigma_matrix.dmi'
+	icon_state = "plate"
+	base_icon_state = "plate"
 	layer = ABOVE_MOB_LAYER
 	density = TRUE
 	anchored = TRUE
@@ -26,6 +26,7 @@
 	. = ..()
 	build_potential_ratios()
 	SSair.atmos_air_machinery += src
+	new /obj/effect/enigma_matrix_distortion(loc)
 
 /obj/machinery/power/enigma_matrix/process_atmos()
 	get_gas_ratios()
@@ -114,3 +115,31 @@
 #undef RADIATION_UPPER_POWER
 #undef TESLA_UPPER_RANGE
 #undef TESLA_UPPER_POWER
+
+//Effect
+/obj/effect/enigma_matrix_distortion
+	appearance_flags = PIXEL_SCALE | TILE_BOUND | KEEP_TOGETHER
+	mouse_opacity = FALSE
+	pixel_x = 38
+	pixel_y = 38
+	layer = 5
+
+/obj/effect/enigma_matrix_distortion/Initialize(mapload)
+	. = ..()
+	//Gather vis contents in a 3x3 area
+	for(var/i in x-1 to x+1)
+		for(var/n in y-1 to y+1)
+			var/turf/T = locate(i, n, z)
+			vis_contents += T
+	//Apply a mask filter
+	var/icon/I = icon('icons/effects/96x96.dmi', "explosion")
+	add_filter("mask", 1, alpha_mask_filter(32, 32, I))
+	//apply and animate wave filter
+	add_filter("special_wave", 2, wave_filter(1, 0.05, size = 1, offset = 2, flags = list(WAVE_SIDEWAYS)))
+	animate(get_filter("special_wave"), offset = 10, time = 10 SECONDS, loop = -1)
+	animate(offset = 1, time = 10 SECONDS, loop = -1)
+	//flip ourselves
+	var/matrix/M = new()
+	M.Turn(180)
+	M.Scale(1.2)
+	transform = M

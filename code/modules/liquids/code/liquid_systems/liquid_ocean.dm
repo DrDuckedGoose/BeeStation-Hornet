@@ -55,6 +55,7 @@
 	var/ocean_temp = T20C - 150
 	var/list/ocean_turfs = list()
 	var/list/open_turfs = list()
+	var/obj/effect/ocean_ripple/effect
 
 /turf/open/floor/plating/ocean/Initialize()
 	. = ..()
@@ -65,15 +66,7 @@
 	vis_contents += static_overlay
 	SSliquids.unvalidated_oceans |= src
 	SSliquids.ocean_turfs |= src
-	//Setup cool water distort effect
-	/*
-	var/image/I = new()
-	I.vis_contents = vis_contents
-	I.filters += filter(type = "wave", x = 1, size = 1, offset = 1)
-	animate(I.filters[I.filters.len], offset = 10, time = 20 SECONDS, loop = -1)
-	animate(offset = 1, time = 20 SECONDS, loop = -1)
-	add_overlay(I)
-	*/
+	effect = new(src)
 
 /turf/open/floor/plating/ocean/Destroy()
 	. = ..()
@@ -82,6 +75,7 @@
 	SSliquids.ocean_turfs -= src
 	for(var/turf/open/floor/plating/ocean/listed_ocean in ocean_turfs)
 		listed_ocean.rebuild_adjacent()
+	qdel(effect)
 
 /turf/open/floor/plating/ocean/proc/assume_self()
 	if(!atmos_adjacent_turfs)
@@ -237,3 +231,21 @@
 	animate(offset = 1, time = 20 SECONDS, loop = -1)
 	//Bloom
 	filters += filter(type = "bloom", threshold = rgb(1, 1, 1), size = 5)
+
+//ocean ripple
+/obj/effect/ocean_ripple
+	appearance_flags = PIXEL_SCALE | TILE_BOUND | KEEP_TOGETHER
+	mouse_opacity = FALSE
+	layer = 5
+
+/obj/effect/ocean_ripple/Initialize(mapload)
+	. = ..()
+	//Gather vis contents
+	vis_contents += get_turf(src)
+	//apply and animate wave filter
+	add_filter("special_wave", 1, wave_filter(0.5, 0, size = 0.5, offset = 1, flags = list(WAVE_SIDEWAYS)))
+	animate(get_filter("special_wave"), offset = 100, time = 150 SECONDS, loop = -1)
+	animate(offset = 1, time = 150 SECONDS, loop = -1)
+	//Remove ocean overlay
+	var/obj/effect/abstract/ocean_overlay/O = locate(/obj/effect/abstract/ocean_overlay) in vis_contents
+	vis_contents -= O
