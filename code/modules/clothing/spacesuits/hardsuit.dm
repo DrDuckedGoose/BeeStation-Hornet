@@ -1089,6 +1089,7 @@
 	icon_state = "mining_diving_suit"
 	item_state = "mining_diving_suit"
 	resistance_flags = FIRE_PROOF | ACID_PROOF
+	helmettype = /obj/item/clothing/head/helmet/space/hardsuit/mining/diving
 
 /obj/item/clothing/head/helmet/space/hardsuit/mining/diving
 	name = "mining diving hardsuit helmet"
