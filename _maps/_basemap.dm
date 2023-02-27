@@ -13,7 +13,7 @@
 		#include "map_files\BoxStation\BoxStation.dmm"
 		#include "map_files\KiloStation\KiloStation.dmm"
 		#include "map_files\flandstation\flandstation.dmm"
-		#include "map_files\PopeStation\PopeStation.dmm"
+		#include "map_files\abyssstation\AbyssStation.dmm"
 
 		#ifdef CIBUILDING
 			#include "templates.dm"
