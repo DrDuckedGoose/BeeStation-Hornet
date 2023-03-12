@@ -2130,3 +2130,15 @@
 	L.set_light(-1)
 
 	..()
+
+//Fake blood for ocean - dont make this a subtype of blood, you'll probably create issues with blood cult
+/datum/reagent/expired_blood
+	name = "Expired Blood"
+	color = "#C80000" // rgb: 200, 0, 0
+	metabolization_rate = 5 //fast rate so it disappears fast.
+	taste_description = "iron"
+	taste_mult = 1.3
+	glass_icon_state = "glass_red"
+	glass_name = "glass of tomato juice"
+	glass_desc = "Are you sure this is tomato juice?"
+	shot_glass_icon_state = "shotglassred"

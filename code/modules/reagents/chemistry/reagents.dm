@@ -92,7 +92,7 @@ GLOBAL_LIST_INIT(name2reagent, build_name2reagent())
 /datum/reagent/proc/on_transfer(atom/A, method=TOUCH, trans_volume) //Called after a reagent is transfered
 	return
 
-/datum/reagents/proc/react_single(datum/reagent/R, atom/A, method = TOUCH, volume_modifier = 1, show_message = TRUE)
+/datum/reagents/proc/react_single(datum/reagent/R, atom/A, method = TOUCH, volume_modifier = 1, show_message = TRUE, liquid = FALSE)
 	var/react_type
 	if(isliving(A))
 		react_type = "LIVING"
@@ -103,7 +103,7 @@ GLOBAL_LIST_INIT(name2reagent, build_name2reagent())
 		react_type = "TURF"
 	else if(isobj(A))
 		react_type = "OBJ"
-	else if(liquid == TRUE)
+	else if(liquid)
 		react_type = "LIQUID"
 	else
 		return

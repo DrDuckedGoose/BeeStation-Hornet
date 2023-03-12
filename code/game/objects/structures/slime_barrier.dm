@@ -171,9 +171,6 @@
 		if(S.health <= 0)
 			return
 
-	if (istype(leaving) && (leaving.pass_flags & PASSGLASS))
-		return
-
 	if (fulltile)
 		return
 
