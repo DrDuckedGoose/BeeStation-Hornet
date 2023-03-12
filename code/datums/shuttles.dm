@@ -261,7 +261,7 @@
 /datum/map_template/shuttle/emergency/airless/post_load()
 	. = ..()
 	//enable buying engines from cargo
-	var/datum/supply_pack/P = SSshuttle.supply_packs[/datum/supply_pack/engineering/shuttle_engine]
+	var/datum/supply_pack/P = SSsupply.supply_packs[/datum/supply_pack/engineering/shuttle_engine]
 	P.special_enabled = TRUE
 
 
@@ -758,19 +758,6 @@
 	suffix = "excavation"
 	name = "Snowdin Excavation Elevator"
 
- // Turbolifts
-/datum/map_template/shuttle/turbolift/debug/primary
-	prefix = "_maps/shuttles/turbolifts/"
-	port_id = "debug"
-	suffix = "primary"
-	name = "primary turbolift (multi-z debug)"
-	can_be_bought = FALSE
-
-/datum/map_template/shuttle/turbolift/debug/primary/default
-	prefix = "_maps/shuttles/turbolifts/"
-	port_id = "default"
-	name = "primary turbolift"
-
 /datum/map_template/shuttle/tram
 	port_id = "tram"
 	can_be_bought = FALSE
@@ -819,8 +806,3 @@
 	suffix = "fland"
 	name = "fland transport ferry"
 	description = "Standard issue CentCom Ferry for the fland station. Includes additional equipment and a recharger."
-
-//Abyss stuff
-/datum/map_template/shuttle/arrival/abyss
-	suffix = "abyss"
-	name = "arrival shuttle (Abyss)"
