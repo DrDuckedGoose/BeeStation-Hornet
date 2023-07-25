@@ -9,7 +9,7 @@
 	spawn_positions = 1
 	selection_color = "#ffeeee"
 	minimal_player_age = 7
-	exp_requirements = MINUTES_REQUIRED_INTERMEDIATE
+	exp_requirements = 180
 	exp_type = EXP_TYPE_CREW
 	exp_type_department = EXP_TYPE_SECURITY
 
@@ -50,6 +50,8 @@
 		/obj/item/detective_scanner=1,\
 		/obj/item/melee/classic_baton/police=1)
 	mask = /obj/item/clothing/mask/cigarette
+
+	implants = list(/obj/item/implant/mindshield)
 
 	chameleon_extras = list(/obj/item/gun/ballistic/revolver/detective, /obj/item/clothing/glasses/sunglasses/advanced)
 

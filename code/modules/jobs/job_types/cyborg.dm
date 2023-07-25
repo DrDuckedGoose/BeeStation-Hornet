@@ -4,12 +4,12 @@
 	auto_deadmin_role_flags = PREFTOGGLE_DEADMIN_POSITION_SILICON
 	department_flag = ENGSEC
 	faction = "Station"
-	total_positions = 0
+	total_positions = 1
 	spawn_positions = 1
 	supervisors = "your laws and the AI"	//Nodrak
 	selection_color = "#ddffdd"
 	minimal_player_age = 21
-	exp_requirements = MINUTES_REQUIRED_BASIC
+	exp_requirements = 120
 	exp_type = EXP_TYPE_CREW
 	random_spawns_possible = FALSE
 

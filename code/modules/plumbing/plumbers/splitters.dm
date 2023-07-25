@@ -18,9 +18,10 @@
 
 
 
-/obj/machinery/plumbing/splitter/Initialize(mapload, bolt, layer)
+/obj/machinery/plumbing/splitter/Initialize(mapload, bolt)
 	. = ..()
-	AddComponent(/datum/component/plumbing/splitter, bolt, layer)
+	AddComponent(/datum/component/plumbing/splitter, bolt)
+	update_appearance() //so the input/output pipes will overlay properly during init
 
 
 /obj/machinery/plumbing/splitter/ui_state(mob/user)

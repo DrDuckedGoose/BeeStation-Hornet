@@ -7,7 +7,7 @@
 	total_positions = 3
 	spawn_positions = 3
 	minimal_player_age = 3
-	exp_requirements = MINUTES_REQUIRED_INTERMEDIATE
+	exp_requirements = 900
 	exp_type = EXP_TYPE_CREW
 	selection_color = "#ffeeff"
 
@@ -115,13 +115,13 @@
 	backpack_contents = list(
 		/obj/item/kitchen/knife/combat/survival=1,
 		/obj/item/stack/marker_beacon/thirty=1,
-		/obj/item/storage/firstaid/medical=1,
 		/obj/item/pinpointer/crew=1,
 		/obj/item/sensor_device=1,
-		/obj/item/roller=1,
+		/obj/item/deployable/rollerbed=1,
 		/obj/item/discovery_scanner=1
 	)
 
+	l_hand = /obj/item/storage/firstaid/medical
 	backpack = /obj/item/storage/backpack/medic
 	satchel = /obj/item/storage/backpack/satchel/med
 	duffelbag = /obj/item/storage/backpack/duffelbag/med

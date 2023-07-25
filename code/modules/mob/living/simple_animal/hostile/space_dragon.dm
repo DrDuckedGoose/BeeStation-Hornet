@@ -148,7 +148,7 @@
 	. = ..()
 	if(istype(target, /obj/mecha))
 		var/obj/mecha/M = target
-		M.take_damage(50, BRUTE, "melee", 1)
+		M.take_damage(50, BRUTE, MELEE, 1)
 
 /mob/living/simple_animal/hostile/space_dragon/Move()
 	if(!using_special)
@@ -195,7 +195,7 @@
   * If an invalid color is given, will re-prompt the dragon until a proper color is chosen.
   */
 /mob/living/simple_animal/hostile/space_dragon/proc/color_selection()
-	chosen_color = input(src,"What would you like your color to be?","Choose Your Color", COLOR_WHITE) as color|null
+	chosen_color = tgui_color_picker(src,"What would you like your color to be?","Choose Your Color", COLOR_WHITE)
 	if(!chosen_color) //redo proc until we get a color
 		to_chat(src, "<span class='warning'>Not a valid color, please try again.</span>")
 		color_selection()
@@ -307,7 +307,7 @@
 		if(M in hit_list)
 			continue
 		hit_list += M
-		M.take_damage(50, BRUTE, "melee", 1)
+		M.take_damage(50, BRUTE, MELEE, 1)
 
 /**
   * Handles consuming and storing consumed things inside Space Dragon

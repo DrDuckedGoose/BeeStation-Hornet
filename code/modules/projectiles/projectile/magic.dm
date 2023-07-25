@@ -5,7 +5,7 @@
 	damage_type = OXY
 	nodamage = TRUE
 	armour_penetration = 100
-	flag = "magic"
+	armor_flag = MAGIC
 	martial_arts_no_deflect = TRUE
 
 /obj/item/projectile/magic/death
@@ -346,7 +346,7 @@
 	icon_state = "lavastaff"
 	damage = 15
 	damage_type = BURN
-	flag = "magic"
+	armor_flag = MAGIC
 	dismemberment = 50
 	nodamage = FALSE
 	martial_arts_no_deflect = FALSE
@@ -367,7 +367,7 @@
 	damage_type = BURN
 	nodamage = FALSE
 	armour_penetration = 0
-	flag = "magic"
+	armor_flag = MAGIC
 	hitsound = 'sound/weapons/barragespellhit.ogg'
 	martial_arts_no_deflect = FALSE
 
@@ -385,7 +385,7 @@
 	name = "locker bolt"
 	icon_state = "locker"
 	nodamage = TRUE
-	flag = "magic"
+	armor_flag = MAGIC
 	martial_arts_no_deflect = FALSE
 	var/weld = TRUE
 	var/created = FALSE //prevents creation of more then one locker if it has multiple hits
@@ -580,15 +580,17 @@
 /obj/item/projectile/magic/wipe/proc/possession_test(var/mob/living/carbon/M)
 	var/datum/brain_trauma/special/imaginary_friend/trapped_owner/trauma = M.gain_trauma(/datum/brain_trauma/special/imaginary_friend/trapped_owner)
 	var/poll_message = "Do you want to play as [M.real_name]?"
+	var/ban_key = BAN_ROLE_ALL_ANTAGONISTS
 	if(M.mind?.assigned_role)
 		poll_message = "[poll_message] Job:[M.mind.assigned_role]."
 	if(M.mind?.special_role)
 		poll_message = "[poll_message] Status:[M.mind.special_role]."
 	else if(M.mind)
-		var/datum/antagonist/A = M.mind.has_antag_datum(/datum/antagonist/)
+		var/datum/antagonist/A = M.mind.has_antag_datum(/datum/antagonist)
 		if(A)
 			poll_message = "[poll_message] Status:[A.name]."
-	var/list/mob/dead/observer/candidates = pollCandidatesForMob(poll_message, ROLE_PAI, null, FALSE, 100, M)
+			ban_key = A.banning_key
+	var/list/mob/dead/observer/candidates = pollCandidatesForMob(poll_message, ban_key, null, 10 SECONDS, M, ignore_category = FALSE)
 	if(M.stat == DEAD)//boo.
 		return
 	if(LAZYLEN(candidates))
@@ -627,7 +629,7 @@
 	damage_type = BURN
 	nodamage = FALSE
 	speed = 0.3
-	flag = "magic"
+	armor_flag = MAGIC
 
 	var/tesla_power = 20000
 	var/tesla_range = 15
@@ -642,7 +644,7 @@
 
 /obj/item/projectile/magic/aoe/lightning/fire(setAngle)
 	if(caster)
-		chain = caster.Beam(src, icon_state = "lightning[rand(1, 12)]", time = INFINITY, maxdistance = INFINITY)
+		chain = caster.Beam(src, icon_state = "lightning[rand(1, 12)]")
 	..()
 
 /obj/item/projectile/magic/aoe/lightning/on_hit(target)
@@ -722,4 +724,4 @@
 	nodamage = FALSE
 	armour_penetration = 100
 	temperature = 50
-	flag = "magic"
+	armor_flag = MAGIC

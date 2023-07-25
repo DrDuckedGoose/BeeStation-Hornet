@@ -29,9 +29,10 @@
 
 
 
-/obj/machinery/plumbing/acclimator/Initialize(mapload, bolt, layer)
+/obj/machinery/plumbing/acclimator/Initialize(mapload, bolt)
 	. = ..()
-	AddComponent(/datum/component/plumbing/acclimator, bolt, layer)
+	AddComponent(/datum/component/plumbing/acclimator, bolt)
+	update_appearance() //so the input/output pipes will overlay properly during init
 
 /obj/machinery/plumbing/acclimator/process(delta_time)
 	if(machine_stat & NOPOWER || !enabled || !reagents.total_volume || reagents.chem_temp == target_temperature)
@@ -64,6 +65,7 @@
 			icon_state += "_cold"
 		if(HEATING)
 			icon_state += "_hot"
+	..()
 
 
 /obj/machinery/plumbing/acclimator/ui_state(mob/user)

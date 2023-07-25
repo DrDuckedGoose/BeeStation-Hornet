@@ -16,7 +16,7 @@
 	)
 
 /obj/item/modular_computer/ui_interact(mob/user, datum/tgui/ui)
-	if(!enabled || !user.can_read(src) || !use_power())
+	if(!enabled || !user.is_literate() || !use_power())
 		if(ui)
 			ui.close()
 		return
@@ -213,7 +213,7 @@
 			var/mob/user = usr
 			var/new_color
 			while(!new_color)
-				new_color = input(user, "Choose a new color for [src]'s flashlight.", "Light Color",light_color) as color|null
+				new_color = tgui_color_picker(user, "Choose a new color for [src]'s flashlight.", "Light Color",light_color)
 				if(!new_color)
 					return
 				if(color_hex2num(new_color) < 200) //Colors too dark are rejected

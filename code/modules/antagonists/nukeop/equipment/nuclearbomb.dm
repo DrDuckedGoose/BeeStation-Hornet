@@ -45,7 +45,7 @@
 	core = new /obj/item/nuke_core(src)
 	STOP_PROCESSING(SSobj, core)
 	update_icon()
-	GLOB.poi_list |= src
+	AddElement(/datum/element/point_of_interest)
 	previous_level = get_security_level()
 
 /obj/machinery/nuclearbomb/Destroy()
@@ -53,7 +53,6 @@
 	if(!exploding)
 		// If we're not exploding, set the alert level back to normal
 		set_safety()
-	GLOB.poi_list -= src
 	GLOB.nuke_list -= src
 	QDEL_NULL(countdown)
 	QDEL_NULL(core)
@@ -429,7 +428,7 @@
 	if(safety)
 		if(timing)
 			set_security_level(previous_level)
-			stop_soundtrack_music()
+			stop_soundtrack_music(stop_playing = TRUE)
 			for(var/obj/item/pinpointer/nuke/syndicate/S in GLOB.pinpointer_list)
 				S.switch_mode_to(initial(S.mode))
 				S.alert = FALSE
@@ -452,12 +451,13 @@
 		set_security_level(SEC_LEVEL_DELTA)
 
 		if (proper_bomb) // Why does this exist
-			countdown_music = play_soundtrack_music(/datum/soundtrack_song/bee/countdown, only_station = TRUE)
+			set_dynamic_high_impact_event("nuclear bomb has been armed")
+			countdown_music = play_soundtrack_music(/datum/soundtrack_song/bee/countdown)
 
 	else
 		detonation_timer = null
 		set_security_level(previous_level)
-		stop_soundtrack_music()
+		stop_soundtrack_music(stop_playing = TRUE)
 
 		for(var/obj/item/pinpointer/nuke/syndicate/S in GLOB.pinpointer_list)
 			S.switch_mode_to(initial(S.mode))
@@ -496,7 +496,7 @@
 		sound_to_playing_players('sound/machines/alarm.ogg')
 	if(SSticker?.mode)
 		SSticker.roundend_check_paused = TRUE
-	addtimer(CALLBACK(src, .proc/actually_explode), 100)
+	addtimer(CALLBACK(src, PROC_REF(actually_explode)), 100)
 
 /obj/machinery/nuclearbomb/proc/actually_explode()
 	if(!core)
@@ -530,8 +530,8 @@
 	SSticker.roundend_check_paused = FALSE
 
 /obj/machinery/nuclearbomb/proc/really_actually_explode(off_station)
-	Cinematic(get_cinematic_type(off_station),world,CALLBACK(SSticker,/datum/controller/subsystem/ticker/proc/station_explosion_detonation,src))
-	INVOKE_ASYNC(GLOBAL_PROC,.proc/KillEveryoneOnZLevel, get_virtual_z_level())
+	Cinematic(get_cinematic_type(off_station),world,CALLBACK(SSticker, TYPE_PROC_REF(/datum/controller/subsystem/ticker, station_explosion_detonation), src))
+	INVOKE_ASYNC(GLOBAL_PROC,PROC_REF(KillEveryoneOnZLevel), get_virtual_z_level())
 
 /obj/machinery/nuclearbomb/proc/get_cinematic_type(off_station)
 	if(off_station < 2)
@@ -544,61 +544,6 @@
 	desc = "One of the more successful achievements of the Nanotrasen Corporate Warfare Division, their nuclear fission explosives are renowned for being cheap to produce and devastatingly effective. Signs explain that though this particular device has been decommissioned, every Nanotrasen station is equipped with an equivalent one, just in case. All Captains carefully guard the disk needed to detonate them - at least, the sign says they do. There seems to be a tap on the back."
 	proper_bomb = FALSE
 	var/obj/structure/reagent_dispensers/beerkeg/keg
-	var/list/BeerList = list(\
-	/datum/reagent/consumable/ethanol/antifreeze,\
-	/datum/reagent/consumable/ethanol/andalusia,\
-	/datum/reagent/consumable/ethanol/b52,\
-	/datum/reagent/consumable/ethanol/bananahonk,\
-	/datum/reagent/consumable/ethanol/beepsky_smash,\
-	/datum/reagent/consumable/ethanol/between_the_sheets,\
-	/datum/reagent/consumable/ethanol/bilk,\
-	/datum/reagent/consumable/ethanol/black_russian,\
-	/datum/reagent/consumable/ethanol/bloody_mary,\
-	/datum/reagent/consumable/ethanol/brave_bull,\
-	/datum/reagent/consumable/ethanol/martini,\
-	/datum/reagent/consumable/ethanol/cuba_libre,\
-	/datum/reagent/consumable/ethanol/eggnog,\
-	/datum/reagent/consumable/ethanol/erikasurprise,\
-	/datum/reagent/consumable/ethanol/ginfizz,\
-	/datum/reagent/consumable/ethanol/gintonic,\
-	/datum/reagent/consumable/ethanol/grappa,\
-	/datum/reagent/consumable/ethanol/grog,\
-	/datum/reagent/consumable/ethanol/hooch,\
-	/datum/reagent/consumable/ethanol/iced_beer,\
-	/datum/reagent/consumable/ethanol/irishcarbomb,\
-	/datum/reagent/consumable/ethanol/manhattan,\
-	/datum/reagent/consumable/ethanol/margarita,\
-	/datum/reagent/consumable/ethanol/gargle_blaster,\
-	/datum/reagent/consumable/ethanol/rum_coke,\
-	/datum/reagent/consumable/ethanol/screwdrivercocktail,\
-	/datum/reagent/consumable/ethanol/snowwhite,\
-	/datum/reagent/consumable/ethanol/syndicatebomb,\
-	/datum/reagent/consumable/ethanol/tequila_sunrise,\
-	/datum/reagent/consumable/ethanol/manly_dorf,\
-	/datum/reagent/consumable/ethanol/thirteenloko,\
-	/datum/reagent/consumable/ethanol/vodkamartini,\
-	/datum/reagent/consumable/ethanol/whiskeysoda,\
-	/datum/reagent/consumable/ethanol/beer/green,\
-	/datum/reagent/consumable/ethanol/demonsblood,\
-	/datum/reagent/consumable/ethanol/crevice_spike,\
-	/datum/reagent/consumable/ethanol/singulo,\
-	/datum/reagent/consumable/ethanol/whiskey_sour,\
-	/datum/reagent/consumable/ethanol/atomicbomb,\
-	/datum/reagent/consumable/ethanol/bacchus_blessing,\
-	/datum/reagent/consumable/ethanol/bastion_bourbon,\
-	/datum/reagent/consumable/ethanol/booger,\
-	/datum/reagent/consumable/ethanol/hippies_delight,\
-	/datum/reagent/consumable/ethanol/drunkenblumpkin,\
-	/datum/reagent/consumable/ethanol/fetching_fizz,\
-	/datum/reagent/consumable/ethanol/goldschlager,\
-	/datum/reagent/consumable/ethanol/manhattan_proj,\
-	/datum/reagent/consumable/ethanol/narsour,\
-	/datum/reagent/consumable/ethanol/neurotoxin,\
-	/datum/reagent/consumable/ethanol/patron,\
-	/datum/reagent/consumable/ethanol/quadruple_sec,\
-	/datum/reagent/consumable/ethanol/silencer,\
-	/datum/reagent/consumable/ethanol/peppermint_patty,\
-	/datum/reagent/consumable/ethanol/aloe,)
 
 /obj/machinery/nuclearbomb/beer/Initialize(mapload)
 	. = ..()
@@ -629,14 +574,12 @@
 		disarm()
 		return
 	if(is_station_level(bomb_location.z))
-		var/datum/reagents/R = new/datum/reagents(50000)
-		R.my_atom = bomb_location
-		R.add_reagent(pick(BeerList), 50000)
-		bomb_location.add_liquid_from_reagents(R)
-		addtimer(CALLBACK(src, .proc/really_actually_explode), 110)
+		var/datum/round_event_control/beer_clog/beer_event = new()
+		beer_event.runEvent()
+		addtimer(CALLBACK(src, PROC_REF(really_actually_explode)), 110)
 	else
 		visible_message("<span class='notice'>[src] fizzes ominously.</span>")
-		addtimer(CALLBACK(src, .proc/fizzbuzz), 110)
+		addtimer(CALLBACK(src, PROC_REF(fizzbuzz)), 110)
 
 /obj/machinery/nuclearbomb/beer/proc/disarm()
 	detonation_timer = null
@@ -709,7 +652,7 @@ This is here to make the tiles around the station mininuke change when it's arme
 	icon_state = "nucleardisk"
 	persistence_replacement = /obj/item/disk/nuclear/fake
 	max_integrity = 250
-	armor = list("melee" = 0, "bullet" = 0, "laser" = 0, "energy" = 0, "bomb" = 30, "bio" = 0, "rad" = 0, "fire" = 100, "acid" = 100, "stamina" = 0)
+	armor = list(MELEE = 0,  BULLET = 0, LASER = 0, ENERGY = 0, BOMB = 30, BIO = 0, RAD = 0, FIRE = 100, ACID = 100, STAMINA = 0)
 	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | ACID_PROOF
 	var/fake = FALSE
 	var/turf/lastlocation
@@ -722,7 +665,7 @@ This is here to make the tiles around the station mininuke change when it's arme
 	. = ..()
 	AddElement(/datum/element/bed_tuckable, 6, -6, 0)
 	if(!fake)
-		GLOB.poi_list |= src
+		AddElement(/datum/element/point_of_interest)
 		last_disk_move = world.time
 		START_PROCESSING(SSobj, src)
 
@@ -731,7 +674,7 @@ This is here to make the tiles around the station mininuke change when it's arme
 	AddComponent(/datum/component/stationloving, !fake)
 	if(!fake)
 		//Global teamfinder signal trackable on the synd frequency.
-		AddComponent(/datum/component/tracking_beacon, "synd", null, null, TRUE, "#ebeca1", TRUE, TRUE)
+		AddComponent(/datum/component/tracking_beacon, "synd", null, null, TRUE, "#ebeca1", TRUE, TRUE, "#818157")
 
 /obj/item/disk/nuclear/process()
 	++process_tick
@@ -790,18 +733,12 @@ This is here to make the tiles around the station mininuke change when it's arme
 		return TRUE
 	return ..()
 
-/obj/item/disk/nuclear/Destroy(force=FALSE)
-	// respawning is handled in /obj/Destroy()
-	if(force)
-		GLOB.poi_list -= src
-	. = ..()
-
 /obj/item/disk/nuclear/suicide_act(mob/user)
 	user.visible_message("<span class='suicide'>[user] is going delta! It looks like [user.p_theyre()] trying to commit suicide!</span>")
 	playsound(src, 'sound/machines/alarm.ogg', 50, -1, TRUE)
 	for(var/i in 1 to 100)
-		addtimer(CALLBACK(user, /atom/proc/add_atom_colour, (i % 2)? "#00FF00" : "#FF0000", ADMIN_COLOUR_PRIORITY), i)
-	addtimer(CALLBACK(src, .proc/manual_suicide, user), 101)
+		addtimer(CALLBACK(user, TYPE_PROC_REF(/atom, add_atom_colour), (i % 2)? "#00FF00" : "#FF0000", ADMIN_COLOUR_PRIORITY), i)
+	addtimer(CALLBACK(src, PROC_REF(manual_suicide), user), 101)
 	return MANUAL_SUICIDE
 
 /obj/item/disk/nuclear/proc/manual_suicide(mob/living/user)
