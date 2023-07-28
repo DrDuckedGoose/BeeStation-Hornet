@@ -40,6 +40,16 @@
 
 /mob/living/carbon/human/Move(NewLoc, direct)
 	. = ..()
+	var/area/A = get_area(NewLoc)
+	if(A)
+		var/hex_color = A.lighting_colour_tube
+		var/rgb_color = color_hex2num_list(hex_color)
+		var/intensity = 0.35
+		var/light_intensity = 1
+		var/grey_intensity = 0.3 * rgb_color[1] + 0.59 * rgb_color[2] + 0.11 * rgb_color[3]
+		var/new_color = rgb(min(LERP(rgb_color[1], grey_intensity, intensity) * light_intensity, 255), min(LERP(rgb_color[2], grey_intensity, intensity) * light_intensity, 255), min(LERP(rgb_color[3], grey_intensity, intensity) * light_intensity, 255))
+		var/atom/movable/screen/plane_master/lighting/L = locate(/atom/movable/screen/plane_master/lighting) in client?.screen
+		animate(L, color = new_color, time = 3 SECONDS)
 
 	if(shoes)
 		if(mobility_flags & MOBILITY_STAND)
