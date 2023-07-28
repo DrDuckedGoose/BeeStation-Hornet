@@ -9,6 +9,18 @@
 /turf/closed/Initialize(mapload)
 	. = ..()
 
+	//testing
+	var/area/LA = get_area(src)
+	var/hex_color = LA.lighting_colour_tube
+	rgb_color = color_hex2num_list(hex_color)
+	//var/min_bar = 235
+	var/intensity = 0.67
+	var/light_intensity = 1.13
+	//color = rgb(max(rgb_color[3], min_bar), max(rgb_color[2], min_bar), max(min_bar, rgb_color[1]))
+	//color = rgb(max(rgb_color[3], min_bar), max(rgb_color[2], min_bar), max(min_bar, rgb_color[1]))
+	var/grey_intensity = 0.3 * rgb_color[1] + 0.59 * rgb_color[2] + 0.11 * rgb_color[3]
+	color = rgb(min(LERP(rgb_color[3], grey_intensity, intensity) * light_intensity, 255), min(LERP(rgb_color[2], grey_intensity, intensity) * light_intensity, 255), min(LERP(rgb_color[1], grey_intensity, intensity) * light_intensity, 255))
+
 /turf/closed/AfterChange()
 	. = ..()
 	SSair.high_pressure_delta -= src

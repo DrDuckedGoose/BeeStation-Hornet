@@ -41,7 +41,7 @@
 	. = ..()
 	remove_filter("openspace_shadow")
 	if(istype(mymob) && (mymob.client?.prefs?.toggles2 & PREFTOGGLE_2_AMBIENT_OCCLUSION))
-		add_filter("openspace_shadow", 1, drop_shadow_filter(color = "#04080FAA", size = 10))
+		add_filter("openspace_shadow", 1, drop_shadow_filter(color = "#081833aa", size = 10))
 
 ///Contains most things in the game world
 /atom/movable/screen/plane_master/game_world
