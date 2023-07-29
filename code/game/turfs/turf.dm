@@ -127,7 +127,7 @@ GLOBAL_LIST_EMPTY(created_baseturf_lists)
 	var/hex_color = LA.lighting_colour_tube
 	rgb_color = color_hex2num_list(hex_color)
 	//var/min_bar = 235
-	var/intensity = 0.63
+	var/intensity = 0.45
 	var/light_intensity = 1.115
 	//color = rgb(max(rgb_color[3], min_bar), max(rgb_color[2], min_bar), max(min_bar, rgb_color[1]))
 	//color = rgb(max(rgb_color[1], min_bar), max(rgb_color[2], min_bar), max(min_bar, rgb_color[3]))
