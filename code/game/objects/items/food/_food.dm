@@ -34,7 +34,7 @@
 	///
 	var/cooked_level = FOOD_COOKED_NONE
 	///
-	var/ingredient_name = ""
+	var/ingredient_name
 
 /obj/item/food/Initialize()
 	. = ..()

@@ -97,9 +97,7 @@
 				if (3 to INFINITY)
 					if (i == ingredients.len - 1)
 						ending = ", and "
-			var/obj/item/food/F = ingredient
-			var/ingredient_name = istype(ingredient, /obj/item/food) ? F.ingredient_name || ingredient.name : ingredient.name
-			ingredients_listed += "\a [ingredient_name][ending]"
+			ingredients_listed += "\a [ingredient.name][ending]"
 	examine_list += "It [LAZYLEN(ingredients) ? "contains [ingredients_listed]making a [custom_adjective()]-sized [initial(atom_parent.name)]" : "does not contain any ingredients"]."
 
 //// Proc that checks if an ingredient is valid or not, returning false if it isnt and true if it is.
@@ -225,6 +223,10 @@
 				custom_type = meat.subjectname
 			else if (meat.subjectjob)
 				custom_type = meat.subjectjob
+		//TODO: Optimize this - Racc
+		if(custom_type == "empty" && istype(first_ingredient, /obj/item/food))
+			var/obj/item/food/F = first_ingredient
+			custom_type = F.ingredient_name || custom_type
 		if (custom_type == "empty" && first_ingredient.name)
 			custom_type = first_ingredient.name
 	return custom_type

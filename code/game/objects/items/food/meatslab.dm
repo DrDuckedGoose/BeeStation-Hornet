@@ -24,7 +24,7 @@
 	AddElement(/datum/element/microwavable, /obj/item/food/meat/steak/plain)
 
 /obj/item/food/meat/slab/make_processable()
-	AddElement(/datum/element/processable, TOOL_KNIFE,  /obj/item/food/meat/rawcutlet/plain, 3, 30)
+	AddElement(/datum/element/processable, TOOL_KNIFE,  list(/obj/item/food/meat/rawcutlet/plain = 3, /obj/item/food/meatball = 3), 30)
 
 ///////////////////////////////////// HUMAN MEATS //////////////////////////////////////////////////////
 
@@ -37,7 +37,7 @@
 	AddElement(/datum/element/microwavable, /obj/item/food/meat/steak/plain/human)
 
 /obj/item/food/meat/slab/human/make_processable()
-	AddElement(/datum/element/processable, TOOL_KNIFE,  /obj/item/food/meat/rawcutlet/plain/human, 3, 30)
+	AddElement(/datum/element/processable, TOOL_KNIFE,  list(/obj/item/food/meat/rawcutlet/plain/human = 3), 30)
 
 /obj/item/food/meat/slab/human/mutant/slime
 	icon_state = "slimemeat"
@@ -187,7 +187,7 @@
 	AddElement(/datum/element/microwavable, /obj/item/food/meat/steak/killertomato)
 
 /obj/item/food/meat/slab/killertomato/make_processable()
-	AddElement(/datum/element/processable, TOOL_KNIFE, /obj/item/food/meat/rawcutlet/killertomato, 3, 30)
+	AddElement(/datum/element/processable, TOOL_KNIFE, list(/obj/item/food/meat/rawcutlet/killertomato = 3), 30)
 
 /obj/item/food/meat/slab/bear
 	name = "bear meat"
@@ -206,7 +206,7 @@
 	AddElement(/datum/element/microwavable, /obj/item/food/meat/steak/bear)
 
 /obj/item/food/meat/slab/bear/make_processable()
-	AddElement(/datum/element/processable, TOOL_KNIFE, /obj/item/food/meat/rawcutlet/bear, 3, 30)
+	AddElement(/datum/element/processable, TOOL_KNIFE, list(/obj/item/food/meat/rawcutlet/bear = 3), 30)
 
 /obj/item/food/meat/slab/xeno
 	name = "xeno meat"
@@ -224,7 +224,7 @@
 	AddElement(/datum/element/microwavable, /obj/item/food/meat/steak/xeno)
 
 /obj/item/food/meat/slab/xeno/make_processable()
-	AddElement(/datum/element/processable, TOOL_KNIFE, /obj/item/food/meat/rawcutlet/xeno, 3, 30)
+	AddElement(/datum/element/processable, TOOL_KNIFE, list(/obj/item/food/meat/rawcutlet/xeno = 3), 30)
 
 /obj/item/food/meat/slab/spider
 	name = "spider meat"
@@ -242,7 +242,7 @@
 	AddElement(/datum/element/microwavable, /obj/item/food/meat/steak/spider)
 
 /obj/item/food/meat/slab/spider/make_processable()
-	AddElement(/datum/element/processable, TOOL_KNIFE, /obj/item/food/meat/rawcutlet/spider, 3, 30)
+	AddElement(/datum/element/processable, TOOL_KNIFE, list(/obj/item/food/meat/rawcutlet/spider = 3), 30)
 
 /obj/item/food/meat/slab/goliath
 	name = "goliath meat"
@@ -326,7 +326,7 @@
 	AddElement(/datum/element/microwavable, /obj/item/food/meat/steak/gondola)
 
 /obj/item/food/meat/slab/gondola/make_processable()
-	AddElement(/datum/element/processable, TOOL_KNIFE, /obj/item/food/meat/rawcutlet/gondola, 3, 30)
+	AddElement(/datum/element/processable, TOOL_KNIFE, list(/obj/item/food/meat/rawcutlet/gondola = 3), 30)
 
 /obj/item/food/meat/slab/penguin
 	name = "penguin meat"
@@ -343,7 +343,7 @@
 
 /obj/item/food/meat/slab/penguin/make_processable()
 	. = ..()
-	AddElement(/datum/element/processable, TOOL_KNIFE, /obj/item/food/meat/rawcutlet/penguin, 3, 30)
+	AddElement(/datum/element/processable, TOOL_KNIFE, list(/obj/item/food/meat/rawcutlet/penguin = 3), 30)
 
 /obj/item/food/meat/rawcrab
 	name = "raw crab meat"
@@ -386,7 +386,7 @@
 
 /obj/item/food/meat/slab/chicken/make_processable()
 	. = ..()
-	AddElement(/datum/element/processable, TOOL_KNIFE, /obj/item/food/meat/rawcutlet/chicken, 3, 30)
+	AddElement(/datum/element/processable, TOOL_KNIFE, list(/obj/item/food/meat/rawcutlet/chicken = 3), 30)
 
 /obj/item/food/meat/slab/mothroach
 	name = "mothroach meat"

@@ -16,7 +16,7 @@
 
 // Dough + rolling pin = flat dough
 /obj/item/food/dough/make_processable()
-	AddElement(/datum/element/processable, TOOL_ROLLINGPIN, /obj/item/food/flatdough, 1, 3 SECONDS, table_required = TRUE, /*screentip_verb = "Flatten"*/)
+	AddElement(/datum/element/processable, TOOL_ROLLINGPIN, list(/obj/item/food/flatdough = 1), 3 SECONDS, table_required = TRUE, /*screentip_verb = "Flatten"*/)
 
 /obj/item/food/flatdough
 	name = "flat dough"
@@ -32,7 +32,7 @@
 
 // sliceable into 3xdoughslices
 /obj/item/food/flatdough/make_processable()
-	AddElement(/datum/element/processable, TOOL_KNIFE, /obj/item/food/doughslice, 3, 3 SECONDS, table_required = TRUE, /*screentip_verb = "Slice"*/)
+	AddElement(/datum/element/processable, TOOL_KNIFE, list(/obj/item/food/doughslice = 3), 3 SECONDS, table_required = TRUE, /*screentip_verb = "Slice"*/)
 
 /obj/item/food/pizzabread
 	name = "pizza bread"
@@ -88,7 +88,7 @@
 
 // Cake batter + rolling pin = pie dough
 /obj/item/food/cakebatter/make_processable()
-	AddElement(/datum/element/processable, TOOL_ROLLINGPIN, /obj/item/food/piedough, 1, 3 SECONDS, table_required = TRUE, /*screentip_verb = "Flatten"*/)
+	AddElement(/datum/element/processable, TOOL_ROLLINGPIN, list(/obj/item/food/piedough = 1), 3 SECONDS, table_required = TRUE, /*screentip_verb = "Flatten"*/)
 
 /obj/item/food/piedough
 	name = "pie dough"
@@ -103,7 +103,7 @@
 	AddElement(/datum/element/microwavable, /obj/item/food/pie/plain)
 
 /obj/item/food/piedough/make_processable()
-	AddElement(/datum/element/processable, TOOL_KNIFE, /obj/item/food/rawpastrybase, 6, 3 SECONDS, table_required = TRUE, /*screentip_verb = "Slice"*/)
+	AddElement(/datum/element/processable, TOOL_KNIFE, list(/obj/item/food/rawpastrybase = 6), 3 SECONDS, table_required = TRUE, /*screentip_verb = "Slice"*/)
 
 /obj/item/food/rawpastrybase
 	name = "raw pastry base"
