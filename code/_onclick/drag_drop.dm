@@ -108,3 +108,8 @@
 		middragtime = 0
 		middragatom = null
 	..()
+
+/obj/item/proc/add_juice()
+	if(reagents)
+		return 1
+	return 0

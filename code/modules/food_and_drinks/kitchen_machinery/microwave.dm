@@ -1,4 +1,18 @@
-//Microwaving doesn't use recipes, instead it calls the microwave_act of the objects. For food, this creates something based on the food's cooked_type
+// Microwaving doesn't use recipes, instead it calls the microwave_act of the objects.
+// For food, this creates something based on the food's cooked_type
+
+/// Values based on microwave success
+#define MICROWAVE_NORMAL 0
+#define MICROWAVE_MUCK 1
+#define MICROWAVE_PRE 2
+
+/// Values for how broken the microwave is
+#define NOT_BROKEN 0
+#define KINDA_BROKEN 1
+#define REALLY_BROKEN 2
+
+/// The max amount of dirtiness a microwave can be
+#define MAX_MICROWAVE_DIRTINESS 100
 
 /obj/machinery/microwave
 	name = "microwave oven"
@@ -16,9 +30,11 @@
 	light_power = 3
 	var/wire_disabled = FALSE // is its internal wire cut?
 	var/operating = FALSE
-	var/dirty = 0 // 0 to 100 // Does it need cleaning?
+	/// How dirty is it?
+	var/dirty = 0
 	var/dirty_anim_playing = FALSE
-	var/broken = 0 // 0, 1 or 2 // How broken is it???
+	/// How broken is it? NOT_BROKEN, KINDA_BROKEN, REALLY_BROKEN
+	var/broken = NOT_BROKEN
 	var/max_n_of_items = 10
 	var/efficiency = 0
 	var/datum/looping_sound/microwave/soundloop
@@ -38,12 +54,24 @@
 	create_reagents(100)
 	soundloop = new(src, FALSE)
 
-/obj/machinery/microwave/Destroy()
+/obj/machinery/microwave/Entered(atom/movable/arrived, atom/old_loc, list/atom/old_locs)
+	ingredients += arrived
+	return ..()
+
+/obj/machinery/microwave/Exited(atom/movable/gone, direction)
+	if(gone in ingredients)
+		ingredients -= gone
+	return ..()
+
+/obj/machinery/microwave/on_deconstruction()
 	eject()
+	return ..()
+
+/obj/machinery/microwave/Destroy()
+	QDEL_LIST(ingredients)
+	QDEL_NULL(wires)
 	QDEL_NULL(soundloop)
-	if(wires)
-		QDEL_NULL(wires)
-	. = ..()
+	return ..()
 
 /obj/machinery/microwave/RefreshParts()
 	efficiency = 0
@@ -93,7 +121,7 @@
 		icon_state = "mwb"
 	else if(dirty_anim_playing)
 		icon_state = "mwbloody1"
-	else if(dirty == 100)
+	else if(dirty == MAX_MICROWAVE_DIRTINESS)
 		icon_state = "mwbloody"
 	else if(operating)
 		icon_state = "mw1"
@@ -102,33 +130,42 @@
 	else
 		icon_state = "mw"
 
-/obj/machinery/microwave/attackby(obj/item/O, mob/user, params)
+/obj/machinery/microwave/crowbar_act(mob/living/user, obj/item/tool)
 	if(operating)
 		return
-	if(default_deconstruction_crowbar(O))
+	if(!default_deconstruction_crowbar(tool))
 		return
+	return TOOL_ACT_TOOLTYPE_SUCCESS
 
-	if(dirty < 100)
-		if(default_deconstruction_screwdriver(user, icon_state, icon_state, O) || default_unfasten_wrench(user, O))
-			update_icon()
-			return
+/obj/machinery/microwave/screwdriver_act(mob/living/user, obj/item/tool)
+	if(operating)
+		return
+	if(dirty >= MAX_MICROWAVE_DIRTINESS)
+		return
+	if(default_deconstruction_screwdriver(user, icon_state, icon_state, tool))
+		update_appearance()
+	return TOOL_ACT_TOOLTYPE_SUCCESS
+
+/obj/machinery/microwave/attackby(obj/item/O, mob/living/user, params)
+	if(operating)
+		return
 
 	if(panel_open && is_wire_tool(O))
 		wires.interact(user)
 		return TRUE
 
-	if(broken > 0)
-		if(broken == 2 && O.tool_behaviour == TOOL_WIRECUTTER) // If it's broken and they're using a screwdriver
+	if(broken > NOT_BROKEN)
+		if(broken == REALLY_BROKEN && O.tool_behaviour == TOOL_WIRECUTTER) // If it's broken and they're using a TOOL_WIRECUTTER
 			user.visible_message("[user] starts to fix part of \the [src].", "<span class='notice'>You start to fix part of \the [src]...</span>")
 			if(O.use_tool(src, user, 20))
 				user.visible_message("[user] fixes part of \the [src].", "<span class='notice'>You fix part of \the [src].</span>")
-				broken = 1 // Fix it a bit
-		else if(broken == 1 && O.tool_behaviour == TOOL_WELDER) // If it's broken and they're doing the wrench
+				broken = KINDA_BROKEN // Fix it a bit
+		else if(broken == KINDA_BROKEN && O.tool_behaviour == TOOL_WELDER) // If it's broken and they're doing the wrench
 			user.visible_message("[user] starts to fix part of \the [src].", "<span class='notice'>You start to fix part of \the [src]...</span>")
 			if(O.use_tool(src, user, 20))
 				user.visible_message("[user] fixes \the [src].", "<span class='notice'>You fix \the [src].</span>")
-				broken = 0
-				update_icon()
+				broken = NOT_BROKEN
+				update_appearance()
 				return FALSE //to use some fuel
 		else
 			to_chat(user, "<span class='warning'>It's broken!</span>")
@@ -159,20 +196,21 @@
 			update_icon()
 		return TRUE
 
-	if(dirty == 100) // The microwave is all dirty so can't be used!
+	if(dirty >= MAX_MICROWAVE_DIRTINESS) // The microwave is all dirty so can't be used!
 		to_chat(user, "<span class='warning'>\The [src] is dirty!</span>")
 		return TRUE
 
 	if(istype(O, /obj/item/storage/bag/tray))
 		var/obj/item/storage/T = O
 		var/loaded = 0
-		for(var/obj/item/reagent_containers/food/snacks/S in T.contents)
+		for(var/obj/S in T.contents)
+			if(!IS_EDIBLE(S))
+				continue
 			if(ingredients.len >= max_n_of_items)
 				to_chat(user, "<span class='warning'>\The [src] is full, you can't put anything in!</span>")
 				return TRUE
 			if(SEND_SIGNAL(T, COMSIG_TRY_STORAGE_TAKE, S, src))
 				loaded++
-				ingredients += S
 		if(loaded)
 			to_chat(user, "<span class='notice'>You insert [loaded] items into \the [src].</span>")
 		return
@@ -185,11 +223,10 @@
 			to_chat(user, "<span class='warning'>\The [O] is stuck to your hand!</span>")
 			return FALSE
 
-		ingredients += O
 		user.visible_message("[user] has added \a [O] to \the [src].", "<span class='notice'>You add [O] to \the [src].</span>")
 		return
 
-	..()
+	return ..()
 
 /obj/machinery/microwave/AltClick(mob/user)
 	if(user.canUseTopic(src, !issilicon(usr)))
@@ -223,38 +260,42 @@
 		if("eject")
 			eject()
 		if("use")
-			cook()
+			cook(user)
 		if("examine")
 			examine(user)
 
 /obj/machinery/microwave/proc/eject()
-	for(var/i in ingredients)
-		var/atom/movable/AM = i
-		AM.forceMove(drop_location())
-	ingredients.Cut()
+	var/atom/drop_loc = drop_location()
+	for(var/atom/movable/movable_ingredient as anything in ingredients)
+		movable_ingredient.forceMove(drop_loc)
 
-/obj/machinery/microwave/proc/cook()
+/obj/machinery/microwave/proc/cook(mob/cooker)
 	if(machine_stat & (NOPOWER|BROKEN))
 		return
-	if(operating || broken > 0 || panel_open || !anchored || dirty == 100)
+	if(operating || broken > 0 || panel_open || !anchored || dirty >= MAX_MICROWAVE_DIRTINESS)
 		return
 
 	if(wire_disabled)
 		audible_message("[src] buzzes.")
-		playsound(src, 'sound/machines/buzz-sigh.ogg', 50, 0)
+		playsound(src, 'sound/machines/buzz-sigh.ogg', 50, FALSE)
 		return
 
 	if(prob(max((5 / efficiency) - 5, dirty * 5))) //a clean unupgraded microwave has no risk of failure
 		muck()
 		return
-	for(var/obj/O in ingredients)
-		if(istype(O, /obj/item/reagent_containers/food) || istype(O, /obj/item/grown))
-			continue
-		if(prob(min(dirty * 5, 100)))
-			start_can_fail()
-			return
-		break
-	start()
+
+	// How many items are we cooking that aren't already food items
+	var/non_food_ingredients = length(ingredients)
+	for(var/atom/movable/potential_fooditem as anything in ingredients)
+		if(IS_EDIBLE(potential_fooditem))
+			non_food_ingredients--
+
+	// If we're cooking non-food items we can fail randomly
+	if(length(non_food_ingredients) && prob(min(dirty * 5, 100)))
+		start_can_fail(cooker)
+		return
+
+	start(cooker)
 
 /obj/machinery/microwave/proc/wzhzhzh()
 	visible_message("<span class='notice'>\The [src] turns on.</span>", null, "<span class='hear'>You hear a microwave humming.</span>")
@@ -270,58 +311,61 @@
 	s.set_up(2, 1, src)
 	s.start()
 
-#define MICROWAVE_NORMAL 0
-#define MICROWAVE_MUCK 1
-#define MICROWAVE_PRE 2
-
-/obj/machinery/microwave/proc/start()
+/obj/machinery/microwave/proc/start(mob/cooker)
 	wzhzhzh()
-	loop(MICROWAVE_NORMAL, 10)
+	loop(MICROWAVE_NORMAL, 10, cooker = cooker)
 
-/obj/machinery/microwave/proc/start_can_fail()
+/obj/machinery/microwave/proc/start_can_fail(mob/cooker)
 	wzhzhzh()
-	loop(MICROWAVE_PRE, 4)
+	loop(MICROWAVE_PRE, 4, cooker = cooker)
 
 /obj/machinery/microwave/proc/muck()
 	wzhzhzh()
-	playsound(src.loc, 'sound/effects/splat.ogg', 50, 1)
+	playsound(loc, 'sound/effects/splat.ogg', 50, 1)
 	dirty_anim_playing = TRUE
 	update_icon()
 	loop(MICROWAVE_MUCK, 4)
 
-/obj/machinery/microwave/proc/loop(type, time, wait = max(12 - 2 * efficiency, 2)) // standard wait is 10
+/obj/machinery/microwave/proc/loop(type, time, wait = max(12 - 2 * efficiency, 2), mob/cooker) // standard wait is 10
 	if(machine_stat & (NOPOWER|BROKEN))
 		operating = FALSE
 		if(type == MICROWAVE_PRE)
 			pre_fail()
 		after_finish_loop()
 		return
-	if(!time)
+
+	if(!time || !length(ingredients))
 		switch(type)
 			if(MICROWAVE_NORMAL)
-				loop_finish()
+				loop_finish(cooker)
 			if(MICROWAVE_MUCK)
 				muck_finish()
 			if(MICROWAVE_PRE)
-				pre_success()
+				pre_success(cooker)
 		return
 	time--
 	use_power(500)
-	addtimer(CALLBACK(src, PROC_REF(loop), type, time, wait), wait)
+	addtimer(CALLBACK(src, PROC_REF(loop), type, time, wait, cooker), wait)
 
-/obj/machinery/microwave/proc/loop_finish()
+/obj/machinery/microwave/proc/loop_finish(mob/cooker)
 	operating = FALSE
 
-	var/iron = 0
-	for(var/obj/item/O in ingredients)
-		O.microwave_act(src)
-		if(O.materials[/datum/material/iron])
-			iron += O.materials[/datum/material/iron]
+	var/iron_amount = 0
+	for(var/obj/item/cooked_item in ingredients)
+		var/sigreturn = cooked_item.microwave_act(src, cooker)
+		if(sigreturn & COMPONENT_MICROWAVE_SUCCESS)
+			if(istype(cooked_item, /obj/item/stack))
+				var/obj/item/stack/cooked_stack = cooked_item
+				dirty += cooked_stack.amount
+			else
+				dirty++
 
-	if(iron)
+		iron_amount += (cooked_item.materials?[/datum/material/iron] || 0)
+
+	if(iron_amount)
 		spark()
-		broken = 2
-		if(prob(max(iron / 2, 33)))
+		broken = REALLY_BROKEN
+		if(prob(max(iron_amount / 2, 33)))
 			explosion(loc, 0, 1, 2)
 	else
 		dropContents(ingredients)
@@ -330,23 +374,20 @@
 	after_finish_loop()
 
 /obj/machinery/microwave/proc/pre_fail()
-	broken = 2
+	broken = REALLY_BROKEN
+	operating = FALSE
 	spark()
+	after_finish_loop()
 
-/obj/machinery/microwave/proc/pre_success()
-	loop(MICROWAVE_NORMAL, 10)
+/obj/machinery/microwave/proc/pre_success(mob/cooker)
+	loop(MICROWAVE_NORMAL, 10, cooker = cooker)
 
 /obj/machinery/microwave/proc/muck_finish()
 	visible_message("<span class='warning'>\The [src] gets covered in muck!</span>")
 
-	dirty = 100
+	dirty = MAX_MICROWAVE_DIRTINESS
 	dirty_anim_playing = FALSE
 	operating = FALSE
-
-	for(var/obj/item/reagent_containers/food/snacks/S in src)
-		if(prob(50))
-			new /obj/item/reagent_containers/food/snacks/badrecipe(src)
-			qdel(S)
 
 	after_finish_loop()
 
@@ -358,3 +399,9 @@
 #undef MICROWAVE_NORMAL
 #undef MICROWAVE_MUCK
 #undef MICROWAVE_PRE
+
+#undef NOT_BROKEN
+#undef KINDA_BROKEN
+#undef REALLY_BROKEN
+
+#undef MAX_MICROWAVE_DIRTINESS

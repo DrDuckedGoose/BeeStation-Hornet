@@ -4554,14 +4554,6 @@
 	heat_capacity = 1e+006
 	},
 /area/awaymission/moonoutpost19/arrivals)
-"kM" = (
-/obj/structure/closet/crate/bin,
-/obj/item/trash/plate,
-/obj/item/reagent_containers/food/snacks/badrecipe,
-/turf/open/floor/plasteel/cafeteria{
-	dir = 5
-	},
-/area/awaymission/moonoutpost19/arrivals)
 "kN" = (
 /obj/effect/turf_decal/tile/blue{
 	dir = 8
@@ -5062,21 +5054,6 @@
 /obj/item/reagent_containers/food/condiment/flour,
 /obj/item/reagent_containers/food/condiment/sugar,
 /obj/effect/decal/cleanable/dirt,
-/turf/open/floor/plasteel/showroomfloor{
-	heat_capacity = 1e+006;
-	initial_temperature = 273.15
-	},
-/area/awaymission/moonoutpost19/arrivals)
-"mn" = (
-/obj/structure/closet/secure_closet/freezer{
-	locked = 0;
-	name = "meat fridge";
-	req_access_txt = "201"
-	},
-/obj/item/reagent_containers/food/snacks/meat/slab/monkey,
-/obj/item/reagent_containers/food/snacks/meat/slab/monkey,
-/obj/item/reagent_containers/food/snacks/meat/slab/monkey,
-/obj/item/reagent_containers/food/snacks/meat/slab/monkey,
 /turf/open/floor/plasteel/showroomfloor{
 	heat_capacity = 1e+006;
 	initial_temperature = 273.15
@@ -6348,6 +6325,31 @@
 	heat_capacity = 1e+006
 	},
 /area/awaymission/moonoutpost19/arrivals)
+"Fe" = (
+/obj/structure/closet/secure_closet{
+	icon_state = "sec";
+	name = "security officer's locker";
+	req_access_txt = "201"
+	},
+/obj/item/clothing/suit/armor/vest,
+/obj/item/reagent_containers/peppercloud_deployer,
+/obj/item/grenade/flashbang,
+/obj/item/storage/belt/security,
+/obj/item/reagent_containers/food/drinks/beer{
+	pixel_x = -3;
+	pixel_y = -2
+	},
+/obj/machinery/airalarm/unlocked{
+	pixel_y = 23;
+	req_access = null
+	},
+/obj/effect/turf_decal/tile/red/half/contrasted{
+	dir = 4
+	},
+/turf/open/floor/plasteel{
+	heat_capacity = 1e+006
+	},
+/area/awaymission/moonoutpost19/research)
 "FJ" = (
 /obj/structure/table,
 /obj/machinery/computer/security/telescreen/entertainment{
@@ -6411,31 +6413,6 @@
 	heat_capacity = 1e+006
 	},
 /area/awaymission/moonoutpost19/arrivals)
-"HG" = (
-/obj/structure/closet/secure_closet{
-	icon_state = "sec";
-	name = "security officer's locker";
-	req_access_txt = "201"
-	},
-/obj/item/clothing/suit/armor/vest,
-/obj/item/reagent_containers/peppercloud_deployer,
-/obj/item/grenade/flashbang,
-/obj/item/storage/belt/security,
-/obj/item/reagent_containers/food/drinks/beer{
-	pixel_x = -3;
-	pixel_y = -2
-	},
-/obj/machinery/airalarm/unlocked{
-	pixel_y = 23;
-	req_access = null
-	},
-/obj/effect/turf_decal/tile/red/half/contrasted{
-	dir = 4
-	},
-/turf/open/floor/plasteel{
-	heat_capacity = 1e+006
-	},
-/area/awaymission/moonoutpost19/research)
 "In" = (
 /obj/machinery/gateway{
 	dir = 5
@@ -6603,6 +6580,21 @@
 	heat_capacity = 1e+006
 	},
 /area/awaymission/moonoutpost19/syndicate)
+"Qx" = (
+/obj/structure/closet/secure_closet/freezer{
+	locked = 0;
+	name = "meat fridge";
+	req_access_txt = "201"
+	},
+/obj/item/food/meat/slab/monkey,
+/obj/item/food/meat/slab/monkey,
+/obj/item/food/meat/slab/monkey,
+/obj/item/food/meat/slab/monkey,
+/turf/open/floor/plasteel/showroomfloor{
+	heat_capacity = 1e+006;
+	initial_temperature = 273.15
+	},
+/area/awaymission/moonoutpost19/arrivals)
 "QH" = (
 /obj/effect/turf_decal/tile/red/half/contrasted{
 	dir = 8
@@ -6796,6 +6788,14 @@
 	heat_capacity = 1e+006
 	},
 /area/awaymission/moonoutpost19/research)
+"ZW" = (
+/obj/structure/closet/crate/bin,
+/obj/item/trash/plate,
+/obj/item/food/badrecipe,
+/turf/open/floor/plasteel/cafeteria{
+	dir = 5
+	},
+/area/awaymission/moonoutpost19/arrivals)
 
 (1,1,1) = {"
 aa
@@ -35455,7 +35455,7 @@ ba
 eJ
 fa
 dZ
-HG
+Fe
 eu
 gC
 gP
@@ -45493,7 +45493,7 @@ iY
 jo
 jR
 ks
-kM
+ZW
 hJ
 lu
 hJ
@@ -46011,7 +46011,7 @@ ba
 hI
 lw
 lv
-mn
+Qx
 hJ
 ba
 ba

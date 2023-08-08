@@ -2,7 +2,7 @@
 	name = "\improper Pumpkinperson"
 	id = SPECIES_PUMPKINPERSON
 	sexes = 0
-	meat = /obj/item/reagent_containers/food/snacks/pumpkinpieslice
+	meat = /obj/item/food/pieslice/pumpkin
 	species_traits = list(NOEYESPRITES)
 	attack_verb = "punch"
 	attack_sound = 'sound/weapons/punch1.ogg'
@@ -73,12 +73,12 @@
 
 /datum/action/item_action/organ_action/pumpkin_head_candy/proc/generate_candy()
 	//Get a candy type
-	var/obj/item/type = pick(/obj/item/reagent_containers/food/snacks/sugarcookie/spookyskull,
-		/obj/item/reagent_containers/food/snacks/sugarcookie/spookycoffin,
-		/obj/item/reagent_containers/food/snacks/candy_corn,
-		/obj/item/reagent_containers/food/snacks/candy,
-		/obj/item/reagent_containers/food/snacks/candiedapple,
-		/obj/item/reagent_containers/food/snacks/chocolatebar)
+	var/obj/item/type = pick(/obj/item/food/cookie/sugar/spookyskull,
+		/obj/item/food/cookie/sugar/spookycoffin,
+		/obj/item/food/candy_corn,
+		/obj/item/food/candy,
+		/obj/item/food/candiedapple,
+		/obj/item/food/chocolatebar)
 	//Make some candy & put it in the list
 	type = new type
 	available_candy += type

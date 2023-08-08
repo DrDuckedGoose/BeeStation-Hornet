@@ -116,7 +116,7 @@
 		to_chat(user, "<span class='notice'>You fill [src] with [trans] units of the contents of [target].</span>")
 
 	//Something like a glass or a food item. Player probably wants to transfer TO it.
-	else if(target.is_drainable() || istype(target, /obj/item/reagent_containers/food/snacks))
+	else if(target.is_drainable() || IS_EDIBLE(target))
 		if(!reagents.total_volume)
 			to_chat(user, "<span class='warning'>[src] is empty!</span>")
 			return
@@ -198,7 +198,7 @@
 	desc = "A big bag of flour. Good for baking!"
 	icon_state = "flour"
 	item_state = "flour"
-	list_reagents = list(/datum/reagent/consumable/flour = 30)
+	list_reagents = list(/datum/reagent/consumable/flour = 50)// 50u across the kitchen items makes the most sense. Its both consistent and its less annoying when you print flour bags from botany and they are only 3/5ths full, instead of full
 
 /obj/item/reagent_containers/food/condiment/soymilk
 	name = "soy milk"
@@ -214,7 +214,7 @@
 	desc = "A big bag of rice. Good for cooking!"
 	icon_state = "rice"
 	item_state = "flour"
-	list_reagents = list(/datum/reagent/consumable/rice = 30)
+	list_reagents = list(/datum/reagent/consumable/rice = 50)
 
 /obj/item/reagent_containers/food/condiment/soysauce
 	name = "soy sauce"
@@ -264,7 +264,7 @@
 		return
 
 	//You can tear the bag open above food to put the condiments on it, obviously.
-	if(istype(target, /obj/item/reagent_containers/food/snacks))
+	if(IS_EDIBLE(target))
 		if(!reagents.total_volume)
 			to_chat(user, "<span class='warning'>You tear open [src], but there's nothing in it.</span>")
 			qdel(src)

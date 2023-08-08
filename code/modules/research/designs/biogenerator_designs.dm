@@ -64,9 +64,10 @@
 	name = "Flour Sack"
 	id = "flour_sack"
 	build_type = BIOGENERATOR
-	materials = list(/datum/material/biomass= 150)
+	materials = list(/datum/material/biomass= 200)// a little less than what it should be, 250, because flour should be easier to produce than monkeycube.
 	build_path = /obj/item/reagent_containers/food/condiment/flour
 	category = list("initial","Food")
+	
 /datum/design/sugar_sack
 	name = "Sugar Sack"
 	id = "sugar_sack"
@@ -80,7 +81,7 @@
 	id = "mcube"
 	build_type = BIOGENERATOR
 	materials = list(/datum/material/biomass= 250)
-	build_path = /obj/item/reagent_containers/food/snacks/monkeycube
+	build_path = /obj/item/food/monkeycube
 	category = list("initial", "Food")
 
 /datum/design/ez_nut

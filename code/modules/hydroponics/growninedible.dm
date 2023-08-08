@@ -45,10 +45,12 @@
 		to_chat(usr, EXAMINE_BLOCK(msg))
 		return
 
+/* Moved to /item/ to support newfood
 /obj/item/grown/proc/add_juice()
 	if(reagents)
 		return 1
 	return 0
+*/
 
 /obj/item/grown/throw_impact(atom/hit_atom, datum/thrownthing/throwingdatum)
 	if(!..()) //was it caught by a mob?
@@ -56,9 +58,7 @@
 			for(var/datum/plant_gene/trait/T in seed.genes)
 				T.on_throw_impact(src, hit_atom)
 
-/obj/item/grown/microwave_act(obj/machinery/microwave/M)
-	return
-
 /obj/item/grown/on_grind()
+	. = ..()
 	for(var/i in 1 to grind_results.len)
 		grind_results[grind_results[i]] = round(seed.potency)

@@ -30,6 +30,10 @@
 	var/wetness = 30 //Reduced when exposed to high temperautres
 	var/drying_threshold_temperature = 500 //Kelvin to start drying
 
+/obj/item/stack/sheet/wethide/Initialize(mapload, new_amount, merge)
+	. = ..()
+	AddElement(/datum/element/dryable, /obj/item/stack/sheet/leather)
+
 //Step two to make leather - washing
 
 /obj/item/stack/sheet/leather/hairlesshide/machine_wash(obj/machinery/washing_machine/WM)
@@ -37,6 +41,12 @@
 	qdel(src)
 
 //Step three to make leather - drying, either naturally or... in a more induced way.
+
+/obj/item/stack/sheet/leather/wetleather
+
+/obj/item/stack/sheet/leather/wetleather/Initialize(mapload)
+	. = ..()
+	AddElement(/datum/element/microwavable, /obj/item/stack/sheet/leather)
 
 /obj/item/stack/sheet/leather/wetleather/temperature_expose(datum/gas_mixture/air, exposed_temperature, exposed_volume)
 	..()
@@ -46,8 +56,3 @@
 			new /obj/item/stack/sheet/leather(drop_location(), 1)
 			wetness = initial(wetness)
 			use(1)
-
-/obj/item/stack/sheet/leather/wetleather/microwave_act(obj/machinery/microwave/MW)
-	..()
-	new /obj/item/stack/sheet/leather(drop_location(), amount)
-	qdel(src)
