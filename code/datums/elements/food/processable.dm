@@ -48,8 +48,9 @@
 	if(length(result_atom_types) > 1)
 		var/choices = list()
 		for(var/i in result_atom_types)
-			var/atom/A = i
-			choices += list(i = image(icon = initial(A.icon), icon_state =initial( A.icon_state)))
+			var/atom/A = new i()
+			choices += list(A.type = image(icon = A.icon, icon_state = A.icon_state))
+			qdel(A)
 		result_atom_type = show_radial_menu(user, I, choices, require_near = TRUE, tooltips = TRUE)
 	else if(length(result_atom_types) > 0)
 		result_atom_type = result_atom_types[1]
