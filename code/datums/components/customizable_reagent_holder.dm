@@ -97,7 +97,9 @@
 				if (3 to INFINITY)
 					if (i == ingredients.len - 1)
 						ending = ", and "
-			ingredients_listed += "\a [ingredient.name][ending]"
+			var/obj/item/food/F = ingredient
+			var/ingredient_name = istype(ingredient, /obj/item/food) ? F.ingredient_name || ingredient.name : ingredient.name
+			ingredients_listed += "\a [ingredient_name][ending]"
 	examine_list += "It [LAZYLEN(ingredients) ? "contains [ingredients_listed]making a [custom_adjective()]-sized [initial(atom_parent.name)]" : "does not contain any ingredients"]."
 
 //// Proc that checks if an ingredient is valid or not, returning false if it isnt and true if it is.

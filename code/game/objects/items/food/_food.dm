@@ -30,6 +30,11 @@
 	var/trash_type
 	///How much junkiness this food has? God I should remove junkiness soon
 	var/junkiness
+	
+	///
+	var/cooked_level = FOOD_COOKED_NONE
+	///
+	var/ingredient_name = ""
 
 /obj/item/food/Initialize()
 	. = ..()

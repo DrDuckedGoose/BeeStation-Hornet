@@ -91,3 +91,11 @@ DEFINE_BITFIELD(food_types, list(
 #define FOOD_LIKED 1
 #define FOOD_DISLIKED 2
 #define FOOD_TOXIC 3
+
+///Food cooking flags
+#define FOOD_COOKED_RARE 1
+#define FOOD_COOKED_MEDIUM_RARE 1.5
+#define FOOD_COOKED_MEDIUM 2
+#define FOOD_COOKED_MEDIUM_WELLDONE 2.5
+#define FOOD_COOKED_WELLDONE 3
+#define FOOD_COOKED_NONE -1

@@ -37,8 +37,8 @@
 /datum/objective/crew/foodhoard/New()
 	. = ..()
 	target_amount = rand(2,10)
-	var/blacklist = list(/datum/crafting_recipe/food, /datum/crafting_recipe/food/cak)
-	var/possiblefoods = typesof(/datum/crafting_recipe/food) - blacklist
+	//var/blacklist = list()//list(/datum/crafting_recipe/food, /datum/crafting_recipe/food/cak)
+	var/possiblefoods = list()//typesof(/datum/crafting_recipe/food) - blacklist
 	targetfood = pick(possiblefoods)
 	foodpath = initial(targetfood.result)
 	update_explanation_text()
