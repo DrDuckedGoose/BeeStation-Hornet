@@ -566,6 +566,9 @@
 /obj/item/food/meat/rawcutlet/make_microwaveable()
 	AddElement(/datum/element/microwavable, /obj/item/food/meat/cutlet/plain)
 
+/obj/item/food/meat/rawcutlet/make_processable()
+	AddElement(/datum/element/processable, TOOL_KNIFE,  list(/obj/item/food/meat/rawbacon = 1), 30)
+
 /obj/item/food/meat/rawcutlet/OnCreatedFromProcessing(mob/living/user, obj/item/work_tool, list/chosen_option, atom/original_atom)
 	. = ..()
 	if(istype(original_atom, /obj/item/food/meat/slab))

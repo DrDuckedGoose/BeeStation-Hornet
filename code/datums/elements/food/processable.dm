@@ -48,6 +48,7 @@
 	if(length(result_atom_types) > 1)
 		var/choices = list()
 		for(var/i in result_atom_types)
+			//slightly jank but byond itself jank and I have to wrestle it
 			var/atom/A = new i()
 			choices += list(A.type = image(icon = A.icon, icon_state = A.icon_state))
 			qdel(A)
@@ -56,6 +57,5 @@
 		result_atom_type = result_atom_types[1]
 	if(!result_atom_type)
 		return
-	user.say(result_atom_type)
 	var/amount_created = result_atom_types[result_atom_type]
 	mutable_recipes += list(list(TOOL_PROCESSING_RESULT = result_atom_type, TOOL_PROCESSING_AMOUNT = amount_created, TOOL_PROCESSING_TIME = time_to_process))

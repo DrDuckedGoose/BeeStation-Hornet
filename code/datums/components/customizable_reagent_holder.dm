@@ -137,7 +137,18 @@
 	handle_reagents(ingredient)
 	add_ingredient(ingredient)
 	handle_fill(ingredient)
-
+	handle_recipe(attacker)
+	
+/datum/component/customizable_reagent_holder/proc/handle_recipe(mob/attacker)
+	var/key = ""
+	for(var/i in ingredients)
+		var/atom/A = i
+		key = "[key], [A]"
+	if(SSfood.recipes[key])
+		var/datum/food_recipe/FR = SSfood.recipes[key]
+		var/atom/owner = parent
+		owner.name = FR.name
+		to_chat(attacker, "<span class='notice'>you made a [FR.name]!</span>")
 
 ///Handles the icon update for a new ingredient.
 /datum/component/customizable_reagent_holder/proc/handle_fill(obj/item/ingredient)
