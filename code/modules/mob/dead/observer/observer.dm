@@ -60,6 +60,8 @@ GLOBAL_VAR_INIT(observer_default_invisibility, INVISIBILITY_SPIRIT)
 	// of the mob
 	var/deadchat_name
 	var/datum/orbit_menu/orbit_menu
+	///used for observing adjustments
+	var/cached_lighting_alpha
 
 /mob/dead/observer/Initialize(mapload)
 	set_invisibility(GLOB.observer_default_invisibility)
@@ -473,8 +475,18 @@ This is the proc mobs get to turn into a ghost. Forked from ghostize due to comp
 
 	orbit(target,orbitsize, FALSE, 20, rot_seg)
 
-/mob/dead/observer/orbit()
+/mob/dead/observer/orbit(atom/A)
 	setDir(2)//reset dir so the right directional sprites show up
+	var/datum/component/orbiter/O = A.GetComponent(/datum/component/orbiter)
+	if(locate(src) in O?.orbiters)
+		cached_lighting_alpha = lighting_alpha
+		lighting_alpha = LIGHTING_PLANE_ALPHA_VISIBLE
+		observe_specific(A)
+		//ALL of them
+		RegisterSignal(src, COMSIG_KB_MOB_MOVENORTH_DOWN, PROC_REF(reset_perspective_from_observe))
+		RegisterSignal(src, COMSIG_KB_MOB_MOVEEAST_DOWN, PROC_REF(reset_perspective_from_observe))
+		RegisterSignal(src, COMSIG_KB_MOB_MOVESOUTH_DOWN, PROC_REF(reset_perspective_from_observe))
+		RegisterSignal(src, COMSIG_KB_MOB_MOVEWEST_DOWN, PROC_REF(reset_perspective_from_observe))
 	return ..()
 
 /mob/dead/observer/stop_orbit(datum/component/orbiter/orbits)
@@ -952,3 +964,28 @@ This is the proc mobs get to turn into a ghost. Forked from ghostize due to comp
 			client.images += t_ray_images
 		else
 			client.images -= stored_t_ray_images
+
+/mob/dead/observer/proc/observe_specific(atom/target)
+	reset_perspective(null)
+	if(!isliving(target))
+		return
+	var/mob/living/mob_eye = target
+	//Istype so we filter out points of interest that are not mobs
+	if(client && mob_eye && istype(mob_eye))
+		client.eye = mob_eye
+		if(mob_eye.hud_used)
+			client.screen = list()
+			LAZYINITLIST(mob_eye.observers)
+			mob_eye.observers |= src
+			mob_eye.hud_used.show_hud(mob_eye.hud_used.hud_version, src)
+			observetarget = mob_eye
+
+/mob/dead/observer/proc/reset_perspective_from_observe()
+	SIGNAL_HANDLER
+
+	lighting_alpha = cached_lighting_alpha
+	reset_perspective(null)
+	UnregisterSignal(src, COMSIG_KB_MOB_MOVENORTH_DOWN)
+	UnregisterSignal(src, COMSIG_KB_MOB_MOVEEAST_DOWN)
+	UnregisterSignal(src, COMSIG_KB_MOB_MOVESOUTH_DOWN)
+	UnregisterSignal(src, COMSIG_KB_MOB_MOVEWEST_DOWN)
