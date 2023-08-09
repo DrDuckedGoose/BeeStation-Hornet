@@ -479,8 +479,11 @@ This is the proc mobs get to turn into a ghost. Forked from ghostize due to comp
 	setDir(2)//reset dir so the right directional sprites show up
 	var/datum/component/orbiter/O = A.GetComponent(/datum/component/orbiter)
 	if(locate(src) in O?.orbiters)
-		cached_lighting_alpha = lighting_alpha
-		lighting_alpha = LIGHTING_PLANE_ALPHA_VISIBLE
+		if(isliving(A))
+			var/mob/living/M = A
+			cached_lighting_alpha = lighting_alpha
+			lighting_alpha = M.lighting_alpha
+			update_sight()
 		observe_specific(A)
 		//ALL of them
 		RegisterSignal(src, COMSIG_KB_MOB_MOVENORTH_DOWN, PROC_REF(reset_perspective_from_observe))
@@ -984,6 +987,7 @@ This is the proc mobs get to turn into a ghost. Forked from ghostize due to comp
 	SIGNAL_HANDLER
 
 	lighting_alpha = cached_lighting_alpha
+	update_sight()
 	reset_perspective(null)
 	UnregisterSignal(src, COMSIG_KB_MOB_MOVENORTH_DOWN)
 	UnregisterSignal(src, COMSIG_KB_MOB_MOVEEAST_DOWN)
