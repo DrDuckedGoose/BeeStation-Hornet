@@ -140,15 +140,10 @@
 	handle_recipe(attacker)
 	
 /datum/component/customizable_reagent_holder/proc/handle_recipe(mob/attacker)
-	var/key = ""
-	for(var/i in ingredients)
-		var/atom/A = i
-		key = "[key], [A]"
-	if(SSfood.recipes[key])
-		var/datum/food_recipe/FR = SSfood.recipes[key]
-		var/atom/owner = parent
-		owner.name = FR.name
-		to_chat(attacker, "<span class='notice'>you made a [FR.name]!</span>")
+	var/datum/food_recipe/FR = check_recipes(src)
+	if(!FR)
+		return
+	FR.adjust_food(parent)
 
 ///Handles the icon update for a new ingredient.
 /datum/component/customizable_reagent_holder/proc/handle_fill(obj/item/ingredient)

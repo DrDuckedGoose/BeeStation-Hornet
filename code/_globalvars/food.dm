@@ -1,1 +1,1 @@
-GLOBAL_LIST(food_recipes)
+GLOBAL_LIST(food_recipe_list)

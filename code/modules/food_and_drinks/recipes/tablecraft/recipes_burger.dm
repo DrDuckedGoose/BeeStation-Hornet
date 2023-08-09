@@ -15,7 +15,7 @@
 	)
 	result = /obj/item/food/burger/human
 	subcategory = CAT_BURGER
-/*
+
 /datum/crafting_recipe/food/burger
 	name = "Burger"
 	reqs = list(
@@ -381,5 +381,3 @@
 	)
 	result = /obj/item/food/burger/crazy
 	subcategory = CAT_BURGER
-
-*/
