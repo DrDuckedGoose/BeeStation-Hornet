@@ -10,7 +10,7 @@
 	///
 	var/icon_state = "ERROR"
 	///
-	var/update_appearance = FALSE
+	var/update_appearance = TRUE
 	///What we will transform this food item into - Don't set this unless you must
 	var/obj/item/food/food_item
 	///What the combination requires to become this recipe
@@ -28,6 +28,7 @@
 	//Build new appearence
 	//TODO: make this actually work
 	if(update_appearance)
+		target.cut_overlays()
 		var/mutable_appearance/MA = mutable_appearance(icon, icon_state, target.layer, target.plane, target.alpha, target.appearance_flags, target.color)
 		target.appearance = MA
 
