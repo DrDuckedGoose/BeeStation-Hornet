@@ -50,8 +50,12 @@
 	var/mutable_appearance/MA_D = mutable_appearance('icons/turf/floors.dmi', "wall_down")
 	MA_D.plane = WALL_DOWN_PLANE
 
-	add_overlay(MA_U)
-	add_overlay(MA_D)
+	var/turf/T = get_step(src, SOUTH)
+	if(!isclosedturf(T))
+		add_overlay(MA_U)
+	T = get_step(src, NORTH)
+	if(!isclosedturf(T))
+		add_overlay(MA_D)
 
 /turf/closed/wall/Destroy()
 	if(is_station_level(z))
