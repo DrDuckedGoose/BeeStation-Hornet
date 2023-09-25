@@ -19,11 +19,11 @@
 #define ZMIMIC_MAX_DEPTH 10
 
 #define FLOOR_PLANE -7
-#define GAME_PLANE -5
+#define GAME_PLANE -2
 
-#define WALL_UP_PLANE -2
-#define WALL_DOWN_PLANE -3
-#define WALL_BASE_PLANE -4
+#define WALL_UP_PLANE -4
+#define WALL_DOWN_PLANE -5
+#define WALL_BASE_PLANE -6
 
 #define SPACE_LAYER 1.8
 //#define TURF_LAYER 2 //For easy recordkeeping; this is a byond define
