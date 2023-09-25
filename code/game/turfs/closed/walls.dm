@@ -3,12 +3,12 @@
 /turf/closed/wall
 	name = "wall"
 	desc = "A huge chunk of metal used to separate rooms."
-	icon = 'icons/turf/walls/wall.dmi'
-	icon_state = "wall-0"
-	base_icon_state = "wall"
+	//icon = 'icons/turf/walls/wall.dmi'
+	icon_state = "wall_wall"
+	base_icon_state = "wall_wall"
 	smoothing_flags = SMOOTH_BITMASK
 	smoothing_groups = list(SMOOTH_GROUP_CLOSED_TURFS, SMOOTH_GROUP_WALLS)
-	canSmoothWith = list(SMOOTH_GROUP_WALLS)
+	//canSmoothWith = list(SMOOTH_GROUP_WALLS)
 		//note consider "canSmoothWith = list(SMOOTH_GROUP_WALLS, SMOOTH_GROUP_WINDOW_FULLTILE, SMOOTH_GROUP_AIRLOCK)" if the artstyle permits it!
 	explosion_block = 1
 
@@ -44,6 +44,14 @@
 			underlay_appearance.icon = fixed_underlay["icon"]
 			underlay_appearance.icon_state = fixed_underlay["icon_state"]
 		underlays += underlay_appearance
+
+	var/mutable_appearance/MA_U = mutable_appearance('icons/turf/floors.dmi', "wall_up")
+	MA_U.plane = WALL_UP_PLANE
+	var/mutable_appearance/MA_D = mutable_appearance('icons/turf/floors.dmi', "wall_down")
+	MA_D.plane = WALL_DOWN_PLANE
+
+	add_overlay(MA_U)
+	add_overlay(MA_D)
 
 /turf/closed/wall/Destroy()
 	if(is_station_level(z))

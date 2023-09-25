@@ -188,3 +188,18 @@
 	plane = LIGHTING_PLANE
 	blend_mode = BLEND_ADD
 	show_when_dead = TRUE
+
+//wall masks
+/atom/movable/screen/fullscreen/wall_mask_up
+	icon_state = "up"
+	render_target = "wall_mask_up"
+	plane = LIGHTING_PLANE
+	blend_mode = BLEND_ADD
+	show_when_dead = TRUE
+
+/atom/movable/screen/fullscreen/wall_mask_down
+	icon_state = "down"
+	render_target = "wall_mask_down"
+	plane = LIGHTING_PLANE
+	blend_mode = BLEND_ADD
+	show_when_dead = TRUE

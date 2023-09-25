@@ -38,6 +38,9 @@
 	AddElement(/datum/element/strippable, GLOB.strippable_human_items, TYPE_PROC_REF(/mob/living/carbon/human, should_strip), GLOB.strippable_human_layout)
 	AddElement(/datum/element/mechanical_repair)
 
+	overlay_fullscreen("wall_up", /atom/movable/screen/fullscreen/wall_mask_up)
+	overlay_fullscreen("wall_down", /atom/movable/screen/fullscreen/wall_mask_down)
+
 /mob/living/carbon/human/proc/setup_human_dna()
 	//initialize dna. for spawned humans; overwritten by other code
 	create_dna(src)

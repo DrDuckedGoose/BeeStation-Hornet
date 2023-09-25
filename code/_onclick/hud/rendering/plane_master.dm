@@ -227,3 +227,27 @@
 	name = "fullscreen alert plane"
 	plane = FULLSCREEN_PLANE
 	render_relay_plane = RENDER_PLANE_NON_GAME
+
+//wall
+/atom/movable/screen/plane_master/wall
+	name = "wall plane master"
+	plane = WALL_BASE_PLANE
+	appearance_flags = PLANE_MASTER
+	blend_mode = BLEND_OVERLAY
+	///What render target are we masked by?
+	var/mask_source
+
+/atom/movable/screen/plane_master/wall/backdrop(mob/mymob)
+	. = ..()
+	if(mask_source)
+		add_filter("mask", 1, alpha_mask_filter(render_source = mask_source))
+
+/atom/movable/screen/plane_master/wall/up
+	name = "wall up plane master"
+	plane = WALL_UP_PLANE
+	mask_source = "wall_mask_up"
+
+/atom/movable/screen/plane_master/wall/down
+	name = "wall down plane master"
+	plane = WALL_DOWN_PLANE
+	mask_source = "wall_mask_down"
