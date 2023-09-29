@@ -45,7 +45,7 @@
 			underlay_appearance.icon_state = fixed_underlay["icon_state"]
 		underlays += underlay_appearance
 
-	var/mutable_appearance/MA = mutable_appearance('icons/effects/normals.dmi', "normal_wall", plane = NORMAL_LIGHT_PLANE)
+	var/mutable_appearance/MA = mutable_appearance('icons/effects/normals.dmi', "normal_wall", plane = NORMAL_TEXTURE_PLANE)
 	add_overlay(MA)
 
 /turf/closed/wall/Destroy()

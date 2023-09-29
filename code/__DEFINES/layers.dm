@@ -5,6 +5,11 @@
 
 #define CLICKCATCHER_PLANE -99
 
+//-------------------- Normal Lighting ---------------------
+#define NORMAL_LIGHT_PLANE -96
+#define NORMAL_LIGHT_PLANE_RENDER_TARGET "NORMAL_LIGHT_PLANE_RENDER_TARGET"
+#define NORMAL_TEXTURE_PLANE -97
+
 #define PLANE_SPACE -95
 #define PLANE_SPACE_PARALLAX -90
 
@@ -170,11 +175,6 @@
 
 #define RADIAL_BACKGROUND_LAYER 0
 #define RADIAL_CONTENT_LAYER 1000
-
-//-------------------- Normal Lighting ---------------------
-#define NORMAL_TEXTURE_PLANE 1001
-#define NORMAL_LIGHT_PLANE 1002
-#define NORMAL_LIGHT_PLANE_RENDER_TARGET "NORMAL_LIGHT_PLANE_RENDER_TARGET"
 
 ///Plane of the "splash" icon used that shows on the lobby screen. Nothing should ever be above this.
 #define SPLASHSCREEN_PLANE 9999

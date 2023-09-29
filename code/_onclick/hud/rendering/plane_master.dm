@@ -233,13 +233,16 @@
 	name = "normal texture plane"
 	plane = NORMAL_TEXTURE_PLANE
 	render_relay_plane = RENDER_PLANE_NON_GAME
+	blend_mode = BLEND_OVERLAY
 
 /atom/movable/screen/plane_master/normal_texture/backdrop(mob/mymob)
 	. = ..()
-	add_filter("normal_lighting", 1, layering_filter(render-source = NORMAL_LIGHT_PLANE_RENDER_TARGET, blend_mode = BLEND_SUBTRACT))
+	add_filter("normal_lighting", 1, layering_filter(render_source = NORMAL_LIGHT_PLANE_RENDER_TARGET))
+	add_filter("desaturate", 2, color_matrix_filter(list(hsv(0,0,100), hsv(120,0,100), hsv(240,0,100), hsv(0,0,0)), COLORSPACE_HSV))
 
 /atom/movable/screen/plane_master/normal_light
 	name = "normal light plane"
 	plane = NORMAL_LIGHT_PLANE
 	render_target = NORMAL_LIGHT_PLANE_RENDER_TARGET
 	render_relay_plane = RENDER_PLANE_NON_GAME
+	blend_mode = BLEND_SUBTRACT
