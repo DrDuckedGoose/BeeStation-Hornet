@@ -227,3 +227,19 @@
 	name = "fullscreen alert plane"
 	plane = FULLSCREEN_PLANE
 	render_relay_plane = RENDER_PLANE_NON_GAME
+
+//Normal lighting
+/atom/movable/screen/plane_master/normal_texture
+	name = "normal texture plane"
+	plane = NORMAL_TEXTURE_PLANE
+	render_relay_plane = RENDER_PLANE_NON_GAME
+
+/atom/movable/screen/plane_master/normal_texture/backdrop(mob/mymob)
+	. = ..()
+	add_filter("normal_lighting", 1, layering_filter(render-source = NORMAL_LIGHT_PLANE_RENDER_TARGET, blend_mode = BLEND_SUBTRACT))
+
+/atom/movable/screen/plane_master/normal_light
+	name = "normal light plane"
+	plane = NORMAL_LIGHT_PLANE
+	render_target = NORMAL_LIGHT_PLANE_RENDER_TARGET
+	render_relay_plane = RENDER_PLANE_NON_GAME
