@@ -113,7 +113,7 @@
 	. = ..()
 	add_filter("emissives", 1, alpha_mask_filter(render_source = EMISSIVE_RENDER_TARGET, flags = MASK_INVERSE))
 	add_filter("lighting", 3, alpha_mask_filter(render_source = O_LIGHTING_VISUAL_RENDER_TARGET, flags = MASK_INVERSE))
-	add_filter("normal_lighting", 4, layering_filter(render_source = NORMAL_TEXTURE_PLANE_RENDER_TARGET, blend_mode = BLEND_ADD))
+	add_filter("normal_lighting", 4, layering_filter(render_source = NORMAL_TEXTURE_PLANE_RENDER_TARGET, blend_mode = BLEND_SUBTRACT))
 
 /**
  * Renders extremely blurred white stuff over space to give the effect of starlight lighting.
@@ -242,6 +242,14 @@
 	add_filter("mask", 2, alpha_mask_filter(render_source = NORMAL_LIGHT_PLANE_RENDER_TARGET))
 	//Not proper desaturation, mind you
 	add_filter("desaturate", 3, color_matrix_filter(list(rgb(255,255,255), rgb(255,255,255), rgb(255,255,255), rgb(0,0,0))))
+	//Invert the color
+	var/colour_amount = -1
+	color = list(
+		colour_amount, 0, 0,
+		0, colour_amount, 0,
+		0, 0, colour_amount,
+		1, 1, 1
+	)
 
 /atom/movable/screen/plane_master/normal_light
 	name = "normal light plane"
