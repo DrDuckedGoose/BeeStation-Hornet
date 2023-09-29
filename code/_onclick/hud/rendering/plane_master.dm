@@ -113,6 +113,7 @@
 	. = ..()
 	add_filter("emissives", 1, alpha_mask_filter(render_source = EMISSIVE_RENDER_TARGET, flags = MASK_INVERSE))
 	add_filter("lighting", 3, alpha_mask_filter(render_source = O_LIGHTING_VISUAL_RENDER_TARGET, flags = MASK_INVERSE))
+	add_filter("normal_lighting", 4, layering_filter(render_source = NORMAL_TEXTURE_PLANE_RENDER_TARGET, blend_mode = BLEND_ADD))
 
 /**
  * Renders extremely blurred white stuff over space to give the effect of starlight lighting.
@@ -232,17 +233,18 @@
 /atom/movable/screen/plane_master/normal_texture
 	name = "normal texture plane"
 	plane = NORMAL_TEXTURE_PLANE
-	render_relay_plane = RENDER_PLANE_NON_GAME
-	blend_mode = BLEND_OVERLAY
+	render_target = NORMAL_TEXTURE_PLANE_RENDER_TARGET
+	render_relay_plane = null
 
 /atom/movable/screen/plane_master/normal_texture/backdrop(mob/mymob)
 	. = ..()
-	add_filter("normal_lighting", 1, layering_filter(render_source = NORMAL_LIGHT_PLANE_RENDER_TARGET))
-	add_filter("desaturate", 2, color_matrix_filter(list(hsv(0,0,100), hsv(120,0,100), hsv(240,0,100), hsv(0,0,0)), COLORSPACE_HSV))
+	add_filter("normal_lighting", 1, layering_filter(render_source = NORMAL_LIGHT_PLANE_RENDER_TARGET, blend_mode = BLEND_SUBTRACT))
+	add_filter("mask", 2, alpha_mask_filter(render_source = NORMAL_LIGHT_PLANE_RENDER_TARGET))
+	//Not proper desaturation, mind you
+	add_filter("desaturate", 3, color_matrix_filter(list(rgb(255,255,255), rgb(255,255,255), rgb(255,255,255), rgb(0,0,0))))
 
 /atom/movable/screen/plane_master/normal_light
 	name = "normal light plane"
 	plane = NORMAL_LIGHT_PLANE
 	render_target = NORMAL_LIGHT_PLANE_RENDER_TARGET
-	render_relay_plane = RENDER_PLANE_NON_GAME
-	blend_mode = BLEND_SUBTRACT
+	render_relay_plane = null
