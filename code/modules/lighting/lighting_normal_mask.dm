@@ -28,18 +28,15 @@
 	var/right = clamp( ( ((_color[5]+_color[6]+_color[7])/3/255) +  ((_color[13]+_color[14]+_color[15])/3/255) ) / 2, 0, 255)
 	var/top = -255//clamp(left/right, 0, 1)
 
-	if(left > right)
-		right = 0
-		left = 255
-	else
-		left = 0
-		right = 255
+	top = -255
+	right = 1
+	left = -255
 
 	//Setup our color aka disable / enable our faces
 	color = list(
-		-left, -right, -top, 00,
-		-left, -right, -top, 00,
-		-left, -right, -top, 00,
+		left, right, top, 00,
+		left, right, top, 00,
+		left, right, top, 00,
 		255, 255, 255, 00,
 		00, 00, 00, 01
 	)
