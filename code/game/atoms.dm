@@ -1809,3 +1809,7 @@
 		return TRUE
 	return FALSE
 
+//Adds a normal tetxure overlay to this atom
+/atom/proc/add_normal_texture(state = "normal_wall", icon = 'icons/effects/normals.dmi')
+	var/mutable_appearance/MA = mutable_appearance(icon, state, plane = NORMAL_TEXTURE_PLANE)
+	add_overlay(MA)

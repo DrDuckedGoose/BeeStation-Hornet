@@ -30,6 +30,8 @@
 	var/girder_type = /obj/structure/girder
 	var/list/dent_decals
 
+	///Reference to this turf's normal light mask
+
 /turf/closed/wall/Initialize(mapload)
 	. = ..()
 	if(is_station_level(z))
@@ -45,8 +47,8 @@
 			underlay_appearance.icon_state = fixed_underlay["icon_state"]
 		underlays += underlay_appearance
 
-	var/mutable_appearance/MA = mutable_appearance('icons/effects/normals.dmi', "normal_wall", plane = NORMAL_TEXTURE_PLANE)
-	add_overlay(MA)
+	//Normal texture for light masking
+	add_normal_texture("normal_wall")
 
 /turf/closed/wall/Destroy()
 	if(is_station_level(z))

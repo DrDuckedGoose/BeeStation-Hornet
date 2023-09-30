@@ -99,10 +99,10 @@
 	if((rr & gr & br & ar) && (rg + gg + bg + ag + rb + gb + bb + ab == 8))
 	//anything that passes the first case is very likely to pass the second, and addition is a little faster in this case
 		icon_state = "transparent"
-		color = null
+		color = "#fff"
 	else if(!set_luminosity)
 		icon_state = "dark"
-		color = null
+		color = "#080340"
 	else
 		icon_state = null
 		color = list(
