@@ -13,6 +13,8 @@
 	var/needs_update = FALSE
 	var/turf/myturf
 
+	var/atom/movable/lighting_normal_mask/normal_mask
+
 /atom/movable/lighting_object/Initialize(mapload)
 	. = ..()
 	remove_verb(verbs)
@@ -27,6 +29,8 @@
 	needs_update = TRUE
 	SSlighting.objects_queue += src
 
+	normal_mask = new /atom/movable/lighting_normal_mask(myturf)
+
 /atom/movable/lighting_object/Destroy(var/force)
 	if (force)
 		SSlighting.objects_queue -= src
@@ -38,7 +42,7 @@
 			myturf.lighting_object = null
 			myturf.luminosity = initial(myturf.luminosity)
 		myturf = null
-
+		QDEL_NULL(normal_mask)
 		return ..()
 
 	else
@@ -99,10 +103,10 @@
 	if((rr & gr & br & ar) && (rg + gg + bg + ag + rb + gb + bb + ab == 8))
 	//anything that passes the first case is very likely to pass the second, and addition is a little faster in this case
 		icon_state = "transparent"
-		color = "#fff"
+		color = null
 	else if(!set_luminosity)
 		icon_state = "dark"
-		color = "#080340"
+		color = null
 	else
 		icon_state = null
 		color = list(
@@ -120,6 +124,8 @@
 			myturf.above.shadower.copy_lighting(src, myturf.loc)
 		else
 			myturf.above.update_mimic()
+
+	normal_mask.update(color)
 
 // Variety of overrides so the overlays don't get affected by weird things.
 

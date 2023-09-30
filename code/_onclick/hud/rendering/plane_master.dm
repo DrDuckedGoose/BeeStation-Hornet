@@ -239,7 +239,7 @@
 /atom/movable/screen/plane_master/normal_texture/backdrop(mob/mymob)
 	. = ..()
 	add_filter("normal_lighting", 1, layering_filter(render_source = NORMAL_LIGHT_PLANE_RENDER_TARGET, blend_mode = BLEND_SUBTRACT))
-	add_filter("mask", 2, alpha_mask_filter(render_source = NORMAL_LIGHT_PLANE_RENDER_TARGET))
+	//add_filter("mask", 2, alpha_mask_filter(render_source = NORMAL_LIGHT_PLANE_RENDER_TARGET))
 	//Not proper desaturation, mind you
 	add_filter("desaturate", 3, color_matrix_filter(list(rgb(255,255,255), rgb(255,255,255), rgb(255,255,255), rgb(0,0,0))))
 	//Invert the color
