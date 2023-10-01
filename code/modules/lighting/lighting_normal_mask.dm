@@ -26,18 +26,16 @@
 	*/
 	var/left = clamp( ( ((_color[1]+_color[2]+_color[3])/3/255) +  ((_color[9]+_color[10]+_color[11])/3/255) ) / 2, 0, 255)
 	var/right = clamp( ( ((_color[5]+_color[6]+_color[7])/3/255) +  ((_color[13]+_color[14]+_color[15])/3/255) ) / 2, 0, 255)
-	var/top = -255//clamp(left/right, 0, 1)
+	var/top = 0//clamp(left/right, 0, 1)
 
-	top = -255
-	right = 1
-	left = -255
-
-	//Setup our color aka disable / enable our faces
-	color = list(
-		left, right, top, 00,
-		left, right, top, 00,
-		left, right, top, 00,
-		255, 255, 255, 00,
-		00, 00, 00, 01
-	)
+	/*
+		Setup our color aka disable / enable our faces
+		green = right
+		red = left
+		blue = top
+	*/
+	if(left > right)
+		color = list(rgb(0, 0, 0), rgb(0, 255, 255), rgb(0, 0, 0), rgb(0,0,0))
+	else
+		color = list(rgb(255, 0, 255), rgb(0, 0, 0), rgb(0, 0, 0), rgb(0,0,0))
 
