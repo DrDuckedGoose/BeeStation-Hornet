@@ -621,6 +621,13 @@
 		return TRUE
 	return FALSE
 
+/obj/structure/table/optable/embalming_table
+	name = "embalming table"
+	desc = "Used for mortuary procedures."
+	
+/obj/structure/table/optable/embalming_table/initial_link()
+	return
+
 /*
  * Racks
  */

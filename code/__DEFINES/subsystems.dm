@@ -152,6 +152,7 @@
 #define INIT_ORDER_PATH				-50
 #define INIT_ORDER_EXPLOSIONS		-69
 #define INIT_ORDER_ELEVATOR	  -70
+#define INIT_ORDER_SPOOKY 	-71
 #define INIT_ORDER_CHAT				-150 //Should be last to ensure chat remains smooth during init.
 
 // Subsystem fire priority, from lowest to highest priority
@@ -170,6 +171,7 @@
 #define FIRE_PRIORITY_AIR			20
 #define FIRE_PRIORITY_NPC			20
 #define FIRE_PRIORITY_HYPERSPACE_DRIFT 20
+#define FIRE_PRIORITY_SPOOKY 	20
 #define FIRE_PRIORITY_NPC_MOVEMENT  21
 #define FIRE_PRIORITY_NPC_ACTIONS	22
 #define FIRE_PRIORITY_PROCESS		25

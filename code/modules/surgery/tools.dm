@@ -390,3 +390,24 @@
 /obj/item/surgicaldrill/advanced/examine()
 	. = ..()
 	. += " It's set to [tool_behaviour == TOOL_DRILL ? "drilling" : "mending"] mode."
+
+/obj/item/scoop
+	name = "organ scoop"
+	desc = "What appears to be a sharpened ice-cream scooper."
+	icon = 'icons/obj/surgery.dmi'
+	icon_state = "scalpel"
+	flags_1 = CONDUCT_1
+	force = 5
+	w_class = WEIGHT_CLASS_TINY
+	throwforce = 5
+	throw_speed = 3
+	throw_range = 5
+	materials = list(/datum/material/iron=4000)
+	attack_verb = list("scooped")
+	toolspeed = 0.5
+	hitsound = 'sound/weapons/bladeslice.ogg'
+	sharpness = IS_SHARP
+
+/obj/item/scoop/suicide_act(mob/user)
+	user.visible_message("<span class='suicide'>[user] is scooping [user.p_their()] head with [src]! It looks like [user.p_theyre()] trying to commit suicide!</span>")
+	return (BRUTELOSS)

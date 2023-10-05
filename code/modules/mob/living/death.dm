@@ -103,6 +103,9 @@
 	if(mind?.current)
 		client?.tgui_panel?.give_dead_popup()
 
+	var/tresspass_amount = mind ? TRESPASS_LARGE : TRESPASS_SMALL
+	SSspooky.adjust_trespass(src, tresspass_amount)
+
 	return TRUE
 
 /mob/living/carbon/death(gibbed)

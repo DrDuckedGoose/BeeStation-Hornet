@@ -1246,6 +1246,8 @@
 		return
 	SEND_SIGNAL(src, COMSIG_MOB_STATCHANGE, new_stat)
 	. = stat
+	if(stat == DEAD && new_stat != DEAD)
+		SEND_GLOBAL_SIGNAL(src, COMSIG_GLOB_MOB_REVIVE, src)
 	stat = new_stat
 
 /mob/proc/set_active_storage(new_active_storage)
