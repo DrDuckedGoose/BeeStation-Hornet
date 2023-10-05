@@ -395,7 +395,7 @@
 	name = "organ scoop"
 	desc = "What appears to be a sharpened ice-cream scooper."
 	icon = 'icons/obj/surgery.dmi'
-	icon_state = "scalpel"
+	icon_state = "scoop"
 	flags_1 = CONDUCT_1
 	force = 5
 	w_class = WEIGHT_CLASS_TINY

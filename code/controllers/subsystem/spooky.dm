@@ -7,31 +7,32 @@
 //Subsystem for handling chaplain's spooky adventures - spawns ghosts, possesions, ect
 SUBSYSTEM_DEF(spooky)
 	name = "Spooky"
-	flags = SS_NO_FIRE
-	init_order = FIRE_PRIORITY_SPOOKY
+	flags = FIRE_PRIORITY_SPOOKY
+	init_order = INIT_ORDER_SPOOKY
+	flags = SS_BACKGROUND
+	runlevels = RUNLEVEL_GAME | RUNLEVEL_POSTGAME
 	
 	///Our total budget for spooky thing
 	var/spectral_trespass = 0
 	var/maximum_trespass = 100
 	///Is there an active chaplain on the station?
 	var/active_chaplain = FALSE
-	///List of active corpses
+	///List of active corpses - different from global dead mob list, just tracks carbons
 	var/list/corpses = list()
 	///What kind of behaviour does the spooky system have today
 		//TODO
 	///How often do we tick rot?
 	var/rot_tick = 10
-	var/rot_amount = 1
+	var/rot_amount = 0.3
 
 /datum/controller/subsystem/spooky/Initialize(start_timeofday)
 	. = ..()
 	RegisterSignal(SSdcs, COMSIG_GLOB_MOB_DEATH, PROC_REF(add_corpse))
 	RegisterSignal(SSdcs, COMSIG_GLOB_MOB_REVIVE, PROC_REF(remove_corpse))
 
-/datum/controller/subsystem/spooky/process(delta_time)
+/datum/controller/subsystem/spooky/fire(resumed)
 	//Tick rot components
-	if(world.time % rot_tick == 0)
-		SEND_SIGNAL(src, SPOOKY_ROT_TICK, rot_amount)
+	SEND_SIGNAL(src, SPOOKY_ROT_TICK, rot_amount)
 
 ///Use to properly adjust spectral trespass - adjust_trespass(who, how_much)
 /datum/controller/subsystem/spooky/proc/adjust_trespass(datum/source, amount = TRESPASS_SMALL)
@@ -39,16 +40,26 @@ SUBSYSTEM_DEF(spooky)
 	spectral_trespass = min(maximum_trespass, max(0, spectral_trespass-amount))
 	log_game("[source || "not specified"] increased spectral trespass by [amount] at [world.time] at [isatom(source) ? get_turf(source) : "not specified"].")
 
-/datum/controller/subsystem/spooky/proc/add_corpse(datum/source, gibbed)
+/datum/controller/subsystem/spooky/proc/add_corpse(datum/source, mob/corpse, gibbed)
 	SIGNAL_HANDLER
 
-	var/mob/M = source
-	if(gibbed || !is_station_level(M.z))
+	//Don't possess explor corpses
+	if(gibbed || !is_station_level(corpse?.z) || !iscarbon(corpse))
 		return
-	corpses |= source
-	RegisterSignal(source, COMSIG_PARENT_QDELETING, PROC_REF(remove_corpse))
+	//Weighting
+	var/datum/component/rot/R = corpse?.GetComponent(/datum/component/rot)
+	corpses |= list(corpse = R?.rot || 0)
+	//Handle the corpse being destroyed
+	RegisterSignal(corpse, COMSIG_PARENT_QDELETING, PROC_REF(remove_corpse))
 
-/datum/controller/subsystem/spooky/proc/remove_corpse(datum/source, gibbed)
+/datum/controller/subsystem/spooky/proc/remove_corpse(datum/source, mob/corpse)
 	SIGNAL_HANDLER
 
+	//a bit weird but we double up this proc with a couple other cases where source would be the corpse and otherwise corpse is corpse
 	corpses -= source
+	corpses -= corpse
+
+/datum/controller/subsystem/spooky/proc/update_corpse(mob/corpse)
+	var/datum/component/rot/R = corpse?.GetComponent(/datum/component/rot)
+	if(corpses & corpse)
+		corpses[corpse] = R?.rot || corpses[corpse]

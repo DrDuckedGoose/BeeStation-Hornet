@@ -624,6 +624,7 @@
 /obj/structure/table/optable/embalming_table
 	name = "embalming table"
 	desc = "Used for mortuary procedures."
+	icon_state = "embalmtable"
 	
 /obj/structure/table/optable/embalming_table/initial_link()
 	return
