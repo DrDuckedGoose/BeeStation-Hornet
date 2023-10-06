@@ -10,8 +10,8 @@
 /datum/preference/choiced/psyphoza_cap/init_possible_values()
 	var/list/values = list()
 
-	for (var/cap_name in GLOB.psyphoza_cap_list)
-		var/datum/sprite_accessory/cap = GLOB.psyphoza_cap_list[cap_name]
+	for (var/cap_name in GLOB.psyphoza_caps_list)
+		var/datum/sprite_accessory/cap = GLOB.psyphoza_caps_list[cap_name]
 
 		var/icon/icon_with_cap = icon('icons/mob/species/psyphoza/bodyparts.dmi', "psyphoza_head", dir = SOUTH)
 		if (cap.icon_state != "none")
