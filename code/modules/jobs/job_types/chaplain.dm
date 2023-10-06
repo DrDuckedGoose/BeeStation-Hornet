@@ -115,6 +115,8 @@
 	SSblackbox.record_feedback("text", "religion_name", 1, "[new_religion]", 1)
 	SSblackbox.record_feedback("text", "religion_deity", 1, "[new_deity]", 1)
 
+	SSspooky.active_chaplain = TRUE
+
 /datum/outfit/job/chaplain
 	name = JOB_NAME_CHAPLAIN
 	jobtype = /datum/job/chaplain

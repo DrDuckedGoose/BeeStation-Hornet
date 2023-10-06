@@ -103,6 +103,7 @@
 	if(mind?.current)
 		client?.tgui_panel?.give_dead_popup()
 
+	//Trespass logic
 	var/tresspass_amount = mind ? TRESPASS_LARGE : TRESPASS_SMALL
 	SSspooky.adjust_trespass(src, tresspass_amount)
 

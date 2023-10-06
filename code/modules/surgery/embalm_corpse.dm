@@ -15,7 +15,7 @@
 
 /datum/surgery/embalm_corpse/can_start(mob/user, mob/living/carbon/target)
 	. = ..()
-	if(target.stat != DEAD)
+	if(target.stat != DEAD || HAS_TRAIT(target, TRAIT_EMBALMED))
 		return FALSE
 
 /datum/surgery/embalm_corpse/complete()
@@ -47,10 +47,13 @@
 	if(locate(/obj/structure/table/optable/embalming_table) in T.contents)
 		//handle spooky rewards
 		SSspooky.adjust_trespass(user, -TRESPASS_MEDIUM)
-		target.color = "#888" //make 'em corpse-esc
+		var/datum/component/rot/R = target.GetComponent(/datum/component/rot)
+		R?.RemoveComponent()
 	else
 		//handle spooky consequcnes
 		target.add_splatter_floor()
 		target.spawn_gibs()
 		SSspooky.adjust_trespass(user, TRESPASS_LARGE)
+	
+	ADD_TRAIT(target, TRAIT_EMBALMED , ORGAN_TRAIT)
 	return TRUE

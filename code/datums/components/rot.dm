@@ -18,30 +18,46 @@
 	owner?.remove_emitter("stink")
 	owner = null
 
-/datum/component/rot/proc/tick_rot(datum/source, amount)
+/datum/component/rot/proc/tick_rot(datum/source, var/amount = 0)
 	SIGNAL_HANDLER
 
+	if(rot >= 100 || amount == 0)
+		return
+
+	//Modifiers
+	if(HAS_TRAIT(owner, TRAIT_EMBALMED))
+		amount *= 0.9
+	if(isspaceturf(get_turf(owner)))
+		amount *= 0.9
+	if(istype(owner?.loc, /obj/structure/closet/crate/coffin))
+		amount *= 0.9
 	//handle rot value
 	rot = max(0, min(100, rot+amount))
-	if(rot != 0 && rot != 100 && amount != 0)
-		SSspooky.update_corpse(src)
-	//Some special cases
-	if(rot >= 100)
-		return
-	owner?.remove_emitter("rot")
-	owner?.remove_emitter("stink")
+	SSspooky.update_corpse(owner, rot)
 	switch(rot)
 		//lowest rot
 		if(0 to 30)
+			owner?.remove_emitter("rot")
+			owner?.remove_emitter("stink")
 			return
 		//medium rot
 		if(31 to 50)
-			owner?.add_emitter(/obj/emitter/flies, "rot", 10, -1)
+			//funky particles
+			if(!owner?.master_holder?.emitters["rot"])
+				owner?.add_emitter(/obj/emitter/flies, "rot", 10, -1)
+			//Spooky punishment
+			SSspooky.adjust_trespass(owner, TRESPASS_SMALL / 10, FALSE)
 		//max rot
 		if(51 to 100)
+			//They ROTTED
 			owner.become_husk()
-			owner?.add_emitter(/obj/emitter/flies, "rot", 11, -1)
-			owner?.add_emitter(/obj/emitter/stink_lines, "stink", 11, -1)
+			//funky particles
+			if(!owner?.master_holder?.emitters["rot"])
+				owner?.add_emitter(/obj/emitter/flies, "rot", 10, -1)
+			if(!owner?.master_holder?.emitters["stink"])
+				owner?.add_emitter(/obj/emitter/stink_lines, "stink", 11, -1)
+			//Spooky punishment
+			SSspooky.adjust_trespass(owner, TRESPASS_MEDIUM / 10, FALSE)
 
 /datum/component/rot/proc/bless()
-	Ssspooky.remove_corpse(owner)
+	SSspooky.remove_corpse(owner)

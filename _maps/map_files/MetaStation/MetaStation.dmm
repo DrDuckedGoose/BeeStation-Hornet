@@ -25655,10 +25655,9 @@
 /turf/open/floor/plasteel,
 /area/hallway/secondary/exit/departure_lounge)
 "cLu" = (
-/obj/effect/decal/cleanable/dirt,
-/obj/machinery/space_heater,
-/turf/open/floor/plasteel,
-/area/maintenance/aft)
+/obj/item/kirbyplants/random,
+/turf/open/floor/plasteel/dark,
+/area/chapel/office)
 "cLv" = (
 /obj/effect/turf_decal/tile/neutral/fourcorners/contrasted,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
@@ -25950,10 +25949,6 @@
 /obj/structure/cable,
 /turf/open/floor/engine/vacuum,
 /area/maintenance/disposal/incinerator)
-"cOb" = (
-/obj/effect/landmark/xeno_spawn,
-/turf/open/floor/plasteel/dark,
-/area/chapel/office)
 "cOc" = (
 /obj/machinery/door/airlock/maintenance{
 	name = "Crematorium";
@@ -26003,9 +25998,16 @@
 /area/hallway/secondary/exit/departure_lounge)
 "cOF" = (
 /obj/structure/table,
+/obj/item/paper_bin{
+	pixel_x = -2;
+	pixel_y = 8
+	},
 /obj/item/storage/box/bodybags{
-	pixel_x = 2;
+	pixel_x = 6;
 	pixel_y = 2
+	},
+/obj/item/pen{
+	pixel_x = -9
 	},
 /turf/open/floor/plasteel/dark,
 /area/chapel/office)
@@ -26993,6 +26995,10 @@
 	},
 /turf/open/floor/plasteel/dark,
 /area/maintenance/department/science/xenobiology)
+"cWj" = (
+/obj/effect/mob_spawn/human/corpse,
+/turf/closed/wall,
+/area/maintenance/aft)
 "cWw" = (
 /obj/structure/cable/yellow{
 	icon_state = "1-2"
@@ -32214,6 +32220,7 @@
 	dir = 1;
 	id = "crematoriumChapel"
 	},
+/obj/effect/turf_decal/delivery,
 /turf/open/floor/plasteel/dark,
 /area/chapel/office)
 "eFP" = (
@@ -36757,10 +36764,6 @@
 /obj/structure/sign/warning/biohazard,
 /turf/closed/wall,
 /area/medical/exam_room)
-"gAu" = (
-/obj/structure/grille,
-/turf/open/floor/plasteel,
-/area/maintenance/aft)
 "gBh" = (
 /obj/machinery/door/airlock/maintenance{
 	name = "Security Maintenance";
@@ -48604,13 +48607,9 @@
 /turf/open/floor/plasteel,
 /area/engine/break_room)
 "lxJ" = (
-/obj/effect/turf_decal/tile/neutral/half/contrasted{
-	dir = 1
-	},
 /obj/effect/decal/cleanable/dirt,
-/obj/effect/spawner/lootdrop/grille_or_trash,
-/turf/open/floor/plating,
-/area/maintenance/aft)
+/turf/closed/wall,
+/area/chapel/office)
 "lxO" = (
 /obj/structure/table/reinforced,
 /obj/effect/spawner/lootdrop/maintenance,
@@ -50257,9 +50256,13 @@
 /turf/open/floor/grass,
 /area/hallway/primary/central)
 "mli" = (
-/obj/effect/spawner/lootdrop/grille_or_trash,
-/turf/open/floor/plasteel,
-/area/maintenance/aft)
+/obj/effect/decal/cleanable/dirt,
+/obj/machinery/door/airlock/maintenance{
+	name = "Crematorium Maintenance";
+	req_one_access_txt = "27"
+	},
+/turf/open/floor/plating,
+/area/chapel/office)
 "mlo" = (
 /obj/machinery/status_display/ai{
 	pixel_y = 32
@@ -50625,21 +50628,6 @@
 /obj/effect/turf_decal/tile/blue,
 /turf/open/floor/plasteel/dark,
 /area/bridge)
-"mtu" = (
-/obj/effect/decal/cleanable/dirt,
-/obj/effect/decal/cleanable/dirt,
-/obj/structure/cable/yellow{
-	icon_state = "4-8"
-	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
-	dir = 4
-	},
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
-	dir = 8
-	},
-/obj/effect/decal/cleanable/dirt,
-/turf/open/floor/plating,
-/area/maintenance/aft)
 "mty" = (
 /obj/machinery/door/airlock/command{
 	name = "Chief Medical Officer's Office";
@@ -51943,6 +51931,12 @@
 	},
 /turf/open/floor/plasteel,
 /area/security/brig)
+"mTK" = (
+/obj/item/reagent_containers/glass/bottle/formaldehyde,
+/obj/item/scoop,
+/obj/structure/table,
+/turf/open/floor/plasteel/white,
+/area/chapel/office)
 "mTY" = (
 /obj/machinery/door/firedoor,
 /obj/effect/turf_decal/delivery,
@@ -53026,14 +53020,6 @@
 	},
 /turf/open/floor/plasteel/stairs,
 /area/science/mixing)
-"noQ" = (
-/obj/effect/turf_decal/stripes/line,
-/obj/effect/decal/cleanable/dirt,
-/obj/effect/turf_decal/tile/neutral/half/contrasted{
-	dir = 4
-	},
-/turf/open/floor/plasteel,
-/area/maintenance/aft)
 "npF" = (
 /obj/structure/table/glass,
 /obj/item/folder{
@@ -53185,6 +53171,15 @@
 /obj/effect/turf_decal/tile/blue/half/contrasted,
 /turf/open/floor/plasteel/white,
 /area/medical/medbay/central)
+"nuo" = (
+/obj/structure/table,
+/obj/item/clothing/gloves/color/latex{
+	pixel_y = 5
+	},
+/obj/item/reagent_containers/spray/cleaner,
+/obj/item/storage/backpack/duffelbag/med/surgery,
+/turf/open/floor/plasteel/white,
+/area/chapel/office)
 "nuA" = (
 /obj/machinery/chem_heater,
 /obj/machinery/chem_master,
@@ -54166,7 +54161,9 @@
 	pixel_y = 8;
 	req_access_txt = "27"
 	},
-/obj/effect/decal/cleanable/cobweb,
+/obj/effect/turf_decal/stripes/line{
+	dir = 1
+	},
 /turf/open/floor/plasteel/dark,
 /area/chapel/office)
 "nOg" = (
@@ -56318,6 +56315,9 @@
 /area/medical/patients_rooms)
 "oGb" = (
 /obj/effect/landmark/start/chaplain,
+/obj/effect/turf_decal/stripes/line{
+	dir = 8
+	},
 /turf/open/floor/plasteel/dark,
 /area/chapel/office)
 "oGo" = (
@@ -58549,6 +58549,12 @@
 	},
 /turf/open/floor/plasteel,
 /area/hallway/primary/port)
+"pJI" = (
+/obj/effect/turf_decal/stripes/corner{
+	dir = 1
+	},
+/turf/open/floor/plasteel/dark,
+/area/chapel/office)
 "pJW" = (
 /obj/structure/cable/yellow{
 	icon_state = "1-2"
@@ -61211,6 +61217,17 @@
 	},
 /turf/open/floor/plasteel/white,
 /area/medical/surgery)
+"qJN" = (
+/obj/machinery/light/small{
+	dir = 4
+	},
+/obj/machinery/camera{
+	c_tag = "Chapel Office - Backroom";
+	dir = 8
+	},
+/obj/machinery/holopad,
+/turf/open/floor/plasteel/dark,
+/area/chapel/office)
 "qKb" = (
 /obj/structure/disposalpipe/segment{
 	dir = 4
@@ -64016,11 +64033,10 @@
 /turf/open/floor/plasteel,
 /area/hallway/primary/starboard)
 "rXW" = (
-/obj/machinery/door/airlock/maintenance{
-	name = "Crematorium Maintenance";
-	req_one_access_txt = "27"
+/obj/effect/turf_decal/stripes/line{
+	dir = 8
 	},
-/turf/open/floor/plating,
+/turf/open/floor/plasteel/dark,
 /area/chapel/office)
 "rYg" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2,
@@ -66773,19 +66789,6 @@
 	},
 /turf/open/floor/plasteel,
 /area/vacant_room/commissary)
-"tie" = (
-/obj/effect/decal/cleanable/blood/old,
-/obj/structure/cable/yellow{
-	icon_state = "4-8"
-	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
-	dir = 4
-	},
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
-	dir = 8
-	},
-/turf/open/floor/plating,
-/area/maintenance/aft)
 "tiH" = (
 /obj/machinery/atmospherics/pipe/simple/general/visible,
 /obj/machinery/door/airlock/engineering/glass{
@@ -70201,16 +70204,10 @@
 /turf/open/floor/plasteel/dark,
 /area/aisat)
 "uKg" = (
-/obj/machinery/camera{
-	c_tag = "Chapel Office - Backroom";
-	dir = 8
-	},
-/obj/machinery/light/small{
-	dir = 4
-	},
 /obj/machinery/light_switch{
 	pixel_x = 25
 	},
+/obj/effect/landmark/xeno_spawn,
 /turf/open/floor/plasteel/dark,
 /area/chapel/office)
 "uKt" = (
@@ -72199,6 +72196,13 @@
 /obj/effect/spawner/lootdrop/maintenance,
 /turf/open/floor/plasteel,
 /area/maintenance/aft)
+"vCJ" = (
+/obj/effect/turf_decal/tile/neutral/half/contrasted{
+	dir = 8
+	},
+/obj/machinery/space_heater,
+/turf/open/floor/plasteel,
+/area/maintenance/aft)
 "vCK" = (
 /obj/structure/window/reinforced,
 /obj/machinery/light/small,
@@ -74049,16 +74053,6 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/aft)
-"wpa" = (
-/obj/structure/cable/yellow{
-	icon_state = "1-2"
-	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
-	dir = 1
-	},
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2,
-/turf/open/floor/plating,
-/area/maintenance/aft)
 "wpb" = (
 /obj/effect/turf_decal/bot,
 /obj/machinery/portable_atmospherics/pump,
@@ -75869,6 +75863,13 @@
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer4,
 /turf/open/floor/wood,
 /area/lawoffice)
+"wYO" = (
+/obj/structure/table/optable/embalming_table,
+/obj/effect/turf_decal/delivery,
+/obj/effect/mob_spawn/human/corpse,
+/obj/effect/decal/cleanable/blood,
+/turf/open/floor/plasteel/white,
+/area/chapel/office)
 "wYQ" = (
 /obj/structure/cable/yellow{
 	icon_state = "1-2"
@@ -98021,10 +98022,10 @@ avr
 avr
 avr
 avr
-bTs
+cWj
 avr
 hZg
-jtT
+vCJ
 bTs
 bTs
 bTs
@@ -98792,9 +98793,9 @@ cDL
 avr
 avr
 bTs
-gAu
-avr
-mtu
+rKV
+lZW
+gkv
 iou
 sbY
 ium
@@ -99049,10 +99050,10 @@ cDL
 avr
 avr
 tqB
-avr
-avr
-tie
-tjJ
+ftn
+cLa
+cLa
+cLa
 cLa
 cLa
 cLa
@@ -99306,11 +99307,11 @@ cDL
 avr
 avr
 bTs
-rKV
-wpa
-gkv
+ftn
 cLa
-cLa
+nuo
+mTK
+wYO
 nNY
 wMd
 cLa
@@ -99565,10 +99566,10 @@ rxo
 bTs
 ftn
 mli
-noQ
+rXW
 rXW
 oGb
-sMD
+pJI
 eFN
 cLa
 cPC
@@ -99823,9 +99824,9 @@ bTs
 ftn
 lxJ
 cLu
-cLa
+qJN
 uKg
-cOb
+sMD
 cOF
 cLa
 cMI

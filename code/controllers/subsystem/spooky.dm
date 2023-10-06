@@ -17,7 +17,7 @@ SUBSYSTEM_DEF(spooky)
 	var/maximum_trespass = 100
 	///Is there an active chaplain on the station?
 	var/active_chaplain = FALSE
-	///List of active corpses - different from global dead mob list, just tracks carbons
+	///List of weighted active corpses - different from global dead mob list, just tracks carbons
 	var/list/corpses = list()
 	///What kind of behaviour does the spooky system have today
 		//TODO
@@ -35,31 +35,37 @@ SUBSYSTEM_DEF(spooky)
 	SEND_SIGNAL(src, SPOOKY_ROT_TICK, rot_amount)
 
 ///Use to properly adjust spectral trespass - adjust_trespass(who, how_much)
-/datum/controller/subsystem/spooky/proc/adjust_trespass(datum/source, amount = TRESPASS_SMALL)
+/datum/controller/subsystem/spooky/proc/adjust_trespass(datum/source, amount = TRESPASS_SMALL, log = TRUE)
 	//Make sure spectral trespass stays above 0, and below maximum_trespass
 	spectral_trespass = min(maximum_trespass, max(0, spectral_trespass-amount))
-	log_game("[source || "not specified"] increased spectral trespass by [amount] at [world.time] at [isatom(source) ? get_turf(source) : "not specified"].")
+	if(log)
+		log_game("[source || "not specified"] increased spectral trespass by [amount] at [world.time] at [isatom(source) ? get_turf(source) : "not specified"].")
 
 /datum/controller/subsystem/spooky/proc/add_corpse(datum/source, mob/corpse, gibbed)
 	SIGNAL_HANDLER
 
-	//Don't possess explor corpses
+	//Don't possess exploration corpses
 	if(gibbed || !is_station_level(corpse?.z) || !iscarbon(corpse))
 		return
+	//handle weird cases
+	if(ismob(source) && !corpse)
+		corpse = source
 	//Weighting
 	var/datum/component/rot/R = corpse?.GetComponent(/datum/component/rot)
-	corpses |= list(corpse = R?.rot || 0)
+	corpses[corpse] = R?.rot || 0
 	//Handle the corpse being destroyed
 	RegisterSignal(corpse, COMSIG_PARENT_QDELETING, PROC_REF(remove_corpse))
 
 /datum/controller/subsystem/spooky/proc/remove_corpse(datum/source, mob/corpse)
 	SIGNAL_HANDLER
 
-	//a bit weird but we double up this proc with a couple other cases where source would be the corpse and otherwise corpse is corpse
+	//remove & handle weird cases
 	corpses -= source
 	corpses -= corpse
 
-/datum/controller/subsystem/spooky/proc/update_corpse(mob/corpse)
-	var/datum/component/rot/R = corpse?.GetComponent(/datum/component/rot)
-	if(corpses & corpse)
-		corpses[corpse] = R?.rot || corpses[corpse]
+/datum/controller/subsystem/spooky/proc/update_corpse(mob/corpse, amount)
+	if(corpses[corpse])
+		corpses[corpse] = amount || corpses[corpse]
+		corpse.say("I exist!")
+	else
+		corpse?.say("I dont exist!")
