@@ -96,7 +96,16 @@
 					A?.mood_bonus = -2
 					A?.mood_message = "<span class='warning'>It reeks in here!</span>"
 
-/datum/component/rot/proc/bless()
+/datum/component/rot/proc/bless(mob/living/chap)
+	if(!chap?.mind?.holy_role)
+		return
+	var/datum/religion_sect/R = GLOB.religious_sect
+	var/prompt = alert(chap, "Do you want to bless [owner || "this body"] for 50 favor?", "Bless Corpse", "Yes", "No")
+	if(R?.favor <= 50 || !chap || prompt != "Yes")
+		if(R?.favor <= 50 )
+			to_chat(chap, "<span class='warning'>You don't have enough favor!</span>")
+		return
+	R.adjust_favor(50, chap)
 	SSspooky.remove_corpse(owner)
 	blessed = TRUE
 

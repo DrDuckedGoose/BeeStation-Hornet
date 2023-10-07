@@ -57,7 +57,6 @@
 	var/datum/mind/soulOwner //who owns the soul.  Under normal circumstances, this will point to src
 	var/hasSoul = TRUE // If false, renders the character unable to sell their soul.
 	var/holy_role = NONE //is this person a chaplain or admin role allowed to use bibles, Any rank besides 'NONE' allows for this.
-	var/holy_favour //chaplain money
 	var/isAntagTarget = FALSE
 	var/no_cloning_at_all = FALSE
 

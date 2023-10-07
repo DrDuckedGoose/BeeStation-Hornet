@@ -119,6 +119,11 @@
 		to_chat(blessed, "<span class='boldnotice'>May the power of [GLOB.deity] compel you to be healed!</span>")
 		playsound(chap, "punch", 25, TRUE, -1)
 		SEND_SIGNAL(blessed, COMSIG_ADD_MOOD_EVENT, "blessing", /datum/mood_event/blessing)
+
+	//Rot
+	var/datum/component/rot/R = target.GetComponent(/datum/component/rot)
+	R?.bless(chap)
+
 	return TRUE
 
 /**** Nanotrasen Approved God ****/
