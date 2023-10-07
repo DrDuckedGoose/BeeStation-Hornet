@@ -413,7 +413,10 @@
 	if(!HAS_TRAIT(src, TRAIT_HUSK))
 		REMOVE_TRAIT(src, TRAIT_DISFIGURED, "husk")
 		update_body()
-		return TRUE
+		. = TRUE
+	//Rot stuff
+	var/datum/component/rot/R = GetComponent(/datum/component/rot)
+	R?.set_rot(0)
 
 /mob/living/proc/become_husk(source)
 	if(!HAS_TRAIT(src, TRAIT_HUSK))

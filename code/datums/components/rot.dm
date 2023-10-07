@@ -1,40 +1,65 @@
-
-//TODO: ask if this would be better as an element - it might be
 //Component for rotting corpses
 /datum/component/rot
 	///Typecasted parent
 	var/mob/living/carbon/owner
 	///How rotted this corpse currently is
 	var/rot = 0
+	///Resets for area stuff, when we make it smell
+	var/old_area_bonus = 0
+	var/old_area_message = ""
+	///Has this rot been blessed?
+	var/blessed = FALSE
 
 /datum/component/rot/Initialize(...)
 	. = ..()
 	owner = parent
+	//signals
 	RegisterSignal(SSspooky, SPOOKY_ROT_TICK, PROC_REF(tick_rot))
+	RegisterSignal(owner, COMSIG_GLOB_MOB_REVIVE, PROC_REF(handle_owner))
+	//area
+	var/area/A = get_area(owner)
+	old_area_bonus = A?.mood_bonus
+	old_area_message = A?.mood_message
 
 /datum/component/rot/Destroy(force, silent)
-	. = ..()
 	owner?.remove_emitter("rot")
 	owner?.remove_emitter("stink")
 	owner = null
+	var/area/A = get_area(owner)
+	A?.mood_bonus = old_area_bonus
+	A?.mood_message = old_area_message
+
+	return ..()
+
+/datum/component/rot/proc/set_rot(var/amount = 0)
+	if(rot == amount)
+		return
+	rot = amount
+	SSspooky.update_corpse(owner, rot)
 
 /datum/component/rot/proc/tick_rot(datum/source, var/amount = 0)
 	SIGNAL_HANDLER
 
+	manage_effects()
+
 	if(rot >= 100 || amount == 0)
 		return
 
-	//Modifiers
+	//Modifiers - readability over... the other thing
 	if(HAS_TRAIT(owner, TRAIT_EMBALMED))
 		amount *= 0.9
 	if(isspaceturf(get_turf(owner)))
 		amount *= 0.9
-	if(istype(owner?.loc, /obj/structure/closet/crate/coffin))
+	if(istype(owner?.loc, /obj/structure/closet/crate/coffin) || istype(owner?.loc, /obj/structure/bodycontainer))
+		amount *= 0.9
+	if(blessed)
 		amount *= 0.9
 	//handle rot value
 	rot = max(0, min(100, rot+amount))
 	SSspooky.update_corpse(owner, rot)
-	switch(rot)
+
+/datum/component/rot/proc/manage_effects(do_checks = TRUE, custom_amount)
+	switch(custom_amount || rot)
 		//lowest rot
 		if(0 to 30)
 			owner?.remove_emitter("rot")
@@ -47,6 +72,12 @@
 				owner?.add_emitter(/obj/emitter/flies, "rot", 10, -1)
 			//Spooky punishment
 			SSspooky.adjust_trespass(owner, TRESPASS_SMALL / 10, FALSE)
+			//Area flavor / detective hints
+			if(do_checks)
+				if(!(istype(owner?.loc, /obj/structure/closet/crate/coffin) || istype(owner?.loc, /obj/structure/bodycontainer)))
+					var/area/A = get_area(owner)
+					A?.mood_bonus = -1
+					A?.mood_message = "<span class='warning'>It smells in here.</span>"
 		//max rot
 		if(51 to 100)
 			//They ROTTED
@@ -58,6 +89,18 @@
 				owner?.add_emitter(/obj/emitter/stink_lines, "stink", 11, -1)
 			//Spooky punishment
 			SSspooky.adjust_trespass(owner, TRESPASS_MEDIUM / 10, FALSE)
+			//Area flavor / detective hints
+			if(do_checks)
+				if(!istype(owner?.loc, /obj/structure/closet/crate/coffin))
+					var/area/A = get_area(owner)
+					A?.mood_bonus = -2
+					A?.mood_message = "<span class='warning'>It reeks in here!</span>"
 
 /datum/component/rot/proc/bless()
 	SSspooky.remove_corpse(owner)
+	blessed = TRUE
+
+/datum/component/rot/proc/handle_owner()
+	//Typically spooky removes it owns corpses, but we might get removed by an admin or something else I forgor
+	SSspooky.remove_corpse(owner)
+	RemoveComponent()

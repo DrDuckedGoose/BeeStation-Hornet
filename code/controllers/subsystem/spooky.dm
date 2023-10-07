@@ -64,8 +64,5 @@ SUBSYSTEM_DEF(spooky)
 	corpses -= corpse
 
 /datum/controller/subsystem/spooky/proc/update_corpse(mob/corpse, amount)
-	if(corpses[corpse])
+	if(corpses[corpse] != null)
 		corpses[corpse] = amount || corpses[corpse]
-		corpse.say("I exist!")
-	else
-		corpse?.say("I dont exist!")
