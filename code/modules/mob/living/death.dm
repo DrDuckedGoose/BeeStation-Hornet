@@ -105,7 +105,10 @@
 
 	//Trespass logic
 	var/tresspass_amount = mind ? TRESPASS_LARGE : TRESPASS_SMALL
+	tresspass_amount = gibbed ? TRESPASS_LARGE : tresspass_amount
 	SSspooky.adjust_trespass(src, tresspass_amount)
+	var/area/A = get_area(src)
+	SSspooky.adjust_area_temperature(src, A, 1)
 
 	return TRUE
 

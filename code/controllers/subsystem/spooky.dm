@@ -17,8 +17,10 @@ SUBSYSTEM_DEF(spooky)
 	var/maximum_trespass = 100
 	///Is there an active chaplain on the station?
 	var/active_chaplain = FALSE
-	///List of weighted active corpses - different from global dead mob list, just tracks carbons
+	///List of weighted active corpses - different from global dead mob list, just tracks carbons & has weights
 	var/list/corpses = list()
+	///List of weighted areas
+	var/list/areas = list()
 	///What kind of behaviour does the spooky system have today
 		//TODO
 	///How often do we tick rot?
@@ -30,6 +32,10 @@ SUBSYSTEM_DEF(spooky)
 	RegisterSignal(SSdcs, COMSIG_GLOB_MOB_DEATH, PROC_REF(add_corpse))
 	RegisterSignal(SSdcs, COMSIG_GLOB_MOB_REVIVE, PROC_REF(remove_corpse))
 
+	//Build spooky area list
+	for(var/area/a in GLOB.areas)
+		areas[a] = a?.initial_spooky || 0
+
 /datum/controller/subsystem/spooky/fire(resumed)
 	//Tick rot components
 	SEND_SIGNAL(src, SPOOKY_ROT_TICK, rot_amount)
@@ -40,6 +46,14 @@ SUBSYSTEM_DEF(spooky)
 	spectral_trespass = min(maximum_trespass, max(0, spectral_trespass-amount))
 	if(log)
 		log_game("[source || "not specified"] increased spectral trespass by [amount] at [world.time] at [isatom(source) ? get_turf(source) : "not specified"].")
+
+/datum/controller/subsystem/spooky/proc/adjust_area_temperature(datum/source, area, amount = 1, log = TRUE)
+	if(!areas[area])
+		areas[area] = 1
+	else
+		areas[area] += 1
+	if(log)
+		log_game("[source || "not specified"] increased [area] spectral temperature by [amount] at [world.time] at [isatom(source) ? get_turf(source) : "not specified"].")
 
 /datum/controller/subsystem/spooky/proc/add_corpse(datum/source, mob/corpse, gibbed)
 	SIGNAL_HANDLER

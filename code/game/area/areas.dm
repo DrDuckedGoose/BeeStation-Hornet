@@ -137,6 +137,9 @@
 	///The areas specific color correction
 	var/color_correction = /datum/client_colour/area_color
 
+	///How initially spooky this area is
+	var/initial_spooky = 0
+
 /**
   * A list of teleport locations
   *

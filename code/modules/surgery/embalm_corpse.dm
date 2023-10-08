@@ -12,15 +12,14 @@
 	possible_locs = list(BODY_ZONE_CHEST)
 	requires_bodypart_type = TRUE
 	ignore_clothes = FALSE
+	///user tracker for logging
+	var/mob/surgery_user
 
 /datum/surgery/embalm_corpse/can_start(mob/user, mob/living/carbon/target)
 	. = ..()
+	surgery_user = user
 	if(target.stat != DEAD || HAS_TRAIT(target, TRAIT_EMBALMED))
 		return FALSE
-
-/datum/surgery/embalm_corpse/complete()
-	. = ..()
-	SSspooky.adjust_trespass(null, -TRESPASS_SMALL)
 
 /datum/surgery_step/embalm_corpse
 	name = "Filter blood"
@@ -54,6 +53,8 @@
 		target.add_splatter_floor()
 		target.spawn_gibs()
 		SSspooky.adjust_trespass(user, TRESPASS_LARGE)
+		var/area/A = get_area(target)
+		SSspooky.adjust_area_temperature(user, A, 1)
 	
 	ADD_TRAIT(target, TRAIT_EMBALMED , ORGAN_TRAIT)
 	return TRUE
