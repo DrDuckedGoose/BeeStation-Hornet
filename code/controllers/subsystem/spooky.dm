@@ -46,7 +46,7 @@ SUBSYSTEM_DEF(spooky)
 	spectral_trespass = min(maximum_trespass, max(0, spectral_trespass-amount))
 	if(log)
 		log_game("[source || "not specified"] increased spectral trespass by [amount] at [world.time] at [isatom(source) ? get_turf(source) : "not specified"].")
-
+	
 /datum/controller/subsystem/spooky/proc/adjust_area_temperature(datum/source, area, amount = 1, log = TRUE)
 	if(!areas[area])
 		areas[area] = 1
@@ -80,3 +80,7 @@ SUBSYSTEM_DEF(spooky)
 /datum/controller/subsystem/spooky/proc/update_corpse(mob/corpse, amount)
 	if(corpses[corpse] != null)
 		corpses[corpse] = amount || corpses[corpse]
+
+/proc/make_spooky_indicator(turf/T)
+	if(T)
+		new /obj/effect/spectral_trespass(T)

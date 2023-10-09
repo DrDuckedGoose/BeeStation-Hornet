@@ -55,6 +55,7 @@
 		SSspooky.adjust_trespass(user, TRESPASS_LARGE)
 		var/area/A = get_area(target)
 		SSspooky.adjust_area_temperature(user, A, 1)
+		make_spooky_indicator(get_turf(src))
 	
 	ADD_TRAIT(target, TRAIT_EMBALMED , ORGAN_TRAIT)
 	return TRUE

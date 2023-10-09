@@ -109,6 +109,7 @@
 	SSspooky.adjust_trespass(src, tresspass_amount)
 	var/area/A = get_area(src)
 	SSspooky.adjust_area_temperature(src, A, 1)
+	make_spooky_indicator(get_turf(src))
 
 	return TRUE
 

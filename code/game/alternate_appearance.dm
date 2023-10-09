@@ -163,15 +163,15 @@ GLOBAL_LIST_EMPTY(active_alternate_appearances)
 		return TRUE
 	return FALSE
 
-/datum/atom_hud/alternate_appearance/basic/blessedAware
+/datum/atom_hud/alternate_appearance/basic/holyAware
 
-/datum/atom_hud/alternate_appearance/basic/blessedAware/New()
+/datum/atom_hud/alternate_appearance/basic/holyAware/New()
 	..()
 	for(var/mob in GLOB.mob_list)
 		if(mobShouldSee(mob))
 			add_hud_to(mob)
 
-/datum/atom_hud/alternate_appearance/basic/blessedAware/mobShouldSee(mob/M)
+/datum/atom_hud/alternate_appearance/basic/holyAware/mobShouldSee(mob/M)
 	if(M.mind && M.mind?.holy_role)
 		return TRUE
 	if (istype(M, /mob/living/simple_animal/hostile/construct/wraith))
