@@ -22,7 +22,7 @@ SUBSYSTEM_DEF(spooky)
 	///List of weighted areas
 	var/list/areas = list()
 	///What kind of behaviour does the spooky system have today
-		//TODO
+	var/datum/spooky_behaviour/current_behaviour = /datum/spooky_behaviour
 	///How often do we tick rot?
 	var/rot_tick = 10
 	var/rot_amount = 0.3
@@ -32,6 +32,8 @@ SUBSYSTEM_DEF(spooky)
 	RegisterSignal(SSdcs, COMSIG_GLOB_MOB_DEATH, PROC_REF(add_corpse))
 	RegisterSignal(SSdcs, COMSIG_GLOB_MOB_REVIVE, PROC_REF(remove_corpse))
 
+	//Setup spooky behaviour
+	current_behaviour = new current_behaviour()
 	//Build spooky area list
 	for(var/area/a in GLOB.areas)
 		areas[a] = a?.initial_spooky || 0
@@ -39,6 +41,8 @@ SUBSYSTEM_DEF(spooky)
 /datum/controller/subsystem/spooky/fire(resumed)
 	//Tick rot components
 	SEND_SIGNAL(src, SPOOKY_ROT_TICK, rot_amount)
+	//Tick the current behaviour
+	current_behaviour?.process_currency(src)
 
 ///Use to properly adjust spectral trespass - adjust_trespass(who, how_much)
 /datum/controller/subsystem/spooky/proc/adjust_trespass(datum/source, amount = TRESPASS_SMALL, log = TRUE)
