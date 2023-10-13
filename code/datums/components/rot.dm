@@ -42,7 +42,8 @@
 
 	manage_effects()
 
-	if(rot >= 100 || amount == 0)
+	//Don't rot too much, too little, or while we're alive
+	if(rot >= 100 || amount == 0 || owner.stat != DEAD)
 		return
 
 	//Modifiers - readability over... the other thing

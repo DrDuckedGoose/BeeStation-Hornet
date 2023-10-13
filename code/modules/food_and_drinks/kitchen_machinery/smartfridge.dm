@@ -428,7 +428,10 @@
 	name = "smart organ storage"
 	desc = "A refrigerated storage unit for organ storage."
 	max_n_of_items = 20	//vastly lower to prevent processing too long
+	///Rate we repair stored organs at
 	var/repair_rate = 0
+	///How *much* we can repair our current itmes
+	var/repair_limit = 25
 
 /obj/machinery/smartfridge/organ/accept_check(obj/item/O)
 	if(istype(O, /obj/item/organ))
@@ -443,14 +446,19 @@
 	organ.organ_flags |= ORGAN_FROZEN
 
 /obj/machinery/smartfridge/organ/RefreshParts()
+	//Rate & storage
 	for(var/obj/item/stock_parts/matter_bin/B in component_parts)
 		max_n_of_items = 20 * B.rating
 		repair_rate = max(0, STANDARD_ORGAN_HEALING * (B.rating - 1) * 0.5)
+	//limit
+	for(var/obj/item/stock_parts/manipulator/M in component_parts)
+		repair_limit = max(repair_limit, 100 * (M.rating / 4))
 
 /obj/machinery/smartfridge/organ/process(delta_time)
 	for(var/organ in contents)
 		var/obj/item/organ/O = organ
-		if(!istype(O))
+		//if it isn't an organ, it's too healthy, or failing/dead- don't heal it
+		if(!istype(O) || O.damage < repair_limit || O.organ_flags & ORGAN_FAILING)
 			return
 		O.applyOrganDamage(-repair_rate * delta_time)
 

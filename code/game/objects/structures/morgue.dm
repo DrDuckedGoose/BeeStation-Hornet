@@ -274,10 +274,12 @@ GLOBAL_LIST_EMPTY(crematoriums)
 			else
 				M.log_message("was cremated", LOG_ATTACK)
 			M.death(1) //this adds trespass
-			SSspooky.adjust_trespass(user, TRESPASS_LARGE) //this adds even more trespass
-			var/area/A = get_area(src)
-			SSspooky.adjust_area_temperature(user, A, 1)
-			make_spooky_indicator(get_turf(src))
+			if(HAS_TRAIT(M, TRAIT_POSSESSED)) //this adds even more trespass
+				SSspooky.adjust_trespass(user, TRESPASS_LARGE)
+				var/area/A = get_area(src)
+				SSspooky.adjust_area_temperature(user, A, 1)
+			else
+				make_spooky_indicator(get_turf(src))
 			if(M) //some animals get automatically deleted on death.
 				M.ghostize()
 				qdel(M)
