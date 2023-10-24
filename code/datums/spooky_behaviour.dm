@@ -6,9 +6,9 @@
 */
 
 ///How much time has to pass before we can spook again
-#define MINIMUM_SPOOK_TIME 5 MINUTES
+#define MINIMUM_SPOOK_TIME 3 MINUTES
 ///If the last spook was this time ago, we need to spook NOW!
-#define MAXIMUM_SPOOK_TIME 10 MINUTES
+#define MAXIMUM_SPOOK_TIME 7 MINUTES
 
 //What mode to generate a goal in
 #define GOAL_MODE_CASUAL 1
@@ -21,13 +21,10 @@
 	///How long it's been since something spooky happened
 	var/last_spook = 0
 	///What are our spending options
-	var/list/spending_options = list(/datum/spooky_event/possession = 1)
+	var/list/spending_options = list(/datum/spooky_event/possession = 1, /datum/spooky_event/ghost = 1.8)
 
 /datum/spooky_behaviour/New()
 	. = ..()
-	//Build option list
-		//for(var/datum/spooky_event/i as() in subtypesof(/datum/spooky_event))
-			//spending_options[i] = initial(i.cost)
 	//Get initial goal
 	spending_goal = generate_goal()
 
@@ -63,3 +60,5 @@
 
 #undef MINIMUM_SPOOK_TIME
 #undef MAXIMUM_SPOOK_TIME
+#undef GOAL_MODE_CASUAL
+#undef GOAL_MODE_PANIC

@@ -5,8 +5,6 @@
 /datum/spooky_event
 	///Name of this event
 	var/name = ""
-	///Cost of this event
-	var/cost = 1
 
 /datum/spooky_event/New()
 	. = ..()

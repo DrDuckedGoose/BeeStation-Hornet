@@ -274,7 +274,7 @@ GLOBAL_LIST_EMPTY(crematoriums)
 			else
 				M.log_message("was cremated", LOG_ATTACK)
 			M.death(1) //this adds trespass
-			if(HAS_TRAIT(M, TRAIT_POSSESSED)) //this adds even more trespass
+			if(!HAS_TRAIT(M, TRAIT_POSSESSED)) //this adds even more trespass
 				SSspooky.adjust_trespass(user, TRESPASS_LARGE)
 				var/area/A = get_area(src)
 				SSspooky.adjust_area_temperature(user, A, 1)
