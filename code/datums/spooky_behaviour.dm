@@ -18,10 +18,10 @@
 /datum/spooky_behaviour
 	///Spending goal - what the system currently *wants* to buy
 	var/spending_goal = /datum/spooky_event
-	///How long it's been since something spooky happened
+	///How long it's been since something spooky happened - Leave this at 0, so we don't get possessions round start
 	var/last_spook = 0
-	///What are our spending options
-	var/list/spending_options = list(/datum/spooky_event/possession = 1, /datum/spooky_event/ghost = 1.8)
+	///What are our spending options [thing = cost]
+	var/list/spending_options = list(/datum/spooky_event/possession = 1, /datum/spooky_event/ghost = 1)
 
 /datum/spooky_behaviour/New()
 	. = ..()
@@ -57,6 +57,17 @@
 				if(spending_options[i] <= available_currency)
 					picked_option = i
 			return picked_option
+
+//For admins mostly
+/datum/spooky_behaviour/proc/force_event(datum/spooky_event/event, datum/controller/subsystem/spooky/SS = SSspooky, do_cost = FALSE, do_cooldown = FALSE)
+	//Purchase the thing:tm:
+	var/datum/spooky_event/SE = new event
+	//Take our toll if we successfully do the thing
+	if(SE?.setup(SS))
+		if(do_cost)
+			SS.adjust_trespass(src, -spending_options[spending_goal], FALSE)
+		if(do_cooldown)
+			last_spook = world.time
 
 #undef MINIMUM_SPOOK_TIME
 #undef MAXIMUM_SPOOK_TIME

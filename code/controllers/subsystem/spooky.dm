@@ -47,7 +47,7 @@ SUBSYSTEM_DEF(spooky)
 ///Use to properly adjust spectral trespass - adjust_trespass(who, how_much)
 /datum/controller/subsystem/spooky/proc/adjust_trespass(datum/source, amount = TRESPASS_SMALL, log = TRUE)
 	//Make sure spectral trespass stays above 0, and below maximum_trespass
-	spectral_trespass = min(maximum_trespass, max(0, spectral_trespass-amount))
+	spectral_trespass = min(maximum_trespass, max(0, spectral_trespass+amount))
 	if(log)
 		log_game("[source || "not specified"] increased spectral trespass by [amount] at [world.time] at [isatom(source) ? get_turf(source) : "not specified"].")
 	
