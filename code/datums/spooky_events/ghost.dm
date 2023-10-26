@@ -12,7 +12,7 @@
 		var/mob/living/simple_animal/hostile/retaliate/ghost/G = new(pick(A.contained_turfs))
 		G.appearance = corpse.appearance
 		G.alpha = 128
-		G.name = "ghost of [corpse.name]"
+		G.name = "ghost of [corpse.name]" //TODO: Consider letting only the chap and curator read the names - Racc
 		//Corpses are typically on their sides, so we need to make them upright
 		var/matrix/n_transform = G.transform
 		n_transform.Turn(-90)
