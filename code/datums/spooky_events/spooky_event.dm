@@ -14,4 +14,5 @@
 	inclination that this might save me in the future, or allow for admin goofs.
 */
 /datum/spooky_event/proc/setup(datum/controller/subsystem/spooky/SS)
+	notify_ghosts("The ([SS]) has attempted to create a '[name]' event!")
 	return

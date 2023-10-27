@@ -22,6 +22,8 @@
 	var/last_spook = 0
 	///What are our spending options [thing = cost]
 	var/list/spending_options = list(/datum/spooky_event/possession = 1, /datum/spooky_event/ghost = 1)
+	///What active spooky events are... active - Pretty much for admin goofs
+	var/list/active_products = list()
 
 /datum/spooky_behaviour/New()
 	. = ..()
@@ -43,6 +45,12 @@
 			SS.adjust_trespass(src, -spending_options[spending_goal], FALSE)
 			spending_goal = generate_goal()
 			last_spook = world.time
+			//If the product doesn't remove itself straight away, we probably want to track it
+			if(!QDELING(SE))
+				active_products += SE
+		else
+			//Clean up datums that failed to setup
+			qdel(SE)
 
 //Get a spending goal for the system
 /datum/spooky_behaviour/proc/generate_goal(goal_type = GOAL_MODE_CASUAL, available_currency = 0)
@@ -68,6 +76,12 @@
 			SS.adjust_trespass(src, -spending_options[spending_goal], FALSE)
 		if(do_cooldown)
 			last_spook = world.time
+
+//Avoid hard dels when a spooky events sepukus
+/datum/spooky_behaviour/proc/handle_product(datum/source)
+	SIGNAL_HANDLER
+
+	active_products -= source
 
 #undef MINIMUM_SPOOK_TIME
 #undef MAXIMUM_SPOOK_TIME
