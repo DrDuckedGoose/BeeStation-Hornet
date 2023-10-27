@@ -13,7 +13,6 @@
 	var/stage = 0
 	///Are we on timeout for crimes against the crew?
 	var/timeout = FALSE
-	var/timeout_timer
 
 /datum/spooky_event/haunt_room/setup(datum/controller/subsystem/spooky/SS)
 	..()
@@ -37,26 +36,21 @@
 	switch(abs(initial_time-world.time))
 		//First stage - flicker lights
 		if(LIFETIME_STAGE_0 to LIFETIME_STAGE_1)
-			target_room.lightswitch = FALSE
-			target_room.power_change()
-			target_room.lightswitch = TRUE
-			target_room.power_change()
+			//Possible overhead
+			for(var/obj/machinery/light/L in target_room.contents)
+				addtimer(CALLBACK(L, TYPE_PROC_REF(/obj/machinery/light, flicker), rand(3, 6)), rand(0, 15))
 
 			//Timeout logic
-			addtimer(CALLBACK(PROC_REF(toggle_timeout)), 10 SECONDS, TIMER_STOPPABLE)
+			addtimer(CALLBACK(PROC_REF(toggle_timeout)), 15 SECONDS, TIMER_STOPPABLE)
 		if(LIFETIME_STAGE_1 to LIFETIME_STAGE_2)
-			target_room.lightswitch = FALSE
-			target_room.power_change()
-			target_room.lightswitch = TRUE
-			target_room.power_change()
+			for(var/obj/machinery/light/L in target_room.contents)
+				addtimer(CALLBACK(L, TYPE_PROC_REF(/obj/machinery/light, flicker), rand(3, 6)), rand(0, 15))
 
 			//Timeout logic
 			addtimer(CALLBACK(PROC_REF(toggle_timeout)), 10 SECONDS, TIMER_STOPPABLE)
 		if(LIFETIME_STAGE_2 to LIFETIME_STAGE_3)
-			target_room.lightswitch = FALSE
-			target_room.power_change()
-			target_room.lightswitch = TRUE
-			target_room.power_change()
+			for(var/obj/machinery/light/L in target_room.contents)
+				addtimer(CALLBACK(L, TYPE_PROC_REF(/obj/machinery/light, flicker), rand(3, 6)), rand(0, 15))
 
 			//Timeout logic
 			addtimer(CALLBACK(PROC_REF(toggle_timeout)), 10 SECONDS, TIMER_STOPPABLE)

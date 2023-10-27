@@ -36,7 +36,8 @@ SUBSYSTEM_DEF(spooky)
 	current_behaviour = new current_behaviour()
 	//Build spooky area list
 	for(var/area/a in GLOB.areas)
-		areas[a] = a?.initial_spooky || 0
+		if(is_station_level(a.z)) //We only care about the station tbh, don't waste resource making lavaland spooky - It will be spooky when Bacon makes lavaland a ghost
+			areas[a] = a?.initial_spooky || 0
 
 /datum/controller/subsystem/spooky/fire(resumed)
 	//Tick rot components
