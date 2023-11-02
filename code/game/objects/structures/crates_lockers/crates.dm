@@ -170,6 +170,16 @@
 	azimuth_angle_2 = 180
 	door_anim_time = 5
 	door_hinge = 5
+	///What current 'garnishes' we have, for rot:tm: stuff
+	var/list/garnishes = list()
+
+/obj/structure/closet/crate/coffin/close(mob/living/user)
+	. = ..()
+	garnishes = list()
+	//Check contents for funeral garnishes
+	for(var/obj/item/I in contents)
+		if(HAS_TRAIT(I, TRAIT_FUNERAL_GARNISH))
+			garnishes |= I.type
 
 /obj/structure/closet/crate/internals
 	desc = "An internals crate."

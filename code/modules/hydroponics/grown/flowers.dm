@@ -16,6 +16,10 @@
 	bitesize_mod = 3
 	foodtype = VEGETABLES | GROSS
 
+/obj/item/reagent_containers/food/snacks/grown/flower/Initialize(mapload, obj/item/seeds/new_seed)
+	. = ..()
+	ADD_TRAIT(src, TRAIT_FUNERAL_GARNISH, TRAIT_GENERIC)
+
 /obj/item/reagent_containers/food/snacks/grown/flower/equipped(mob/user, slot)
 	. = ..()
 	if(slot == ITEM_SLOT_HEAD)

@@ -1,3 +1,6 @@
+#define MAX_FUNERAL_GARNISH 0.5
+#define GENERIC_ROT_REDUCTION 0.9
+
 //Component for rotting corpses
 /datum/component/rot
 	///Typecasted parent
@@ -48,13 +51,19 @@
 
 	//Modifiers - readability over... the other thing
 	if(HAS_TRAIT(owner, TRAIT_EMBALMED))
-		amount *= 0.9
+		amount *= GENERIC_ROT_REDUCTION
 	if(isspaceturf(get_turf(owner)))
-		amount *= 0.9
+		amount *= GENERIC_ROT_REDUCTION
 	if(istype(owner?.loc, /obj/structure/closet/crate/coffin) || istype(owner?.loc, /obj/structure/bodycontainer))
-		amount *= 0.9
+		//Calculate garnish stuff
+		if(istype(owner?.loc, /obj/structure/closet/crate/coffin))
+			var/obj/structure/closet/crate/coffin/C = owner?.loc
+			amount *= max((length(C.garnishes) * 0.1) - 1, MAX_FUNERAL_GARNISH)
+			//TODO: Implement document features - Racc
+		else
+			amount *= GENERIC_ROT_REDUCTION
 	if(blessed)
-		amount *= 0.9
+		amount *= GENERIC_ROT_REDUCTION
 	//handle rot value
 	var/area/A = get_area(owner) //handle rot mods
 	var/rot_mod = 1
@@ -119,3 +128,6 @@
 	//Typically spooky removes it owns corpses, but we might get removed by an admin or something else I forgor
 	SSspooky.remove_corpse(owner)
 	RemoveComponent()
+
+#undef MAX_FUNERAL_GARNISH
+#undef GENERIC_ROT_REDUCTION

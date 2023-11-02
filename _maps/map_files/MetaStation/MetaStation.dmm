@@ -25955,11 +25955,11 @@
 /turf/open/floor/engine/vacuum,
 /area/maintenance/disposal/incinerator)
 "cOc" = (
-/obj/machinery/door/airlock/maintenance{
-	name = "Crematorium";
-	req_access_txt = "22;27"
-	},
 /obj/machinery/door/firedoor,
+/obj/machinery/door/airlock/grunge{
+	name = "Mortuary";
+	req_one_access_txt = "22;27"
+	},
 /turf/open/floor/plasteel/dark,
 /area/chapel/office)
 "cOd" = (
@@ -32226,6 +32226,7 @@
 	id = "crematoriumChapel"
 	},
 /obj/effect/turf_decal/delivery,
+/obj/machinery/light/small,
 /turf/open/floor/plasteel/dark,
 /area/chapel/office)
 "eFP" = (
@@ -53170,10 +53171,9 @@
 /area/engine/atmos)
 "nsV" = (
 /obj/effect/turf_decal/stripes/line{
-	dir = 8
+	dir = 4
 	},
-/obj/machinery/holopad,
-/turf/open/floor/plasteel/dark,
+/turf/open/floor/plasteel/white,
 /area/chapel/office)
 "ntp" = (
 /obj/structure/chair/office/light{
@@ -54159,9 +54159,6 @@
 /turf/open/floor/plating,
 /area/maintenance/aft)
 "nNY" = (
-/obj/machinery/light/small{
-	dir = 8
-	},
 /obj/item/radio/intercom{
 	dir = 4;
 	pixel_x = -29;
@@ -54172,9 +54169,6 @@
 	pixel_x = -27;
 	pixel_y = 8;
 	req_access_txt = "27"
-	},
-/obj/effect/turf_decal/stripes/line{
-	dir = 1
 	},
 /turf/open/floor/plasteel/dark,
 /area/chapel/office)
@@ -56328,9 +56322,9 @@
 "oGb" = (
 /obj/effect/landmark/start/chaplain,
 /obj/effect/turf_decal/stripes/line{
-	dir = 8
+	dir = 6
 	},
-/turf/open/floor/plasteel/dark,
+/turf/open/floor/plasteel/white,
 /area/chapel/office)
 "oGo" = (
 /obj/machinery/door/airlock/external{
@@ -58561,12 +58555,6 @@
 	},
 /turf/open/floor/plasteel,
 /area/hallway/primary/port)
-"pJI" = (
-/obj/effect/turf_decal/stripes/corner{
-	dir = 1
-	},
-/turf/open/floor/plasteel/dark,
-/area/chapel/office)
 "pJW" = (
 /obj/structure/cable/yellow{
 	icon_state = "1-2"
@@ -61230,14 +61218,13 @@
 /turf/open/floor/plasteel/white,
 /area/medical/surgery)
 "qJN" = (
-/obj/machinery/light/small{
-	dir = 4
-	},
 /obj/machinery/camera{
 	c_tag = "Chapel Office - Backroom";
 	dir = 8
 	},
-/obj/item/kirbyplants/random,
+/obj/machinery/light{
+	dir = 4
+	},
 /turf/open/floor/plasteel/dark,
 /area/chapel/office)
 "qKb" = (
@@ -63083,6 +63070,11 @@
 	},
 /turf/open/floor/plasteel,
 /area/crew_quarters/dorms)
+"rDr" = (
+/obj/machinery/holopad,
+/obj/effect/turf_decal/bot,
+/turf/open/floor/plasteel/dark,
+/area/chapel/office)
 "rDz" = (
 /obj/machinery/disposal/bin,
 /obj/effect/turf_decal/bot,
@@ -64044,12 +64036,6 @@
 	},
 /turf/open/floor/plasteel,
 /area/hallway/primary/starboard)
-"rXW" = (
-/obj/effect/turf_decal/stripes/line{
-	dir = 8
-	},
-/turf/open/floor/plasteel/dark,
-/area/chapel/office)
 "rYg" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2,
 /obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer4{
@@ -75878,8 +75864,12 @@
 "wYO" = (
 /obj/structure/table/optable/embalming_table,
 /obj/effect/turf_decal/delivery,
-/obj/effect/mob_spawn/human/corpse,
 /obj/effect/decal/cleanable/blood,
+/obj/effect/mob_spawn/human/corpse,
+/obj/effect/turf_decal/stripes/line,
+/obj/machinery/light/small{
+	dir = 8
+	},
 /turf/open/floor/plasteel/white,
 /area/chapel/office)
 "wYQ" = (
@@ -99578,10 +99568,10 @@ rxo
 bTs
 ftn
 mli
-rXW
+nsV
 nsV
 oGb
-pJI
+sMD
 eFN
 cLa
 cPC
@@ -99838,7 +99828,7 @@ lxJ
 cLu
 qJN
 uKg
-sMD
+rDr
 cOF
 cLa
 cMI
