@@ -139,6 +139,8 @@
 
 	///How initially spooky this area is
 	var/initial_spooky = 0
+	///Rot modifier for this area - Example: maints rots stuff faster
+	var/rot_modifier = 1
 
 /**
   * A list of teleport locations

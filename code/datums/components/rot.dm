@@ -56,7 +56,12 @@
 	if(blessed)
 		amount *= 0.9
 	//handle rot value
-	rot = max(0, min(100, rot+amount))
+	var/area/A = get_area(owner) //handle rot mods
+	var/rot_mod = 1
+	if(A) //becuase the rot mod can be 0, don't just check that variable
+		rot_mod = A?.rot_modifier
+
+	rot = max(0, min(100, rot+amount * rot_mod))
 	SSspooky.update_corpse(owner, rot)
 
 /datum/component/rot/proc/manage_effects(do_checks = TRUE, custom_amount)
