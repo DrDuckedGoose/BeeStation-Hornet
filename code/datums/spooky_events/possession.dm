@@ -29,7 +29,7 @@
 	SS.remove_corpse(corpse)
 	corpse_owner = corpse
 	//Inform ghosts
-	notify_ghosts("[corpse.name] has been possesed at [get_area(corpse)]!", source = corpse)
+	notify_ghosts("[corpse.name] has been possesed at [get_area(corpse)]!", source = corpse, action = NOTIFY_ORBIT)
 	//Make the possessed corpse shake, for that freaky effect
 	//TODO: - Racc
 

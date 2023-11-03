@@ -35,10 +35,10 @@
 		var/icon/I = icon('icons/mob/mob.dmi', "ghost_fade")
 		G.add_filter("fade", 1, alpha_mask_filter(icon = I))
 		//Inform ghosts
-		notify_ghosts("The [G.name] has appeared in [A]!", source = G)
-		. = TRUE
+		notify_ghosts("The [G.name] has appeared in [A]!", source = G, action = NOTIFY_ORBIT)
+		return TRUE
 		//TODO: Implement ghost traits from design doc - Racc
-	. = FALSE
+	return FALSE
 
 /datum/spooky_event/ghost/proc/handle_ghost(datum/source)
 	SIGNAL_HANDLER

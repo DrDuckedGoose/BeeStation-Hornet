@@ -29,7 +29,8 @@
 	initial_time = world.time
 	START_PROCESSING(SSobj, src)
 	//Inform ghosts
-	notify_ghosts("[A] has been haunted!", source = pick(A.contained_turfs))
+	notify_ghosts("[A] has been haunted!", source = pick(A.contained_turfs), action = NOTIFY_ORBIT)
+	return TRUE
 
 //TODO: Implement options from design doc - Racc
 /datum/spooky_event/haunt_room/process(delta_time)

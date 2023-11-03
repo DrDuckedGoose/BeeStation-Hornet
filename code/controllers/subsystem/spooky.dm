@@ -60,11 +60,11 @@ SUBSYSTEM_DEF(spooky)
 	if(log)
 		log_game("[source || "not specified"] increased [area] spectral temperature by [amount] at [world.time] at [isatom(source) ? get_turf(source) : "not specified"].")
 
-/datum/controller/subsystem/spooky/proc/add_corpse(datum/source, mob/corpse, gibbed)
+/datum/controller/subsystem/spooky/proc/add_corpse(datum/source, mob/corpse, gibbed, force)
 	SIGNAL_HANDLER
 
 	//Don't possess exploration corpses
-	if(gibbed || !is_station_level(corpse?.z) || !iscarbon(corpse))
+	if((gibbed || !is_station_level(corpse?.z) || !iscarbon(corpse)) && !force)
 		return
 	//handle weird cases
 	if(ismob(source) && !corpse)
