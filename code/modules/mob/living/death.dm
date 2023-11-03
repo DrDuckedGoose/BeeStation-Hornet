@@ -106,11 +106,13 @@
 	//Trespass logic
 	var/tresspass_amount = mind ? TRESPASS_LARGE : TRESPASS_SMALL
 	tresspass_amount = gibbed ? TRESPASS_LARGE : tresspass_amount
+	//Stop things like rats spamming this
+	if(istype(src, /mob/living/simple_animal))
+		tresspass_amount = TRESPASS_SMALL
 	if(!HAS_TRAIT(src, TRAIT_POSSESSED))
 		SSspooky.adjust_trespass(src, tresspass_amount)
 		var/area/A = get_area(src)
 		SSspooky.adjust_area_temperature(src, A, 1)
-	else
 		make_spooky_indicator(get_turf(src))
 
 	return TRUE

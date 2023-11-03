@@ -86,6 +86,6 @@ SUBSYSTEM_DEF(spooky)
 	if(corpses[corpse] != null)
 		corpses[corpse] = amount || corpses[corpse]
 
-/proc/make_spooky_indicator(turf/T)
+/proc/make_spooky_indicator(turf/T, result = 0)
 	if(T)
-		new /obj/effect/spectral_trespass(T)
+		new /obj/effect/spectral_trespass(T, result)

@@ -278,7 +278,6 @@ GLOBAL_LIST_EMPTY(crematoriums)
 				SSspooky.adjust_trespass(user, TRESPASS_LARGE)
 				var/area/A = get_area(src)
 				SSspooky.adjust_area_temperature(user, A, 1)
-			else
 				make_spooky_indicator(get_turf(src))
 			if(M) //some animals get automatically deleted on death.
 				M.ghostize()

@@ -52,8 +52,10 @@
 	//Modifiers - readability over... the other thing
 	if(HAS_TRAIT(owner, TRAIT_EMBALMED))
 		amount *= GENERIC_ROT_REDUCTION
-	if(isspaceturf(get_turf(owner)))
+	//Spacing corpses *does* reduce rot, but it has a consequence
+	if(isspaceturf(get_turf(owner.loc)))
 		amount *= GENERIC_ROT_REDUCTION
+		//The consequence
 	if(istype(owner?.loc, /obj/structure/closet/crate/coffin) || istype(owner?.loc, /obj/structure/bodycontainer))
 		//Calculate garnish stuff
 		if(istype(owner?.loc, /obj/structure/closet/crate/coffin))

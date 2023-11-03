@@ -129,6 +129,8 @@
 	if(!permanent && !uses)
 		qdel(src)
 
+	return M
+
 // Base version - place these on maps/templates.
 /obj/effect/mob_spawn/human
 	mob_type = /mob/living/carbon/human
@@ -236,6 +238,10 @@
 /obj/effect/mob_spawn/human/corpse
 	roundstart = FALSE
 	instant = TRUE
+
+/obj/effect/mob_spawn/human/corpse/create(ckey, name)
+	. = ..()
+	SSspooky.add_corpse(.)
 
 /obj/effect/mob_spawn/human/corpse/damaged
 	brute_damage = 1000

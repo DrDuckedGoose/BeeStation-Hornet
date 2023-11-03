@@ -421,7 +421,6 @@
 	new /obj/item/razor(src)
 	new /obj/item/reagent_containers/medspray/sterilizine(src)
 	new /obj/item/blood_filter(src)
-	new /obj/item/scoop(src)
 
 /obj/item/storage/backpack/duffelbag/sec
 	name = "security duffel bag"
@@ -444,7 +443,6 @@
 	new /obj/item/clothing/mask/surgical(src)
 	new /obj/item/reagent_containers/medspray/sterilizine(src)
 	new /obj/item/blood_filter(src)
-	new /obj/item/scoop(src)
 
 /obj/item/storage/backpack/duffelbag/sec/deputy
 	name = "deputy gear duffel bag"
