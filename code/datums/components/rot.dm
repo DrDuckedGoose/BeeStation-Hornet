@@ -24,6 +24,10 @@
 	old_area_bonus = A?.mood_bonus
 	old_area_message = A?.mood_message
 
+/datum/component/rot/RemoveComponent()
+	. = ..()
+	qdel(src)
+
 /datum/component/rot/Destroy(force, silent)
 	owner?.remove_emitter("rot")
 	owner?.remove_emitter("stink")

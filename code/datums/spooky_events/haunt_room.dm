@@ -44,7 +44,7 @@
 			for(var/obj/machinery/light/L in target_room.contents)
 				addtimer(CALLBACK(L, TYPE_PROC_REF(/obj/machinery/light, flicker), rand(3, 6)), rand(0, 15))
 			//Timeout logic
-			addtimer(CALLBACK(PROC_REF(toggle_timeout)), 15 SECONDS)
+			addtimer(CALLBACK(src, PROC_REF(toggle_timeout)), 15 SECONDS)
 
 		//Second stage - flicker lights
 		if(LIFETIME_STAGE_1 to LIFETIME_STAGE_2)
@@ -52,7 +52,7 @@
 			for(var/obj/machinery/light/L in target_room.contents)
 				addtimer(CALLBACK(L, TYPE_PROC_REF(/obj/machinery/light, flicker), rand(3, 6)), rand(0, 15))
 			//Timeout logic
-			addtimer(CALLBACK(PROC_REF(toggle_timeout)), 10 SECONDS)
+			addtimer(CALLBACK(src, PROC_REF(toggle_timeout)), 10 SECONDS)
 
 
 		//Third stage - flicker lights
@@ -60,7 +60,7 @@
 			for(var/obj/machinery/light/L in target_room.contents)
 				addtimer(CALLBACK(L, TYPE_PROC_REF(/obj/machinery/light, flicker), rand(3, 6)), rand(0, 15))
 			//Timeout logic
-			addtimer(CALLBACK(PROC_REF(toggle_timeout)), 5 SECONDS)
+			addtimer(CALLBACK(src, PROC_REF(toggle_timeout)), 5 SECONDS)
 		
 		//Final stage - flicker lights
 		else
