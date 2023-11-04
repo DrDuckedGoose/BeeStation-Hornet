@@ -29,7 +29,7 @@
 	initial_time = world.time
 	START_PROCESSING(SSobj, src)
 	//Inform ghosts
-	notify_ghosts("[A] has been haunted!", source = pick(A.contained_turfs), action = NOTIFY_ORBIT)
+	notify_ghosts("[A] has been haunted!", source = pick(A.contained_turfs), action = NOTIFY_JUMP)
 	return TRUE
 
 //TODO: Implement options from design doc - Racc

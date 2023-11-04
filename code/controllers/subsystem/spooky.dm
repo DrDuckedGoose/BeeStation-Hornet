@@ -46,7 +46,14 @@ SUBSYSTEM_DEF(spooky)
 	current_behaviour?.process_currency(src)
 
 ///Use to properly adjust spectral trespass - adjust_trespass(who, how_much)
-/datum/controller/subsystem/spooky/proc/adjust_trespass(datum/source, amount = TRESPASS_SMALL, log = TRUE)
+/datum/controller/subsystem/spooky/proc/adjust_trespass(datum/source, amount = TRESPASS_SMALL, log = TRUE, force = FALSE)
+	//Don't let lavaland corpses fuck us over
+	var/atom/A = source
+	if(isatom(source) && !is_station_level(A?.z) && !force)
+		return
+	// make sure we're not getting boosted by roundstart dead body placers - Better for readability for this to be a seperate IF
+	if(!SSticker.HasRoundStarted() && !force)
+		return
 	//Make sure spectral trespass stays above 0, and below maximum_trespass
 	spectral_trespass = min(maximum_trespass, max(0, spectral_trespass+amount))
 	if(log)
@@ -63,12 +70,12 @@ SUBSYSTEM_DEF(spooky)
 /datum/controller/subsystem/spooky/proc/add_corpse(datum/source, mob/corpse, gibbed, force)
 	SIGNAL_HANDLER
 
-	//Don't possess exploration corpses
-	if((gibbed || !is_station_level(corpse?.z) || !iscarbon(corpse)) && !force)
-		return
 	//handle weird cases
 	if(ismob(source) && !corpse)
 		corpse = source
+	//Don't possess exploration corpses
+	if((gibbed || !is_station_level(corpse?.z) || !iscarbon(corpse)) && !force)
+		return
 	//Weighting
 	var/datum/component/rot/R = corpse?.GetComponent(/datum/component/rot)
 	corpses[corpse] = R?.rot || 0
