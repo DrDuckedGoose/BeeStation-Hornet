@@ -241,7 +241,7 @@
 
 /obj/effect/mob_spawn/human/corpse/create(ckey, name)
 	. = ..()
-	SSspooky.add_corpse(., force = TRUE)
+	SSspooky.add_corpse(.) //Weird that I would need this
 
 /obj/effect/mob_spawn/human/corpse/damaged
 	brute_damage = 1000

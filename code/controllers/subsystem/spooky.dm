@@ -37,7 +37,7 @@ SUBSYSTEM_DEF(spooky)
 	//Build spooky area list
 	for(var/area/a in GLOB.areas)
 		if(is_station_level(a.z)) //We only care about the station tbh, don't waste resource making lavaland spooky - It will be spooky when Bacon makes lavaland a ghost
-			areas[a] = a?.initial_spooky || 0
+			areas[a] = a?.initial_spooky || 0.1 //we cant have areas be 0, because byond handles associated lists in an odd way
 
 /datum/controller/subsystem/spooky/fire(resumed)
 	//Tick rot components
@@ -61,7 +61,7 @@ SUBSYSTEM_DEF(spooky)
 	
 /datum/controller/subsystem/spooky/proc/adjust_area_temperature(datum/source, area, amount = 1, log = TRUE)
 	if(!areas[area])
-		areas[area] = 1
+		areas[area] = 0.1
 	else
 		areas[area] += 1
 	if(log)
@@ -73,7 +73,7 @@ SUBSYSTEM_DEF(spooky)
 	//handle weird cases
 	if(ismob(source) && !corpse)
 		corpse = source
-	//Don't possess exploration corpses
+	//Don't possess exploration / lavaland corpses
 	if((gibbed || !is_station_level(corpse?.z) || !iscarbon(corpse)) && !force)
 		return
 	//Weighting
