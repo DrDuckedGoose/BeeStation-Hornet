@@ -7,17 +7,16 @@
 	desc = "Generic and strange. Where did you find this?"
 	icon_state = "towel"
 	w_class = WEIGHT_CLASS_SMALL
-	force = 2
+	force = 1
 	///The cost / effect of using this item
 	var/spectral_effect = TRESPASS_LARGE
 	///How often can this curio be used?
 	var/item_cooldown = 5 SECONDS
 	var/cooldown_timer
 
-/obj/item/curio/afterattack(atom/target, mob/user, proximity_flag, click_parameters)
+/obj/item/curio/interact(mob/user)
 	. = ..()
-	if(istype(target, /obj/structure/witch_table) && proximity_flag)
-		activate(user)
+	activate(user)
 
 /obj/item/curio/proc/activate(datum/user, force)
 	if(!cooldown_timer || force)

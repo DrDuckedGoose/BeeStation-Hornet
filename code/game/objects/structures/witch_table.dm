@@ -1,8 +1,11 @@
-//This is pretty much just a game piece for the Curator's curios
-/obj/structure/witch_table
+/obj/structure/table/witch_table
 	name = "witching table"
 	icon = 'icons/obj/stationobjs.dmi'
 	icon_state = "witch_table"
+	base_icon_state = "witch_table"
+	smoothing_flags = null
+	smoothing_groups = list()
+	canSmoothWith = list()
 	desc = "A station for wicked deeds."
 	density = TRUE
 	anchored = TRUE

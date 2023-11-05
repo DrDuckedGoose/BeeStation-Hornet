@@ -2,6 +2,7 @@
 	name = "tattered doll"
 	desc = "An old tattered doll. It seems to have something inserted in its mouth."
 	icon_state = "towel"
+	force = 0
 	///How long can the doll move for per activation
 	var/move_time = 1 MINUTES
 	var/can_move
@@ -10,11 +11,15 @@
 
 /obj/item/curio/doll/Initialize(mapload)
 	. = ..()
-	controller = AddComponent(list(/datum/component/deadchat_control, "democracy", list(
+	controller = _AddComponent(list(/datum/component/deadchat_control, "democracy", list(
 			 "up" = CALLBACK(src, PROC_REF(haunted_step), NORTH),
 			 "down" = CALLBACK(src, PROC_REF(haunted_step), SOUTH),
 			 "left" = CALLBACK(src, PROC_REF(haunted_step), WEST),
 			 "right" = CALLBACK(src, PROC_REF(haunted_step), EAST)), 10 SECONDS))
+
+/obj/item/curio/doll/attack_ghost(mob/user)
+	. = ..()
+	to_chat(user, "<span class='notice'>You can write directions, in chat, to move the doll.\nUP, DOWN, LEFT, RIGHT</span>")
 
 /obj/item/curio/doll/Destroy()
 	. = ..()
@@ -32,9 +37,12 @@
 	//We'll do a fancy animation :D
 	var/matrix/n_transform = transform
 	var/matrix/o_transform = transform
-	n_transform.Scale(1, 1.5)
+	if(can_move)
+		n_transform.Scale(0.7, 1.3)
+	else
+		n_transform.Scale(1.3, 0.7)
 	animate(src, transform = n_transform, time = 0.25 SECONDS, easing = BACK_EASING | EASE_OUT)
-	animate(transform = o_transform, time = 0.25 SECONDS, easing = LINEAR_EASING)
+	animate(transform = o_transform, time = 0.15 SECONDS, easing = LINEAR_EASING)
 	//We can only move when active
 	if(!can_move)
 		return
