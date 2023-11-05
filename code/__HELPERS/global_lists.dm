@@ -159,3 +159,12 @@ GLOBAL_LIST_INIT(WALLITEMS_INVERSE, typecacheof(list(
 	/obj/structure/light_construct,
 	/obj/machinery/light
 	)))
+
+//Witch table recipes
+/proc/init_witch_recipes()
+	var/list/recipes = list()
+	for(var/datum/witch_recipe/R as() in subtypesof(/datum/witch_recipe))
+		recipes += new R()
+	return recipes
+
+GLOBAL_LIST_INIT(witch_recipes, init_witch_recipes())
