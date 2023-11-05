@@ -1,21 +1,25 @@
 /obj/item/curio/doll
 	name = "tattered doll"
-	desc = "An old tattered doll. It seems to have something inserted in its mouth."
+	desc = "An old tattered doll. Something seems 'off' about it."
 	icon_state = "towel"
 	force = 0
+	item_cooldown = 2 MINUTES
 	///How long can the doll move for per activation
 	var/move_time = 1 MINUTES
 	var/can_move
 	///Ref to ghost movement component
 	var/datum/component/deadchat_control/controller
 
-/obj/item/curio/doll/Initialize(mapload)
+/obj/item/curio/doll/Initialize(mapload, atom/plush)
 	. = ..()
 	controller = _AddComponent(list(/datum/component/deadchat_control, "democracy", list(
 			 "up" = CALLBACK(src, PROC_REF(haunted_step), NORTH),
 			 "down" = CALLBACK(src, PROC_REF(haunted_step), SOUTH),
 			 "left" = CALLBACK(src, PROC_REF(haunted_step), WEST),
 			 "right" = CALLBACK(src, PROC_REF(haunted_step), EAST)), 10 SECONDS))
+	//Appearance  / pretty sutff
+	appearance = plush?.appearance
+	add_filter("outline", 1, outline_filter(1, "#f00"))
 
 /obj/item/curio/doll/attack_ghost(mob/user)
 	. = ..()
@@ -29,9 +33,17 @@
 	. = ..()
 	if(!.)
 		return
-	if(can_move)
-		deltimer(can_move)
-	can_move = addtimer(CALLBACK(src, PROC_REF(handle_can_move)), move_time, TIMER_STOPPABLE)
+	to_chat(user, "<span class='warning'>You begin to shake the [src]...</span>")
+	if(do_after(user, 5 SECONDS, src))
+		to_chat(user, "<span class='danger'>[src] springs to life!</span>")
+		if(isliving(user)) //Can we be so sure?
+			var/mob/living/M = user
+			M.dropItemToGround(src)
+		if(can_move)
+			deltimer(can_move)
+		can_move = addtimer(CALLBACK(src, PROC_REF(handle_can_move)), move_time, TIMER_STOPPABLE)
+	else
+		to_chat(user, "<span class='notice'>Better not...</span>")
 	
 /obj/item/curio/doll/proc/haunted_step(outcome)
 	//We'll do a fancy animation :D

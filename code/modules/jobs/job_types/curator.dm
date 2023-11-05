@@ -60,3 +60,4 @@
 		return
 
 	H.grant_all_languages(TRUE, TRUE, TRUE, LANGUAGE_CURATOR)
+	ADD_TRAIT(H, TRAIT_INDIANA_JONES, JOB_TRAIT)

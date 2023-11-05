@@ -37,6 +37,7 @@
 		return
 	var/datum/witch_recipe/R = recipes[choice]
 	R.produce(user, get_turf(src))
+	SSspooky.adjust_trespass(user, TRESPASS_LARGE)
 	//TODO: Temporary animation - Racc
 	var/matrix/n_transform = transform
 	var/matrix/o_transform = transform

@@ -116,6 +116,7 @@
 	SSblackbox.record_feedback("text", "religion_deity", 1, "[new_deity]", 1)
 
 	SSspooky.active_chaplain = TRUE
+	ADD_TRAIT(H, TRAIT_INDIANA_JONES, JOB_TRAIT)
 
 /datum/outfit/job/chaplain
 	name = JOB_NAME_CHAPLAIN

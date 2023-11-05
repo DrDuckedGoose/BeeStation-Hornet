@@ -42,9 +42,9 @@
 				available[i.type] -= 1
 				var/turf/T = get_turf(user)
 				new /obj/effect/decal/cleanable/ash(T)
-				crafting_effect(i, T)
+				crafting_effect(i)
 				qdel(i)
 
 //Creates a fancy effect for items used in crafting - Other recipes will have unqiue effects
-/datum/witch_recipe/proc/crafting_effect(atom/target, atom/loc)
-	new /obj/effect/witch_crafting(loc, target)
+/datum/witch_recipe/proc/crafting_effect(atom/target)
+	new /obj/effect/witch_crafting(get_turf(target), target)

@@ -1,3 +1,7 @@
+/*
+	Doll recipe - /obj/item/curio/doll
+*/
+
 /datum/witch_recipe/doll
 	name = "subsume doll"
 	desc = "Subsumes a spirit into a doll container."
@@ -13,14 +17,14 @@
 
 //Also overwrite
 /datum/witch_recipe/doll/produce(mob/user, atom/loc)
-	var/obj/item/I = new result(get_turf(user))
-	user.put_in_active_hand(I)
-	//'consume' ingredients, if we should
-	if(consumes_ingredients)
-		for(var/atom/i in loc.contents)
-			if(istype(i, /obj/item/toy/plush))
-				var/turf/T = get_turf(user)
-				new /obj/effect/decal/cleanable/ash(T)
-				crafting_effect(i, T)
-				qdel(i)
-				return
+	for(var/atom/i in loc.contents)
+		if(istype(i, /obj/item/toy/plush))
+			var/turf/T = get_turf(user)
+			//make the thing
+			var/obj/item/curio/doll/I = new result(T, i)
+			user.put_in_active_hand(I)
+			//kill the thing
+			new /obj/effect/decal/cleanable/ash(T)
+			crafting_effect(i)
+			qdel(i)
+			return
