@@ -37,8 +37,14 @@
 	//'consume' ingredients, if we should
 	if(consumes_ingredients)
 		var/list/available = recipe.Copy()
-		for(var/i in loc.contents)
+		for(var/atom/i in loc.contents)
 			if(available[i.type])
 				available[i.type] -= 1
-				new /obj/effect/decal/cleanable/ash(get_turf(loc))
+				var/turf/T = get_turf(user)
+				new /obj/effect/decal/cleanable/ash(T)
+				crafting_effect(i, T)
 				qdel(i)
+
+//Creates a fancy effect for items used in crafting - Other recipes will have unqiue effects
+/datum/witch_recipe/proc/crafting_effect(atom/target, atom/loc)
+	new /obj/effect/witch_crafting(loc, target)
