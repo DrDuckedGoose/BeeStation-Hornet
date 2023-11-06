@@ -14,7 +14,7 @@
 	var/item_cooldown = 5 SECONDS
 	var/cooldown_timer
 	///Do we need the user to be 'enlightened'?
-	var/require_jones = TRUE
+	var/require_jones = FALSE //TODO Set this back to true, after testing is done / this is PR'd - Racc
 
 /obj/item/curio/interact(mob/user)
 	. = ..()
