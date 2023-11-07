@@ -109,7 +109,7 @@
 			if(!owner?.master_holder?.emitters["stink"])
 				owner?.add_emitter(/obj/emitter/stink_lines, "stink", 11, -1)
 			//Spooky punishment
-			SSspooky.adjust_trespass(owner, TRESPASS_MEDIUM / 10, FALSE)
+			SSspooky.adjust_trespass(owner, TRESPASS_SMALL / 5, FALSE)
 			//Area flavor / detective hints
 			if(do_checks)
 				if(!istype(owner?.loc, /obj/structure/closet/crate/coffin))
