@@ -1,5 +1,5 @@
 /obj/item/litany
-	name = "paper"
+	name = "litany"
 	gender = NEUTER
 	icon = 'icons/obj/bureaucracy.dmi'
 	icon_state = "paper"
@@ -18,14 +18,26 @@
 	///List, in order, of litany components we have
 	var/list/litany_components = list()
 	///The target we're attached to, since we sit in area contents for objective checks
-	var/atom/attach_target
+	var/atom/movable/attach_target
 
-//We can attach this item to 'things' like a sticker
+//We can attach this item to 'things', like a sticker
 /obj/item/litany/afterattack(atom/movable/target, mob/user, proximity_flag, click_parameters)
 	. = ..()
 	attach_target = target
 	//Move this to the area, for objective checks
-	loc = target.contents
+	forceMove(target)
 	//Visual display stuff
 	target.vis_contents += src
+	var/list/params = params2list(click_parameters)
+	pixel_x = text2num(params["icon-x"])-16
+	pixel_y = text2num(params["icon-y"])-16
+	layer = ABOVE_ALL_MOB_LAYER
 	//TODO: Add sticker masking behav - Racc
+
+/obj/item/litany/attack_hand(mob/living/carbon/user)
+	. = ..()
+	layer = OBJ_LAYER
+	pixel_x = 0
+	pixel_y = 0
+	attach_target?.vis_contents -= src
+	attach_target = null

@@ -385,6 +385,6 @@
 	. = L ? TRUE : FALSE
 	//If we have an area as our target
 	if(isarea(litany_target))
-		if(get_area(L) == litany_target)
+		if(get_area(get_turf(L)) == litany_target)
 			return TRUE
 		return FALSE
