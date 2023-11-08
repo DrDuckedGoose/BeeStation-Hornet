@@ -263,6 +263,13 @@
 				EX.name = "Purified [initial(EX.name)]"
 			user.visible_message("<span class='notice'>[user] has purified [SS]!</span>")
 
+	else if(istype(A, /obj/item/paper) && !iscultist(user))
+		to_chat(user, "<span class='notice'>You begin to bless [A].</span>")
+		if(do_after(user, 40, target = A))
+			to_chat(user, "<span class='notice'>You bless [A]!</span>")
+			new /obj/item/litany(A.loc)
+			qdel(A)
+
 /obj/item/storage/book/bible/booze
 	desc = "To be applied to the head repeatedly."
 
