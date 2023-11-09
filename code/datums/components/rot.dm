@@ -143,6 +143,8 @@
 
 /datum/component/rot/proc/manage_filters(_rot = 0)
 	var/rot_state = ""
+	owner.remove_filter("rot_mask")
+	owner.remove_filter("rot_skele")
 	switch(_rot)
 		if(20 to 31)
 			rot_state = "rot_1"
@@ -150,10 +152,8 @@
 			rot_state = "rot_2"
 		if(50 to 100)
 			rot_state = "rot_3"
-	owner.remove_filter("rot_mask")
-	owner.remove_filter("rot_skele")	
-	if(!_rot)
-		return
+		else
+			return
 	//Build icons
 	var/icon/I = icon('icons/effects/rot.dmi', icon_state = rot_state)
 	var/icon/S = icon('icons/mob/human.dmi', icon_state = "skeleton")
