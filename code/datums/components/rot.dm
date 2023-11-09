@@ -12,6 +12,8 @@
 	var/old_area_message = ""
 	///Has this rot been blessed?
 	var/blessed = FALSE
+	///Rot state for icon / effect stuff, reduces overhead
+	var/rot_state
 
 /datum/component/rot/Initialize(...)
 	. = ..()
@@ -31,11 +33,11 @@
 /datum/component/rot/Destroy(force, silent)
 	owner?.remove_emitter("rot")
 	owner?.remove_emitter("stink")
+	manage_filters(0)
 	owner = null
 	var/area/A = get_area(owner)
 	A?.mood_bonus = old_area_bonus
 	A?.mood_message = old_area_message
-	manage_filters(0)
 
 	return ..()
 
@@ -141,24 +143,37 @@
 	SSspooky.remove_corpse(owner)
 	RemoveComponent()
 
+//TODO:Consider making a fix for the skeleton rendering missing limbs - Racc
+//Used to make the owner rot away and show their skeleton underneath
 /datum/component/rot/proc/manage_filters(_rot = 0)
-	var/rot_state = ""
-	owner.remove_filter("rot_mask")
-	owner.remove_filter("rot_skele")
+	var/t_rot_state
 	switch(_rot)
 		if(20 to 31)
-			rot_state = "rot_1"
+			t_rot_state = "rot_1"
 		if(32 to 50)
-			rot_state = "rot_2"
+			t_rot_state = "rot_2"
 		if(50 to 100)
-			rot_state = "rot_3"
-		else
-			return
+			t_rot_state = "rot_3"
+	if(t_rot_state == rot_state) //if the state hasn't changed, don't do all this again
+		return
+	owner.remove_filter("rot_mask")
+	owner.remove_filter("rot_skele")
+	rot_state = t_rot_state
+	if(!rot_state)
+		return
 	//Build icons
-	var/icon/I = icon('icons/effects/rot.dmi', icon_state = rot_state)
-	var/icon/S = icon('icons/mob/human.dmi', icon_state = "skeleton")
+	var/icon/I = icon('icons/effects/rot.dmi', icon_state = rot_state) //Generic rot mask
+
+	var/icon/S = icon('icons/mob/human_parts.dmi', icon_state = "")
+	var/icon/limb
+	var/list/full = list(BODY_ZONE_HEAD, BODY_ZONE_CHEST, BODY_ZONE_R_ARM, BODY_ZONE_L_ARM, BODY_ZONE_R_LEG, BODY_ZONE_L_LEG)
+	for(var/i in full)
+		if(owner.get_bodypart(i))
+			limb = icon('icons/mob/human_parts.dmi', icon_state = "skeleton_[i]")
+			S.Blend(limb, ICON_OVERLAY)
 	//Apply filters
 	owner.add_filter("rot_mask", 10, alpha_mask_filter(icon = I))
+	//TODO: Change this to a regular overlay, so it matches the mobs facing dir - Racc
 	owner.add_filter("rot_skele", 11, layering_filter(icon = S, flags = FILTER_UNDERLAY))
 
 #undef MAX_FUNERAL_GARNISH

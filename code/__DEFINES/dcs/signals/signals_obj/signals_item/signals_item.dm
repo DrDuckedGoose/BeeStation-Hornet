@@ -73,3 +73,7 @@
 /// Tell a deployable item to force its deployment  (datum/source, atom/location)
 #define COMSIG_DEPLOYABLE_FORCE_DEPLOY "force_deploy"
 	#define DEPLOYMENT_SUCCESS	(1 << 0)	//Indicates that something was successfully deployed
+
+// /obj/item/litany signals
+#define COMSIG_LITANY_ACTIVATE "litany_activated"
+#define COMSIG_LITANY_REMOVE "litany_remove"

@@ -1,7 +1,9 @@
+//TODO: Add housekeeping for deleting components - Racc
+
 /obj/item/litany
 	name = "litany"
 	gender = NEUTER
-	icon = 'icons/obj/bureaucracy.dmi'
+	icon = 'icons/obj/religion.dmi'
 	icon_state = "litany_stamp"
 	item_state = "paper"
 	custom_fire_overlay = "paper_onfire_overlay"
@@ -19,6 +21,8 @@
 	var/list/litany_components = list()
 	///The max amount of litany components this litany can have
 	var/max_components = 4
+	///The info stack litany components typically effect
+	var/list/info_stack = list()
 	///The target we're attached to, since we sit in area contents for objective checks
 	var/atom/movable/attach_target
 
@@ -34,6 +38,7 @@
 	pixel_x = text2num(params["icon-x"])-16
 	pixel_y = text2num(params["icon-y"])-16
 	layer = ABOVE_ALL_MOB_LAYER
+	activate()
 	//TODO: Add sticker masking behav - Racc
 
 /obj/item/litany/attack_hand(mob/living/carbon/user)
@@ -43,14 +48,31 @@
 	pixel_y = 0
 	attach_target?.vis_contents -= src
 	attach_target = null
+	SEND_SIGNAL(src, COMSIG_LITANY_REMOVE)
+
+/obj/item/litany/proc/activate()
+	SEND_SIGNAL(src, COMSIG_LITANY_ACTIVATE)
 
 ///Logic for adding litany components & overlays associated with that
-/obj/item/litany/proc/add_litany_component(datum/litany_component/LC, override_length = 0)
-	litany_components += new LC()
-	//Create paper visuals
+/obj/item/litany/proc/add_litany_component(datum/litany_component/LC)
+	if(LC)
+		litany_components += new LC(src)
+	update_appearance()
+
+/obj/item/litany/update_appearance(updates, override_length = 0)
 	cut_overlays()
 	var/loop_length = (override_length || length(litany_components)) //Logic in loop params is fucky here
 	for(var/i in 1 to loop_length)
 		var/mutable_appearance/MA = mutable_appearance('icons/obj/bureaucracy.dmi', "litany_paper")
 		MA.pixel_y = (-7 * i) + 7 //Todd_Howard.webp
 		add_overlay(MA)
+	return ..()
+
+/obj/item/litany/pregenerated
+	///list of litany components to add
+	var/list/to_add_components = list(/datum/litany_component/alpha, /datum/litany_component/beta)
+
+/obj/item/litany/pregenerated/Initialize(mapload)
+	. = ..()
+	for(var/LC in to_add_components)
+		add_litany_component(LC)
