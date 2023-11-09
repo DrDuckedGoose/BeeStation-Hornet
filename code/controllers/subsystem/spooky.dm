@@ -35,9 +35,8 @@ SUBSYSTEM_DEF(spooky)
 	//Setup spooky behaviour
 	current_behaviour = new current_behaviour()
 	//Build spooky area list
-	for(var/area/a in GLOB.areas)
-		if(is_station_level(a.z)) //We only care about the station tbh, don't waste resource making lavaland spooky - It will be spooky when Bacon makes lavaland a ghost
-			areas[a] = a?.initial_spooky || 0.1 //we cant have areas be 0, because byond handles associated lists in an odd way
+	for(var/area/a in GLOB.the_station_areas)
+		areas[a] = a?.initial_spooky || 0.1 //we cant have areas be 0, because byond handles associated lists in an odd way
 
 /datum/controller/subsystem/spooky/fire(resumed)
 	//Tick rot components

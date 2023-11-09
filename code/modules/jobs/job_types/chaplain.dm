@@ -117,6 +117,12 @@
 
 	SSspooky.active_chaplain = TRUE
 	ADD_TRAIT(H, TRAIT_INDIANA_JONES, JOB_TRAIT)
+	//Add custom objectives, garunteed
+	if(H.mind)
+		//This actually fucks with regular objective logic, so we have to manually add the crew objectives
+		SSjob.generate_individual_objectives(H.mind)
+		//Then add our garunteed objective :D
+		H.mind.add_crew_objective(/datum/objective/chaplain_litany)
 
 /datum/outfit/job/chaplain
 	name = JOB_NAME_CHAPLAIN
@@ -133,3 +139,53 @@
 	)
 	backpack = /obj/item/storage/backpack/cultpack
 	satchel = /obj/item/storage/backpack/cultpack
+
+//Special garunteed objective code for this role
+/datum/objective/chaplain_litany
+	explanation_text = "Bless (something broke here) with a litany containing (something broke here)"
+	martyr_compatible = 1
+	///What area, person, or object we're blessing with stuff:tm:
+	var/atom/litany_target
+	///What litany contents we're blessing
+	var/list/litany_components = list()
+	///The difficulty of this objective
+	var/difficulty = 1
+
+/datum/objective/chaplain_litany/New()
+	. = ..()
+	//TODO: Implement other target types - Racc
+	litany_target = pick(GLOB.the_station_areas)
+	//Pick litany components
+	var/component_count = 1
+	switch(difficulty)
+		if(1)
+			component_count = 1
+		if(2)
+			component_count = 3
+		if(3)
+			component_count = 5
+	var/list/available_components = subtypesof(/datum/litany_component)
+	for(var/i in 1 to component_count)
+		if(!length(available_components))
+			break
+		var/datum/litany_component/choice = pick(available_components)
+		litany_components += choice
+		available_components -= choice
+	update_explanation_text()
+
+/datum/objective/chaplain_litany/update_explanation_text()
+	. = ..()
+	explanation_text = "Bless [litany_target] with a litany containing"
+	for(var/datum/litany_component/i in litany_components)
+		explanation_text = "[explanation_text] [initial(i.name)], "
+
+/datum/objective/chaplain_litany/check_completion()
+	if(..())
+		return TRUE
+	var/obj/item/litany/L = locate(/obj/item/litany) in litany_target?.contents
+	. = L ? TRUE : FALSE
+	//If we have an area as our target
+	if(isarea(litany_target))
+		if(get_area(get_turf(L)) == litany_target)
+			return TRUE
+		return FALSE

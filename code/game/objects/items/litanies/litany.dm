@@ -2,7 +2,7 @@
 	name = "litany"
 	gender = NEUTER
 	icon = 'icons/obj/bureaucracy.dmi'
-	icon_state = "paper"
+	icon_state = "litany_stamp"
 	item_state = "paper"
 	custom_fire_overlay = "paper_onfire_overlay"
 	throwforce = 0
@@ -17,6 +17,8 @@
 	color = COLOR_WHITE
 	///List, in order, of litany components we have
 	var/list/litany_components = list()
+	///The max amount of litany components this litany can have
+	var/max_components = 4
 	///The target we're attached to, since we sit in area contents for objective checks
 	var/atom/movable/attach_target
 
@@ -41,3 +43,14 @@
 	pixel_y = 0
 	attach_target?.vis_contents -= src
 	attach_target = null
+
+///Logic for adding litany components & overlays associated with that
+/obj/item/litany/proc/add_litany_component(datum/litany_component/LC, override_length = 0)
+	litany_components += new LC()
+	//Create paper visuals
+	cut_overlays()
+	var/loop_length = (override_length || length(litany_components)) //Logic in loop params is fucky here
+	for(var/i in 1 to loop_length)
+		var/mutable_appearance/MA = mutable_appearance('icons/obj/bureaucracy.dmi', "litany_paper")
+		MA.pixel_y = (-7 * i) + 7 //Todd_Howard.webp
+		add_overlay(MA)
