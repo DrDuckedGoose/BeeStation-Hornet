@@ -35,6 +35,7 @@
 	var/area/A = get_area(owner)
 	A?.mood_bonus = old_area_bonus
 	A?.mood_message = old_area_message
+	manage_filters(0)
 
 	return ..()
 
@@ -85,6 +86,7 @@
 		if(0 to 30)
 			owner?.remove_emitter("rot")
 			owner?.remove_emitter("stink")
+			manage_filters(rot)
 			return
 		//medium rot
 		if(31 to 50)
@@ -99,6 +101,8 @@
 					var/area/A = get_area(owner)
 					A?.mood_bonus = -1
 					A?.mood_message = "<span class='warning'>It smells in here.</span>"
+			//Filters
+			manage_filters(rot)
 		//max rot
 		if(51 to 100)
 			//They ROTTED
@@ -116,6 +120,8 @@
 					var/area/A = get_area(owner)
 					A?.mood_bonus = -2
 					A?.mood_message = "<span class='warning'>It reeks in here!</span>"
+			//Filters
+			manage_filters(rot)
 
 /datum/component/rot/proc/bless(mob/living/chap)
 	if(!chap?.mind?.holy_role)
@@ -134,6 +140,26 @@
 	//Typically spooky removes it owns corpses, but we might get removed by an admin or something else I forgor
 	SSspooky.remove_corpse(owner)
 	RemoveComponent()
+
+/datum/component/rot/proc/manage_filters(_rot = 0)
+	var/rot_state = ""
+	switch(_rot)
+		if(20 to 31)
+			rot_state = "rot_1"
+		if(32 to 50)
+			rot_state = "rot_2"
+		if(50 to 100)
+			rot_state = "rot_3"
+	owner.remove_filter("rot_mask")
+	owner.remove_filter("rot_skele")	
+	if(!_rot)
+		return
+	//Build icons
+	var/icon/I = icon('icons/effects/rot.dmi', icon_state = rot_state)
+	var/icon/S = icon('icons/mob/human.dmi', icon_state = "skeleton")
+	//Apply filters
+	owner.add_filter("rot_mask", 10, alpha_mask_filter(icon = I))
+	owner.add_filter("rot_skele", 11, layering_filter(icon = S, flags = FILTER_UNDERLAY))
 
 #undef MAX_FUNERAL_GARNISH
 #undef GENERIC_ROT_REDUCTION
