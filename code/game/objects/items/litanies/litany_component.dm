@@ -22,16 +22,18 @@
 	return
 
 /datum/litany_component/proc/remove()
-	handle_target()
+	handle_target_removal()
 	return
 
 /datum/litany_component/proc/register_target(atom/_target)
 	target = _target
-	RegisterSignal(target, COMSIG_PARENT_QDELETING, PROC_REF(handle_target))
+	RegisterSignal(target, COMSIG_PARENT_QDELETING, PROC_REF(handle_target_removal))
 
-/datum/litany_component/proc/handle_target()
-	UnregisterSignal(target, COMSIG_PARENT_QDELETING)
-	target = null
+///For removal
+/datum/litany_component/proc/handle_target_removal()
+	if(target)
+		UnregisterSignal(target, COMSIG_PARENT_QDELETING)
+		target = null
 
 /*
 	ALPHA
@@ -61,14 +63,14 @@
 		register_target(A)
 	owner.info_stack -= A
 
-/datum/litany_component/beta/handle_target()
+/datum/litany_component/beta/handle_target_removal()
 	target?.remove_filter("litany_outline")
 	return ..()
 
 /*
 	OMEGA
 	
-	Adds the current location to the stack
+	:D
 */
 /datum/litany_component/omega
 	name = "omega"
