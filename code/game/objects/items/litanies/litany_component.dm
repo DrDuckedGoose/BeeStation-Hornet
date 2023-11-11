@@ -1,6 +1,6 @@
-//TODO: Add antiharddel stuff - Racc
+//TODO: Add antiharddel stuff relating to owner - Racc
 /datum/litany_component
-	///Who does this belong to?
+	///Who litany item does this belong to?
 	var/obj/item/litany/owner
 	///name of this component
 	var/name = ""
@@ -8,7 +8,6 @@
 	var/icon = 'icons/obj/religion.dmi'
 	///state for this component's symbol
 	var/icon_state = ""
-
 	///What did we effect - Helper for the components that use it
 	var/atom/target
 
@@ -37,6 +36,7 @@
 
 /*
 	ALPHA
+	1:0
 
 	pushes the current location to the stack
 */
@@ -49,6 +49,7 @@
 
 /*
 	BETA
+	0:1
 	
 	Adds an outline to the atom on the top of the stack, and pops it
 */
@@ -69,7 +70,8 @@
 
 /*
 	OMEGA
-	
+	0:0
+
 	:D
 */
 /datum/litany_component/omega

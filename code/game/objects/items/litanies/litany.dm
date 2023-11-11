@@ -2,7 +2,8 @@
 //64 characters available, should be enough
 #define MAX_LITANY_CHAR_X 8
 #define MAX_LITANY_CHAR_Y 8
-#define LITANY_CHARACTER_SIZE 5
+#define LITANY_CHARACTER_SIZE 16
+#define GENERIC_OFFSET 8
 
 /obj/item/litany
 	name = "litany"
@@ -34,6 +35,11 @@
 	///The image used to display components
 	var/image/display_component
 	var/mob/display_user
+
+/obj/item/litany/interact(mob/user)
+	. = ..()
+	if(!blessed)
+		edit_components(user)
 
 //We can attach this item to 'things', like a sticker
 /obj/item/litany/afterattack(atom/movable/target, mob/user, proximity_flag, click_parameters)
@@ -100,8 +106,8 @@
 	if(!_litanies && !_associated_litanies)
 		litanies = subtypesof(/datum/litany_component)
 		for(var/datum/litany_component/i as() in litanies)
-			litany_choices += list("[i]" = image(initial(i.icon), icon_state = initial(i.icon_state)))
-			associated_litany += list("[i]" = i)
+			litany_choices += list("[initial(i.name)]" = image(initial(i.icon), icon_state = initial(i.icon_state)))
+			associated_litany += list("[initial(i.name)]" = i)
 	//otherwise, save some time
 	else
 		litany_choices = _litanies
@@ -130,9 +136,9 @@
 			continue
 		var/atom/movable/screen/litany_component/new_element = new /atom/movable/screen/litany_component(null, src, i)
 		new_element.appearance = icon(i.icon, i.icon_state)
-		//Calculate offsets - 11 is a generic offset used to center the sprites
-		new_element.pixel_x = 11 + (((count % MAX_LITANY_CHAR_X) * LITANY_CHARACTER_SIZE) - ((min(length(litany_components), 8)-1) * (LITANY_CHARACTER_SIZE / 2)))
-		new_element.pixel_y = -(round(count / MAX_LITANY_CHAR_X) * LITANY_CHARACTER_SIZE)
+		//Calculate offsets - slightly spooky, sorry
+		new_element.pixel_x = GENERIC_OFFSET + (((count % MAX_LITANY_CHAR_X) * LITANY_CHARACTER_SIZE) - ((min(length(litany_components), 8)-1) * (LITANY_CHARACTER_SIZE / 2)))
+		new_element.pixel_y = (round(count / MAX_LITANY_CHAR_X) * -LITANY_CHARACTER_SIZE) + round((length(litany_components)-1) / 8) * LITANY_CHARACTER_SIZE
 		M.vis_contents += new_element
 		count += 1
 	user.client?.images += M
@@ -149,6 +155,7 @@
 	update_appearance()
 
 /atom/movable/screen/litany_component
+	plane = HUD_PLANE
 	///The litany component we're associated with with
 	var/obj/item/litany/litany_parent
 	///The component we're associated with
@@ -156,19 +163,20 @@
 
 /atom/movable/screen/litany_component/Initialize(mapload, obj/item/litany/_litany, datum/litany_component/_litany_component)
 	. = ..()
+	//Setup
 	litany_parent = _litany
 	litany_component = _litany_component
+	//Fancy stuff
+	filters += filter(type = "bloom", threshold = "#3a3a3a", size = 2, offset = 1)
 
 /atom/movable/screen/litany_component/Click(location, control, params)
 	. = ..()
 	litany_parent?.litany_components -= litany_component
-	qdel(litany_component)
-	litany_parent?.display_user?.client?.images -= litany_parent?.display_component
-	qdel(litany_parent?.display_component)
-	litany_parent.display_components(litany_parent?.display_user)
+	QDEL_NULL(litany_component)
 	litany_parent.update_appearance()
-	qdel(src)
+	color = "#000"
 
 #undef MAX_LITANY_CHAR_X
 #undef MAX_LITANY_CHAR_Y
 #undef LITANY_CHARACTER_SIZE
+#undef GENERIC_OFFSET
