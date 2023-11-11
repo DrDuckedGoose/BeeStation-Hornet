@@ -47,7 +47,7 @@
 		//handle spooky rewards
 		SSspooky.adjust_trespass(user, -TRESPASS_MEDIUM)
 		var/datum/component/rot/R = target.GetComponent(/datum/component/rot)
-		R?.RemoveComponent()
+		R?.favor_modifier += 0.5
 	else
 		//handle spooky consequcnes
 		target.add_splatter_floor()

@@ -1,6 +1,8 @@
 #define MAX_FUNERAL_GARNISH 0.5
 #define FUNERAL_GARNISH_SWAP_LIMIT 3
 #define GENERIC_ROT_REDUCTION 0.9
+#define SMALL_TRESPASS_MOD 10
+#define MEDIUM_TREPASS_MOD 6
 
 //Component for rotting corpses
 /datum/component/rot
@@ -17,6 +19,8 @@
 	var/rot_state
 	///Is this corpse generating holy favour
 	var/make_favor = FALSE
+	///Extra modifer to encourage stuff like embalming
+	var/favor_modifier = 1
 
 /datum/component/rot/Initialize(...)
 	. = ..()
@@ -62,16 +66,12 @@
 	//Modifiers - readability over... the other thing
 	if(HAS_TRAIT(owner, TRAIT_EMBALMED))
 		amount *= GENERIC_ROT_REDUCTION
-	//Spacing corpses *does* reduce rot, but it has a consequence
-	if(isspaceturf(get_turf(owner.loc)))
-		amount *= GENERIC_ROT_REDUCTION
-		//The consequence
 	if(istype(owner?.loc, /obj/structure/closet/crate/coffin) || istype(owner?.loc, /obj/structure/bodycontainer))
 		//Calculate garnish stuff
 		if(istype(owner?.loc, /obj/structure/closet/crate/coffin))
 			var/obj/structure/closet/crate/coffin/C = owner?.loc
 			amount *= max((length(C.garnishes) * 0.1) - 1, MAX_FUNERAL_GARNISH)
-			if(C.garnishes >= FUNERAL_GARNISH_SWAP_LIMIT)
+			if(length(C.garnishes) >= FUNERAL_GARNISH_SWAP_LIMIT)
 				make_favor = TRUE
 				//Filter
 				if(!owner.get_filter("garnish_outline"))
@@ -83,6 +83,11 @@
 
 		else
 			amount *= GENERIC_ROT_REDUCTION
+	//Spacing corpses *does* reduce rot, but it has a consequence
+	if(isspaceturf(get_turf(owner.loc)))
+		amount *= GENERIC_ROT_REDUCTION
+		make_favor = FALSE
+	//Generic blessing flag for litanies
 	if(blessed)
 		amount *= GENERIC_ROT_REDUCTION
 	//handle rot value
@@ -108,11 +113,11 @@
 			if(!owner?.master_holder?.emitters["rot"])
 				owner?.add_emitter(/obj/emitter/flies, "rot", 10, -1)
 			//Spooky punishment
-			SSspooky.adjust_trespass(owner, TRESPASS_SMALL / 10, FALSE)
+			SSspooky.adjust_trespass(owner, TRESPASS_SMALL / SMALL_TRESPASS_MOD, FALSE)
 			//Holy benehfits
 			if(make_favor)
 				var/datum/religion_sect/R = GLOB.religious_sect
-				R.adjust_favor(TRESPASS_SMALL / 10)
+				R.adjust_favor((TRESPASS_SMALL / SMALL_TRESPASS_MOD) * favor_modifier)
 			//Area flavor / detective hints
 			if(do_checks)
 				if(!(istype(owner?.loc, /obj/structure/closet/crate/coffin) || istype(owner?.loc, /obj/structure/bodycontainer)))
@@ -131,11 +136,11 @@
 			if(!owner?.master_holder?.emitters["stink"])
 				owner?.add_emitter(/obj/emitter/stink_lines, "stink", 11, -1)
 			//Spooky punishment
-			SSspooky.adjust_trespass(owner, TRESPASS_SMALL / 5, FALSE)
+			SSspooky.adjust_trespass(owner, TRESPASS_SMALL / MEDIUM_TREPASS_MOD, FALSE)
 			//Holy benehfits
 			if(make_favor)
 				var/datum/religion_sect/R = GLOB.religious_sect
-				R.adjust_favor(TRESPASS_SMALL / 5)
+				R.adjust_favor((TRESPASS_SMALL / MEDIUM_TREPASS_MOD) * favor_modifier)
 			//Area flavor / detective hints
 			if(do_checks)
 				if(!istype(owner?.loc, /obj/structure/closet/crate/coffin))
@@ -186,3 +191,5 @@
 #undef MAX_FUNERAL_GARNISH
 #undef FUNERAL_GARNISH_SWAP_LIMIT
 #undef GENERIC_ROT_REDUCTION
+#undef SMALL_TRESPASS_MOD
+#undef MEDIUM_TREPASS_MOD
