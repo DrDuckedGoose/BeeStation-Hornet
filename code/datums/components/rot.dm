@@ -1,4 +1,5 @@
 #define MAX_FUNERAL_GARNISH 0.5
+#define FUNERAL_GARNISH_SWAP_LIMIT 3
 #define GENERIC_ROT_REDUCTION 0.9
 
 //Component for rotting corpses
@@ -14,6 +15,8 @@
 	var/blessed = FALSE
 	///Rot state for icon / effect stuff, reduces overhead
 	var/rot_state
+	///Is this corpse generating holy favour
+	var/make_favor = FALSE
 
 /datum/component/rot/Initialize(...)
 	. = ..()
@@ -68,7 +71,16 @@
 		if(istype(owner?.loc, /obj/structure/closet/crate/coffin))
 			var/obj/structure/closet/crate/coffin/C = owner?.loc
 			amount *= max((length(C.garnishes) * 0.1) - 1, MAX_FUNERAL_GARNISH)
-			//TODO: Implement document features - Racc
+			if(C.garnishes >= FUNERAL_GARNISH_SWAP_LIMIT)
+				make_favor = TRUE
+				//Filter
+				if(!owner.get_filter("garnish_outline"))
+					owner?.add_filter("garnish_outline", 10, outline_filter(1, rgb(255, 200, 0)))
+			else
+				make_favor = FALSE
+				if(owner.get_filter("garnish_outline"))
+					owner?.remove_filter("garnish_outline")
+
 		else
 			amount *= GENERIC_ROT_REDUCTION
 	if(blessed)
@@ -97,6 +109,10 @@
 				owner?.add_emitter(/obj/emitter/flies, "rot", 10, -1)
 			//Spooky punishment
 			SSspooky.adjust_trespass(owner, TRESPASS_SMALL / 10, FALSE)
+			//Holy benehfits
+			if(make_favor)
+				var/datum/religion_sect/R = GLOB.religious_sect
+				R.adjust_favor(TRESPASS_SMALL / 10)
 			//Area flavor / detective hints
 			if(do_checks)
 				if(!(istype(owner?.loc, /obj/structure/closet/crate/coffin) || istype(owner?.loc, /obj/structure/bodycontainer)))
@@ -116,6 +132,10 @@
 				owner?.add_emitter(/obj/emitter/stink_lines, "stink", 11, -1)
 			//Spooky punishment
 			SSspooky.adjust_trespass(owner, TRESPASS_SMALL / 5, FALSE)
+			//Holy benehfits
+			if(make_favor)
+				var/datum/religion_sect/R = GLOB.religious_sect
+				R.adjust_favor(TRESPASS_SMALL / 5)
 			//Area flavor / detective hints
 			if(do_checks)
 				if(!istype(owner?.loc, /obj/structure/closet/crate/coffin))
@@ -164,4 +184,5 @@
 	owner.add_filter("rot_skele", 11, layering_filter(icon = S, flags = FILTER_UNDERLAY))
 
 #undef MAX_FUNERAL_GARNISH
+#undef FUNERAL_GARNISH_SWAP_LIMIT
 #undef GENERIC_ROT_REDUCTION
