@@ -60,8 +60,11 @@
 /datum/litany_component/beta/activate()
 	var/atom/A = owner.info_stack[length(owner.info_stack)]
 	if(isatom(A) && !A.get_filter("litany_outline"))
-		A.add_filter("litany_outline", 10, outline_filter(1, rgb(255, 255, 255)))
-		register_target(A)
+		//Don't let cultists get blessed, wizards can be though
+		var/mob/living/M = A
+		if(isliving(A) && !(iscultist(M) || is_servant_of_ratvar(M)))
+			A.add_filter("litany_outline", 10, outline_filter(1, rgb(255, 255, 255)))
+			register_target(A)
 	owner.info_stack -= A
 
 /datum/litany_component/beta/handle_target_removal()
@@ -70,10 +73,48 @@
 
 /*
 	OMEGA
-	0:0
+	0:1
 
-	:D
+	Stops rot, and adds the holy trait, etc. Also sets cultists on fire
 */
 /datum/litany_component/omega
 	name = "omega"
 	icon_state = "omega"
+	///Was the target blessed before? - rot
+	var/blessed_before = FALSE
+	///If we added a blessing effect, we need to remove it
+	var/obj/effect/blessing/blessing
+
+/datum/litany_component/omega/activate()
+	var/atom/A = owner.info_stack[length(owner.info_stack)]
+	if(isatom(A))
+		//Generic holy buff
+		ADD_TRAIT(A, TRAIT_HOLY, "litany")
+		//Rot
+		var/datum/component/rot/R = A.GetComponent(/datum/component/rot)
+		blessed_before = R?.blessed
+		R?.blessed = TRUE
+		//Turf
+		var/turf/T = A
+		if(isturf(A))
+			blessing = T.Bless()
+		//Cult stuff
+		var/mob/living/M = A
+		if(isliving(A) && (iscultist(M) || is_servant_of_ratvar(M)))
+			M.adjust_fire_stacks(5)
+			M.IgniteMob()
+			M.Stun(3 SECONDS)
+			M.jitteriness = min(M.jitteriness+4,10)
+		register_target(A)
+	owner.info_stack -= A
+
+/datum/litany_component/omega/handle_target_removal()
+	if(target)
+		REMOVE_TRAIT(target, TRAIT_HOLY, "litany")
+	//Rot
+	var/datum/component/rot/R = target?.GetComponent(/datum/component/rot)
+	R?.blessed = blessed_before
+	//Turf
+	if(blessing)
+		QDEL_NULL(blessing)
+	return ..()

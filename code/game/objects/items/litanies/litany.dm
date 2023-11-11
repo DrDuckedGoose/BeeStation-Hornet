@@ -35,6 +35,9 @@
 	///The image used to display components
 	var/image/display_component
 	var/mob/display_user
+	///Time between uses, so people dont spam attaching & detaching
+	var/cooldown_time = 5 SECONDS
+	var/cooldown_timer
 
 /obj/item/litany/interact(mob/user)
 	. = ..()
@@ -76,9 +79,12 @@
 		add_overlay(MA)
 	return ..()
 
-/obj/item/litany/proc/activate()
-	if(!blessed)
+/obj/item/litany/proc/activate(force)
+	if((!blessed || cooldown_timer) && !force)
 		return
+	if(cooldown_timer)
+		clear_timer()
+	cooldown_timer = addtimer(CALLBACK(src, PROC_REF(clear_timer)), cooldown_time, TIMER_STOPPABLE)
 	SEND_SIGNAL(src, COMSIG_LITANY_ACTIVATE)
 	//TODO: Temporary animation, consider giving it a proper one - Racc
 	var/matrix/n_transform = transform
@@ -144,6 +150,11 @@
 	user.client?.images += M
 	return M
 
+/obj/item/litany/proc/clear_timer()
+	if(cooldown_timer)
+		deltimer(cooldown_timer)
+	cooldown_timer = null
+
 /obj/item/litany/pregenerated
 	///list of litany components to add
 	var/list/to_add_components = list(/datum/litany_component/alpha, /datum/litany_component/beta)
@@ -167,7 +178,7 @@
 	litany_parent = _litany
 	litany_component = _litany_component
 	//Fancy stuff
-	filters += filter(type = "bloom", threshold = "#3a3a3a", size = 2, offset = 1)
+	//TODO: Add animation - Racc
 
 /atom/movable/screen/litany_component/Click(location, control, params)
 	. = ..()
