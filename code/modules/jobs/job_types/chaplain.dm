@@ -155,7 +155,7 @@
 	. = ..()
 	//TODO: Implement other target types - Racc
 	litany_target = pick(GLOB.the_station_areas)
-	if(litany_target)
+	if(!litany_target)
 		return
 	//Pick litany components
 	var/component_count = 1

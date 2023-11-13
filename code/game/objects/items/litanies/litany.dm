@@ -22,6 +22,7 @@
 	resistance_flags = FLAMMABLE
 	max_integrity = 50
 	color = COLOR_WHITE
+	vis_flags = VIS_INHERIT_PLANE | VIS_INHERIT_LAYER
 	///List, in order, of litany components we have
 	var/list/litany_components = list()
 	///The max amount of litany components this litany can have

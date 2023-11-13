@@ -181,6 +181,10 @@
 		if(HAS_TRAIT(I, TRAIT_FUNERAL_GARNISH))
 			garnishes |= I.type
 
+/obj/structure/closet/crate/coffin/open(mob/living/user)
+	. = ..()
+	garnishes = list()
+
 /obj/structure/closet/crate/internals
 	desc = "An internals crate."
 	name = "internals crate"
