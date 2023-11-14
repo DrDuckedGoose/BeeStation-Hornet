@@ -121,7 +121,7 @@
 		SSblackbox.record_feedback("text", "religion_book", 1, "[choice]")//I don't know why it's here but I'm keeping it in case it breaks something
 	return
 
-/obj/item/storage/book/bible/proc/bless(mob/living/L, mob/living/user)
+/obj/item/storage/book/bible/proc/bless_attack(mob/living/L, mob/living/user)
 	if(GLOB.religious_sect)
 		return GLOB.religious_sect.sect_bless(L,user)
 	if(!ishuman(L))
@@ -180,7 +180,7 @@
 			to_chat(user, "<span class='warning'>You can't heal yourself!</span>")
 			return
 
-		if(prob(60) && bless(M, user))
+		if(prob(60) && bless_attack(M, user))
 			smack = 0
 		else if(iscarbon(M))
 			var/mob/living/carbon/C = M
@@ -202,12 +202,9 @@
 	. = ..()
 	if(!proximity)
 		return
-	if(isfloorturf(A))
-		to_chat(user, "<span class='notice'>You hit the floor with the bible.</span>")
-		if(user?.mind?.holy_role)
-			for(var/obj/effect/rune/R in orange(2,user))
-				R.invisibility = 0
+	A.bless(user, src)
 	if(user?.mind?.holy_role)
+		//Special cases for reagents
 		if(A.reagents && A.reagents.has_reagent(/datum/reagent/water)) // blesses all the water in the holder
 			to_chat(user, "<span class='notice'>You bless [A].</span>")
 			var/water2holy = A.reagents.get_reagent_amount(/datum/reagent/water)
@@ -218,58 +215,6 @@
 			var/unholy2clean = A.reagents.get_reagent_amount(/datum/reagent/fuel/unholywater)
 			A.reagents.del_reagent(/datum/reagent/fuel/unholywater)
 			A.reagents.add_reagent(/datum/reagent/water/holywater,unholy2clean)
-		if(istype(A, /obj/item/storage/book/bible) && !istype(A, /obj/item/storage/book/bible/syndicate))
-			to_chat(user, "<span class='notice'>You purify [A], conforming it to your belief.</span>")
-			var/obj/item/storage/book/bible/B = A
-			B.name = name
-			B.icon_state = icon_state
-			B.item_state = item_state
-	if(istype(A, /obj/item/cult_bastard) && !iscultist(user))
-		var/obj/item/cult_bastard/sword = A
-		to_chat(user, "<span class='notice'>You begin to exorcise [sword].</span>")
-		playsound(src,'sound/hallucinations/veryfar_noise.ogg',40,1)
-		if(do_after(user, 40, target = sword))
-			playsound(src,'sound/effects/pray_chaplain.ogg',60,1)
-			for(var/obj/item/soulstone/SS in sword.contents)
-				SS.usability = TRUE
-				for(var/mob/living/simple_animal/shade/EX in SS)
-					SSticker.mode.remove_cultist(EX.mind, 1, 0)
-					EX.icon_state = "ghost1"
-					EX.name = "Purified [EX.name]"
-				SS.release_shades(user)
-				qdel(SS)
-			new /obj/item/nullrod/claymore(get_turf(sword))
-			user.visible_message("<span class='notice'>[user] has purified [sword]!</span>")
-			qdel(sword)
-
-	else if(istype(A, /obj/item/soulstone) && !iscultist(user))
-		var/obj/item/soulstone/SS = A
-		if(SS.purified)
-			return
-		to_chat(user, "<span class='notice'>You begin to exorcise [SS].</span>")
-		playsound(src,'sound/hallucinations/veryfar_noise.ogg',40,1)
-		if(do_after(user, 40, target = SS))
-			playsound(src,'sound/effects/pray_chaplain.ogg',60,1)
-			SS.usability = TRUE
-			SS.purified = TRUE
-			SS.icon_state = "purified_soulstone"
-			for(var/mob/M in SS.contents)
-				if(M.mind)
-					SS.icon_state = "purified_soulstone2"
-					if(iscultist(M))
-						SSticker.mode.remove_cultist(M.mind, FALSE, FALSE)
-			for(var/mob/living/simple_animal/shade/EX in SS)
-				EX.icon_state = "ghost1"
-				EX.name = "Purified [initial(EX.name)]"
-			user.visible_message("<span class='notice'>[user] has purified [SS]!</span>")
-
-	else if(istype(A, /obj/item/paper) && !iscultist(user))
-		to_chat(user, "<span class='notice'>You begin to bless [A].</span>")
-		if(do_after(user, 40, target = A))
-			to_chat(user, "<span class='notice'>You bless [A]!</span>")
-			var/obj/item/litany/L = new(get_turf(A))
-			user.put_in_hand(L)
-			qdel(A)
 
 /obj/item/storage/book/bible/booze
 	desc = "To be applied to the head repeatedly."
@@ -309,3 +254,11 @@
 
 /obj/item/storage/book/bible/syndicate/add_blood_DNA(list/blood_dna)
 	return FALSE
+
+/obj/item/storage/book/bible/syndicate/bless(mob/living/carbon/user, obj/item/bless_tool)
+	. = ..()
+	if(user?.mind?.holy_role && istype(bless_tool, /obj/item/storage/book/bible))
+		to_chat(user, "<span class='notice'>You purify [src], conforming it to your belief.</span>")
+		name = name
+		icon_state = icon_state
+		item_state = item_state

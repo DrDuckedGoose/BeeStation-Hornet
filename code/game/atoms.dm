@@ -1809,3 +1809,6 @@
 		return TRUE
 	return FALSE
 
+/atom/proc/bless(mob/living/carbon/user, obj/item/bless_tool)
+	return
+

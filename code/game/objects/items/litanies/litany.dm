@@ -60,7 +60,6 @@
 	pixel_y = text2num(params["icon-y"])-16
 	layer = ABOVE_ALL_MOB_LAYER
 	activate()
-	//TODO: Add sticker masking behav - Racc
 
 /obj/item/litany/attack_hand(mob/living/carbon/user)
 	. = ..()
@@ -70,6 +69,10 @@
 	attach_target?.vis_contents -= src
 	attach_target = null
 	SEND_SIGNAL(src, COMSIG_LITANY_REMOVE)
+
+/obj/item/litany/attackby(obj/item/I, mob/living/user, params)
+	. = ..()
+	attach_target.attackby(I, user, params)
 
 /obj/item/litany/update_appearance(updates, override_length = 0)
 	cut_overlays()
@@ -85,7 +88,7 @@
 		return
 	if(cooldown_timer)
 		clear_timer()
-	cooldown_timer = addtimer(CALLBACK(src, PROC_REF(clear_timer)), cooldown_time, TIMER_STOPPABLE)
+	cooldown_timer = addtimer(CALLBACK(src, PROC_REF(clear_timer)), cooldown_time+get_extra_time(), TIMER_STOPPABLE)
 	SEND_SIGNAL(src, COMSIG_LITANY_ACTIVATE)
 	//TODO: Temporary animation, consider giving it a proper one - Racc
 	var/matrix/n_transform = transform
@@ -155,6 +158,18 @@
 	if(cooldown_timer)
 		deltimer(cooldown_timer)
 	cooldown_timer = null
+
+///Returns the total cost of all its components
+/obj/item/litany/proc/get_cost()
+	. = 0
+	for(var/datum/litany_component/LC as() in litany_components)
+		. += LC.cost
+
+///Get extra time from present components
+/obj/item/litany/proc/get_extra_time()
+	. = 0
+	for(var/datum/litany_component/LC as() in litany_components)
+		. += LC.cooldown
 
 /obj/item/litany/pregenerated
 	///list of litany components to add

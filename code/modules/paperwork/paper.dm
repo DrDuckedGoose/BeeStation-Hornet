@@ -79,6 +79,16 @@
 	camera_holder = null
 	clear_paper()
 
+/obj/item/paper/bless(mob/living/carbon/user)
+	. = ..()
+	if(!iscultist(user))
+		to_chat(user, "<span class='notice'>You begin to bless [src].</span>")
+		if(do_after(user, 40, target = src))
+			to_chat(user, "<span class='notice'>You bless [src]!</span>")
+			var/obj/item/litany/L = new(get_turf(src))
+			user.put_in_hand(L)
+			qdel(src)
+
 /// Returns a deep copy list of raw_text_inputs, or null if the list is empty or doesn't exist.
 /obj/item/paper/proc/copy_raw_text()
 	if(!LAZYLEN(raw_text_inputs))

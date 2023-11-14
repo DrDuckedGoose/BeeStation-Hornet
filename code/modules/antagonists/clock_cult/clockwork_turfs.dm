@@ -184,7 +184,7 @@
 	var/uses_overlay = TRUE
 	var/obj/effect/clockwork/overlay/floor/realappearance
 
-/turf/open/floor/clockwork/Bless() //Who needs holy blessings when you have DADDY RATVAR? <- I did not write this, just saying
+/turf/open/floor/clockwork/bless(mob/living/carbon/user) //Who needs holy blessings when you have DADDY RATVAR? <- I did not write this, just saying
 	return
 
 /turf/open/floor/clockwork/Initialize(mapload)

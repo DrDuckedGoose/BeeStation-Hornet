@@ -58,7 +58,7 @@ SUBSYSTEM_DEF(spooky)
 	//Bunch of checks because areas are bullshit
 	if(!is_station_level(_area.z) || is_mining_level(_area.z) || istype(_area, /area/lavaland) || istype(_area, /area/ruin) || istype(_area, /area/ruin/powered))
 		return
-	if(!areas[_area]) //I hate these are actually needed
+	if(!areas[_area])
 		areas[_area] = amount
 	else
 		areas[_area] += amount

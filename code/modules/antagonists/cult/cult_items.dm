@@ -202,6 +202,25 @@ Striking a noncultist, however, will tear their flesh."}
 				SS.transfer_soul("CONSTRUCT",target,user)
 				qdel(SS)
 
+/obj/item/cult_bastard/bless(mob/living/carbon/user)
+	. = ..()
+	if(!iscultist(user))
+		to_chat(user, "<span class='notice'>You begin to exorcise [src].</span>")
+		playsound(src,'sound/hallucinations/veryfar_noise.ogg',40,1)
+		if(do_after(user, 40, target = src))
+			playsound(src,'sound/effects/pray_chaplain.ogg',60,1)
+			for(var/obj/item/soulstone/SS in contents)
+				SS.usability = TRUE
+				for(var/mob/living/simple_animal/shade/EX in SS)
+					SSticker.mode.remove_cultist(EX.mind, 1, 0)
+					EX.icon_state = "ghost1"
+					EX.name = "Purified [EX.name]"
+				SS.release_shades(user)
+				qdel(SS)
+			new /obj/item/nullrod/claymore(get_turf(src))
+			user.visible_message("<span class='notice'>[user] has purified [src]!</span>")
+			qdel(src)
+
 /datum/action/innate/dash/cult
 	name = "Rend the Veil"
 	desc = "Use the sword to shear open the flimsy fabric of this reality and teleport to your target."

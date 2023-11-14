@@ -15,6 +15,28 @@
 	var/spent = FALSE
 	var/purified = FALSE
 
+/obj/item/soulstone/bless(mob/living/carbon/user)
+	. = ..()
+	if(!iscultist(user))
+		if(purified)
+			return
+		to_chat(user, "<span class='notice'>You begin to exorcise [src].</span>")
+		playsound(src,'sound/hallucinations/veryfar_noise.ogg',40,1)
+		if(do_after(user, 40, target = src))
+			playsound(src,'sound/effects/pray_chaplain.ogg',60,1)
+			usability = TRUE
+			purified = TRUE
+			icon_state = "purified_soulstone"
+			for(var/mob/M in contents)
+				if(M.mind)
+					icon_state = "purified_soulstone2"
+					if(iscultist(M))
+						SSticker.mode.remove_cultist(M.mind, FALSE, FALSE)
+			for(var/mob/living/simple_animal/shade/EX in src)
+				EX.icon_state = "ghost1"
+				EX.name = "Purified [initial(EX.name)]"
+			user.visible_message("<span class='notice'>[user] has purified [src]!</span>")
+
 /obj/item/soulstone/proc/was_used()
 	if(old_shard)
 		spent = TRUE

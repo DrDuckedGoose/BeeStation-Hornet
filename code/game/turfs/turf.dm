@@ -357,9 +357,14 @@ GLOBAL_LIST_EMPTY(created_baseturf_lists)
 	if(L && (L.flags_1 & INITIALIZED_1))
 		qdel(L)
 
-/turf/proc/Bless()
-	var/obj/effect/blessing/B = new /obj/effect/blessing(src)
-	return B
+/turf/bless(mob/living/carbon/user)
+	to_chat(user, "<span class='notice'>You hit the floor with the bible.</span>")
+	if(user?.mind?.holy_role)
+		for(var/obj/effect/rune/R in orange(2,user))
+			R.invisibility = 0
+	if(!locate(/obj/effect/blessing) in contents)
+		var/obj/effect/blessing/B = new /obj/effect/blessing(src)
+		return B
 
 /turf/storage_contents_dump_act(datum/component/storage/src_object, mob/user)
 	. = ..()
