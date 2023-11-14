@@ -18,7 +18,7 @@
 
 /obj/item/reagent_containers/food/snacks/grown/flower/Initialize(mapload, obj/item/seeds/new_seed)
 	. = ..()
-	ADD_TRAIT(src, TRAIT_FUNERAL_GARNISH, TRAIT_GENERIC)
+	ADD_TRAIT(src, TRAIT_FUNERAL_GARNISH, GENERIC_ITEM_TRAIT)
 
 /obj/item/reagent_containers/food/snacks/grown/flower/equipped(mob/user, slot)
 	. = ..()

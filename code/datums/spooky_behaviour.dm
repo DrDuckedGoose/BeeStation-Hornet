@@ -17,7 +17,7 @@
 //Default frugal behaviour
 /datum/spooky_behaviour
 	///Spending goal - what the system currently *wants* to buy
-	var/spending_goal = /datum/spooky_event
+	var/datum/spooky_event/spending_goal = /datum/spooky_event
 	///How long it's been since something spooky happened - Leave this at 0, so we don't get possessions round start
 	var/last_spook = 0
 	///What are our spending options [thing = cost]
@@ -34,26 +34,33 @@
 /datum/spooky_behaviour/proc/process_currency(datum/controller/subsystem/spooky/SS)
 	//Check if we need to, and can, panic buy something if we're taking too long
 	if(world.time > last_spook + MAXIMUM_SPOOK_TIME)
-		spending_goal = generate_goal(GOAL_MODE_PANIC, SS.spectral_trespass)
-
+		spending_goal = generate_goal(GOAL_MODE_PANIC)
+	//Check if the current goal is allowed with the current chaplain status
+	if(initial(spending_goal.requires_chaplain) && (SS.active_chaplain?.stat == DEAD || !SS.active_chaplain))
+		spending_goal = generate_goal()	
 	//Handle purchases
 	if(spending_options[spending_goal] <= SS.spectral_trespass && world.time > last_spook+MINIMUM_SPOOK_TIME)
 		//Purchase the thing:tm:
-		var/datum/spooky_event/SE = new spending_goal()
+		var/datum/spooky_event/SE = new spending_goal
 		//Take our toll if we successfully do the thing
 		if(SE?.setup(SS))
 			SS.adjust_trespass(src, -spending_options[spending_goal], FALSE)
 			last_spook = world.time
+			//Alert the chaplain something *terrible* has happened
+			var/mob/M = SS.active_chaplain
+			if(M?.stat != DEAD)
+				to_chat(M, "<span class='warning'>A terrible chill runs up your spine...</span>")
 			//If the product doesn't remove itself straight away, we probably want to track it
 			if(!QDELING(SE))
 				active_products += SE
 		else
 			//Clean up datums that failed to setup
-			qdel(SE)
+			if(!QDELETED(SE))
+				qdel(SE)
 		spending_goal = generate_goal()	
 
 //Get a spending goal for the system
-/datum/spooky_behaviour/proc/generate_goal(goal_type = GOAL_MODE_CASUAL, available_currency = 0)
+/datum/spooky_behaviour/proc/generate_goal(goal_type = GOAL_MODE_CASUAL, available_currency = SSspooky.spectral_trespass)
 	switch(goal_type)
 		if(GOAL_MODE_CASUAL)
 			//Just pick anything, it doesn't matter

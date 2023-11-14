@@ -20,7 +20,7 @@
 	var/blessed = FALSE
 	///Rot state for icon / effect stuff, reduces overhead
 	var/rot_state
-	var/atom/movable/skeleton_underlay
+	var/atom/movable/rot_skeleton_underlay/skeleton_underlay
 	///Is this corpse generating holy favour
 	var/make_favor = FALSE
 	///Extra modifer to encourage stuff like embalming
@@ -103,7 +103,7 @@
 	else
 		SSspooky.add_corpse(owner)
 	//handle rot value
-	var/area/A = get_area(owner) //handle rot mods
+	var/area/A = get_area(get_turf(owner)) //handle rot mods
 	var/rot_mod = 1
 	if(A) //becuase the rot mod can be 0, don't just check that variable
 		rot_mod = A?.rot_modifier
@@ -124,7 +124,7 @@
 		if(31 to 50)
 			//funky particles
 			if(!owner?.master_holder?.emitters["rot"])
-				owner?.add_emitter(/obj/emitter/flies, "rot", 10, -1)
+				owner?.add_emitter(/obj/emitter/flies, "rot", 10, 8)
 			//Spooky punishment
 			SSspooky.adjust_trespass(owner, TRESPASS_SMALL / SMALL_TRESPASS_MOD, FALSE)
 			//Holy benehfits
@@ -145,9 +145,9 @@
 			owner.become_husk()
 			//funky particles
 			if(!owner?.master_holder?.emitters["rot"])
-				owner?.add_emitter(/obj/emitter/flies, "rot", 10, -1)
+				owner?.add_emitter(/obj/emitter/flies, "rot", 10, 8)
 			if(!owner?.master_holder?.emitters["stink"])
-				owner?.add_emitter(/obj/emitter/stink_lines, "stink", 11, -1)
+				owner?.add_emitter(/obj/emitter/stink_lines, "stink", 11, 30)
 			var/rot_consequence = max_rot == MAX_SPACE_ROT ? SMALL_TRESPASS_MOD : MEDIUM_TREPASS_MOD
 			//Spooky punishment
 			SSspooky.adjust_trespass(owner, TRESPASS_SMALL / rot_consequence, FALSE)
@@ -204,12 +204,18 @@
 			skeleton_icon.Blend(limb, ICON_OVERLAY)
 	skeleton_underlay = new()
 	skeleton_underlay.appearance = skeleton_icon
-	skeleton_underlay.vis_flags = VIS_INHERIT_DIR | VIS_INHERIT_PLANE | VIS_INHERIT_LAYER | VIS_INHERIT_ID
-	skeleton_underlay.appearance_flags |= KEEP_APART
+	skeleton_underlay.appearance_flags = KEEP_APART //This gets reset just above
+	skeleton_underlay.vis_flags = VIS_INHERIT_DIR | VIS_INHERIT_PLANE | VIS_INHERIT_LAYER | VIS_INHERIT_ID //good lird
 	skeleton_underlay.add_filter("rot_mask", 10, alpha_mask_filter(icon = I, flags = MASK_INVERSE))
 	//Apply filters
 	owner.vis_contents += skeleton_underlay
 	owner.add_filter("rot_mask", 10, alpha_mask_filter(icon = I))
+
+//What's the fucking point of this shit if it gets overridden
+//TODO: Consider removing this - Racc
+/atom/movable/rot_skeleton_underlay
+	vis_flags = VIS_INHERIT_DIR | VIS_INHERIT_PLANE | VIS_INHERIT_LAYER | VIS_INHERIT_ID
+	appearance_flags = KEEP_APART
 
 #undef MAX_FUNERAL_GARNISH
 #undef FUNERAL_GARNISH_SWAP_LIMIT

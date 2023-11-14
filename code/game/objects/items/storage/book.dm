@@ -267,7 +267,8 @@
 		to_chat(user, "<span class='notice'>You begin to bless [A].</span>")
 		if(do_after(user, 40, target = A))
 			to_chat(user, "<span class='notice'>You bless [A]!</span>")
-			new /obj/item/litany(get_turf(A))
+			var/obj/item/litany/L = new(get_turf(A))
+			user.put_in_hand(L)
 			qdel(A)
 
 /obj/item/storage/book/bible/booze

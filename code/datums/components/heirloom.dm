@@ -8,6 +8,7 @@
 
 	owner = new_owner
 	family_name = new_family_name
+	ADD_TRAIT(src, TRAIT_FUNERAL_GARNISH, GENERIC_ITEM_TRAIT)
 
 	RegisterSignal(parent, COMSIG_PARENT_EXAMINE, PROC_REF(examine))
 

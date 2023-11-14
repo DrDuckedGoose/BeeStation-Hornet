@@ -16,7 +16,7 @@ SUBSYSTEM_DEF(spooky)
 	var/spectral_trespass = 0
 	var/maximum_trespass = 100
 	///Is there an active chaplain on the station?
-	var/active_chaplain = FALSE
+	var/mob/active_chaplain
 	///List of weighted active corpses - different from global dead mob list, just tracks carbons & has weights
 	var/list/corpses = list()
 	///List of weighted areas
@@ -29,20 +29,25 @@ SUBSYSTEM_DEF(spooky)
 
 /datum/controller/subsystem/spooky/Initialize(start_timeofday)
 	. = ..()
-	RegisterSignal(SSdcs, COMSIG_GLOB_MOB_DEATH, PROC_REF(add_corpse))
-	RegisterSignal(SSdcs, COMSIG_GLOB_MOB_REVIVE, PROC_REF(remove_corpse))
+	RegisterSignal(SSdcs, COMSIG_GLOB_MOB_DEATH, PROC_REF(add_corpse), TRUE)
+	RegisterSignal(SSdcs, COMSIG_GLOB_MOB_REVIVE, PROC_REF(remove_corpse), TRUE)
 
 	//Setup spooky behaviour
 	current_behaviour = new current_behaviour()
-	//Build spooky area list
-	for(var/area/a in GLOB.the_station_areas)
-		areas[a] = a?.initial_spooky || 0.1 //we cant have areas be 0, because byond handles associated lists in an odd way
 
 /datum/controller/subsystem/spooky/fire(resumed)
 	//Tick rot components
 	SEND_SIGNAL(src, SPOOKY_ROT_TICK, rot_amount)
 	//Tick the current behaviour
 	current_behaviour?.process_currency(src)
+
+	//Do this here becuase it otherwise it won't setup properly
+	if(areas?.len)
+		return
+	//Build spooky area list
+	for(var/area/a in GLOB.the_station_areas)
+		if(is_station_level(a?.z) || istype(a, /area/lavaland)) //I hate that I have to double check this
+			areas[a] = a?.initial_spooky || 0.1 //we cant have areas be 0, because byond handles associated lists in an odd way
 
 ///Use to properly adjust spectral trespass - adjust_trespass(who, how_much)
 /datum/controller/subsystem/spooky/proc/adjust_trespass(datum/source, amount = TRESPASS_SMALL, log = TRUE, force = FALSE)
@@ -79,7 +84,7 @@ SUBSYSTEM_DEF(spooky)
 	var/datum/component/rot/R = corpse?.GetComponent(/datum/component/rot)
 	corpses[corpse] = R?.rot || 0
 	//Handle the corpse being destroyed
-	RegisterSignal(corpse, COMSIG_PARENT_QDELETING, PROC_REF(remove_corpse))
+	RegisterSignal(corpse, COMSIG_PARENT_QDELETING, PROC_REF(remove_corpse), TRUE)
 
 /datum/controller/subsystem/spooky/proc/remove_corpse(datum/source, mob/corpse)
 	SIGNAL_HANDLER
@@ -91,6 +96,17 @@ SUBSYSTEM_DEF(spooky)
 /datum/controller/subsystem/spooky/proc/update_corpse(mob/corpse, amount)
 	if(corpses[corpse] != null)
 		corpses[corpse] = amount || corpses[corpse]
+
+//Procs for tracking the chaplain
+/datum/controller/subsystem/spooky/proc/register_chaplain(mob/chaplain)
+	RegisterSignal(chaplain, COMSIG_PARENT_QDELETING, PROC_REF(manage_chaplain), TRUE)
+	active_chaplain = chaplain
+
+/datum/controller/subsystem/spooky/proc/manage_chaplain(datum/source)
+	SIGNAL_HANDLER
+
+	UnregisterSignal(active_chaplain, COMSIG_PARENT_QDELETING)
+	active_chaplain = null
 
 /proc/make_spooky_indicator(turf/T, result = 0)
 	if(T)

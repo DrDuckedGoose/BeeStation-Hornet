@@ -115,7 +115,7 @@
 	SSblackbox.record_feedback("text", "religion_name", 1, "[new_religion]", 1)
 	SSblackbox.record_feedback("text", "religion_deity", 1, "[new_deity]", 1)
 
-	SSspooky.active_chaplain = TRUE
+	SSspooky.register_chaplain(H)
 	ADD_TRAIT(H, TRAIT_INDIANA_JONES, JOB_TRAIT)
 	//Add custom objectives, garunteed
 	if(H.mind)
