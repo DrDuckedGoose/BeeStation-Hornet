@@ -10,7 +10,7 @@
 /datum/spooky_event/ghost/setup(datum/controller/subsystem/spooky/SS)
 	..()
 	//logging
-	var/area/A = pick_weight(SS?.areas)
+	var/area/A = pick_weight(SS?.areas) || pick(GLOB.the_station_areas)
 	if(!A)
 		log_game("[name]([src]) failed to create at [world.time]. No area available.")
 		qdel(src)

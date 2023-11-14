@@ -234,6 +234,10 @@ GLOBAL_LIST_EMPTY(teleportlocs)
 			network_root_id = STATION_NETWORK_ROOT // default to station root because this might be created with a blueprint
 		SSnetworks.assign_area_network_id(src)
 
+	//Handle spooky-at-load areas
+	if(initial_spooky)
+		SSspooky.adjust_area_temperature(src, src, amount = initial_spooky)
+
 	return INITIALIZE_HINT_LATELOAD
 
 /**

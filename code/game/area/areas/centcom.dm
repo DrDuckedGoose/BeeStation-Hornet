@@ -15,7 +15,6 @@
 	area_flags = VALID_TERRITORY | UNIQUE_AREA
 	flags_1 = NONE
 	airlock_hack_difficulty = AIRLOCK_WIRE_SECURITY_MAXIMUM
-	initial_spooky = -100
 
 /area/centcom/control
 	name = "CentCom Docks"
@@ -89,7 +88,6 @@
 	requires_power = FALSE
 	has_gravity = STANDARD_GRAVITY
 	flags_1 = NONE
-	initial_spooky = -100
 
 /area/tdome/arena
 	name = "Thunderdome Arena"
@@ -132,7 +130,6 @@
 	flags_1 = NONE
 	network_root_id = "MAGIC_NET"
 	airlock_hack_difficulty = AIRLOCK_WIRE_SECURITY_MAXIMUM
-	initial_spooky = -100
 
 //Abductors
 /area/abductor_ship
@@ -145,7 +142,6 @@
 	flags_1 = NONE
 	network_root_id = "ALIENS"
 	airlock_hack_difficulty = AIRLOCK_WIRE_SECURITY_MAXIMUM
-	initial_spooky = -100
 
 //Syndicates
 /area/syndicate_mothership
@@ -159,7 +155,6 @@
 	ambience_index = AMBIENCE_DANGER
 	network_root_id = SYNDICATE_NETWORK_ROOT
 	airlock_hack_difficulty = AIRLOCK_WIRE_SECURITY_MAXIMUM
-	initial_spooky = -100
 
 /area/syndicate_mothership/control
 	name = "Syndicate Control Room"
@@ -180,7 +175,6 @@
 	requires_power = FALSE
 	has_gravity = STANDARD_GRAVITY
 	airlock_hack_difficulty = AIRLOCK_WIRE_SECURITY_ELITE
-	initial_spooky = -100
 
 /area/ctf/control_room
 	name = "Control Room A"
@@ -220,11 +214,9 @@
 	area_flags = VALID_TERRITORY | UNIQUE_AREA | HIDDEN_AREA
 	ambience_index = AMBIENCE_REEBE
 	airlock_hack_difficulty = AIRLOCK_WIRE_SECURITY_ELITE
-	initial_spooky = -100
 
 /area/reebe/city_of_cogs
 	name = "Reebe - City of Cogs"
 	icon_state = "purple"
 	area_flags = VALID_TERRITORY | UNIQUE_AREA | HIDDEN_AREA
 	var/playing_ambience = FALSE
-	initial_spooky = -100

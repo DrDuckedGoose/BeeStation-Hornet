@@ -31,7 +31,6 @@ SUBSYSTEM_DEF(spooky)
 	. = ..()
 	RegisterSignal(SSdcs, COMSIG_GLOB_MOB_DEATH, PROC_REF(add_corpse), TRUE)
 	RegisterSignal(SSdcs, COMSIG_GLOB_MOB_REVIVE, PROC_REF(remove_corpse), TRUE)
-
 	//Setup spooky behaviour
 	current_behaviour = new current_behaviour()
 
@@ -40,14 +39,6 @@ SUBSYSTEM_DEF(spooky)
 	SEND_SIGNAL(src, SPOOKY_ROT_TICK, rot_amount)
 	//Tick the current behaviour
 	current_behaviour?.process_currency(src)
-
-	//Do this here becuase it otherwise it won't setup properly
-	if(areas?.len)
-		return
-	//Build spooky area list
-	for(var/area/a in GLOB.the_station_areas)
-		if(is_station_level(a?.z) || istype(a, /area/lavaland)) //I hate that I have to double check this
-			areas[a] = a?.initial_spooky || 0.1 //we cant have areas be 0, because byond handles associated lists in an odd way
 
 ///Use to properly adjust spectral trespass - adjust_trespass(who, how_much)
 /datum/controller/subsystem/spooky/proc/adjust_trespass(datum/source, amount = TRESPASS_SMALL, log = TRUE, force = FALSE)
@@ -63,13 +54,16 @@ SUBSYSTEM_DEF(spooky)
 	if(log)
 		log_game("[source || "not specified"] increased spectral trespass by [amount] at [world.time] at [isatom(source) ? get_turf(source) : "not specified"].")
 	
-/datum/controller/subsystem/spooky/proc/adjust_area_temperature(datum/source, area, amount = 1, log = TRUE)
-	if(!areas[area])
-		areas[area] = 0.1
+/datum/controller/subsystem/spooky/proc/adjust_area_temperature(datum/source, area/_area, amount = 1, log = TRUE)
+	//Bunch of checks because areas are bullshit
+	if(!is_station_level(_area.z) || is_mining_level(_area.z) || istype(_area, /area/lavaland) || istype(_area, /area/ruin) || istype(_area, /area/ruin/powered))
+		return
+	if(!areas[_area]) //I hate these are actually needed
+		areas[_area] = amount
 	else
-		areas[area] += 1
+		areas[_area] += amount
 	if(log)
-		log_game("[source || "not specified"] increased [area] spectral temperature by [amount] at [world.time] at [isatom(source) ? get_turf(source) : "not specified"].")
+		log_game("[source || "not specified"] increased [_area] spectral temperature by [amount] at [world.time] at [isatom(source) ? get_turf(source) : "not specified"].")
 
 /datum/controller/subsystem/spooky/proc/add_corpse(datum/source, mob/corpse, gibbed, force)
 	SIGNAL_HANDLER
