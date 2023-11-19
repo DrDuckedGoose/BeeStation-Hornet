@@ -206,7 +206,7 @@
 /datum/objective/chaplain_litany/update_explanation_text()
 	. = ..()
 	//The logic used here is to handle a runtime on runtime station & also covers wicked bad emergencies
-	explanation_text = "Bless [litany_target?.name || initial(litany_target?.name)] with a litany containing"
+	explanation_text = "Bless [litany_target] with a litany containing"
 	var/count = 1
 	for(var/datum/litany_component/i as() in litany_components)
 		explanation_text = "[explanation_text] [initial(i.name) || "what the fuck"]"
