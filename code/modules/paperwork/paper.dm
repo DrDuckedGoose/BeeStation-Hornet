@@ -85,8 +85,9 @@
 		to_chat(user, "<span class='notice'>You begin to bless [src].</span>")
 		if(do_after(user, 40, target = src))
 			to_chat(user, "<span class='notice'>You bless [src]!</span>")
+			user.dropItemToGround(src, TRUE, TRUE)
 			var/obj/item/litany/L = new(get_turf(src))
-			user.put_in_hand(L)
+			user.put_in_hands(L)
 			qdel(src)
 
 /// Returns a deep copy list of raw_text_inputs, or null if the list is empty or doesn't exist.

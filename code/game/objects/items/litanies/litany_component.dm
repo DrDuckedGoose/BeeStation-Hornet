@@ -84,6 +84,7 @@
 /datum/litany_component/omega
 	name = "omega"
 	icon_state = "omega"
+	cooldown = 3 SECONDS
 	///Was the target blessed before? - rot
 	var/blessed_before = FALSE
 

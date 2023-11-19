@@ -121,8 +121,10 @@
 	if(H.mind)
 		//This actually fucks with regular objective logic, so we have to manually add the crew objectives
 		SSjob.generate_individual_objectives(H.mind)
-		//Then add our garunteed objective :D
+		//Then add our garunteed objective/s :D
 		H.mind.add_crew_objective(/datum/objective/chaplain_litany)
+		H.mind.add_crew_objective(/datum/objective/chaplain_litany/person)
+		H.mind.add_crew_objective(/datum/objective/chaplain_litany/thing)
 
 /datum/outfit/job/chaplain
 	name = JOB_NAME_CHAPLAIN
@@ -140,6 +142,10 @@
 	backpack = /obj/item/storage/backpack/cultpack
 	satchel = /obj/item/storage/backpack/cultpack
 
+#define TARGET_TYPE_PERSON "target_type_person" //person - bless a specific player, like the captain
+#define TARGET_TYPE_AREA "target_type_area" //place - bless a specific room, like the vault
+#define TARGET_TYPE_THING "target_type_thing" //thing - bless a specific item, like the nuclear disk
+
 //Special garunteed objective code for this role
 /datum/objective/chaplain_litany
 	explanation_text = "Bless (something broke here) with a litany containing (something broke here)"
@@ -150,15 +156,32 @@
 	var/list/litany_components = list()
 	///The difficulty of this objective
 	var/difficulty = 1
+	///What type of target
+	var/target_type = TARGET_TYPE_AREA
+
+/datum/objective/chaplain_litany/person
+	target_type = TARGET_TYPE_PERSON
+
+/datum/objective/chaplain_litany/thing
+	target_type = TARGET_TYPE_THING
 
 /datum/objective/chaplain_litany/New()
 	. = ..()
-	//TODO: Implement other target types - Racc
-	litany_target = pick(GLOB.the_station_areas)
+	switch(target_type)
+		if(TARGET_TYPE_PERSON)
+			litany_target = pick(GLOB.player_list)
+		if(TARGET_TYPE_AREA)
+			litany_target = pick(GLOB.the_station_areas)
+		if(TARGET_TYPE_THING)
+			return
+	build_litany_requirement()
+
+/datum/objective/chaplain_litany/proc/build_litany_requirement()
 	if(!litany_target)
 		return
 	//Pick litany components
 	var/component_count = 1
+	difficulty = rand(1, 3)
 	switch(difficulty)
 		if(1)
 			component_count = 1
@@ -175,11 +198,22 @@
 		available_components -= choice
 	update_explanation_text()
 
+/datum/objective/chaplain_litany/find_target_by_role(role, role_type=FALSE,invert=FALSE)
+	if(target_type == TARGET_TYPE_PERSON)
+		. = ..()
+		build_litany_requirement()
+
 /datum/objective/chaplain_litany/update_explanation_text()
 	. = ..()
-	explanation_text = "Bless [litany_target] with a litany containing"
-	for(var/datum/litany_component/i in litany_components)
-		explanation_text = "[explanation_text] [initial(i.name)], "
+	//The logic used here is to handle a runtime on runtime station & also covers wicked bad emergencies
+	explanation_text = "Bless [litany_target?.name || initial(litany_target?.name)] with a litany containing"
+	var/count = 1
+	for(var/datum/litany_component/i as() in litany_components)
+		explanation_text = "[explanation_text] [initial(i.name) || "what the fuck"]"
+		if(length(litany_components) > 1)
+			explanation_text = "[count == length(litany_components)-1 ? " and" : ","]"
+		count += 1
+	explanation_text = "[explanation_text]."
 
 /datum/objective/chaplain_litany/check_completion()
 	if(..())
@@ -191,3 +225,7 @@
 		if(get_area(get_turf(L)) == litany_target)
 			return TRUE
 		return FALSE
+
+#undef TARGET_TYPE_PERSON
+#undef TARGET_TYPE_AREA
+#undef TARGET_TYPE_THING

@@ -9,7 +9,7 @@
 	name = "litany"
 	gender = NEUTER
 	icon = 'icons/obj/religion.dmi'
-	icon_state = "litany_stamp"
+	icon_state = "litany_item"
 	item_state = "paper"
 	custom_fire_overlay = "paper_onfire_overlay"
 	throwforce = 0
@@ -50,6 +50,7 @@
 	. = ..()
 	if(!proximity_flag)
 		return
+	icon_state = ""
 	attach_target = target
 	//Move this to the area, for objective checks
 	forceMove(target)
@@ -63,6 +64,7 @@
 
 /obj/item/litany/attack_hand(mob/living/carbon/user)
 	. = ..()
+	icon_state = "litany_item"
 	layer = OBJ_LAYER
 	pixel_x = 0
 	pixel_y = 0
@@ -72,7 +74,7 @@
 
 /obj/item/litany/attackby(obj/item/I, mob/living/user, params)
 	. = ..()
-	attach_target.attackby(I, user, params)
+	attach_target?.attackby(I, user, params)
 
 /obj/item/litany/update_appearance(updates, override_length = 0)
 	cut_overlays()
@@ -170,6 +172,23 @@
 	. = 0
 	for(var/datum/litany_component/LC as() in litany_components)
 		. += LC.cooldown
+
+/obj/item/litany/bless(mob/living/carbon/user, obj/item/bless_tool)
+	. = ..()
+	var/datum/religion_sect/R = GLOB.religious_sect
+	if(!user?.mind?.holy_role || !R)
+		if(!R)
+			balloon_alert(user, "No active sect!")
+			to_chat(user, "<span class='warning'>No active sect!</span>")
+		return
+	var/prompt = tgui_alert(user, "Do you want to bless [src] for [get_cost()] favor?", "Bless litany", list("Yes", "No"))
+	if(R?.favor < get_cost() || prompt != "Yes")
+		if(R?.favor < get_cost())
+			to_chat(user, "<span class='warning'>You don't have enough favor!</span>")
+		return
+	if(do_after(user, 40, target = src))
+		R.adjust_favor(get_cost(), user)
+		blessed = TRUE
 
 /obj/item/litany/pregenerated
 	///list of litany components to add

@@ -203,18 +203,6 @@
 	if(!proximity)
 		return
 	A.bless(user, src)
-	if(user?.mind?.holy_role)
-		//Special cases for reagents
-		if(A.reagents && A.reagents.has_reagent(/datum/reagent/water)) // blesses all the water in the holder
-			to_chat(user, "<span class='notice'>You bless [A].</span>")
-			var/water2holy = A.reagents.get_reagent_amount(/datum/reagent/water)
-			A.reagents.del_reagent(/datum/reagent/water)
-			A.reagents.add_reagent(/datum/reagent/water/holywater,water2holy)
-		if(A.reagents && A.reagents.has_reagent(/datum/reagent/fuel/unholywater)) // yeah yeah, copy pasted code - sue me
-			to_chat(user, "<span class='notice'>You purify [A].</span>")
-			var/unholy2clean = A.reagents.get_reagent_amount(/datum/reagent/fuel/unholywater)
-			A.reagents.del_reagent(/datum/reagent/fuel/unholywater)
-			A.reagents.add_reagent(/datum/reagent/water/holywater,unholy2clean)
 
 /obj/item/storage/book/bible/booze
 	desc = "To be applied to the head repeatedly."

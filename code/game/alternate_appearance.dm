@@ -178,6 +178,8 @@ GLOBAL_LIST_EMPTY(active_alternate_appearances)
 		return TRUE
 	if(isrevenant(M) || iswizard(M))
 		return TRUE
+	if(HAS_TRAIT(M, TRAIT_INDIANA_JONES))
+		return TRUE
 	return FALSE
 
 /datum/atom_hud/alternate_appearance/basic/one_person

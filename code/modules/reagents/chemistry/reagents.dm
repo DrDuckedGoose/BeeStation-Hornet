@@ -169,6 +169,9 @@ GLOBAL_LIST_INIT(name2reagent, build_name2reagent())
 		to_chat(M, "<span class='boldannounce'>You're not feeling good at all! You really need some [name].</span>")
 	return
 
+/datum/reagent/proc/bless(mob/living/carbon/user, obj/item/bless_tool)
+	return
+
 /proc/pretty_string_from_reagent_list(list/reagent_list)
 	//Convert reagent list to a printable string for logging etc
 	var/list/rs = list()

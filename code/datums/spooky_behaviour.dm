@@ -24,6 +24,8 @@
 	var/list/spending_options = list(/datum/spooky_event/possession = 1, /datum/spooky_event/ghost = 1, /datum/spooky_event/haunt_room = 1)
 	///What active spooky events are... active - Pretty much for admin goofs
 	var/list/active_products = list()
+	///What message the chaplain gets when we spawn an event - Pretty much for admin goofs 
+	var/chaplain_message = "A terrible chill runs up your spine..."
 
 /datum/spooky_behaviour/New()
 	. = ..()
@@ -49,7 +51,8 @@
 			//Alert the chaplain something *terrible* has happened
 			var/mob/M = SS.active_chaplain
 			if(M?.stat != DEAD)
-				to_chat(M, "<span class='warning'>A terrible chill runs up your spine...</span>")
+				M.balloon_alert(M, chaplain_message)
+				to_chat(M, "<span class='warning'>[chaplain_message]</span>")
 			//If the product doesn't remove itself straight away, we probably want to track it
 			if(!QDELING(SE))
 				active_products += SE

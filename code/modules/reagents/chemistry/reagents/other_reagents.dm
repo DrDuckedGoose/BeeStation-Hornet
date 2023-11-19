@@ -234,6 +234,17 @@
 		M.ExtinguishMob()
 	..()
 
+/*
+ *	Water bless
+ */
+
+/datum/reagent/water/bless(mob/living/carbon/user, obj/item/bless_tool)
+	. = ..()
+	if(user?.mind?.holy_role)
+		holder.reagent_list -= src
+		holder.add_reagent(/datum/reagent/water/holywater, volume)
+		qdel(src)
+
 /datum/reagent/water/holywater
 	name = "Holy Water"
 	description = "Water blessed by some deity."
@@ -335,6 +346,13 @@
 		M.adjustBruteLoss(2, 0)
 	holder.remove_reagent(type, 1)
 	return TRUE
+
+/datum/reagent/fuel/unholywater/bless(mob/living/carbon/user, obj/item/bless_tool)
+	. = ..()
+	if(user?.mind?.holy_role)
+		holder.reagent_list -= src
+		holder.add_reagent(/datum/reagent/water/holywater, volume)
+		qdel(src)
 
 /datum/reagent/hellwater			//if someone has this in their system they've really pissed off an eldrich god
 	name = "Hell Water"

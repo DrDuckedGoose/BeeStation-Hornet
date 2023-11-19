@@ -39,15 +39,15 @@
 	var/datum/reagent/toxin/formaldehyde/F = target.reagents?.get_reagent(/datum/reagent/toxin/formaldehyde)
 	if(F?.volume > 5)
 		total_reward += TRESPASS_SMALL
-	SSspooky.adjust_trespass(user, -total_reward)
 	//Do remaining table check
 	var/turf/T = get_turf(target)
 	//Only succeeed if using enbalming table
 	if(locate(/obj/structure/table/optable/embalming_table) in T.contents)
 		//handle spooky rewards
-		SSspooky.adjust_trespass(user, -TRESPASS_MEDIUM)
+		SSspooky.adjust_trespass(user, -(TRESPASS_MEDIUM+total_reward))
 		var/datum/component/rot/R = target.GetComponent(/datum/component/rot)
 		R?.favor_modifier += 0.5
+		make_spooky_indicator(get_turf(src), TRUE)
 	else
 		//handle spooky consequcnes
 		target.add_splatter_floor()

@@ -1810,5 +1810,9 @@
 	return FALSE
 
 /atom/proc/bless(mob/living/carbon/user, obj/item/bless_tool)
+	//Handle converting reagents
+	if(reagents)
+		for(var/datum/reagent/R in reagents.reagent_list)
+			R.bless(user, bless_tool)
 	return
 
