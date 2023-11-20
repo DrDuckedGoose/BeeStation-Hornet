@@ -4,6 +4,8 @@
 
 #define SPOOKY_ROT_TICK "rot_tick"
 
+//TODO: fix the station level checks runtiming, the runtime is something like an index thing - Racc
+
 //Subsystem for handling chaplain's spooky adventures - spawns ghosts, possesions, ect
 SUBSYSTEM_DEF(spooky)
 	name = "Spooky"

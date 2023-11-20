@@ -130,3 +130,7 @@
 	var/orbitsize = (TI.Width()+TI.Height())*0.5
 	orbitsize -= (orbitsize/world.icon_size)*(world.icon_size*0.25)
 	orbit(target, orbitsize, rand(0, 1), rand(10, 20), 36)
+
+/atom/movable/sin_nail/can_be_pulled(user, grab_state, force)
+	return FALSE
+	

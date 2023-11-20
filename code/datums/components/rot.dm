@@ -13,6 +13,8 @@
 	///How rotted this corpse currently is
 	var/rot = 0
 	var/max_rot = MAX_ROT
+	///How much of the rot is remaining after it's been reduced %
+	var/rot_reduction = 0
 	///Resets for area stuff, when we make it smell
 	var/old_area_bonus = 0
 	var/old_area_message = ""
@@ -63,13 +65,16 @@
 
 	manage_effects()
 
-	//Don't rot too much, too little, or while we're alive
+	//Don't rot too much, too little, or while we're alive somehow
 	if(rot >= max_rot || amount == 0 || owner.stat != DEAD)
 		return
 
-	//Modifiers - readability over... the other thing
+	var/original_amount = amount
+	rot_reduction = 0
+	//Modifiers
 	if(HAS_TRAIT(owner, TRAIT_EMBALMED))
 		amount *= GENERIC_ROT_REDUCTION
+	//Containers
 	if(istype(owner?.loc, /obj/structure/closet/crate/coffin) || istype(owner?.loc, /obj/structure/bodycontainer))
 		//Calculate garnish stuff
 		if(istype(owner?.loc, /obj/structure/closet/crate/coffin))
@@ -99,6 +104,8 @@
 	//Generic blessing flag for litanies
 	if(blessed)
 		amount *= GENERIC_ROT_REDUCTION
+	//handle corpse removing
+	if(blessed || isspaceturf(get_turf(owner.loc)))
 		SSspooky.remove_corpse(owner)
 	else
 		SSspooky.add_corpse(owner)
@@ -111,6 +118,7 @@
 	if(rot < max_rot)
 		rot = max(0, min(max_rot, rot+amount * rot_mod))
 	SSspooky.update_corpse(owner, rot)
+	rot_reduction = amount / original_amount
 
 /datum/component/rot/proc/manage_effects(do_checks = TRUE, custom_amount)
 	switch(custom_amount || rot)
@@ -130,7 +138,8 @@
 			//Holy benehfits
 			if(make_favor)
 				var/datum/religion_sect/R = GLOB.religious_sect
-				R?.adjust_favor((TRESPASS_SMALL / SMALL_TRESPASS_MOD) * favor_modifier)
+				//PEDMAS who?
+				R?.adjust_favor(TRESPASS_SMALL / SMALL_TRESPASS_MOD * favor_modifier * rot_reduction)
 			//Area flavor / detective hints
 			if(do_checks)
 				if(!(istype(owner?.loc, /obj/structure/closet/crate/coffin) || istype(owner?.loc, /obj/structure/bodycontainer)))
@@ -155,7 +164,7 @@
 			//Holy benehfits
 			if(make_favor)
 				var/datum/religion_sect/R = GLOB.religious_sect
-				R?.adjust_favor((TRESPASS_SMALL / rot_consequence) * favor_modifier)
+				R?.adjust_favor(TRESPASS_SMALL / rot_consequence * favor_modifier * rot_reduction)
 			//Area flavor / detective hints
 			if(do_checks)
 				if(!istype(owner?.loc, /obj/structure/closet/crate/coffin))
