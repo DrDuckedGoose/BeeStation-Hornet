@@ -44,7 +44,7 @@
 	//Only succeeed if using enbalming table
 	if(locate(/obj/structure/table/optable/embalming_table) in T.contents)
 		//handle spooky rewards
-		SSspooky.adjust_trespass(user, -(TRESPASS_MEDIUM+total_reward))
+		SSspooky.adjust_trespass(user, -(TRESPASS_LARGE+total_reward))
 		var/datum/component/rot/R = target.GetComponent(/datum/component/rot)
 		R?.favor_modifier += 0.5
 		make_spooky_indicator(get_turf(src), TRUE)

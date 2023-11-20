@@ -1,4 +1,3 @@
-//TODO: Add housekeeping for deleting components - Racc
 //64 characters available, should be enough
 #define MAX_LITANY_CHAR_X 8
 #define MAX_LITANY_CHAR_Y 8
@@ -7,7 +6,6 @@
 
 /obj/item/litany
 	name = "litany"
-	gender = NEUTER
 	icon = 'icons/obj/religion.dmi'
 	icon_state = "litany_stamp"
 	item_state = "paper"
@@ -21,7 +19,6 @@
 	pressure_resistance = 0
 	resistance_flags = FLAMMABLE
 	max_integrity = 50
-	color = COLOR_WHITE
 	vis_flags = VIS_INHERIT_PLANE | VIS_INHERIT_LAYER
 	///List, in order, of litany components we have
 	var/list/litany_components = list()
@@ -39,6 +36,12 @@
 	///Time between uses, so people dont spam attaching & detaching
 	var/cooldown_time = 5 SECONDS
 	var/cooldown_timer
+
+/obj/item/litany/Destroy()
+	. = ..()
+	for(var/datum/litany_component/LC as() in litany_components)
+		litany_components -= LC
+		qdel(LC)
 
 /obj/item/litany/interact(mob/user)
 	. = ..()
@@ -64,7 +67,6 @@
 
 /obj/item/litany/attack_hand(mob/living/carbon/user)
 	. = ..()
-	icon_state = "litany_item"
 	layer = OBJ_LAYER
 	pixel_x = 0
 	pixel_y = 0
@@ -221,6 +223,7 @@
 	QDEL_NULL(litany_component)
 	litany_parent.update_appearance()
 	color = "#000"
+	//TODO: Animate it shrinking - Racc
 
 #undef MAX_LITANY_CHAR_X
 #undef MAX_LITANY_CHAR_Y

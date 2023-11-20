@@ -14,7 +14,7 @@
 	var/item_cooldown = 5 SECONDS
 	var/cooldown_timer
 	///Do we need the user to be 'enlightened'?
-	var/require_jones = FALSE //TODO Set this back to true, after testing is done / this is PR'd - Racc
+	var/require_jones = FALSE //TODO: Set this back to true, after testing is done / this is PR'd - Racc
 
 /obj/item/curio/interact(mob/user)
 	. = ..()
@@ -34,7 +34,10 @@
 			else
 				to_chat(user, "<span class='warning>[src] baffles you!</span>")
 		return FALSE
-	SSspooky?.adjust_trespass(user, spectral_effect, force = TRUE)
+	//Each curio has to place its own rammification, because this can get tricky with do_after and related
+	/*
+		do_punishment()
+	*/
 	return TRUE
 
 /obj/item/curio/proc/handle_timer()
@@ -42,3 +45,7 @@
 
 /obj/item/curio/proc/get_cooldown_message()
 	return "[src] seems expired, for the moment..."
+
+/obj/item/curio/proc/do_punishment()
+	make_spooky_indicator(get_turf(src))
+	SSspooky?.adjust_trespass(src, spectral_effect, force = TRUE)

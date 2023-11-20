@@ -179,7 +179,6 @@
 	SSspooky.remove_corpse(owner)
 	RemoveComponent()
 
-//TODO: Fix the skeleton underlay not rendering - Racc
 //Used to make the owner rot away and show their skeleton underneath
 /datum/component/rot/proc/manage_filters(_rot = 0)
 	var/t_rot_state

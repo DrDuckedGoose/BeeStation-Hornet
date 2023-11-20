@@ -5,7 +5,6 @@
 
 /datum/spooky_event/possession/Destroy(force, ...)
 	if(!QDELING(corpse_owner))
-		REMOVE_TRAIT(corpse_owner, TRAIT_POSSESSED, TRAIT_GENERIC)
 		QDEL_NULL(corpse_owner.ai_controller)
 	corpse_owner = null
 	return ..()
@@ -25,7 +24,7 @@
 	corpse.ai_controller = /datum/ai_controller/monkey/angry //TODO: Implement AIs from design doc - Racc
 	corpse.revive(TRUE, TRUE)
 	corpse.InitializeAIController()
-	ADD_TRAIT(corpse, TRAIT_POSSESSED, TRAIT_GENERIC)
+	ADD_TRAIT(corpse, TRAIT_POSSESSED, TRAIT_GENERIC) //This is removed in the mobs death code, becuase death is called after this is deleted
 	SS.remove_corpse(corpse)
 	corpse_owner = corpse
 	//Inform ghosts

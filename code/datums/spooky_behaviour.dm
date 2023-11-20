@@ -30,7 +30,7 @@
 
 /datum/spooky_behaviour/New()
 	. = ..()
-	//Get initial goal
+	last_spook = world.time
 	spending_goal = generate_goal()
 
 //Manage the current subsystem's currency, maybe purchase a spook or two
@@ -59,9 +59,7 @@
 			if(!QDELING(SE))
 				RegisterSignal(SE, COMSIG_PARENT_QDELETING, PROC_REF(handle_product))
 				if(M)
-					var/atom/movable/sin_nail/S = new(get_turf(M), M)
-					S.name = SE.name
-					nails += list("[SE]" = S)
+					nails += list("[SE]" = new /atom/movable/sin_nail(get_turf(M), M)) 
 				active_products += SE
 		else
 			//Clean up datums that failed to setup
@@ -113,7 +111,7 @@
 //Sin nail this system uses communicate the current products to the chaplain
 /atom/movable/sin_nail
 	plane = HUD_PLANE
-	//TODO: Consider disabling the mouse opacity - Racc
+	mouse_opacity = MOUSE_OPACITY_TRANSPARENT
 
 /atom/movable/sin_nail/Initialize(mapload, atom/target)
 	. = ..()

@@ -42,6 +42,7 @@
 		if(can_move)
 			deltimer(can_move)
 		can_move = addtimer(CALLBACK(src, PROC_REF(handle_can_move)), move_time, TIMER_STOPPABLE)
+		do_punishment()
 	else
 		to_chat(user, "<span class='notice'>Better not...</span>")
 	

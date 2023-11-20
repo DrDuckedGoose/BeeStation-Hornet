@@ -30,7 +30,7 @@
 		//Then just copy the appearance as normal
 		G.appearance = corpse.appearance
 		G.alpha = 128
-		G.name = "ghost of [corpse.name]" //TODO: Consider letting only the chap and curator read the names - Racc
+		G.name = "ghost of [corpse.name]"
 		corpse.transform = o_transform
 		//Build the fade effect / filter
 		var/icon/I = icon('icons/mob/mob.dmi', "ghost_fade")
