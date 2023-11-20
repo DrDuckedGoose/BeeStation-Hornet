@@ -4,7 +4,7 @@
 #define LIFETIME_STAGE_3 8 MINUTES
 
 /datum/spooky_event/haunt_room
-	name = "haunt room"
+	name = "haunted room"
 	///Area we're responsible for haunting
 	var/area/target_room
 	///When did the spook first spook?

@@ -60,7 +60,7 @@
 				RegisterSignal(SE, COMSIG_PARENT_QDELETING, PROC_REF(handle_product))
 				if(M)
 					var/atom/movable/sin_nail/S = new(get_turf(M), M)
-					S.name = "[SE.name] - nail"
+					S.name = SE.name
 					nails += list("[SE]" = S)
 				active_products += SE
 		else
@@ -77,12 +77,12 @@
 			return pick_weight(spending_options)
 		if(GOAL_MODE_PANIC)
 			//WE NEED TO PICK SOMETHING WE CAN AFFORD NOW!
-			var/list/picked_option
+			var/list/options = list()
 			for(var/i in spending_options)
-				var/datum/spooky_event/SE = spending_options[i]
+				var/datum/spooky_event/SE = i
 				if(initial(SE.cost) <= available_currency)
-					picked_option += i
-			return pick(picked_option)
+					options += i
+			return pick(options)
 
 //For admins mostly
 /datum/spooky_behaviour/proc/force_event(datum/spooky_event/event, datum/controller/subsystem/spooky/SS = SSspooky, do_cost = FALSE, do_cooldown = FALSE)
@@ -99,7 +99,7 @@
 /datum/spooky_behaviour/proc/handle_product(datum/source)
 	SIGNAL_HANDLER
 
-	var/atom/movable/sin_nail/S = active_products["[source]"]
+	var/atom/movable/sin_nail/S = nails["[source]"]
 	if(S)
 		nails -= "[source]"
 		qdel(S)
@@ -113,6 +113,7 @@
 //Sin nail this system uses communicate the current products to the chaplain
 /atom/movable/sin_nail
 	plane = HUD_PLANE
+	//TODO: Consider disabling the mouse opacity - Racc
 
 /atom/movable/sin_nail/Initialize(mapload, atom/target)
 	. = ..()

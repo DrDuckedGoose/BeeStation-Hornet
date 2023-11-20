@@ -128,6 +128,10 @@
 	var/medaltype = "medal" //Sprite used for medalbox
 	var/commended = FALSE
 
+/obj/item/clothing/accessory/medal/Initialize(mapload)
+	. = ..()
+	ADD_TRAIT(src, TRAIT_FUNERAL_GARNISH, GENERIC_ITEM_TRAIT)
+
 //Pinning medals on people
 /obj/item/clothing/accessory/medal/attack(mob/living/carbon/human/M, mob/living/user)
 	if(ishuman(M) && (user.a_intent == INTENT_HELP))

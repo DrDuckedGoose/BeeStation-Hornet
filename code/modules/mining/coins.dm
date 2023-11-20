@@ -28,6 +28,7 @@
 	icon_state = "coin_[coinflip]"
 	pixel_x = base_pixel_x + rand(0, 16) - 8
 	pixel_y = base_pixel_y + rand(0, 8) - 8
+	ADD_TRAIT(src, TRAIT_FUNERAL_GARNISH, GENERIC_ITEM_TRAIT)
 
 /obj/item/coin/set_custom_materials(var/list/materials, multiplier = 1)
 	. = ..()

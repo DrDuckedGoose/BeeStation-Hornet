@@ -148,6 +148,7 @@
 				owner?.add_emitter(/obj/emitter/flies, "rot", 10, 8)
 			if(!owner?.master_holder?.emitters["stink"])
 				owner?.add_emitter(/obj/emitter/stink_lines, "stink", 11, 30)
+			//Make sure spaced bodies never exceed small rot punishments
 			var/rot_consequence = max_rot == MAX_SPACE_ROT ? SMALL_TRESPASS_MOD : MEDIUM_TREPASS_MOD
 			//Spooky punishment
 			SSspooky.adjust_trespass(owner, TRESPASS_SMALL / rot_consequence, FALSE)
