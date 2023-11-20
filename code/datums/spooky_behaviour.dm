@@ -20,8 +20,7 @@
 	var/datum/spooky_event/spending_goal = /datum/spooky_event
 	///How long it's been since something spooky happened - Leave this at 0, so we don't get possessions round start
 	var/last_spook = 0
-	///What are our spending options [thing = cost]
-	//TODO: Change this to weights - Racc
+	///What are our spending options [thing = weight]
 	var/list/spending_options = list(/datum/spooky_event/possession = 1, /datum/spooky_event/ghost = 1, /datum/spooky_event/haunt_room = 1)
 	///What active spooky events are... active - Pretty much for admin goofs
 	var/list/active_products = list()
@@ -43,12 +42,13 @@
 	if((initial(spending_goal.requires_chaplain) && (SS.active_chaplain?.stat == DEAD || !SS.active_chaplain)) || !spending_goal)
 		spending_goal = generate_goal()	
 	//Handle purchases
-	if(spending_options[spending_goal] <= SS.spectral_trespass && world.time > last_spook+MINIMUM_SPOOK_TIME)
+	var/datum/spooky_event/SE = spending_goal
+	if(initial(SE.cost) <= SS.spectral_trespass && world.time > last_spook+MINIMUM_SPOOK_TIME)
 		//Purchase the thing:tm:
-		var/datum/spooky_event/SE = new spending_goal()
+		SE = new spending_goal()
 		//Take our toll if we successfully do the thing
 		if(SE?.setup(SS))
-			SS.adjust_trespass(src, -spending_options[spending_goal], FALSE)
+			SS.adjust_trespass(src, -SE.cost, FALSE)
 			last_spook = world.time
 			//Alert the chaplain something *terrible* has happened
 			var/mob/M = SS.active_chaplain
@@ -74,14 +74,15 @@
 	switch(goal_type)
 		if(GOAL_MODE_CASUAL)
 			//Just pick anything, it doesn't matter
-			return pick(spending_options)
+			return pick_weight(spending_options)
 		if(GOAL_MODE_PANIC)
 			//WE NEED TO PICK SOMETHING WE CAN AFFORD NOW!
-			var/picked_option
+			var/list/picked_option
 			for(var/i in spending_options)
-				if(spending_options[i] <= available_currency)
-					picked_option = i
-			return picked_option
+				var/datum/spooky_event/SE = spending_options[i]
+				if(initial(SE.cost) <= available_currency)
+					picked_option += i
+			return pick(picked_option)
 
 //For admins mostly
 /datum/spooky_behaviour/proc/force_event(datum/spooky_event/event, datum/controller/subsystem/spooky/SS = SSspooky, do_cost = FALSE, do_cooldown = FALSE)
@@ -127,4 +128,4 @@
 	var/icon/TI = icon(target.icon,target.icon_state,target.dir)
 	var/orbitsize = (TI.Width()+TI.Height())*0.5
 	orbitsize -= (orbitsize/world.icon_size)*(world.icon_size*0.25)
-	orbit(target, orbitsize, rand(0, 1), 20, 36)
+	orbit(target, orbitsize, rand(0, 1), rand(10, 20), 36)

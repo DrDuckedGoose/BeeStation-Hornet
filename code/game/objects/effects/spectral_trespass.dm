@@ -22,7 +22,7 @@
 		I.filters += filter(type = "bloom", size = 1, offset = 1, threshold = "#666")
 		//Animation
 		animate(src, alpha = 0, time = LIFE_TIME)
-		animate(src, pixel_y = 32, time = LIFE_TIME)
+		animate(src, pixel_y = (result ? 32 : -32), time = LIFE_TIME)
 		animate(I.filters[1], offset = 3, time = LIFE_TIME)
 		//Only the chosen can see it
 		add_alt_appearance(/datum/atom_hud/alternate_appearance/basic/holyAware, "spectral trespass", I)

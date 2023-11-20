@@ -7,6 +7,8 @@
 	var/name = ""
 	///Does this event require an active chaplain?
 	var/requires_chaplain = FALSE
+	///How much does this event cost?
+	var/cost = 0
 
 /datum/spooky_event/New()
 	. = ..()
