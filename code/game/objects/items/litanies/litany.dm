@@ -9,7 +9,7 @@
 	name = "litany"
 	gender = NEUTER
 	icon = 'icons/obj/religion.dmi'
-	icon_state = "litany_item"
+	icon_state = "litany_stamp"
 	item_state = "paper"
 	custom_fire_overlay = "paper_onfire_overlay"
 	throwforce = 0

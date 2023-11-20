@@ -21,9 +21,11 @@
 	///How long it's been since something spooky happened - Leave this at 0, so we don't get possessions round start
 	var/last_spook = 0
 	///What are our spending options [thing = cost]
+	//TODO: Change this to weights - Racc
 	var/list/spending_options = list(/datum/spooky_event/possession = 1, /datum/spooky_event/ghost = 1, /datum/spooky_event/haunt_room = 1)
 	///What active spooky events are... active - Pretty much for admin goofs
 	var/list/active_products = list()
+	var/list/nails = list()
 	///What message the chaplain gets when we spawn an event - Pretty much for admin goofs 
 	var/chaplain_message = "A terrible chill runs up your spine..."
 
@@ -38,12 +40,12 @@
 	if(world.time > last_spook + MAXIMUM_SPOOK_TIME)
 		spending_goal = generate_goal(GOAL_MODE_PANIC)
 	//Check if the current goal is allowed with the current chaplain status
-	if(initial(spending_goal.requires_chaplain) && (SS.active_chaplain?.stat == DEAD || !SS.active_chaplain))
+	if((initial(spending_goal.requires_chaplain) && (SS.active_chaplain?.stat == DEAD || !SS.active_chaplain)) || !spending_goal)
 		spending_goal = generate_goal()	
 	//Handle purchases
 	if(spending_options[spending_goal] <= SS.spectral_trespass && world.time > last_spook+MINIMUM_SPOOK_TIME)
 		//Purchase the thing:tm:
-		var/datum/spooky_event/SE = new spending_goal
+		var/datum/spooky_event/SE = new spending_goal()
 		//Take our toll if we successfully do the thing
 		if(SE?.setup(SS))
 			SS.adjust_trespass(src, -spending_options[spending_goal], FALSE)
@@ -55,6 +57,11 @@
 				to_chat(M, "<span class='warning'>[chaplain_message]</span>")
 			//If the product doesn't remove itself straight away, we probably want to track it
 			if(!QDELING(SE))
+				RegisterSignal(SE, COMSIG_PARENT_QDELETING, PROC_REF(handle_product))
+				if(M)
+					var/atom/movable/sin_nail/S = new(get_turf(M), M)
+					S.name = "[SE.name] - nail"
+					nails += list("[SE]" = S)
 				active_products += SE
 		else
 			//Clean up datums that failed to setup
@@ -91,9 +98,33 @@
 /datum/spooky_behaviour/proc/handle_product(datum/source)
 	SIGNAL_HANDLER
 
+	var/atom/movable/sin_nail/S = active_products["[source]"]
+	if(S)
+		nails -= "[source]"
+		qdel(S)
 	active_products -= source
 
 #undef MINIMUM_SPOOK_TIME
 #undef MAXIMUM_SPOOK_TIME
 #undef GOAL_MODE_CASUAL
 #undef GOAL_MODE_PANIC
+
+//Sin nail this system uses communicate the current products to the chaplain
+/atom/movable/sin_nail
+	plane = HUD_PLANE
+
+/atom/movable/sin_nail/Initialize(mapload, atom/target)
+	. = ..()
+	if(!target)
+		return INITIALIZE_HINT_QDEL
+	//Build the appearance
+	var/image/I = image(icon = 'icons/obj/religion.dmi', icon_state = "nail_normal", layer = ABOVE_MOB_LAYER, loc = src)
+	//Filter
+	I.filters += filter(type = "outline", size = 1, color = "#ffffffaa")
+	//Only the chosen can see it
+	add_alt_appearance(/datum/atom_hud/alternate_appearance/basic/holyAware, "spectral trespass", I)
+	//Make it orbit
+	var/icon/TI = icon(target.icon,target.icon_state,target.dir)
+	var/orbitsize = (TI.Width()+TI.Height())*0.5
+	orbitsize -= (orbitsize/world.icon_size)*(world.icon_size*0.25)
+	orbit(target, orbitsize, rand(0, 1), 20, 36)

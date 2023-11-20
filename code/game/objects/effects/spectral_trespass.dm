@@ -11,6 +11,7 @@
 
 /obj/effect/spectral_trespass/Initialize(mapload, result = 0)
 	. = ..()
+	//TODO: What the fuck is this code, fix it - Racc
 	for(var/obj/effect/spectral_trespass/S in loc)
 		if(S != src)
 			return INITIALIZE_HINT_QDEL
