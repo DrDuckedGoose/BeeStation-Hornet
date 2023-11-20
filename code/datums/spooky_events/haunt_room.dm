@@ -54,7 +54,6 @@
 			//Timeout logic
 			addtimer(CALLBACK(src, PROC_REF(toggle_timeout)), 10 SECONDS)
 
-
 		//Third stage - flicker lights
 		if(LIFETIME_STAGE_2 to LIFETIME_STAGE_3)
 			for(var/obj/machinery/light/L in target_room.contents)
@@ -65,6 +64,9 @@
 		//Final stage - flicker lights
 		else
 			//DOOM
+
+/datum/spooky_event/haunt_room/get_location()
+	return pick(target_room.contained_turfs)
 
 /datum/spooky_event/haunt_room/proc/toggle_timeout(state = FALSE)
 	timeout = state

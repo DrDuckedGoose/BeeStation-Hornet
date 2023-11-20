@@ -41,6 +41,9 @@
 		//TODO: Implement ghost traits from design doc - Racc
 	return FALSE
 
+/datum/spooky_event/ghost/get_location()
+	return ghost
+
 /datum/spooky_event/ghost/proc/handle_ghost(datum/source)
 	SIGNAL_HANDLER
 

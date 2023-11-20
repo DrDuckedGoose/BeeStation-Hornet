@@ -1,3 +1,4 @@
+//Deadchat moveable item
 /obj/item/curio/doll
 	name = "tattered doll"
 	desc = "An old tattered doll. Something seems 'off' about it."
@@ -21,19 +22,23 @@
 	appearance = plush?.appearance
 	add_filter("outline", 1, outline_filter(1, "#f00"))
 
+/obj/item/curio/doll/Destroy()
+	. = ..()
+	QDEL_NULL(controller)
+
 /obj/item/curio/doll/attack_ghost(mob/user)
 	. = ..()
 	to_chat(user, "<span class='notice'>You can write directions, in chat, to move the doll.\nUP, DOWN, LEFT, RIGHT</span>")
 
-/obj/item/curio/doll/Destroy()
+/obj/item/curio/doll/interact(mob/user)
 	. = ..()
-	QDEL_NULL(controller)
+	activate(user)
 
 /obj/item/curio/doll/activate(datum/user, force)
 	. = ..()
 	if(!.)
 		return
-	to_chat(user, "<span class='warning'>You begin to shake the [src]...</span>")
+	to_chat(user, "<span class='warning'>You begin to shake [src]...</span>")
 	if(do_after(user, 5 SECONDS, src))
 		to_chat(user, "<span class='danger'>[src] springs to life!</span>")
 		if(isliving(user)) //Can we be so sure?

@@ -52,7 +52,7 @@
 			last_spook = world.time
 			//Alert the chaplain something *terrible* has happened
 			var/mob/M = SS.active_chaplain
-			if(M?.stat != DEAD)
+			if(M && M?.stat != DEAD) //Bruh, Why is M needed ifwef wfjiwejiwfiofweipo
 				M.balloon_alert(M, chaplain_message)
 				to_chat(M, "<span class='warning'>[chaplain_message]</span>")
 			//If the product doesn't remove itself straight away, we probably want to track it

@@ -4,7 +4,7 @@
 	var/mob/living/corpse_owner
 
 /datum/spooky_event/possession/Destroy(force, ...)
-	if(!QDELING(corpse_owner))
+	if(corpse_owner && !QDELING(corpse_owner))
 		QDEL_NULL(corpse_owner.ai_controller)
 	corpse_owner = null
 	return ..()
@@ -33,6 +33,9 @@
 	//TODO: - Racc
 
 	return TRUE
+
+/datum/spooky_event/possession/get_location()
+	return corpse_owner
 
 /datum/spooky_event/possession/proc/handle_corpse(datum/source)
 	SIGNAL_HANDLER

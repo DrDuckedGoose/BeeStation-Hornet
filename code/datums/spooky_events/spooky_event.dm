@@ -20,3 +20,7 @@
 /datum/spooky_event/proc/setup(datum/controller/subsystem/spooky/SS)
 	notify_ghosts("The ([SS]) has attempted to create a '[name]' event!")
 	return
+
+///Used with curio stuff
+/datum/spooky_event/proc/get_location()
+	return

@@ -28,3 +28,13 @@
 			crafting_effect(i)
 			qdel(i)
 			return
+
+/*
+	Compass recipe - /obj/item/curio/compass
+*/
+
+/datum/witch_recipe/compass
+	name = "subsume compass"
+	desc = "Subsumes a spirit into a compass container."
+	result = /obj/item/curio/compass
+	recipe = list(/obj/item/gps = 1)

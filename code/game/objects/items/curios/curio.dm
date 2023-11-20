@@ -16,10 +16,7 @@
 	///Do we need the user to be 'enlightened'?
 	var/require_jones = FALSE //TODO: Set this back to true, after testing is done / this is PR'd - Racc
 
-/obj/item/curio/interact(mob/user)
-	. = ..()
-	activate(user)
-
+//Each curio has to code how this is called
 /obj/item/curio/proc/activate(datum/user, force)
 	if((!cooldown_timer && (HAS_TRAIT(user, TRAIT_INDIANA_JONES) || !require_jones)) || force)
 		if(cooldown_timer)
@@ -46,6 +43,6 @@
 /obj/item/curio/proc/get_cooldown_message()
 	return "[src] seems expired, for the moment..."
 
-/obj/item/curio/proc/do_punishment()
+/obj/item/curio/proc/do_punishment(override_amount)
 	make_spooky_indicator(get_turf(src))
-	SSspooky?.adjust_trespass(src, spectral_effect, force = TRUE)
+	SSspooky?.adjust_trespass(src, override_amount || spectral_effect, force = TRUE)
