@@ -87,7 +87,7 @@
 		target_room.add_overlay(skull_overlay)
 
 /datum/spooky_event/haunt_room/get_location()
-	return pick(target_room.contained_turfs)
+	return origin
 
 /datum/spooky_event/haunt_room/proc/toggle_timeout(state = FALSE)
 	timeout = state

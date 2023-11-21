@@ -6,7 +6,7 @@
 */
 
 ///How much time has to pass before we can spook again
-#define MINIMUM_SPOOK_TIME 5 MINUTES
+#define MINIMUM_SPOOK_TIME 4 MINUTES
 ///If the last spook was this time ago, we need to spook NOW!
 #define MAXIMUM_SPOOK_TIME 10 MINUTES
 
@@ -89,7 +89,7 @@
 	//Take our toll if we successfully do the thing
 	if(SE?.setup(SS))
 		if(do_cost)
-			SS.adjust_trespass(src, -SE.cost, FALSE)
+			SS.adjust_trespass(src, -SE.cost, FALSE, TRUE)
 		if(do_cooldown)
 			last_spook = world.time
 		//Typical housekeeping

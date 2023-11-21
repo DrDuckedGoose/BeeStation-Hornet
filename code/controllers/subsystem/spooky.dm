@@ -16,6 +16,8 @@ SUBSYSTEM_DEF(spooky)
 	
 	///Our total budget for spooky thing
 	var/spectral_trespass = 0
+	///Knob we can twist if the chaplain is doing *really* well or *really* bad
+	var/gain_rate = 0.5
 	var/maximum_trespass = 100
 	///Is there an active chaplain on the station?
 	var/mob/active_chaplain
@@ -26,7 +28,6 @@ SUBSYSTEM_DEF(spooky)
 	///What kind of behaviour does the spooky system have today
 	var/datum/spooky_behaviour/current_behaviour = /datum/spooky_behaviour
 	///How often do we tick rot?
-	var/rot_tick = 10
 	var/rot_amount = 0.3
 
 /datum/controller/subsystem/spooky/Initialize(start_timeofday)
@@ -53,9 +54,9 @@ SUBSYSTEM_DEF(spooky)
 	if(!SSticker.HasRoundStarted() && !force)
 		return
 	//Make sure spectral trespass stays above 0, and below maximum_trespass
-	spectral_trespass = min(maximum_trespass, max(0, spectral_trespass+amount))
+	spectral_trespass = min(maximum_trespass, max(0, spectral_trespass+(amount*gain_rate)))
 	if(log)
-		log_game("[source || "not specified"] increased spectral trespass by [amount] at [world.time] at [isatom(source) ? get_turf(source) : "not specified"].")
+		log_game("[source || "not specified"] increased spectral trespass by [amount*gain_rate] at [world.time] at [isatom(source) ? get_turf(source) : "not specified"].")
 	
 /datum/controller/subsystem/spooky/proc/adjust_area_temperature(datum/source, area/_area, amount = 1, log = TRUE)
 	//Bunch of checks because areas are bullshit
