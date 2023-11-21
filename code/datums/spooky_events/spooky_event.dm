@@ -9,10 +9,18 @@
 	var/requires_chaplain = FALSE
 	///How much does this event cost?
 	var/cost = 0
+	///The holy favour reward for beating this event
+	var/reward = 100
 
 /datum/spooky_event/New()
 	. = ..()
 	
+/datum/spooky_event/Destroy(force, ...)
+	. = ..()
+	//Reward for doing this event
+	var/datum/religion_sect/R = GLOB.religious_sect
+	R?.adjust_favor(reward)
+
 /*
 	This kinda also applies to spooky_behaviour.dm, there's only one spooky subsystem, but I have the
 	inclination that this might save me in the future, or allow for admin goofs.

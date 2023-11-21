@@ -89,7 +89,7 @@
 	//Take our toll if we successfully do the thing
 	if(SE?.setup(SS))
 		if(do_cost)
-			SS.adjust_trespass(src, -spending_options[spending_goal], FALSE)
+			SS.adjust_trespass(src, -SE.cost, FALSE)
 		if(do_cooldown)
 			last_spook = world.time
 
