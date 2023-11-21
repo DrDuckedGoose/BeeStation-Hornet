@@ -5,6 +5,7 @@
 
 /datum/spooky_event/haunt_room
 	name = "haunted room"
+	cost = 50
 	///Area we're responsible for haunting
 	var/area/target_room
 	///When did the spook first spook?
@@ -80,6 +81,8 @@
 		
 	//Final stage - add skull overlay to the area
 	if(current_stage_time >= LIFETIME_STAGE_3 || stage >= 3)
+		if(!SSspooky.active_chaplain || SSspooky.active_chaplain.stat == DEAD)
+			return
 		skull_overlay = mutable_appearance('icons/obj/religion.dmi', "skull_pattern")
 		target_room.add_overlay(skull_overlay)
 
@@ -116,7 +119,6 @@
 	animate(transform = o_transform, time = 1 SECONDS)
 
 /obj/effect/haunted_heart/attacked_by(obj/item/I, mob/living/user)
-	. = ..()
 	if(istype(I, /obj/item/storage/book/bible) || istype(I, /obj/item/nullrod))
 		//Move stages along
 		destruction_stage += 1
@@ -129,6 +131,7 @@
 		//Defeat logic
 		if(destruction_stage > 3)
 			qdel(src)
+	return ..()
 
 #undef LIFETIME_STAGE_0
 #undef LIFETIME_STAGE_1

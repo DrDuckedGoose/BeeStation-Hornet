@@ -46,7 +46,8 @@ SUBSYSTEM_DEF(spooky)
 /datum/controller/subsystem/spooky/proc/adjust_trespass(datum/source, amount = TRESPASS_SMALL, log = TRUE, force = FALSE)
 	//Don't let lavaland corpses fuck us over
 	var/atom/A = source
-	if(isatom(source) && !is_station_level(A?.z) && !force)
+	var/turf/T = get_turf(A.loc)
+	if(isatom(source) && !is_station_level(T?.z) && !force)
 		return
 	// make sure we're not getting boosted by roundstart dead body placers - Better for readability for this to be a seperate IF
 	if(!SSticker.HasRoundStarted() && !force)
@@ -58,7 +59,8 @@ SUBSYSTEM_DEF(spooky)
 	
 /datum/controller/subsystem/spooky/proc/adjust_area_temperature(datum/source, area/_area, amount = 1, log = TRUE)
 	//Bunch of checks because areas are bullshit
-	if(!is_station_level(_area.z) || is_mining_level(_area.z) || istype(_area, /area/lavaland) || istype(_area, /area/ruin) || istype(_area, /area/ruin/powered))
+	var/turf/T = pick(_area?.contained_turfs)
+	if(_area && (!is_station_level(T?.z) || is_mining_level(T?.z) || istype(_area, /area/lavaland) || istype(_area, /area/ruin) || istype(_area, /area/ruin/powered)))
 		return
 	if(!areas[_area])
 		areas[_area] = amount
@@ -74,7 +76,8 @@ SUBSYSTEM_DEF(spooky)
 	if(ismob(source) && !corpse)
 		corpse = source
 	//Don't possess exploration / lavaland corpses
-	if((gibbed || !is_station_level(corpse?.z) || !iscarbon(corpse)) && !force)
+	var/turf/T = get_turf(corpse?.loc)
+	if((gibbed || !is_station_level(T?.z) || !iscarbon(corpse)) && !force)
 		return
 	//Weighting
 	var/datum/component/rot/R = corpse?.GetComponent(/datum/component/rot)

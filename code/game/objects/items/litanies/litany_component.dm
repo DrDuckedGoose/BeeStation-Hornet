@@ -1,4 +1,3 @@
-//TODO: Add antiharddel stuff relating to owner - Racc
 /datum/litany_component
 	///Who litany item does this belong to?
 	var/obj/item/litany/owner

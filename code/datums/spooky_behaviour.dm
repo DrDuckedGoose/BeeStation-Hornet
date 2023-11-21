@@ -6,9 +6,9 @@
 */
 
 ///How much time has to pass before we can spook again
-#define MINIMUM_SPOOK_TIME 3 MINUTES
+#define MINIMUM_SPOOK_TIME 5 MINUTES
 ///If the last spook was this time ago, we need to spook NOW!
-#define MAXIMUM_SPOOK_TIME 7 MINUTES
+#define MAXIMUM_SPOOK_TIME 10 MINUTES
 
 //What mode to generate a goal in
 #define GOAL_MODE_CASUAL 1
@@ -83,7 +83,7 @@
 			return pick(options)
 
 //For admins mostly
-/datum/spooky_behaviour/proc/force_event(datum/spooky_event/event, datum/controller/subsystem/spooky/SS = SSspooky, do_cost = FALSE, do_cooldown = FALSE)
+/datum/spooky_behaviour/proc/force_event(datum/spooky_event/event, datum/controller/subsystem/spooky/SS = SSspooky, do_cost = FALSE, do_cooldown = FALSE, do_alert = FALSE)
 	//Purchase the thing:tm:
 	var/datum/spooky_event/SE = new event
 	//Take our toll if we successfully do the thing
@@ -92,6 +92,18 @@
 			SS.adjust_trespass(src, -SE.cost, FALSE)
 		if(do_cooldown)
 			last_spook = world.time
+		//Typical housekeeping
+		var/mob/M = SS.active_chaplain
+		if(do_alert)
+			if(M && M?.stat != DEAD) //Bruh, Why is M needed ifwef wfjiwejiwfiofweipo
+				M.balloon_alert(M, chaplain_message)
+				to_chat(M, "<span class='warning'>[chaplain_message]\n[get_area(SE.get_location())]...</span>")
+		//If the product doesn't remove itself straight away, we probably want to track it
+		if(!QDELING(SE))
+			RegisterSignal(SE, COMSIG_PARENT_QDELETING, PROC_REF(handle_product))
+			if(M)
+				nails += list("[SE]" = new /atom/movable/sin_nail(get_turf(M), M)) 
+			active_products += SE
 
 //Avoid hard dels when a spooky events sepukus
 /datum/spooky_behaviour/proc/handle_product(datum/source)

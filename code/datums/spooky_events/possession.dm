@@ -1,5 +1,6 @@
 /datum/spooky_event/possession
 	name = "possession"
+	cost = 80
 	///The corpse we're responsible for
 	var/mob/living/corpse_owner
 

@@ -1,5 +1,6 @@
 /datum/spooky_event/ghost
 	name = "ghost"
+	cost = 70
 	///The ghost we made
 	var/mob/ghost
 
