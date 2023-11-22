@@ -1,8 +1,8 @@
 #define MAX_FUNERAL_GARNISH 0.5
 #define FUNERAL_GARNISH_SWAP_LIMIT 3
 #define GENERIC_ROT_REDUCTION 0.9
-#define SMALL_TRESPASS_MOD 5
-#define MEDIUM_TREPASS_MOD 1
+#define SMALL_TRESPASS_MOD 3.5
+#define MEDIUM_TREPASS_MOD 1.5
 #define MAX_ROT 100
 #define MAX_SPACE_ROT 31
 
@@ -110,14 +110,12 @@
 		SSspooky.remove_corpse(owner)
 	else
 		SSspooky.add_corpse(owner)
-	//handle rot value
-	var/area/A = get_area(get_turf(owner)) //handle rot mods
-	var/rot_mod = 1
-	if(A) //becuase the rot mod can be 0, don't just check that variable
-		rot_mod = A?.rot_modifier
-
+	//handle rot mods
+	var/area/A = get_area(get_turf(owner))
+	amount * (A?.rot_modifier || 1)
+	//Apply
 	if(rot < max_rot)
-		rot = max(0, min(max_rot, rot+amount * rot_mod))
+		rot = max(0, min(max_rot, rot+amount))
 	SSspooky.update_corpse(owner, rot)
 	rot_reduction = amount / original_amount
 

@@ -42,8 +42,6 @@
 	//Check if we need to, and can, panic buy something if we're taking too long
 	if(world.time > last_spook + MAXIMUM_SPOOK_TIME)
 		spending_goal = generate_goal(GOAL_MODE_PANIC)
-		//Chaplain is doing *really* well
-		SS.adjust_gain(1, TRUE)
 	//Check if the current goal is allowed with the current chaplain status
 	if((initial(spending_goal.requires_chaplain) && (SS.active_chaplain?.stat == DEAD || !SS.active_chaplain)) || !spending_goal)
 		spending_goal = generate_goal()	
@@ -54,12 +52,6 @@
 		SE = new spending_goal()
 		//Take our toll if we successfully do the thing
 		if(SE?.setup(SS))
-			//Handle gain. If the chaplain sucks we need to ease off bullying them
-			if((last_spook+MINIMUM_SPOOK_TIME) - world.time <= LOWER_GAIN_TIME)
-				SS.adjust_gain(-0.3)
-			//Chaplain is doing well
-			else
-				SS.adjust_gain(0.3)
 			//handle remaining setup
 			SS.adjust_trespass(src, -SE.cost, FALSE, TRUE)
 			last_spook = world.time
@@ -98,7 +90,7 @@
 			return pick(options)
 
 //For admins mostly
-/datum/spooky_behaviour/proc/force_event(datum/spooky_event/event, datum/controller/subsystem/spooky/SS = SSspooky, do_cost = FALSE, do_cooldown = FALSE, do_alert = FALSE)
+/datum/spooky_behaviour/proc/force_event(datum/spooky_event/event, datum/controller/subsystem/spooky/SS = SSspooky, do_cost = FALSE, do_cooldown = FALSE, do_alert = FALSE, do_trial = FALSE)
 	//Purchase the thing:tm:
 	var/datum/spooky_event/SE = new event
 	//Take our toll if we successfully do the thing
@@ -113,6 +105,8 @@
 			if(M && M?.stat != DEAD) //Bruh, Why is M needed ifwef wfjiwejiwfiofweipo
 				M.balloon_alert(M, chaplain_message)
 				to_chat(M, "<span class='warning'>[chaplain_message]\n[get_area(SE.get_location())]...</span>")
+		if(do_trial)
+			choosen_trial.apply_nail_effect(M)
 		//If the product doesn't remove itself straight away, we probably want to track it
 		if(!QDELING(SE))
 			RegisterSignal(SE, COMSIG_PARENT_QDELETING, PROC_REF(handle_product))

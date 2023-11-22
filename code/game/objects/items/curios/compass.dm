@@ -36,7 +36,7 @@
 	. = ..()
 	if(event_target && event_target.get_location())
 		display_message(user)
-		do_punishment(TRESPASS_SMALL/10) //Yes, something could technically spam this, but it's small and evil, so I'm cool with it
+		do_punishment(TRESPASS_MICRO) //Yes, something could technically spam this, but it's small and evil, so I'm cool with it
 	else
 		to_chat(user, "<span class='notice'>[src] spins pointlessly...</span>")
 

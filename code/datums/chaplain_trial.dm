@@ -22,7 +22,7 @@
 	. = ..()
 	target.adjustOrganLoss(ORGAN_SLOT_BRAIN, 10)
 	var/datum/hallucination/H = pick(GLOB.hallucination_list)
-	H = new H(target)
+	H = new H(target, TRUE)
 
 /datum/chaplain_trail/sanity/apply_nail_effect(mob/living/carbon/target)
 	. = ..()

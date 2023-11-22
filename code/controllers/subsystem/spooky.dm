@@ -21,7 +21,7 @@ SUBSYSTEM_DEF(spooky)
 	///Our total budget for spooky thing
 	var/spectral_trespass = 0
 	var/maximum_trespass = 100
-	///Knob we can twist if the chaplain is doing *really* well or *really* bad
+	///Knob we can twist if the chaplain is doing *really* well or *really* bad - for admins
 	var/gain_rate = 1
 	///Is there an active chaplain on the station?
 	var/mob/active_chaplain
@@ -59,7 +59,7 @@ SUBSYSTEM_DEF(spooky)
 		return
 	//Make sure spectral trespass stays above 0, and below maximum_trespass
 	//TODO: Replace these with clamps - Racc
-	spectral_trespass = min(maximum_trespass, max(0, spectral_trespass+(amount*gain_rate)))
+	spectral_trespass = clamp(spectral_trespass+(amount*gain_rate), 0, maximum_trespass)
 	if(log)
 		log_game("[source || "not specified"] increased spectral trespass by [amount*gain_rate] at [world.time] at [isatom(source) ? get_turf(source) : "not specified"].")
 	
@@ -112,12 +112,6 @@ SUBSYSTEM_DEF(spooky)
 
 	UnregisterSignal(active_chaplain, COMSIG_PARENT_QDELETING)
 	active_chaplain = null
-
-/datum/controller/subsystem/spooky/proc/adjust_gain(amount, exact = FALSE)
-	if(exact)
-		gain_rate = clamp(gain_rate+amount, LOWER_GAIN, UPPER_GAIN)
-	else
-		gain_rate = clamp(amount, LOWER_GAIN, UPPER_GAIN)
 
 #undef LOWER_GAIN
 #undef UPPER_GAIN
