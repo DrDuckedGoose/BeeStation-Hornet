@@ -1,8 +1,8 @@
 #define MAX_FUNERAL_GARNISH 0.5
 #define FUNERAL_GARNISH_SWAP_LIMIT 3
 #define GENERIC_ROT_REDUCTION 0.9
-#define SMALL_TRESPASS_MOD 10
-#define MEDIUM_TREPASS_MOD 6
+#define SMALL_TRESPASS_MOD 5
+#define MEDIUM_TREPASS_MOD 1
 #define MAX_ROT 100
 #define MAX_SPACE_ROT 31
 
@@ -135,12 +135,11 @@
 			if(!owner?.master_holder?.emitters["rot"])
 				owner?.add_emitter(/obj/emitter/flies, "rot", 10, 8)
 			//Spooky punishment
-			SSspooky.adjust_trespass(owner, TRESPASS_SMALL / SMALL_TRESPASS_MOD, FALSE)
+			SSspooky.adjust_trespass(owner, TRESPASS_MICRO / SMALL_TRESPASS_MOD * rot_reduction, FALSE)
 			//Holy benehfits
 			if(make_favor)
 				var/datum/religion_sect/R = GLOB.religious_sect
-				//PEDMAS who?
-				R?.adjust_favor(TRESPASS_SMALL / SMALL_TRESPASS_MOD * favor_modifier * rot_reduction)
+				R?.adjust_favor(TRESPASS_MICRO / SMALL_TRESPASS_MOD * favor_modifier)
 			//Area flavor / detective hints
 			if(do_checks)
 				if(!(istype(owner?.loc, /obj/structure/closet/crate/coffin) || istype(owner?.loc, /obj/structure/bodycontainer)))
@@ -161,11 +160,11 @@
 			//Make sure spaced bodies never exceed small rot punishments
 			var/rot_consequence = max_rot == MAX_SPACE_ROT ? SMALL_TRESPASS_MOD : MEDIUM_TREPASS_MOD
 			//Spooky punishment
-			SSspooky.adjust_trespass(owner, TRESPASS_SMALL / rot_consequence, FALSE)
+			SSspooky.adjust_trespass(owner, TRESPASS_MICRO / rot_consequence * rot_reduction, FALSE)
 			//Holy benehfits
 			if(make_favor)
 				var/datum/religion_sect/R = GLOB.religious_sect
-				R?.adjust_favor(TRESPASS_SMALL / rot_consequence * favor_modifier * rot_reduction)
+				R?.adjust_favor(TRESPASS_SMALL / rot_consequence * favor_modifier)
 			//Area flavor / detective hints
 			if(do_checks)
 				if(!istype(owner?.loc, /obj/structure/closet/crate/coffin))

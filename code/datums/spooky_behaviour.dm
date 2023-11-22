@@ -9,7 +9,7 @@
 #define MAXIMUM_SPOOK_TIME 10 MINUTES
 
 ///If an event is bought during this time, after MINIMUM_SPOOK_TIME has passed, lower the spooky gain
-#define LOWER_GAIN_TIME 1 MINUTES
+#define LOWER_GAIN_TIME 15 SECONDS
 
 //What mode to generate a goal in
 #define GOAL_MODE_CASUAL 1
@@ -28,11 +28,14 @@
 	var/list/nails = list()
 	///What message the chaplain gets when we spawn an event - Pretty much for admin goofs 
 	var/chaplain_message = "A terrible chill runs up your spine..."
+	///What trial has the chaplain choosen?
+	var/datum/chaplain_trail/choosen_trial
 
 /datum/spooky_behaviour/New()
 	. = ..()
 	last_spook = world.time
 	spending_goal = generate_goal()
+	choosen_trial = new /datum/chaplain_trail/sanity()
 
 //Manage the current subsystem's currency, maybe purchase a spook or two
 /datum/spooky_behaviour/proc/process_currency(datum/controller/subsystem/spooky/SS)
@@ -65,6 +68,8 @@
 			if(M && M?.stat != DEAD) //Bruh, Why is M needed ifwef wfjiwejiwfiofweipo
 				M.balloon_alert(M, chaplain_message)
 				to_chat(M, "<span class='warning'>[chaplain_message]\n[get_area(SE.get_location())]</span>")
+				//Apply trial effects
+				choosen_trial.apply_nail_effect(M)
 			//If the product doesn't remove itself straight away, we probably want to track it
 			if(!QDELING(SE))
 				RegisterSignal(SE, COMSIG_PARENT_QDELETING, PROC_REF(handle_product))
@@ -124,6 +129,9 @@
 		nails -= "[source]"
 		qdel(S)
 	active_products -= source
+	//Remove trial effects
+	if(SSspooky.active_chaplain)
+		choosen_trial.remove_nail_effect(SSspooky.active_chaplain)
 
 #undef MINIMUM_SPOOK_TIME
 #undef MAXIMUM_SPOOK_TIME
