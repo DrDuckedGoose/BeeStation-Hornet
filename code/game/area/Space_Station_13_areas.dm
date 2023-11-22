@@ -1068,7 +1068,7 @@ NOTE: there are two lists of areas in the end of this file: centcom and station 
 	mood_bonus = -2
 	mood_message = "<span class='warning'>It smells like death in here!\n</span>"
 	airlock_hack_difficulty = AIRLOCK_WIRE_SECURITY_PROTECTED
-	rot_modifier = 0.5
+	rot_modifier = 0.1
 
 /area/medical/chemistry
 	name = "Chemistry"

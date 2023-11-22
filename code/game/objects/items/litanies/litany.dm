@@ -53,7 +53,6 @@
 	. = ..()
 	if(!proximity_flag)
 		return
-	icon_state = ""
 	attach_target = target
 	//Move this to the area, for objective checks
 	forceMove(target)

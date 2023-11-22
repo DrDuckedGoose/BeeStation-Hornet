@@ -4,6 +4,9 @@
 
 #define SPOOKY_ROT_TICK "rot_tick"
 
+#define LOWER_GAIN 0.05
+#define UPPER_GAIN 1
+
 //TODO: fix the station level checks runtiming, the runtime is something like an index thing - Racc
 
 //Subsystem for handling chaplain's spooky adventures - spawns ghosts, possesions, ect
@@ -16,9 +19,9 @@ SUBSYSTEM_DEF(spooky)
 	
 	///Our total budget for spooky thing
 	var/spectral_trespass = 0
-	///Knob we can twist if the chaplain is doing *really* well or *really* bad
-	var/gain_rate = 0.5
 	var/maximum_trespass = 100
+	///Knob we can twist if the chaplain is doing *really* well or *really* bad
+	var/gain_rate = 1
 	///Is there an active chaplain on the station?
 	var/mob/active_chaplain
 	///List of weighted active corpses - different from global dead mob list, just tracks carbons & has weights
@@ -47,13 +50,14 @@ SUBSYSTEM_DEF(spooky)
 /datum/controller/subsystem/spooky/proc/adjust_trespass(datum/source, amount = TRESPASS_SMALL, log = TRUE, force = FALSE)
 	//Don't let lavaland corpses fuck us over
 	var/atom/A = source
-	var/turf/T = get_turf(A.loc)
+	var/turf/T = isatom(A) ? get_turf(A?.loc) : null
 	if(isatom(source) && !is_station_level(T?.z) && !force)
 		return
 	// make sure we're not getting boosted by roundstart dead body placers - Better for readability for this to be a seperate IF
 	if(!SSticker.HasRoundStarted() && !force)
 		return
 	//Make sure spectral trespass stays above 0, and below maximum_trespass
+	//TODO: Replace these with clamps - Racc
 	spectral_trespass = min(maximum_trespass, max(0, spectral_trespass+(amount*gain_rate)))
 	if(log)
 		log_game("[source || "not specified"] increased spectral trespass by [amount*gain_rate] at [world.time] at [isatom(source) ? get_turf(source) : "not specified"].")
@@ -107,6 +111,15 @@ SUBSYSTEM_DEF(spooky)
 
 	UnregisterSignal(active_chaplain, COMSIG_PARENT_QDELETING)
 	active_chaplain = null
+
+/datum/controller/subsystem/spooky/proc/adjust_gain(amount, exact = FALSE)
+	if(exact)
+		gain_rate = clamp(gain_rate+amount, LOWER_GAIN, UPPER_GAIN)
+	else
+		gain_rate = clamp(amount, LOWER_GAIN, UPPER_GAIN)
+
+#undef LOWER_GAIN
+#undef UPPER_GAIN
 
 /proc/make_spooky_indicator(turf/T, result = 0)
 	if(T)

@@ -1,14 +1,15 @@
 /*
 	Behaviour for spooky subsystem
 	This datum handles purchasing spooky events and such
-
-	
 */
 
 ///How much time has to pass before we can spook again
 #define MINIMUM_SPOOK_TIME 4 MINUTES
 ///If the last spook was this time ago, we need to spook NOW!
 #define MAXIMUM_SPOOK_TIME 10 MINUTES
+
+///If an event is bought during this time, after MINIMUM_SPOOK_TIME has passed, lower the spooky gain
+#define LOWER_GAIN_TIME 1 MINUTES
 
 //What mode to generate a goal in
 #define GOAL_MODE_CASUAL 1
@@ -38,6 +39,8 @@
 	//Check if we need to, and can, panic buy something if we're taking too long
 	if(world.time > last_spook + MAXIMUM_SPOOK_TIME)
 		spending_goal = generate_goal(GOAL_MODE_PANIC)
+		//Chaplain is doing *really* well
+		SS.adjust_gain(1, TRUE)
 	//Check if the current goal is allowed with the current chaplain status
 	if((initial(spending_goal.requires_chaplain) && (SS.active_chaplain?.stat == DEAD || !SS.active_chaplain)) || !spending_goal)
 		spending_goal = generate_goal()	
@@ -48,13 +51,20 @@
 		SE = new spending_goal()
 		//Take our toll if we successfully do the thing
 		if(SE?.setup(SS))
-			SS.adjust_trespass(src, -SE.cost, FALSE)
+			//Handle gain. If the chaplain sucks we need to ease off bullying them
+			if((last_spook+MINIMUM_SPOOK_TIME) - world.time <= LOWER_GAIN_TIME)
+				SS.adjust_gain(-0.3)
+			//Chaplain is doing well
+			else
+				SS.adjust_gain(0.3)
+			//handle remaining setup
+			SS.adjust_trespass(src, -SE.cost, FALSE, TRUE)
 			last_spook = world.time
 			//Alert the chaplain something *terrible* has happened
 			var/mob/M = SS.active_chaplain
 			if(M && M?.stat != DEAD) //Bruh, Why is M needed ifwef wfjiwejiwfiofweipo
 				M.balloon_alert(M, chaplain_message)
-				to_chat(M, "<span class='warning'>[chaplain_message]</span>")
+				to_chat(M, "<span class='warning'>[chaplain_message]\n[get_area(SE.get_location())]</span>")
 			//If the product doesn't remove itself straight away, we probably want to track it
 			if(!QDELING(SE))
 				RegisterSignal(SE, COMSIG_PARENT_QDELETING, PROC_REF(handle_product))
@@ -119,6 +129,9 @@
 #undef MAXIMUM_SPOOK_TIME
 #undef GOAL_MODE_CASUAL
 #undef GOAL_MODE_PANIC
+#undef LOWER_GAIN_TIME
+
+#define NAIL_SUBTLE_OPACITY 128
 
 //Sin nail this system uses communicate the current products to the chaplain
 /atom/movable/sin_nail
@@ -144,3 +157,4 @@
 /atom/movable/sin_nail/can_be_pulled(user, grab_state, force)
 	return FALSE
 	
+#undef NAIL_SUBTLE_OPACITY 
