@@ -112,7 +112,7 @@
 		SSspooky.add_corpse(owner)
 	//handle rot mods
 	var/area/A = get_area(get_turf(owner))
-	amount * (A?.rot_modifier || 1)
+	amount *= (A?.rot_modifier || 1)
 	//Apply
 	if(rot < max_rot)
 		rot = max(0, min(max_rot, rot+amount))
