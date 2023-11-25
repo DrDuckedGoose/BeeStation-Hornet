@@ -22,10 +22,10 @@
 		return FALSE
 
 /datum/surgery_step/embalm_corpse
-	name = "Filter blood"
+	name = "Scoop corpse"
 	implements = list(/obj/item/scoop = 95)
 	repeatable = TRUE
-	time = 2.5 SECONDS
+	time = 10 SECONDS
 	success_sound = 'sound/machines/ping.ogg'
 
 /datum/surgery_step/embalm_corpse/success(mob/user, mob/living/carbon/target, target_zone, obj/item/tool, datum/surgery/surgery, default_display_results = FALSE)

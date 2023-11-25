@@ -172,14 +172,19 @@
 	door_hinge = 5
 	///What current 'garnishes' we have, for rot:tm: stuff
 	var/list/garnishes = list()
+	var/corpse_count = 0
 
 /obj/structure/closet/crate/coffin/close(mob/living/user)
 	. = ..()
 	garnishes = list()
+	corpse_count = 0
 	//Check contents for funeral garnishes
-	for(var/obj/item/I in contents)
-		if(HAS_TRAIT(I, TRAIT_FUNERAL_GARNISH))
+	for(var/atom/I in contents)
+		if(isitem(I) && HAS_TRAIT(I, TRAIT_FUNERAL_GARNISH))
 			garnishes |= I.type
+		else if(ismob(I))
+			var/mob/M = I
+			corpse_count += (M.stat == DEAD)
 
 /obj/structure/closet/crate/coffin/open(mob/living/user)
 	. = ..()

@@ -19,11 +19,14 @@
 	///Reference to the skull overlay
 	var/mutable_appearance/skull_overlay
 
+/datum/spooky_event/haunt_room/New()
+	. = ..()
+	skull_overlay = mutable_appearance('icons/obj/religion.dmi', "skull_pattern", BELOW_MOB_LAYER, GAME_PLANE)
+
 /datum/spooky_event/haunt_room/Destroy(force, ...)
 	. = ..()
 	if(origin && !QDELETED(origin))
 		QDEL_NULL(origin)
-	if(skull_overlay)
 		target_room?.cut_overlay(skull_overlay)
 		qdel(skull_overlay)
 	target_room = null
@@ -83,7 +86,6 @@
 	if(current_stage_time >= LIFETIME_STAGE_3 || stage >= 3)
 		if(!SSspooky.active_chaplain || SSspooky.active_chaplain.stat == DEAD)
 			return
-		skull_overlay = mutable_appearance('icons/obj/religion.dmi', "skull_pattern")
 		target_room.add_overlay(skull_overlay)
 
 /datum/spooky_event/haunt_room/get_location()
@@ -100,6 +102,7 @@
 //Effect for the chaplain to interact with, to beat this event
 /obj/effect/haunted_heart
 	desc = "The heart of a haunted room, it beats to a melancholy tune."
+	plane = HUD_PLANE
 	///What stage of destruction is this heart at
 	var/destruction_stage = 0
 	///Ref to our parent
@@ -122,7 +125,7 @@
 	if(istype(weapon, /obj/item/storage/book/bible) || istype(weapon, /obj/item/nullrod))
 		//Move stages along
 		destruction_stage += 1
-		if(parent.stage <= 2)
+		if(parent.stage < 2)
 			parent?.stage += 1
 		//Jump to a new turf
 		var/turf/T = pick(parent?.target_room?.contained_turfs)

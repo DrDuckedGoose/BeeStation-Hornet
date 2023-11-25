@@ -81,7 +81,7 @@
 		if(istype(owner?.loc, /obj/structure/closet/crate/coffin))
 			var/obj/structure/closet/crate/coffin/C = owner?.loc
 			amount *= max((length(C.garnishes) * 0.1) - 1, MAX_FUNERAL_GARNISH)
-			if(length(C.garnishes) >= FUNERAL_GARNISH_SWAP_LIMIT)
+			if(length(C.garnishes) >= FUNERAL_GARNISH_SWAP_LIMIT && C.corpse_count == 1)
 				make_favor = TRUE
 				//Effect
 				var/atom/target = isturf(owner.loc) ? owner : owner.loc
@@ -137,7 +137,7 @@
 			//Holy benehfits
 			if(make_favor)
 				var/datum/religion_sect/R = GLOB.religious_sect
-				R?.adjust_favor(TRESPASS_MICRO / SMALL_TRESPASS_MOD * favor_modifier)
+				R?.adjust_favor(TRESPASS_SMALL / SMALL_TRESPASS_MOD * favor_modifier)
 			//Area flavor / detective hints
 			if(do_checks)
 				if(!(istype(owner?.loc, /obj/structure/closet/crate/coffin) || istype(owner?.loc, /obj/structure/bodycontainer)))
