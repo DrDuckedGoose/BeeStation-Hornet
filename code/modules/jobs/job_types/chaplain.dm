@@ -155,7 +155,7 @@
 	///What litany contents we're blessing
 	var/list/litany_components = list()
 	///The difficulty of this objective
-	var/difficulty = 1
+	var/difficulty = 1 //TODO: Give a reward relating to the difficulty - Racc
 	///What type of target
 	var/target_type = TARGET_TYPE_AREA
 
@@ -169,11 +169,11 @@
 	. = ..()
 	switch(target_type)
 		if(TARGET_TYPE_PERSON)
-			litany_target = pick(GLOB.player_list)
+			litany_target = pick(GLOB.player_list) //This *does* mean the chaplain can be the target, that's fine
 		if(TARGET_TYPE_AREA)
 			litany_target = pick(GLOB.the_station_areas)
 		if(TARGET_TYPE_THING)
-			return
+			return //TODO: - Racc
 	build_litany_requirement()
 
 /datum/objective/chaplain_litany/proc/build_litany_requirement()
@@ -198,11 +198,6 @@
 		available_components -= choice
 	update_explanation_text()
 
-/datum/objective/chaplain_litany/find_target_by_role(role, role_type=FALSE,invert=FALSE)
-	if(target_type == TARGET_TYPE_PERSON)
-		. = ..()
-		build_litany_requirement()
-
 /datum/objective/chaplain_litany/update_explanation_text()
 	. = ..()
 	//The logic used here is to handle a runtime on runtime station & also covers wicked bad emergencies
@@ -211,7 +206,7 @@
 	for(var/datum/litany_component/i as() in litany_components)
 		explanation_text = "[explanation_text] [initial(i.name) || "what the fuck"]"
 		if(length(litany_components) > 1)
-			explanation_text = "[count == length(litany_components)-1 ? " and" : ","]"
+			explanation_text = "[explanation_text] [count == length(litany_components)-1 ? " and" : ","]"
 		count += 1
 	explanation_text = "[explanation_text]."
 

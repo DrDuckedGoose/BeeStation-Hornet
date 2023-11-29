@@ -36,6 +36,7 @@ NOTE: there are two lists of areas in the end of this file: centcom and station 
 	ambient_buzz = null //Space is deafeningly quiet
 	sound_environment = SOUND_AREA_SPACE
 	fullbright_type = FULLBRIGHT_STARLIGHT
+	rot_modifier = 0.01
 
 /area/space/nearstation
 	icon_state = "space_near"
@@ -1068,7 +1069,7 @@ NOTE: there are two lists of areas in the end of this file: centcom and station 
 	mood_bonus = -2
 	mood_message = "<span class='warning'>It smells like death in here!\n</span>"
 	airlock_hack_difficulty = AIRLOCK_WIRE_SECURITY_PROTECTED
-	rot_modifier = 0.05
+	rot_modifier = 0.25
 
 /area/medical/chemistry
 	name = "Chemistry"

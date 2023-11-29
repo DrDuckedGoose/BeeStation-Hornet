@@ -95,9 +95,8 @@
 				make_favor = FALSE
 		else
 			amount *= GENERIC_ROT_REDUCTION
-	//Spacing corpses *does* reduce rot, but it has a consequence
+	//Spacing corpses, rot reduction is handled in the are definition, like chapel
 	if(isspaceturf(get_turf(owner.loc)))
-		amount *= GENERIC_ROT_REDUCTION
 		make_favor = FALSE
 		max_rot = MAX_SPACE_ROT
 	else
@@ -140,7 +139,7 @@
 				R?.adjust_favor(TRESPASS_SMALL / SMALL_TRESPASS_MOD * favor_modifier)
 			//Area flavor / detective hints
 			if(do_checks)
-				if(!(istype(owner?.loc, /obj/structure/closet/crate/coffin) || istype(owner?.loc, /obj/structure/bodycontainer)))
+				if(!(istype(owner?.loc, /obj/structure/closet/crate/coffin) || istype(owner?.loc, /obj/structure/bodycontainer) || HAS_TRAIT(owner, TRAIT_EMBALMED)))
 					var/area/A = get_area(owner)
 					A?.mood_bonus = -1
 					A?.mood_message = "<span class='warning'>It smells in here.</span>"
@@ -165,7 +164,7 @@
 				R?.adjust_favor(TRESPASS_SMALL / rot_consequence * favor_modifier)
 			//Area flavor / detective hints
 			if(do_checks)
-				if(!istype(owner?.loc, /obj/structure/closet/crate/coffin))
+				if(!HAS_TRAIT(owner, TRAIT_EMBALMED)) //Nothing can contain the *stink*
 					var/area/A = get_area(owner)
 					A?.mood_bonus = -2
 					A?.mood_message = "<span class='warning'>It reeks in here!</span>"
