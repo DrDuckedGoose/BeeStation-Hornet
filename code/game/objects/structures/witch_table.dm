@@ -27,6 +27,7 @@
 		if(R.check_recipe(get_turf(src)))
 			if(available["[R.name]"])
 				continue
+			//TODO: Swap over the the dedicated option datum, so I can use descriptions - Racc
 			available += list("[R.name]" = image(R.icon, R.icon_state))
 			recipes += list("[R.name]" = R)
 	if(!length(available))

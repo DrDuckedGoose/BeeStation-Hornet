@@ -18,12 +18,17 @@
 	desc = "A trial of sanity. Every nail will apply a small amount of damage to the chaplain's brain, and increase their insanity. \
 	Removing a nail will reverse the effects."
 
-/datum/chaplain_trail/sanity/remove_nail_effect(mob/living/carbon/target)
+/datum/chaplain_trail/sanity/apply_nail_effect(mob/living/carbon/target)
 	. = ..()
+	//Drain bamage
 	target.adjustOrganLoss(ORGAN_SLOT_BRAIN, 10)
+	//Crazy visions
 	var/datum/hallucination/H = pick(GLOB.hallucination_list)
 	H = new H(target, TRUE)
+	//Uh oh message
+	target.balloon_alert(target, "Your head hurts.")
+	to_chat(target, "<span class='warning'>Your head hurts.</span>")
 
-/datum/chaplain_trail/sanity/apply_nail_effect(mob/living/carbon/target)
+/datum/chaplain_trail/sanity/remove_nail_effect(mob/living/carbon/target)
 	. = ..()
 	target.adjustOrganLoss(ORGAN_SLOT_BRAIN, -10)

@@ -201,12 +201,12 @@
 /datum/objective/chaplain_litany/update_explanation_text()
 	. = ..()
 	//The logic used here is to handle a runtime on runtime station & also covers wicked bad emergencies
-	explanation_text = "Bless [litany_target] with a litany containing"
+	explanation_text = "Bless [litany_target || "what the fuck"] with a litany containing"
 	var/count = 1
 	for(var/datum/litany_component/i as() in litany_components)
 		explanation_text = "[explanation_text] [initial(i.name) || "what the fuck"]"
-		if(length(litany_components) > 1)
-			explanation_text = "[explanation_text] [count == length(litany_components)-1 ? " and" : ","]"
+		if(length(litany_components) > 1 && count < length(litany_components))
+			explanation_text = "[explanation_text][count == length(litany_components)-1 ? " and" : ","]"
 		count += 1
 	explanation_text = "[explanation_text]."
 
