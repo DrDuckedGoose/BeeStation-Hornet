@@ -2,16 +2,27 @@
 /obj/item/curio/compass
 	name = "broken compass"
 	desc = "A rough looking compass. The needle seems broken."
-	icon_state = "towel"
+	icon_state = "compass"
 	force = 0
 	item_cooldown = 8 SECONDS
 	///Ref to the spooky event
 	var/datum/spooky_event/event_target
+	///Ref to the needle
+	var/atom/movable/screen/needle
 
 /obj/item/curio/compass/Initialize(mapload)
 	. = ..()
 	if(prob(0.01))
 		name = "broken compiss"
+	//generate needle
+	needle = new()
+	needle.appearance = mutable_appearance(icon, "compass_needle")
+	needle.SpinAnimation()
+	vis_contents += needle
+
+/obj/item/curio/compass/Destroy()
+	. = ..()
+	QDEL_NULL(needle)
 
 /obj/item/curio/compass/AltClick(mob/user)
 	. = ..()
@@ -29,6 +40,8 @@
 		//Get the direction of the target
 		display_message(user)
 		do_punishment()
+		//Stop the needle
+		needle.transform = null
 	else
 		to_chat(user, "<span class='notice'>Better not...</span>")
 
@@ -58,6 +71,7 @@
 	var/mob/M = loc
 	if(ismob(M))
 		to_chat(M, "<span class='notice'>[src] begins to spin once again...</span>")
+		needle.SpinAnimation()
 
 /obj/item/curio/compass/proc/display_message(mob/user)
 	if(!event_target?.get_location() || !user)

@@ -2,7 +2,6 @@
 /obj/item/curio/doll
 	name = "tattered doll"
 	desc = "An old tattered doll. Something seems 'off' about it."
-	icon_state = "towel"
 	force = 0
 	item_cooldown = 2 MINUTES
 	///How long can the doll move for per activation
@@ -58,7 +57,7 @@
 	if(can_move)
 		n_transform.Scale(0.7, 1.3)
 	else
-		n_transform.Scale(1.3, 0.7)
+		Shake()
 	animate(src, transform = n_transform, time = 0.25 SECONDS, easing = BACK_EASING | EASE_OUT)
 	animate(transform = o_transform, time = 0.15 SECONDS, easing = LINEAR_EASING)
 	//We can only move when active

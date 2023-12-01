@@ -1,8 +1,6 @@
 #define LIFE_TIME 2.5 SECONDS
 
 /obj/effect/spectral_trespass
-	name = "holy blessing" //TODO: Change this name/desc - Racc
-	desc = "Holy energies interfere with ethereal travel at this location."
 	icon = 'icons/obj/religion.dmi'
 	icon_state = null
 	anchored = TRUE

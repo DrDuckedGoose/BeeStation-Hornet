@@ -1,7 +1,7 @@
 /obj/item/spectral_scanner
 	name = "spectral scanner"
 	desc = "A scanner for detecting spectral entities and substances."
-	icon = 'icons/obj/items_and_weapons.dmi'
+	icon = 'icons/obj/curios.dmi'
 	icon_state = "spectral_scanner" //mapping icon to represent upgrade states. if you want a different base icon, update default_camera_icon as well as this.
 	w_class = WEIGHT_CLASS_NORMAL
 	max_integrity = 100
@@ -15,7 +15,6 @@
 /obj/item/spectral_scanner/Initialize(mapload)
 	. = ..()
 	radius_overlay = new()
-	radius_overlay.mouse_opacity = MOUSE_OPACITY_TRANSPARENT
 	build_scanner_effect()
 
 /obj/item/spectral_scanner/interact(mob/user)
@@ -43,6 +42,7 @@
 /obj/item/spectral_scanner/proc/build_scanner_effect()
 	//Intial appearance
 	radius_overlay.appearance = mutable_appearance('icons/effects/96x96.dmi', "maint_scanner_circle", 10, HUD_PLANE)
+	radius_overlay.mouse_opacity = MOUSE_OPACITY_TRANSPARENT //Set it here becuase it breaks otherwise
 	radius_overlay.color = radius_color
 	//Offsets
 	radius_overlay.pixel_x = -32

@@ -57,8 +57,8 @@
 			last_spook = world.time
 			//Alert the chaplain something *terrible* has happened
 			var/mob/M = SS.active_chaplain
-			if(M && M?.stat != DEAD) //Bruh, Why is M needed ifwef wfjiwejiwfiofweipo
-				M.balloon_alert(M, chaplain_message)
+			if(M && M?.stat != DEAD) //Bruh, Why is M needed if wef wfjiwejiwfiofweipo
+				M.balloon_alert(M, "[chaplain_message]\n")
 				to_chat(M, "<span class='warning'>[chaplain_message]\n[get_area(SE.get_location())]</span>")
 				//Apply trial effects
 				choosen_trial.apply_nail_effect(M)
@@ -133,7 +133,7 @@
 #undef GOAL_MODE_PANIC
 #undef LOWER_GAIN_TIME
 
-#define NAIL_SUBTLE_OPACITY 50
+#define NAIL_SUBTLE_OPACITY 32
 
 //Sin nail this system uses communicate the current products to the chaplain
 /atom/movable/sin_nail
@@ -163,7 +163,7 @@
 	add_overlay(MA)
 	//Handle opacity
 	RegisterSignal(SSspooky.active_chaplain, COMSIG_CLICK_SHIFT, PROC_REF(handle_exam))
-	animate(src, alpha = NAIL_SUBTLE_OPACITY, time = 8 SECONDS, flags = ANIMATION_PARALLEL)
+	animate(src, alpha = NAIL_SUBTLE_OPACITY, time = 3 SECONDS, flags = ANIMATION_PARALLEL)
 
 /atom/movable/sin_nail/can_be_pulled(user, grab_state, force)
 	return FALSE
@@ -172,6 +172,7 @@
 	SIGNAL_HANDLER
 
 	alpha = 255
-	animate(src, alpha = NAIL_SUBTLE_OPACITY, time = 8, flags = ANIMATION_PARALLEL)
+	animate(src, alpha = 255, time = 2 SECONDS, flags = ANIMATION_PARALLEL) //So it hangs for a few seconds
+	animate(alpha = NAIL_SUBTLE_OPACITY, time = 3 SECONDS)
 
 #undef NAIL_SUBTLE_OPACITY 

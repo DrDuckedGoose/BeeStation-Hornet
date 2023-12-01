@@ -5,7 +5,8 @@
 /obj/item/curio
 	name = "curio"
 	desc = "Generic and strange. Where did you find this?"
-	icon_state = "towel"
+	icon = 'icons/obj/curios.dmi'
+	icon_state = "generic"
 	w_class = WEIGHT_CLASS_SMALL
 	force = 1
 	///The cost / effect of using this item
