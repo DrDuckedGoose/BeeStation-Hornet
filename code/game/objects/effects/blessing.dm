@@ -17,6 +17,11 @@
 		I.appearance_flags = RESET_ALPHA
 		add_alt_appearance(/datum/atom_hud/alternate_appearance/basic/holyAware, "blessing", I)
 	RegisterSignal(loc, COMSIG_ATOM_INTERCEPT_TELEPORT, PROC_REF(block_cult_teleport))
+	//Build spooky mask
+	var/mutable_appearance/MA = new()
+	MA.appearance = appearance
+	MA.plane = SPECTRAL_TRESPASS_PLANE
+	add_overlay(MA)
 
 /obj/effect/blessing/Destroy()
 	UnregisterSignal(loc, COMSIG_ATOM_INTERCEPT_TELEPORT)

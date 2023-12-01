@@ -9,6 +9,7 @@
 
 /datum/chaplain_trail/proc/remove_nail_effect(mob/living/carbon/target)
 	return
+
 /*
 	Trial of Sanity
 		Every nail makes the chaplain more insane	

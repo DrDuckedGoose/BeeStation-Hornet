@@ -9,17 +9,25 @@
 	var/requires_chaplain = FALSE
 	///How much does this event cost?
 	var/cost = 0
+	///How much does this event affect spectral gain, positive reduces gain & negative increases gain
+	var/gain_modifier = 0.1
 	///The holy favour reward for beating this event
-	var/reward = 100
+	var/holy_reward = 100
+	///The spectral reduction reward for beating this event
+	var/spectral_reward = -TRESPASS_LARGE
 
 /datum/spooky_event/New()
 	. = ..()
-	
+	SSspooky.gain_rate -= gain_modifier
+
 /datum/spooky_event/Destroy(force, ...)
 	. = ..()
 	//Reward for doing this event
 	var/datum/religion_sect/R = GLOB.religious_sect
-	R?.adjust_favor(reward)
+	R?.adjust_favor(holy_reward)
+	SSspooky.adjust_trespass(src, spectral_reward, FALSE, TRUE)
+	//undo gain reduction
+	SSspooky.gain_rate += gain_modifier
 
 /*
 	This kinda also applies to spooky_behaviour.dm, there's only one spooky subsystem, but I have the

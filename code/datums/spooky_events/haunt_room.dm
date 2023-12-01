@@ -126,6 +126,7 @@
 	MA.plane = SPECTRAL_TRESPASS_PLANE
 	add_overlay(MA)
 
+//TODO: add sounds to this / other feedback stuff - Racc
 /obj/effect/haunted_heart/attackby(obj/item/weapon, mob/user, params)
 	if(istype(weapon, /obj/item/storage/book/bible) || istype(weapon, /obj/item/nullrod))
 		//Move stages along

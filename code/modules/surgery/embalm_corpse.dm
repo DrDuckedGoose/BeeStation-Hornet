@@ -43,6 +43,7 @@
 	var/turf/T = get_turf(target)
 	//Only succeeed if using enbalming table
 	//TODO: make formaldehyde required
+	//TODO: Make embalming remove all the blood
 	if(locate(/obj/structure/table/optable/embalming_table) in T.contents)
 		//handle spooky rewards
 		SSspooky.adjust_trespass(user, -(TRESPASS_LARGE+total_reward))

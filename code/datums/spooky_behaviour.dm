@@ -133,7 +133,7 @@
 #undef GOAL_MODE_PANIC
 #undef LOWER_GAIN_TIME
 
-#define NAIL_SUBTLE_OPACITY 128
+#define NAIL_SUBTLE_OPACITY 50
 
 //Sin nail this system uses communicate the current products to the chaplain
 /atom/movable/sin_nail
@@ -154,9 +154,24 @@
 	var/icon/TI = icon(target.icon,target.icon_state,target.dir)
 	var/orbitsize = (TI.Width()+TI.Height())*0.5
 	orbitsize -= (orbitsize/world.icon_size)*(world.icon_size*0.25)
-	orbit(target, orbitsize, rand(0, 1), rand(10, 20), 36)
+	orbit(target, orbitsize, rand(0, 1), rand(20, 30), 36)
+	//Spooky mask so the curator can be horrified
+	var/mutable_appearance/MA = new()
+	MA.appearance = appearance
+	MA.appearance_flags = RESET_ALPHA
+	MA.plane = SPECTRAL_TRESPASS_PLANE
+	add_overlay(MA)
+	//Handle opacity
+	RegisterSignal(SSspooky.active_chaplain, COMSIG_CLICK_SHIFT, PROC_REF(handle_exam))
+	animate(src, alpha = NAIL_SUBTLE_OPACITY, time = 8 SECONDS, flags = ANIMATION_PARALLEL)
 
 /atom/movable/sin_nail/can_be_pulled(user, grab_state, force)
 	return FALSE
 	
+/atom/movable/sin_nail/proc/handle_exam()
+	SIGNAL_HANDLER
+
+	alpha = 255
+	animate(src, alpha = NAIL_SUBTLE_OPACITY, time = 8, flags = ANIMATION_PARALLEL)
+
 #undef NAIL_SUBTLE_OPACITY 
