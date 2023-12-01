@@ -28,20 +28,19 @@
 		//Kinda weird, but we need to temporarily reset the target's transform
 		var/matrix/o_transform = corpse.transform
 		corpse.transform = null
-		//Then just copy the appearance as normal TODO: Add this all to a ghost subtype - Racc
-		G.appearance = null
-		var/image/IM = new()
-		IM.appearance = corpse.appearance
-		G.add_alt_appearance(/datum/atom_hud/alternate_appearance/basic/holyAware, "spectral ghost", IM)
-		var/mutable_appearance/MA = new()
-		MA.appearance = corpse.appearance
-		MA.plane = SPECTRAL_TRESPASS_PLANE
+		//Then just copy the appearance as normal
+		G.appearance = corpse.appearance
 		G.alpha = 128
 		G.name = "ghost of [corpse.name]"
 		corpse.transform = o_transform
 		//Build the fade effect / filter
 		var/icon/I = icon('icons/mob/mob.dmi', "ghost_fade")
 		G.add_filter("fade", 1, alpha_mask_filter(icon = I))
+		//Build spooky mask
+		var/mutable_appearance/MA = new()
+		MA.appearance = corpse.appearance
+		MA.plane = SPECTRAL_TRESPASS_PLANE
+		G.add_overlay(MA)
 		//Inform ghosts
 		notify_ghosts("The [G.name] has appeared in [A]!", source = G, action = NOTIFY_ORBIT)
 		return TRUE
