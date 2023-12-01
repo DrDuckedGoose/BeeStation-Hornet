@@ -3,10 +3,13 @@
 	cost = 80
 	///The corpse we're responsible for
 	var/mob/living/corpse_owner
+	///Ref to the spooky mask, when we need to remove it
+	var/mutable_appearance/spooky_mask
 
 /datum/spooky_event/possession/Destroy(force, ...)
 	if(corpse_owner && !QDELING(corpse_owner))
 		QDEL_NULL(corpse_owner.ai_controller)
+	corpse_owner.cut_overlay(spooky_mask)
 	corpse_owner = null
 	return ..()
 
@@ -28,6 +31,11 @@
 	ADD_TRAIT(corpse, TRAIT_POSSESSED, TRAIT_GENERIC) //This is removed in the mobs death code, becuase death is called after this is deleted
 	SS.remove_corpse(corpse)
 	corpse_owner = corpse
+	//Build spooky mask
+	spooky_mask = new()
+	spooky_mask.appearance = corpse.appearance
+	spooky_mask.plane = SPECTRAL_TRESPASS_PLANE
+	corpse.add_overlay(spooky_mask)
 	//Inform ghosts
 	notify_ghosts("[corpse.name] has been possesed at [get_area(corpse)]!", source = corpse, action = NOTIFY_ORBIT)
 	//Make the possessed corpse shake, for that freaky effect

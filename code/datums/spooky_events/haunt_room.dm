@@ -120,6 +120,11 @@
 	n_transform.Scale(1.3)
 	animate(src, transform = n_transform, time = 0.5 SECONDS, easing = BACK_EASING, loop = -1)
 	animate(transform = o_transform, time = 1 SECONDS)
+	//Build spooky mask
+	var/mutable_appearance/MA = new()
+	MA.appearance = I.appearance
+	MA.plane = SPECTRAL_TRESPASS_PLANE
+	add_overlay(MA)
 
 /obj/effect/haunted_heart/attackby(obj/item/weapon, mob/user, params)
 	if(istype(weapon, /obj/item/storage/book/bible) || istype(weapon, /obj/item/nullrod))

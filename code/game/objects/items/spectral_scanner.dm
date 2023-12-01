@@ -48,9 +48,10 @@
 	radius_overlay.pixel_y = -32
 	//Masking
 	radius_overlay.filters += filter(type = "alpha", render_source = GAME_PLANE_RENDER_TARGET)
+	radius_overlay.filters += filter(type = "alpha", render_source = SPECTRAL_TRESPASS_PLANE_RENDER_TARGET, flags = MASK_INVERSE)
 	var/icon/I = icon('icons/effects/96x96.dmi', "maint_scanner_stripes")
 	radius_overlay.filters += filter(type = "alpha", icon = I, flags = MASK_INVERSE)
-
+	
 	//Spooky detection plane
 	var/mutable_appearance/MA = mutable_appearance('icons/effects/96x96.dmi', "maint_scanner_circle", plane = HUD_PLANE)
 	MA.color = spooky_color

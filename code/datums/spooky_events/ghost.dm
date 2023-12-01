@@ -32,15 +32,16 @@
 		G.appearance = corpse.appearance
 		G.alpha = 128
 		G.name = "ghost of [corpse.name]"
-		corpse.transform = o_transform
-		//Build the fade effect / filter
-		var/icon/I = icon('icons/mob/mob.dmi', "ghost_fade")
-		G.add_filter("fade", 1, alpha_mask_filter(icon = I))
 		//Build spooky mask
 		var/mutable_appearance/MA = new()
 		MA.appearance = corpse.appearance
 		MA.plane = SPECTRAL_TRESPASS_PLANE
 		G.add_overlay(MA)
+		//Set transform back to normal
+		corpse.transform = o_transform
+		//Build the fade effect / filter
+		var/icon/I = icon('icons/mob/mob.dmi', "ghost_fade")
+		G.add_filter("fade", 1, alpha_mask_filter(icon = I))
 		//Inform ghosts
 		notify_ghosts("The [G.name] has appeared in [A]!", source = G, action = NOTIFY_ORBIT)
 		return TRUE
