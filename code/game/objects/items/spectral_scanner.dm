@@ -15,6 +15,7 @@
 /obj/item/spectral_scanner/Initialize(mapload)
 	. = ..()
 	radius_overlay = new()
+	radius_overlay.mouse_opacity = MOUSE_OPACITY_TRANSPARENT
 	build_scanner_effect()
 
 /obj/item/spectral_scanner/interact(mob/user)
@@ -41,7 +42,7 @@
 ///Return mutable appearance of scanner effect - Proc'd so we can adjust the settings and rebuild it, for VV
 /obj/item/spectral_scanner/proc/build_scanner_effect()
 	//Intial appearance
-	radius_overlay.appearance = mutable_appearance('icons/effects/96x96.dmi', "maint_scanner_circle", plane = HUD_PLANE)
+	radius_overlay.appearance = mutable_appearance('icons/effects/96x96.dmi', "maint_scanner_circle", 10, HUD_PLANE)
 	radius_overlay.color = radius_color
 	//Offsets
 	radius_overlay.pixel_x = -32
@@ -51,9 +52,9 @@
 	radius_overlay.filters += filter(type = "alpha", render_source = SPECTRAL_TRESPASS_PLANE_RENDER_TARGET, flags = MASK_INVERSE)
 	var/icon/I = icon('icons/effects/96x96.dmi', "maint_scanner_stripes")
 	radius_overlay.filters += filter(type = "alpha", icon = I, flags = MASK_INVERSE)
-	
+
 	//Spooky detection plane
-	var/mutable_appearance/MA = mutable_appearance('icons/effects/96x96.dmi', "maint_scanner_circle", plane = HUD_PLANE)
+	var/mutable_appearance/MA = mutable_appearance('icons/effects/96x96.dmi', "maint_scanner_circle", 11, HUD_PLANE)
 	MA.color = spooky_color
 	MA.appearance_flags = RESET_ALPHA | RESET_COLOR
 	//Masking
