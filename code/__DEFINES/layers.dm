@@ -5,6 +5,10 @@
 
 #define CLICKCATCHER_PLANE -99
 
+//Dedicated plane for spectral trespass stuff that needs masks
+#define SPECTRAL_TRESPASS_PLANE -98
+#define SPECTRAL_TRESPASS_PLANE_RENDER_TARGET "*SPECTRAL_TRESPASS_PLANE_RENDER_TARGET"
+
 #define PLANE_SPACE -95
 #define PLANE_SPACE_PARALLAX -90
 
@@ -20,6 +24,7 @@
 
 #define FLOOR_PLANE -7
 #define GAME_PLANE -4
+#define GAME_PLANE_RENDER_TARGET "GAME_PLANE_RENDER_TARGET"
 
 #define SPACE_LAYER 1.8
 //#define TURF_LAYER 2 //For easy recordkeeping; this is a byond define

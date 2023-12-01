@@ -26,6 +26,10 @@
 		animate(I.filters[1], offset = 3, time = LIFE_TIME)
 		//Only the chosen can see it
 		add_alt_appearance(/datum/atom_hud/alternate_appearance/basic/holyAware, "spectral trespass", I)
+		var/mutable_appearance/MA = new()
+		MA.appearance = appearance
+		MA.plane = SPECTRAL_TRESPASS_PLANE
+		add_overlay(MA)
 
 		addtimer(CALLBACK(src, PROC_REF(finish)), LIFE_TIME)
 

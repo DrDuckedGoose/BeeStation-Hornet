@@ -28,8 +28,14 @@
 		//Kinda weird, but we need to temporarily reset the target's transform
 		var/matrix/o_transform = corpse.transform
 		corpse.transform = null
-		//Then just copy the appearance as normal
-		G.appearance = corpse.appearance
+		//Then just copy the appearance as normal TODO: Add this all to a ghost subtype - Racc
+		G.appearance = null
+		var/image/IM = new()
+		IM.appearance = corpse.appearance
+		G.add_alt_appearance(/datum/atom_hud/alternate_appearance/basic/holyAware, "spectral ghost", IM)
+		var/mutable_appearance/MA = new()
+		MA.appearance = corpse.appearance
+		MA.plane = SPECTRAL_TRESPASS_PLANE
 		G.alpha = 128
 		G.name = "ghost of [corpse.name]"
 		corpse.transform = o_transform
