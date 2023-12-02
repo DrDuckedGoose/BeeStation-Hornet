@@ -33,8 +33,6 @@ SUBSYSTEM_DEF(spooky)
 	var/datum/spooky_behaviour/current_behaviour = /datum/spooky_behaviour //TODO: make this a random one, when we have more - Racc
 	///How often do we tick rot?
 	var/rot_amount = 0.3
-	///current secret timeline
-	var/datum/secret_timeline/secret
 
 /datum/controller/subsystem/spooky/Initialize(start_timeofday)
 	. = ..()
@@ -42,8 +40,6 @@ SUBSYSTEM_DEF(spooky)
 	RegisterSignal(SSdcs, COMSIG_GLOB_MOB_REVIVE, PROC_REF(remove_corpse), TRUE)
 	//Setup spooky behaviour
 	current_behaviour = new current_behaviour()
-	//Setup secret
-	secret = new /datum/secret_timeline()
 
 /datum/controller/subsystem/spooky/fire(resumed)
 	//Tick rot components

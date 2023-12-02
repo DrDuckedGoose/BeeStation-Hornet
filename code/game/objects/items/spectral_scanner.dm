@@ -2,7 +2,7 @@
 	name = "spectral scanner"
 	desc = "A scanner for detecting spectral entities and substances."
 	icon = 'icons/obj/curios.dmi'
-	icon_state = "spectral_scanner" //mapping icon to represent upgrade states. if you want a different base icon, update default_camera_icon as well as this.
+	icon_state = "spectral_scanner"
 	w_class = WEIGHT_CLASS_NORMAL
 	max_integrity = 100
 	var/enabled = FALSE
@@ -11,6 +11,12 @@
 	var/spooky_color = "#00ffff"
 	///Reference to the effect overlay
 	var/atom/movable/radius_overlay
+
+/obj/item/spectral_scanner/chaplain
+	desc = "A scanner for detecting spectral entities and substances.\nIt looks like an old prototype."
+	icon_state = "spectral_scanner_chap"
+	radius_color = "#b0ff7f"
+	spooky_color = "#72dcdc"
 
 /obj/item/spectral_scanner/Initialize(mapload)
 	. = ..()
@@ -44,6 +50,7 @@
 	radius_overlay.appearance = mutable_appearance('icons/effects/96x96.dmi', "maint_scanner_circle", 10, HUD_PLANE)
 	radius_overlay.mouse_opacity = MOUSE_OPACITY_TRANSPARENT //Set it here becuase it breaks otherwise
 	radius_overlay.color = radius_color
+	radius_overlay.blend_mode = BLEND_ADD
 	//Offsets
 	radius_overlay.pixel_x = -32
 	radius_overlay.pixel_y = -32
@@ -57,6 +64,7 @@
 	var/mutable_appearance/MA = mutable_appearance('icons/effects/96x96.dmi', "maint_scanner_circle", 11, HUD_PLANE)
 	MA.color = spooky_color
 	MA.appearance_flags = RESET_ALPHA | RESET_COLOR
+	MA.blend_mode = BLEND_ADD
 	//Masking
 	MA.filters += filter(type = "alpha", render_source = SPECTRAL_TRESPASS_PLANE_RENDER_TARGET)
 	MA.filters += filter(type = "alpha", icon = I, flags = MASK_INVERSE)
