@@ -10,7 +10,7 @@
 	///How much does this event cost?
 	var/cost = 0
 	///How much does this event affect spectral gain, positive reduces gain & negative increases gain
-	var/gain_modifier = 0.3
+	var/gain_modifier = 0.4
 	///The holy favour reward for beating this event
 	var/holy_reward = 100
 	///The spectral reduction reward for beating this event
@@ -20,7 +20,7 @@
 
 /datum/spooky_event/New()
 	. = ..()
-	SSspooky.gain_rate -= gain_modifier
+	SSspooky.adjust_gain(-gain_modifier)
 
 /datum/spooky_event/Destroy(force, ...)
 	. = ..()
@@ -29,7 +29,7 @@
 	R?.adjust_favor(holy_reward)
 	SSspooky.adjust_trespass(src, spectral_reward, FALSE, TRUE)
 	//undo gain reduction
-	SSspooky.gain_rate += gain_modifier
+	SSspooky.adjust_gain(gain_modifier)
 
 /*
 	This kinda also applies to spooky_behaviour.dm, there's only one spooky subsystem, but I have the

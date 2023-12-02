@@ -5,7 +5,7 @@
 
 #define SPOOKY_ROT_TICK "rot_tick"
 
-#define LOWER_GAIN 0.05
+#define LOWER_GAIN 0.1
 #define UPPER_GAIN 1
 
 //TODO: fix the station level checks runtiming, the runtime is something like an index thing - Racc
@@ -112,6 +112,11 @@ SUBSYSTEM_DEF(spooky)
 
 	UnregisterSignal(active_chaplain, COMSIG_PARENT_QDELETING)
 	active_chaplain = null
+
+/datum/controller/subsystem/spooky/proc/adjust_gain(amount, force)
+	if(force)
+		gain_rate += amount
+	gain_rate = clamp(gain_rate+amount, LOWER_GAIN, UPPER_GAIN)
 
 #undef LOWER_GAIN
 #undef UPPER_GAIN
