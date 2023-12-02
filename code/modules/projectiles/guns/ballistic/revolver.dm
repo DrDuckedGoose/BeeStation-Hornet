@@ -323,7 +323,7 @@
 	mag_type = /obj/item/ammo_box/magazine/internal/cylinder/mime/lethal
 
 //Chaplain gun
-/obj/item/gun/ballistic/revolver/old_rion
+/obj/item/gun/ballistic/revolver/old_iron
 	name = "Old Iron"
 	desc = "A gun with one bullet."
 	icon_state = "old_iron"

@@ -35,7 +35,7 @@
 
 /obj/item/ammo_box/magazine/internal/cylinder/old_iron
 	name = "\improper Nagant revolver cylinder"
-	ammo_type = /obj/item/ammo_casing/old_rion
+	ammo_type = /obj/item/ammo_casing/old_iron
 	caliber = "???"
 	max_ammo = 1
 

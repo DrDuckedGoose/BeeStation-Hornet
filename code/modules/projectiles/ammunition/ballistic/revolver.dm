@@ -88,7 +88,7 @@
 /obj/item/ammo_casing/caseless/mime/lethal
 	projectile_type = /obj/projectile/bullet/c38/mime_lethal
 
-/obj/item/ammo_casing/old_rion
+/obj/item/ammo_casing/old_iron
 	name = "casing"
 	caliber = "???"
 	projectile_type = /obj/projectile/bullet/old_iron
