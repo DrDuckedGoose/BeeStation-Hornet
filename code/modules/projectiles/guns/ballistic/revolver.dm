@@ -321,3 +321,10 @@
 //The Lethal Version from Advanced Mimery
 /obj/item/gun/ballistic/revolver/mime/magic
 	mag_type = /obj/item/ammo_box/magazine/internal/cylinder/mime/lethal
+
+//Chaplain gun
+/obj/item/gun/ballistic/revolver/old_rion
+	name = "Old Iron"
+	desc = "A gun with one bullet."
+	icon_state = "old_iron"
+	mag_type = /obj/item/ammo_box/magazine/internal/cylinder/old_iron

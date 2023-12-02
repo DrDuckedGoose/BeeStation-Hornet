@@ -32,3 +32,12 @@
 /obj/item/ammo_box/magazine/internal/rus357/Initialize(mapload)
 	stored_ammo += new ammo_type(src)
 	. = ..()
+
+/obj/item/ammo_box/magazine/internal/cylinder/old_iron
+	name = "\improper Nagant revolver cylinder"
+	ammo_type = /obj/item/ammo_casing/old_rion
+	caliber = "???"
+	max_ammo = 1
+
+/obj/item/ammo_box/magazine/internal/cylinder/old_iron/empty_magazine()
+	return

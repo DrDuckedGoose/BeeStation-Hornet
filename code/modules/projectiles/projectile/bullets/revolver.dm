@@ -140,3 +140,13 @@
 	ricochet_auto_aim_range = 6
 	ricochet_incidence_leeway = 80
 	ricochet_decay_chance = 1
+
+/obj/projectile/bullet/old_iron
+	name = "bullet"
+	damage = 60
+
+/obj/projectile/bullet/old_iron/on_hit(atom/target, blocked)
+	if(HAS_TRAIT(target, TRAIT_POSSESSED))
+		damage = 999
+	. = ..()
+	damage = initial(damage)

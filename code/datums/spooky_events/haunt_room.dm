@@ -55,7 +55,8 @@
 	//Setup the origin - a little overhead-ish
 	var/list/options = list()
 	for(var/obj/item/I in target_room.contents)
-		options += I
+		if(!HAS_TRAIT(I, TRAIT_HOLY))
+			options += I
 	if(!length(options))
 		return FALSE
 	origin = pick(options)
@@ -122,7 +123,7 @@
 /datum/spooky_event/haunt_room/proc/handle_attack(datum/source, obj/item/I, mob/living/user, params)
 	SIGNAL_HANDLER
 
-	if(I && (HAS_TRAIT(I, TRAIT_HOLY) || istype(I, /obj/item/nullrod)))
+	if(I && (HAS_TRAIT(I, TRAIT_HOLY) || istype(I, /obj/item/nullrod)) || HAS_TRAIT(origin, TRAIT_HOLY))
 		qdel(src)
 
 #undef LIFETIME_STAGE_0

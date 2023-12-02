@@ -18,7 +18,8 @@
 	needle = new()
 	needle.appearance = mutable_appearance(icon, "compass_needle")
 	needle.SpinAnimation()
-	needle.add_filter("")
+	var/icon/I = icon(icon, "compass_mask")
+	needle.add_filter("compass_mask", 1, alpha_mask_filter(icon = I))
 	vis_contents += needle
 
 /obj/item/curio/compass/Destroy()
@@ -43,6 +44,9 @@
 		do_punishment()
 		//Stop the needle
 		needle.SpinAnimation(0, 0)
+		var/matrix/o_transform = needle.transform
+		o_transform.Turn(get_angle(get_turf(src), get_turf(event_target.get_location())))
+		needle.transform = o_transform
 	else
 		to_chat(user, "<span class='notice'>Better not...</span>")
 
