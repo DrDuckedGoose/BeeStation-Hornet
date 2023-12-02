@@ -28,8 +28,10 @@
 	enabled = !enabled
 	var/atom/movable/target = isliving(loc) ? loc : src
 	if(enabled)
+		playsound(src, 'sound/machines/capacitor_charge.ogg', 65)
 		target.vis_contents += radius_overlay
 	else
+		playsound(src, 'sound/machines/capacitor_discharge.ogg', 65)
 		target.vis_contents -= radius_overlay
 
 /obj/item/spectral_scanner/equipped(mob/user, slot, initial)
@@ -40,8 +42,7 @@
 	
 /obj/item/spectral_scanner/dropped(mob/user, silent)
 	. = ..()
-	if(enabled)
-		vis_contents += radius_overlay
+	enabled = FALSE
 	user.vis_contents -= radius_overlay
 
 ///Return mutable appearance of scanner effect - Proc'd so we can adjust the settings and rebuild it, for VV
@@ -51,6 +52,7 @@
 	radius_overlay.mouse_opacity = MOUSE_OPACITY_TRANSPARENT //Set it here becuase it breaks otherwise
 	radius_overlay.color = radius_color
 	radius_overlay.blend_mode = BLEND_ADD
+	radius_overlay.appearance_flags = RESET_TRANSFORM | RESET_ALPHA | RESET_COLOR
 	//Offsets
 	radius_overlay.pixel_x = -32
 	radius_overlay.pixel_y = -32
@@ -65,6 +67,7 @@
 	MA.color = spooky_color
 	MA.appearance_flags = RESET_ALPHA | RESET_COLOR
 	MA.blend_mode = BLEND_ADD
+	MA.appearance_flags = RESET_TRANSFORM | RESET_ALPHA | RESET_COLOR
 	//Masking
 	MA.filters += filter(type = "alpha", render_source = SPECTRAL_TRESPASS_PLANE_RENDER_TARGET)
 	MA.filters += filter(type = "alpha", icon = I, flags = MASK_INVERSE)

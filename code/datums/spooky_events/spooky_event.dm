@@ -10,11 +10,13 @@
 	///How much does this event cost?
 	var/cost = 0
 	///How much does this event affect spectral gain, positive reduces gain & negative increases gain
-	var/gain_modifier = 0.1
+	var/gain_modifier = 0.3
 	///The holy favour reward for beating this event
 	var/holy_reward = 100
 	///The spectral reduction reward for beating this event
 	var/spectral_reward = -TRESPASS_LARGE
+	///The message for this event
+	var/event_message = "A terrible chill runs up your spine..."
 
 /datum/spooky_event/New()
 	. = ..()

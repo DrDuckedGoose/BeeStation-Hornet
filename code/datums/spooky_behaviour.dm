@@ -26,8 +26,6 @@
 	///What active spooky events are... active - Pretty much for admin goofs
 	var/list/active_products = list()
 	var/list/nails = list()
-	///What message the chaplain gets when we spawn an event - Pretty much for admin goofs 
-	var/chaplain_message = "A terrible chill runs up your spine..."
 	///What trial has the chaplain choosen?
 	var/datum/chaplain_trail/choosen_trial
 
@@ -58,8 +56,9 @@
 			//Alert the chaplain something *terrible* has happened
 			var/mob/M = SS.active_chaplain
 			if(M && M?.stat != DEAD) //Bruh, Why is M needed if wef wfjiwejiwfiofweipo
-				M.balloon_alert(M, "[chaplain_message]\n")
-				to_chat(M, "<span class='warning'>[chaplain_message]\n[get_area(SE.get_location())]</span>")
+				M.balloon_alert(M, "[SE.event_message]\n")
+				to_chat(M, "<span class='warning'>[SE.event_message]\n[get_area(SE.get_location())]</span>")
+				SEND_SOUND(M, 'sound/items/haunted/ghostitemattack.ogg')
 				//Apply trial effects
 				choosen_trial.apply_nail_effect(M)
 			//If the product doesn't remove itself straight away, we probably want to track it
@@ -83,12 +82,15 @@
 		if(GOAL_MODE_PANIC)
 			//WE NEED TO PICK SOMETHING WE CAN AFFORD NOW!
 			var/list/options = list()
+			var/datum/spooky_event/cheapest
 			for(var/i in spending_options)
 				var/datum/spooky_event/SE = i
+				cheapest = cheapest ? SE : initial(SE.cost) < initial(cheapest.cost) ? SE : cheapest
 				if(initial(SE.cost) <= available_currency)
 					options += i
-			return pick(options)
+			return length(options) ? pick(options) : cheapest
 
+//TODO: Organize this better, and remove the dupe code above - Racc
 //For admins mostly
 /datum/spooky_behaviour/proc/force_event(datum/spooky_event/event, datum/controller/subsystem/spooky/SS = SSspooky, do_cost = FALSE, do_cooldown = FALSE, do_alert = FALSE, do_trial = FALSE)
 	//Purchase the thing:tm:
@@ -103,8 +105,9 @@
 		var/mob/M = SS.active_chaplain
 		if(do_alert)
 			if(M && M?.stat != DEAD) //Bruh, Why is M needed ifwef wfjiwejiwfiofweipo
-				M.balloon_alert(M, chaplain_message)
-				to_chat(M, "<span class='warning'>[chaplain_message]\n[get_area(SE.get_location())]...</span>")
+				M.balloon_alert(M, SE.event_message)
+				to_chat(M, "<span class='warning'>[SE.event_message]\n[get_area(SE.get_location())]...</span>")
+				SEND_SOUND(M, 'sound/items/haunted/ghostitemattack.ogg')
 		if(do_trial)
 			choosen_trial.apply_nail_effect(M)
 		//If the product doesn't remove itself straight away, we probably want to track it

@@ -176,6 +176,8 @@
 
 /obj/item/litany/bless(mob/living/carbon/user, obj/item/bless_tool)
 	. = ..()
+	if(blessed)
+		return
 	var/datum/religion_sect/R = GLOB.religious_sect
 	if(!user?.mind?.holy_role || !R)
 		if(!R)

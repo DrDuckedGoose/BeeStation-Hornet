@@ -17,9 +17,9 @@
 	//generate needle
 	needle = new()
 	needle.appearance = mutable_appearance(icon, "compass_needle")
-	needle.SpinAnimation()
+	needle.SpinAnimation(parallel = FALSE)
 	var/icon/I = icon(icon, "compass_mask")
-	needle.add_filter("compass_mask", 1, alpha_mask_filter(icon = I))
+	needle.add_filter("compass_mask", 10, alpha_mask_filter(icon = I))
 	vis_contents += needle
 
 /obj/item/curio/compass/Destroy()
@@ -42,11 +42,6 @@
 		//Get the direction of the target
 		display_message(user)
 		do_punishment()
-		//Stop the needle
-		needle.SpinAnimation(0, 0)
-		var/matrix/o_transform = needle.transform
-		o_transform.Turn(get_angle(get_turf(src), get_turf(event_target.get_location())))
-		needle.transform = o_transform
 	else
 		to_chat(user, "<span class='notice'>Better not...</span>")
 
@@ -76,7 +71,7 @@
 	var/mob/M = loc
 	if(ismob(M))
 		to_chat(M, "<span class='notice'>[src] begins to spin once again...</span>")
-		needle.SpinAnimation()
+		needle.SpinAnimation(parallel = FALSE)
 
 /obj/item/curio/compass/proc/display_message(mob/user)
 	if(!event_target?.get_location() || !user)
@@ -95,3 +90,8 @@
 			message += "very far"
 	to_chat(user, "<span class='danger'>[src] points [dir2text(n_dir)]!</span>")
 	balloon_alert(user, "[message]!")
+	//Stop the needle
+	needle.SpinAnimation(0, 0, parallel = FALSE)
+	var/matrix/o_transform = needle.transform
+	o_transform.Turn(get_angle(get_turf(src), get_turf(event_target.get_location())))
+	needle.transform = o_transform

@@ -328,3 +328,7 @@
 	desc = "A gun with one bullet."
 	icon_state = "old_iron"
 	mag_type = /obj/item/ammo_box/magazine/internal/cylinder/old_iron
+
+/obj/item/gun/ballistic/revolver/old_iron/Initialize(mapload)
+	. = ..()
+	ADD_TRAIT(src, TRAIT_FUNERAL_GARNISH, GENERIC_ITEM_TRAIT)

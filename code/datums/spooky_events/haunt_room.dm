@@ -20,6 +20,7 @@
 	var/mutable_appearance/skull_overlay
 	///Reference to origin spooky mask
 	var/mutable_appearance/spooky_mask
+	//TODO: Add a blacklist for items we cant choose as origins - Racc
 
 /datum/spooky_event/haunt_room/New()
 	. = ..()
@@ -124,6 +125,7 @@
 	SIGNAL_HANDLER
 
 	if(I && (HAS_TRAIT(I, TRAIT_HOLY) || istype(I, /obj/item/nullrod)) || HAS_TRAIT(origin, TRAIT_HOLY))
+		SEND_SOUND(user, 'sound/magic/ethereal_enter.ogg')
 		qdel(src)
 
 #undef LIFETIME_STAGE_0
