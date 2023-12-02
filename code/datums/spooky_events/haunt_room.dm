@@ -59,34 +59,36 @@
 		return
 	timeout = TRUE
 	var/current_stage_time = abs(initial_time-world.time)
+	var/timeout_total = 0
 	//First stage - flicker lights
 	if(current_stage_time >= LIFETIME_STAGE_0 || stage >= 0)
 		//Possible overhead
 		for(var/obj/machinery/light/L in target_room.contents)
 			addtimer(CALLBACK(L, TYPE_PROC_REF(/obj/machinery/light, flicker), rand(3, 6)), rand(0, 15))
-		//Timeout logic
-		addtimer(CALLBACK(src, PROC_REF(toggle_timeout)), 15 SECONDS)
+		timeout_total += 5 SECONDS
 
-	//Second stage - flicker lights
+	//Second stage - freeze room
 	if(current_stage_time >= LIFETIME_STAGE_1 || stage >= 1)
 		//Possible overhead
 		for(var/obj/machinery/light/L in target_room.contents)
 			addtimer(CALLBACK(L, TYPE_PROC_REF(/obj/machinery/light, flicker), rand(3, 6)), rand(0, 15))
-		//Timeout logic
-		addtimer(CALLBACK(src, PROC_REF(toggle_timeout)), 10 SECONDS)
+		timeout_total += 5 SECONDS
 
-	//Third stage - flicker lights
+	//Third stage - spook mobs in the room with whispering
 	if(current_stage_time >= LIFETIME_STAGE_2 || stage >= 2) //The heart will never override stage past here, but admins can
 		for(var/obj/machinery/light/L in target_room.contents)
 			addtimer(CALLBACK(L, TYPE_PROC_REF(/obj/machinery/light, flicker), rand(3, 6)), rand(0, 15))
-		//Timeout logic
-		addtimer(CALLBACK(src, PROC_REF(toggle_timeout)), 5 SECONDS)
+		timeout_total += 5 SECONDS
 		
 	//Final stage - add skull overlay to the area
 	if(current_stage_time >= LIFETIME_STAGE_3 || stage >= 3)
 		if(!SSspooky.active_chaplain || SSspooky.active_chaplain.stat == DEAD)
 			return
+		target_room.cut_overlay(skull_overlay)
 		target_room.add_overlay(skull_overlay)
+
+	//handle timer
+	addtimer(CALLBACK(src, PROC_REF(toggle_timeout)), timeout_total)
 
 /datum/spooky_event/haunt_room/get_location()
 	return origin

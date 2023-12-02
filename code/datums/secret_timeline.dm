@@ -8,6 +8,8 @@
     var/name = ""
     ///List of steps
     var/list/steps = list()
+    ///What is the resolution to this secret
+    var/datum/secret_timeline_resolution/resolution
 
 /datum/secret_timeline/New()
     . = ..()
@@ -28,4 +30,10 @@
 
 /datum/secret_timeline_step
     ///Descriptor for what this step requires
+    var/desc = ""
+
+/datum/secret_timeline_resolution
+    ///Name for this resoltion
+    var/name = ""
+    ///Description for this resolution
     var/desc = ""
