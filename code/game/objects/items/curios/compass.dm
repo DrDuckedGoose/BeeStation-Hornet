@@ -18,6 +18,7 @@
 	needle = new()
 	needle.appearance = mutable_appearance(icon, "compass_needle")
 	needle.SpinAnimation()
+	needle.add_filter("")
 	vis_contents += needle
 
 /obj/item/curio/compass/Destroy()
@@ -41,7 +42,7 @@
 		display_message(user)
 		do_punishment()
 		//Stop the needle
-		needle.transform = null
+		needle.SpinAnimation(0, 0)
 	else
 		to_chat(user, "<span class='notice'>Better not...</span>")
 

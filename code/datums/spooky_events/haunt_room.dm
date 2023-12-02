@@ -18,6 +18,8 @@
 	var/obj/origin
 	///Reference to the skull overlay
 	var/mutable_appearance/skull_overlay
+	///Reference to origin spooky mask
+	var/mutable_appearance/spooky_mask
 
 /datum/spooky_event/haunt_room/New()
 	. = ..()
@@ -26,11 +28,12 @@
 
 /datum/spooky_event/haunt_room/Destroy(force, ...)
 	. = ..()
-	if(origin && !QDELETED(origin))
-		QDEL_NULL(origin)
-		target_room?.cut_overlay(skull_overlay)
-		qdel(skull_overlay)
+	target_room?.cut_overlay(skull_overlay)
+	origin?.cut_overlay(spooky_mask)
+	qdel(skull_overlay)
+	qdel(spooky_mask)
 	target_room = null
+	origin = null
 
 /datum/spooky_event/haunt_room/setup(datum/controller/subsystem/spooky/SS)
 	..()
@@ -57,11 +60,12 @@
 		return FALSE
 	origin = pick(options)
 	//Build spooky mask
-	var/mutable_appearance/MA = new()
-	MA.appearance = origin.appearance
-	MA.plane = SPECTRAL_TRESPASS_PLANE
-	origin.add_overlay(MA)
+	spooky_mask = new()
+	spooky_mask.appearance = origin.appearance
+	spooky_mask.plane = SPECTRAL_TRESPASS_PLANE
+	origin.add_overlay(spooky_mask)
 	RegisterSignal(origin, COMSIG_PARENT_QDELETING, PROC_REF(handle_targets))
+	RegisterSignal(origin, COMSIG_PARENT_ATTACKBY, PROC_REF(handle_attack))
 	return TRUE
 
 //TODO: Implement options from design doc - Racc
@@ -113,6 +117,13 @@
 	SIGNAL_HANDLER
 
 	qdel(src)
+
+
+/datum/spooky_event/haunt_room/proc/handle_attack(datum/source, obj/item/I, mob/living/user, params)
+	SIGNAL_HANDLER
+
+	if(I && (HAS_TRAIT(I, TRAIT_HOLY) || istype(I, /obj/item/nullrod)))
+		qdel(src)
 
 #undef LIFETIME_STAGE_0
 #undef LIFETIME_STAGE_1
