@@ -211,8 +211,16 @@
 	//Add external clothing
 	var/obj/item/clothing/S = owner.get_item_by_slot(ITEM_SLOT_OCLOTHING)
 	if(S)
-		var/icon/external = icon((S.worn_icon || S.icon), (S.worn_icon_state || S.item_state || S.icon_state))
+		//handle icon file pathing
+		var/icon_file = 'icons/mob/clothing/suit.dmi'
+		icon_file = owner.dna.species.get_custom_icons("suit")
+		if(owner.dna?.species.bodytype & BODYTYPE_DIGITIGRADE)
+			if(S.supports_variations & DIGITIGRADE_VARIATION)
+				icon_file = 'icons/mob/species/misc/digitigrade_suits.dmi'
+		//generate and append appearance
+		var/icon/external = icon(icon_file, (S.worn_icon_state || S.item_state || S.icon_state))
 		skeleton_icon.Blend(external, ICON_OVERLAY)
+	//Build appearance holder
 	skeleton_underlay = new()
 	skeleton_underlay.appearance = skeleton_icon
 	skeleton_underlay.appearance_flags = KEEP_APART //This gets reset just above
