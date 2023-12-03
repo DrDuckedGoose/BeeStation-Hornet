@@ -132,7 +132,7 @@
 			if(!owner?.master_holder?.emitters["rot"])
 				owner?.add_emitter(/obj/emitter/flies, "rot", 10, 8)
 			//Spooky punishment
-			SSspooky.adjust_trespass(owner, clamp(TRESPASS_MICRO / SMALL_TRESPASS_MOD * rot_reduction, 0, TRESPASS_MICRO), FALSE)
+			SSspooky.adjust_trespass(owner, clamp(TRESPASS_MICRO / SMALL_TRESPASS_MOD * rot_reduction, 0, TRESPASS_MICRO / SMALL_TRESPASS_MOD), FALSE)
 			//Holy benehfits
 			if(make_favor)
 				var/datum/religion_sect/R = GLOB.religious_sect
@@ -157,7 +157,7 @@
 			//Make sure spaced bodies never exceed small rot punishments
 			var/rot_consequence = max_rot == MAX_SPACE_ROT ? SMALL_TRESPASS_MOD : MEDIUM_TREPASS_MOD
 			//Spooky punishment
-			SSspooky.adjust_trespass(owner, clamp(TRESPASS_MICRO / rot_consequence * rot_reduction, 0, TRESPASS_MICRO), FALSE)
+			SSspooky.adjust_trespass(owner, clamp(TRESPASS_MICRO / rot_consequence * rot_reduction, 0, TRESPASS_MICRO / rot_consequence), FALSE)
 			//Holy benehfits
 			if(make_favor)
 				var/datum/religion_sect/R = GLOB.religious_sect

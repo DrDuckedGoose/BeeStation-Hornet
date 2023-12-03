@@ -49,6 +49,7 @@
 		do_punishment()
 	else
 		to_chat(user, "<span class='notice'>Better not...</span>")
+		handle_timer()
 	
 /obj/item/curio/doll/proc/haunted_step(outcome)
 	//We'll do a fancy animation :D

@@ -23,3 +23,4 @@
 		//No punishment
 	else
 		to_chat(user, "<span class='notice'>Better not...</span>")
+		handle_timer()

@@ -35,6 +35,7 @@
 				to_chat(user, "<span class='warning>[src] belongs in a museum!</span>")
 			else
 				to_chat(user, "<span class='warning>[src] baffles you!</span>")
+			handle_timer()
 		return FALSE
 	//Each curio has to place its own rammification, because this can get tricky with do_after and related
 	/*
@@ -42,7 +43,10 @@
 	*/
 	return TRUE
 
+//handles hardel for timer and also used for clearing timer if we need to
 /obj/item/curio/proc/handle_timer()
+	if(cooldown_timer)
+		deltimer(cooldown_timer)
 	cooldown_timer = null
 
 /obj/item/curio/proc/get_cooldown_message()
