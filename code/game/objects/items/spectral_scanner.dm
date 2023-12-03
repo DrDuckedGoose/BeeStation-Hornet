@@ -20,7 +20,7 @@
 
 /obj/item/spectral_scanner/Initialize(mapload)
 	. = ..()
-	radius_overlay = new()
+	radius_overlay = new(src)
 	build_scanner_effect()
 
 /obj/item/spectral_scanner/interact(mob/user)

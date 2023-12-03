@@ -56,7 +56,7 @@
 	//Setup the origin - a little overhead-ish
 	var/list/options = list()
 	for(var/obj/item/I in target_room.contents)
-		if(!HAS_TRAIT(I, TRAIT_HOLY))
+		if(!HAS_TRAIT(I, TRAIT_HOLY) && !I.spectral_appearance)
 			options += I
 	if(!length(options))
 		return FALSE

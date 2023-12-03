@@ -16,6 +16,7 @@
 
 /obj/structure/table/witch_table/Initialize(mapload, _buildstack)
 	. = ..()
+	build_spectral_appearance()
 
 /obj/structure/table/witch_table/attack_hand(mob/living/user)
 	. = ..()

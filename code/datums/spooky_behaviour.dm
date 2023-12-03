@@ -125,6 +125,7 @@
 	. = ..()
 	if(!target)
 		return INITIALIZE_HINT_QDEL
+	build_spectral_appearance()
 	//Build the appearance
 	var/image/I = image(icon = 'icons/obj/religion.dmi', icon_state = "nail_normal", layer = ABOVE_MOB_LAYER, loc = src)
 	//Filter
@@ -136,13 +137,8 @@
 	var/orbitsize = (TI.Width()+TI.Height())*0.5
 	orbitsize -= (orbitsize/world.icon_size)*(world.icon_size*0.25)
 	orbit(target, orbitsize, rand(0, 1), rand(20, 30), 36)
-	//Spooky mask so the curator can be horrified
-	var/mutable_appearance/MA = new()
-	MA.appearance = appearance
-	MA.appearance_flags = RESET_ALPHA
-	MA.plane = SPECTRAL_TRESPASS_PLANE
-	add_overlay(MA)
 	//Handle opacity
+	//TODO: Handle hardels - Racc
 	RegisterSignal(SSspooky.active_chaplain, COMSIG_CLICK_SHIFT, PROC_REF(handle_exam))
 	animate(src, alpha = NAIL_SUBTLE_OPACITY, time = 3 SECONDS, flags = ANIMATION_PARALLEL)
 
