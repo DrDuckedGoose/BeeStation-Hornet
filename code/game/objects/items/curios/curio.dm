@@ -19,11 +19,7 @@
 
 /obj/item/curio/Initialize(mapload)
 	. = ..()
-	//Build spooky mask
-	var/mutable_appearance/spooky_mask = new()
-	spooky_mask.appearance = appearance
-	spooky_mask.plane = SPECTRAL_TRESPASS_PLANE
-	add_overlay(spooky_mask)
+	build_spectral_appearance()
 
 //Each curio has to code how this is called
 /obj/item/curio/proc/activate(datum/user, force)

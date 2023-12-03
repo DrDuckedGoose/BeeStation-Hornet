@@ -141,6 +141,9 @@
 	///LazyList of all balloon alerts currently on this atom
 	var/list/balloon_alerts
 
+	///Alternate appearance this atom uses for spectral content
+	var/mutable_appearance/spectral_appearance
+
 /**
   * Called when an atom is created in byond (built in engine proc)
   *
@@ -1816,3 +1819,17 @@
 			R.bless(user, bless_tool)
 	return
 
+/atom/proc/build_spectral_appearance(force)
+	if(spectral_appearance && !force)
+		return
+	else if(spectral_appearance)
+		cut_overlay(spectral_appearance)
+		QDEL_NULL(spectral_appearance)
+	spectral_appearance = new()
+	spectral_appearance.appearance = appearance
+	spectral_appearance.plane = SPECTRAL_TRESPASS_PLANE
+	add_overlay(spectral_appearance)
+
+/atom/proc/cut_spectral_appearance()
+	if(spectral_appearance)
+		cut_overlay(spectral_appearance)

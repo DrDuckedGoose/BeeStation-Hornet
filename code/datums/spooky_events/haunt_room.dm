@@ -18,8 +18,8 @@
 	var/obj/origin
 	///Reference to the skull overlay
 	var/mutable_appearance/skull_overlay
-	///Reference to origin spooky mask
-	var/mutable_appearance/spooky_mask
+	///Do we cut the origin's spooky mask
+	var/cut_appearance = TRUE
 	//TODO: Add a blacklist for items we cant choose as origins - Racc
 
 /datum/spooky_event/haunt_room/New()
@@ -30,9 +30,9 @@
 /datum/spooky_event/haunt_room/Destroy(force, ...)
 	. = ..()
 	target_room?.cut_overlay(skull_overlay)
-	origin?.cut_overlay(spooky_mask)
+	if(cut_appearance)
+		origin?.cut_spectral_appearance()
 	qdel(skull_overlay)
-	qdel(spooky_mask)
 	target_room = null
 	origin = null
 
@@ -61,11 +61,9 @@
 	if(!length(options))
 		return FALSE
 	origin = pick(options)
-	//Build spooky mask
-	spooky_mask = new()
-	spooky_mask.appearance = origin.appearance
-	spooky_mask.plane = SPECTRAL_TRESPASS_PLANE
-	origin.add_overlay(spooky_mask)
+	if(origin.spectral_appearance)
+		cut_appearance = FALSE
+	origin.build_spectral_appearance()
 	RegisterSignal(origin, COMSIG_PARENT_QDELETING, PROC_REF(handle_targets))
 	RegisterSignal(origin, COMSIG_PARENT_ATTACKBY, PROC_REF(handle_attack))
 	return TRUE

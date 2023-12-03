@@ -93,5 +93,7 @@
 	//Stop the needle
 	needle.SpinAnimation(0, 0, parallel = FALSE)
 	var/matrix/o_transform = needle.transform
-	o_transform.Turn(get_angle(get_turf(src), get_turf(event_target.get_location())))
+	var/turf/t_source = get_turf(src)
+	var/turf/t_target = get_turf(event_target.get_location())
+	o_transform.Turn(get_angle(t_source, t_target) * (t_source.x >= t_target.x ? -1 : 1))
 	needle.transform = o_transform

@@ -18,7 +18,7 @@
 	if(do_after(user, 1 SECONDS, src))
 		var/message = "[src] reads, [SSspooky.spectral_trespass]!"
 		balloon_alert(user, message)
-		to_chat(user, "<span class='warning'>[message]!</span>")
+		to_chat(user, "<span class='warning'>[message]</span>")
 		Shake()
 		//No punishment
 	else
