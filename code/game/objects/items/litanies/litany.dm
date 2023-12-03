@@ -105,7 +105,7 @@
 
 ///Logic for adding litany components & overlays associated with that
 /obj/item/litany/proc/add_litany_component(datum/litany_component/LC)
-	if(LC && Length(litany_components) < max_components)
+	if(LC && length(litany_components) < max_components)
 		litany_components += new LC(src)
 	update_appearance()
 
@@ -137,7 +137,7 @@
 		return
 	//Add the chosen component
 	add_litany_component(associated_litany[choice])
-	if(Length(litany_components) >= max_components)
+	if(length(litany_components) >= max_components)
 		to_chat(user, "<span class='warning'>Too many components!</span>")
 	//Loop
 	edit_components(display_user, litany_choices, associated_litany)

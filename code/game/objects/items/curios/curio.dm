@@ -17,6 +17,14 @@
 	///Do we need the user to be 'enlightened'?
 	var/require_jones = FALSE //TODO: Set this back to true, after testing is done / this is PR'd - Racc
 
+/obj/item/curio/Initialize(mapload)
+	. = ..()
+	//Build spooky mask
+	var/mutable_appearance/spooky_mask = new()
+	spooky_mask.appearance = appearance
+	spooky_mask.plane = SPECTRAL_TRESPASS_PLANE
+	add_overlay(spooky_mask)
+
 //Each curio has to code how this is called
 /obj/item/curio/proc/activate(datum/user, force)
 	if((!cooldown_timer && (HAS_TRAIT(user, TRAIT_INDIANA_JONES) || !require_jones)) || force)

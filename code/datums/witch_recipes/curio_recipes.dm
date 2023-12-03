@@ -4,7 +4,7 @@
 
 /datum/witch_recipe/doll
 	name = "subsume doll"
-	desc = "Subsumes a spirit into a doll container."
+	desc = "Subsumes a spirit into a doll container, to make a guide."
 	result = /obj/item/curio/doll
 
 //Overwrite parent to make it work with anydoll
@@ -34,7 +34,17 @@
 */
 
 /datum/witch_recipe/compass
-	name = "subsume compass"
-	desc = "Subsumes a spirit into a compass container."
+	name = "subsume gps"
+	desc = "Subsumes a spirit into a gps container, to make a wayfinder."
 	result = /obj/item/curio/compass
 	recipe = list(/obj/item/gps = 1)
+
+/*
+	Tally recipe - /obj/item/curio/tally
+*/
+
+/datum/witch_recipe/tally
+	name = "subsume timer"
+	desc = "Subsumes a spirit into a timer container, to make a counter."
+	result = /obj/item/curio/tally
+	recipe = list(/obj/item/assembly/timer = 1)
