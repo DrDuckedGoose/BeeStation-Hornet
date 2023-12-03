@@ -23,7 +23,8 @@
 	///List, in order, of litany components we have
 	var/list/litany_components = list()
 	///The max amount of litany components this litany can have
-	var/max_components = 4
+	var/max_components = 6
+	var/max_visual_components = 3
 	///The info stack litany components typically effect
 	var/list/info_stack = list()
 	///The target we're attached to, since we sit in area contents for objective checks
@@ -81,6 +82,8 @@
 	cut_overlays()
 	var/loop_length = (override_length || length(litany_components)) //Logic in loop params is fucky here
 	for(var/i in 1 to loop_length)
+		if(i >= max_visual_components)
+			break
 		var/mutable_appearance/MA = mutable_appearance('icons/obj/religion.dmi', "litany_paper")
 		MA.pixel_y = (-7 * i) + 7 //Todd_Howard.webp
 		add_overlay(MA)
@@ -102,7 +105,7 @@
 
 ///Logic for adding litany components & overlays associated with that
 /obj/item/litany/proc/add_litany_component(datum/litany_component/LC)
-	if(LC)
+	if(LC && Length(litany_components) < max_components)
 		litany_components += new LC(src)
 	update_appearance()
 
@@ -134,6 +137,8 @@
 		return
 	//Add the chosen component
 	add_litany_component(associated_litany[choice])
+	if(Length(litany_components) >= max_components)
+		to_chat(user, "<span class='warning'>Too many components!</span>")
 	//Loop
 	edit_components(display_user, litany_choices, associated_litany)
 

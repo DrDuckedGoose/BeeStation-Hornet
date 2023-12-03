@@ -114,7 +114,6 @@
 		var/area/A = get_area(src)
 		SSspooky.adjust_area_temperature(src, A, 1)
 		make_spooky_indicator(get_turf(src))
-	REMOVE_TRAIT(src, TRAIT_POSSESSED, TRAIT_GENERIC)
 
 	return TRUE
 

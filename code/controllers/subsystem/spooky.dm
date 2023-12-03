@@ -48,7 +48,7 @@ SUBSYSTEM_DEF(spooky)
 	current_behaviour?.process_currency(src)
 
 ///Use to properly adjust spectral trespass - adjust_trespass(who, how_much)
-/datum/controller/subsystem/spooky/proc/adjust_trespass(datum/source, amount = TRESPASS_SMALL, log = TRUE, force = FALSE)
+/datum/controller/subsystem/spooky/proc/adjust_trespass(datum/source, amount = TRESPASS_SMALL, log = TRUE, force = FALSE, ignore_gain = FALSE)
 	//Don't let lavaland corpses fuck us over
 	var/atom/A = source
 	var/turf/T = isatom(A) ? get_turf(A?.loc) : null
@@ -59,9 +59,9 @@ SUBSYSTEM_DEF(spooky)
 		return
 	//Make sure spectral trespass stays above 0, and below maximum_trespass
 	//TODO: Replace these with clamps - Racc
-	spectral_trespass = clamp(spectral_trespass+(amount*gain_rate), 0, maximum_trespass)
+	spectral_trespass = clamp(spectral_trespass+(amount*(ignore_gain || gain_rate)), 0, maximum_trespass)
 	if(log)
-		log_game("[source || "not specified"] increased spectral trespass by [amount*gain_rate] at [world.time] at [isatom(source) ? get_turf(source) : "not specified"].")
+		log_game("[source || "not specified"] increased spectral trespass by [amount*(ignore_gain || gain_rate)] at [world.time] at [isatom(source) ? get_turf(source) : "not specified"].")
 	
 /datum/controller/subsystem/spooky/proc/adjust_area_temperature(datum/source, area/_area, amount = 1, log = TRUE)
 	//Bunch of checks because areas are bullshit

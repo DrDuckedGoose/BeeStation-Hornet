@@ -46,31 +46,7 @@
 	//Handle purchases
 	var/datum/spooky_event/SE = spending_goal
 	if(initial(SE.cost) <= SS.spectral_trespass && world.time > last_spook+MINIMUM_SPOOK_TIME)
-		//Purchase the thing:tm:
-		SE = new spending_goal()
-		//Take our toll if we successfully do the thing
-		if(SE?.setup(SS))
-			//handle remaining setup
-			SS.adjust_trespass(src, -SE.cost, FALSE, TRUE)
-			last_spook = world.time
-			//Alert the chaplain something *terrible* has happened
-			var/mob/M = SS.active_chaplain
-			if(M && M?.stat != DEAD) //Bruh, Why is M needed if wef wfjiwejiwfiofweipo
-				M.balloon_alert(M, "[SE.event_message]\n")
-				to_chat(M, "<span class='warning'>[SE.event_message]\n[get_area(SE.get_location())]</span>")
-				SEND_SOUND(M, 'sound/items/haunted/ghostitemattack.ogg')
-				//Apply trial effects
-				choosen_trial.apply_nail_effect(M)
-			//If the product doesn't remove itself straight away, we probably want to track it
-			if(!QDELING(SE))
-				RegisterSignal(SE, COMSIG_PARENT_QDELETING, PROC_REF(handle_product))
-				if(M)
-					nails += list("[SE]" = new /atom/movable/sin_nail(get_turf(M), M)) 
-				active_products += SE
-		else
-			//Clean up datums that failed to setup
-			if(!QDELETED(SE))
-				qdel(SE)
+		do_event(SE, SS, TRUE, TRUE, TRUE, TRUE)
 		spending_goal = generate_goal()	
 
 //Get a spending goal for the system
@@ -90,15 +66,13 @@
 					options += i
 			return length(options) ? pick(options) : cheapest
 
-//TODO: Organize this better, and remove the dupe code above - Racc
-//For admins mostly
-/datum/spooky_behaviour/proc/force_event(datum/spooky_event/event, datum/controller/subsystem/spooky/SS = SSspooky, do_cost = FALSE, do_cooldown = FALSE, do_alert = FALSE, do_trial = FALSE)
+/datum/spooky_behaviour/proc/do_event(datum/spooky_event/event, datum/controller/subsystem/spooky/SS = SSspooky, do_cost = FALSE, do_cooldown = FALSE, do_alert = FALSE, do_trial = FALSE)
 	//Purchase the thing:tm:
 	var/datum/spooky_event/SE = new event
 	//Take our toll if we successfully do the thing
 	if(SE?.setup(SS))
 		if(do_cost)
-			SS.adjust_trespass(src, -SE.cost, FALSE, TRUE)
+			SS.adjust_trespass(src, -SE.cost, FALSE, TRUE, TRUE)
 		if(do_cooldown)
 			last_spook = world.time
 		//Typical housekeeping
@@ -116,6 +90,10 @@
 			if(M)
 				nails += list("[SE]" = new /atom/movable/sin_nail(get_turf(M), M)) 
 			active_products += SE
+	else
+		//Clean up datums that failed to setup
+		if(!QDELETED(SE))
+			qdel(SE)
 
 //Avoid hard dels when a spooky events sepukus
 /datum/spooky_behaviour/proc/handle_product(datum/source)

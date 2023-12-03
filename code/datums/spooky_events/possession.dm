@@ -5,11 +5,17 @@
 	var/mob/living/corpse_owner
 	///Ref to the spooky mask, when we need to remove it
 	var/mutable_appearance/spooky_mask
+	///How long it takes for the corpse to revive
+	var/corpse_revive = 1 MINUTES
+	var/corpse_revive_timer
 
 /datum/spooky_event/possession/Destroy(force, ...)
 	if(corpse_owner && !QDELING(corpse_owner))
 		QDEL_NULL(corpse_owner.ai_controller)
+	if(corpse_revive_timer)
+		deltimer(corpse_revive_timer)
 	corpse_owner.cut_overlay(spooky_mask)
+	REMOVE_TRAIT(corpse_owner, TRAIT_POSSESSED, TRAIT_GENERIC)
 	corpse_owner = null
 	return ..()
 
@@ -24,9 +30,9 @@
 	log_game("[name]([src]) was created at [world.time], possessed [corpse].")
 	//Our unique logic
 	RegisterSignal(corpse, COMSIG_MOB_DEATH, PROC_REF(handle_corpse))
-	RegisterSignal(corpse, COMSIG_PARENT_QDELETING, PROC_REF(handle_corpse))
+	RegisterSignal(corpse, COMSIG_PARENT_QDELETING, PROC_REF(handle_death))
 	corpse.ai_controller = /datum/ai_controller/monkey/angry //TODO: Implement AIs from design doc - Racc
-	corpse.revive(TRUE, TRUE)
+	revive_corpse(corpse)
 	corpse.InitializeAIController()
 	ADD_TRAIT(corpse, TRAIT_POSSESSED, TRAIT_GENERIC) //This is removed in the mobs death code, becuase death is called after this is deleted
 	SS.remove_corpse(corpse)
@@ -38,8 +44,6 @@
 	corpse.add_overlay(spooky_mask)
 	//Inform ghosts
 	notify_ghosts("[corpse.name] has been possesed at [get_area(corpse)]!", source = corpse, action = NOTIFY_ORBIT)
-	//Make the possessed corpse shake, for that freaky effect
-	//TODO: - Racc
 
 	return TRUE
 
@@ -50,3 +54,12 @@
 	SIGNAL_HANDLER
 
 	qdel(src)
+
+/datum/spooky_event/possession/proc/handle_death(datum/source)
+	SIGNAL_HANDLER
+
+	corpse_revive_timer = addtimer(CALLBACK(src, PROC_REF(revive_corpse), corpse_owner), corpse_revive, TIMER_STOPPABLE)
+
+//TODO: make this better, something like the old zombie content. Don't just revive the body :/ - Racc
+/datum/spooky_event/possession/proc/revive_corpse(mob/living/target)
+	target?.revive(TRUE, TRUE)

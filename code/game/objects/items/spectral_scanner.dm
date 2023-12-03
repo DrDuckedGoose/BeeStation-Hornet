@@ -7,7 +7,7 @@
 	max_integrity = 100
 	var/enabled = FALSE
 	///Color of the radius
-	var/radius_color = "#00ff00"
+	var/radius_color = "#00d600"
 	var/spooky_color = "#00ffff"
 	///Reference to the effect overlay
 	var/atom/movable/radius_overlay
@@ -15,7 +15,7 @@
 /obj/item/spectral_scanner/chaplain
 	desc = "A scanner for detecting spectral entities and substances.\nIt looks like an old prototype."
 	icon_state = "spectral_scanner_chap"
-	radius_color = "#b0ff7f"
+	radius_color = "#70a051"
 	spooky_color = "#72dcdc"
 
 /obj/item/spectral_scanner/Initialize(mapload)

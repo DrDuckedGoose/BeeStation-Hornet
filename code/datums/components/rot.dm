@@ -208,6 +208,11 @@
 			//otherwise
 			limb = icon('icons/mob/human_parts.dmi', icon_state = "skeleton_[i]")
 			skeleton_icon.Blend(limb, ICON_OVERLAY)
+	//Add external clothing
+	var/obj/item/clothing/S = owner.get_item_by_slot(ITEM_SLOT_OCLOTHING)
+	if(S)
+		var/icon/external = icon(S.worn_icon, (S.worn_icon_state || S.item_state || S.icon_state))
+		skeleton_icon.Blend(external, ICON_OVERLAY)
 	skeleton_underlay = new()
 	skeleton_underlay.appearance = skeleton_icon
 	skeleton_underlay.appearance_flags = KEEP_APART //This gets reset just above
