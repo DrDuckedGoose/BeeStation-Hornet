@@ -333,6 +333,7 @@
 	. = ..()
 	ADD_TRAIT(src, TRAIT_FUNERAL_GARNISH, GENERIC_ITEM_TRAIT)
 	GLOB.old_iron = src
+	build_spectral_appearance()
 
 /obj/item/gun/ballistic/revolver/old_iron/Destroy()
 	. = ..()

@@ -137,7 +137,7 @@
 	else
 		return null
 
-/datum/surgery/proc/complete()
+/datum/surgery/proc/complete(mob/user)
 	SSblackbox.record_feedback("tally", "surgeries_completed", 1, type)
 	qdel(src)
 

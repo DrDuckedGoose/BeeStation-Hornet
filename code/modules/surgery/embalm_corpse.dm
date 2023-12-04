@@ -12,23 +12,14 @@
 	possible_locs = list(BODY_ZONE_CHEST)
 	requires_bodypart_type = TRUE
 	ignore_clothes = FALSE
-	///user tracker for logging
-	var/mob/surgery_user
 
 /datum/surgery/embalm_corpse/can_start(mob/user, mob/living/carbon/target)
 	. = ..()
-	surgery_user = user
 	if(target.stat != DEAD || HAS_TRAIT(target, TRAIT_EMBALMED))
 		return FALSE
 
-/datum/surgery_step/embalm_corpse
-	name = "Scoop corpse"
-	implements = list(/obj/item/scoop = 95)
-	repeatable = TRUE
-	time = 10 SECONDS
-	success_sound = 'sound/machines/ping.ogg'
-
-/datum/surgery_step/embalm_corpse/success(mob/user, mob/living/carbon/target, target_zone, obj/item/tool, datum/surgery/surgery, default_display_results = FALSE)
+/datum/surgery/embalm_corpse/complete(mob/user)
+	. = ..()
 	//Do pre-rewards for organs removed & formaldehyde used
 	var/total_reward = 0
 	//organ reward
@@ -42,8 +33,6 @@
 	//Do remaining table check
 	var/turf/T = get_turf(target)
 	//Only succeeed if using enbalming table
-	//TODO: make formaldehyde required
-	//TODO: Make embalming remove all the blood
 	if(locate(/obj/structure/table/optable/embalming_table) in T.contents)
 		//handle spooky rewards
 		SSspooky.adjust_trespass(user, -(TRESPASS_LARGE+total_reward))
@@ -60,4 +49,22 @@
 		make_spooky_indicator(get_turf(src))
 	
 	ADD_TRAIT(target, TRAIT_EMBALMED , ORGAN_TRAIT)
-	return TRUE
+
+/datum/surgery_step/embalm_corpse
+	name = "Scoop corpse"
+	implements = list(/obj/item/scoop = 95)
+	repeatable = TRUE
+	time = 10 SECONDS
+	success_sound = 'sound/surgery/organ1.ogg'
+	///Probability to remove an organ
+	var/organ_prob = 30
+
+/datum/surgery_step/embalm_corpse/success(mob/user, mob/living/carbon/target, target_zone, obj/item/tool, datum/surgery/surgery, default_display_results = FALSE)
+	. = ..()
+	//Chance to remove an ogran
+	var/datum/reagent/toxin/formaldehyde/F = target.reagents?.get_reagent(/datum/reagent/toxin/formaldehyde)
+	if(prob(organ_prob * (F ? 2 : 1)))
+		var/obj/item/organ/O = pick(target.internal_organs)
+		O.Remove(target)
+	//Remove some blood
+	target.bleed(target.blood_volume / 5)
