@@ -218,7 +218,7 @@
 			if(S.supports_variations & DIGITIGRADE_VARIATION)
 				icon_file = 'icons/mob/species/misc/digitigrade_suits.dmi'
 		//generate and append appearance
-		var/icon/external = icon(icon_file, (S.worn_icon_state || S.item_state || S.icon_state))
+		var/icon/external = icon(S.worn_icon || icon_file, (S.worn_icon_state || S.item_state || S.icon_state))
 		skeleton_icon.Blend(external, ICON_OVERLAY)
 	//Build appearance holder
 	skeleton_underlay = new()

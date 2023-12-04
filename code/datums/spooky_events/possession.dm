@@ -61,4 +61,7 @@
 
 //TODO: make this better, something like the old zombie content. Don't just revive the body :/ - Racc
 /datum/spooky_event/possession/proc/revive_corpse(mob/living/target)
+	if(HAS_TRAIT(target, TRAIT_POSSESSED))
+		qdel(src)
+		return
 	target?.revive(TRUE, TRUE)

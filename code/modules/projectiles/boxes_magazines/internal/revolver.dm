@@ -38,6 +38,3 @@
 	ammo_type = /obj/item/ammo_casing/old_iron
 	caliber = "???"
 	max_ammo = 1
-
-/obj/item/ammo_box/magazine/internal/cylinder/old_iron/empty_magazine()
-	return

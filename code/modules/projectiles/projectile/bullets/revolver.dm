@@ -147,6 +147,7 @@
 
 /obj/projectile/bullet/old_iron/on_hit(atom/target, blocked)
 	if(HAS_TRAIT(target, TRAIT_POSSESSED))
+		REMOVE_TRAIT(target, TRAIT_POSSESSED, TRAIT_GENERIC)
 		damage = 999
 	. = ..()
 	damage = initial(damage)
