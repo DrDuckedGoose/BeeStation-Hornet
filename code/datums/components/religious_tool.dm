@@ -100,6 +100,7 @@
 		data["favor"] = easy_access_sect.favor
 		data["deity"] = GLOB.deity
 		data["rites"] = generate_available_rites()
+		data["generic_rites"] = generate_available_rites(TRUE)
 		data["wanted"] = generate_sacrifice_list()
 
 	var/atom/atom_parent = parent
@@ -196,9 +197,10 @@
 /**
  * Generates available rites to pick from. It expects the sect to be picked by the time it was called (by tgui data)
  */
-/datum/component/religious_tool/proc/generate_available_rites()
+/datum/component/religious_tool/proc/generate_available_rites(generic = FALSE)
 	var/list/rites_to_pick = list()
-	for(var/path in easy_access_sect.rites_list)
+	var/list/target = generic ? easy_access_sect.generic_rites_list : easy_access_sect.rites_list
+	for(var/path in target)
 		///checks to invalidate
 		var/list/rite = list()
 		var/datum/religion_rites/rite_type = path

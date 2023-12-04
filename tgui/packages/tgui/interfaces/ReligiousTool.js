@@ -26,11 +26,17 @@ export const ReligiousTool = (props, context) => {
                   Rites <Icon name="pray" color={ALIGNMENT2COLOR[alignment]} />
                 </Tabs.Tab>
               )}
+              {!sects && (
+                <Tabs.Tab selected={tab === 3} onClick={() => setTab(3)}>
+                  Generic Rites <Icon name="cross" color={ALIGNMENT2COLOR[alignment]} />
+                </Tabs.Tab>
+              )}
             </Tabs>
           </Stack.Item>
           <Stack.Item grow={1}>
             {tab === 1 && ((!!sects && <SectSelectTab />) || <SectTab />)}
             {tab === 2 && <RiteTab />}
+            {tab === 3 && <GenericRiteTab />}
           </Stack.Item>
         </Stack>
       </Window.Content>
@@ -131,6 +137,57 @@ const RiteTab = (props, context) => {
       )}
       <Stack vertical>
         {rites.map((rite) => (
+          <Stack.Item key={rite}>
+            <Section
+              title={rite.name}
+              buttons={
+                <Button
+                  fontColor="white"
+                  iconColor={ALIGNMENT2COLOR[alignment]}
+                  disabled={favor < rite.favor}
+                  color="transparent"
+                  icon="arrow-right"
+                  onClick={() =>
+                    act('perform_rite', {
+                      path: rite.path,
+                    })
+                  }>
+                  Invoke
+                </Button>
+              }>
+              <Box color={favor < rite.favor ? 'red' : 'grey'} mb={0.5}>
+                <Icon name="star" color={ALIGNMENT2COLOR[alignment]} /> Costs {rite.favor} favor.
+              </Box>
+              <BlockQuote>{rite.desc}</BlockQuote>
+            </Section>
+          </Stack.Item>
+        ))}
+      </Stack>
+    </>
+  );
+};
+
+const GenericRiteTab = (props, context) => {
+  const { act, data } = useBackend(context);
+  const { generic_rites, deity, icon, alignment, favor } = data;
+  return (
+    <>
+      {!generic_rites.length && (
+        <Section fill>
+          <Dimmer>
+            <Stack vertical>
+              <Stack.Item textAlign="center">
+                <Icon color={ALIGNMENT2COLOR[alignment]} name={icon} size={10} />
+              </Stack.Item>
+              <Stack.Item fontSize="18px" color={ALIGNMENT2COLOR[alignment]}>
+                {deity} does not have any invocations.
+              </Stack.Item>
+            </Stack>
+          </Dimmer>
+        </Section>
+      )}
+      <Stack vertical>
+        {generic_rites.map((rite) => (
           <Stack.Item key={rite}>
             <Section
               title={rite.name}

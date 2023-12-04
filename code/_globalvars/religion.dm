@@ -8,3 +8,6 @@ GLOBAL_VAR(favor)
 GLOBAL_VAR(bible_name)
 GLOBAL_VAR(bible_icon_state)
 GLOBAL_VAR(bible_item_state)
+
+//Old iron
+GLOBAL_VAR(old_iron)

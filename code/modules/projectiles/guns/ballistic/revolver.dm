@@ -332,3 +332,9 @@
 /obj/item/gun/ballistic/revolver/old_iron/Initialize(mapload)
 	. = ..()
 	ADD_TRAIT(src, TRAIT_FUNERAL_GARNISH, GENERIC_ITEM_TRAIT)
+	GLOB.old_iron = src
+
+/obj/item/gun/ballistic/revolver/old_iron/Destroy()
+	. = ..()
+	if(GLOB.old_iron == src)
+		GLOB.old_iron = null

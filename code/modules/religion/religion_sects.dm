@@ -34,12 +34,15 @@
 	var/list/desired_items_typecache
 	/// Lists of rites by type. Converts itself into a list of rites with "name - desc (favor_cost)" = type
 	var/list/rites_list
+	/// Lists of generic rites by type.
+	var/list/generic_rites_list
 	/// Changes the Altar of Gods icon
 	var/altar_icon
 	/// Changes the Altar of Gods icon_state
 	var/altar_icon_state
 	/// Currently Active (non-deleted) rites
 	var/list/active_rites
+	var/list/generic_active_rites
 	/// Whether the structure has CANDLE OVERLAYS!
 	var/candle_overlay = TRUE
 	/// Whether the altar of the gods is anchored
@@ -51,6 +54,8 @@
 	if(desired_items)
 		desired_items_typecache = typecacheof(desired_items)
 	on_select()
+	//Build generic rites
+	generic_rites_list = subtypesof(/datum/religion_rites/generic)
 
 /// Activates once selected
 /datum/religion_sect/proc/on_select()
