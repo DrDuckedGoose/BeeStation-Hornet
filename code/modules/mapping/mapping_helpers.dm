@@ -125,6 +125,16 @@
 	else
 		airlock.cyclelinkeddir = dir
 
+/obj/effect/mapping_helpers/airlock/cyclelink_helper_multi
+	name = "airlock multi-cyclelink helper"
+	icon_state = "airlock_multicyclelink_helper"
+	var/cycle_id
+
+/obj/effect/mapping_helpers/airlock/cyclelink_helper_multi/payload(obj/machinery/door/airlock/airlock)
+	if(airlock.closeOtherId)
+		log_mapping("[src] at [AREACOORD(src)] tried to set [airlock] closeOtherId, but it's already set!")
+	else
+		airlock.closeOtherId = cycle_id
 
 /obj/effect/mapping_helpers/airlock/locked
 	name = "airlock lock helper"
@@ -334,17 +344,13 @@ INITIALIZE_IMMEDIATE(/obj/effect/mapping_helpers/no_lava)
 	var/turf/T = get_turf(src)
 	T?.make_traction(grip_visual)
 
-/*
 //Change this areas turf texture
-/obj/effect/mapping_helpers/change_turf_texture
+/obj/effect/mapping_helpers/tile_breaker
 	name = "area turf texture helper"
-	icon_state = "turf_texture"
-	///What texture do we set it to?
-	var/datum/turf_texture/turf_texture = /datum/turf_texture
+	icon_state = "tile_breaker"
 
-/obj/effect/mapping_helpers/change_turf_texture/Initialize(mapload)
+/obj/effect/mapping_helpers/tile_breaker/Initialize(mapload)
 	. = ..()
-	var/area/A = get_area(src)
-	A?.turf_texture = turf_texture
-	A?.update_turf_texture()
-*/
+	var/turf/open/floor/T = get_turf(src)
+	if(istype(T, /turf/open/floor))
+		T.break_tile()

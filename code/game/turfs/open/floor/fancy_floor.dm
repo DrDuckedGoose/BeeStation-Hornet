@@ -22,6 +22,7 @@
 	clawfootstep = FOOTSTEP_WOOD_CLAW
 	heavyfootstep = FOOTSTEP_GENERIC_HEAVY
 	tiled_dirt = FALSE
+	max_integrity = 50
 
 /turf/open/floor/bamboo/examine(mob/user)
 	. = ..()
@@ -31,16 +32,24 @@
 	desc = "Stylish dark wood."
 	icon_state = "wood"
 	variants = list("wood", "wood1", "wood2", "wood3", "wood4", "wood5", "wood6")
+	broken_states = list("damaged_wood1", "damaged_wood2")
+	broken_dirt_states = list("damaged_wood1", "damaged_wood2")
 	floor_tile = /obj/item/stack/tile/wood
 	footstep = FOOTSTEP_WOOD
 	barefootstep = FOOTSTEP_WOOD_BAREFOOT
 	clawfootstep = FOOTSTEP_WOOD_CLAW
 	heavyfootstep = FOOTSTEP_GENERIC_HEAVY
 	tiled_dirt = FALSE
+	max_integrity = 100
+
+/turf/open/floor/wood/broken
+	broken = TRUE
 
 /turf/open/floor/wood/big
 	icon_state = "wood_big"
 	variants = list("wood_big", "wood_big1", "wood_big2", "wood_big3", "wood_big4")
+	broken_states = list("damaged_woodbig1", "damaged_woodbig2")
+	broken_dirt_states = list("damaged_wood1", "damaged_wood2")
 
 /turf/open/floor/wood/examine(mob/user)
 	. = ..()
@@ -102,10 +111,11 @@
 	barefootstep = FOOTSTEP_GRASS
 	clawfootstep = FOOTSTEP_GRASS
 	heavyfootstep = FOOTSTEP_GENERIC_HEAVY
-	variants = list("grass", "grass1", "grass2")
+	variants = list("grass", "grass1", "grass2", "grass3")
 	var/ore_type = /obj/item/stack/ore/glass
 	var/turfverb = "uproot"
 	tiled_dirt = FALSE
+	max_integrity = 80
 
 /turf/open/floor/grass/Initialize(mapload)
 	. = ..()
@@ -266,6 +276,7 @@
 	clawfootstep = FOOTSTEP_CARPET_BAREFOOT
 	heavyfootstep = FOOTSTEP_GENERIC_HEAVY
 	tiled_dirt = FALSE
+	max_integrity = 150
 
 /turf/open/floor/carpet/examine(mob/user)
 	. = ..()
@@ -404,6 +415,7 @@
 	icon = 'icons/turf/floors/Chasms.dmi'
 	icon_state = "chasms-0"
 	tiled_dirt = FALSE
+	max_integrity = 100
 
 /turf/open/floor/fakepit/get_smooth_underlay_icon(mutable_appearance/underlay_appearance, turf/asking_turf, adjacency_dir)
 	underlay_appearance.icon = 'icons/turf/floors.dmi'
@@ -416,6 +428,7 @@
 	floor_tile = /obj/item/stack/tile/fakespace
 	plane = PLANE_SPACE
 	tiled_dirt = FALSE
+	max_integrity = 100
 	fullbright_type = FULLBRIGHT_STARLIGHT
 	luminosity = 2
 
@@ -439,6 +452,7 @@
 	clawfootstep = FOOTSTEP_WOOD_CLAW
 	heavyfootstep = FOOTSTEP_GENERIC_HEAVY
 	tiled_dirt = FALSE
+	max_integrity = 120
 
 /turf/open/floor/wax/airless
 	initial_gas_mix = AIRLESS_ATMOS
