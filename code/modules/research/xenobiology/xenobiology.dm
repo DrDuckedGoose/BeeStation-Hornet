@@ -459,6 +459,7 @@
 			if(do_after(user, 6 SECONDS, target = user))
 				to_chat(user, "<span class='userdanger'>You explode!</span>")
 				explosion(get_turf(user), 1 ,3, 6)
+				user.investigate_log("has been gibbed by an oil slime extract explosion.", INVESTIGATE_DEATHS)
 				user.gib()
 				return 60 SECONDS
 			to_chat(user, "<span class='notice'>You stop feeding [src], and the feeling passes.</span>")
@@ -749,7 +750,7 @@
 	to_chat(user, "<span class='notice'>You offer [src] to [SM]...</span>")
 	being_used = TRUE
 
-	var/list/candidates = pollCandidatesForMob("Do you want to play as [SM.name]? (Sentience Potion)", ROLE_SENTIENCE, null, 5 SECONDS, SM)
+	var/list/candidates = poll_candidates_for_mob("Do you want to play as [SM.name]? (Sentience Potion)", ROLE_SENTIENCE, null, 5 SECONDS, SM)
 	if(length(candidates))
 		var/mob/dead/observer/C = pick(candidates)
 		SM.key = C.key
@@ -877,7 +878,7 @@
 		return
 
 	to_chat(user, "<span class='notice'>You feed the slime the stabilizer. It is now less likely to mutate.</span>")
-	M.mutation_chance = CLAMP(M.mutation_chance-15,0,100)
+	M.mutation_chance = clamp(M.mutation_chance-15,0,100)
 	qdel(src)
 
 /obj/item/slimepotion/slime/mutator
@@ -901,7 +902,7 @@
 		return
 
 	to_chat(user, "<span class='notice'>You feed the slime the mutator. It is now more likely to mutate.</span>")
-	M.mutation_chance = CLAMP(M.mutation_chance+12,0,100)
+	M.mutation_chance = clamp(M.mutation_chance+12,0,100)
 	M.mutator_used = TRUE
 	qdel(src)
 

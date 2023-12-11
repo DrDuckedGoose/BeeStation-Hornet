@@ -122,6 +122,7 @@ NOTE: there are two lists of areas in the end of this file: centcom and station 
 	ambience_index = AMBIENCE_MAINT
 	ambient_buzz = 'sound/ambience/source_corridor2.ogg'
 	ambient_buzz_vol = 20
+	area_flags = HIDDEN_STASH_LOCATION | VALID_TERRITORY | BLOBS_ALLOWED | UNIQUE_AREA
 	rare_ambient_sounds = list(
 		'sound/machines/airlock.ogg',
 		'sound/effects/snap.ogg',
@@ -156,10 +157,12 @@ NOTE: there are two lists of areas in the end of this file: centcom and station 
 /area/maintenance/department/chapel
 	name = "Chapel Maintenance"
 	icon_state = "maint_chapel"
+	area_flags = VALID_TERRITORY | BLOBS_ALLOWED | UNIQUE_AREA
 
 /area/maintenance/department/chapel/monastery
 	name = "Monastery Maintenance"
 	icon_state = "maint_monastery"
+	area_flags = VALID_TERRITORY | BLOBS_ALLOWED | UNIQUE_AREA
 
 /area/maintenance/department/crew_quarters/bar
 	name = "Bar Maintenance"
@@ -182,14 +185,17 @@ NOTE: there are two lists of areas in the end of this file: centcom and station 
 /area/maintenance/department/engine/atmos
 	name = "Atmospherics Maintenance"
 	icon_state = "maint_atmos"
+	area_flags = VALID_TERRITORY | BLOBS_ALLOWED | UNIQUE_AREA
 
 /area/maintenance/department/security
 	name = "Security Maintenance"
 	icon_state = "maint_sec"
+	area_flags = VALID_TERRITORY | BLOBS_ALLOWED | UNIQUE_AREA
 
 /area/maintenance/department/security/brig
 	name = "Brig Maintenance"
 	icon_state = "maint_brig"
+	area_flags = VALID_TERRITORY | BLOBS_ALLOWED | UNIQUE_AREA
 
 /area/maintenance/department/medical
 	name = "Medbay Maintenance"
@@ -218,6 +224,7 @@ NOTE: there are two lists of areas in the end of this file: centcom and station 
 /area/maintenance/department/bridge
 	name = "Bridge Maintenance"
 	icon_state = "maint_bridge"
+	area_flags = VALID_TERRITORY | BLOBS_ALLOWED | UNIQUE_AREA
 
 /area/maintenance/department/engine
 	name = "Engineering Maintenance"
@@ -372,10 +379,11 @@ NOTE: there are two lists of areas in the end of this file: centcom and station 
 
 //Hallway
 /area/hallway
-	sound_environment = SOUND_AREA_STANDARD_STATION
-	lights_always_start_on = TRUE
 
 /area/hallway
+	area_flags = HIDDEN_STASH_LOCATION | VALID_TERRITORY | BLOBS_ALLOWED | UNIQUE_AREA
+	sound_environment = SOUND_AREA_STANDARD_STATION
+	lights_always_start_on = TRUE
 	lighting_colour_tube = "#ffce99"
 	lighting_colour_bulb = "#ffdbb4"
 	lighting_brightness_tube = 8
@@ -406,6 +414,7 @@ NOTE: there are two lists of areas in the end of this file: centcom and station 
 /area/hallway/secondary/command
 	name = "Command Hallway"
 	icon_state = "bridge_hallway"
+	area_flags = VALID_TERRITORY | BLOBS_ALLOWED | UNIQUE_AREA
 
 /area/hallway/secondary/construction
 	name = "Construction Area"
@@ -458,6 +467,7 @@ NOTE: there are two lists of areas in the end of this file: centcom and station 
 /area/hallway/upper/secondary/command
 	name = "Upper Command Hallway"
 	icon_state = "bridge_hallway"
+	area_flags = VALID_TERRITORY | BLOBS_ALLOWED | UNIQUE_AREA
 
 /area/hallway/upper/secondary/construction
 	name = "Upper Construction Area"
@@ -509,6 +519,9 @@ NOTE: there are two lists of areas in the end of this file: centcom and station 
 	name = "Corporate Showroom"
 	icon_state = "showroom"
 	sound_environment = SOUND_AREA_MEDIUM_SOFTFLOOR
+
+/area/crew_quarters
+	area_flags = VALID_TERRITORY | BLOBS_ALLOWED | UNIQUE_AREA
 
 /area/crew_quarters/heads/captain
 	name = "Captain's Office"
@@ -574,6 +587,7 @@ NOTE: there are two lists of areas in the end of this file: centcom and station 
 //Crew
 
 /area/crew_quarters
+	area_flags = HIDDEN_STASH_LOCATION | VALID_TERRITORY | BLOBS_ALLOWED | UNIQUE_AREA
 	lighting_colour_tube = "#ffce99"
 	lighting_colour_bulb = "#ffdbb4"
 	lighting_brightness_tube = 8
@@ -584,9 +598,11 @@ NOTE: there are two lists of areas in the end of this file: centcom and station 
 /area/crew_quarters/dorms
 	name = "Dormitories"
 	icon_state = "dorms"
-	area_flags = VALID_TERRITORY | BLOBS_ALLOWED | UNIQUE_AREA
 	mood_bonus = 3
 	mood_message = "<span class='nicegreen'>There's no place like the dorms!\n</span>"
+
+/area/commons
+	area_flags = HIDDEN_STASH_LOCATION | VALID_TERRITORY | BLOBS_ALLOWED | UNIQUE_AREA
 
 /area/commons/dorms/barracks
 	name = "Sleep Barracks"
@@ -687,6 +703,7 @@ NOTE: there are two lists of areas in the end of this file: centcom and station 
 	icon_state = "bar"
 	mood_bonus = 5
 	mood_message = "<span class='nicegreen'>I love being in the bar!\n</span>"
+	lights_always_start_on = TRUE
 	lighting_colour_tube = "#fff4d6"
 	lighting_colour_bulb = "#ffebc1"
 	sound_environment = SOUND_AREA_WOODFLOOR
@@ -704,13 +721,6 @@ NOTE: there are two lists of areas in the end of this file: centcom and station 
 	sound_environment = SOUND_AREA_SMALL_SOFTFLOOR
 
 /area/crew_quarters/bar/Initialize(mapload)
-	. = ..()
-	GLOB.bar_areas += src
-
-/area/service/bar
-	lights_always_start_on = TRUE
-
-/area/service/bar/Initialize(mapload)
 	. = ..()
 	GLOB.bar_areas += src
 
@@ -751,6 +761,7 @@ NOTE: there are two lists of areas in the end of this file: centcom and station 
 	name = "Library"
 	icon_state = "library"
 	flags_1 = NONE
+	area_flags = HIDDEN_STASH_LOCATION | VALID_TERRITORY | BLOBS_ALLOWED | UNIQUE_AREA
 
 	lighting_colour_tube = "#ffce99"
 	lighting_colour_bulb = "#ffdbb4"
@@ -771,6 +782,7 @@ NOTE: there are two lists of areas in the end of this file: centcom and station 
 /area/chapel
 	icon_state = "chapel"
 	ambience_index = AMBIENCE_HOLY
+	area_flags = HIDDEN_STASH_LOCATION | VALID_TERRITORY | BLOBS_ALLOWED | UNIQUE_AREA
 	flags_1 = NONE
 	clockwork_warp_allowed = FALSE
 	clockwork_warp_fail = "The consecration here prevents you from warping in."
@@ -805,6 +817,7 @@ NOTE: there are two lists of areas in the end of this file: centcom and station 
 	icon_state = "law"
 	sound_environment = SOUND_AREA_SMALL_SOFTFLOOR
 	airlock_hack_difficulty = AIRLOCK_WIRE_SECURITY_PROTECTED
+	area_flags = HIDDEN_STASH_LOCATION | VALID_TERRITORY | BLOBS_ALLOWED | UNIQUE_AREA
 
 
 //Engineering
@@ -943,6 +956,7 @@ NOTE: there are two lists of areas in the end of this file: centcom and station 
 /area/maintenance/solars
 	name = "Solar Maintenance"
 	icon_state = "yellow"
+	area_flags = VALID_TERRITORY | BLOBS_ALLOWED | UNIQUE_AREA
 
 /area/maintenance/solars/port
 	name = "Port Solar Maintenance"
@@ -988,6 +1002,7 @@ NOTE: there are two lists of areas in the end of this file: centcom and station 
 /area/medical
 	name = "Medical"
 	icon_state = "medbay"
+	area_flags = HIDDEN_STASH_LOCATION | VALID_TERRITORY | BLOBS_ALLOWED | UNIQUE_AREA
 	ambience_index = AMBIENCE_MEDICAL
 	sound_environment = SOUND_AREA_STANDARD_STATION
 	mood_bonus = 2
@@ -1028,10 +1043,12 @@ NOTE: there are two lists of areas in the end of this file: centcom and station 
 /area/medical/storage
 	name = "Medbay Storage"
 	icon_state = "med_storage"
+	area_flags = VALID_TERRITORY | BLOBS_ALLOWED | UNIQUE_AREA
 
 /area/medical/office
 	name = "Medical Office"
 	icon_state = "med_office"
+	area_flags = VALID_TERRITORY | BLOBS_ALLOWED | UNIQUE_AREA
 
 /area/medical/break_room
 	name = "Medical Break Room"
@@ -1060,6 +1077,7 @@ NOTE: there are two lists of areas in the end of this file: centcom and station 
 	ambience_index = AMBIENCE_VIROLOGY
 	flags_1 = NONE
 	airlock_hack_difficulty = AIRLOCK_WIRE_SECURITY_PROTECTED
+	area_flags = VALID_TERRITORY | BLOBS_ALLOWED | UNIQUE_AREA
 
 /area/medical/morgue
 	name = "Morgue"
@@ -1075,6 +1093,7 @@ NOTE: there are two lists of areas in the end of this file: centcom and station 
 	name = "Chemistry"
 	icon_state = "chem"
 	airlock_hack_difficulty = AIRLOCK_WIRE_SECURITY_PROTECTED
+	area_flags = VALID_TERRITORY | BLOBS_ALLOWED | UNIQUE_AREA
 
 /area/medical/chemistry/upper
 	name = "Upper Chemistry"
@@ -1088,6 +1107,7 @@ NOTE: there are two lists of areas in the end of this file: centcom and station 
 	name = "Surgery"
 	icon_state = "surgery"
 	airlock_hack_difficulty = AIRLOCK_WIRE_SECURITY_ADVANCED
+	area_flags = VALID_TERRITORY | BLOBS_ALLOWED | UNIQUE_AREA
 
 /area/medical/surgery/aux
 	name = "Auxillery Surgery"
@@ -1096,6 +1116,7 @@ NOTE: there are two lists of areas in the end of this file: centcom and station 
 /area/medical/cryo
 	name = "Cryogenics"
 	icon_state = "cryo"
+	area_flags = VALID_TERRITORY | BLOBS_ALLOWED | UNIQUE_AREA
 
 /area/medical/exam_room
 	name = "Exam Room"
@@ -1105,6 +1126,7 @@ NOTE: there are two lists of areas in the end of this file: centcom and station 
 	name = "Genetics Lab"
 	icon_state = "genetics"
 	airlock_hack_difficulty = AIRLOCK_WIRE_SECURITY_PROTECTED
+	area_flags = VALID_TERRITORY | BLOBS_ALLOWED | UNIQUE_AREA
 
 /area/medical/genetics/cloning
 	name = "Cloning Lab"
@@ -1113,6 +1135,7 @@ NOTE: there are two lists of areas in the end of this file: centcom and station 
 /area/medical/sleeper
 	name = "Medbay Treatment Center"
 	icon_state = "exam_room"
+	area_flags = VALID_TERRITORY | BLOBS_ALLOWED | UNIQUE_AREA
 
 
 //Security
@@ -1353,6 +1376,7 @@ NOTE: there are two lists of areas in the end of this file: centcom and station 
 	name = "Hydroponics"
 	icon_state = "hydro"
 	sound_environment = SOUND_AREA_STANDARD_STATION
+	area_flags = HIDDEN_STASH_LOCATION | VALID_TERRITORY | BLOBS_ALLOWED | UNIQUE_AREA
 	airlock_hack_difficulty = AIRLOCK_WIRE_SECURITY_SIMPLE
 	color_correction = /datum/client_colour/area_color/cold_ish
 

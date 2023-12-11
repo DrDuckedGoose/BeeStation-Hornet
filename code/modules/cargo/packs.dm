@@ -473,7 +473,7 @@
 
 /datum/supply_pack/security/vending/security
 	name = "SecTech Supply Crate"
-	desc = "Officer Paul bought all the donuts? Then refill the security vendor with ths crate."
+	desc = "Officer Paul bought all the handcuffs? Then refill the security vendor with ths crate."
 	cost = 1200
 	max_supply = 3
 	contains = list(/obj/item/vending_refill/security)
@@ -593,16 +593,16 @@
 	cost = 700 // 300 credits per 1 knife
 	small_item = TRUE
 	max_supply = 2
-	contains = list(/obj/item/kitchen/knife/combat)
+	contains = list(/obj/item/knife/combat)
 
 /datum/supply_pack/security/armory/combatknives
 	name = "Combat Knives Crate"
 	desc = "Contains three sharpened combat knives. Each knife guaranteed to fit snugly inside any Nanotrasen-standard boot. Requires Armory access to open."
 	cost = 1120 //20% discount
 	max_supply = 1
-	contains = list(/obj/item/kitchen/knife/combat,
-					/obj/item/kitchen/knife/combat,
-					/obj/item/kitchen/knife/combat)
+	contains = list(/obj/item/knife/combat,
+					/obj/item/knife/combat,
+					/obj/item/knife/combat)
 	crate_name = "combat knife crate"
 
 /datum/supply_pack/security/armory/ballistic_single
@@ -1203,40 +1203,6 @@
 	group = "Engine Construction"
 	crate_type = /obj/structure/closet/crate/engineering
 	access_budget = ACCESS_ENGINE
-
-/datum/supply_pack/engine/am_jar
-	name = "Antimatter Containment Jar Crate"
-	desc = "Two Antimatter containment jars stuffed into a single crate."
-	cost = 1700
-	max_supply = 4
-	contains = list(/obj/item/am_containment,
-					/obj/item/am_containment)
-	crate_name = "antimatter jar crate"
-
-/datum/supply_pack/engine/am_core
-	name = "Antimatter Control Crate"
-	desc = "The brains of the Antimatter engine, this device is sure to teach the station's powergrid the true meaning of real power."
-	cost = 4700
-	max_supply = 2
-	contains = list(/obj/machinery/power/am_control_unit)
-	crate_name = "antimatter control crate"
-
-/datum/supply_pack/engine/am_shielding
-	name = "Antimatter Shielding Crate"
-	desc = "Contains ten Antimatter shields, somehow crammed into a crate."
-	cost = 1700
-	max_supply = 4
-	contains = list(/obj/item/am_shielding_container,
-					/obj/item/am_shielding_container,
-					/obj/item/am_shielding_container,
-					/obj/item/am_shielding_container,
-					/obj/item/am_shielding_container,
-					/obj/item/am_shielding_container,
-					/obj/item/am_shielding_container,
-					/obj/item/am_shielding_container,
-					/obj/item/am_shielding_container,
-					/obj/item/am_shielding_container) //10 shields: 3x3 containment and a core
-	crate_name = "antimatter shielding crate"
 
 /datum/supply_pack/engine/emitter
 	name = "Emitter Crate"
@@ -2557,16 +2523,16 @@
 	max_supply = 3
 	contraband = TRUE
 	crate_type = /obj/structure/closet/crate
-	contains = list(/obj/item/reagent_containers/food/snacks/canned/beefbroth,
-					/obj/item/reagent_containers/food/snacks/canned/beefbroth,
-					/obj/item/reagent_containers/food/snacks/canned/beefbroth,
-					/obj/item/reagent_containers/food/snacks/canned/beefbroth,
-					/obj/item/reagent_containers/food/snacks/canned/beefbroth,
-					/obj/item/reagent_containers/food/snacks/canned/beefbroth,
-					/obj/item/reagent_containers/food/snacks/canned/beefbroth,
-					/obj/item/reagent_containers/food/snacks/canned/beefbroth,
-					/obj/item/reagent_containers/food/snacks/canned/beefbroth,
-					/obj/item/reagent_containers/food/snacks/canned/beefbroth
+	contains = list(/obj/item/food/canned/beefbroth,
+					/obj/item/food/canned/beefbroth,
+					/obj/item/food/canned/beefbroth,
+					/obj/item/food/canned/beefbroth,
+					/obj/item/food/canned/beefbroth,
+					/obj/item/food/canned/beefbroth,
+					/obj/item/food/canned/beefbroth,
+					/obj/item/food/canned/beefbroth,
+					/obj/item/food/canned/beefbroth,
+					/obj/item/food/canned/beefbroth
 					)
 	crate_name = "Beef Broth Care"
 //////////////////////////////////////////////////////////////////////////////
@@ -3281,6 +3247,18 @@
 					/obj/item/stamp/denied,
 					/obj/item/laser_pointer/purple)
 	crate_name = "bureaucracy crate"
+
+/datum/supply_pack/misc/bulk_paper
+	name = "Bulk Paper Tray Crate"
+	desc = "Plenty of paper for all your papercraft needs."
+	cost = 500
+	max_supply = 5
+	contains = list(/obj/item/paper_bin,
+					/obj/item/paper_bin,
+					/obj/item/paper_bin,
+					/obj/item/paper_bin,
+					/obj/item/paper_bin)
+	crate_name = "bulk paper tray crate"
 
 /datum/supply_pack/misc/fountainpens
 	name = "Calligraphy Crate"
