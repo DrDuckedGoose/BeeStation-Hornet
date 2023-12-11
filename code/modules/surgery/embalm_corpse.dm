@@ -61,14 +61,16 @@
 
 /datum/surgery_step/embalm_corpse/success(mob/user, mob/living/carbon/target, target_zone, obj/item/tool, datum/surgery/surgery, default_display_results = FALSE)
 	. = ..()
+	if(!length(target.internal_organs))
+		return
+	var/obj/item/organ/O = pick(target.internal_organs)
 	//Chance to remove an ogran
 	var/datum/reagent/toxin/formaldehyde/F = target.reagents?.get_reagent(/datum/reagent/toxin/formaldehyde)
-	var/obj/item/organ/O = pick(target.internal_organs)
 	var/status = 0
 	if(prob(organ_prob * (F ? 2 : 1)))
 		O?.Remove(target)
 		O?.forceMove(get_turf(target))
 		status = 1
-	to_chat(user, "<span class='[status ? "notice" : "warning"]'>You [status ? "succeed" : "fail"] in removing [O].</span>")
+	to_chat(user, "<span class='[status ? "notice" : "warning"]'>You [status ? "succeed" : "fail"] to remove [O].</span>")
 	//Remove some blood
 	target.bleed(target.blood_volume / 5)
