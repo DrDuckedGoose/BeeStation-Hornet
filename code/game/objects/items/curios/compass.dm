@@ -5,6 +5,7 @@
 	icon_state = "compass"
 	force = 0
 	item_cooldown = 8 SECONDS
+	w_class = WEIGHT_CLASS_TINY
 	///Ref to the spooky event
 	var/datum/spooky_event/event_target
 	///Ref to the needle
@@ -17,10 +18,13 @@
 	//generate needle
 	needle = new()
 	needle.appearance = mutable_appearance(icon, "compass_needle")
+	needle.vis_flags = VIS_INHERIT_ID | VIS_INHERIT_LAYER
 	needle.SpinAnimation(parallel = FALSE)
-	var/icon/I = icon(icon, "compass_mask")
-	needle.add_filter("compass_mask", 10, alpha_mask_filter(icon = I))
 	vis_contents += needle
+	//Glass
+	var/mutable_appearance/MA = mutable_appearance(icon, "compass_glass", layer+0.01)
+	MA.blend_mode = BLEND_ADD
+	add_overlay(MA)
 
 /obj/item/curio/compass/Destroy()
 	. = ..()
@@ -96,5 +100,5 @@
 	var/matrix/o_transform = needle.transform
 	var/turf/t_source = get_turf(src)
 	var/turf/t_target = get_turf(event_target.get_location())
-	o_transform.Turn(get_angle(t_source, t_target) * (t_source.x >= t_target.x ? -1 : 1))
+	o_transform.Turn(get_angle(t_source, t_target))
 	needle.transform = o_transform

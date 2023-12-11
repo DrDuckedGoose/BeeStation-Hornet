@@ -5,6 +5,7 @@
 	icon_state = "tally"
 	force = 0
 	item_cooldown = 10 SECONDS
+	w_class = WEIGHT_CLASS_TINY
 
 /obj/item/curio/tally/interact(mob/user)
 	. = ..()
