@@ -49,6 +49,7 @@
 		deltimer(cooldown_timer)
 	cooldown_timer = null
 
+//This is a proc so we can make some items do a special 'thing', like jiggle or whatever
 /obj/item/curio/proc/get_cooldown_message()
 	return "[src] seems expired, for the moment..."
 

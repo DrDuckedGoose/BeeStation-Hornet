@@ -28,9 +28,13 @@
 		if(R.check_recipe(get_turf(src)))
 			if(available["[R.name]"])
 				continue
-			//TODO: Swap over the the dedicated option datum, so I can use descriptions - Racc
-			available += list("[R.name]" = image(R.icon, R.icon_state))
-			recipes += list("[R.name]" = R)
+			//Build choice datum
+			var/datum/radial_menu_choice/RC = new()
+			RC.image = image(R.icon, R.icon_state)
+			RC.info = R.desc
+			//Insert lists
+			available += list(R.name = RC)
+			recipes += list(R.name = R)
 	if(!length(available))
 		return
 	//Show the user a fancy radial menu for crafting options

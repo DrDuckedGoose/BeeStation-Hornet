@@ -4,6 +4,7 @@
 	desc = "An old tattered doll. Something seems 'off' about it."
 	force = 0
 	item_cooldown = 2 MINUTES
+	icon_state = "doll"
 	///How long can the doll move for per activation
 	var/move_time = 1 MINUTES
 	var/can_move
@@ -18,8 +19,19 @@
 			 "left" = CALLBACK(src, PROC_REF(haunted_step), WEST),
 			 "right" = CALLBACK(src, PROC_REF(haunted_step), EAST)), 10 SECONDS))
 	//Appearance  / pretty sutff
-	appearance = plush?.appearance
-	add_filter("outline", 1, outline_filter(1, "#f00"))
+	if(plush) //Just a check for debug spawns
+		//Mask our flesh appearance to the dolls
+		add_filter("mask", 1, alpha_mask_filter(icon = icon(plush.icon, plush.icon_state, plush.dir)))
+		//Naming
+		name = "tattered [plush]"
+	//Underlay / dynamic outline
+	var/mutable_appearance/MA = new()
+	MA.appearance = appearance
+	MA.color = "#4d4d4d"
+	var/matrix/M = MA.transform
+	M.Scale(1.1, 1.1)
+	MA.transform = M
+	underlays += MA
 
 /obj/item/curio/doll/Destroy()
 	. = ..()
