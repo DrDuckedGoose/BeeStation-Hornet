@@ -24,7 +24,7 @@
 	var/list/litany_components = list()
 	///The max amount of litany components this litany can have
 	var/max_components = 6
-	var/max_visual_components = 3
+	var/max_visual_components = 5 //Admin fuckery approved
 	///The info stack litany components typically effect
 	var/list/info_stack = list()
 	///The target we're attached to, since we sit in area contents for objective checks
@@ -122,7 +122,10 @@
 	if(!_litanies && !_associated_litanies)
 		litanies = subtypesof(/datum/litany_component)
 		for(var/datum/litany_component/i as() in litanies)
-			litany_choices += list("[initial(i.name)]" = image(initial(i.icon), icon_state = initial(i.icon_state)))
+			var/datum/radial_menu_choice/RC = new()
+			RC.image = image(initial(i.icon), icon_state = initial(i.icon_state))
+			RC.info = "[initial(i.desc)]"
+			litany_choices += list("[initial(i.name)]" = RC)
 			associated_litany += list("[initial(i.name)]" = i)
 	//otherwise, save some time
 	else

@@ -3,6 +3,8 @@
 	var/obj/item/litany/owner
 	///name of this component
 	var/name = ""
+	///brief description for this component
+	var/desc = ""
 	///icon path for this component's symbol
 	var/icon = 'icons/obj/religion.dmi'
 	///state for this component's symbol
