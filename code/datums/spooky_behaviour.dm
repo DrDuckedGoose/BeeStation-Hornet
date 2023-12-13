@@ -33,7 +33,6 @@
 	. = ..()
 	last_spook = world.time
 	spending_goal = generate_goal()
-	choosen_trial = new /datum/chaplain_trail/sanity()
 
 //Manage the current subsystem's currency, maybe purchase a spook or two
 /datum/spooky_behaviour/proc/process_currency(datum/controller/subsystem/spooky/SS)
@@ -83,7 +82,7 @@
 				to_chat(M, "<span class='warning'>[SE.event_message]\n[get_area(SE.get_location())]...</span>")
 				SEND_SOUND(M, 'sound/items/haunted/ghostitemattack.ogg')
 		if(do_trial)
-			choosen_trial.apply_nail_effect(M)
+			choosen_trial?.apply_nail_effect(M)
 		//If the product doesn't remove itself straight away, we probably want to track it
 		if(!QDELING(SE))
 			RegisterSignal(SE, COMSIG_PARENT_QDELETING, PROC_REF(handle_product))
@@ -106,7 +105,23 @@
 	active_products -= source
 	//Remove trial effects
 	if(SSspooky.active_chaplain)
-		choosen_trial.remove_nail_effect(SSspooky.active_chaplain)
+		choosen_trial?.remove_nail_effect(SSspooky.active_chaplain)
+
+/datum/spooky_behaviour/proc/choose_trial(mob/living/carbon/target, _options, _associated)
+	var/list/options = _options || list()
+	var/list/associated = _associated || list()
+	if(!_options || !_associated)
+		for(var/datum/chaplain_trail/CT as() in subtypesof(/datum/chaplain_trail))
+			var/datum/radial_menu_choice/RC = new()
+			RC.image = image(initial(CT.icon), icon_state = initial(CT.icon_state))
+			RC.info = initial(CT.desc)
+			options += list(initial(CT.name) = RC)
+			associated += list(initial(CT.name) = CT)
+	var/datum/chaplain_trail/CT = associated[show_radial_menu(target, target, options, tooltips = TRUE)]
+	if(CT)
+		choosen_trial = new CT()
+	else
+		choose_trial(target, options, associated)
 
 #undef MINIMUM_SPOOK_TIME
 #undef MAXIMUM_SPOOK_TIME

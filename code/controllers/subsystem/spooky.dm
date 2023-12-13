@@ -40,6 +40,8 @@ SUBSYSTEM_DEF(spooky)
 	RegisterSignal(SSdcs, COMSIG_GLOB_MOB_REVIVE, PROC_REF(remove_corpse), TRUE)
 	//Setup spooky behaviour
 	current_behaviour = new current_behaviour()
+	//Set this goober up...
+	GLOB.spooky_reward_gain = 1
 
 /datum/controller/subsystem/spooky/fire(resumed)
 	//Tick rot components
@@ -106,6 +108,7 @@ SUBSYSTEM_DEF(spooky)
 /datum/controller/subsystem/spooky/proc/register_chaplain(mob/chaplain)
 	RegisterSignal(chaplain, COMSIG_PARENT_QDELETING, PROC_REF(manage_chaplain), TRUE)
 	active_chaplain = chaplain
+	current_behaviour.choose_trial(chaplain)
 
 /datum/controller/subsystem/spooky/proc/manage_chaplain(datum/source)
 	SIGNAL_HANDLER

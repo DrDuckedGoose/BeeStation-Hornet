@@ -15,7 +15,7 @@
 	if(corpse_revive_timer)
 		deltimer(corpse_revive_timer)
 	if(cut_appearance)
-		corpse_owner.cut_spectral_appearance()
+		corpse_owner?.cut_spectral_appearance()
 	REMOVE_TRAIT(corpse_owner, TRAIT_POSSESSED, TRAIT_GENERIC)
 	corpse_owner = null
 	return ..()
@@ -30,8 +30,8 @@
 		return FALSE
 	log_game("[name]([src]) was created at [world.time], possessed [corpse].")
 	//Our unique logic
-	RegisterSignal(corpse, COMSIG_MOB_DEATH, PROC_REF(handle_corpse))
-	RegisterSignal(corpse, COMSIG_PARENT_QDELETING, PROC_REF(handle_death))
+	RegisterSignal(corpse, COMSIG_PARENT_QDELETING, PROC_REF(handle_corpse))
+	RegisterSignal(corpse, COMSIG_MOB_DEATH, PROC_REF(handle_death))
 	corpse.ai_controller = /datum/ai_controller/monkey/angry //TODO: Implement AIs from design doc - Racc
 	revive_corpse(corpse)
 	corpse.InitializeAIController()

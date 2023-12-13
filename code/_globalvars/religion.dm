@@ -12,3 +12,6 @@ GLOBAL_VAR(bible_item_state)
 
 //Old iron
 GLOBAL_VAR(old_iron)
+
+//Spooky rewards
+GLOBAL_VAR(spooky_reward_gain)
