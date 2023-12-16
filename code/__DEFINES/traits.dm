@@ -465,3 +465,5 @@ Remember to update _globalvars/traits.dm if you're adding/removing/renaming trai
 
 ///Has this mob been embalmed?
 #define TRAIT_EMBALMED		"embalmed"
+/// Trait for psyphoza, flag for examine logic
+#define TRAIT_PSYCHIC_SENSE "psychic_sense"
