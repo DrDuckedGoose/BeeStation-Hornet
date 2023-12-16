@@ -38,3 +38,4 @@
 	for(var/i in G.magazine.stored_ammo)
 		qdel(i)
 	G.magazine.stored_ammo += new G.magazine.ammo_type(G.magazine)
+	G.chamber_round(FALSE)

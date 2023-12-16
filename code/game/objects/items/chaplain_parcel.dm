@@ -21,4 +21,6 @@
 		var/turf/T = get_turf(src)
 		I = new I(T)
 		playsound(T, 'sound/items/poster_ripped.ogg', 60)
+		user.dropItemToGround(src, TRUE, TRUE)
+		user.put_in_hands(I)
 		qdel(src)

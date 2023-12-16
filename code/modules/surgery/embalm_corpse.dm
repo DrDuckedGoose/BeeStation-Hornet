@@ -27,7 +27,7 @@
 	for(var/i in reward_oragns)
 		total_reward += TRESPASS_SMALL / length(reward_oragns)
 	//formaldehyde reward
-	var/datum/reagent/toxin/formaldehyde/F = target.reagents?.get_reagent(/datum/reagent/toxin/formaldehyde)
+	var/datum/reagent/toxin/formaldehyde/F = target?.reagents?.get_reagent(/datum/reagent/toxin/formaldehyde)
 	if(F?.volume > 5)
 		total_reward += TRESPASS_SMALL
 	//Do remaining table check
@@ -58,6 +58,11 @@
 	success_sound = 'sound/surgery/organ1.ogg'
 	///Probability to remove an organ
 	var/organ_prob = 25
+
+/datum/surgery_step/embalm_corpse/initiate(mob/user, mob/living/carbon/target, target_zone, obj/item/tool, datum/surgery/surgery, try_to_fail)
+	. = ..()
+	if(!length(target.internal_organs))
+		return FALSE
 
 /datum/surgery_step/embalm_corpse/success(mob/user, mob/living/carbon/target, target_zone, obj/item/tool, datum/surgery/surgery, default_display_results = FALSE)
 	. = ..()

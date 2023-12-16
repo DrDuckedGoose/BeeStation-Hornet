@@ -339,3 +339,10 @@
 	. = ..()
 	if(GLOB.old_iron == src)
 		GLOB.old_iron = null
+
+/obj/item/gun/ballistic/revolver/old_iron/attack_self(mob/living/user, force)
+	if(!force)
+		return FALSE
+	return ..()
+	
+	

@@ -518,3 +518,9 @@
 	name = "maid headband"
 	desc = "Just like from one of those chinese cartoons!"
 	icon_state = "maid_headband"
+
+/obj/item/clothing/head/archdeacon
+	name = "archdeacon hat"
+	desc = "Pairs nicely with hellfire and brimstone."
+	icon_state = "frollo_hat"
+	item_state = "frollo_hat"
