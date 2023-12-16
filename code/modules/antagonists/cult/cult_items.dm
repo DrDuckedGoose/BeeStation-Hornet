@@ -210,7 +210,8 @@ Striking a noncultist, however, will tear their flesh."}
 		if(do_after(user, 40, target = src))
 			playsound(src,'sound/effects/pray_chaplain.ogg',60,1)
 			for(var/obj/item/soulstone/SS in contents)
-				SS.usability = TRUE
+				SS.theme = THEME_HOLY
+				SS.spent = FALSE
 				for(var/mob/living/simple_animal/shade/EX in SS)
 					SSticker.mode.remove_cultist(EX.mind, 1, 0)
 					EX.icon_state = "ghost1"

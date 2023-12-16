@@ -108,9 +108,6 @@
 		choosen_trial?.remove_nail_effect(SSspooky.active_chaplain)
 
 /datum/spooky_behaviour/proc/choose_trial(mob/living/carbon/target, _options, _associated)
-	call_async(src, PROC_REF(choose_trial_async), list(target, _options, _associated))
-
-/datum/spooky_behaviour/proc/choose_trial_async(mob/living/carbon/target, _options, _associated)
 	//generate options
 	var/list/options = _options || list()
 	var/list/associated = _associated || list()
@@ -126,7 +123,7 @@
 	if(CT)
 		choosen_trial = new CT()
 	else
-		choose_trial_async(target, options, associated)
+		choose_trial(target, options, associated)
 
 #undef MINIMUM_SPOOK_TIME
 #undef MAXIMUM_SPOOK_TIME

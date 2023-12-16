@@ -22,14 +22,14 @@
 /obj/item/soulstone/bless(mob/living/carbon/user)
 	. = ..()
 	if(!iscultist(user))
-		if(purified)
+		if(spent)
 			return
 		to_chat(user, "<span class='notice'>You begin to exorcise [src].</span>")
 		playsound(src,'sound/hallucinations/veryfar_noise.ogg',40,1)
 		if(do_after(user, 40, target = src))
 			playsound(src,'sound/effects/pray_chaplain.ogg',60,1)
-			usability = TRUE
-			purified = TRUE
+			theme = THEME_HOLY
+			spent = FALSE
 			icon_state = "purified_soulstone"
 			for(var/mob/M in contents)
 				if(M.mind)
