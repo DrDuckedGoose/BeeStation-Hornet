@@ -1860,12 +1860,15 @@
 		QDEL_NULL(spectral_appearance)
 	spectral_appearance = new()
 	spectral_appearance.appearance = appearance
+	spectral_appearance.transform = transform
 	spectral_appearance.plane = SPECTRAL_TRESPASS_PLANE
 	add_overlay(spectral_appearance)
 
 /atom/proc/cut_spectral_appearance()
 	if(spectral_appearance)
 		cut_overlay(spectral_appearance)
+		QDEL_NULL(spectral_appearance)
+
 //Used to exclude this atom from the psychic highlight plane
 /atom/proc/generate_psychic_mask()
 	var/mutable_appearance/MA = mutable_appearance()

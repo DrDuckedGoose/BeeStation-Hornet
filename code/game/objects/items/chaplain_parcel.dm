@@ -2,7 +2,7 @@
 	name = "mysterious mail"
 	desc = "A strange parcel, the address is scracthed out."
 	icon = 'icons/obj/bureaucracy.dmi'
-	icon_state = "mail_large"
+	icon_state = "mail_large_old"
 	///What options do we have to give
 	var/list/give_options = list(/obj/item/curio/compass, /obj/item/curio/tally)
 
