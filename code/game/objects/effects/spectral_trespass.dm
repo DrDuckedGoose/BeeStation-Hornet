@@ -7,7 +7,7 @@
 	density = FALSE
 	mouse_opacity = MOUSE_OPACITY_TRANSPARENT
 
-/obj/effect/spectral_trespass/Initialize(mapload, result = 0)
+/obj/effect/spectral_trespass/Initialize(mapload, result)
 	. = ..()
 	//TODO: What the fuck is this code, fix it - Racc
 	for(var/obj/effect/spectral_trespass/S in loc)
@@ -35,5 +35,10 @@
 	SIGNAL_HANDLER
 
 	Destroy()
+
+//Debug & admin stuff
+/obj/effect/spectral_trespass/good/Initialize(mapload, var/result)
+	result = 1
+	. = ..()
 
 #undef LIFE_TIME

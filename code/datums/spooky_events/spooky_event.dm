@@ -28,6 +28,8 @@
 	var/datum/religion_sect/R = GLOB.religious_sect
 	R?.adjust_favor(holy_reward*GLOB.spooky_reward_gain)
 	SSspooky.adjust_trespass(src, spectral_reward, FALSE, TRUE)
+	if(get_location())
+		make_spooky_indicator(get_turf(get_location()), TRUE)
 	//undo gain reduction
 	SSspooky.adjust_gain(gain_modifier)
 

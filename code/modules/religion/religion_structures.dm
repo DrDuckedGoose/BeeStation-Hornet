@@ -23,9 +23,8 @@
 	AddComponent(/datum/component/religious_tool, ALL, FALSE, CALLBACK(src, PROC_REF(reflect_sect_in_icons)))
 
 /obj/structure/altar_of_gods/attack_hand(mob/living/user)
-	if(!Adjacent(user) || !user.pulling)
-		return ..()
-	if(!isliving(user.pulling))
+	if(!Adjacent(user) || !user.pulling || !isliving(user.pulling))
+		new /obj/effect/bible_indicator(get_turf(src))
 		return ..()
 	var/mob/living/pushed_mob = user.pulling
 	if(pushed_mob.buckled)
@@ -52,7 +51,6 @@
 	if(I.tool_behaviour == TOOL_WRENCH)
 		return
 	return ..()
-
 
 /obj/structure/altar_of_gods/proc/reflect_sect_in_icons()
 	if(GLOB.religious_sect)
@@ -214,3 +212,20 @@
 	var/light_amount = T.get_lumcount()
 	var/favor_gained = max(1 - light_amount, 0) * delta_time
 	sect.adjust_favor(favor_gained, creator)
+
+/obj/effect/bible_indicator
+	icon = 'icons/obj/storage.dmi'
+	icon_state = "bible"
+	mouse_opacity = MOUSE_OPACITY_TRANSPARENT
+	pixel_y = 32
+	alpha = 200
+
+/obj/effect/bible_indicator/Initialize(mapload)
+	. = ..()
+	animate(src, alpha = 0, time = 0.5 SECONDS, loop = -1, easing = JUMP_EASING)
+	animate(alpha = 200, time = 0.5 SECONDS, easing = JUMP_EASING)
+	addtimer(CALLBACK(src, PROC_REF(self_destruct)), 3 SECONDS)
+
+/obj/effect/bible_indicator/proc/self_destruct()
+	qdel(src)
+	
