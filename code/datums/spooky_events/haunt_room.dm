@@ -123,7 +123,7 @@
 /datum/spooky_event/haunt_room/proc/handle_attack(datum/source, obj/item/I, mob/living/user, params)
 	SIGNAL_HANDLER
 
-	if(I && (HAS_TRAIT(I, TRAIT_HOLY) || istype(I, /obj/item/nullrod)) || HAS_TRAIT(origin, TRAIT_HOLY))
+	if(I && (HAS_TRAIT(I, TRAIT_HOLY) || istype(I, /obj/item/nullrod)) || HAS_TRAIT(origin, TRAIT_HOLY) || istype(I, /obj/item/storage/book/bible))
 		SEND_SOUND(user, 'sound/magic/ethereal_enter.ogg')
 		qdel(src)
 

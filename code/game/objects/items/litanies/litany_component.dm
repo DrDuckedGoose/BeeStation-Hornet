@@ -69,7 +69,7 @@
 	if(isatom(A) && !A.get_filter("litany_outline"))
 		//Don't let cultists get blessed, wizards can be though
 		var/mob/living/M = A
-		if(isliving(A) && !(iscultist(M) || is_servant_of_ratvar(M)))
+		if(isliving(A) && !(iscultist(M) || is_servant_of_ratvar(M)) || !isliving(A))
 			A.add_filter("litany_outline", 10, outline_filter(1, rgb(255, 255, 255)))
 			register_target(A)
 	owner.info_stack -= A

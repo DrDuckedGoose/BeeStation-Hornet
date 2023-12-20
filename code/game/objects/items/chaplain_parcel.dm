@@ -41,31 +41,32 @@
 	\n\
 	Placing flowers and other 'memorabilia' in coffins, with a corpse, will also please the Lord, something I recommend you do as often as possible.\n\
 	\n\
-	I know you don't like using it, but don't forget Old Iron. Punish those undying devils.\
+	I know you don't like using it, but don't forget Old Iron. Punish those undying devils.\n\
 	\n\
-	'Haunted' items are more common than you think, be sure to give those ghosts a good wack with your nullrod, rattle them out. I've been told they don't like blessed items either.\
+	'Haunted' items are more common than you think, be sure to give those ghosts a good wack with your nullrod, rattle them out. I've been told they don't like blessed items either.\n\
 	\n\
-	Since it's technically yours anyway, I left the old spectral scanner somehwere in your office. You'll probably make better use of it than me anyway.\
+	Since it's technically yours anyway, I left the old spectral scanner somehwere in your office. You'll probably make better use of it than me anyway.\n\
 	\n\
 	Otherwise, I can't offer much other advice, you'll have to figure out the rest yourself.\n\
 	Note I have also sent you a parcel with a surprise inside, I hope you like it.\n\
 	\n\
-	- Best regards, Grigori."
+	Best regards,\n\
+	~ Grigori."
 
 /obj/item/paper/chaplain_tips/warning
 	name = "Father Grigori's warning"
-	default_raw_text = "Brother, I fear I have made a grave mistake.\
+	default_raw_text = "Brother, I fear I have made a grave mistake.\n\
 	\n\
-	I have let rot creep into the monastery, it coats everything like a foetid mucus.\
-	I can hardly breath, the air demands labour and harbours disease.\
+	I have let rot creep into the monastery, it coats everything like a foetid mucus.\n\
+	I can hardly breath, the air demands labour and harbours disease.\n\
 	\n\
-	I have failed to make care when laying the dead to rest, and I have let evil nestle within them.\
-	Their bodies rot and fester, pleasing the evil I fear that has moved in.\
+	I have failed to make care when laying the dead to rest, and I have let evil nestle within them.\n\
+	Their bodies rot and fester, pleasing the evil I fear that has moved in.\n\
 	\n\
-	Do not make my mistake, do not let sloth take you from your tasks.\
-	It is our duty to lay the dead to rest, clean and preserved.\
-	To deny evil a place to rest.\
+	Do not make my mistake, do not let sloth take you from your tasks.\n\
+	It is our duty to lay the dead to rest, clean and preserved.\n\
+	To deny evil a place to rest.\n\
 	\n\
-	Please forgive me.\
+	Please forgive me.\n\
 	\n\
-	- Grigori."
+	~ Grigori."
