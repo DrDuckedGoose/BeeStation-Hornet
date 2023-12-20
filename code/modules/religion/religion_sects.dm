@@ -63,6 +63,8 @@
 /datum/religion_sect/proc/on_select()
 	SHOULD_CALL_PARENT(TRUE)
 	SSblackbox.record_feedback("text", "sect_chosen", 1, name)
+	//Setup trial
+	SSspooky?.setup_trial()
 
 /// Activates once selected and on newjoins, oriented around people who become holy.
 /datum/religion_sect/proc/on_conversion(mob/living/chap)

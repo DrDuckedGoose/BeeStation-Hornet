@@ -108,13 +108,16 @@ SUBSYSTEM_DEF(spooky)
 /datum/controller/subsystem/spooky/proc/register_chaplain(mob/chaplain)
 	RegisterSignal(chaplain, COMSIG_PARENT_QDELETING, PROC_REF(manage_chaplain), TRUE)
 	active_chaplain = chaplain
-	current_behaviour.choose_trial(chaplain)
 
 /datum/controller/subsystem/spooky/proc/manage_chaplain(datum/source)
 	SIGNAL_HANDLER
 
 	UnregisterSignal(active_chaplain, COMSIG_PARENT_QDELETING)
 	active_chaplain = null
+
+/datum/controller/subsystem/spooky/proc/setup_trial()
+	if(active_chaplain)
+		current_behaviour?.choose_trial(active_chaplain)
 
 /datum/controller/subsystem/spooky/proc/adjust_gain(amount, force)
 	if(force)
