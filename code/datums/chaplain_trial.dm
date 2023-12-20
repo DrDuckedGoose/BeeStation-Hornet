@@ -74,6 +74,8 @@
 	. = ..()
 	chap = target
 	drunk_stacks += 1
+	//Uh oh message
+	to_chat(target, "<span class='warning'>Your legs feel weak.</span>")
 
 /datum/chaplain_trail/abstinence/remove_nail_effect(mob/living/carbon/target)
 	. = ..()
