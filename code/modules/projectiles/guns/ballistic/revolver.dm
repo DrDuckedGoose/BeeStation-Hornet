@@ -325,7 +325,7 @@
 //Chaplain gun
 /obj/item/gun/ballistic/revolver/old_iron
 	name = "Old Iron"
-	desc = "A gun with one bullet."
+	desc = "A gun with one bullet.\n keep those devils down."
 	icon_state = "old_iron"
 	mag_type = /obj/item/ammo_box/magazine/internal/cylinder/old_iron
 

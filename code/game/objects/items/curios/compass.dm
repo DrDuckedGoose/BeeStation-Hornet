@@ -37,7 +37,7 @@
 /obj/item/curio/compass/examine(mob/user)
 	. = ..()
 	if(HAS_TRAIT(user, TRAIT_INDIANA_JONES))
-		. += "<span class='notice'>Interact to use the compass again, once activated.</span>"
+		. += "<span class='notice'>Alt-Click to activate.\nInteract to use the compass again, once activated.</span>"
 
 /obj/item/curio/compass/activate(datum/user, force)
 	. = ..()

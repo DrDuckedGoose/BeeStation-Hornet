@@ -1,6 +1,7 @@
 /datum/spooky_event/ghost
 	name = "ghost"
 	cost = 70
+	event_message = "Something crosses the thin veil..."
 	///The ghost we made
 	var/mob/ghost
 

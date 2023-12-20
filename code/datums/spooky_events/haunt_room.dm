@@ -6,6 +6,7 @@
 /datum/spooky_event/haunt_room
 	name = "haunted room"
 	cost = 50
+	event_message = "Something takes hold in the darkness..."
 	///Area we're responsible for haunting
 	var/area/target_room
 	///When did the spook first spook?
@@ -78,6 +79,7 @@
 	//First stage - flicker lights
 	if(current_stage_time >= LIFETIME_STAGE_0 || stage >= 0)
 		//Possible overhead
+		//TODO: Optimize? - Racc
 		for(var/obj/machinery/light/L in target_room.contents)
 			addtimer(CALLBACK(L, TYPE_PROC_REF(/obj/machinery/light, flicker), rand(3, 6)), rand(0, 15))
 		timeout_total += 5 SECONDS
@@ -117,7 +119,6 @@
 	SIGNAL_HANDLER
 
 	qdel(src)
-
 
 /datum/spooky_event/haunt_room/proc/handle_attack(datum/source, obj/item/I, mob/living/user, params)
 	SIGNAL_HANDLER

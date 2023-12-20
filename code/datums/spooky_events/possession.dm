@@ -1,6 +1,7 @@
 /datum/spooky_event/possession
 	name = "possession"
 	cost = 80
+	event_message = "Something wakes from an eternal slumber..."
 	///The corpse we're responsible for
 	var/mob/living/corpse_owner
 	///How long it takes for the corpse to revive

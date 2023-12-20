@@ -6,6 +6,7 @@
 
 /obj/item/litany
 	name = "litany"
+	desc = "A piece of holy parchment."
 	icon = 'icons/obj/religion.dmi'
 	icon_state = "litany_stamp"
 	item_state = "paper"
@@ -43,6 +44,11 @@
 	for(var/datum/litany_component/LC as() in litany_components)
 		litany_components -= LC
 		qdel(LC)
+
+/obj/item/litany/examine(mob/user)
+	. = ..()
+	if(HAS_TRAIT(user, TRAIT_INDIANA_JONES))
+		. += "<span class='notice'>Interact to add litany components.\nBless to finalize, and activate.</span>"
 
 /obj/item/litany/interact(mob/user)
 	. = ..()
@@ -201,6 +207,7 @@
 		R.adjust_favor(get_cost(), user)
 		blessed = TRUE
 
+//Debug
 /obj/item/litany/pregenerated
 	///list of litany components to add
 	var/list/to_add_components = list(/datum/litany_component/alpha, /datum/litany_component/beta)

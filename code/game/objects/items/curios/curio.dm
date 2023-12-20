@@ -21,11 +21,6 @@
 	. = ..()
 	build_spectral_appearance()
 
-/obj/item/curio/examine(mob/user)
-	. = ..()
-	if(HAS_TRAIT(user, TRAIT_INDIANA_JONES) || !require_jones)
-		. += "<span class='notice'>Alt-Click to activate.</span>"
-
 //Each curio has to code how this is called
 /obj/item/curio/proc/activate(datum/user, force)
 	if((!cooldown_timer && (HAS_TRAIT(user, TRAIT_INDIANA_JONES) || !require_jones)) || force)

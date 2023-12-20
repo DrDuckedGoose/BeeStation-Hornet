@@ -48,6 +48,7 @@
 /datum/litany_component/alpha
 	name = "alpha"
 	icon_state = "alpha"
+	desc = "Pushes 1, pops none."
 
 /datum/litany_component/alpha/activate()
 	owner.info_stack += owner.loc
@@ -61,6 +62,7 @@
 /datum/litany_component/beta
 	name = "beta"
 	icon_state = "beta"
+	desc = "Pushes none, pops 1."
 
 /datum/litany_component/beta/activate()
 	var/atom/A = owner.info_stack[length(owner.info_stack)]
@@ -86,6 +88,7 @@
 	name = "omega"
 	icon_state = "omega"
 	cooldown = 3 SECONDS
+	desc = "Pushes none, pops 1."
 	///Was the target blessed before? - rot
 	var/blessed_before = FALSE
 

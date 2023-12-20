@@ -1,7 +1,7 @@
 //Shows the current spectral trespass
 /obj/item/curio/tally
 	name = "damaged tally"
-	desc = "A damged tally. The counter seems broken."
+	desc = "A damaged tally. The counter seems broken."
 	icon_state = "tally"
 	force = 0
 	item_cooldown = 10 SECONDS
