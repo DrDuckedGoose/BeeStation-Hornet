@@ -34,6 +34,7 @@
 	\n\
 	I'd like to bestow you with some knowledge I wish I knew when I first started. I believe this will save you much difficulty and help you to become a better shepherd than I ever was.\n\
 	You might be familiar already, but if you aren't-\n\
+	\n\
 	Remember you can make litanies by blessing paper. Interact with them to add litany components. You can probably figure the rest out yourself.\n\
 	\n\
 	It's important to contain corpses, try to avoid leaving them in the open. You can also embalm them to reduce that awful smell, something that the good Lord will appreciate too.\n\

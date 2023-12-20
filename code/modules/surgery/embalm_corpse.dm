@@ -38,7 +38,7 @@
 		SSspooky.adjust_trespass(user, -(TRESPASS_LARGE+total_reward))
 		var/datum/component/rot/R = target.GetComponent(/datum/component/rot)
 		R?.favor_modifier += 0.5
-		make_spooky_indicator(get_turf(user), TRUE)
+		make_spooky_indicator(T, TRUE)
 	else
 		//handle spooky consequcnes
 		target.add_splatter_floor()
@@ -46,7 +46,7 @@
 		SSspooky.adjust_trespass(user, TRESPASS_LARGE)
 		var/area/A = get_area(target)
 		SSspooky.adjust_area_temperature(user, A, 1)
-		make_spooky_indicator(get_turf(user))
+		make_spooky_indicator(T)
 	
 	ADD_TRAIT(target, TRAIT_EMBALMED , ORGAN_TRAIT)
 

@@ -12,11 +12,12 @@
 /datum/spooky_event/possession/Destroy(force, ...)
 	if(corpse_owner && !QDELING(corpse_owner))
 		QDEL_NULL(corpse_owner.ai_controller)
+		REMOVE_TRAIT(corpse_owner, TRAIT_POSSESSED, TRAIT_GENERIC)
+		make_spooky_indicator(get_turf(corpse_owner), TRUE)
 	if(corpse_revive_timer)
 		deltimer(corpse_revive_timer)
 	if(cut_appearance)
 		corpse_owner?.cut_spectral_appearance()
-	REMOVE_TRAIT(corpse_owner, TRAIT_POSSESSED, TRAIT_GENERIC)
 	corpse_owner = null
 	return ..()
 

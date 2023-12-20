@@ -5,7 +5,9 @@
 	var/mob/ghost
 
 /datum/spooky_event/ghost/Destroy(force, ...)
-	QDEL_NULL(ghost)
+	if(ghost)
+		make_spooky_indicator(get_turf(ghost), TRUE)
+		QDEL_NULL(ghost)
 	return ..()
 
 /datum/spooky_event/ghost/setup(datum/controller/subsystem/spooky/SS)
