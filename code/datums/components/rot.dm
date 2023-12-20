@@ -85,6 +85,7 @@
 				make_favor = TRUE
 				//Effect
 				var/atom/target = isturf(owner.loc) ? owner : owner.loc
+				//TODO: Replace this with an alt appearance or sum - Racc
 				var/filter = target.get_filter("garnish_outline")
 				if(!filter)
 					target.add_filter("garnish_outline", 10, outline_filter(0, rgb(255, 255, 50)))
