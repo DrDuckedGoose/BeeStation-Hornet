@@ -28,7 +28,7 @@
 /obj/item/paper/chaplain_tips
 	icon_state = "paper_holy"
 	show_written_words = FALSE
-	name = "\improper Father Grigori's letter"
+	name = "Father Grigori's letter"
 	default_raw_text = "Hello, old friend.\n\
 	I have sent this letter ahead of time, hoping you shall find it when you arrive at your new post.\n\
 	\n\
@@ -40,6 +40,8 @@
 	It's important to contain corpses, try to avoid leaving them in the open. You can also embalm them to reduce that awful smell, something that the good Lord will appreciate too.\n\
 	\n\
 	Placing flowers and other 'memorabilia' in coffins, with a corpse, will also please the Lord, something I recommend you do as often as possible.\n\
+	\n\
+	I know you don't like using it, but don't forget Old Iron, punish those devils.\
 	\n\
 	Otherwise, I can't offer much other advice, you'll have to figure out the rest yourself.\n\
 	Note I have also sent you a parcel with a surprise inside, I hope you like it.\n\
