@@ -10,8 +10,9 @@ GLOBAL_VAR(bible_name)
 GLOBAL_VAR(bible_icon_state)
 GLOBAL_VAR(bible_item_state)
 
-//Old iron
+//Integral items
 GLOBAL_VAR(old_iron)
+GLOBAL_VAR(reward_cross)
 
 //Spooky rewards
 GLOBAL_VAR(spooky_reward_gain)

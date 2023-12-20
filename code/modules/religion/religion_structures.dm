@@ -232,3 +232,46 @@
 /obj/effect/bible_indicator/proc/self_destruct()
 	qdel(src)
 	
+///Wall cross to show the chaplain's achievments, and help track events
+/obj/structure/religion/wall_cross
+	icon = 'icons/obj/religion.dmi'
+	icon_state = "cross"
+	name = "wooden cross"
+	desc = "An icon of religion. It was many twisted nails hanging from it."
+	density = FALSE
+	///Reference to nail overlay
+	var/mutable_appearance/nail_overlay
+	var/nail_stage = 0
+	//nail name stuff
+	var/list/nail_names = list()
+
+/obj/structure/religion/wall_cross/Initialize(mapload)
+	. = ..()
+	GLOB.reward_cross = src
+
+/obj/structure/religion/wall_cross/examine(mob/user)
+	. = ..()
+	if(!length(nail_names))
+		return
+	for(var/i in nail_names)
+		. += "<span class='notice'>There [nail_names[i] > 1 ? "are" : "is"] [nail_names[i]] nails for [i].</span>"
+
+/obj/structure/religion/wall_cross/proc/bump_nails(datum/spooky_event/SE)
+	if(nail_overlay)
+		cut_overlay(nail_overlay)
+	nail_stage += 1
+	var/nail_state
+	//Add more states if you add more icons
+	switch(nail_stage)
+		if(1 to 2)
+			nail_state = "cross_nail_low"
+		if(3 to 5)
+			nail_state = "cross_nail_medium"
+		if(6 to 10)
+			nail_state = "cross_nail_high"
+		else
+			nail_state = "cross_nail_gold"
+	nail_overlay = mutable_appearance(src.icon, nail_state)
+	add_overlay(nail_overlay)
+	//Description stuff
+	nail_names[SE.name] += 1

@@ -102,6 +102,10 @@
 	if(S)
 		nails -= "[source]"
 		qdel(S)
+	//Bump reward cross
+	if(GLOB.reward_cross)
+		var/obj/structure/religion/wall_cross/WC = GLOB.reward_cross //funee name
+		WC.bump_nails(source)
 	active_products -= source
 	//Remove trial effects
 	if(SSspooky.active_chaplain)
