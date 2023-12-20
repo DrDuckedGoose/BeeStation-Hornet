@@ -31,7 +31,6 @@
 	var/datum/hallucination/H = pick(GLOB.hallucination_list)
 	H = new H(target, TRUE)
 	//Uh oh message
-	target.balloon_alert(target, "Your head hurts.") //TODO: These overlap with the spooky behavour messages - Racc
 	to_chat(target, "<span class='warning'>Your head hurts.</span>")
 
 /datum/chaplain_trail/sanity/remove_nail_effect(mob/living/carbon/target)
