@@ -9,6 +9,9 @@
 	var/corpse_revive_timer
 	///Do we cut the corpse's spooky mask
 	var/cut_appearance = TRUE
+	///Timer for chatter
+	var/chatter_cooldown = 10 SECONDS
+	var/chatter_cooldown_timer
 
 /datum/spooky_event/possession/Destroy(force, ...)
 	if(corpse_owner && !QDELING(corpse_owner))
@@ -17,6 +20,8 @@
 		make_spooky_indicator(get_turf(corpse_owner), TRUE)
 	if(corpse_revive_timer)
 		deltimer(corpse_revive_timer)
+	if(chatter_cooldown_timer)
+		deltimer(chatter_cooldown_timer)
 	if(cut_appearance)
 		corpse_owner?.cut_spectral_appearance()
 	corpse_owner = null
@@ -43,6 +48,7 @@
 	if(corpse.spectral_appearance)
 		cut_appearance = FALSE
 	corpse.build_spectral_appearance()
+	chatter(corpse)
 	//Inform ghosts
 	notify_ghosts("[corpse.name] has been possesed at [get_area(corpse)]!", source = corpse, action = NOTIFY_ORBIT)
 
@@ -67,3 +73,8 @@
 		qdel(src)
 		return
 	target?.revive(TRUE, TRUE)
+
+/datum/spooky_event/possession/proc/chatter(mob/living/target, redo = TRUE)
+	playsound(target, pick(list('sound/creatures/possessed/preacher.wav', 'sound/creatures/possessed/whereishe.wav', 'sound/creatures/possessed/benotafraid.wav',, 'sound/creatures/possessed/father.wav', , 'sound/creatures/possessed/hello.wav', 'sound/creatures/possessed/helpme.wav')))
+	if(redo)
+		chatter_cooldown_timer = addtimer(CALLBACK(src, PROC_REF(chatter), corpse_owner), chatter_cooldown, TIMER_STOPPABLE)
