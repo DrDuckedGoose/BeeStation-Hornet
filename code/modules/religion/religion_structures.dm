@@ -254,7 +254,7 @@
 	if(!length(nail_names))
 		return
 	for(var/i in nail_names)
-		. += "<span class='notice'>There [nail_names[i] > 1 ? "are" : "is"] [nail_names[i]] nails for [i].</span>"
+		. += "<span class='notice'>There [nail_names[i] > 1 ? "are" : "is"] [nail_names[i]] nail[nail_names[i] > 1 ? "s" : ""] for [i].</span>"
 
 /obj/structure/religion/wall_cross/proc/bump_nails(datum/spooky_event/SE)
 	if(nail_overlay)

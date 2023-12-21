@@ -74,6 +74,6 @@
 	target?.revive(TRUE, TRUE)
 
 /datum/spooky_event/possession/proc/chatter(mob/living/target, redo = TRUE)
-	playsound(get_turf(target), pick(list('sound/creatures/possessed/preacher.wav', 'sound/creatures/possessed/whereishe.wav', 'sound/creatures/possessed/benotafraid.wav',, 'sound/creatures/possessed/father.wav', , 'sound/creatures/possessed/hello.wav', 'sound/creatures/possessed/helpme.wav')))
+	playsound(target, pick(list('sound/creatures/possessed/preacher.wav', 'sound/creatures/possessed/whereishe.wav', 'sound/creatures/possessed/benotafraid.wav',, 'sound/creatures/possessed/father.wav', , 'sound/creatures/possessed/hello.wav', 'sound/creatures/possessed/helpme.wav')))
 	if(redo && !QDELETED(corpse_owner) && !QDELETED(src))
 		chatter_cooldown_timer = addtimer(CALLBACK(src, PROC_REF(chatter), corpse_owner), chatter_cooldown, TIMER_STOPPABLE)
