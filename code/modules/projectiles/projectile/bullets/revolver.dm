@@ -149,6 +149,7 @@
 /obj/projectile/bullet/old_iron/on_hit(atom/target, blocked)
 	if(HAS_TRAIT(target, TRAIT_POSSESSED))
 		REMOVE_TRAIT(target, TRAIT_POSSESSED, TRAIT_GENERIC)
-		damage = 999
+		if(isliving(target))
+			var/mob/living/M = target
+			M.apply_damage(101, BRUTE)
 	. = ..()
-	damage = initial(damage)
