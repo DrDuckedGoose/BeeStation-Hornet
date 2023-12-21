@@ -18,7 +18,7 @@
 		qdel(src)
 		return FALSE
 	creature = new creature(pick(A.contained_turfs))
-	RegisterSignal(target_room, COMSIG_MOB_DEATH, PROC_REF(handle_creature))
+	RegisterSignal(creature, COMSIG_MOB_DEATH, PROC_REF(handle_creature))
 	log_game("[name]([src]) was created at [world.time], located in [A].")
 	return TRUE
 

@@ -29,5 +29,5 @@
 	discovery_points = 2000
 
 /mob/living/simple_animal/hostile/chupacabra/Initialize(mapload)
-    . = ..()
-   AddComponent(/datum/component/waddling)
+	. = ..()
+	AddComponent(/datum/component/waddling)
