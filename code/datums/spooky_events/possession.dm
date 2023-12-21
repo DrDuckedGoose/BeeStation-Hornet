@@ -14,7 +14,7 @@
 	var/chatter_cooldown_timer
 
 /datum/spooky_event/possession/Destroy(force, ...)
-	if(corpse_owner && !QDELING(corpse_owner))
+	if(corpse_owner && !QDELETED(corpse_owner))
 		QDEL_NULL(corpse_owner.ai_controller)
 		REMOVE_TRAIT(corpse_owner, TRAIT_POSSESSED, TRAIT_GENERIC)
 		make_spooky_indicator(get_turf(corpse_owner), TRUE)
@@ -40,9 +40,9 @@
 	RegisterSignal(corpse, COMSIG_PARENT_QDELETING, PROC_REF(handle_corpse))
 	RegisterSignal(corpse, COMSIG_MOB_DEATH, PROC_REF(handle_death))
 	corpse.ai_controller = /datum/ai_controller/monkey/angry //TODO: Implement AIs from design doc - Racc
-	revive_corpse(corpse)
 	corpse.InitializeAIController()
 	ADD_TRAIT(corpse, TRAIT_POSSESSED, TRAIT_GENERIC) //This is removed in the mobs death code, becuase death is called after this is deleted
+	revive_corpse(corpse)
 	SS.remove_corpse(corpse)
 	corpse_owner = corpse
 	if(corpse.spectral_appearance)
@@ -51,7 +51,6 @@
 	chatter(corpse)
 	//Inform ghosts
 	notify_ghosts("[corpse.name] has been possesed at [get_area(corpse)]!", source = corpse, action = NOTIFY_ORBIT)
-
 	return TRUE
 
 /datum/spooky_event/possession/get_location()
@@ -69,12 +68,12 @@
 
 //TODO: make this better, something like the old zombie content. Don't just revive the body :/ - Racc
 /datum/spooky_event/possession/proc/revive_corpse(mob/living/target)
-	if(!HAS_TRAIT(target, TRAIT_POSSESSED))
+	if(!HAS_TRAIT(target, TRAIT_POSSESSED) || QDELETED(corpse_owner) || QDELETED(src))
 		qdel(src)
 		return
 	target?.revive(TRUE, TRUE)
 
 /datum/spooky_event/possession/proc/chatter(mob/living/target, redo = TRUE)
-	playsound(target, pick(list('sound/creatures/possessed/preacher.wav', 'sound/creatures/possessed/whereishe.wav', 'sound/creatures/possessed/benotafraid.wav',, 'sound/creatures/possessed/father.wav', , 'sound/creatures/possessed/hello.wav', 'sound/creatures/possessed/helpme.wav')))
-	if(redo)
+	playsound(get_turf(target), pick(list('sound/creatures/possessed/preacher.wav', 'sound/creatures/possessed/whereishe.wav', 'sound/creatures/possessed/benotafraid.wav',, 'sound/creatures/possessed/father.wav', , 'sound/creatures/possessed/hello.wav', 'sound/creatures/possessed/helpme.wav')))
+	if(redo && !QDELETED(corpse_owner) && !QDELETED(src))
 		chatter_cooldown_timer = addtimer(CALLBACK(src, PROC_REF(chatter), corpse_owner), chatter_cooldown, TIMER_STOPPABLE)

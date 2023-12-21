@@ -105,6 +105,8 @@
 		if(SSspooky.active_chaplain && SSspooky.active_chaplain.stat != DEAD)
 			target_room.cut_overlay(skull_overlay)
 			target_room.add_overlay(skull_overlay)
+		else //Don't make the crew suffer without a big strong & brave chaplain
+			qdel(src)
 
 	//handle timer
 	addtimer(CALLBACK(src, PROC_REF(toggle_timeout)), timeout_total)
