@@ -72,3 +72,40 @@
 	MA.filters += filter(type = "alpha", render_source = SPECTRAL_TRESPASS_PLANE_RENDER_TARGET)
 	MA.filters += filter(type = "alpha", icon = I, flags = MASK_INVERSE)
 	radius_overlay.add_overlay(MA)
+
+//Set pieces
+/obj/structure/spectral_spinner
+	name = "spectral spinner"
+	desc = "A processing device for storing spectral samples."
+	icon = 'icons/obj/curios.dmi'
+	icon_state = "spectral_spinner"
+	///List of stored samples
+	var/list/samples = list()
+
+/obj/structure/spectral_spinner/attackby(obj/item/I, mob/living/user, params)
+	. = ..()
+	if(istype(I, /obj/item/spectral_collector))
+		var/obj/item/spectral_collector/SC = I
+		for(var/i in SC.samples)
+			if(!(i in samples))
+				samples += i
+
+/obj/item/spectral_collector
+	name = "spectral collector"
+	desc = "A substance collector for spectral substances."
+	icon = 'icons/obj/curios.dmi'
+	icon_state = "spectral_collector"
+	///List of collected samples
+	var/list/samples = list()
+
+/obj/item/spectral_collector/afterattack(atom/target, mob/user, proximity_flag, click_parameters)
+	. = ..()
+	if(target.spectral_appearance)
+		to_chat(user, "<span class='notice'>You begin to collect a sample from [target]...</span>")
+		if(do_after(user, 3 SECONDS, target))
+			samples += target.type
+			to_chat(user, "<span class='success'>You collect a sample from [target].</span>")
+		else
+			to_chat(user, "<span class='warning'>You fail to collect a sample from [target]...</span>")
+	else
+		to_chat(user, "<span class='warning'>[target] doesn't seem to interest [src].</span>")
