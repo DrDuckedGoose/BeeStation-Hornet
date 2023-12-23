@@ -79,3 +79,17 @@
 	That will be all for now. God be with you _____.\n\
 	\n\
 	~ Claude Frollo."
+
+/obj/item/paper/chaplain_tips/bodies
+	name =  "Statement of retrival"
+	default_raw_text = ""
+
+/obj/item/paper/chaplain_tips/bodies/Initialize(mapload)
+	..()
+	return INITIALIZE_HINT_LATELOAD
+
+/obj/item/paper/chaplain_tips/bodies/LateInitialize()
+	. = ..()
+	default_raw_text = "Dear _____, it seems that [GLOB.uncounted_bodies] unaccounted bodies remain on the station premises, this may include those found in the morgue.\n\
+	We have been informed this may be an issue for you, and are acting accordingly."
+	add_raw_text(default_raw_text)

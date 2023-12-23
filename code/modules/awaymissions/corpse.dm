@@ -242,6 +242,8 @@
 /obj/effect/mob_spawn/human/corpse/create(ckey, name)
 	. = ..()
 	SSspooky.add_corpse(.) //Weird that I would need this
+	if(!SSticker.HasRoundStarted() && is_station_level(z))
+		GLOB.uncounted_bodies += 1
 
 /obj/effect/mob_spawn/human/corpse/damaged
 	brute_damage = 1000

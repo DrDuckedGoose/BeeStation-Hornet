@@ -17,5 +17,8 @@ GLOBAL_VAR(reward_cross)
 //Spooky rewards
 GLOBAL_VAR(spooky_reward_gain)
 
+//Body tracker roundstart corpses - helps with controlling trespass
+GLOBAL_VAR(uncounted_bodies)
+
 //Litany stuff
 GLOBAL_LIST_INIT(chaplain_known_runes, list(/datum/litany_component/alpha, /datum/litany_component/beta, /datum/litany_component/omega))

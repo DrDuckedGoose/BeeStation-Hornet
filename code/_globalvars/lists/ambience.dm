@@ -18,10 +18,7 @@ GLOBAL_LIST_INIT(holy_ambience,list(
 	'sound/ambience/ambicha1.ogg',
 	'sound/ambience/ambicha2.ogg',
 	'sound/ambience/ambicha3.ogg',
-	'sound/ambience/ambicha4.ogg',
-	'sound/ambience/ambiholy.ogg',
-	'sound/ambience/ambiholy2.ogg',
-	'sound/ambience/ambiholy3.ogg'
+	'sound/ambience/ambicha4.ogg'
 ))
 
 GLOBAL_LIST_INIT(danger_ambience,list(
