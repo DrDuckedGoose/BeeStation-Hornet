@@ -39,7 +39,7 @@
 	\n\
 	The sisters here are always placing flowers and other 'memorabilia' in the coffins, I think it'd be good for you to aswell. Remember the rule of threes.\n\
 	\n\
-	Since it's technically yours anyway, so I left the old spectral scanner somehwere in your office. You'll probably make better use of it than me anyway. Excuse the condition.\n\
+	Since it's technically yours anyway, I left the old spectral scanner somehwere in your office. You'll probably make better use of it than me anyway. Excuse the condition.\n\
 	\n\
 	Finally, I sent you a parcel with a surprise inside, I hope you like it.\n\
 	\n\
@@ -76,6 +76,6 @@
 	* Mysterious Shard. One of twelve, we're not quite sure what they do. Please take the oppurtunity of your posting on a research station to study it.\n\
 	* Heart. Just a heart, Grigori insisted. Please don't fret, it is of the non-human variety.\n\
 	\n\
-	That will be all for know. God be with you _____.\n\
+	That will be all for now. God be with you _____.\n\
 	\n\
 	~ Claude Frollo."
