@@ -126,7 +126,7 @@
 	var/list/associated_litany = list()
 	//If we have to generate the symbols / choice lists
 	if(!_litanies && !_associated_litanies)
-		litanies = subtypesof(/datum/litany_component)
+		litanies = GLOB.chaplain_known_runes
 		for(var/datum/litany_component/i as() in litanies)
 			var/datum/radial_menu_choice/RC = new()
 			RC.image = image(initial(i.icon), icon_state = initial(i.icon_state))

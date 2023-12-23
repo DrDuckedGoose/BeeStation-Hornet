@@ -16,3 +16,6 @@ GLOBAL_VAR(reward_cross)
 
 //Spooky rewards
 GLOBAL_VAR(spooky_reward_gain)
+
+//Litany stuff
+GLOBAL_LIST_INIT(chaplain_known_runes, list(/datum/litany_component/alpha, /datum/litany_component/beta, /datum/litany_component/omega))

@@ -3,7 +3,7 @@
 	var/obj/item/litany/owner
 	///name of this component
 	var/name = ""
-	///brief description for this component
+	///brief description for this component - '[Any] : [Any]'
 	var/desc = ""
 	///icon path for this component's symbol
 	var/icon = 'icons/obj/religion.dmi'
@@ -48,7 +48,7 @@
 /datum/litany_component/alpha
 	name = "alpha"
 	icon_state = "alpha"
-	desc = "Pushes 1, pops none."
+	desc = "\[Any] : \[None]"
 
 /datum/litany_component/alpha/activate()
 	owner.info_stack += owner.loc
@@ -62,7 +62,7 @@
 /datum/litany_component/beta
 	name = "beta"
 	icon_state = "beta"
-	desc = "Pushes none, pops 1."
+	desc = "\[None] : \[Any]"
 
 /datum/litany_component/beta/activate()
 	var/atom/A = owner.info_stack[length(owner.info_stack)]
@@ -88,7 +88,7 @@
 	name = "omega"
 	icon_state = "omega"
 	cooldown = 3 SECONDS
-	desc = "Pushes none, pops 1."
+	desc = "\[None] : \[Any]"
 	///Was the target blessed before? - rot
 	var/blessed_before = FALSE
 
