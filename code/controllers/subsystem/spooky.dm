@@ -61,9 +61,9 @@ SUBSYSTEM_DEF(spooky)
 		return
 	//Make sure spectral trespass stays above 0, and below maximum_trespass
 	//TODO: Replace these with clamps - Racc
-	spectral_trespass = clamp(spectral_trespass+(amount*(ignore_gain || gain_rate)), 0, maximum_trespass)
+	spectral_trespass = clamp(spectral_trespass+(amount*(ignore_gain || clamp(gain_rate, LOWER_GAIN, UPPER_GAIN))), 0, maximum_trespass)
 	if(log)
-		log_game("[source || "not specified"] increased spectral trespass by [amount*(ignore_gain || gain_rate)] at [world.time] at [isatom(source) ? get_turf(source) : "not specified"].")
+		log_game("[source || "not specified"] increased spectral trespass by [amount*(ignore_gain || clamp(gain_rate, LOWER_GAIN, UPPER_GAIN))] at [world.time] at [isatom(source) ? get_turf(source) : "not specified"].")
 	
 /datum/controller/subsystem/spooky/proc/adjust_area_temperature(datum/source, area/_area, amount = 1, log = TRUE)
 	//Bunch of checks because areas are bullshit
@@ -119,10 +119,9 @@ SUBSYSTEM_DEF(spooky)
 	if(active_chaplain)
 		current_behaviour?.choose_trial(active_chaplain)
 
+//Throw gain adjustment behaviour in here
 /datum/controller/subsystem/spooky/proc/adjust_gain(amount, force)
-	if(force)
-		gain_rate += amount
-	gain_rate = clamp(gain_rate+amount, LOWER_GAIN, UPPER_GAIN)
+	gain_rate += amount
 
 #undef LOWER_GAIN
 #undef UPPER_GAIN
