@@ -24,7 +24,7 @@
 	//Pick a random corpse for this ghost to impersonate for style points of course
 	var/mob/living/corpse = pick_weight(SS?.corpses)
 	if(corpse)
-		var/mob/living/simple_animal/hostile/retaliate/ghost/G = new(pick(A.contained_turfs))
+		var/mob/living/simple_animal/hostile/retaliate/ghost/G = new(pick(A.contained_turfs)) //TODO: Make a unique subtype with our stuff - Racc
 		RegisterSignal(G, COMSIG_MOB_DEATH, PROC_REF(handle_ghost)) //Do I even need this?
 		RegisterSignal(G, COMSIG_PARENT_QDELETING, PROC_REF(handle_ghost))
 		ghost = G
@@ -37,7 +37,7 @@
 		G.name = "ghost of [corpse.name]"
 		//Build spooky mask
 		var/mutable_appearance/MA = new()
-		MA.appearance = corpse.appearance
+		MA.appearance = corpse.appearance //TODO: Consider only letting the chaplain see this - Racc
 		MA.plane = SPECTRAL_TRESPASS_PLANE
 		G.add_overlay(MA)
 		//Set transform back to normal

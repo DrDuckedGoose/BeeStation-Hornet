@@ -237,7 +237,7 @@
 	icon = 'icons/obj/religion.dmi'
 	icon_state = "cross"
 	name = "wooden cross"
-	desc = "An icon of religion. It was many twisted nails hanging from it."
+	desc = "An icon of religion. It has many twisted nails hanging from it."
 	density = FALSE
 	///Reference to nail overlay
 	var/mutable_appearance/nail_overlay

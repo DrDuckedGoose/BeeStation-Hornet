@@ -90,6 +90,9 @@
 
 /obj/item/paper/chaplain_tips/bodies/LateInitialize()
 	. = ..()
-	default_raw_text = "Dear _____, it seems that [GLOB.uncounted_bodies] unaccounted bodies remain on the station premises, this may include those found in the morgue.\n\
+	if(!GLOB?.uncounted_bodies)
+		qdel(src) //Hint doesn't work here
+		return
+	default_raw_text = "Dear _____, it seems that [GLOB.uncounted_bodies] unaccounted bodies remain on the station premises.\n\
 	We have been informed this may be an issue for you, and are acting accordingly."
 	add_raw_text(default_raw_text)
