@@ -17,7 +17,7 @@
 //Each curio has to code how this is called
 /obj/item/curio/water_candle/activate(datum/user, force)
 	. = ..()
-	if(!. || !SSspooky.current_behaviour)
+	if(!. || !SSspooky.current_behaviour || !istype(get_area(src), /area/chapel) || length(SSspooky.current_behaviour.active_products) > 1)
 		to_chat(user, "<span class='warning'>[src] makes a smouldering noise, and refuses to light.</span>")
 		return
 	to_chat(user, "<span class='notice'>[src] begins to burn!</span>")
@@ -33,7 +33,7 @@
 
 /obj/item/curio/water_candle/attacked_by(obj/item/I, mob/living/user)
 	. = ..()
-	if(I.is_hot() && !event_target && istype(get_area(src), /area/chapel) && do_after(user, 5 SECONDS, src))
+	if(I.is_hot() && !event_target && do_after(user, 5 SECONDS, src))
 		activate(user)
 
 /obj/item/curio/water_candle/proc/self_destruct()
