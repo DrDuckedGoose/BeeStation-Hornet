@@ -34,7 +34,7 @@
 		//Then just copy the appearance as normal
 		G.appearance = corpse.appearance
 		G.alpha = 128
-		G.name = "ghost of [corpse.name]"
+		G.name = "ghost of [corpse.name]" //TODO: Definitely remove this - Racc
 		//Build spooky mask
 		var/mutable_appearance/MA = new()
 		MA.appearance = corpse.appearance //TODO: Consider only letting the chaplain see this - Racc

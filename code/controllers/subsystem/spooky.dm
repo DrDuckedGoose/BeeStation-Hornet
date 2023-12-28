@@ -8,9 +8,12 @@
 #define LOWER_GAIN 0.1
 #define UPPER_GAIN 1
 
+#define CORPSE_LIMIT_CHECK 3
+#define CORPSE_REDUCTION 0.1
+
 //TODO: fix the station level checks runtiming, the runtime is something like an index thing - Racc
 
-//Subsystem for handling chaplain's spooky adventures - spawns ghosts, possesions, ect
+//Subsystem for handling chaplain's spooky adventures
 SUBSYSTEM_DEF(spooky)
 	name = "Spooky"
 	flags = FIRE_PRIORITY_SPOOKY
@@ -56,9 +59,12 @@ SUBSYSTEM_DEF(spooky)
 	var/turf/T = isatom(A) ? get_turf(A?.loc) : null
 	if(isatom(source) && !is_station_level(T?.z) && !force)
 		return
-	// make sure we're not getting boosted by roundstart dead body placers - Better for readability for this to be a seperate IF
+	//Make sure we're not getting boosted by roundstart dead body placers - Better for readability for this to be a seperate IF
 	if(!SSticker.HasRoundStarted() && !force)
 		return
+	//Handle corpse stuff, so the chaplain doesn't get swamped
+	if(locate(source) in corpses && length(corpses) >= CORPSE_LIMIT_CHECK)
+		amount *= clamp(1-length(corpses)*CORPSE_REDUCTION, 0.1, 1)
 	//Make sure spectral trespass stays above 0, and below maximum_trespass
 	//TODO: Replace these with clamps - Racc
 	spectral_trespass = clamp(spectral_trespass+(amount*(ignore_gain || clamp(gain_rate, LOWER_GAIN, UPPER_GAIN))), 0, maximum_trespass)

@@ -81,7 +81,7 @@
 	~ Claude Frollo."
 
 /obj/item/paper/chaplain_tips/bodies
-	name =  "Statement of retrival"
+	name =  "Statement of retrieval"
 	default_raw_text = ""
 
 /obj/item/paper/chaplain_tips/bodies/Initialize(mapload)
