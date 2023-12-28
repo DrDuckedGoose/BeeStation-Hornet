@@ -89,12 +89,11 @@
 			if(M)
 				nails += list("[SE]" = new /atom/movable/sin_nail(get_turf(M), M)) 
 			active_products += SE
-		return TRUE
+		return SE
 	else
 		//Clean up datums that failed to setup
 		if(!QDELETED(SE))
 			qdel(SE)
-		return FALSE
 
 //Avoid hard dels when a spooky events sepukus
 /datum/spooky_behaviour/proc/handle_product(datum/source)

@@ -48,3 +48,13 @@
 	desc = "Subsumes a spirit into a timer container, to make a counter."
 	result = /obj/item/curio/tally
 	recipe = list(/obj/item/assembly/timer = 1)
+
+/*
+	Water candle recipe - /obj/item/curio/water_candle
+*/
+
+/datum/witch_recipe/water_candle
+	name = "subsume candle"
+	desc = "Subsumes a spirit into a candle container, to make a spectral beacon."
+	result = /obj/item/curio/water_candle
+	recipe = list(/obj/item/candle = 1)
