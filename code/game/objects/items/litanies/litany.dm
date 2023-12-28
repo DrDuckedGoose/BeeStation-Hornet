@@ -48,7 +48,12 @@
 /obj/item/litany/examine(mob/user)
 	. = ..()
 	if(HAS_TRAIT(user, TRAIT_INDIANA_JONES))
+		//generic info
 		. += "<span class='notice'>Interact to add litany components.\nBless to finalize, and activate.</span>"
+		//Info stack
+		. += "<span class='notice'>Contained info:</span>"
+		for(var/i in info_stack)
+			. += "<span class='notice'>\[[i]]</span>"
 
 /obj/item/litany/interact(mob/user)
 	. = ..()

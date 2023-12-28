@@ -121,3 +121,21 @@
 	var/datum/component/rot/R = target?.GetComponent(/datum/component/rot)
 	R?.blessed = blessed_before
 	return ..()
+
+/*
+	GAMMA
+	0:1
+	
+	Reveals a mob's real name
+*/
+/datum/litany_component/gamma
+	name = "gamma"
+	icon_state = "gamma"
+	desc = "\[Mob] : \[String]"
+
+/datum/litany_component/gamma/activate()
+	var/atom/A = owner.info_stack[length(owner.info_stack)]
+	if(ismob(A))
+		var/mob/M = A
+		owner.info_stack += M.mind.name
+	owner.info_stack -= A

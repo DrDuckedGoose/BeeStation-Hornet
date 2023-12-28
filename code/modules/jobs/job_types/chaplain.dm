@@ -201,14 +201,15 @@
 /datum/objective/chaplain_litany/update_explanation_text()
 	. = ..()
 	//The logic used here is to handle a runtime on runtime station & also covers wicked bad emergencies
-	explanation_text = "Bless [litany_target?.name || "what the fuck"] with a litany containing"
+	var/name = isatom(litany_target) ? litany_target?.name : initial(litany_target?.name) 
+	explanation_text = "Bless [name == "" ? "something" : name] with a litany containing"
 	var/count = 1
 	for(var/datum/litany_component/i as() in litany_components)
 		explanation_text = "[explanation_text] [initial(i.name) || "what the fuck"]"
 		if(length(litany_components) > 1 && count < length(litany_components))
 			explanation_text = "[explanation_text][count == length(litany_components)-1 ? " and" : ","]"
 		count += 1
-	explanation_text = "[explanation_text]."
+	explanation_text = "[explanation_text].\nThis litany doesn't need to be activated."
 
 /datum/objective/chaplain_litany/check_completion()
 	if(..())

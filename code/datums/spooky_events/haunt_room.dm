@@ -64,6 +64,7 @@
 	origin = pick(options)
 	if(origin.spectral_appearance)
 		cut_appearance = FALSE
+	//TODO: Also add an animation, like pulsating or sum - Racc
 	origin.build_spectral_appearance()
 	RegisterSignal(origin, COMSIG_PARENT_QDELETING, PROC_REF(handle_targets))
 	RegisterSignal(origin, COMSIG_PARENT_ATTACKBY, PROC_REF(handle_attack))

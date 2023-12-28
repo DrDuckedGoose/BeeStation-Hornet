@@ -9,7 +9,7 @@
 #define UPPER_GAIN 1
 
 #define CORPSE_LIMIT_CHECK 3
-#define CORPSE_REDUCTION 0.1
+#define CORPSE_REDUCTION 0.05
 
 //TODO: fix the station level checks runtiming, the runtime is something like an index thing - Racc
 
@@ -64,7 +64,8 @@ SUBSYSTEM_DEF(spooky)
 		return
 	//Handle corpse stuff, so the chaplain doesn't get swamped
 	if(locate(source) in corpses && length(corpses) >= CORPSE_LIMIT_CHECK)
-		amount *= clamp(1-(length(corpses)*CORPSE_REDUCTION-0.2), 0.1, 1)
+		//Essentially, we make corpses increase trespass less, if we have too many
+		amount *= clamp(1-(length(corpses)*CORPSE_REDUCTION-(CORPSE_REDUCTION*CORPSE_LIMIT_CHECK-CORPSE_REDUCTION)), 0.1, 1)
 	//Make sure spectral trespass stays above 0, and below maximum_trespass
 	spectral_trespass = clamp(spectral_trespass+(amount*(ignore_gain || clamp(gain_rate, LOWER_GAIN, UPPER_GAIN))), 0, maximum_trespass)
 	if(log)

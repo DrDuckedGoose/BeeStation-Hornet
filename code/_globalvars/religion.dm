@@ -22,3 +22,4 @@ GLOBAL_VAR(uncounted_bodies)
 
 //Litany stuff
 GLOBAL_LIST_INIT(chaplain_known_runes, list(/datum/litany_component/alpha, /datum/litany_component/beta, /datum/litany_component/omega))
+GLOBAL_LIST_INIT(chaplain_all_runes, subtypesof(/datum/litany_component))
