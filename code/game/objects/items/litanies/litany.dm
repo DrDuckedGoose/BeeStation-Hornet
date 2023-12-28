@@ -51,6 +51,8 @@
 		//generic info
 		. += "<span class='notice'>Interact to add litany components.\nBless to finalize, and activate.</span>"
 		//Info stack
+		if(!length(info_stack))
+			return
 		. += "<span class='notice'>Contained info:</span>"
 		for(var/i in info_stack)
 			. += "<span class='notice'>\[[i]]</span>"
@@ -150,9 +152,10 @@
 		display_user = null
 		return
 	//Add the chosen component
-	add_litany_component(associated_litany[choice])
 	if(length(litany_components) >= max_components)
 		to_chat(user, "<span class='warning'>Too many components!</span>")
+	else
+		add_litany_component(associated_litany[choice])
 	//Loop
 	edit_components(display_user, litany_choices, associated_litany)
 
