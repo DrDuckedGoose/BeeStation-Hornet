@@ -22,7 +22,7 @@
 	///How long it's been since something spooky happened - Leave this at 0, so we don't get possessions round start
 	var/last_spook = 0
 	///What are our spending options [thing = weight]
-	var/list/spending_options = list(/datum/spooky_event/possession = 1, /datum/spooky_event/ghost = 1, /datum/spooky_event/haunt_room = 1)
+	var/list/spending_options = list(/datum/spooky_event/possession = 1, /datum/spooky_event/ghost = 2, /datum/spooky_event/haunt_room = 1)
 	///What active spooky events are... active - Pretty much for admin goofs
 	var/list/active_products = list()
 	var/list/nails = list()
