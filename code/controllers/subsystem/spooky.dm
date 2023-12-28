@@ -64,9 +64,8 @@ SUBSYSTEM_DEF(spooky)
 		return
 	//Handle corpse stuff, so the chaplain doesn't get swamped
 	if(locate(source) in corpses && length(corpses) >= CORPSE_LIMIT_CHECK)
-		amount *= clamp(1-length(corpses)*CORPSE_REDUCTION, 0.1, 1)
+		amount *= clamp(1-(length(corpses)*CORPSE_REDUCTION-0.2), 0.1, 1)
 	//Make sure spectral trespass stays above 0, and below maximum_trespass
-	//TODO: Replace these with clamps - Racc
 	spectral_trespass = clamp(spectral_trespass+(amount*(ignore_gain || clamp(gain_rate, LOWER_GAIN, UPPER_GAIN))), 0, maximum_trespass)
 	if(log)
 		log_game("[source || "not specified"] increased spectral trespass by [amount*(ignore_gain || clamp(gain_rate, LOWER_GAIN, UPPER_GAIN))] at [world.time] at [isatom(source) ? get_turf(source) : "not specified"].")
