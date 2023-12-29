@@ -96,3 +96,23 @@
 	default_raw_text = "Dear _____, it seems that [GLOB.uncounted_bodies] unaccounted bodies remain on the station premises.\n\
 	We have been informed this may be an issue for you, and are acting accordingly."
 	add_raw_text(default_raw_text)
+
+//TODO: Remove this when private testing is over - Racc
+/obj/item/paper/racc_dev_tip
+	icon_state = "paper_dev"
+	show_written_words = FALSE
+	name = "Message from Racc-Off, the Developer"
+	default_raw_text = "Heya, champ.\n\
+	\n\
+	I've strewn these papers across the station to ensure you read them, but they all say the same thing.\n\
+	Just some quick words of advice, so you can get the full experience while you're playing alone / testing for me.\n\
+	\n\
+	* If you get stuck, be sure to examine objects and read descriptions, this includes yourself in some scenarios.\n\
+	* If you didn't get one from the parcel, please spawn a compass, you'll need it on singleplayer.\n\
+	* Remember to do all the chaplain setup, like selecting a sect at the altar.\n\
+	* I hope you're enticed to read the papers strewn acrossed the chapel, they will be you in-game intro to all this.\n\
+	* Don't forget to check the back room, next to your office.\n\
+	\n\
+	That's all champ, have fun!\n\
+	\n\
+	~ Racc"
