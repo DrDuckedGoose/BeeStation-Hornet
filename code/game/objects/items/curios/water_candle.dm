@@ -14,6 +14,12 @@
 	if(event_target)
 		QDEL_NULL(event_target)
 
+/obj/item/curio/water_candle/examine(mob/user)
+	. = ..()
+	if(event_target)
+		user.balloon_alert(user, event_target.event_message)
+		to_chat(user, "<span class='warning'>[event_target.event_message]\n[get_area(event_target.get_location())]...</span>")
+
 //Each curio has to code how this is called
 /obj/item/curio/water_candle/activate(datum/user, force)
 	. = ..()
@@ -31,10 +37,14 @@
 	if(event_target)
 		qdel(src)
 
-/obj/item/curio/water_candle/attacked_by(obj/item/I, mob/living/user)
+/obj/item/curio/water_candle/attackby(obj/item/I, mob/living/user, params)
 	. = ..()
-	if(I.is_hot() && !event_target && do_after(user, 5 SECONDS, src))
-		activate(user)
+	if(I.is_hot() && !event_target)
+		to_chat(user, "<span class='warning'>You begin to light [src].</span>")
+		if(do_after(user, 5 SECONDS, src))
+			activate(user)
+		else
+			to_chat(user, "<span class='warning'>You hesitate to light [src].</span>")
 
 /obj/item/curio/water_candle/proc/self_destruct()
 	qdel(src)

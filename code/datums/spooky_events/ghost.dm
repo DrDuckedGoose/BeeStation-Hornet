@@ -33,7 +33,7 @@
 		corpse.transform = null
 		//Then just copy the appearance as normal
 		G.appearance = corpse.appearance
-		G.alpha = 128
+		G.alpha = 200
 		G.name = "ghost of [corpse.name]" //TODO: Definitely remove this - Racc
 		//Build spooky mask
 		var/mutable_appearance/MA = new()
