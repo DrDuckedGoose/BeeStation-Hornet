@@ -667,4 +667,16 @@
 	desc = "A poster begging you to max your suit sensors. Otherwise, you may be harder to locate if you sustain damage."
 	icon_state = "poster50"
 
+/obj/structure/sign/poster/official/embalm
+	name = "Embalming Diagram"
+	desc = "A detailed illustration of the disection required steps for embalming.\n\
+	\n\
+	* Start by making an incision in the patient\n\
+	* Proceed to retracting the skin around the incision\n\
+	* Ensure the incision is clamped\n\
+	* Remove obstructing bone\n\
+	* Scoop cavity until sufficient organs are removed\n\
+	* Mend the incision"
+	icon_state = "poster51"
+
 #undef PLACE_SPEED

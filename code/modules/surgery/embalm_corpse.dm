@@ -39,8 +39,8 @@
 		//handle spooky rewards
 		SSspooky.adjust_trespass(user, -(TRESPASS_LARGE+total_reward))
 		//Holy reward for doing this event
-		var/datum/religion_sect/R = GLOB.religious_sect
-		R?.adjust_favor(EMBALM_HOLY_FAVOR*GLOB.spooky_reward_gain)
+		var/datum/religion_sect/RS = GLOB.religious_sect
+		RS?.adjust_favor(EMBALM_HOLY_FAVOR*GLOB.spooky_reward_gain)
 		//Rot
 		var/datum/component/rot/R = target.GetComponent(/datum/component/rot)
 		R?.favor_modifier += 0.5

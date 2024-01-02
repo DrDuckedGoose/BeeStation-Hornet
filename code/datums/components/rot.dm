@@ -177,6 +177,7 @@
 	SSspooky.remove_corpse(owner)
 	RemoveComponent()
 
+//TODO: Make this update with the appearance signal, to handle clothing changes and other stuff
 //Used to make the owner rot away and show their skeleton underneath
 /datum/component/rot/proc/manage_filters(_rot = 0)
 	var/t_rot_state
