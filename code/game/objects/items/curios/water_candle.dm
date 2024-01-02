@@ -20,7 +20,6 @@
 		user.balloon_alert(user, event_target.event_message)
 		to_chat(user, "<span class='warning'>[event_target.event_message]\n[get_area(event_target.get_location())]...</span>")
 
-//Each curio has to code how this is called
 /obj/item/curio/water_candle/activate(datum/user, force)
 	. = ..()
 	if(!. || !SSspooky.current_behaviour || !istype(get_area(src), /area/chapel) || length(SSspooky.current_behaviour.active_products) > 1)
@@ -29,6 +28,13 @@
 	to_chat(user, "<span class='notice'>[src] begins to burn!</span>")
 	var/datum/spooky_event/random_event = SSspooky.current_behaviour.generate_goal()
 	event_target = SSspooky.current_behaviour.do_event(random_event)
+	//Do some fancy visual stuff, if the event supports that
+	//TODO: Oh my fucking god, off-screen atoms aren't rendered and break this
+	var/atom/A = event_target.get_location()
+	if(A)
+		if(!A.render_target || A.render_target == "")
+			A.render_target = "[A]"
+		add_filter("show-off", 1, layering_filter(render_source= A.render_target, color = "#99999999", y = 16))
 	addtimer(CALLBACK(src, PROC_REF(self_destruct)), event_time)
 	RegisterSignal(event_target, COMSIG_PARENT_QDELETING, PROC_REF(self_destruct))
 
