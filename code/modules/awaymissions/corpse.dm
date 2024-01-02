@@ -241,9 +241,7 @@
 
 /obj/effect/mob_spawn/human/corpse/create(ckey, name)
 	. = ..()
-	SSspooky.add_corpse(.) //Weird that I would need this
-	if(locate(.) in SSspooky.corpses)
-		GLOB.uncounted_bodies += 1
+	SSspooky.add_corpse(.) //Weird that I would need this - this handles some z level logic, so don't get confused below
 
 /obj/effect/mob_spawn/human/corpse/damaged
 	brute_damage = 1000

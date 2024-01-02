@@ -80,23 +80,6 @@
 	\n\
 	~ Claude Frollo."
 
-/obj/item/paper/chaplain_tips/bodies
-	name =  "Statement of retrieval"
-	default_raw_text = ""
-
-/obj/item/paper/chaplain_tips/bodies/Initialize(mapload)
-	..()
-	return INITIALIZE_HINT_LATELOAD
-
-/obj/item/paper/chaplain_tips/bodies/LateInitialize()
-	. = ..()
-	if(!GLOB?.uncounted_bodies)
-		qdel(src) //Hint doesn't work here
-		return
-	default_raw_text = "Dear _____, it seems that [GLOB.uncounted_bodies] unaccounted bodies remain on the station premises.\n\
-	We have been informed this may be an issue for you, and are acting accordingly."
-	add_raw_text(default_raw_text)
-
 //TODO: Remove this when private testing is over - Racc
 /obj/item/paper/racc_dev_tip
 	icon_state = "paper_dev"

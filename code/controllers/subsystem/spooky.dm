@@ -91,7 +91,8 @@ SUBSYSTEM_DEF(spooky)
 		corpse = source
 	//Don't possess exploration / lavaland corpses
 	var/turf/T = get_turf(corpse?.loc)
-	if((gibbed || !is_station_level(T?.z) || !iscarbon(corpse)) && !force)
+	//TODO: change the istype area checks to a list
+	if((gibbed || !is_station_level(T?.z) || !iscarbon(corpse)) && !force || !SSticker?.HasRoundStarted() && (istype(get_area(T), /area/maintenance/department/medical/morgue) || istype(get_area(T), /area/chapel/office)))
 		return
 	//Weighting
 	var/datum/component/rot/R = corpse?.GetComponent(/datum/component/rot)
@@ -102,8 +103,8 @@ SUBSYSTEM_DEF(spooky)
 /datum/controller/subsystem/spooky/proc/remove_corpse(datum/source, mob/corpse)
 	SIGNAL_HANDLER
 
-	//remove & handle weird cases
-	corpses -= source
+	if(ismob(source) && !corpse)
+		corpse = source
 	corpses -= corpse
 
 /datum/controller/subsystem/spooky/proc/update_corpse(mob/corpse, amount)

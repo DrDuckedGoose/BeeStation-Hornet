@@ -1,3 +1,5 @@
+#define EMBALM_HOLY_FAVOR 350
+
 /datum/surgery/embalm_corpse
 	name = "Embalm Corpse"
 	desc = "A surgical procedure that embalms. Be sure to perform this surgery on an embalming table."
@@ -36,6 +38,10 @@
 	if(locate(/obj/structure/table/optable/embalming_table) in T.contents)
 		//handle spooky rewards
 		SSspooky.adjust_trespass(user, -(TRESPASS_LARGE+total_reward))
+		//Holy reward for doing this event
+		var/datum/religion_sect/R = GLOB.religious_sect
+		R?.adjust_favor(EMBALM_HOLY_FAVOR*GLOB.spooky_reward_gain)
+		//Rot
 		var/datum/component/rot/R = target.GetComponent(/datum/component/rot)
 		R?.favor_modifier += 0.5
 		make_spooky_indicator(T, TRUE)
@@ -79,3 +85,5 @@
 	to_chat(user, "<span class='[status ? "notice" : "warning"]'>You [status ? "succeed" : "fail"] to remove [O].</span>")
 	//Remove some blood
 	target.bleed(target.blood_volume / 5)
+
+#undef EMBALM_HOLY_FAVOR 
