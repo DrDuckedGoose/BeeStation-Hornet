@@ -47,6 +47,8 @@
 	var/candle_overlay = TRUE
 	/// Whether the altar of the gods is anchored
 	var/altar_anchored = TRUE
+	/// List of our followers
+	var/list/followers = list()
 
 /datum/religion_sect/proc/is_available(mob/user)
     return TRUE // basically all available
@@ -130,6 +132,17 @@
 		SEND_SIGNAL(blessed, COMSIG_ADD_MOOD_EVENT, "blessing", /datum/mood_event/blessing)
 
 	return TRUE
+
+//Register followers to prevent hard-dels
+/datum/religion_sect/proc/register_follower(mob/follower)
+	followers += follower
+	RegisterSignal(follower, COMSIG_PARENT_QDELETING, PROC_REF(handle_follower))
+
+//Stop hard-dels in our follower list
+/datum/religion_sect/proc/handle_follower(datum/source)
+	SIGNAL_HANDLER
+
+	followers -= source
 
 /**** Nanotrasen Approved God ****/
 

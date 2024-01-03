@@ -170,3 +170,20 @@
 	var/datum/component/rot/R = target?.GetComponent(/datum/component/rot)
 	R?.make_trespass = old_trespass_state
 	return ..()
+
+/*
+	DELTA
+	0:1
+
+	Returns a random follower of your religion
+*/
+/datum/litany_component/delta
+	name = "delta"
+	icon_state = "alpha"
+	cooldown = 3 SECONDS
+	desc = "\[None] : \[Mob]"
+	cost = 50
+
+/datum/litany_component/delta/activate()
+	var/datum/religion_sect/R = GLOB.religious_sect
+	owner.info_stack += pick(R?.followers)

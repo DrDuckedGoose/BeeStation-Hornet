@@ -76,3 +76,34 @@
 	var/datum/litany_component/LC = associated_litany[choice]
 	GLOB.chaplain_known_runes += LC
 	to_chat(user, "<span class='notice'>You feel new knowledge enter your mind, you understand '[initial(LC.name)]' now.</span>")
+
+/*
+	Induct follower
+		Inducts the person the chaplain is pulling, or the person the buckled to the alter
+*/
+
+/datum/religion_rites/generic/induct_follower
+	name = "Induct Follower"
+	desc = "Induct a new follower into your religion."
+	ritual_length = 15 SECONDS
+	favor_cost = 0
+	///How much holy favor we get for inducting followers - make sure this value is the same as or greater the cost of 'learn new rune'
+	var/reward = 500
+
+/datum/religion_rites/generic/induct_follower/invoke_effect(mob/living/user, atom/religious_tool)
+	. = ..()
+	var/atom/movable/movable_reltool = religious_tool
+	var/mob/living/carbon/target = length(movable_reltool.buckled_mobs) ? movable_reltool.buckled_mobs[1] : user.pulling
+	if(target || !iscarbon(target) || !target.client)
+		to_chat(user,"<span class='warning'>There is no-one to induct!.</span>")
+		return
+	var/datum/religion_sect/R = GLOB.religious_sect
+	if(locate(target) in R?.followers)
+		return
+	var/their_religion = target.client?.prefs?.read_character_preference(/datum/preference/name/religion) || DEFAULT_RELIGION
+	if(tgui_alert(target, "Will you abandon [their_religion] and join [R.name]?", "Will you join [R.name]?", list("Yes", "No")) == "Yes")
+		R?.register_follower(target)
+		R?.adjust_favor(reward, user)
+		to_chat(user,"<span class='notice'>[target] accepts!</span>")
+	else
+		to_chat(user,"<span class='warning'>[target] refuses!</span>")
