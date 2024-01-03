@@ -222,9 +222,9 @@
 
 /obj/effect/bible_indicator/Initialize(mapload)
 	. = ..()
-	var/turf/T = get_turf(src)
-	if(length(T?.contents) && locate(/obj/effect/bible_indicator) in T.contents)
-		return INITIALIZE_HINT_QDEL
+	for(var/obj/effect/bible_indicator/B in loc)
+		if(B != src)
+			return INITIALIZE_HINT_QDEL
 	animate(src, alpha = 0, time = 0.5 SECONDS, loop = -1, easing = JUMP_EASING)
 	animate(alpha = 255, time = 0.5 SECONDS, easing = JUMP_EASING)
 	addtimer(CALLBACK(src, PROC_REF(self_destruct)), 3 SECONDS)
