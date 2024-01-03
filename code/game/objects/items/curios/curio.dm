@@ -1,7 +1,3 @@
-/*
-	Abstract base for curator curio items
-	TODO: Add an contribution guide here - Racc
-*/
 /obj/item/curio
 	name = "curio"
 	desc = "Generic and strange. Where did you find this?"

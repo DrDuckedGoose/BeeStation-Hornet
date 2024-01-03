@@ -70,7 +70,6 @@
 	RegisterSignal(origin, COMSIG_PARENT_ATTACKBY, PROC_REF(handle_attack))
 	return TRUE
 
-//TODO: Implement options from design doc - Racc
 /datum/spooky_event/haunt_room/process(delta_time)
 	if(timeout)
 		return
@@ -97,7 +96,7 @@
 		//Possible overhead
 		for(var/mob/living/L in target_room.contents)
 			SEND_SOUND(L, 'sound/effects/ghost.ogg')
-			L.Stun(3 SECONDS)
+			L.Stun(1 SECONDS)
 			L.Shake(duration = 3 SECONDS)
 		timeout_total += 5 SECONDS
 		

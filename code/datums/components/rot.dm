@@ -77,7 +77,6 @@
 	//Containers
 	if(istype(owner?.loc, /obj/structure/closet/crate/coffin) || istype(owner?.loc, /obj/structure/bodycontainer))
 		//Calculate garnish stuff
-		//TODO: make this not work if there are multiple corpses in the coffin - Racc
 		if(istype(owner?.loc, /obj/structure/closet/crate/coffin))
 			var/obj/structure/closet/crate/coffin/C = owner?.loc
 			amount *= max((length(C.garnishes) * 0.1) - 1, MAX_FUNERAL_GARNISH)

@@ -247,7 +247,9 @@
 	QDEL_NULL(litany_component)
 	litany_parent.update_appearance()
 	color = "#000"
-	//TODO: Animate it shrinking - Racc
+	var/matrix/M = transform
+	M.Scale(0.1, 0.1)
+	animate(src, transform = M, time = 1 SECONDS)
 
 #undef MAX_LITANY_CHAR_X
 #undef MAX_LITANY_CHAR_Y

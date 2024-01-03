@@ -957,6 +957,7 @@ NOTE: there are two lists of areas in the end of this file: centcom and station 
 	name = "Solar Maintenance"
 	icon_state = "yellow"
 	area_flags = VALID_TERRITORY | BLOBS_ALLOWED | UNIQUE_AREA
+	initial_spooky = 0
 
 /area/maintenance/solars/port
 	name = "Port Solar Maintenance"

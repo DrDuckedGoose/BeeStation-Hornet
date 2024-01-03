@@ -160,7 +160,7 @@
 	orbitsize -= (orbitsize/world.icon_size)*(world.icon_size*0.25)
 	orbit(target, orbitsize, rand(0, 1), rand(20, 30), 36)
 	//Handle opacity
-	//TODO: Handle hardels - Racc
+	//TODO: Handle hardels - Racc //Racc from the future here, I have no idea what this means in this context
 	RegisterSignal(SSspooky.active_chaplain, COMSIG_CLICK_SHIFT, PROC_REF(handle_exam))
 	animate(src, alpha = NAIL_SUBTLE_OPACITY, time = 3 SECONDS, flags = ANIMATION_PARALLEL)
 

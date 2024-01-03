@@ -24,6 +24,7 @@
 	//Pick a random corpse for this ghost to impersonate for style points of course
 	var/mob/living/corpse = pick_weight(SS?.corpses)
 	if(corpse)
+		//TODO: Stop ghosts spawning in walls - Racc
 		var/mob/living/simple_animal/hostile/retaliate/ghost/G = new(pick(A.contained_turfs)) //TODO: Make a unique subtype with our stuff - Racc
 		RegisterSignal(G, COMSIG_MOB_DEATH, PROC_REF(handle_ghost)) //Do I even need this?
 		RegisterSignal(G, COMSIG_PARENT_QDELETING, PROC_REF(handle_ghost))

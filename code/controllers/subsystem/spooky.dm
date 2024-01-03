@@ -11,8 +11,6 @@
 #define CORPSE_LIMIT_CHECK 3
 #define CORPSE_REDUCTION 0.05
 
-//TODO: fix the station level checks runtiming, the runtime is something like an index thing - Racc
-
 //Subsystem for handling chaplain's spooky adventures
 SUBSYSTEM_DEF(spooky)
 	name = "Spooky"

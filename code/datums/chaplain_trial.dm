@@ -61,7 +61,7 @@
 	Removing a nail will reverse the effects."
 	icon_state = "trial_drunk"
 	///Who are we making drunk?
-	var/mob/living/carbon/chap //TODO: Stop this hard-deleting - Racc
+	var/mob/living/carbon/chap
 	///How many drunk stacks do we have
 	var/drunk_stacks = 0
 	var/drunk_gain = 0.1
@@ -69,6 +69,7 @@
 /datum/chaplain_trail/abstinence/New()
 	. = ..()
 	START_PROCESSING(SSobj, src) //TODO: Consider making a custom processors for this - Racc
+	RegisterSignal(chap, COMSIG_PARENT_QDELETING, PROC_REF(handle_chap))
 
 /datum/chaplain_trail/abstinence/apply_nail_effect(mob/living/carbon/target)
 	. = ..()
@@ -84,3 +85,8 @@
 /datum/chaplain_trail/abstinence/process(delta_time)
 	if(drunk_stacks && chap)
 		chap.reagents.add_reagent(/datum/reagent/consumable/ethanol, drunk_stacks * drunk_gain)
+
+/datum/chaplain_trail/abstinence/proc/handle_chap(datum/source)
+	SIGNAL_HANDLER
+
+	chap = null
