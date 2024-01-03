@@ -103,6 +103,7 @@
 		var/datum/component/rot/R = A.GetComponent(/datum/component/rot)
 		blessed_before = R?.blessed
 		R?.blessed = TRUE
+		R?.favor_modifier += 1
 		//Cult stuff
 		var/mob/living/M = A
 		if(isliving(A) && (iscultist(M) || is_servant_of_ratvar(M)))
@@ -120,6 +121,7 @@
 	//Rot
 	var/datum/component/rot/R = target?.GetComponent(/datum/component/rot)
 	R?.blessed = blessed_before
+	R?.favor_modifier -= 1
 	return ..()
 
 /*
