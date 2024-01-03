@@ -96,6 +96,8 @@
 	* I hope you're enticed to read the papers strewn acrossed the chapel, they will be you in-game intro to all this.\n\
 	* Don't forget to check the back room, next to your office.\n\
 	\n\
-	That's all champ, have fun!\n\
+	There's probably a couple runtimes / bugs laying about, but they shouldn't impede you too much.\n\
+	The main goal here is to test some of the underlying design, so it's mostly prototypes and early implementations.\n\
+	otherwise, have fun!\n\
 	\n\
 	~ Racc"
