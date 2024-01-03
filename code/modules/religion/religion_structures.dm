@@ -216,6 +216,7 @@
 /obj/effect/bible_indicator
 	icon = 'icons/obj/storage.dmi'
 	icon_state = "bible"
+	layer = ABOVE_MOB_LAYER
 	mouse_opacity = MOUSE_OPACITY_TRANSPARENT
 	pixel_y = 32
 	alpha = 200

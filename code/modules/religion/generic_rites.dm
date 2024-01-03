@@ -28,8 +28,9 @@
 	. = ..()
 	if(GLOB.old_iron)
 		var/obj/item/gun/ballistic/revolver/old_iron/G = GLOB.old_iron
-		if(!G.get_ammo(TRUE, FALSE))
+		if(!G.get_ammo(FALSE, FALSE))
 			return TRUE
+	to_chat(user, "<span class='warning'>Old Iron is already loaded!</span>")
 	return FALSE
 
 /datum/religion_rites/generic/reload_old_iron/invoke_effect(mob/living/user, atom/religious_tool)
@@ -39,7 +40,7 @@
 		qdel(i)
 	G.magazine.stored_ammo += new G.magazine.ammo_type(G.magazine)
 	G.chamber_round(FALSE)
-	to_chat(user, "<span class='notice'>[G] clicks, a new bullet has entered the chamber.</span>")
+	G.visible_message("<span class='notice'>[G] clicks, a new bullet has entered the chamber...</span>")
 
 /*
 	Learn new rune
@@ -61,7 +62,17 @@
 
 /datum/religion_rites/generic/lean_rune/invoke_effect(mob/living/user, atom/religious_tool)
 	. = ..()
-	var/list/available = GLOB.chaplain_all_runes-GLOB.chaplain_known_runes
-	var/datum/litany_component/LC = pick(available)
+
+	var/list/litanies = GLOB.chaplain_all_runes-GLOB.chaplain_known_runes
+	var/list/litany_choices = list()
+	var/list/associated_litany = list()
+	for(var/datum/litany_component/i as() in litanies)
+		var/datum/radial_menu_choice/RC = new()
+		RC.image = image(initial(i.icon), icon_state = initial(i.icon_state))
+		RC.info = "[initial(i.desc)]"
+		litany_choices += list("[initial(i.name)]" = RC)
+		associated_litany += list("[initial(i.name)]" = i)
+	var/choice = show_radial_menu(user, user, litany_choices, tooltips = TRUE)
+	var/datum/litany_component/LC = associated_litany[choice]
 	GLOB.chaplain_known_runes += LC
-	to_chat(user, "<span class='notice'>You feel new knowledge enter your mind, [initial(LC.name)].</span>")
+	to_chat(user, "<span class='notice'>You feel new knowledge enter your mind, you understand '[initial(LC.name)]' now.</span>")

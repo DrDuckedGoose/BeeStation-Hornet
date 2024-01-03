@@ -27,6 +27,8 @@
 	var/make_favor = FALSE
 	///Extra modifer to encourage stuff like embalming
 	var/favor_modifier = 1
+	///For override
+	var/make_trespass = TRUE
 
 /datum/component/rot/Initialize(...)
 	. = ..()
@@ -115,7 +117,7 @@
 	//Apply
 	if(rot < max_rot)
 		rot = max(0, min(max_rot, rot+amount))
-	SSspooky.update_corpse(owner, rot)
+	SSspooky.update_corpse(owner, rot * make_trespass)
 	rot_reduction = amount / original_amount
 
 /datum/component/rot/proc/manage_effects(do_checks = TRUE, custom_amount)

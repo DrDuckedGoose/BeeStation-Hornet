@@ -669,7 +669,7 @@
 
 /obj/structure/sign/poster/official/embalm
 	name = "Embalming Diagram"
-	desc = "A detailed illustration of the disection required steps for embalming.\n\
+	desc = "A detailed illustration of the required steps for embalming.\n\
 	\n\
 	* Start by making an incision in the patient\n\
 	* Proceed to retracting the skin around the incision\n\

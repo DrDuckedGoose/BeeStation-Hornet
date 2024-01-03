@@ -82,7 +82,7 @@
 	OMEGA
 	0:1
 
-	Stops rot, and adds the holy trait, etc. Also sets cultists on fire & stuns them
+	Reduces rot and buffs rot holy favor and adds the holy trait, etc. Also sets cultists on fire & stuns them
 */
 /datum/litany_component/omega
 	name = "omega"
@@ -141,3 +141,32 @@
 		var/mob/M = A
 		owner.info_stack += M.mind.name
 	owner.info_stack -= A
+
+/*
+	SIGMA balls
+	1:0
+
+	Stops rot
+*/
+/datum/litany_component/sigma
+	name = "sigma"
+	icon_state = "alpha"
+	cooldown = 3 SECONDS
+	desc = "\[Mob] : \[None]"
+	cost = 100
+	///The original state of the rot variable
+	var/old_trespass_state
+
+/datum/litany_component/sigma/activate()
+	var/atom/A = owner.info_stack[length(owner.info_stack)]
+	if(isatom(A))
+		var/datum/component/rot/R = A.GetComponent(/datum/component/rot)
+		old_trespass_state = R?.make_trespass
+		R?.make_trespass = FALSE
+	owner.info_stack -= A
+
+/datum/litany_component/sigma/handle_target_removal()
+	//Rot
+	var/datum/component/rot/R = target?.GetComponent(/datum/component/rot)
+	R?.make_trespass = old_trespass_state
+	return ..()
