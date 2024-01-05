@@ -40,6 +40,7 @@
 	var/cooldown_timer
 	///Do we need to delay the activation for any reason?
 	var/delay_activation = FALSE
+	var/cancel_activation = FALSE
 
 /obj/item/litany/Destroy()
 	. = ..()
@@ -109,6 +110,7 @@
 		return
 	if(cooldown_timer)
 		clear_timer()
+	info_stack = list()
 	cooldown_timer = addtimer(CALLBACK(src, PROC_REF(clear_timer)), cooldown_time+get_extra_time(), TIMER_STOPPABLE)
 	SEND_SIGNAL(src, COMSIG_LITANY_ACTIVATE)
 	//TODO: Temporary animation, consider giving it a proper one - Racc
@@ -185,6 +187,7 @@
 	if(cooldown_timer)
 		deltimer(cooldown_timer)
 	cooldown_timer = null
+	cancel_activation = FALSE
 
 ///Returns the total cost of all its components
 /obj/item/litany/proc/get_cost()
@@ -250,7 +253,7 @@
 	litany_parent.update_appearance()
 	color = "#000"
 	var/matrix/M = transform
-	M.Scale(0.1, 0.1)
+	M.Scale(0, 0)
 	animate(src, transform = M, time = 1 SECONDS)
 
 #undef MAX_LITANY_CHAR_X

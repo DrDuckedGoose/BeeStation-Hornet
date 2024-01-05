@@ -23,7 +23,7 @@
 	RegisterSignal(_owner, COMSIG_LITANY_REMOVE, PROC_REF(remove))
 
 /datum/litany_component/proc/activate()
-	return
+	return owner?.cancel_activation
 
 /datum/litany_component/proc/remove()
 	handle_target_removal()
@@ -65,6 +65,9 @@
 	desc = "\[None] : \[Any]"
 
 /datum/litany_component/beta/activate()
+	. = ..()
+	if(.)
+		return
 	var/atom/A = owner.info_stack[length(owner.info_stack)]
 	if(isatom(A) && !A.get_filter("litany_outline"))
 		//Don't let cultists get blessed, wizards can be though
@@ -93,6 +96,9 @@
 	var/blessed_before = FALSE
 
 /datum/litany_component/omega/activate()
+	. = ..()
+	if(.)
+		return
 	var/atom/A = owner.info_stack[length(owner.info_stack)]
 	if(isatom(A))
 		//Generic holy buff
@@ -136,6 +142,9 @@
 	desc = "\[Mob] : \[String]"
 
 /datum/litany_component/gamma/activate()
+	. = ..()
+	if(.)
+		return
 	var/atom/A = owner.info_stack[length(owner.info_stack)]
 	if(ismob(A))
 		var/mob/M = A
@@ -158,6 +167,9 @@
 	var/old_trespass_state
 
 /datum/litany_component/sigma/activate()
+	. = ..()
+	if(.)
+		return
 	var/atom/A = owner.info_stack[length(owner.info_stack)]
 	if(isatom(A))
 		var/datum/component/rot/R = A.GetComponent(/datum/component/rot)
@@ -185,6 +197,9 @@
 	cost = 50
 
 /datum/litany_component/delta/activate()
+	. = ..()
+	if(.)
+		return
 	var/datum/religion_sect/R = GLOB.religious_sect
 	owner.info_stack += pick(R?.followers)
 
@@ -193,13 +208,12 @@
 	0:0
 
 	Delays the litany activation until the 'user' presses a button
-	TODO: make this take a mob argument to show the action, in addition to the litany holder - Racc
 */
 /datum/litany_component/theta
 	name = "theta"
 	icon_state = "alpha"
 	cooldown = 3 SECONDS
-	desc = "\[None/Mob] : \[None]"
+	desc = "\[None] : \[None]"
 	cost = 100
 	///The old value of ``delay_activation``
 	var/old_delay = FALSE
@@ -213,12 +227,22 @@
 	owner?.delay_activation = TRUE
 	//Setup item action
 	item_action = new(owner)
+	if(!item_action?.owner && ismob(owner.loc))
+		item_action?.Grant(owner.loc)
+	//Register signals so we can assign action owners
+	RegisterSignal(owner, COMSIG_MOVABLE_MOVED, PROC_REF(assign_new_owner))
 
 /datum/litany_component/theta/Destroy(force, ...)
 	. = ..()
 	owner?.delay_activation = old_delay
 	QDEL_NULL(item_action)
-	
+
+/datum/litany_component/theta/proc/assign_new_owner()
+	SIGNAL_HANDLER
+
+	if(!item_action?.owner && ismob(owner.loc))
+		item_action?.Grant(owner.loc)
+
 /datum/action/item_action/activate_litany
 	name = "Activate Litany"
 	desc = "Activates a litany."
