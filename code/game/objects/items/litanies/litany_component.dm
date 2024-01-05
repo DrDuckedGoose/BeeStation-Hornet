@@ -187,3 +187,45 @@
 /datum/litany_component/delta/activate()
 	var/datum/religion_sect/R = GLOB.religious_sect
 	owner.info_stack += pick(R?.followers)
+
+/*
+	THETA
+	0:0
+
+	Delays the litany activation until the 'user' presses a button
+	TODO: make this take a mob argument to show the action, in addition to the litany holder - Racc
+*/
+/datum/litany_component/theta
+	name = "theta"
+	icon_state = "alpha"
+	cooldown = 3 SECONDS
+	desc = "\[None/Mob] : \[None]"
+	cost = 100
+	///The old value of ``delay_activation``
+	var/old_delay = FALSE
+	///Ref to the action
+	var/datum/action/item_action/activate_litany/item_action
+
+/datum/litany_component/theta/New(obj/item/litany/_owner)
+	. = ..()
+	//Handle delay
+	old_delay = owner?.delay_activation
+	owner?.delay_activation = TRUE
+	//Setup item action
+	item_action = new(owner)
+
+/datum/litany_component/theta/Destroy(force, ...)
+	. = ..()
+	owner?.delay_activation = old_delay
+	QDEL_NULL(item_action)
+	
+/datum/action/item_action/activate_litany
+	name = "Activate Litany"
+	desc = "Activates a litany."
+
+/datum/action/item_action/activate_litany/Trigger()
+	. = ..()
+	var/obj/item/litany/L = target
+	L?.delay_activation = FALSE
+	L?.activate()
+	L?.delay_activation = TRUE

@@ -38,6 +38,8 @@
 	///Time between uses, so people dont spam attaching & detaching
 	var/cooldown_time = 5 SECONDS
 	var/cooldown_timer
+	///Do we need to delay the activation for any reason?
+	var/delay_activation = FALSE
 
 /obj/item/litany/Destroy()
 	. = ..()
@@ -103,7 +105,7 @@
 	return ..()
 
 /obj/item/litany/proc/activate(force)
-	if((!blessed || cooldown_timer) && !force)
+	if((!blessed || cooldown_timer || delay_activation) && !force)
 		return
 	if(cooldown_timer)
 		clear_timer()
