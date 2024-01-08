@@ -25,8 +25,7 @@
 
 /datum/spooky_event/haunt_room/New()
 	. = ..()
-	skull_overlay = mutable_appearance('icons/obj/religion.dmi', "skull_pattern", ABOVE_ALL_MOB_LAYER, GAME_PLANE)
-	skull_overlay.filters += filter(type = "alpha", render_source = GAME_PLANE_RENDER_TARGET)
+	skull_overlay = mutable_appearance('icons/obj/religion.dmi', "skull_pattern", ABOVE_ALL_MOB_LAYER, FLOOR_PLANE)
 
 /datum/spooky_event/haunt_room/Destroy(force, ...)
 	. = ..()

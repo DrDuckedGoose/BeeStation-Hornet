@@ -63,7 +63,7 @@
 	time = 10 SECONDS
 	success_sound = 'sound/surgery/organ1.ogg'
 	///Probability to remove an organ
-	var/organ_prob = 25
+	var/organ_prob = 50
 
 /datum/surgery_step/embalm_corpse/initiate(mob/user, mob/living/carbon/target, target_zone, obj/item/tool, datum/surgery/surgery, try_to_fail)
 	. = ..()
@@ -83,6 +83,9 @@
 		O?.forceMove(get_turf(target))
 		status = 1
 	to_chat(user, "<span class='[status ? "notice" : "warning"]'>You [status ? "succeed" : "fail"] to remove [O].</span>")
+	//Hint
+	if(!F && status)
+		to_chat(user, "<span class='warning'>You should use some formaldehyde.</span>")
 	//Remove some blood
 	target.bleed(target.blood_volume / 5)
 

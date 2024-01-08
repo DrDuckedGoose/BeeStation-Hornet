@@ -679,4 +679,14 @@
 	* Mend the incision"
 	icon_state = "poster51"
 
+//TODO: - Racc
+/obj/structure/sign/poster/official/corpse_keeping
+	name = "Mortuary Diagram"
+	desc = "A detailed illustration of mortuary processes.\n\
+	\n\
+	* The morgue is kept cool, so bodies rot slower in here\n\
+	* Mortuary trays help seal in any rot"
+
+	icon_state = "poster51"
+
 #undef PLACE_SPEED

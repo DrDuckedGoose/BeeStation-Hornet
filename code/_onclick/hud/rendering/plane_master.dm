@@ -50,7 +50,6 @@
 	render_target = GAME_PLANE_RENDER_TARGET
 	appearance_flags = PLANE_MASTER //should use client color
 	blend_mode = BLEND_OVERLAY
-	render_target = GAME_PLANE_RENDER_TARGET
 
 /atom/movable/screen/plane_master/game_world/backdrop(mob/mymob)
 	. = ..()
