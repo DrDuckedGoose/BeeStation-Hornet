@@ -481,20 +481,6 @@ INITIALIZE_IMMEDIATE(/obj/effect/landmark/start/new_player)
 	ruin_template = null
 	. = ..()
 
-/// Marks the bottom left of the testing zone.
-/// In landmarks.dm and not unit_test.dm so it is always active in the mapping tools.
-/obj/effect/landmark/unit_test_bottom_left
-	name = "unit test zone bottom left"
-
-/// Marks the top right of the testing zone.
-/// In landmarks.dm and not unit_test.dm so it is always active in the mapping tools.
-/obj/effect/landmark/unit_test_top_right
-	name = "unit test zone top right"
-
-/// Marks the bottom left of the tutorial zone.
-/obj/effect/landmark/tutorial_bottom_left
-	name = "tutorial bottom left"
-
 /obj/effect/spawner/hangover_spawn
 	name = "hangover spawner"
 
@@ -509,3 +495,24 @@ INITIALIZE_IMMEDIATE(/obj/effect/landmark/start/new_player)
 			B.pixel_x += rand(-6, 6)
 			B.pixel_y += rand(-6, 6)
 	return INITIALIZE_HINT_QDEL
+
+/// Marks the bottom left of the testing zone.
+/// In landmarks.dm and not unit_test.dm so it is always active in the mapping tools.
+/obj/effect/landmark/unit_test_bottom_left
+	name = "unit test zone bottom left"
+
+/// Marks the top right of the testing zone.
+/// In landmarks.dm and not unit_test.dm so it is always active in the mapping tools.
+/obj/effect/landmark/unit_test_top_right
+	name = "unit test zone top right"
+
+/// Marks the bottom left of the tutorial zone.
+/obj/effect/landmark/tutorial_bottom_left
+	name = "tutorial bottom left"
+
+/// Marks the custom spawn point of the tutorial zone.
+/obj/effect/landmark/tutorial_custom_spawn
+	name = "tutorial custom spawn"
+
+/obj/effect/landmark/tutorial_custom_spawn/proc/get_location()
+	return get_turf(src)

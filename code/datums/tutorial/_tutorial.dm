@@ -11,8 +11,10 @@ GLOBAL_LIST_EMPTY_TYPED(ongoing_tutorials, /datum/tutorial)
 	var/icon_state = ""
 	/// What category the tutorial should be under
 	var/category = TUTORIAL_CATEGORY_BASE
-	/// Ref to the bottom_left_corner
+	/// Ref to the bottom_left_corner, default spawn if custom isn't defined
 	var/turf/bottom_left_corner
+	/// Ref to the loc custom spawn point
+	var/atom/custom_spawn
 	/// Ref to the turf reservation for this tutorial
 	var/datum/turf_reservation/reservation
 	/// Ref to the player who is doing the tutorial
@@ -56,9 +58,15 @@ GLOBAL_LIST_EMPTY_TYPED(ongoing_tutorials, /datum/tutorial)
 	template_placer.on_completion(CALLBACK(src, PROC_REF(start_tutorial), tutorial_mob))
 
 /datum/tutorial/proc/start_tutorial(mob/starting_mob)
+	//Bottom left
 	var/obj/test_landmark = locate(/obj/effect/landmark/tutorial_bottom_left) in GLOB.landmarks_list
 	bottom_left_corner = get_turf(test_landmark)
+	//Custom spawn
+	var/obj/effect/landmark/tutorial_custom_spawn/custom_landmark = locate(/obj/effect/landmark/tutorial_custom_spawn) in GLOB.landmarks_list
+	custom_spawn = custom_landmark?.get_location()
+	//Cull landmarks so other players don't visit us
 	qdel(test_landmark)
+	qdel(custom_landmark)
 	if(!verify_template_loaded())
 		abort_tutorial()
 		return FALSE
@@ -81,7 +89,7 @@ GLOBAL_LIST_EMPTY_TYPED(ongoing_tutorials, /datum/tutorial)
 		var/mob/dead/new_player/NP = new()
 		if(!tutorial_mob.mind)
 			tutorial_mob.mind_initialize()
-		
+
 		tutorial_mob.mind.transfer_to(NP)
 	if(!QDELETED(src))
 		qdel(src)
@@ -241,3 +249,9 @@ GLOBAL_LIST_EMPTY_TYPED(ongoing_tutorials, /datum/tutorial)
 	mappath = "maps/tutorial/tutorial_7x7.dmm"
 	width = 7
 	height = 7
+
+/datum/map_template/tutorial/controls
+	name = "Tutorial Controls"
+	mappath = "_maps/tutorial/tutorials/controls.dmm"
+	width = 20
+	height = 20

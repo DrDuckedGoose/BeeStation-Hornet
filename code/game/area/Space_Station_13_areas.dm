@@ -61,6 +61,7 @@ NOTE: there are two lists of areas in the end of this file: centcom and station 
 	requires_power = FALSE
 	has_gravity = STANDARD_GRAVITY
 	area_flags = UNIQUE_AREA
+	dynamic_lighting = DYNAMIC_LIGHTING_FORCED
 
 //EXTRA
 

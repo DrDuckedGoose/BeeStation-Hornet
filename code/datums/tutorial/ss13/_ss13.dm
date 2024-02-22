@@ -5,7 +5,7 @@
 
 /datum/tutorial/ss13/init_mob()
 
-	var/mob/living/carbon/human/new_character = new(bottom_left_corner)
+	var/mob/living/carbon/human/new_character = new(custom_spawn || bottom_left_corner)
 	if(tutorial_mob.mind)
 		tutorial_mob.mind_initialize()
 		tutorial_mob.mind.transfer_to(new_character, TRUE)
