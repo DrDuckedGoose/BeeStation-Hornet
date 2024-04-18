@@ -706,6 +706,14 @@
 	race = /datum/species/psyphoza
 	taste_description = "fungus"
 
+/datum/reagent/mutationtoxin/cordyceps
+	name = "Cordyceps Mutation Toxin"
+	description = "A fungal-based toxin." //What a coincidence
+	color = "#ff3b3b"
+	chem_flags = CHEMICAL_RNG_FUN
+	race = /datum/species/cordyceps
+	taste_description = "fungus"
+
 #undef MUT_MSG_IMMEDIATE
 #undef MUT_MSG_EXTENDED
 #undef MUT_MSG_ABOUT2TURN

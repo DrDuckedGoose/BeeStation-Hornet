@@ -407,3 +407,32 @@
 	stage5	= list("<span class='danger'>Your head sprouts a cap, and your eyes rupture.</span>")
 	infectable_biotypes = list(MOB_ORGANIC, MOB_INORGANIC, MOB_UNDEAD)
 	new_form = /mob/living/carbon/human/species/psyphoza
+
+//TODO: Revise this, the variables too- Racc
+//Pretty close to a copy paste of the psyphoza transformation
+/datum/disease/transformation/cordyceps
+	name = "Acute Fungal Infection"
+	cure_text = "Nothing..."
+	spread_text = "Acute"
+	disease_flags = CAN_CARRY
+	cures = list() //There is NO cure
+	cure_chance = 0
+	stage_prob = 15
+	agent = "Acute Fungal Infection"
+	desc = "A system of fungus, taking over the host body."
+	is_mutagenic = TRUE
+	danger = DISEASE_BIOHAZARD
+	visibility_flags = 0
+	stage1	= list("You feel oddly fungal.")
+	stage2	= list("<span class='danger'>You head throbs.</span>")
+	stage3	= list("<span class='danger'>Your vision dims briefly.</span>")
+	stage4	= list("<span class='danger'>You sense something you can't see.</span>")
+	stage5	= list("<span class='danger'>Your head sprouts a cap, and your eyes rupture.</span>")
+	infectable_biotypes = list(MOB_ORGANIC, MOB_INORGANIC, MOB_UNDEAD)
+	new_form = /mob/living/carbon/human/species/cordyceps
+
+/datum/disease/transformation/cordyceps/update_stage(new_stage)
+	//Sodium delays the process
+	if(affected_mob.reagents.has_reagent(/datum/reagent/sodium))
+		return
+	return ..()

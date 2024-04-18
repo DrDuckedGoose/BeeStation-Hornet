@@ -26,6 +26,7 @@
 #define SPECIES_SUPERSOLDIER "supersoldier"
 #define SPECIES_VAMPIRE "vampire"
 #define SPECIES_PSYPHOZA "psyphoza"
+#define SPECIES_CORDYCEPS "cordyceps"
 
 //Defines for Golem Species IDs
 #define SPECIES_GOLEM_ADAMANTINE "adamantine_golem"

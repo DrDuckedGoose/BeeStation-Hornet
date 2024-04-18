@@ -388,3 +388,11 @@
 	color = "#1b1b1b"
 	liked_food = RAW | GROSS
 	disliked_food = DAIRY
+
+/obj/item/organ/tongue/cordyceps
+	name = "bloated tongue"
+	desc = "Warped and fleshy."
+	icon_state = "tonguepsyphoza"
+	color = "#1b1b1b"
+	liked_food = RAW | GROSS
+	disliked_food = DAIRY

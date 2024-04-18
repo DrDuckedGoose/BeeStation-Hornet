@@ -1343,3 +1343,6 @@
 
 /mob/living/carbon/human/species/psyphoza
 	race = /datum/species/psyphoza
+
+/mob/living/carbon/human/species/cordyceps
+	race = /datum/species/cordyceps
