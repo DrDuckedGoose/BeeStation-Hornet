@@ -31,8 +31,34 @@
 		return TRUE
 	return ..()
 
+/datum/species/cordyceps/spec_life(mob/living/carbon/human/H)
+	. = ..()
+	if(H.stat >= SOFT_CRIT && H.stat < DEAD)
+		H.reagents.add_reagent(/datum/reagent/cordyceps_stimulant, 8)
+
 /datum/species/cordyceps/get_species_description()
 	return "These guys are fucked" //TODO: - Racc
+
+/*
+	anti-crit chem
+	//TODO: Mixing sodium with this deletes it
+*/
+/datum/reagent/cordyceps_stimulant
+	name = "Corcyceps Stimulant"
+	description = "A potent chemical that allows someone under its influence to be at full physical ability even when under massive amounts of pain."
+	chem_flags = CHEMICAL_RNG_GENERAL | CHEMICAL_RNG_FUN | CHEMICAL_RNG_BOTANY
+
+/datum/reagent/cordyceps_stimulant/on_mob_metabolize(mob/living/M)
+	. = ..()
+	M.set_stat(CONSCIOUS)
+	M.set_resting(FALSE, TRUE)
+	ADD_TRAIT(M, TRAIT_NOSOFTCRIT, STATUS_EFFECT_TRAIT)
+	ADD_TRAIT(M, TRAIT_NOHARDCRIT, STATUS_EFFECT_TRAIT)
+
+/datum/reagent/cordyceps_stimulant/on_mob_end_metabolize(mob/living/L)
+	. = ..()
+	REMOVE_TRAIT(L, TRAIT_NOSOFTCRIT, STATUS_EFFECT_TRAIT)
+	REMOVE_TRAIT(L, TRAIT_NOHARDCRIT, STATUS_EFFECT_TRAIT)
 
 /*
 	Brain
