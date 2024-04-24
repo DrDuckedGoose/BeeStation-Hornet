@@ -1,5 +1,3 @@
-#define CORDYCEPS_HEAL_FACTOR 0.5
-
 /datum/species/cordyceps
 	name = "\improper Cordyceps"
 	id = SPECIES_CORDYCEPS
@@ -19,11 +17,6 @@
 	mutant_brain = /obj/item/organ/brain/cordyceps
 	mutanttongue = /obj/item/organ/tongue/cordyceps
 
-	burnmod = 1.25
-	brutemod = 0.75
-
-	speedmod = 0.35
-
 //TODO: Add species sounds back - Racc
 
 /datum/species/cordyceps/check_roundstart_eligible()
@@ -38,14 +31,6 @@
 		return TRUE
 	return ..()
 
-/datum/species/cordyceps/spec_life(mob/living/carbon/human/H)
-	. = ..()
-	//Being fat actively heals our brute & burn
-	if(H.nutrition >=  NUTRITION_LEVEL_FAT)
-		H.adjust_nutrition(-5)
-		H.adjustBruteLoss(CORDYCEPS_HEAL_FACTOR)
-		H.adjustFireLoss(CORDYCEPS_HEAL_FACTOR)
-
 /datum/species/cordyceps/get_species_description()
 	return "These guys are fucked" //TODO: - Racc
 
@@ -54,6 +39,7 @@
 */
 /obj/item/organ/brain/cordyceps
 	actions_types = list(/datum/action/item_action/organ_action/cordyceps_escape)
+
 /*
 	Action
 */
@@ -92,7 +78,11 @@
 	new_body.take_brain(B)
 	//Explode our heart
 	var/obj/item/organ/heart/H = C.getorganslot(ORGAN_SLOT_HEART)
-	H?.damage += H?.maxHealth*2
+	H?.damage += H?.maxHealth
+	C.set_heartattack(TRUE)
+	//Info
+	to_chat(new_body, "<span class='userdanger'>Your perception of reality fades, you do not remember the circumstances leading to this\
+	and wont make any new memories until you find a new body.\nYou become like a wild animal.</span>")
 
 /datum/action/item_action/organ_action/cordyceps_escape/proc/catch_death(datum/source)
 	SIGNAL_HANDLER
@@ -185,8 +175,5 @@
 		return FALSE
 	brain_holder = _brain
 	brain_holder.forceMove(src)
-	maxHealth = brain_holder.maxHealth
-	health = brain_holder.maxHealth-brain_holder.damage
+	health = ((brain_holder.maxHealth-brain_holder.damage)/brain_holder.maxHealth)*maxHealth
 	return TRUE
-
-#undef CORDYCEPS_HEAL_FACTOR
