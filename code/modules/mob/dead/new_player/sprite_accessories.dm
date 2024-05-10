@@ -1750,6 +1750,7 @@
 	name = "Monkey"
 	icon_state = "monkey"
 	color_src = FALSE
+	gender_specific = TRUE
 
 /datum/sprite_accessory/snouts
 	icon = 'icons/mob/mutant_bodyparts.dmi'
@@ -2793,3 +2794,10 @@
 /datum/sprite_accessory/apid_headstripes/arachnid
 	name = "Arachnid Headstripes"
 	icon_state = "arachnid"
+
+//Monkey
+/datum/sprite_accessory/tails/monkey/simian
+	name = "Simian"
+	icon_state = "monkey"
+	gender_specific = TRUE
+	color_src = MUTCOLORS

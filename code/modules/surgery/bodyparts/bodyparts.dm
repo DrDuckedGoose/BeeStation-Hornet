@@ -8,6 +8,7 @@
 	var/husk_icon = 'icons/mob/human_parts.dmi'
 	var/husk_type = "humanoid"
 	var/static_icon = 'icons/mob/human_parts.dmi' //Uncolorable sprites
+	var/f_color_icon //Icon for selective coloring
 	icon_state = ""
 	layer = BELOW_MOB_LAYER //so it isn't hidden behind objects when on the floor
 	var/mob/living/carbon/owner = null
@@ -455,17 +456,28 @@
 	if(!icon_exists(limb.icon, limb.icon_state))
 		stack_trace("Limb generated with nonexistant icon. File: [limb.icon] | State: [limb.icon_state]")
 
-	if(aux_zone) //Hand shit
-		aux = image(limb.icon, "[limb_id]_[aux_zone]", CALCULATE_MOB_OVERLAY_LAYER(aux_layer), image_dir)
-		. += aux
-		. += emissive_blocker(limb.icon, "[limb_id]_[aux_zone]", CALCULATE_MOB_OVERLAY_LAYER(aux_layer), image_dir)
-
+	//Color
 	draw_color = mutation_color
 	if(should_draw_greyscale) //Should the limb be colored?
 		draw_color ||= (species_color) || (skin_tone && skintone2hex(skin_tone, include_tag = FALSE))
 
+	//Color features
+	if(f_color_icon)
+		var/image/color_feature = image(f_color_icon, "[limb_id]_[body_zone][is_dimorphic ? "_[limb_gender]" : ""]_fcolor", limb.layer, image_dir)
+		color_feature.color = "#[draw_color]"
+		. += color_feature
+		. += emissive_blocker(f_color_icon, "[limb_id]_[body_zone][is_dimorphic ? "_[limb_gender]" : ""]_fcolor", limb.layer, image_dir)
+
+	//Hand shit
+	if(aux_zone)
+		aux = image(limb.icon, "[limb_id]_[aux_zone]", CALCULATE_MOB_OVERLAY_LAYER(aux_layer), image_dir)
+		. += aux
+		. += emissive_blocker(limb.icon, "[limb_id]_[aux_zone]", CALCULATE_MOB_OVERLAY_LAYER(aux_layer), image_dir)
+
+	//Set limb color
 	if(draw_color)
-		limb.color = "#[draw_color]"
+		if(!f_color_icon) //TODO: - Racc
+			limb.color = "#[draw_color]"
 		if(aux_zone)
 			aux.color = "#[draw_color]"
 
