@@ -17,12 +17,14 @@
 	var/stability = 100
 	var/scrambled = FALSE //Did we take something like mutagen? In that case we cant get our genes scanned to instantly cheese all the powers.
 	var/current_body_size = BODY_SIZE_NORMAL
+
 	//Holder for the displacement appearance, related to species height
 	var/atom/movable/height_displacement_holder
 
 /datum/dna/New(mob/living/new_holder)
 	if(istype(new_holder))
 		holder = new_holder
+	//Displacements
 	update_height_holder()
 	new_holder?.vis_contents += height_displacement_holder
 
@@ -301,6 +303,9 @@
 
 /////////////////////////// DNA MOB-PROCS //////////////////////
 /datum/dna/proc/update_body_size(force, height)
+	holder.remove_filter("height_cutoff_fix")
+	holder.remove_filter("species_height_displacement")
+	//Height offsets
 	update_height_holder()
 	var/list/heights = species?.get_species_height()
 	if((!holder || !features["body_size"] || !length(heights)) && !force)
@@ -309,10 +314,8 @@
 	if(desired_size == current_body_size && !force)
 		return
 	//Weird little fix - if height < 0, our guy gets cut off!! We can fix this by layering an invisible 64x64 icon, aka the displacement
-	holder.remove_filter("height_cutoff_fix")
 	holder.add_filter("height_cutoff_fix", 1, layering_filter(render_source = height_displacement_holder.render_target, color = "#ffffff00"))
 	//Build / setup displacement filter
-	holder.remove_filter("species_height_displacement")
 	holder.add_filter("species_height_displacement", 1.1, displacement_map_filter(render_source = height_displacement_holder.render_target, y = 8, size = desired_size))
 
 /mob/proc/set_species(datum/species/mrace, icon_update = 1)

@@ -3,6 +3,7 @@
 	icon = 'icons/obj/clothing/shoes.dmi'
 	desc = "Comfortable-looking shoes."
 	gender = PLURAL //Carn: for grammarically correct text-parsing
+	species_restricted = FLAG_SIMIAN
 	var/chained = 0
 	dying_key = DYE_REGISTRY_SNEAKERS
 

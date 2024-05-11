@@ -1,12 +1,15 @@
+#define SIMIAN_HAND_SLOWDOWN 0.3
+
 /datum/species/monkey/simian
 	name = "Simian"
-	id = SPECIES_MONKEY
+	id = SPECIES_SIMIAN
+	bodyflag = FLAG_SIMIAN
 	species_traits = list(
 		EYECOLOR,
-		MUTCOLORS
+		MUTCOLORS,
+		NOSOCKS
 	)
 	inherent_traits = list(
-		TRAIT_DISCOORDINATED,
 		TRAIT_VENTCRAWLER_NUDE,
 	)
 	mutant_bodyparts = list("tail_monkey")
@@ -38,53 +41,20 @@
 	if(unique && attempts < 10)
 		. = .(gender, TRUE, lastname, ++attempts)
 
-/datum/species/monkey/simian/spec_unarmedattack(mob/living/carbon/human/user, atom/target)
+/datum/species/monkey/simian/on_species_gain(mob/living/carbon/human/H, datum/species/old_species)
 	. = ..()
-	if(user.restrained())
-		if(!iscarbon(target))
-			return TRUE
-		var/mob/living/carbon/victim = target
-		if(user.a_intent != INTENT_HARM || user.is_muzzled())
-			return TRUE
-		var/obj/item/bodypart/affecting = null
-		if(ishuman(victim))
-			var/mob/living/carbon/human/human_victim = victim
-			affecting = human_victim.get_bodypart(pick(BODY_ZONE_CHEST, BODY_ZONE_PRECISE_L_HAND, BODY_ZONE_PRECISE_R_HAND, BODY_ZONE_L_LEG, BODY_ZONE_R_LEG))
-		var/armor = victim.run_armor_check(affecting, MELEE)
-		if(prob(25))
-			victim.visible_message("<span class='danger'>[user]'s bite misses [victim]!</span>",
-				"<span class='danger'>You avoid [user]'s bite!</span>", "<span class='hear'>You hear jaws snapping shut!</span>", COMBAT_MESSAGE_RANGE, user)
-			to_chat(user, "<span class='danger'>Your bite misses [victim]!</span>")
-			return TRUE
-		///REMINDER TO MYSELF TO CORRECT THESE RAND VALUES LATER
-		victim.apply_damage(rand(1, 3), BRUTE, affecting, armor)
-		victim.visible_message("<span class='danger'>[name] bites [victim]!</span>",
-			"<span class='userdanger'>[name] bites you!</span>", "<span class='hear'>You hear a chomp!</span>", COMBAT_MESSAGE_RANGE, name)
-		to_chat(user, "<span class='danger'>You bite [victim]!</span>")
-		if(armor >= 2)
-			return TRUE
-		for(var/d in user.diseases)
-			var/datum/disease/bite_infection = d
-			victim.ForceContractDisease(bite_infection)
-		return TRUE
-	target.attack_paw(user)
-	return TRUE
-
-/datum/species/monkey/on_species_gain(mob/living/carbon/human/H, datum/species/old_species)
-	. = ..()
-	H.pass_flags |= PASSTABLE
-	H.butcher_results = knife_butcher_results
+	//Fix our tail
 	if(!H.dna.features["tail_monkey"] || H.dna.features["tail_monkey"] == "None" || H.dna.features["tail_monkey"] == "Monkey")
 		H.dna.features["tail_monkey"] = "Simian"
 		handle_mutant_bodyparts(H)
-
-	H.dna.add_mutation(RACEMUT, MUT_NORMAL)
-	H.dna.activate_mutation(RACEMUT)
-
+	//Catch equips
+	RegisterSignal(H, COMSIG_MOB_EQUIPPED_ITEM, PROC_REF(catch_equipped))
+	RegisterSignal(H, COMSIG_MOB_DROPPED_ITEM, PROC_REF(catch_equipped))
 
 /datum/species/monkey/simian/get_species_description()
 	return "Simians are a distant relative of the Monkey, much like Humans. However, unlike Humans, \
-	Simians didn't diverge quite as far from their ancestors, retaining more of their features."
+	Simians didn't diverge quite as far from their ancestors, retaining more of their predecessor's \
+	features."
 
 /datum/species/monkey/simian/get_species_lore()
 	return list(
@@ -137,3 +107,18 @@
 	))
 
 	return to_add
+
+/datum/species/monkey/simian/proc/catch_equipped(datum/source, obj/item, slot)
+	SIGNAL_HANDLER
+
+	var/mob/living/carbon/M = source
+	var/current_hand_weight = 0
+	for(var/i in list(3, 4)) //Which hands we're checking, which is the feet hands in this case
+		current_hand_weight += M.get_item_for_held_index(i) ? 1 : 0
+	M.add_or_update_variable_movespeed_modifier(/datum/movespeed_modifier/simian_hand_content,  multiplicative_slowdown=current_hand_weight*SIMIAN_HAND_SLOWDOWN)
+
+/datum/movespeed_modifier/simian_hand_content
+	movetypes = ~FLYING
+	variable = TRUE
+
+#undef SIMIAN_HAND_SLOWDOWN

@@ -33,7 +33,10 @@
 	var/body_part = null //bitflag used to check which clothes cover this bodypart
 
 	var/list/embedded_objects = list()
+
 	var/held_index = 0 //are we a hand? if so, which one!
+	var/list/held_offset //If we can hold stuff, where exactly do we do that?
+
 	var/is_pseudopart = FALSE //For limbs that don't really exist, eg chainsaws
 
 	var/disabled = BODYPART_NOT_DISABLED //If disabled, limb is as good as missing
@@ -463,6 +466,7 @@
 
 	//Color features
 	if(f_color_icon)
+		//This doesn't support auxzone feature colors, becuase I didn't need it, but feel free to add it if you do
 		var/image/color_feature = image(f_color_icon, "[limb_id]_[body_zone][is_dimorphic ? "_[limb_gender]" : ""]_fcolor", limb.layer, image_dir)
 		color_feature.color = "#[draw_color]"
 		. += color_feature
@@ -476,9 +480,9 @@
 
 	//Set limb color
 	if(draw_color)
-		if(!f_color_icon) //TODO: - Racc
+		if(!f_color_icon) //If we have a feature color icon we color that instead
 			limb.color = "#[draw_color]"
-		if(aux_zone)
+		if(!f_color_icon && aux_zone) //See above, 469
 			aux.color = "#[draw_color]"
 
 /obj/item/bodypart/deconstruct(disassembled = TRUE)

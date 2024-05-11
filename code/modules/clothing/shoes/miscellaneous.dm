@@ -70,6 +70,7 @@
 	item_state = "clown_shoes"
 	slowdown = SHOES_SLOWDOWN+1
 	pocket_storage_component_path = /datum/component/storage/concrete/pockets/shoes/clown
+	species_restricted = null //Remove simian restriction
 	var/datum/component/waddle
 	var/enabled_waddle = TRUE
 

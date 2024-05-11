@@ -10,6 +10,7 @@
 	strip_delay = 70
 	equip_delay_other = 70
 	resistance_flags = FIRE_PROOF
+	species_restricted = null //Remove simian restriction
 
 
 /obj/item/clothing/shoes/magboots/verb/toggle()

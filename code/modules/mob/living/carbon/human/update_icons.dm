@@ -772,6 +772,13 @@ generate/load female uniform sprites matching all previously decided variables
 		else //No offsets or Unwritten number of hands
 			return list("x" = 0, "y" = 0)//Handle held offsets
 
+/mob/living/carbon/get_item_offsets_for_index(i)
+	//If our bodypart has it's own index
+	var/obj/item/bodypart/B = hand_bodyparts[i]
+	if(B?.held_offset)
+		return B?.held_offset
+	//Otherwise default
+	return ..()
 
 /mob/living/carbon/human/proc/update_observer_view(obj/item/I, inventory)
 	if(observers && observers.len)
