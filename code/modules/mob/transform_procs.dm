@@ -4,7 +4,7 @@
 	if (notransform || transformation_timer)
 		return
 
-	if(ismonkey(src))
+	if(ismonkey(src) || issimian(src))
 		return
 
 	//Make mob invisible and spawn animation

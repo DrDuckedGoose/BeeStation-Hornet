@@ -58,10 +58,7 @@
 
 /datum/species/monkey/simian/get_species_lore()
 	return list(
-		"Monkeys are commonly used as test subjects on board Space Station 13. \
-		But what if... for one day... the Monkeys were allowed to be the scientists? \
-		What experiments would they come up with? Would they (stereotypically) be related to bananas somehow? \
-		There's only one way to find out.",
+		"Simians come from the future!!! Kinda...",
 	)
 
 /datum/species/monkey/simian/create_pref_unique_perks()
@@ -72,41 +69,34 @@
 			SPECIES_PERK_TYPE = SPECIES_POSITIVE_PERK,
 			SPECIES_PERK_ICON = "spider",
 			SPECIES_PERK_NAME = "Vent Crawling",
-			SPECIES_PERK_DESC = "Monkeys can crawl through the vent and scrubber networks while wearing no clothing. \
+			SPECIES_PERK_DESC = "[name]s can crawl through the vent and scrubber networks while wearing no clothing. \
 				Stay out of the kitchen!",
 		),
 		list(
-			SPECIES_PERK_TYPE = SPECIES_NEGATIVE_PERK,
-			SPECIES_PERK_ICON = "paw",
-			SPECIES_PERK_NAME = "Primal Primate",
-			SPECIES_PERK_DESC = "Monkeys are primitive humans, and can't do most things a human can do. Computers are impossible, \
-				complex machines are right out, and most clothes don't fit your smaller form.",
+			SPECIES_PERK_TYPE = SPECIES_POSITIVE_PERK,
+			SPECIES_PERK_ICON = "hand",
+			SPECIES_PERK_NAME = "Prehensile Feet",
+			SPECIES_PERK_DESC = "[name]s have prehensile feet, and can use them to pick-up, carry, and use items. \
+			However, holding items like this will slow them down.",
 		),
 		list(
 			SPECIES_PERK_TYPE = SPECIES_NEGATIVE_PERK,
-			SPECIES_PERK_ICON = "capsules",
-			SPECIES_PERK_NAME = "Mutadone Averse",
-			SPECIES_PERK_DESC = "Monkeys are reverted into normal humans upon being exposed to Mutadone.",
+			SPECIES_PERK_ICON = "Foot",
+			SPECIES_PERK_NAME = "Animal Feet",
+			SPECIES_PERK_DESC = "Most footwear wont fit your unique feet. Watch out for broken glass!",
 		),
+		list(
+			SPECIES_PERK_TYPE = SPECIES_NEGATIVE_PERK,
+			SPECIES_PERK_ICON = "Arm",
+			SPECIES_PERK_NAME = "Weak Arms",
+			SPECIES_PERK_DESC = "Your arms aren't quite strong enough to properly weild most objects, like shotguns.",
+		)
 	)
 
 	return to_add
 
-/datum/species/monkey/simian/create_pref_language_perk()
-	var/list/to_add = list()
-	// Holding these variables so we can grab the exact names for our perk.
-	var/datum/language/common_language = /datum/language/common
-	var/datum/language/monkey_language = /datum/language/monkey
-
-	to_add += list(list(
-		SPECIES_PERK_TYPE = SPECIES_NEGATIVE_PERK,
-		SPECIES_PERK_ICON = "comment",
-		SPECIES_PERK_NAME = "Primitive Tongue",
-		SPECIES_PERK_DESC = "You may be able to understand [initial(common_language.name)], but you can't speak it. \
-			You can only speak [initial(monkey_language.name)].",
-	))
-
-	return to_add
+/datum/species/monkey/simian/monkey_language_perk()
+	return
 
 /datum/species/monkey/simian/proc/catch_equipped(datum/source, obj/item, slot)
 	SIGNAL_HANDLER

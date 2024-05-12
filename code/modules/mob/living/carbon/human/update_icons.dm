@@ -773,6 +773,8 @@ generate/load female uniform sprites matching all previously decided variables
 			return list("x" = 0, "y" = 0)//Handle held offsets
 
 /mob/living/carbon/get_item_offsets_for_index(i)
+	if(i > hand_bodyparts?.len || i < 0 || !i)
+		return ..()
 	//If our bodypart has it's own index
 	var/obj/item/bodypart/B = hand_bodyparts[i]
 	if(B?.held_offset)

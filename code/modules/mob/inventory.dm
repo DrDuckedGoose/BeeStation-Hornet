@@ -27,7 +27,7 @@
 
 
 /mob/proc/get_item_for_held_index(i)
-    if(!length(held_items))
+    if(!length(held_items) || !i || i > held_items?.len || i < 0)
         return null
     return held_items[i]
 

@@ -158,7 +158,7 @@
 	. = owner.monkeyize()
 
 /datum/mutation/human/race/on_losing(mob/living/carbon/human/owner)
-	if(owner && owner.stat != DEAD && (owner.dna.mutations.Remove(src)) && ismonkey(owner))
+	if(owner && owner.stat != DEAD && (owner.dna.mutations.Remove(src)) && (ismonkey(owner) || issimian(owner)))
 		. = owner.humanize(original_species)
 
 /datum/mutation/human/glow

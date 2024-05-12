@@ -87,7 +87,7 @@
 			var/datum/disease/bite_infection = d
 			victim.ForceContractDisease(bite_infection)
 		return TRUE
-	target.attack_paw(user)
+	target.attack_hand(user)
 	return TRUE
 
 /datum/species/monkey/get_scream_sound(mob/living/carbon/human/monkey)
@@ -142,6 +142,11 @@
 	return to_add
 
 /datum/species/monkey/create_pref_language_perk()
+	. = monkey_language_perk()
+	if(!.)
+		return ..()
+
+/datum/species/monkey/proc/monkey_language_perk()
 	var/list/to_add = list()
 	// Holding these variables so we can grab the exact names for our perk.
 	var/datum/language/common_language = /datum/language/common

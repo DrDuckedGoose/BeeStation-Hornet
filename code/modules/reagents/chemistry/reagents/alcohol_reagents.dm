@@ -1210,7 +1210,7 @@ All effects don't start immediately, but rather get worse over time; the rate is
 	glass_desc = "A drink from Clown Heaven."
 
 /datum/reagent/consumable/ethanol/bananahonk/on_mob_life(mob/living/carbon/M)
-	if((ishuman(M) && M.job == JOB_NAME_CLOWN) || ismonkey(M))
+	if((ishuman(M) && M.job == JOB_NAME_CLOWN) || ismonkey(M) || issimian(M))
 		M.heal_bodypart_damage(1,1)
 		. = 1
 	return ..() || .

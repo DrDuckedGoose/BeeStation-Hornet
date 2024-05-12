@@ -23,6 +23,7 @@
 	var/unwield_on_swap								/// Allow swapping, unwield on swap
 	var/auto_wield									/// If true wielding will be performed when picked up
 	var/ignore_attack_self							/// If true will not unwield when attacking self.
+	var/too_heavy = TRUE //Is it too heavy for small monkeys and simians?
 
 /**
  * Two Handed component
@@ -42,7 +43,7 @@
 /datum/component/two_handed/Initialize(require_twohands=FALSE, wieldsound=FALSE, unwieldsound=FALSE, attacksound=FALSE, \
 		force_multiplier=0, force_wielded=0, force_unwielded=0, block_power_wielded=0, \
 		block_power_unwielded=0, icon_wielded=FALSE, \
-		unwield_on_swap = FALSE, auto_wield = FALSE, ignore_attack_self = FALSE)
+		unwield_on_swap = FALSE, auto_wield = FALSE, ignore_attack_self = FALSE, too_heavy = TRUE)
 	if(!isitem(parent))
 		return COMPONENT_INCOMPATIBLE
 
@@ -59,6 +60,7 @@
 	src.unwield_on_swap = unwield_on_swap
 	src.auto_wield = auto_wield
 	src.ignore_attack_self = ignore_attack_self
+	src.too_heavy = too_heavy
 
 	if(require_twohands)
 		ADD_TRAIT(parent, TRAIT_NEEDS_TWO_HANDS, ABSTRACT_ITEM_TRAIT)
@@ -165,7 +167,7 @@
 	if(attached_atom.loc != user)
 		to_chat(user, "<span class='warning'>You attempt to wield [parent] via the power of telekenisis, but it is too much for you to handle...</span>")
 		return
-	if(ismonkey(user))
+	if((ismonkey(user) || issimian(user)) && too_heavy)
 		to_chat(user, "<span class='warning'>It's too heavy for you to wield fully.</span>")
 		return
 	if(swap_hands ? user.get_active_held_item() : user.get_inactive_held_item())
