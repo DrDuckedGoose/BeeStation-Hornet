@@ -11,9 +11,9 @@
 	flags_inv = HIDESUITSTORAGE
 	pocket_storage_component_path = /datum/component/storage/concrete/pockets/exo/cloak
 
-/obj/item/clothing/neck/cloak/suicide_act(mob/user)
+/obj/item/clothing/neck/cloak/suicide_act(mob/living/user)
 	user.visible_message("<span class='suicide'>[user] is strangling [user.p_them()]self with [src]! It looks like [user.p_theyre()] trying to commit suicide!</span>")
-	return(OXYLOSS)
+	return OXYLOSS
 
 /obj/item/clothing/neck/cloak/hos
 	name = "head of security's cloak"
@@ -49,6 +49,14 @@
 	name = "head of personnel's cloak"
 	desc = "Worn by the Head of Personnel. It smells faintly of bureaucracy."
 	icon_state = "hopcloak"
+
+/obj/item/clothing/suit/hooded/cloak
+	icon = 'icons/obj/clothing/suits/armor.dmi'
+	worn_icon = 'icons/mob/clothing/suits/armor.dmi'
+
+/obj/item/clothing/head/hooded/cloakhood
+	icon = 'icons/obj/clothing/head/helmet.dmi'
+	worn_icon = 'icons/mob/clothing/head/helmet.dmi'
 
 /obj/item/clothing/suit/hooded/cloak/goliath
 	name = "goliath cloak"

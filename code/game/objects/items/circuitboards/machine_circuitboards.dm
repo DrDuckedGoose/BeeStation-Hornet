@@ -945,7 +945,7 @@
 	var/new_cloud = input("Set the public nanite chamber's Cloud ID (1-100).", "Cloud ID", cloud_id) as num|null
 	if(new_cloud == null)
 		return
-	cloud_id = CLAMP(round(new_cloud, 1), 1, 100)
+	cloud_id = clamp(round(new_cloud, 1), 1, 100)
 
 /obj/item/circuitboard/machine/public_nanite_chamber/examine(mob/user)
 	. = ..()
@@ -1054,6 +1054,13 @@
 	name = "deep fryer (Machine Board)"
 	icon_state = "service"
 	build_path = /obj/machinery/deepfryer
+	req_components = list(/obj/item/stock_parts/micro_laser = 1)
+	needs_anchored = FALSE
+
+/obj/item/circuitboard/machine/griddle
+	name = "circuit board (Griddle)"
+	icon_state = "service"
+	build_path = /obj/machinery/griddle
 	req_components = list(/obj/item/stock_parts/micro_laser = 1)
 	needs_anchored = FALSE
 
@@ -1277,6 +1284,13 @@
 
 //Misc
 
+/obj/item/circuitboard/machine/sheetifier
+	name = "Sheet-meister 2000 (Machine Board)"
+	icon_state = "supply"
+	build_path = /obj/machinery/sheetifier
+	req_components = list(
+		/obj/item/stock_parts/manipulator = 2,
+		/obj/item/stock_parts/matter_bin = 2)
 
 /obj/item/circuitboard/machine/abductor
 	name = "alien board (Report This)"

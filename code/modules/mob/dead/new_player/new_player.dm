@@ -64,7 +64,7 @@
 			var/isadmin = FALSE
 			if(client?.holder)
 				isadmin = TRUE
-			var/datum/DBQuery/query_get_new_polls = SSdbcore.NewQuery({"
+			var/datum/db_query/query_get_new_polls = SSdbcore.NewQuery({"
 				SELECT id FROM [format_table_name("poll_question")]
 				WHERE (adminonly = 0 OR :isadmin = 1)
 				AND Now() BETWEEN starttime AND endtime
@@ -370,8 +370,8 @@
 						SSticker.mode.make_antag_chance(humanc)
 						SSticker.mode.make_special_antag_chance(humanc)
 
-	if(humanc && CONFIG_GET(flag/roundstart_traits))
-		SSquirks.AssignQuirks(character.mind, humanc.client, TRUE)
+	if(CONFIG_GET(flag/roundstart_traits))
+		SSquirks.AssignQuirks(character.mind, character.client, TRUE)
 
 	log_manifest(character.mind.key,character.mind,character,latejoin = TRUE)
 

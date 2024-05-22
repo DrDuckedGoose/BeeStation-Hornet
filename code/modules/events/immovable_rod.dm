@@ -87,7 +87,7 @@ In my current plan for it, 'solid' will be defined as anything with density == 1
 	if(href_list["orbit"])
 		var/mob/dead/observer/ghost = usr
 		if(istype(ghost))
-			ghost.ManualFollow(src)
+			ghost.check_orbitable(src)
 
 /obj/effect/immovablerod/Moved()
 	if(!loc)
@@ -106,9 +106,6 @@ In my current plan for it, 'solid' will be defined as anything with density == 1
 	special_target = null
 	destination = get_edge_target_turf(src, dir)
 	SSmove_manager.home_onto(src, destination)
-
-/obj/effect/immovablerod/ex_act(severity, target)
-	return 0
 
 /obj/effect/immovablerod/singularity_act()
 	return
@@ -130,7 +127,7 @@ In my current plan for it, 'solid' will be defined as anything with density == 1
 
 	if(isturf(clong) || isobj(clong))
 		if(clong.density)
-			clong.ex_act(EXPLODE_HEAVY)
+			EX_ACT(clong, EXPLODE_HEAVY)
 
 	else if(isliving(clong))
 		penetrate(clong)
@@ -153,7 +150,7 @@ In my current plan for it, 'solid' will be defined as anything with density == 1
 		var/mob/living/carbon/human/H = L
 		H.adjustBruteLoss(160)
 	if(L && (L.density || prob(10)))
-		L.ex_act(EXPLODE_HEAVY)
+		EX_ACT(L, EXPLODE_HEAVY)
 
 /obj/effect/immovablerod/attack_hand(mob/living/user)
 	if(ishuman(user))

@@ -96,16 +96,18 @@
 		visible_message("<span class='warning'>[M] has been implanted by [src].</span>")
 		return TRUE
 
-/obj/machinery/implantchair/update_icon()
+/obj/machinery/implantchair/update_icon_state()
 	icon_state = initial(icon_state)
 	if(state_open)
 		icon_state += "_open"
 	if(occupant)
 		icon_state += "_occupied"
+	return ..()
+
+/obj/machinery/implantchair/update_overlays()
+	. = ..()
 	if(ready)
-		add_overlay("ready")
-	else
-		cut_overlays()
+		. += "ready"
 
 /obj/machinery/implantchair/proc/replenish()
 	if(ready_implants < max_implants)
@@ -193,7 +195,7 @@
 		return FALSE
 	if(ishuman(C))
 		var/mob/living/carbon/human/H = C
-		if(istype(H.get_item_by_slot(ITEM_SLOT_HEAD), /obj/item/clothing/head/foilhat))
+		if(istype(H.get_item_by_slot(ITEM_SLOT_HEAD), /obj/item/clothing/head/costume/foilhat))
 			to_chat(H, "<span class ='userdanger'>Your trusty tinfoil hat shorts out the implant as it plunges into your skull!</span>")
 			H.adjustOrganLoss(ORGAN_SLOT_BRAIN, 75)
 			H.emote("scream")

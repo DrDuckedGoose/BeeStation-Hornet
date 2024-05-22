@@ -26,6 +26,7 @@
 	desc = "All that remains of a hivelord. It can be used to heal completely, but it will rapidly decay into uselessness."
 	icon_state = "roro core 2"
 	item_flags = NOBLUDGEON
+	organ_flags = null
 	slot = "hivecore"
 	force = 0
 	actions_types = list(/datum/action/item_action/organ_action/use)
@@ -128,16 +129,16 @@
 
 /obj/item/organ/regenerative_core/legion/Initialize(mapload)
 	. = ..()
-	update_icon()
+	update_appearance()
 
-/obj/item/organ/regenerative_core/update_icon()
+/obj/item/organ/regenerative_core/update_icon_state()
 	icon_state = inert ? "legion_soul_inert" : "legion_soul"
-	cut_overlays()
+	return ..()
+
+/obj/item/organ/regenerative_core/update_overlays()
+	. = ..()
 	if(!inert && !preserved)
-		add_overlay("legion_soul_crackle")
-	for(var/X in actions)
-		var/datum/action/A = X
-		A.UpdateButtonIcon()
+		. += "legion_soul_crackle"
 
 /obj/item/organ/regenerative_core/legion/go_inert()
 	..()

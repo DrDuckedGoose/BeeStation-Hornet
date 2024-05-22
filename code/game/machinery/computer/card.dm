@@ -16,7 +16,7 @@ GLOBAL_VAR_INIT(time_last_changed_position, 0)
 	name = "identification console"
 	desc = "You can use this to manage jobs and ID access."
 	icon_screen = "id"
-	icon_keyboard = "id_key"
+	icon_keyboard = "generic_key"
 	req_one_access = list(ACCESS_HEADS, ACCESS_CHANGE_IDS)
 	circuit = /obj/item/circuitboard/computer/card
 	var/mode = 0
@@ -1003,7 +1003,7 @@ GLOBAL_VAR_INIT(time_last_changed_position, 0)
 	target_paycheck = ACCOUNT_ENG_ID
 	icon_screen = "idce"
 
-	light_color = LIGHT_COLOR_YELLOW
+	light_color = LIGHT_COLOR_DIM_YELLOW
 
 #undef DEPT_ALL
 #undef DEPT_GEN

@@ -18,7 +18,7 @@
 	response_disarm = "shoves"
 	response_harm = "hits"
 	speed = 0
-	stat_attack = UNCONSCIOUS
+	stat_attack = HARD_CRIT
 	robust_searching = 1
 	maxHealth = 100
 	health = 100
@@ -172,7 +172,7 @@
 				continue
 			else
 				var/healthdiff = 10-round(H.health/10)
-				Targets[H] = CLAMP(healthdiff,1,12)
+				Targets[H] = clamp(healthdiff,1,12)
 	if(!Targets.len)//sanity check
 		return
 	return pick_weight(Targets)//Pick the remaining targets (if any) at random

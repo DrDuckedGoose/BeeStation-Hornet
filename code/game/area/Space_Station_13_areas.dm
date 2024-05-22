@@ -52,6 +52,7 @@ NOTE: there are two lists of areas in the end of this file: centcom and station 
 
 /area/testroom
 	requires_power = FALSE
+	has_gravity = STANDARD_GRAVITY
 	name = "Test Room"
 	icon_state = "storage"
 
@@ -68,7 +69,7 @@ NOTE: there are two lists of areas in the end of this file: centcom and station 
 	fullbright_type = FULLBRIGHT_STARLIGHT
 
 /area/asteroid/nearstation
-	dynamic_lighting = DYNAMIC_LIGHTING_FORCED
+	dynamic_lighting = DYNAMIC_LIGHTING_ENABLED
 	ambience_index = AMBIENCE_RUINS
 	always_unpowered = FALSE
 	requires_power = TRUE
@@ -77,8 +78,34 @@ NOTE: there are two lists of areas in the end of this file: centcom and station 
 /area/asteroid/nearstation/bomb_site
 	name = "Bomb Testing Asteroid"
 
-//STATION13
+/area/asteroid/paradise
+	name = "paradise"
+	icon_state = "asteroid"
+	outdoors = TRUE
+	area_flags = VALID_TERRITORY | UNIQUE_AREA | CAVES_ALLOWED
+	dynamic_lighting = DYNAMIC_LIGHTING_DISABLED
 
+/area/asteroid/paradise/surface
+	name = "paradise surface"
+	ambientsounds = list('sound/ambience/seag1.ogg','sound/ambience/seag2.ogg','sound/ambience/seag2.ogg','sound/ambience/ambiodd.ogg','sound/ambience/ambinice.ogg')
+	sound_environment = null
+
+/area/asteroid/paradise/surface/sand
+	name = "paradise surface sand"
+	map_generator = /datum/map_generator/grass_generator
+
+/area/asteroid/paradise/surface/water
+	name = "paradise surface water"
+	ambientsounds = list('sound/ambience/shore.ogg')
+	mood_bonus = 1
+	mood_message = "<span class='warning'>The waves sound nice.\n</span>"
+
+/area/asteroid/paradise/surface/grass
+	name = "paradise surface grass"
+	map_generator = /datum/map_generator/grass_generator
+
+
+//STATION13
 //Docking Areas
 
 /area/docking
@@ -121,6 +148,7 @@ NOTE: there are two lists of areas in the end of this file: centcom and station 
 	ambience_index = AMBIENCE_MAINT
 	ambient_buzz = 'sound/ambience/source_corridor2.ogg'
 	ambient_buzz_vol = 20
+	area_flags = HIDDEN_STASH_LOCATION | VALID_TERRITORY | BLOBS_ALLOWED | UNIQUE_AREA
 	rare_ambient_sounds = list(
 		'sound/machines/airlock.ogg',
 		'sound/effects/snap.ogg',
@@ -148,15 +176,20 @@ NOTE: there are two lists of areas in the end of this file: centcom and station 
 	lights_always_start_on = TRUE
 	color_correction = /datum/client_colour/area_color/cold_ish
 
+/area/maintenance/get_turf_textures()
+	return GLOB.turf_texture_maint
+
 //Maintenance - Departmental
 
 /area/maintenance/department/chapel
 	name = "Chapel Maintenance"
 	icon_state = "maint_chapel"
+	area_flags = VALID_TERRITORY | BLOBS_ALLOWED | UNIQUE_AREA
 
 /area/maintenance/department/chapel/monastery
 	name = "Monastery Maintenance"
 	icon_state = "maint_monastery"
+	area_flags = VALID_TERRITORY | BLOBS_ALLOWED | UNIQUE_AREA
 
 /area/maintenance/department/crew_quarters/bar
 	name = "Bar Maintenance"
@@ -179,14 +212,17 @@ NOTE: there are two lists of areas in the end of this file: centcom and station 
 /area/maintenance/department/engine/atmos
 	name = "Atmospherics Maintenance"
 	icon_state = "maint_atmos"
+	area_flags = VALID_TERRITORY | BLOBS_ALLOWED | UNIQUE_AREA
 
 /area/maintenance/department/security
 	name = "Security Maintenance"
 	icon_state = "maint_sec"
+	area_flags = VALID_TERRITORY | BLOBS_ALLOWED | UNIQUE_AREA
 
 /area/maintenance/department/security/brig
 	name = "Brig Maintenance"
 	icon_state = "maint_brig"
+	area_flags = VALID_TERRITORY | BLOBS_ALLOWED | UNIQUE_AREA
 
 /area/maintenance/department/medical
 	name = "Medbay Maintenance"
@@ -204,6 +240,9 @@ NOTE: there are two lists of areas in the end of this file: centcom and station 
 	name = "Science Maintenance"
 	icon_state = "maint_sci"
 
+/area/maintenance/department/science/get_turf_textures()
+	return GLOB.turf_texture_hallway
+
 /area/maintenance/department/science/central
 	name = "Central Science Maintenance"
 	icon_state = "maint_sci_central"
@@ -215,6 +254,7 @@ NOTE: there are two lists of areas in the end of this file: centcom and station 
 /area/maintenance/department/bridge
 	name = "Bridge Maintenance"
 	icon_state = "maint_bridge"
+	area_flags = VALID_TERRITORY | BLOBS_ALLOWED | UNIQUE_AREA
 
 /area/maintenance/department/engine
 	name = "Engineering Maintenance"
@@ -369,13 +409,17 @@ NOTE: there are two lists of areas in the end of this file: centcom and station 
 
 //Hallway
 /area/hallway
-	sound_environment = SOUND_AREA_STANDARD_STATION
-	lights_always_start_on = TRUE
 
 /area/hallway
+	area_flags = HIDDEN_STASH_LOCATION | VALID_TERRITORY | BLOBS_ALLOWED | UNIQUE_AREA
+	sound_environment = SOUND_AREA_STANDARD_STATION
+	lights_always_start_on = TRUE
 	lighting_colour_tube = "#ffce99"
 	lighting_colour_bulb = "#ffdbb4"
 	lighting_brightness_tube = 8
+
+/area/hallway/get_turf_textures()
+	return GLOB.turf_texture_hallway
 
 /area/hallway/primary
 	name = "Primary Hallway"
@@ -403,6 +447,7 @@ NOTE: there are two lists of areas in the end of this file: centcom and station 
 /area/hallway/secondary/command
 	name = "Command Hallway"
 	icon_state = "bridge_hallway"
+	area_flags = VALID_TERRITORY | BLOBS_ALLOWED | UNIQUE_AREA
 
 /area/hallway/secondary/construction
 	name = "Construction Area"
@@ -455,6 +500,7 @@ NOTE: there are two lists of areas in the end of this file: centcom and station 
 /area/hallway/upper/secondary/command
 	name = "Upper Command Hallway"
 	icon_state = "bridge_hallway"
+	area_flags = VALID_TERRITORY | BLOBS_ALLOWED | UNIQUE_AREA
 
 /area/hallway/upper/secondary/construction
 	name = "Upper Construction Area"
@@ -506,6 +552,9 @@ NOTE: there are two lists of areas in the end of this file: centcom and station 
 	name = "Corporate Showroom"
 	icon_state = "showroom"
 	sound_environment = SOUND_AREA_MEDIUM_SOFTFLOOR
+
+/area/crew_quarters
+	area_flags = VALID_TERRITORY | BLOBS_ALLOWED | UNIQUE_AREA
 
 /area/crew_quarters/heads/captain
 	name = "Captain's Office"
@@ -571,6 +620,7 @@ NOTE: there are two lists of areas in the end of this file: centcom and station 
 //Crew
 
 /area/crew_quarters
+	area_flags = HIDDEN_STASH_LOCATION | VALID_TERRITORY | BLOBS_ALLOWED | UNIQUE_AREA
 	lighting_colour_tube = "#ffce99"
 	lighting_colour_bulb = "#ffdbb4"
 	lighting_brightness_tube = 8
@@ -578,12 +628,17 @@ NOTE: there are two lists of areas in the end of this file: centcom and station 
 	lights_always_start_on = TRUE
 	color_correction = /datum/client_colour/area_color/warm_ish
 
+/area/crew_quarters/get_turf_textures()
+	return GLOB.turf_texture_hallway
+
 /area/crew_quarters/dorms
 	name = "Dormitories"
 	icon_state = "dorms"
-	area_flags = VALID_TERRITORY | BLOBS_ALLOWED | UNIQUE_AREA
 	mood_bonus = 3
 	mood_message = "<span class='nicegreen'>There's no place like the dorms!\n</span>"
+
+/area/commons
+	area_flags = HIDDEN_STASH_LOCATION | VALID_TERRITORY | BLOBS_ALLOWED | UNIQUE_AREA
 
 /area/commons/dorms/barracks
 	name = "Sleep Barracks"
@@ -684,6 +739,7 @@ NOTE: there are two lists of areas in the end of this file: centcom and station 
 	icon_state = "bar"
 	mood_bonus = 5
 	mood_message = "<span class='nicegreen'>I love being in the bar!\n</span>"
+	lights_always_start_on = TRUE
 	lighting_colour_tube = "#fff4d6"
 	lighting_colour_bulb = "#ffebc1"
 	sound_environment = SOUND_AREA_WOODFLOOR
@@ -701,13 +757,6 @@ NOTE: there are two lists of areas in the end of this file: centcom and station 
 	sound_environment = SOUND_AREA_SMALL_SOFTFLOOR
 
 /area/crew_quarters/bar/Initialize(mapload)
-	. = ..()
-	GLOB.bar_areas += src
-
-/area/service/bar
-	lights_always_start_on = TRUE
-
-/area/service/bar/Initialize(mapload)
 	. = ..()
 	GLOB.bar_areas += src
 
@@ -748,6 +797,7 @@ NOTE: there are two lists of areas in the end of this file: centcom and station 
 	name = "Library"
 	icon_state = "library"
 	flags_1 = NONE
+	area_flags = HIDDEN_STASH_LOCATION | VALID_TERRITORY | BLOBS_ALLOWED | UNIQUE_AREA
 
 	lighting_colour_tube = "#ffce99"
 	lighting_colour_bulb = "#ffdbb4"
@@ -768,6 +818,7 @@ NOTE: there are two lists of areas in the end of this file: centcom and station 
 /area/chapel
 	icon_state = "chapel"
 	ambience_index = AMBIENCE_HOLY
+	area_flags = HIDDEN_STASH_LOCATION | VALID_TERRITORY | BLOBS_ALLOWED | UNIQUE_AREA
 	flags_1 = NONE
 	clockwork_warp_allowed = FALSE
 	clockwork_warp_fail = "The consecration here prevents you from warping in."
@@ -801,6 +852,7 @@ NOTE: there are two lists of areas in the end of this file: centcom and station 
 	icon_state = "law"
 	sound_environment = SOUND_AREA_SMALL_SOFTFLOOR
 	airlock_hack_difficulty = AIRLOCK_WIRE_SECURITY_PROTECTED
+	area_flags = HIDDEN_STASH_LOCATION | VALID_TERRITORY | BLOBS_ALLOWED | UNIQUE_AREA
 
 
 //Engineering
@@ -820,6 +872,9 @@ NOTE: there are two lists of areas in the end of this file: centcom and station 
 /area/engine/engineering
 	name = "Engineering"
 	icon_state = "engine"
+
+/area/engine/engineering/get_turf_textures()
+	return GLOB.turf_texture_hallway
 
 /area/engineering/hallway
 	name = "Engineering Hallway"
@@ -939,6 +994,7 @@ NOTE: there are two lists of areas in the end of this file: centcom and station 
 /area/maintenance/solars
 	name = "Solar Maintenance"
 	icon_state = "yellow"
+	area_flags = VALID_TERRITORY | BLOBS_ALLOWED | UNIQUE_AREA
 
 /area/maintenance/solars/port
 	name = "Port Solar Maintenance"
@@ -984,6 +1040,7 @@ NOTE: there are two lists of areas in the end of this file: centcom and station 
 /area/medical
 	name = "Medical"
 	icon_state = "medbay"
+	area_flags = HIDDEN_STASH_LOCATION | VALID_TERRITORY | BLOBS_ALLOWED | UNIQUE_AREA
 	ambience_index = AMBIENCE_MEDICAL
 	sound_environment = SOUND_AREA_STANDARD_STATION
 	mood_bonus = 2
@@ -1024,10 +1081,12 @@ NOTE: there are two lists of areas in the end of this file: centcom and station 
 /area/medical/storage
 	name = "Medbay Storage"
 	icon_state = "med_storage"
+	area_flags = VALID_TERRITORY | BLOBS_ALLOWED | UNIQUE_AREA
 
 /area/medical/office
 	name = "Medical Office"
 	icon_state = "med_office"
+	area_flags = VALID_TERRITORY | BLOBS_ALLOWED | UNIQUE_AREA
 
 /area/medical/break_room
 	name = "Medical Break Room"
@@ -1056,6 +1115,7 @@ NOTE: there are two lists of areas in the end of this file: centcom and station 
 	ambience_index = AMBIENCE_VIROLOGY
 	flags_1 = NONE
 	airlock_hack_difficulty = AIRLOCK_WIRE_SECURITY_PROTECTED
+	area_flags = VALID_TERRITORY | BLOBS_ALLOWED | UNIQUE_AREA
 
 /area/medical/morgue
 	name = "Morgue"
@@ -1070,6 +1130,7 @@ NOTE: there are two lists of areas in the end of this file: centcom and station 
 	name = "Chemistry"
 	icon_state = "chem"
 	airlock_hack_difficulty = AIRLOCK_WIRE_SECURITY_PROTECTED
+	area_flags = VALID_TERRITORY | BLOBS_ALLOWED | UNIQUE_AREA
 
 /area/medical/chemistry/upper
 	name = "Upper Chemistry"
@@ -1083,6 +1144,7 @@ NOTE: there are two lists of areas in the end of this file: centcom and station 
 	name = "Surgery"
 	icon_state = "surgery"
 	airlock_hack_difficulty = AIRLOCK_WIRE_SECURITY_ADVANCED
+	area_flags = VALID_TERRITORY | BLOBS_ALLOWED | UNIQUE_AREA
 
 /area/medical/surgery/aux
 	name = "Auxillery Surgery"
@@ -1091,6 +1153,7 @@ NOTE: there are two lists of areas in the end of this file: centcom and station 
 /area/medical/cryo
 	name = "Cryogenics"
 	icon_state = "cryo"
+	area_flags = VALID_TERRITORY | BLOBS_ALLOWED | UNIQUE_AREA
 
 /area/medical/exam_room
 	name = "Exam Room"
@@ -1100,6 +1163,7 @@ NOTE: there are two lists of areas in the end of this file: centcom and station 
 	name = "Genetics Lab"
 	icon_state = "genetics"
 	airlock_hack_difficulty = AIRLOCK_WIRE_SECURITY_PROTECTED
+	area_flags = VALID_TERRITORY | BLOBS_ALLOWED | UNIQUE_AREA
 
 /area/medical/genetics/cloning
 	name = "Cloning Lab"
@@ -1108,6 +1172,7 @@ NOTE: there are two lists of areas in the end of this file: centcom and station 
 /area/medical/sleeper
 	name = "Medbay Treatment Center"
 	icon_state = "exam_room"
+	area_flags = VALID_TERRITORY | BLOBS_ALLOWED | UNIQUE_AREA
 
 
 //Security
@@ -1122,6 +1187,9 @@ NOTE: there are two lists of areas in the end of this file: centcom and station 
 	airlock_hack_difficulty = AIRLOCK_WIRE_SECURITY_ELITE
 	color_correction = /datum/client_colour/area_color/warm_ish
 
+/area/security/get_turf_textures()
+	return GLOB.turf_texture_hallway
+
 /area/security/main
 	name = "Security Office"
 	icon_state = "security"
@@ -1134,6 +1202,13 @@ NOTE: there are two lists of areas in the end of this file: centcom and station 
 	mood_job_reverse = TRUE
 
 	mood_message = "<span class='warning'>I hate cramped brig cells.\n</span>"
+
+/area/security/brig/dock
+	name = "Brig Dock"
+
+/area/security/brig/medbay
+	name = "Brig Bay"
+
 
 /area/security/courtroom
 	name = "Courtroom"
@@ -1276,6 +1351,9 @@ NOTE: there are two lists of areas in the end of this file: centcom and station 
 	airlock_hack_difficulty = AIRLOCK_WIRE_SECURITY_PROTECTED
 	color_correction = /datum/client_colour/area_color/warm_yellow
 
+/area/quartermaster/get_turf_textures()
+	return GLOB.turf_texture_hallway
+
 /area/quartermaster/sorting
 	name = "Delivery Office"
 	icon_state = "cargo_delivery"
@@ -1348,8 +1426,12 @@ NOTE: there are two lists of areas in the end of this file: centcom and station 
 	name = "Hydroponics"
 	icon_state = "hydro"
 	sound_environment = SOUND_AREA_STANDARD_STATION
+	area_flags = HIDDEN_STASH_LOCATION | VALID_TERRITORY | BLOBS_ALLOWED | UNIQUE_AREA
 	airlock_hack_difficulty = AIRLOCK_WIRE_SECURITY_SIMPLE
 	color_correction = /datum/client_colour/area_color/cold_ish
+
+/area/hydroponics/get_turf_textures()
+	return GLOB.turf_texture_hallway
 
 /area/hydroponics/garden
 	name = "Garden"
@@ -1441,6 +1523,9 @@ NOTE: there are two lists of areas in the end of this file: centcom and station 
 	name = "Robotics"
 	icon_state = "robotics"
 
+/area/science/robotics/get_turf_textures()
+	return GLOB.turf_texture_hallway
+
 /area/science/robotics/mechbay
 	name = "Mech Bay"
 	icon_state = "mechbay"
@@ -1480,6 +1565,9 @@ NOTE: there are two lists of areas in the end of this file: centcom and station 
 /area/storage/primary
 	name = "Primary Tool Storage"
 	icon_state = "primarystorage"
+
+/area/storage/primary/get_turf_textures()
+	return GLOB.turf_texture_hallway
 
 /area/storage/art
 	name = "Art Supply Storage"
