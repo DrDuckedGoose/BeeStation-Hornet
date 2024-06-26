@@ -37,11 +37,9 @@
 		else
 			to_chat(user, "<span class='warning'>Access denied.</span>")
 
-/obj/item/nanite_remote/emag_act(mob/user)
-	if(obj_flags & EMAGGED)
-		return
+/obj/item/nanite_remote/on_emag(mob/user)
+	..()
 	to_chat(user, "<span class='warning'>You override [src]'s ID lock.</span>")
-	obj_flags |= EMAGGED
 	if(locked)
 		locked = FALSE
 		update_icon()
@@ -175,7 +173,6 @@
 /obj/item/nanite_remote/comm
 	name = "nanite communication remote"
 	desc = "A device that can send text messages to specific programs."
-	icon_state = "nanite_comm_remote"
 	var/comm_message = ""
 
 /obj/item/nanite_remote/comm/afterattack(atom/target, mob/user, etc)

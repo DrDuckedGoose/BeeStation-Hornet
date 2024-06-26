@@ -4,16 +4,16 @@
 //ASSISTANT
 /datum/job/assistant
 	mail_goodies = list(
-		/obj/item/reagent_containers/food/snacks/donkpocket/random = 10,
+		/obj/item/food/donkpocket/random = 10,
 		/obj/item/clothing/mask/gas/old = 10,
 		/obj/item/clothing/gloves/color/fyellow = 7,
-		/obj/item/choice_beacon/music = 5,
+		/obj/item/choice_beacon/radial/music = 5,
 		/obj/item/toy/crayon/spraycan = 3,
 		/obj/item/crowbar/large = 2,
 	)
 
 //ATMOSPHERIC TECHNICIAN
-/datum/job/atmos
+/datum/job/atmospheric_technician
 	mail_goodies = list(
 		/obj/item/book/manual/wiki/atmospherics = 12,
 		/obj/item/tank/internals/emergency_oxygen/engi = 10,
@@ -106,7 +106,7 @@
 /datum/job/chief_engineer
 	mail_goodies = list(
 		//you know. for poly
-		/obj/item/reagent_containers/food/snacks/cracker = 15,
+		/obj/item/food/cracker = 15,
 		/obj/item/reagent_containers/food/drinks/soda_cans/thirteenloko = 15,
 		/obj/item/rcd_ammo = 10,
 		/obj/item/wrench/caravan = 3,
@@ -132,8 +132,8 @@
 //CLOWN
 /datum/job/clown
 	mail_goodies = list(
-		/obj/item/reagent_containers/food/snacks/grown/banana = 20,
-		/obj/item/reagent_containers/food/snacks/pie/cream = 15,
+		/obj/item/food/grown/banana = 20,
+		/obj/item/food/pie/cream = 15,
 		/obj/item/clothing/shoes/clown_shoes/combat = 5,
 		// lube
 		/obj/item/reagent_containers/spray/waterflower/lube = 3,
@@ -153,13 +153,13 @@
 		/obj/item/reagent_containers/food/condiment/soymilk = 15,
 		/obj/item/reagent_containers/food/condiment/milk = 15,
 		//UR SO FAT!
-		/obj/item/reagent_containers/food/snacks/mint = 12,
+		/obj/item/food/mint = 12,
 		/obj/item/storage/box/ingredients/wildcard = 10,
 		//EEEEEEEK
 		/obj/item/storage/box/monkeycubes = 5,
-		/obj/item/kitchen/knife = 4,
+		/obj/item/knife/kitchen = 4,
 		/obj/item/storage/box/ingredients/exotic = 3,
-		/obj/item/kitchen/knife/butcher = 2,
+		/obj/item/knife/butcher = 2,
 	)
 
 //CURATOR
@@ -176,6 +176,8 @@
 		/obj/item/toy/plush/flushed = 5,
 		//rare, but not that much...
 		/obj/item/paicard = 2,
+		//definetly better than the lame PAi
+		/obj/item/toy/plush/flushed/rainbow = 2,
 	)
 
 //DEPUTY...IS THIS JOB EVEN ACTIVE? I DON'T THINK IT IS
@@ -232,12 +234,12 @@
 	mail_goodies = list(
 		/obj/item/reagent_containers/pill/mutadone = 15,
 		/obj/item/storage/pill_bottle/mannitol = 10,
-		/obj/item/reagent_containers/food/snacks/monkeycube = 10,
+		/obj/item/food/monkeycube = 10,
 		/obj/effect/spawner/mail/genes = 5,
 	)
 
 //HEAD OF PERSONNEL
-/datum/job/hop
+/datum/job/head_of_personnel
 	mail_goodies = list(
 		/obj/item/card/id/silver = 10,
 		/obj/item/assembly/flash/handheld = 5,
@@ -248,14 +250,14 @@
 	)
 
 //HEAD OF SECURITY
-/datum/job/hos
+/datum/job/head_of_security
 	mail_goodies = list(
 		/obj/effect/spawner/mail/donut = 20,
 		/obj/effect/spawner/mail/rdonut = 15,
 		/obj/item/firing_pin = 10,
 		/obj/item/implantcase/mindshield = 7,
 		//Vile, vile person...
-		/obj/item/clothing/head/kitty = 5,
+		/obj/item/clothing/head/costume/kitty = 5,
 		//hey, always come in handy!
 		/obj/item/storage/lockbox/loyalty = 2,
 	)
@@ -284,18 +286,18 @@
 		/obj/item/toy/cards/deck = 10,
 		/obj/item/clothing/glasses/sunglasses/advanced/big = 5,
 		/obj/item/book/manual/wiki/security_space_law = 5,
-		//Harrassing security has never been this fun
+		//Harassing security has never been this fun
 		/obj/item/megaphone = 3,
 	)
 
 //MAGICIAN GIMMICK
 /datum/job/gimmick/stage_magician
 	mail_goodies = list(
-		//AND FOR MY NEXT TRICK... Bnnuy
-		/mob/living/simple_animal/chicken/rabbit/normal = 40,
+		//AND FOR MY NEXT TRICK... Bunny
+		/obj/item/clothing/head/mob_holder/rabbit = 40,
 		/obj/item/gun/magic/wand = 10,
 		/obj/item/clothing/head/collectable/tophat = 10,
-		/obj/item/clothing/head/bowler = 5,
+		/obj/item/clothing/head/hats/bowler = 5,
 	)
 
 //MEDICAL DOCTOR
@@ -312,8 +314,8 @@
 //MIME
 /datum/job/mime
 	mail_goodies = list(
-		/obj/item/reagent_containers/food/snacks/baguette/mime = 15,
-		/obj/item/reagent_containers/food/snacks/store/cheesewheel = 10,
+		/obj/item/food/baguette/mime = 15,
+		/obj/item/food/cheese/wheel = 10,
 		/obj/item/reagent_containers/food/drinks/bottle/bottleofnothing = 10,
 		/obj/item/book/mimery = 2,
 		//when you thought it could get worse...
@@ -329,9 +331,9 @@
 	)
 
 //QUARTERMASTER
-/datum/job/qm
+/datum/job/quartermaster
 	mail_goodies = list(
-		/obj/item/reagent_containers/food/snacks/donkpocket/random = 10,
+		/obj/item/food/donkpocket/random = 10,
 		//the beginning of your department's independence
 		/obj/item/banner/cargo = 5,
 		//if you want to watch the world burn, this is it.
@@ -348,6 +350,7 @@
 		// it's hard to not look cool
 		/obj/item/clothing/glasses/science/sciencesun = 10,
 		/obj/item/taperecorder = 7,
+		/obj/item/toy/plush/slimeplushie/random = 7,
 		/obj/item/disk/tech_disk/research/random  = 4,
 		/obj/item/borg/upgrade/ai = 2,
 	)
@@ -370,6 +373,7 @@
 	mail_goodies = list(
 		/obj/item/anomaly_neutralizer = 10,
 		/obj/item/disk/tech_disk = 7,
+		/obj/item/toy/plush/slimeplushie/random = 7,
 		//STUFF
 		/obj/effect/spawner/mail/science = 4,
 	)
@@ -377,7 +381,7 @@
 //SECURITY OFFICER
 /datum/job/security_officer
 	mail_goodies = list(
-		/obj/item/reagent_containers/food/snacks/donut/plain = 15,
+		/obj/item/food/donut/plain = 15,
 		/obj/effect/spawner/mail/donut = 10,
 		//just in case...
 		/obj/item/assembly/flash/handheld = 7,
@@ -387,7 +391,7 @@
 	)
 
 //SHAFT MINER
-/datum/job/mining
+/datum/job/shaft_miner
 	mail_goodies = list(
 		/obj/item/reagent_containers/hypospray/medipen/survival = 10,
 		/obj/item/tank/internals/emergency_oxygen/double = 7,
@@ -414,7 +418,7 @@
 		/obj/item/reagent_containers/syringe/used = 15,
 		//keep your workplace clean, please.
 		/obj/item/reagent_containers/spray/cleaner = 15,
-		/obj/item/reagent_containers/food/snacks/monkeycube = 10,
+		/obj/item/food/monkeycube = 10,
 		/obj/item/reagent_containers/glass/bottle/formaldehyde = 10,
 		/obj/item/reagent_containers/glass/bottle/random_virus/minor = 10,
 		/obj/item/reagent_containers/glass/bottle/random_virus = 5,

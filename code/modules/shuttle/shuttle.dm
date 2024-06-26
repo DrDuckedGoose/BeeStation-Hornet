@@ -13,7 +13,7 @@ GLOBAL_LIST_INIT(shuttle_turf_blacklist, typecacheof(list(
 //NORTH default dir
 /obj/docking_port
 	invisibility = INVISIBILITY_ABSTRACT
-	icon = 'icons/obj/device.dmi'
+	icon = 'icons/effects/landmarks_static.dmi'
 	icon_state = "pinonfar"
 
 	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | UNACIDABLE | ACID_PROOF
@@ -62,7 +62,7 @@ GLOBAL_LIST_INIT(shuttle_turf_blacklist, typecacheof(list(
 /obj/docking_port/has_gravity(turf/T)
 	return FALSE
 
-/obj/docking_port/take_damage()
+/obj/docking_port/take_damage(damage_amount, damage_type = BRUTE, damage_flag = 0, sound_effect = 1, attack_dir, armour_penetration = 0)
 	return
 
 /obj/docking_port/singularity_pull()
@@ -94,7 +94,7 @@ GLOBAL_LIST_INIT(shuttle_turf_blacklist, typecacheof(list(
 		mat1.f
 		)
 
-//returns the dwidth, dheight, width, and height in the order of the union bounds of all shuttles relative to our shuttle.
+//returns the dwidth, dheight, width, and height in that order of the union bounds of all shuttles relative to our shuttle.
 /obj/docking_port/proc/return_union_bounds(var/list/obj/docking_port/others)
 	var/list/coords =  return_union_coords(others, 0, 0, NORTH)
 	var/X0 = min(coords[1],coords[3]) //This will be the negative dwidth of the combined bounds
@@ -353,6 +353,9 @@ GLOBAL_LIST_INIT(shuttle_turf_blacklist, typecacheof(list(
 	//If the shuttle is unable to be moved by non-untowable shuttles.
 	//Stops interference with the arrival and escape shuttle. Use this sparingly.
 	var/untowable = FALSE
+	//If docking on this shuttle is not allowed.
+	//For important shuttles such as the arrivals shuttle where access to its shuttle area type is needed at any moment
+	var/undockable = FALSE
 
 	//The designated virtual Z-Value of this shuttle
 	var/virtual_z
@@ -395,7 +398,7 @@ GLOBAL_LIST_INIT(shuttle_turf_blacklist, typecacheof(list(
 			return TRUE
 
 	if(!bypass_skipover_insertion)
-		T.baseturfs = length(T.baseturfs) ? T.baseturfs : list(T.baseturfs) //We need this as a list for now
+		T.baseturfs = islist(T.baseturfs) ? T.baseturfs : list(T.baseturfs) //We need this as a list for now
 		var/base_length = length(T.baseturfs)
 		var/skipover_index = 2 //We should always leave atleast something else below our skipover
 
@@ -409,7 +412,9 @@ GLOBAL_LIST_INIT(shuttle_turf_blacklist, typecacheof(list(
 			if(GLOB.shuttle_turf_blacklist[BT])
 				skipover_index = base_length - i + 1
 				break
-		T.baseturfs.Insert(skipover_index, /turf/baseturf_skipover/shuttle)
+		var/list/sanity = T.baseturfs.Copy()
+		sanity.Insert(skipover_index, /turf/baseturf_skipover/shuttle)
+		T.baseturfs = baseturfs_string_list(sanity, T)
 
 	var/area/shuttle/current_area = T.loc
 	//Account for building on shuttles
@@ -420,7 +425,6 @@ GLOBAL_LIST_INIT(shuttle_turf_blacklist, typecacheof(list(
 		underlying_turf_area[T] = current_area
 	//Change areas
 	current_area.contents -= T
-	A.contents += T
 	T.change_area(current_area, A)
 
 /obj/docking_port/mobile/proc/remove_turf(var/turf/T)
@@ -467,7 +471,6 @@ GLOBAL_LIST_INIT(shuttle_turf_blacklist, typecacheof(list(
 	underlying_turf_area -= T
 	if(top_shuttle == src) //Only change the area if we aren't covered by another shuttle
 		A.contents -= T
-		new_area.contents += T
 		T.change_area(A, new_area)
 	else if(bottom_shuttle) //update the underlying turfs of the shuttle on top of us
 		bottom_shuttle.underlying_turf_area[T] = new_area
@@ -737,15 +740,22 @@ GLOBAL_LIST_INIT(shuttle_turf_blacklist, typecacheof(list(
 	// If the shuttle is docked to a stationary port, restore its normal
 	// "empty" area and turf
 
+	var/list/all_towed_shuttles = get_all_towed_shuttles()
+	var/list/all_shuttle_areas = list()
+	for(var/obj/docking_port/mobile/M in all_towed_shuttles)
+		all_shuttle_areas += M.shuttle_areas
+
 	for(var/i in 1 to old_turfs.len)
 		var/turf/oldT = old_turfs[i]
-		if(!shuttle_areas[oldT?.loc])
+		if(!all_shuttle_areas[oldT?.loc])
 			continue
 		var/area/old_area = oldT.loc
-		var/area/underlying_area = underlying_turf_area[oldT] ? underlying_turf_area[oldT] : GLOB.areas_by_type[SHUTTLE_DEFAULT_UNDERLYING_AREA]
-		underlying_area.contents += oldT
-		oldT.change_area(old_area, underlying_area)
-		oldT.empty(FALSE)
+		for(var/obj/docking_port/mobile/bottom_shuttle as() in all_towed_shuttles)
+			if(bottom_shuttle.underlying_turf_area[oldT])
+				var/area/underlying_area = bottom_shuttle.underlying_turf_area[oldT]
+				oldT.change_area(old_area, underlying_area)
+				oldT.empty(FALSE)
+				break
 
 		// Here we locate the bottommost shuttle boundary and remove all turfs above it
 		var/list/baseturf_cache = oldT.baseturfs
@@ -754,7 +764,8 @@ GLOBAL_LIST_INIT(shuttle_turf_blacklist, typecacheof(list(
 				oldT.ScrapeAway(baseturf_cache.len - k + 1)
 				break
 
-	qdel(src, force=TRUE)
+	for(var/obj/docking_port/mobile/shuttle in all_towed_shuttles)
+		qdel(shuttle, force=TRUE)
 
 /obj/docking_port/mobile/proc/intoTheSunset()
 	// Loop over mobs
@@ -762,7 +773,7 @@ GLOBAL_LIST_INIT(shuttle_turf_blacklist, typecacheof(list(
 		var/turf/T = t
 		for(var/mob/living/M in T.GetAllContents())
 			// If they have a mind and they're not in the brig, they escaped
-			if(M.mind && !istype(t, /turf/open/floor/plasteel/shuttle/red) && !istype(t, /turf/open/floor/mineral/plastitanium/red/brig))
+			if(M.mind && !istype(t, /turf/open/floor/mineral/plastitanium/red/brig))
 				M.mind.force_escaped = TRUE
 			// Ghostize them and put them in nullspace stasis (for stat & possession checks)
 			M.notransform = TRUE
@@ -785,6 +796,9 @@ GLOBAL_LIST_INIT(shuttle_turf_blacklist, typecacheof(list(
 	var/list/L1 = return_ordered_turfs(S1.x, S1.y, S1.z, S1.dir)
 
 	var/list/ripple_turfs = list()
+	var/list/all_shuttle_areas = list()
+	for(var/obj/docking_port/mobile/M in get_all_towed_shuttles())
+		all_shuttle_areas |= M.shuttle_areas
 
 	for(var/i in 1 to L0.len)
 		var/turf/T0 = L0[i]
@@ -793,7 +807,7 @@ GLOBAL_LIST_INIT(shuttle_turf_blacklist, typecacheof(list(
 			continue  // out of bounds
 		if(T0.type == T0.baseturfs)
 			continue  // indestructible
-		if(!shuttle_areas[T0.loc] || istype(T0.loc, /area/shuttle/transit))
+		if(!all_shuttle_areas[T0.loc] || istype(T0.loc, /area/shuttle/transit))
 			continue  // not part of the shuttle
 		ripple_turfs += T1
 
@@ -900,14 +914,12 @@ GLOBAL_LIST_INIT(shuttle_turf_blacklist, typecacheof(list(
 		shuttle_area.parallax_movedir = FALSE
 	if(assigned_transit && assigned_transit.assigned_area)
 		assigned_transit.assigned_area.parallax_movedir = FALSE
-	var/list/L0 = return_ordered_turfs(x, y, z, dir)
-	for (var/thing in L0)
-		var/turf/T = thing
-		if(!shuttle_areas[T?.loc])
+	for (var/mob/M as() in SSmobs.clients_by_zlevel[z])
+		var/area/A = get_area(M)
+		if(!A)
 			continue
-		for (var/atom/movable/movable as anything in T)
-			if (length(movable.client_mobs_in_contents))
-				movable.update_parallax_contents()
+		if(shuttle_areas[A])
+			SSparallax.update_client_parallax(M.client, TRUE)
 
 /obj/docking_port/mobile/proc/check_transit_zone()
 	if(assigned_transit)
@@ -1071,7 +1083,7 @@ GLOBAL_LIST_INIT(shuttle_turf_blacklist, typecacheof(list(
 			if(M.get_virtual_z_level() != get_virtual_z_level())
 				continue
 			if(dist_far <= long_range && dist_far > range)
-				M.playsound_local(distant_source, "sound/effects/[selected_sound]_distance.ogg", 100, falloff_exponent = 20)
+				M.playsound_local(distant_source, "sound/effects/[selected_sound]_distance.ogg", 60, falloff_exponent = 20)
 			else if(dist_far <= range)
 				var/source
 				if(engines.len == 0)
@@ -1083,7 +1095,7 @@ GLOBAL_LIST_INIT(shuttle_turf_blacklist, typecacheof(list(
 						if(dist_near < closest_dist)
 							source = O
 							closest_dist = dist_near
-				M.playsound_local(source, "sound/effects/[selected_sound].ogg", 100, falloff_exponent = range / 2)
+				M.playsound_local(source, "sound/effects/[selected_sound].ogg", 70, falloff_exponent = range / 2)
 
 // Losing all initial engines should get you 2
 // Adding another set of engines at 0.5 time

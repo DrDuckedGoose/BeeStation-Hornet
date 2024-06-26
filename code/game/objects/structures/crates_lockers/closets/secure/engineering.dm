@@ -3,6 +3,11 @@
 	req_access = list(ACCESS_CE)
 	icon_state = "ce"
 
+/obj/structure/closet/secure_closet/engineering_chief/populate_contents_immediate()
+	..()
+	new /obj/item/card/id/departmental_budget/eng(src)
+	new /obj/item/areaeditor/blueprints(src)
+
 /obj/structure/closet/secure_closet/engineering_chief/PopulateContents()
 	..()
 	new /obj/item/storage/box/suitbox/ce(src)
@@ -19,14 +24,14 @@
 	new /obj/item/storage/box/radiokey/eng(src)
 	new /obj/item/storage/box/command_keys(src)
 	new /obj/item/megaphone/command(src)
-	new /obj/item/cartridge/ce(src)
+	new /obj/item/computer_hardware/hard_drive/role/ce(src)
 	new /obj/item/storage/bag/construction(src)
 
 	new /obj/item/circuitboard/machine/techfab/department/engineering(src)
 
+	new /obj/item/paper_reader(src)
+
 	// prioritized items
-	new /obj/item/card/id/departmental_budget/eng(src)
-	new /obj/item/areaeditor/blueprints(src)
 	new /obj/item/storage/toolbox/mechanical(src)
 	new /obj/item/clothing/neck/cloak/ce(src)
 	new /obj/item/door_remote/chief_engineer(src)
@@ -54,10 +59,11 @@
 
 /obj/item/storage/box/suitbox/ce/PopulateContents()
 	new /obj/item/clothing/under/rank/engineering/chief_engineer(src)
+	new /obj/item/clothing/under/rank/engineering/chief_engineer/skirt(src)
 	new /obj/item/clothing/head/beret/ce(src)
-	new /obj/item/clothing/head/hardhat/white(src)
-	new /obj/item/clothing/head/hardhat/weldhat/white(src)
-	new /obj/item/clothing/head/welding(src)
+	new /obj/item/clothing/head/utility/hardhat/white(src)
+	new /obj/item/clothing/head/utility/hardhat/welding/white(src)
+	new /obj/item/clothing/head/utility/welding(src)
 	new /obj/item/clothing/shoes/sneakers/brown(src)
 
 /obj/structure/closet/secure_closet/engineering_electrical
@@ -85,7 +91,7 @@
 /obj/structure/closet/secure_closet/engineering_welding/PopulateContents()
 	..()
 	for(var/i in 1 to 3)
-		new /obj/item/clothing/head/welding(src)
+		new /obj/item/clothing/head/utility/welding(src)
 	for(var/i in 1 to 3)
 		new /obj/item/weldingtool(src)
 
@@ -119,7 +125,7 @@
 	new /obj/item/analyzer(src)
 	new /obj/item/holosign_creator/atmos(src)
 	new /obj/item/watertank/atmos(src)
-	new /obj/item/clothing/suit/fire/atmos(src)
-	new /obj/item/clothing/head/hardhat/atmos(src)
+	new /obj/item/clothing/suit/utility/fire/atmos(src)
+	new /obj/item/clothing/head/utility/hardhat/atmos(src)
 	new /obj/item/clothing/glasses/meson/engine/tray(src)
 	new /obj/item/extinguisher/advanced(src)

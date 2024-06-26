@@ -18,16 +18,38 @@
 		ui = new(user, src, "LanguageMenu")
 		ui.open()
 
+/datum/language_menu/ui_assets(mob/user)
+	return list(
+		get_asset_datum(/datum/asset/spritesheet_batched/chat)
+	)
+
+/datum/language_menu/ui_static_data(mob/user)
+	var/list/data = list()
+
+	data["language_static_data"] = list()
+	for(var/lang in GLOB.all_languages)
+		var/datum/language/language = lang
+		var/list/L = list()
+
+		L["name"] = initial(language.name)
+		L["desc"] = initial(language.desc)
+		L["key"] = initial(language.key)
+		L["icon_state"] = initial(language.icon_state)
+
+		data["language_static_data"][initial(language.name)] = L
+	return data
+
 /datum/language_menu/ui_data(mob/user)
 	var/list/data = list()
 
+	var/is_admin = check_rights_for(user.client, R_ADMIN) || check_rights_for(user.client, R_DEBUG)
 	var/atom/movable/AM = language_holder.get_atom()
 	if(isliving(AM))
 		data["is_living"] = TRUE
 	else
 		data["is_living"] = FALSE
 
-	data["languages"] = list()
+	data["known_languages"] = list()
 	for(var/lang in GLOB.all_languages)
 		var/result = language_holder.has_language(lang) || language_holder.has_language(lang, TRUE)
 		if(!result)
@@ -36,16 +58,18 @@
 		var/list/L = list()
 
 		L["name"] = initial(language.name)
-		L["desc"] = initial(language.desc)
-		L["key"] = initial(language.key)
 		L["is_default"] = (language == language_holder.selected_language)
 		if(AM)
 			L["can_speak"] = AM.can_speak_language(language)
 			L["can_understand"] = AM.has_language(language)
 
-		data["languages"] += list(L)
+		if(lang == /datum/language/metalanguage) // metalanguage is only visible to admins
+			if(!(is_admin || HAS_TRAIT(user, TRAIT_METALANGUAGE_KEY_ALLOWED)))
+				continue
 
-	if(check_rights_for(user.client, R_ADMIN) || isobserver(AM))
+		data["known_languages"] += list(L)
+
+	if(is_admin || isobserver(AM))
 		data["admin_mode"] = TRUE
 		data["omnitongue"] = language_holder.omnitongue
 
@@ -57,8 +81,6 @@
 			var/list/L = list()
 
 			L["name"] = initial(language.name)
-			L["desc"] = initial(language.desc)
-			L["key"] = initial(language.key)
 
 			data["unknown_languages"] += list(L)
 	else
@@ -79,13 +101,23 @@
 		var/datum/language/language = lang
 		if(language_name == initial(language.name))
 			language_datum = language
-	var/is_admin = check_rights_for(user.client, R_ADMIN)
+	var/is_admin = check_rights_for(user.client, R_ADMIN) || check_rights_for(user.client, R_DEBUG)
 
 	switch(action)
 		if("select_default")
-			if(language_datum && AM.can_speak_language(language_datum))
-				language_holder.selected_language = language_datum
-				. = TRUE
+			if(language_datum)
+				// they're changing their language to something else from metalanguage. It must be mistake.
+				if(language_holder.selected_language == /datum/language/metalanguage && \
+						language_datum != /datum/language/metalanguage && \
+						!HAS_TRAIT(user, TRAIT_METALANGUAGE_KEY_ALLOWED) && \
+						!is_admin)
+					var/no = alert(user, "You're giving up your power to speak in a powerful language that everyone understands. Do you really wish to do that?", "WARNING!", "Yes", "No")
+					if(no != "Yes")
+						return
+
+				if(AM.can_speak_language(language_datum))
+					language_holder.selected_language = language_datum
+					. = TRUE
 		if("grant_language")
 			if((is_admin || isobserver(AM)) && language_datum)
 				var/list/choices = list("Only Spoken", "Only Understood", "Both")
@@ -101,6 +133,10 @@
 						spoken = TRUE
 						understood = TRUE
 				language_holder.grant_language(language_datum, understood, spoken)
+				if(spoken && language_datum == /datum/language/metalanguage)
+					var/yes = alert(user, "You have added speakable Metalanguage. Do you wish to give them a trait that they can use language key(,`) to say that? Otherwise, they'll have no way to say that, or, instead, you should set their default language to metalanguage.", "Give Metalangauge trait?", "Yes", "No")
+					if(yes == "Yes")
+						ADD_TRAIT(user, TRAIT_METALANGUAGE_KEY_ALLOWED, "lang_added_by_admin")
 				if(is_admin)
 					message_admins("[key_name_admin(user)] granted the [language_name] language to [key_name_admin(AM)].")
 					log_admin("[key_name(user)] granted the language [language_name] to [key_name(AM)].")
@@ -120,6 +156,8 @@
 						spoken = TRUE
 						understood = TRUE
 				language_holder.remove_language(language_datum, understood, spoken)
+				if(spoken && language_datum == /datum/language/metalanguage)
+					REMOVE_TRAIT(user, TRAIT_METALANGUAGE_KEY_ALLOWED, "lang_added_by_admin")
 				if(is_admin)
 					message_admins("[key_name_admin(user)] removed the [language_name] language to [key_name_admin(AM)].")
 					log_admin("[key_name(user)] removed the language [language_name] to [key_name(AM)].")

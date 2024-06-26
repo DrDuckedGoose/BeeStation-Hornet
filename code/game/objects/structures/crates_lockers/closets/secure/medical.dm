@@ -78,6 +78,11 @@
 	req_access = list(ACCESS_CMO)
 	icon_state = "cmo"
 
+/obj/structure/closet/secure_closet/CMO/populate_contents_immediate()
+	..()
+	new /obj/item/card/id/departmental_budget/med(src)
+	new /obj/item/reagent_containers/hypospray/CMO(src)
+
 /obj/structure/closet/secure_closet/CMO/PopulateContents()
 	..()
 	new /obj/item/storage/box/suitbox/cmo(src)
@@ -88,7 +93,6 @@
 
 	new /obj/item/clothing/suit/bio_suit/cmo(src)
 	new /obj/item/clothing/head/bio_hood/cmo(src)
-
 	new /obj/item/clothing/neck/petcollar(src)
 	new /obj/item/pet_carrier(src)
 	new /obj/item/storage/photo_album/CMO(src)
@@ -96,7 +100,7 @@
 	new /obj/item/storage/box/radiokey/med(src)
 	new /obj/item/storage/box/command_keys(src)
 	new /obj/item/megaphone/command(src)
-	new /obj/item/cartridge/cmo(src)
+	new /obj/item/computer_hardware/hard_drive/role/cmo(src)
 	new /obj/item/storage/lockbox/medal/med(src)
 
 	new /obj/item/circuitboard/machine/techfab/department/medical(src)
@@ -104,8 +108,6 @@
 
 	// prioritized items
 	new /obj/item/door_remote/chief_medical_officer(src)
-	new /obj/item/card/id/departmental_budget/med(src)
-	new /obj/item/reagent_containers/hypospray/CMO(src)
 	new /obj/item/autosurgeon/cmo(src)
 	new /obj/item/extrapolator(src)
 	new /obj/item/storage/belt/medical(src)

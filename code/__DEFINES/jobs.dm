@@ -1,65 +1,20 @@
-
-#define ENGSEC			(1<<0)
-
-#define CAPTAIN			(1<<0)
-#define HOS				(1<<1)
-#define WARDEN			(1<<2)
-#define DETECTIVE		(1<<3)
-#define OFFICER			(1<<4)
-#define CHIEF			(1<<5)
-#define ENGINEER		(1<<6)
-#define ATMOSTECH		(1<<7)
-#define ROBOTICIST		(1<<8)
-#define AI_JF			(1<<9)
-#define CYBORG			(1<<10)
-#define BRIG_PHYS		(1<<11)
-#define DEPUTY  		(1<<12)
-
-
-#define MEDSCI			(1<<1)
-
-#define RD_JF			(1<<0)
-#define SCIENTIST		(1<<1)
-#define EXPLORATION_CREW (1<<2)
-#define CHEMIST			(1<<3)
-#define CMO_JF			(1<<4)
-#define DOCTOR			(1<<5)
-#define GENETICIST		(1<<6)
-#define VIROLOGIST		(1<<7)
-#define PARAMEDIC		(1<<8)
-
-
-#define CIVILIAN		(1<<2)
-
-#define HOP				(1<<0)
-#define BARTENDER		(1<<1)
-#define BOTANIST		(1<<2)
-#define COOK			(1<<3)
-#define JANITOR			(1<<4)
-#define CURATOR			(1<<5)
-#define QUARTERMASTER	(1<<6)
-#define CARGOTECH		(1<<7)
-#define MINER			(1<<8)
-#define LAWYER			(1<<9)
-#define CHAPLAIN		(1<<10)
-#define CLOWN			(1<<11)
-#define MIME			(1<<12)
-#define ASSISTANT		(1<<13)
-#define GIMMICK 		(1<<14)
-#define BARBER		    (1<<15)
-#define MAGICIAN        (1<<16)
-#define PSYCHIATRIST    (1<<17)
-#define CELEBRITY       (1<<18)
-
 #define JOB_AVAILABLE 0
 #define JOB_UNAVAILABLE_GENERIC 1
 #define JOB_UNAVAILABLE_BANNED 2
 #define JOB_UNAVAILABLE_PLAYTIME 3
 #define JOB_UNAVAILABLE_ACCOUNTAGE 4
 #define JOB_UNAVAILABLE_SLOTFULL 5
+#define JOB_UNAVAILABLE_LOCKED 6
+
+// reasons why you can't play this job
+#define JOB_LOCK_REASON_ABSTRACT (1<<0)
+#define JOB_LOCK_REASON_MAP (1<<1)
+#define JOB_LOCK_REASON_CONFIG (1<<2)
+
 
 #define DEFAULT_RELIGION "Christianity"
 #define DEFAULT_DEITY "Space Jesus"
+#define DEFAULT_BIBLE "The Bible"
 
 #define JOB_DISPLAY_ORDER_DEFAULT 0
 
@@ -95,19 +50,25 @@
 #define JOB_DISPLAY_ORDER_DETECTIVE 30
 #define JOB_DISPLAY_ORDER_SECURITY_OFFICER 31
 #define JOB_DISPLAY_ORDER_BRIG_PHYS 32
-#define JOB_DISPLAY_ORDER_DEPUTY 33
-#define JOB_DISPLAY_ORDER_AI 34
-#define JOB_DISPLAY_ORDER_CYBORG 35
+#define JOB_DISPLAY_ORDER_AI 33
+#define JOB_DISPLAY_ORDER_CYBORG 34
 
 
-#define DEPARTMENT_BITFLAG_COMMAND (1<<0)
-#define DEPARTMENT_BITFLAG_SERVICE (1<<1)
-#define DEPARTMENT_BITFLAG_CARGO   (1<<2)
-#define DEPARTMENT_BITFLAG_ENGINEERING (1<<3)
-#define DEPARTMENT_BITFLAG_MEDICAL  (1<<4)
-#define DEPARTMENT_BITFLAG_SCIENCE  (1<<5)
-#define DEPARTMENT_BITFLAG_SECURITY (1<<6)
-#define DEPARTMENT_BITFLAG_SILICON  (1<<7)
+#define DEPT_BITFLAG_COM (1<<0)
+#define DEPT_BITFLAG_CIV (1<<1)
+#define DEPT_BITFLAG_SRV (1<<2)
+#define DEPT_BITFLAG_CAR (1<<3)
+#define DEPT_BITFLAG_SCI (1<<4)
+#define DEPT_BITFLAG_ENG (1<<5)
+#define DEPT_BITFLAG_MED (1<<6)
+#define DEPT_BITFLAG_SEC (1<<7)
+#define DEPT_BITFLAG_VIP (1<<8)
+#define DEPT_BITFLAG_SILICON  (1<<9)
+#define DEPT_BITFLAG_CAPTAIN (1<<10)
+#define DEPT_BITFLAG_ASSISTANT (1<<11)
+
+// should check the ones in `\_DEFINES\economy.dm`
+// It's true that bitflags shouldn't be separated in two DEFINES if these are same, but just in case the system can be devided, it's remained separated.
 
 //-------------------------------------------------------------------------------------------
 //------------------------------------- Job names -------------------------------------------
@@ -136,6 +97,12 @@
 #define JOB_NAME_CARGOTECHNICIAN "Cargo Technician"
 #define JOB_NAME_SHAFTMINER      "Shaft Miner"
 
+// R&D
+#define JOB_NAME_RESEARCHDIRECTOR "Research Director"
+#define JOB_NAME_SCIENTIST  "Scientist"
+#define JOB_NAME_ROBOTICIST "Roboticist"
+#define JOB_NAME_EXPLORATIONCREW "Exploration Crew"
+
 // Engineering
 #define JOB_NAME_CHIEFENGINEER   "Chief Engineer"
 #define JOB_NAME_STATIONENGINEER "Station Engineer"
@@ -150,12 +117,6 @@
 #define JOB_NAME_GENETICIST "Geneticist"
 #define JOB_NAME_BRIGPHYSICIAN "Brig Physician"
 #define JOB_NAME_PSYCHIATRIST  "Psychiatrist" // gimmick
-
-// R&D
-#define JOB_NAME_RESEARCHDIRECTOR "Research Director"
-#define JOB_NAME_SCIENTIST  "Scientist"
-#define JOB_NAME_ROBOTICIST "Roboticist"
-#define JOB_NAME_EXPLORATIONCREW "Exploration Crew"
 
 // Security
 #define JOB_NAME_HEADOFSECURITY "Head of Security"
@@ -229,6 +190,13 @@
 #define JOB_HUD_CARGOTECHNICIAN "cargotechnician"
 #define JOB_HUD_SHAFTMINER "shaftminer"
 
+// R&D
+#define JOB_HUD_RAWSCIENCE "rawscience"
+#define JOB_HUD_RESEARCHDIRECTOR "researchdirector"
+#define JOB_HUD_SCIENTIST "scientist"
+#define JOB_HUD_ROBOTICIST "roboticist"
+#define JOB_HUD_EXPLORATIONCREW "explorationcrew"
+
 // Engineering
 #define JOB_HUD_RAWENGINEERING "rawengineering"
 #define JOB_HUD_CHIEFENGINEER "chiefengineer"
@@ -244,13 +212,6 @@
 #define JOB_HUD_CHEMIST "chemist"
 #define JOB_HUD_GENETICIST "geneticist"
 #define JOB_HUD_PSYCHIATRIST "psychiatrist"
-
-// R&D
-#define JOB_HUD_RAWSCIENCE "rawscience"
-#define JOB_HUD_RESEARCHDIRECTOR "researchdirector"
-#define JOB_HUD_SCIENTIST "scientist"
-#define JOB_HUD_ROBOTICIST "roboticist"
-#define JOB_HUD_EXPLORATIONCREW "explorationcrew"
 
 // Security
 #define JOB_HUD_RAWSECURITY "rawsecurity"
@@ -272,6 +233,7 @@
 #define JOB_HUD_SYNDICATE "syndicate"
 #define JOB_HUD_PRISONER "prisoner"
 #define JOB_HUD_UNKNOWN "unknown"
+#define JOB_HUD_PAPER "paper"
 
 
 //////////// Color defines
@@ -302,6 +264,13 @@
 #define JOB_CHATCOLOR_CARGOTECHNICIAN "#D3A372"
 #define JOB_CHATCOLOR_SHAFTMINER      "#CE957E"
 
+// R&D
+#define JOB_CHATCOLOR_RAWSCIENCE       "#F3BFF3" // custom R&D color
+#define JOB_CHATCOLOR_RESEARCHDIRECTOR "#974EA9"
+#define JOB_CHATCOLOR_SCIENTIST        "#C772C7"
+#define JOB_CHATCOLOR_ROBOTICIST       "#AC71BA"
+#define JOB_CHATCOLOR_EXPLORATIONCREW  "#85D8B8"
+
 // Engineering
 #define JOB_CHATCOLOR_RAWENGINEERING        "#E9D1A8" // custom engineering color
 #define JOB_CHATCOLOR_CHIEFENGINEER         "#CFBB72"
@@ -317,13 +286,6 @@
 #define JOB_CHATCOLOR_CHEMIST       "#82BDCE"
 #define JOB_CHATCOLOR_GENETICIST    "#83BBBF"
 #define JOB_CHATCOLOR_PSYCHIATRIST  "#A2DFDC"
-
-// R&D
-#define JOB_CHATCOLOR_RAWSCIENCE       "#F3BFF3" // custom R&D color
-#define JOB_CHATCOLOR_RESEARCHDIRECTOR "#974EA9"
-#define JOB_CHATCOLOR_SCIENTIST        "#C772C7"
-#define JOB_CHATCOLOR_ROBOTICIST       "#AC71BA"
-#define JOB_CHATCOLOR_EXPLORATIONCREW  "#85D8B8"
 
 // Security
 #define JOB_CHATCOLOR_RAWSECURITY     "#F3BDC0" // custom security color, has some color than deputy

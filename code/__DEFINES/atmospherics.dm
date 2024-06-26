@@ -1,19 +1,35 @@
 //ATMOS
 //stuff you should probably leave well alone!
-#define R_IDEAL_GAS_EQUATION	8.31	//! kPa*L/(K*mol)
-#define ONE_ATMOSPHERE			101.325	//! kPa
-#define TCMB					2.7		//! -270.3degC
-#define TCRYO					225		//! -48.15degC
-#define T0C						273.15	//! 0degC
-#define T20C					293.15	//! 20degC
+/// kPa*L/(K*mol)
+#define R_IDEAL_GAS_EQUATION 8.31
+/// kPa
+#define ONE_ATMOSPHERE 101.325
+/// -270.3degC
+#define TCMB 2.7
+/// -48.15degC
+#define TCRYO 225
+/// 0degC
+#define T0C 273.15
+/// 20degC
+#define T20C 293.15
+/// -14C - Temperature used for kitchen cold room, medical freezer, etc.
+#define COLD_ROOM_TEMP 259.15
 
-#define MOLES_CELLSTANDARD		(ONE_ATMOSPHERE*CELL_VOLUME/(T20C*R_IDEAL_GAS_EQUATION))	//! moles in a 2.5 m^3 cell at 101.325 Pa and 20 degC
-#define M_CELL_WITH_RATIO		(MOLES_CELLSTANDARD * 0.005) //! compared against for superconductivity
-#define O2STANDARD				0.21	//! percentage of oxygen in a normal mixture of air
-#define N2STANDARD				0.79	//! percentage of nitrogen in a normal mixture of air
-#define MOLES_O2STANDARD		(MOLES_CELLSTANDARD*O2STANDARD)	//! O2 standard value (21%)
-#define MOLES_N2STANDARD		(MOLES_CELLSTANDARD*N2STANDARD)	//! N2 standard value (79%)
-#define CELL_VOLUME				2500	//! liters in a cell
+///moles in a 2.5 m^3 cell at 101.325 Pa and 20 degC (103 or so)
+#define MOLES_CELLSTANDARD (ONE_ATMOSPHERE*CELL_VOLUME/(T20C*R_IDEAL_GAS_EQUATION))
+///compared against for superconductivity
+#define M_CELL_WITH_RATIO (MOLES_CELLSTANDARD * 0.005)
+/// percentage of oxygen in a normal mixture of air
+#define O2STANDARD 0.21
+/// same but for nitrogen
+#define N2STANDARD 0.79
+/// O2 standard value (21%)
+#define MOLES_O2STANDARD (MOLES_CELLSTANDARD*O2STANDARD)
+/// N2 standard value (79%)
+#define MOLES_N2STANDARD (MOLES_CELLSTANDARD*N2STANDARD)
+/// liters in a cell
+#define CELL_VOLUME 2500
+
 #define BREATH_VOLUME			0.5		//! liters in a normal breath
 #define BREATH_PERCENTAGE		(BREATH_VOLUME/CELL_VOLUME)					//! Amount of air to take a from a tile
 
@@ -62,24 +78,57 @@
 #define STOP_REACTIONS 	2
 
 // Pressure limits.
-#define HAZARD_HIGH_PRESSURE				550		//! This determines at what pressure the ultra-high pressure red icon is displayed. (This one is set as a constant)
-#define WARNING_HIGH_PRESSURE				325		//! This determines when the orange pressure icon is displayed (it is 0.7 * HAZARD_HIGH_PRESSURE)
-#define WARNING_LOW_PRESSURE				50		//! This is when the gray low pressure icon is displayed. (it is 2.5 * HAZARD_LOW_PRESSURE)
-#define HAZARD_LOW_PRESSURE					20		//! This is when the black ultra-low pressure icon is displayed. (This one is set as a constant)
+/// This determins at what pressure the ultra-high pressure red icon is displayed. (This one is set as a constant)
+#define HAZARD_HIGH_PRESSURE 550
+/// This determins when the orange pressure icon is displayed (it is 0.7 * HAZARD_HIGH_PRESSURE)
+#define WARNING_HIGH_PRESSURE 325
+/// This is when the gray low pressure icon is displayed. (it is 2.5 * HAZARD_LOW_PRESSURE)
+#define WARNING_LOW_PRESSURE 50
+/// This is when the black ultra-low pressure icon is displayed. (This one is set as a constant)
+#define HAZARD_LOW_PRESSURE 20
 
-#define TEMPERATURE_DAMAGE_COEFFICIENT		1.5		//! This is used in handle_temperature_damage() for humans, and in reagents that affect body temperature. Temperature damage is multiplied by this amount.
+/// This is used in handle_temperature_damage() for humans, and in reagents that affect body temperature. Temperature damage is multiplied by this amount.
+#define TEMPERATURE_DAMAGE_COEFFICIENT 1.5
 
-#define BODYTEMP_NORMAL						310.15	//! The natural temperature for a body
-#define BODYTEMP_AUTORECOVERY_DIVISOR		11		//! This is the divisor which handles how much of the temperature difference between the current body temperature and 310.15K (optimal temperature) humans auto-regenerate each tick. The higher the number, the slower the recovery. This is applied each tick, so long as the mob is alive.
-#define BODYTEMP_AUTORECOVERY_MINIMUM		12		//! Minimum amount of kelvin moved toward 310K per tick. So long as abs(310.15 - bodytemp) is more than 50.
-#define BODYTEMP_COLD_DIVISOR				6		//! Similar to the BODYTEMP_AUTORECOVERY_DIVISOR, but this is the divisor which is applied at the stage that follows autorecovery. This is the divisor which comes into play when the human's loc temperature is lower than their body temperature. Make it lower to lose bodytemp faster.
-#define BODYTEMP_HEAT_DIVISOR				15		//! Similar to the BODYTEMP_AUTORECOVERY_DIVISOR, but this is the divisor which is applied at the stage that follows autorecovery. This is the divisor which comes into play when the human's loc temperature is higher than their body temperature. Make it lower to gain bodytemp faster.
-#define BODYTEMP_COOLING_MAX				-100	//! The maximum number of degrees that your body can cool in 1 tick, due to the environment, when in a cold area.
-#define BODYTEMP_HEATING_MAX				30		//! The maximum number of degrees that your body can heat up in 1 tick, due to the environment, when in a hot area.
+/// The natural temperature for a body
+#define BODYTEMP_NORMAL 310.15
+/// This is the divisor which handles how much of the temperature difference between the current body temperature and 310.15K (optimal temperature) humans auto-regenerate each tick. The higher the number, the slower the recovery. This is applied each tick, so long as the mob is alive.
+#define BODYTEMP_AUTORECOVERY_DIVISOR 14
+/// Minimum amount of kelvin moved toward 310K per tick. So long as abs(310.15 - bodytemp) is more than 50.
+#define BODYTEMP_AUTORECOVERY_MINIMUM 6
+///Similar to the BODYTEMP_AUTORECOVERY_DIVISOR, but this is the divisor which is applied at the stage that follows autorecovery. This is the divisor which comes into play when the human's loc temperature is lower than their body temperature. Make it lower to lose bodytemp faster.
+#define BODYTEMP_COLD_DIVISOR 15
+/// Similar to the BODYTEMP_AUTORECOVERY_DIVISOR, but this is the divisor which is applied at the stage that follows autorecovery. This is the divisor which comes into play when the human's loc temperature is higher than their body temperature. Make it lower to gain bodytemp faster.
+#define BODYTEMP_HEAT_DIVISOR 15
+/// The maximum number of degrees that your body can cool in 1 tick, due to the environment, when in a cold area.
+#define BODYTEMP_COOLING_MAX -30
+/// The maximum number of degrees that your body can heat up in 1 tick, due to the environment, when in a hot area.
+#define BODYTEMP_HEATING_MAX 30
 
-#define BODYTEMP_HEAT_DAMAGE_LIMIT			(BODYTEMP_NORMAL + 50) //! The limit the human body can take before it starts taking damage from heat.
-#define BODYTEMP_COLD_DAMAGE_LIMIT			(BODYTEMP_NORMAL - 50) //! The limit the human body can take before it starts taking damage from coldness.
+/// The body temperature limit the human body can take before it starts taking damage from heat.
+/// This also affects how fast the body normalises it's temperature when hot.
+/// 340k is about 66c, and rather high for a human.
+#define BODYTEMP_HEAT_DAMAGE_LIMIT (BODYTEMP_NORMAL + 30)
+/// The body temperature limit the human body can take before it starts taking damage from cold.
+/// This also affects how fast the body normalises it's temperature when cold.
+/// 270k is about -3c, that is below freezing and would hurt over time.
+#define BODYTEMP_COLD_DAMAGE_LIMIT (BODYTEMP_NORMAL - 40)
+/// The body temperature limit the human body can take before it will take wound damage.
+#define BODYTEMP_HEAT_WOUND_LIMIT (BODYTEMP_NORMAL + 90) // 400.5 k
 
+// Body temperature warning icons
+/// The temperature the red icon is displayed.
+#define BODYTEMP_HEAT_WARNING_3 (BODYTEMP_HEAT_DAMAGE_LIMIT + 360) //+700k
+/// The temperature the orange icon is displayed.
+#define BODYTEMP_HEAT_WARNING_2 (BODYTEMP_HEAT_DAMAGE_LIMIT + 120) //460K
+/// The temperature the yellow icon is displayed.
+#define BODYTEMP_HEAT_WARNING_1 (BODYTEMP_HEAT_DAMAGE_LIMIT) //340K
+/// The temperature the light green icon is displayed.
+#define BODYTEMP_COLD_WARNING_1 (BODYTEMP_COLD_DAMAGE_LIMIT) //270k
+/// The temperature the cyan icon is displayed.
+#define BODYTEMP_COLD_WARNING_2 (BODYTEMP_COLD_DAMAGE_LIMIT - 70) //200k
+/// The temperature the blue icon is displayed.
+#define BODYTEMP_COLD_WARNING_3 (BODYTEMP_COLD_DAMAGE_LIMIT - 150) //120k
 
 #define SPACE_HELM_MIN_TEMP_PROTECT			2.0		//! what min_cold_protection_temperature is set to for space-helmet quality headwear. MUST NOT BE 0.
 #define SPACE_HELM_MAX_TEMP_PROTECT			1500	//! Thermal insulation works both ways /Malkevin
@@ -148,12 +197,19 @@
 #define CANVERTICALATMOSPASS(A, O) ( A.CanAtmosPassVertical == ATMOS_PASS_PROC ? A.CanAtmosPass(O, TRUE) : ( A.CanAtmosPassVertical == ATMOS_PASS_DENSITY ? !A.density : A.CanAtmosPassVertical ) )
 
 //OPEN TURF ATMOS
-#define OPENTURF_DEFAULT_ATMOS		"o2=22;n2=82;TEMP=293.15" //the default air mix that open turfs spawn
-#define OPENTURF_LOW_PRESSURE		"o2=14;n2=30;TEMP=293.15"
-#define TCOMMS_ATMOS				"n2=100;TEMP=80" //-193,15°C telecommunications. also used for xenobiology slime killrooms
-#define AIRLESS_ATMOS				"TEMP=2.7" //space
-#define FROZEN_ATMOS				"o2=22;n2=82;TEMP=180" //-93.15°C snow and ice turfs
-#define BURNMIX_ATMOS				"o2=100;plasma=200;TEMP=370" //used in the holodeck burn test program
+/// the default air mix that open turfs spawn
+#define OPENTURF_DEFAULT_ATMOS "o2=22;n2=82;TEMP=293.15"
+#define OPENTURF_LOW_PRESSURE "o2=14;n2=30;TEMP=293.15"
+/// -193,15°C telecommunications. also used for xenobiology slime killrooms
+#define TCOMMS_ATMOS "n2=100;TEMP=80"
+/// space
+#define AIRLESS_ATMOS "TEMP=2.7"
+/// -93.15°C snow and ice turfs
+#define FROZEN_ATMOS "o2=22;n2=82;TEMP=180"
+/// -14°C kitchen coldroom, just might lose your tail; higher amount of mol to reach about 101.3 kpA
+#define KITCHEN_COLDROOM_ATMOS "o2=26;n2=97;TEMP=[COLD_ROOM_TEMP]"
+/// used in the holodeck burn test program
+#define BURNMIX_ATMOS "o2=100;plasma=200;TEMP=370" //used in the holodeck burn test program
 
 //ATMOSPHERICS DEPARTMENT GAS TANK TURFS
 #define ATMOS_TANK_N2O				"n2o=6000;TEMP=293.15"
@@ -165,7 +221,6 @@
 
 //LAVALAND
 #define MAXIMUM_LAVALAND_EQUIPMENT_EFFECT_PRESSURE 90 //! what pressure you have to be under to increase the effect of equipment meant for lavaland
-#define MINIMUM_LAVALAND_EQUIPMENT_EFFECT_PRESSURE 25 //! what pressure you have to be over to increase the effect of equipment meant for lavaland
 #define LAVALAND_DEFAULT_ATMOS		"o2=14;n2=5;co2=13;TEMP=300"
 
 //ATMOS MIX IDS
@@ -176,9 +231,9 @@
 #define ATMOS_GAS_MONITOR_OUTPUT_O2 "o2_out"
 #define ATMOS_GAS_MONITOR_SENSOR_O2 "o2_sensor"
 
-#define ATMOS_GAS_MONITOR_INPUT_TOX "tox_in"
-#define ATMOS_GAS_MONITOR_OUTPUT_TOX "tox_out"
-#define ATMOS_GAS_MONITOR_SENSOR_TOX "tox_sensor"
+#define ATMOS_GAS_MONITOR_INPUT_PLASMA "plasma_in"
+#define ATMOS_GAS_MONITOR_OUTPUT_PLASMA "plasma_out"
+#define ATMOS_GAS_MONITOR_SENSOR_PLASMA "plasma_sensor"
 
 #define ATMOS_GAS_MONITOR_INPUT_AIR "air_in"
 #define ATMOS_GAS_MONITOR_OUTPUT_AIR "air_out"
@@ -217,6 +272,14 @@
 #define ATMOS_GAS_MONITOR_INPUT_SM "sm_in"
 #define ATMOS_GAS_MONITOR_OUTPUT_SM "sm_out"
 #define ATMOS_GAS_MONITOR_SENSOR_SM "sm_sense"
+
+#define ATMOS_GAS_MONITOR_INPUT_SM_WASTE "sm_waste_in"
+#define ATMOS_GAS_MONITOR_OUTPUT_SM_WASTE "sm_waste_out"
+#define ATMOS_GAS_MONITOR_SENSOR_SM_WASTE "sm_waste_sense"
+
+#define ATMOS_GAS_MONITOR_INPUT_TOXINS_WASTE "toxins_waste_in"
+#define ATMOS_GAS_MONITOR_OUTPUT_TOXINS_WASTE "toxins_waste_out"
+#define ATMOS_GAS_MONITOR_SENSOR_TOXINS_WASTE "toxins_waste_sense"
 
 //AIRLOCK CONTROLLER TAGS
 
@@ -308,8 +371,8 @@ GLOBAL_LIST_INIT(atmos_adjacent_savings, list(0,0))
 #define CALCULATE_ADJACENT_TURFS(T) SSadjacent_air.queue[T] = 1
 #endif
 
-GLOBAL_LIST_INIT(pipe_paint_colors, sortList(list(
-		"amethyst" = rgb(130,43,255), //supplymain
+GLOBAL_LIST_INIT(pipe_paint_colors, sort_list(list(
+		"amethyst" = rgb(130,43,255),
 		"blue" = rgb(0,0,255),
 		"brown" = rgb(178,100,56),
 		"cyan" = rgb(0,255,249),
@@ -327,3 +390,10 @@ GLOBAL_LIST_INIT(pipe_paint_colors, sortList(list(
 #define PIPENET_UPDATE_STATUS_DORMANT 0
 #define PIPENET_UPDATE_STATUS_REACT_NEEDED 1
 #define PIPENET_UPDATE_STATUS_RECONCILE_NEEDED 2
+
+// GAS MIXTURE STUFF (used to be in code/modules/atmospherics/gasmixtures/gas_mixture.dm)
+#define MINIMUM_HEAT_CAPACITY	0.0003
+#define MINIMUM_MOLE_COUNT		0.01
+/*I feel the need to document what happens here. Basically this is used to catch most rounding errors, however it's previous value made it so that
+once gases got hot enough, most procedures wouldnt occur due to the fact that the mole counts would get rounded away. Thus, we lowered it a few orders of magnititude */
+#define QUANTIZE(variable)		(round(variable,0.0000001))

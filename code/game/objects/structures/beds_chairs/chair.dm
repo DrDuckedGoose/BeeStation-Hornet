@@ -4,15 +4,17 @@
 	icon = 'icons/obj/beds_chairs/chairs.dmi'
 	icon_state = "chair"
 	anchored = TRUE
-	can_buckle = 1
+	can_buckle = TRUE
 	buckle_lying = 0 //you sit in a chair, not lay
 	resistance_flags = NONE
 	max_integrity = 250
-	integrity_failure = 25
+	integrity_failure = 0.1
+	custom_materials = list(/datum/material/iron = 2000)
+	move_resist = MOVE_FORCE_WEAK
+	layer = OBJ_LAYER
 	var/buildstacktype = /obj/item/stack/sheet/iron
 	var/buildstackamount = 1
 	var/item_chair = /obj/item/chair // if null it can't be picked up
-	layer = OBJ_LAYER
 	/// Used to handle rotation properly, should only be 1, 4, or 8
 	var/possible_dirs = 4
 	var/colorable = FALSE
@@ -23,14 +25,9 @@
 	if(!has_buckled_mobs())
 		. += "<span class='notice'>Drag your sprite to sit in it.</span>"
 
-/obj/structure/chair/Initialize(mapload)
-	. = ..()
-	if(!anchored)	//why would you put these on the shuttle?
-		addtimer(CALLBACK(src, .proc/RemoveFromLatejoin), 0)
-
 /obj/structure/chair/ComponentInitialize()
 	. = ..()
-	AddComponent(/datum/component/simple_rotation,ROTATION_ALTCLICK | ROTATION_CLOCKWISE, CALLBACK(src, .proc/can_user_rotate),CALLBACK(src, .proc/can_be_rotated),null)
+	AddComponent(/datum/component/simple_rotation,ROTATION_ALTCLICK | ROTATION_CLOCKWISE, CALLBACK(src, PROC_REF(can_user_rotate)),CALLBACK(src, PROC_REF(can_be_rotated)),null)
 
 /obj/structure/chair/proc/can_be_rotated(mob/user)
 	return TRUE
@@ -48,16 +45,18 @@
 	return FALSE
 
 /obj/structure/chair/Destroy()
-	RemoveFromLatejoin()
-	return ..()
-
-/obj/structure/chair/proc/RemoveFromLatejoin()
 	SSjob.latejoin_trackers -= src	//These may be here due to the arrivals shuttle
+	return ..()
 
 /obj/structure/chair/deconstruct()
 	// If we have materials, and don't have the NOCONSTRUCT flag
-	if(buildstacktype && (!(flags_1 & NODECONSTRUCT_1)))
-		new buildstacktype(loc,buildstackamount)
+	if(!(flags_1 & NODECONSTRUCT_1))
+		if(buildstacktype)
+			new buildstacktype(loc,buildstackamount)
+		else
+			for(var/i in custom_materials)
+				var/datum/material/M = i
+				new M.sheet_type(loc, FLOOR(custom_materials[M] / MINERAL_MATERIAL_AMOUNT, 1))
 	..()
 
 /obj/structure/chair/attack_paw(mob/user)
@@ -95,9 +94,9 @@
 
 /obj/structure/chair/attack_tk(mob/user)
 	if(!anchored || has_buckled_mobs() || !isturf(user.loc))
-		..()
-	else
-		setDir(turn(dir,-90))
+		return ..()
+	setDir(turn(dir,-90))
+	return COMPONENT_CANCEL_ATTACK_CHAIN
 
 /obj/structure/chair/proc/handle_rotation(direction)
 	handle_layer()
@@ -147,13 +146,19 @@
 /obj/structure/chair/mime/post_unbuckle_mob(mob/living/M)
 	M.pixel_y -= 5
 
+///Material chair
+/obj/structure/chair/greyscale
+	material_flags = MATERIAL_EFFECTS | MATERIAL_ADD_PREFIX | MATERIAL_COLOR | MATERIAL_AFFECT_STATISTICS
+	item_chair = /obj/item/chair/greyscale
+	buildstacktype = null //Custom mats handle this
+
 /obj/structure/chair/wood
 	icon_state = "wooden_chair"
 	name = "wooden chair"
 	desc = "Old is never too old to not be in fashion."
 	resistance_flags = FLAMMABLE
 	max_integrity = 70
-	buildstacktype = /obj/item/stack/sheet/mineral/wood
+	buildstacktype = /obj/item/stack/sheet/wood
 	buildstackamount = 3
 	item_chair = /obj/item/chair/wood
 
@@ -231,11 +236,15 @@
 	name = "corporate chair"
 	desc = "It looks professional."
 	icon_state = "comfychair_corp"
+	buildstackamount = 1
+	item_chair = null
 
 /obj/structure/chair/fancy/shuttle
 	name = "shuttle seat"
 	desc = "A comfortable, secure seat. It has a more sturdy looking buckling system for smoother flights."
 	icon_state = "shuttle_chair"
+	buildstackamount = 1
+	item_chair = null
 
 /obj/structure/chair/fancy/plastic
 	name = "plastic chair"
@@ -244,6 +253,7 @@
 	anchored = FALSE
 	resistance_flags = FLAMMABLE
 	max_integrity = 150
+	custom_materials = list(/datum/material/plastic = 2000)
 	buildstacktype = /obj/item/stack/sheet/plastic
 	buildstackamount = 1
 	item_chair = /obj/item/chair/plastic
@@ -252,7 +262,7 @@
 	. = ..()
 	anchored = TRUE
 	if(iscarbon(M))
-		INVOKE_ASYNC(src, .proc/snap_check, M)
+		INVOKE_ASYNC(src, PROC_REF(snap_check), M)
 
 /obj/structure/chair/fancy/plastic/post_unbuckle_mob()
 	. = ..()
@@ -271,7 +281,7 @@
 	desc = "A spinny chair made of brass. It looks uncomfortable."
 	icon_state = "brass_chair"
 	max_integrity = 150
-	buildstacktype = /obj/item/stack/tile/brass
+	buildstacktype = /obj/item/stack/sheet/brass
 	buildstackamount = 1
 	item_chair = null
 	var/turns = 0
@@ -317,7 +327,7 @@
 	desc = "A spinny chair made of bronze. It has little cogs for wheels!"
 	anchored = FALSE
 	icon_state = "brass_chair"
-	buildstacktype = /obj/item/stack/tile/bronze
+	buildstacktype = /obj/item/stack/sheet/bronze
 	buildstackamount = 1
 	item_chair = null
 
@@ -333,6 +343,14 @@
 	buildstackamount = 5
 	item_chair = null
 	icon_state = "officechair_dark"
+
+/obj/structure/chair/office/relaymove(mob/user, direction)
+	if(!direction)
+		return FALSE
+	if(direction == dir)
+		return
+	setDir(direction)
+	return FALSE
 
 /obj/structure/chair/office/Moved()
 	. = ..()
@@ -380,7 +398,8 @@
 		if(!usr.canUseTopic(src, BE_CLOSE, ismonkey(usr)))
 			return
 		usr.visible_message("<span class='notice'>[usr] grabs \the [src.name].</span>", "<span class='notice'>You grab \the [src.name].</span>")
-		var/C = new item_chair(loc)
+		var/obj/item/C = new item_chair(loc)
+		C.set_custom_materials(custom_materials)
 		TransferComponents(C)
 		usr.put_in_hands(C)
 		qdel(src)
@@ -397,6 +416,6 @@
 	icon_state = "bamboo_stool"
 	resistance_flags = FLAMMABLE
 	max_integrity = 60
-	buildstacktype = /obj/item/stack/sheet/mineral/bamboo
+	buildstacktype = /obj/item/stack/sheet/bamboo
 	buildstackamount = 2
 	item_chair = /obj/item/chair/stool/bamboo

@@ -3,6 +3,10 @@
 	req_access = list(ACCESS_CAPTAIN)
 	icon_state = "cap"
 
+/obj/structure/closet/secure_closet/captains/populate_contents_immediate()
+	..()
+	new /obj/item/card/id/departmental_budget/civ(src)
+
 /obj/structure/closet/secure_closet/captains/PopulateContents()
 	..()
 	new /obj/item/storage/box/suitbox/cap(src)
@@ -11,7 +15,7 @@
 	new /obj/item/storage/backpack/duffelbag/captain(src)
 	new	/obj/item/clothing/suit/armor/vest/capcarapace/jacket(src)
 	new /obj/item/clothing/suit/armor/vest/capcarapace(src)
-	new /obj/item/clothing/suit/armor/vest/capcarapace/alt(src)
+	new /obj/item/clothing/suit/armor/vest/capcarapace/captains_formal(src)
 	new /obj/item/clothing/suit/hooded/wintercoat/captain(src)
 	new /obj/item/clothing/suit/captunic(src)
 	new /obj/item/clothing/gloves/color/captain(src)
@@ -26,34 +30,39 @@
 	new /obj/item/storage/box/radiokey/com(src)
 	new /obj/item/storage/box/command_keys(src)
 	new /obj/item/megaphone/command(src)
-	new /obj/item/cartridge/captain(src)
+	new /obj/item/computer_hardware/hard_drive/role/captain(src)
 	new /obj/item/storage/box/silver_ids(src)
 	new /obj/item/restraints/handcuffs/cable/zipties(src)
 
+	new /obj/item/paper_reader(src)
+
 	// prioritized items
-	new /obj/item/card/id/departmental_budget/civ(src)
 	new /obj/item/clothing/neck/cloak/cap(src)
 	new /obj/item/door_remote/captain(src)
 	new /obj/item/storage/belt/sabre(src)
 	new /obj/item/gun/energy/e_gun/mini/heads(src)
 
-/obj/item/storage/box/suitbox/cap/PopulateContents()
+/obj/item/storage/box/suitbox/cap
 	name = "compression box of captain outfits"
 
 /obj/item/storage/box/suitbox/cap/PopulateContents()
 	new /obj/item/clothing/under/rank/captain(src)
 	new /obj/item/clothing/under/rank/captain/skirt(src)
 	new /obj/item/clothing/under/rank/captain/parade(src)
-	new /obj/item/clothing/head/caphat(src)
+	new /obj/item/clothing/head/hats/caphat(src)
 	new /obj/item/clothing/head/beret/captain(src)
-	new /obj/item/clothing/head/caphat/parade(src)
-	new /obj/item/clothing/head/crown/fancy(src)
+	new /obj/item/clothing/head/hats/caphat/parade(src)
+	new /obj/item/clothing/head/costume/crown/fancy(src)
 	new /obj/item/clothing/shoes/sneakers/brown(src)
 
 /obj/structure/closet/secure_closet/hop
 	name = "\proper head of personnel's locker"
 	req_access = list(ACCESS_HOP)
 	icon_state = "hop"
+
+/obj/structure/closet/secure_closet/hop/populate_contents_immediate()
+	..()
+	new /obj/item/card/id/departmental_budget/srv(src)
 
 /obj/structure/closet/secure_closet/hop/PopulateContents()
 	..()
@@ -66,14 +75,15 @@
 
 	new /obj/item/storage/box/radiokey/srv(src)
 	new /obj/item/storage/box/command_keys(src)
-	new /obj/item/cartridge/hop(src)
+	new /obj/item/computer_hardware/hard_drive/role/hop(src)
 	new /obj/item/storage/box/ids(src)
 	new /obj/item/storage/box/ids(src)
 	new /obj/item/restraints/handcuffs/cable/zipties(src)
 	new /obj/item/circuitboard/machine/techfab/department/service(src)
 
+	new /obj/item/paper_reader(src)
+
 	// prioritized items
-	new /obj/item/card/id/departmental_budget/srv(src)
 	new /obj/item/clothing/neck/cloak/hop(src)
 	new /obj/item/door_remote/civillian(src)
 	new /obj/item/assembly/flash/handheld(src)
@@ -91,7 +101,7 @@
 	new /obj/item/clothing/under/rank/civilian/head_of_personnel/skirt(src)
 	new /obj/item/clothing/under/rank/civilian/head_of_personnel/alt(src)
 	new /obj/item/clothing/under/rank/civilian/head_of_personnel/alt/skirt(src)
-	new /obj/item/clothing/head/hopcap(src)
+	new /obj/item/clothing/head/hats/hopcap(src)
 	new /obj/item/clothing/shoes/sneakers/brown(src)
 
 /obj/structure/closet/secure_closet/brig_physician
@@ -113,11 +123,18 @@
 	new /obj/item/clothing/gloves/color/latex/nitrile(src)
 	new /obj/item/clothing/under/rank/brig_physician(src)
 	new /obj/item/clothing/under/rank/brig_physician/skirt(src)
+	new /obj/item/clothing/suit/hooded/wintercoat/brigphys(src)
 
 /obj/structure/closet/secure_closet/hos
 	name = "\proper head of security's locker"
 	req_access = list(ACCESS_HOS)
 	icon_state = "hos"
+
+/obj/structure/closet/secure_closet/hos/populate_contents_immediate()
+	..()
+	new /obj/item/card/id/departmental_budget/sec(src)
+	new /obj/item/gun/energy/e_gun/hos(src)
+	new /obj/item/pinpointer/nuke(src)
 
 /obj/structure/closet/secure_closet/hos/PopulateContents()
 	..()
@@ -136,7 +153,7 @@
 	new /obj/item/storage/box/radiokey/sec(src)
 	new /obj/item/storage/box/command_keys(src)
 	new /obj/item/megaphone/sec(src)
-	new /obj/item/cartridge/hos(src)
+	new /obj/item/computer_hardware/hard_drive/role/hos(src)
 	new /obj/item/storage/box/flashbangs(src)
 	new /obj/item/storage/box/deputy(src)
 	new /obj/item/storage/lockbox/medal/sec(src)
@@ -144,15 +161,14 @@
 	new /obj/item/flashlight/seclite(src)
 	new /obj/item/circuitboard/machine/techfab/department/security(src)
 
+	new /obj/item/paper_reader(src)
+
 	// prioritized items
-	new /obj/item/card/id/departmental_budget/sec(src)
 	new /obj/item/clothing/neck/cloak/hos(src)
 	new /obj/item/clothing/suit/armor/hos(src)
 	new /obj/item/clothing/suit/armor/hos/trenchcoat(src)
 	new /obj/item/shield/riot/tele(src)
 	new /obj/item/storage/belt/security/full(src)
-	new /obj/item/gun/energy/e_gun/hos(src)
-	new /obj/item/pinpointer/nuke(src)
 
 /obj/item/storage/box/suitbox/hos
 	name = "compression box of head of security outfits"
@@ -165,7 +181,7 @@
 	new /obj/item/clothing/under/rank/security/head_of_security/white(src)
 	new /obj/item/clothing/under/rank/security/head_of_security/parade/female(src)
 	new /obj/item/clothing/under/rank/security/head_of_security/parade(src)
-	new /obj/item/clothing/head/HoS(src)
+	new /obj/item/clothing/head/hats/hos(src)
 
 /obj/structure/closet/secure_closet/warden
 	name = "\proper warden's locker"
@@ -176,8 +192,8 @@
 	..()
 	new /obj/item/radio/headset/headset_sec(src)
 	new /obj/item/clothing/suit/armor/vest/warden(src)
-	new /obj/item/clothing/head/warden(src)
-	new /obj/item/clothing/head/warden/drill(src)
+	new /obj/item/clothing/head/hats/warden(src)
+	new /obj/item/clothing/head/hats/warden/drill(src)
 	new /obj/item/clothing/head/beret/sec/navywarden(src)
 	new /obj/item/clothing/head/beret/corpwarden(src)
 	new /obj/item/clothing/suit/armor/vest/warden/alt(src)
@@ -253,6 +269,7 @@
 	door_anim_time = 0 // no animation
 	open_sound = 'sound/machines/wooden_closet_open.ogg'
 	close_sound = 'sound/machines/wooden_closet_close.ogg'
+	can_weld_shut = FALSE
 
 /obj/structure/closet/secure_closet/detective/PopulateContents()
 	..()
@@ -260,7 +277,7 @@
 	new /obj/item/radio/headset/headset_sec(src)
 	new /obj/item/detective_scanner(src)
 	new /obj/item/flashlight/seclite(src)
-	new /obj/item/reagent_containers/spray/pepper(src)
+	new /obj/item/reagent_containers/peppercloud_deployer(src)
 	new /obj/item/clothing/suit/armor/vest/det_suit(src)
 	new /obj/item/clothing/accessory/holster/detective(src)
 	new /obj/item/pinpointer/crew(src)
@@ -315,8 +332,8 @@
 	for(var/i in 1 to 3)
 		new /obj/item/paper/fluff/jobs/security/court_judgment (src)
 	new /obj/item/pen (src)
-	new /obj/item/clothing/suit/judgerobe (src)
-	new /obj/item/clothing/head/powdered_wig (src)
+	new /obj/item/clothing/suit/costume/judgerobe (src)
+	new /obj/item/clothing/head/costume/powdered_wig (src)
 	new /obj/item/storage/briefcase(src)
 
 /obj/structure/closet/secure_closet/contraband/armory
@@ -334,13 +351,16 @@
 	req_access = list(ACCESS_ARMORY)
 	icon_state = "armory"
 
-/obj/structure/closet/secure_closet/armory1/PopulateContents()
+/obj/structure/closet/secure_closet/armory1/populate_contents_immediate()
 	..()
 	new /obj/item/clothing/suit/armor/laserproof(src)
+
+/obj/structure/closet/secure_closet/armory1/PopulateContents()
+	..()
 	for(var/i in 1 to 3)
 		new /obj/item/clothing/suit/armor/riot(src)
 	for(var/i in 1 to 3)
-		new /obj/item/clothing/head/helmet/riot(src)
+		new /obj/item/clothing/head/helmet/toggleable/riot(src)
 	for(var/i in 1 to 3)
 		new /obj/item/shield/riot(src)
 

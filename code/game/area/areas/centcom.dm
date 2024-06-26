@@ -8,12 +8,13 @@
 /area/centcom
 	name = "CentCom"
 	icon_state = "centcom"
-	dynamic_lighting = DYNAMIC_LIGHTING_FORCED
+	dynamic_lighting = DYNAMIC_LIGHTING_ENABLED
 	requires_power = FALSE
 	has_gravity = STANDARD_GRAVITY
 	teleport_restriction = TELEPORT_ALLOW_NONE
 	area_flags = VALID_TERRITORY | UNIQUE_AREA
 	flags_1 = NONE
+	airlock_hack_difficulty = AIRLOCK_WIRE_SECURITY_MAXIMUM
 
 /area/centcom/control
 	name = "CentCom Docks"
@@ -83,7 +84,7 @@
 /area/tdome
 	name = "Thunderdome"
 	icon_state = "yellow"
-	dynamic_lighting = DYNAMIC_LIGHTING_FORCED
+	dynamic_lighting = DYNAMIC_LIGHTING_ENABLED
 	requires_power = FALSE
 	has_gravity = STANDARD_GRAVITY
 	flags_1 = NONE
@@ -121,13 +122,14 @@
 /area/wizard_station
 	name = "Wizard's Den"
 	icon_state = "yellow"
-	dynamic_lighting = DYNAMIC_LIGHTING_FORCED
+	dynamic_lighting = DYNAMIC_LIGHTING_ENABLED
 	requires_power = FALSE
 	has_gravity = STANDARD_GRAVITY
 	teleport_restriction = TELEPORT_ALLOW_NONE
 	area_flags = VALID_TERRITORY | UNIQUE_AREA
 	flags_1 = NONE
 	network_root_id = "MAGIC_NET"
+	airlock_hack_difficulty = AIRLOCK_WIRE_SECURITY_MAXIMUM
 
 //Abductors
 /area/abductor_ship
@@ -139,6 +141,7 @@
 	has_gravity = STANDARD_GRAVITY
 	flags_1 = NONE
 	network_root_id = "ALIENS"
+	airlock_hack_difficulty = AIRLOCK_WIRE_SECURITY_MAXIMUM
 
 //Syndicates
 /area/syndicate_mothership
@@ -151,11 +154,12 @@
 	flags_1 = NONE
 	ambience_index = AMBIENCE_DANGER
 	network_root_id = SYNDICATE_NETWORK_ROOT
+	airlock_hack_difficulty = AIRLOCK_WIRE_SECURITY_MAXIMUM
 
 /area/syndicate_mothership/control
 	name = "Syndicate Control Room"
 	icon_state = "syndie-control"
-	dynamic_lighting = DYNAMIC_LIGHTING_FORCED
+	dynamic_lighting = DYNAMIC_LIGHTING_ENABLED
 	network_root_id = SYNDICATE_NETWORK_ROOT
 
 /area/syndicate_mothership/elite_squad
@@ -169,7 +173,9 @@
 	name = "Capture the Flag"
 	icon_state = "yellow"
 	requires_power = FALSE
+	dynamic_lighting = DYNAMIC_LIGHTING_DISABLED
 	has_gravity = STANDARD_GRAVITY
+	airlock_hack_difficulty = AIRLOCK_WIRE_SECURITY_ELITE
 
 /area/ctf/control_room
 	name = "Control Room A"
@@ -204,10 +210,12 @@
 	name = "Reebe"
 	icon_state = "yellow"
 	requires_power = FALSE
+	dynamic_lighting = DYNAMIC_LIGHTING_DISABLED
 	has_gravity = STANDARD_GRAVITY
 	teleport_restriction = TELEPORT_ALLOW_CLOCKWORK
 	area_flags = VALID_TERRITORY | UNIQUE_AREA | HIDDEN_AREA
 	ambience_index = AMBIENCE_REEBE
+	airlock_hack_difficulty = AIRLOCK_WIRE_SECURITY_ELITE
 
 /area/reebe/city_of_cogs
 	name = "Reebe - City of Cogs"
