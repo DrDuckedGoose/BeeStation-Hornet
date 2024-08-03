@@ -327,6 +327,8 @@ structure_check() searches for nearby cultist structures required for the invoca
 			else
 				to_chat(M, "<span class='cultlarge'>\"I accept this meager sacrifice.\"</span>")
 
+	//TODO: Implement this - Racc
+	/*
 	if(iscyborg(sacrificial))
 		var/construct_class = show_radial_menu(first_invoker, sacrificial, GLOB.construct_radial_images, require_near = TRUE, tooltips = TRUE)
 		if(QDELETED(sacrificial))
@@ -337,6 +339,7 @@ structure_check() searches for nearby cultist structures required for the invoca
 		sacriborg.mmi = null
 		qdel(sacrificial)
 		return TRUE
+	*/
 
 	var/obj/item/soulstone/stone = new /obj/item/soulstone(get_turf(src))
 	if(sacrificial.mind && !sacrificial.suiciding)

@@ -2394,7 +2394,8 @@ GLOBAL_LIST_INIT(illegal_tech_blacklist, typecacheof(list(
 	name = "Kinetic Accelerator Pressure Mod"
 	desc = "A modification kit which allows Kinetic Accelerators to do greatly increased damage while indoors. \
 			Occupies 35% mod capacity."
-	item = /obj/item/borg/upgrade/modkit/indoors
+	//TODO: - Racc
+	//item = /obj/item/borg/upgrade/modkit/indoors
 	cost = 5 //you need one for full damage, so total of 5 for maximum damage
 	limited_stock = 1 //you can't use more than one!
 	restricted_roles = list(JOB_NAME_SHAFTMINER)

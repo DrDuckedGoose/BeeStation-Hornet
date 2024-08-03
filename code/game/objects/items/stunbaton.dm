@@ -171,8 +171,9 @@
 			playsound(H, 'sound/weapons/genhit.ogg', 50, TRUE)
 			return FALSE
 	if(iscyborg(loc))
-		var/mob/living/silicon/robot/R = loc
-		if(!R || !R.cell || !R.cell.use(hitcost))
+		var/mob/living/silicon/new_robot/R = loc
+		var/obj/item/stock_parts/cell/cell = R?.get_cell()
+		if(!R || !cell || !cell.use(hitcost))
 			return FALSE
 	else
 		if(!deductcharge(hitcost))

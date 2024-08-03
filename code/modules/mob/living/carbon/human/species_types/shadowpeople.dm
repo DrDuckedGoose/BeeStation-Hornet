@@ -268,10 +268,11 @@
 	if(isethereal(src))
 		emp_act(EMP_LIGHT)
 
-/mob/living/silicon/robot/lighteater_act(obj/item/light_eater/light_eater, atom/parent)
+/mob/living/silicon/new_robot/lighteater_act(obj/item/light_eater/light_eater, atom/parent)
 	..()
-	if(lamp_enabled)
-		smash_headlamp()
+	//TODO: - Racc
+	//if(lamp_enabled)
+	//	smash_headlamp()
 
 /obj/structure/bonfire/lighteater_act(obj/item/light_eater/light_eater, atom/parent)
 	if(burning)

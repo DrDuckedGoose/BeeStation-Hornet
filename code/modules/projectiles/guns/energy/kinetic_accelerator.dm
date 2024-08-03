@@ -35,32 +35,38 @@
 	. = ..()
 	if(max_mod_capacity)
 		. += "<b>[get_remaining_mod_capacity()]%</b> mod capacity remaining."
-		for(var/A in get_modkits())
-			var/obj/item/borg/upgrade/modkit/M = A
-			. += "<span class='notice'>[icon2html(M, user)] There is \a [M] installed, using <b>[M.cost]%</b> capacity.</span>"
+		//TODO: - Racc
+		//for(var/A in get_modkits())
+		//	var/obj/item/borg/upgrade/modkit/M = A
+		//	. += "<span class='notice'>[icon2html(M, user)] There is \a [M] installed, using <b>[M.cost]%</b> capacity.</span>"
 
 /obj/item/gun/energy/kinetic_accelerator/crowbar_act(mob/living/user, obj/item/I)
 	. = TRUE
 	if(modkits.len)
 		to_chat(user, "<span class='notice'>You pry the modifications out.</span>")
 		I.play_tool_sound(src, 100)
-		for(var/obj/item/borg/upgrade/modkit/M in modkits)
-			M.uninstall(src)
+		//TODO: - Racc
+		//for(var/obj/item/borg/upgrade/modkit/M in modkits)
+		//	M.uninstall(src)
 	else
 		to_chat(user, "<span class='notice'>There are no modifications currently installed.</span>")
 
 /obj/item/gun/energy/kinetic_accelerator/attackby(obj/item/I, mob/user)
-	if(istype(I, /obj/item/borg/upgrade/modkit))
-		var/obj/item/borg/upgrade/modkit/MK = I
-		MK.install(src, user)
-	else
-		..()
+	//TODO: - Racc
+	//if(istype(I, /obj/item/borg/upgrade/modkit))
+	//	var/obj/item/borg/upgrade/modkit/MK = I
+	//	MK.install(src, user)
+	//else
+		//..()
+	//TEMP - Racc
+	return ..()
 
 /obj/item/gun/energy/kinetic_accelerator/proc/get_remaining_mod_capacity()
 	var/current_capacity_used = 0
-	for(var/A in get_modkits())
-		var/obj/item/borg/upgrade/modkit/M = A
-		current_capacity_used += M.cost
+	//TODO: - Racc
+	//for(var/A in get_modkits())
+	//	var/obj/item/borg/upgrade/modkit/M = A
+	//	current_capacity_used += M.cost
 	return max_mod_capacity - current_capacity_used
 
 /obj/item/gun/energy/kinetic_accelerator/proc/get_modkits()
@@ -70,9 +76,10 @@
 
 /obj/item/gun/energy/kinetic_accelerator/proc/modify_projectile(obj/projectile/kinetic/K)
 	K.kinetic_gun = src //do something special on-hit, easy!
-	for(var/A in get_modkits())
-		var/obj/item/borg/upgrade/modkit/M = A
-		M.modify_projectile(K)
+	//TODO: - Racc
+	//for(var/A in get_modkits())
+	//	var/obj/item/borg/upgrade/modkit/M = A
+	//	M.modify_projectile(K)
 
 /obj/item/gun/energy/kinetic_accelerator/cyborg
 	holds_charge = TRUE
@@ -191,10 +198,13 @@
 	. = ..()
 	if(. == PROJECTILE_PIERCE_PHASE)
 		return
+	/*
+	//TODO: Implement this - Racc
 	if(kinetic_gun)
 		var/list/mods = kinetic_gun.get_modkits()
 		for(var/obj/item/borg/upgrade/modkit/modkit in mods)
 			modkit.projectile_prehit(src, target, kinetic_gun)
+	*/
 	if(!pressure_decrease_active && !lavaland_equipment_pressure_check(get_turf(target)))
 		name = "weakened [name]"
 		damage = damage * pressure_decrease
@@ -212,19 +222,23 @@
 	var/turf/target_turf = get_turf(target)
 	if(!target_turf)
 		target_turf = get_turf(src)
+	/*
+	TODO: Implement this - Racc
 	if(kinetic_gun) //hopefully whoever shot this was not very, very unfortunate.
 		var/list/mods = kinetic_gun.get_modkits()
 		for(var/obj/item/borg/upgrade/modkit/M in mods)
 			M.projectile_strike_predamage(src, target_turf, target, kinetic_gun)
 		for(var/obj/item/borg/upgrade/modkit/M in mods)
 			M.projectile_strike(src, target_turf, target, kinetic_gun)
+	*/
 	if(ismineralturf(target_turf))
 		var/turf/closed/mineral/M = target_turf
 		M.gets_drilled(firer)
 	var/obj/effect/temp_visual/kinetic_blast/K = new /obj/effect/temp_visual/kinetic_blast(target_turf)
 	K.color = color
 
-
+/*
+//TODO: -Implement this  Racc
 //Modkits
 /obj/item/borg/upgrade/modkit
 	name = "kinetic accelerator modification kit"
@@ -587,3 +601,4 @@
 
 /obj/item/borg/upgrade/modkit/tracer/adjustable/attack_self(mob/user)
 	bolt_color = tgui_color_picker(user,"","Choose Color",bolt_color)
+*/

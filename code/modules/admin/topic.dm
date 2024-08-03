@@ -1493,11 +1493,12 @@
 								var/mob/living/L = usr
 								var/obj/item/I = O
 								L.put_in_hands(I)
-								if(iscyborg(L))
-									var/mob/living/silicon/robot/R = L
-									if(R.module)
-										R.module.add_module(I, TRUE, TRUE)
-										R.activate_module(I)
+								//TODO: I don't think we need this anymore? - Racc
+								//if(iscyborg(L))
+									//var/mob/living/silicon/robot/R = L
+									//if(R.module)
+									//	R.module.add_module(I, TRUE, TRUE)
+									//	R.activate_module(I)
 
 		if(pod)
 			new /obj/effect/pod_landingzone(target, pod)

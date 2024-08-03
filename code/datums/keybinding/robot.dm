@@ -1,3 +1,5 @@
+//TODO: Implement these - Racc
+/*
 /datum/keybinding/robot
 	category = CATEGORY_ROBOT
 	weight = WEIGHT_ROBOT
@@ -84,3 +86,4 @@
 	var/mob/living/silicon/robot/M = user.mob
 	M.uneq_active()
 	return TRUE
+*/

@@ -81,8 +81,8 @@ AI MODULES
 	var/borg_flw = ""
 	if(isAI(law_datum.owner))
 		var/mob/living/silicon/ai/owner = law_datum.owner
-		for(var/mob/living/silicon/robot/owned_borg in owner.connected_robots)
-			if(owned_borg.connected_ai && owned_borg.lawupdate)
+		for(var/mob/living/silicon/new_robot/owned_borg in owner.connected_robots)
+			if(owned_borg.connected_ai && owned_borg.laws_synced())
 				affected_cyborgs += owned_borg
 				borg_flw += "[ADMIN_LOOKUPFLW(owned_borg)], "
 				borg_txt += "[ADMIN_LOOKUP(owned_borg)], "

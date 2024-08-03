@@ -281,26 +281,29 @@
 /obj/item/modular_computer/tablet/integrated/ui_data(mob/user)
 	. = ..()
 	if(iscyborg(borgo))
-		var/mob/living/silicon/robot/robo = borgo
-		.["light_on"] = robo.lamp_enabled
-		.["comp_light_color"] = robo.lamp_color
+		//TODO: - Racc
+		//var/mob/living/silicon/robot/robo = borgo
+		//.["light_on"] = robo.lamp_enabled
+		//.["comp_light_color"] = robo.lamp_color
 		.["has_light"] = TRUE
 
 //Makes the flashlight button affect the borg rather than the tablet
 /obj/item/modular_computer/tablet/integrated/toggle_flashlight()
 	if(!borgo || QDELETED(borgo) || !iscyborg(borgo))
 		return FALSE
-	var/mob/living/silicon/robot/robo = borgo
-	robo.toggle_headlamp()
+	//TODO: - Racc
+	//var/mob/living/silicon/robot/robo = borgo
+	//robo.toggle_headlamp()
 	return TRUE
 
 //Makes the flashlight color setting affect the borg rather than the tablet
 /obj/item/modular_computer/tablet/integrated/set_flashlight_color(color)
 	if(!borgo || QDELETED(borgo) || !color || !iscyborg(borgo))
 		return FALSE
-	var/mob/living/silicon/robot/robo = borgo
-	robo.lamp_color = color
-	robo.toggle_headlamp(FALSE, TRUE)
+	//TODO: - Racc
+	//var/mob/living/silicon/robot/robo = borgo
+	//robo.lamp_color = color
+	//robo.toggle_headlamp(FALSE, TRUE)
 	return TRUE
 
 /obj/item/modular_computer/tablet/integrated/alert_call(datum/computer_file/program/caller, alerttext, sound = 'sound/machines/twobeep_high.ogg')
@@ -325,9 +328,10 @@
 
 /obj/item/modular_computer/tablet/integrated/syndicate/Initialize()
 	. = ..()
-	if(iscyborg(borgo))
-		var/mob/living/silicon/robot/robo = borgo
-		robo.lamp_color = COLOR_RED //Syndicate likes it red
+	//TODO: - Racc
+	//if(iscyborg(borgo))
+	//	var/mob/living/silicon/robot/robo = borgo
+	//	robo.lamp_color = COLOR_RED //Syndicate likes it red
 
 // Round start tablets
 

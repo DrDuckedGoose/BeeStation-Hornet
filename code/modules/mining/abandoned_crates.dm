@@ -166,7 +166,8 @@
 		if(57 to 58)
 			new /obj/item/toy/syndicateballoon(src)
 		if(59 to 60)
-			new /obj/item/borg/upgrade/modkit/aoe/mobs(src)
+			//TODO: - Racc
+			//new /obj/item/borg/upgrade/modkit/aoe/mobs(src)
 			new /obj/item/clothing/suit/space(src)
 			new /obj/item/clothing/head/helmet/space(src)
 		if(61 to 62)

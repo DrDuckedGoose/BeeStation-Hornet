@@ -28,26 +28,29 @@
 	data["card"] = !!get_id_name()
 
 	data["cyborgs"] = list()
-	for(var/mob/living/silicon/robot/R in GLOB.silicon_mobs)
+	for(var/mob/living/silicon/new_robot/R in GLOB.silicon_mobs)
 		if(!evaluate_borg(R))
 			continue
 
-		var/list/upgrade
-		for(var/obj/item/borg/upgrade/I in R.upgrades)
-			upgrade += "\[[I.name]\] "
+		//TODO: - Racc
+		//var/list/upgrade
+		//for(var/obj/item/borg/upgrade/I in R.upgrades)
+		//	upgrade += "\[[I.name]\] "
 
 		var/shell = FALSE
 		if(R.shell && !R.ckey)
 			shell = TRUE
 
+		var/obj/item/stock_parts/cell/cell = R?.get_cell()
 		var/list/cyborg_data = list(
 			name = R.name,
-			locked_down = R.lockcharge,
+			locked_down = R.locked,
 			status = R.stat,
 			shell_discon = shell,
-			charge = R.cell ? round(R.cell.percent()) : null,
-			module = R.module ? "[R.module.name] Module" : "No Module Detected",
-			upgrades = upgrade,
+			charge = cell ? round(cell.percent()) : null,
+			//TODO: - Racc
+			//module = R.module ? "[R.module.name] Module" : "No Module Detected",
+			//upgrades = upgrade,
 			ref = REF(R)
 		)
 		data["cyborgs"] += list(cyborg_data)
@@ -59,7 +62,7 @@
 
 	switch(action)
 		if("messagebot")
-			var/mob/living/silicon/robot/R = locate(params["ref"]) in GLOB.silicon_mobs
+			var/mob/living/silicon/new_robot/R = locate(params["ref"]) in GLOB.silicon_mobs
 			if(!istype(R))
 				return TRUE
 			var/sender_name = get_id_name()
@@ -88,12 +91,12 @@
 			return TRUE
 
 ///This proc is used to determin if a borg should be shown in the list (based on the borg's scrambledcodes var). Syndicate version overrides this to show only syndicate borgs.
-/datum/computer_file/program/borg_monitor/proc/evaluate_borg(mob/living/silicon/robot/R)
+/datum/computer_file/program/borg_monitor/proc/evaluate_borg(mob/living/silicon/new_robot/R)
 	var/turf/computer_turf = get_turf(computer)
 	var/turf/robot_turf = get_turf(R)
 	if(computer_turf.get_virtual_z_level() != robot_turf.get_virtual_z_level())
 		return FALSE
-	if(R.scrambledcodes)
+	if(R.console_visible)
 		return FALSE
 	return TRUE
 
@@ -117,10 +120,10 @@
 /datum/computer_file/program/borg_monitor/syndicate/run_emag()
 	return FALSE
 
-/datum/computer_file/program/borg_monitor/syndicate/evaluate_borg(mob/living/silicon/robot/R)
+/datum/computer_file/program/borg_monitor/syndicate/evaluate_borg(mob/living/silicon/new_robot/R)
 	if((get_turf(computer)).get_virtual_z_level() != (get_turf(R)).get_virtual_z_level())
 		return FALSE
-	if(!R.scrambledcodes)
+	if(!R.console_visible)
 		return FALSE
 	return TRUE
 

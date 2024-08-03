@@ -291,12 +291,11 @@
 		flash_carbon(M, user, 5, 1)
 		return TRUE
 	else if(issilicon(M))
-		var/mob/living/silicon/robot/R = M
+		var/mob/living/silicon/new_robot/R = M
 		log_combat(user, R, "flashed", src)
 		update_icon(1)
 		R.flash_act(affect_silicon = 1, type = /atom/movable/screen/fullscreen/flash/static)
-		if(R.last_flashed + FLASHED_COOLDOWN < world.time)
-			R.last_flashed = world.time
+		if(R.try_flash())
 			R.Paralyze(5 SECONDS)
 			user.visible_message("<span class='disarm'>[user] overloads [R]'s sensors with the flash!</span>", "<span class='danger'>You overload [R]'s sensors with the flash!</span>")
 		else

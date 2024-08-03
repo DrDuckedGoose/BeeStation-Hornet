@@ -93,6 +93,7 @@
 /obj/machinery/computer/upload/borg/can_upload_to(mob/living/silicon/robot/B)
 	if(!B || !iscyborg(B))
 		return FALSE
-	if(B.scrambledcodes || B.emagged)
-		return FALSE
+	//TODO: Implement this - Racc
+	//if(B.scrambledcodes || B.emagged)
+	//	return FALSE
 	return ..()

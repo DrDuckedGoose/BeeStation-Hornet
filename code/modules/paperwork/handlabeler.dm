@@ -98,7 +98,7 @@
 	if(!iscyborg(user))
 		return
 
-	var/mob/living/silicon/robot/borgy = user
+	var/mob/living/silicon/new_robot/borgy = user
 
 	var/starting_labels = initial(labels_left)
 	var/diff = starting_labels - labels_left
@@ -109,8 +109,7 @@
 
 		// If the cyborg manages to use a module without a cell, they get the paper
 		// for free.
-		if(borgy.cell)
-			borgy.cell.use(cost)
+		borgy.consume_energy(cost)
 
 /obj/item/hand_labeler_refill
 	name = "hand labeler paper roll"

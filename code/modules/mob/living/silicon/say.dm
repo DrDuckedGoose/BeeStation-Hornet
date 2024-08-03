@@ -13,9 +13,10 @@
 	var/large_message_a = say_quote(message, list("robot big"))
 	var/message_a = say_quote(message, list("robot"))
 	var/mob/living/silicon/ai/true_ai_core
-	if(iscyborg(src))  // this detects if a borg is AI shell, so that they can be loud always
-		var/mob/living/silicon/robot/ai_shell = src
-		true_ai_core = ai_shell.mainframe
+	//TODO: - Racc
+	//if(iscyborg(src))  // this detects if a borg is AI shell, so that they can be loud always
+	//	var/mob/living/silicon/robot/ai_shell = src
+	//	true_ai_core = ai_shell.mainframe
 	for(var/mob/M in GLOB.player_list)
 		if(M.binarycheck())
 			if(isAI(M))
@@ -25,7 +26,7 @@
 				var/rendered = "<span class='srt_radio binarysay'>Robotic Talk, <a href='?src=[REF(M)];track=[html_encode(name)]'><span class='name'>[name] ([desig])</span></a> [loud ? "[large_message_a]" : "[message_a]"]</span>"
 				to_chat(M, rendered)
 			else if(iscyborg(M))
-				var/mob/living/silicon/robot/borg = M
+				var/mob/living/silicon/new_robot/borg = M
 				var/loud = FALSE
 				if((src == borg.connected_ai) || (true_ai_core == borg.connected_ai)) //Cyborg only hears master AI on loud mode.
 					loud = TRUE

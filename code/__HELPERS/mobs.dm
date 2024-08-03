@@ -676,12 +676,10 @@ GLOBAL_DATUM_INIT(dview_mob, /mob/dview, new)
 /// Returns a list of unslaved cyborgs
 /proc/active_free_borgs()
 	. = list()
-	for(var/mob/living/silicon/robot/borg in GLOB.silicon_mobs)
-		if(borg.connected_ai || borg.shell)
+	for(var/mob/living/silicon/new_robot/borg in GLOB.silicon_mobs)
+		if(!borg.is_free())
 			continue
 		if(borg.stat == DEAD)
-			continue
-		if(borg.emagged || borg.scrambledcodes)
 			continue
 		. += borg
 

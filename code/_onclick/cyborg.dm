@@ -6,7 +6,7 @@
 	adjacency code.
 */
 
-/mob/living/silicon/robot/ClickOn(var/atom/A, var/params)
+/mob/living/silicon/robot_old/ClickOn(var/atom/A, var/params)
 	if(world.time <= next_click)
 		return
 	next_click = world.time + 1
@@ -89,23 +89,23 @@
 				return
 
 //Middle click cycles through selected modules.
-/mob/living/silicon/robot/MiddleClickOn(atom/A)
+/mob/living/silicon/robot_old/MiddleClickOn(atom/A)
 	. = ..()
 	cycle_modules()
 	return
 
 //Give cyborgs hotkey clicks without breaking existing uses of hotkey clicks
 // for non-doors/apcs
-/mob/living/silicon/robot/CtrlShiftClickOn(atom/A)
+/mob/living/silicon/robot_old/CtrlShiftClickOn(atom/A)
 	A.BorgCtrlShiftClick(src)
 
-/mob/living/silicon/robot/ShiftClickOn(atom/A)
+/mob/living/silicon/robot_old/ShiftClickOn(atom/A)
 	A.BorgShiftClick(src)
 
-/mob/living/silicon/robot/CtrlClickOn(atom/A)
+/mob/living/silicon/robot_old/CtrlClickOn(atom/A)
 	A.BorgCtrlClick(src)
 
-/mob/living/silicon/robot/AltClickOn(atom/A)
+/mob/living/silicon/robot_old/AltClickOn(atom/A)
 	A.BorgAltClick(src)
 
 /atom/proc/BorgCtrlShiftClick(mob/living/silicon/robot/user) //forward to human click if not overridden
@@ -173,14 +173,15 @@
 	clicks, you can do so here, but you will have to
 	change attack_robot() above to the proper function
 */
-/mob/living/silicon/robot/UnarmedAttack(atom/A)
+/mob/living/silicon/robot_old/UnarmedAttack(atom/A)
 	if(HAS_TRAIT(src, TRAIT_HANDS_BLOCKED))
 		return
 	A.attack_robot(src)
 
-/mob/living/silicon/robot/RangedAttack(atom/A)
+/mob/living/silicon/robot_old/RangedAttack(atom/A)
 	A.attack_robot(src)
 
 /atom/proc/attack_robot(mob/user)
 	attack_ai(user)
+	SEND_SIGNAL(src, COMSIG_ATOM_ATTACK_ROBOT, user)
 	return

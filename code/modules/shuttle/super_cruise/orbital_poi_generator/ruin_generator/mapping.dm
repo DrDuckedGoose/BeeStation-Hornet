@@ -114,10 +114,11 @@
 		/obj/item/anomaly_neutralizer = 1,
 		/obj/item/shuttle_creator = 1,
 		/obj/item/soap = 1,
-		/obj/item/borg/upgrade/selfrepair = 1,
-		/obj/item/borg/upgrade/speciality/botany = 1,
-		/obj/item/borg/upgrade/defib = 1,
-		/obj/item/taperecorder = 5,
+		//TODO: - Racc
+		///obj/item/borg/upgrade/selfrepair = 1,
+		///obj/item/borg/upgrade/speciality/botany = 1,
+		///obj/item/borg/upgrade/defib = 1,
+		///obj/item/taperecorder = 5,
 		/obj/item/clothing/mask/facehugger/lamarr = 1
 	)
 

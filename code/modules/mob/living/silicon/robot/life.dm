@@ -1,4 +1,4 @@
-/mob/living/silicon/robot/Life()
+/mob/living/silicon/robot_old/Life()
 	set invisibility = 0
 	if (src.notransform)
 		return
@@ -7,12 +7,12 @@
 	handle_robot_hud_updates()
 	handle_robot_cell()
 
-/mob/living/silicon/robot/proc/handle_jamming()
+/mob/living/silicon/robot_old/proc/handle_jamming()
 	if(deployed && is_jammed(JAMMER_PROTECTION_AI_SHELL))
 		to_chat(src, "<span class='warning robot'>Remote connection with target lost.</span>")
 		undeploy()
 
-/mob/living/silicon/robot/proc/handle_robot_cell()
+/mob/living/silicon/robot_old/proc/handle_robot_cell()
 	if(stat != DEAD)
 		if(low_power_mode)
 			if(cell?.charge)
@@ -21,7 +21,7 @@
 		else if(stat == CONSCIOUS)
 			use_power()
 
-/mob/living/silicon/robot/proc/use_power()
+/mob/living/silicon/robot_old/proc/use_power()
 	if(cell?.charge)
 		if(cell.charge <= 100)
 			uneq_all()
@@ -32,15 +32,15 @@
 		low_power_mode = TRUE
 		add_movespeed_modifier(/datum/movespeed_modifier/nopowercell) //Cyborg is greatly slowed with no cell charge
 		toggle_headlamp(TRUE)
-	diag_hud_set_borgcell()
+	//diag_hud_set_borgcell()
 
-/mob/living/silicon/robot/proc/handle_robot_hud_updates()
+/mob/living/silicon/robot_old/proc/handle_robot_hud_updates()
 	if(!client)
 		return
 
 	update_cell_hud_icon()
 
-/mob/living/silicon/robot/update_health_hud()
+/mob/living/silicon/robot_old/update_health_hud()
 	if(!client || !hud_used)
 		return
 	if(hud_used.healths)
@@ -60,7 +60,7 @@
 		else
 			hud_used.healths.icon_state = "health7"
 
-/mob/living/silicon/robot/proc/update_cell_hud_icon()
+/mob/living/silicon/robot_old/proc/update_cell_hud_icon()
 	if(cell)
 		var/cellcharge = cell.charge/cell.maxcharge
 		switch(cellcharge)
@@ -78,7 +78,7 @@
 		throw_alert("charge", /atom/movable/screen/alert/nocell)
 
 //Robots on fire
-/mob/living/silicon/robot/handle_fire()
+/mob/living/silicon/robot_old/handle_fire()
 	. = ..()
 	if(.) //if the mob isn't on fire anymore
 		return
@@ -91,7 +91,7 @@
 
 	//adjustFireLoss(3)
 
-/mob/living/silicon/robot/update_fire()
+/mob/living/silicon/robot_old/update_fire()
 	var/mutable_appearance/fire_overlay = mutable_appearance('icons/mob/OnFire.dmi', "Generic_mob_burning")
 	if(on_fire)
 		add_overlay(fire_overlay)

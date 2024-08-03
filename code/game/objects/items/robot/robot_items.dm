@@ -18,8 +18,9 @@
 			playsound(M, 'sound/weapons/genhit.ogg', 50, 1)
 			return FALSE
 	if(iscyborg(user))
-		var/mob/living/silicon/robot/R = user
-		if(!R.cell.use(charge_cost))
+		var/mob/living/silicon/new_robot/R = user
+		var/obj/item/stock_parts/cell/cell = istype(R) ? R.get_cell() : null
+		if(!cell.use(charge_cost))
 			return
 	M.apply_damage(80, STAMINA, blocked = armor_block)
 	user.do_attack_animation(M)
@@ -44,8 +45,8 @@
 
 /obj/item/borg/cyborghug/attack_self(mob/living/user)
 	if(iscyborg(user))
-		var/mob/living/silicon/robot/P = user
-		if(P.emagged&&shockallowed == 1)
+		var/mob/living/silicon/new_robot/R = user
+		if(R.is_emagged() && shockallowed == 1)
 			if(mode < 3)
 				mode++
 			else
@@ -64,7 +65,7 @@
 		if(3)
 			to_chat(user, "ERROR: ARM ACTUATORS OVERLOADED.")
 
-/obj/item/borg/cyborghug/attack(mob/living/M, mob/living/silicon/robot/user)
+/obj/item/borg/cyborghug/attack(mob/living/M, mob/living/silicon/new_robot/user)
 	if(M == user)
 		return
 	switch(mode)
@@ -123,7 +124,7 @@
 							user.visible_message("<span class='userdanger'>[user] shocks [M]. It does not seem to have an effect</span>", \
 								"<span class='danger'>You shock [M] to no effect.</span>")
 					playsound(loc, 'sound/effects/sparks2.ogg', 50, 1, -1)
-					user.cell.charge -= 500
+					user.consume_energy(500)
 					scooldown = world.time + 20
 		if(3)
 			if(ccooldown < world.time)
@@ -136,7 +137,7 @@
 								"<span class='danger'>You crush [M]!</span>")
 					playsound(loc, 'sound/weapons/smash.ogg', 50, 1, -1)
 					M.adjustBruteLoss(15)
-					user.cell.charge -= 300
+					user.consume_energy(300)
 					ccooldown = world.time + 10
 
 /obj/item/borg/cyborghug/peacekeeper
@@ -220,7 +221,8 @@
 
 	else
 		if(is_type_in_list(target, charge_items))
-			if(user.cell.charge <= cyborg_minimum_charge) //leave them a bit
+			var/obj/item/stock_parts/cell/user_cell = user.get_cell()
+			if(user_cell?.charge <= cyborg_minimum_charge) //leave them a bit
 				to_chat(user, "<span class='warning'>You don't have enough power to charge [target]!</span>")
 				return
 
@@ -246,12 +248,13 @@
 
 			charging_loop(user, target, cell)
 
-/obj/item/borg/charger/proc/powerdraw_loop(mob/living/silicon/robot/user, atom/target, obj/item/stock_parts/cell/cell)
+/obj/item/borg/charger/proc/powerdraw_loop(mob/living/silicon/new_robot/user, atom/target, obj/item/stock_parts/cell/cell)
 	work_mode = mode
 
+	var/obj/item/stock_parts/cell/user_cell = !user?.get_cell()
 	if(istype(cell))
 		while(do_after(user, 15, target = target, extra_checks = CALLBACK(src, PROC_REF(mode_check))))
-			if(!user?.cell)
+			if(!user_cell)
 				active = FALSE
 				return
 
@@ -263,11 +266,11 @@
 				active = FALSE
 				return
 
-			var/draw = min(cell.charge, cell.chargerate*0.5, user.cell.maxcharge-user.cell.charge)
+			var/draw = min(cell.charge, cell.chargerate*0.5, user_cell.maxcharge-user_cell.charge)
 			if(!cell.use(draw))
 				break
 
-			if(!user.cell.give(draw))
+			if(!user_cell.give(draw))
 				break
 
 			target.update_icon()
@@ -277,7 +280,7 @@
 				active = FALSE
 				return
 
-			if(user.cell.charge == user.cell.maxcharge)
+			if(user_cell.charge == user_cell.maxcharge)
 				to_chat(user, "<span class='notice'>You finish charging from [target].</span>")
 				active = FALSE
 				return
@@ -287,7 +290,7 @@
 	else
 		var/obj/machinery/M = target
 		while(do_after(user, 15, target = M, extra_checks = CALLBACK(src, PROC_REF(mode_check))))
-			if(!user?.cell)
+			if(!user_cell)
 				active = FALSE
 				return
 
@@ -298,12 +301,12 @@
 			if((M.machine_stat & (NOPOWER|BROKEN)) || !M.anchored)
 				break
 
-			if(!user.cell.give(150))
+			if(!user_cell.give(150))
 				break
 
 			M.use_power(200)
 
-			if(user.cell.charge == user.cell.maxcharge)
+			if(user_cell.charge == user_cell.maxcharge)
 				to_chat(user, "<span class='notice'>You finish charging from [target].</span>")
 				active = FALSE
 				return
@@ -311,11 +314,12 @@
 		to_chat(user, "<span class='notice'>You stop charging yourself.</span>")
 		active = FALSE
 
-/obj/item/borg/charger/proc/charging_loop(mob/living/silicon/robot/user, atom/target, obj/item/stock_parts/cell/cell)
+/obj/item/borg/charger/proc/charging_loop(mob/living/silicon/new_robot/user, atom/target, obj/item/stock_parts/cell/cell)
 	work_mode = mode
 
+	var/obj/item/stock_parts/cell/user_cell = !user?.get_cell()
 	while(do_after(user, 15, target = target, extra_checks = CALLBACK(src, PROC_REF(mode_check))))
-		if(!user?.cell)
+		if(user_cell)
 			active = FALSE
 			return
 
@@ -327,13 +331,13 @@
 			active = FALSE
 			return
 
-		var/draw = min(max(user.cell.charge - cyborg_minimum_charge, 0), cell.chargerate*0.5, cell.maxcharge-cell.charge)
+		var/draw = min(max(user_cell.charge - cyborg_minimum_charge, 0), cell.chargerate*0.5, cell.maxcharge-cell.charge)
 		if(!draw)
 			to_chat(user, "<span class='warning'>Safeties prevent you from going under [cyborg_minimum_charge] charge!</span>")
 			active = FALSE
 			return
 
-		if(!user.cell.use(draw))
+		if(!user_cell.use(draw))
 			break
 
 		if(!cell.give(draw))
@@ -346,7 +350,7 @@
 			active = FALSE
 			return
 
-		if(user.cell.charge <= cyborg_minimum_charge) //leave them a bit
+		if(user_cell.charge <= cyborg_minimum_charge) //leave them a bit
 			to_chat(user, "<span class='warning'>You don't have enough power to continue charging [target]!</span>")
 			active = FALSE
 			return
@@ -382,12 +386,13 @@
 		return
 
 	if(iscyborg(user))
-		var/mob/living/silicon/robot/R = user
-		if(!R.cell || R.cell.charge < 1200)
+		var/mob/living/silicon/new_robot/R = user
+		var/obj/item/stock_parts/cell/user_cell = !user?.get_cell()
+		if(!user_cell || user_cell.charge < 1200)
 			to_chat(user, "<font color='red'>You don't have enough charge to do this!</font>")
 			return
-		R.cell.charge -= 1000
-		if(R.emagged)
+		R.consume_energy(1000)
+		if(R.is_emagged())
 			safety = FALSE
 
 	if(safety == TRUE)
@@ -401,9 +406,10 @@
 		playsound(get_turf(src), 'sound/ai/harmalarm.ogg', 70, 3)
 		cooldown = world.time + 200
 		log_game("[key_name(user)] used a Cyborg Harm Alarm in [AREACOORD(user)]")
-		if(iscyborg(user))
-			var/mob/living/silicon/robot/R = user
-			to_chat(R.connected_ai, "<br><span class='notice'>NOTICE - Peacekeeping 'HARM ALARM' used by: [user]</span><br>")
+		//TODO: Implement this - Racc
+		//if(iscyborg(user))
+		//	var/mob/living/silicon/robot/R = user
+			//to_chat(R.connected_ai, "<br><span class='notice'>NOTICE - Peacekeeping 'HARM ALARM' used by: [user]</span><br>")
 
 		return
 
@@ -541,11 +547,12 @@
 	. = ..()
 	check_amount()
 	if(iscyborg(user))
-		var/mob/living/silicon/robot/R = user
-		if(!R.cell.use(12))
+		var/mob/living/silicon/new_robot/R = user
+		var/obj/item/stock_parts/cell/user_cell = R?.get_cell()
+		if(!user_cell.use(12))
 			to_chat(user, "<span class='warning'>Not enough power.</span>")
 			return FALSE
-		if(R.emagged)
+		if(R.is_emagged())
 			hitdamage = emaggedhitdamage
 	switch(mode)
 		if(DISPENSE_LOLLIPOP_MODE, DISPENSE_ICECREAM_MODE)
@@ -644,7 +651,7 @@
 	var/energy_recharge = 37.5
 	var/energy_recharge_cyborg_drain_coefficient = 0.4
 	var/cyborg_cell_critical_percentage = 0.05
-	var/mob/living/silicon/robot/host = null
+	var/mob/living/silicon/new_robot/host = null
 	var/datum/proximity_monitor/advanced/dampening_field
 	var/projectile_damage_coefficient = 0.5
 	/// Energy cost per tracked projectile damage amount per second
@@ -697,9 +704,10 @@
 	if(istype(dampening_field))
 		QDEL_NULL(dampening_field)
 	dampening_field = make_field(/datum/proximity_monitor/advanced/peaceborg_dampener, list("current_range" = field_radius, "host" = src, "projector" = src))
-	var/mob/living/silicon/robot/owner = get_host()
-	if(owner)
-		owner.module.allow_riding = FALSE
+	//var/mob/living/silicon/new_robot/owner = get_host()
+	//TODO: Implement this - Racc
+	//if(owner)
+		//owner.module.allow_riding = FALSE
 	active = TRUE
 
 /obj/item/borg/projectile_dampen/proc/deactivate_field()
@@ -710,9 +718,10 @@
 		restore_projectile(P)
 	active = FALSE
 
-	var/mob/living/silicon/robot/owner = get_host()
-	if(owner)
-		owner.module.allow_riding = TRUE
+	//TODO: Implement this - Racc
+	//var/mob/living/silicon/robot/owner = get_host()
+	//if(owner)
+	//	owner.module.allow_riding = TRUE
 
 /obj/item/borg/projectile_dampen/proc/get_host()
 	if(istype(host))
@@ -763,8 +772,9 @@
 		else
 			energy = clamp(energy + energy_recharge * delta_time, 0, maxenergy)
 			return
-	if(host.cell && (host.cell.charge >= (host.cell.maxcharge * cyborg_cell_critical_percentage)) && (energy < maxenergy))
-		host.cell.use(energy_recharge * delta_time * energy_recharge_cyborg_drain_coefficient)
+	var/obj/item/stock_parts/cell/user_cell = host?.get_cell()
+	if(user_cell && (user_cell.charge >= (user_cell.maxcharge * cyborg_cell_critical_percentage)) && (energy < maxenergy))
+		user_cell.use(energy_recharge * delta_time * energy_recharge_cyborg_drain_coefficient)
 		energy += energy_recharge * delta_time
 
 /obj/item/borg/projectile_dampen/proc/dampen_projectile(obj/projectile/P, track_projectile = TRUE)

@@ -43,8 +43,9 @@
 	. = ..()
 	disrupt(user)
 
-/obj/item/borg_chameleon/attack_self(mob/living/silicon/robot/user)
-	if (user?.cell && user.cell.charge > activationCost)
+/obj/item/borg_chameleon/attack_self(mob/living/silicon/new_robot/user)
+	var/obj/item/stock_parts/cell/cell = user.get_cell()
+	if (cell && cell.charge > activationCost)
 		if (isturf(user.loc))
 			toggle(user)
 		else
@@ -52,7 +53,7 @@
 	else
 		to_chat(user, "<span class='warning'>You need at least [activationCost] charge in your cell to use [src]!</span>")
 
-/obj/item/borg_chameleon/proc/toggle(mob/living/silicon/robot/user)
+/obj/item/borg_chameleon/proc/toggle(mob/living/silicon/new_robot/user)
 	if(active)
 		playsound(src, 'sound/effects/pop.ogg', 100, 1, -6)
 		to_chat(user, "<span class='notice'>You deactivate \the [src].</span>")
@@ -65,7 +66,7 @@
 		to_chat(user, "<span class='notice'>You activate \the [src].</span>")
 		playsound(src, 'sound/effects/seedling_chargeup.ogg', 100, TRUE, -6)
 		apply_wibbly_filters(user)
-		if (do_after(user, 50, target=user) && user.cell.use(activationCost))
+		if (do_after(user, 50, target=user) && user.consume_energy(activationCost))
 			playsound(src, 'sound/effects/bamf.ogg', 100, 1, -6)
 			to_chat(user, "<span class='notice'>You are now disguised as the Nanotrasen engineering borg \"[friendlyName]\".</span>")
 			activate(user)
@@ -76,18 +77,20 @@
 		animation_playing = FALSE
 
 /obj/item/borg_chameleon/process()
+	var/obj/item/stock_parts/cell/cell = user?.get_cell()
 	if (user)
-		if (!user.cell || !user.cell.use(activationUpkeep))
+		if (!cell || !cell.use(activationUpkeep))
 			disrupt(user)
 	else
 		return PROCESS_KILL
 
-/obj/item/borg_chameleon/proc/activate(mob/living/silicon/robot/user)
+/obj/item/borg_chameleon/proc/activate(mob/living/silicon/new_robot/user)
 	START_PROCESSING(SSobj, src)
 	src.user = user
 	savedName = user.name
 	user.name = friendlyName
-	user.module.cyborg_base_icon = disguise
+	//TODO: Implement this - Racc
+	//user.module.cyborg_base_icon = disguise
 	user.bubble_icon = "robot"
 	active = TRUE
 	user.update_icons()
@@ -106,7 +109,8 @@
 		listeningTo = null
 	do_sparks(5, FALSE, user)
 	user.name = savedName
-	user.module.cyborg_base_icon = initial(user.module.cyborg_base_icon)
+	//TODO: Implement this - Racc
+	//user.module.cyborg_base_icon = initial(user.module.cyborg_base_icon)
 	user.bubble_icon = "syndibot"
 	active = FALSE
 	user.update_icons()

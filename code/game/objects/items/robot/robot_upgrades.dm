@@ -1,6 +1,9 @@
 #define STANDARD "standard" //repair module is operating in standard repair mode
 #define CRITICAL "critical" //repair module is operating in critical repair mode
 
+//TODO: Implement these - Racc
+
+/*
 // robot_upgrades.dm
 // Contains various borg upgrades.
 
@@ -289,22 +292,22 @@
 	icon_state = "cyborg_upgrade3"
 	require_module = 1
 
-/obj/item/borg/upgrade/syndicate/action(mob/living/silicon/robot/R, user = usr)
+/obj/item/borg/upgrade/syndicate/action(mob/living/silicon/new_robot/R, user = usr)
 	. = ..()
 	if(.)
 		if(R.emagged)
 			return FALSE
 
-		R.SetEmagged(1)
+		R.set_emagged(1)
 		R.logevent("WARN: hardware installed with missing security certificate!") //A bit of fluff to hint it was an illegal tech item
 		R.logevent("WARN: root privleges granted to PID [num2hex(rand(1,65535), -1)][num2hex(rand(1,65535), -1)].") //random eight digit hex value. Two are used because rand(1,4294967295) throws an error
 
 		return TRUE
 
-/obj/item/borg/upgrade/syndicate/deactivate(mob/living/silicon/robot/R, user = usr)
+/obj/item/borg/upgrade/syndicate/deactivate(mob/living/silicon/new_robot/R, user = usr)
 	. = ..()
 	if (.)
-		R.SetEmagged(FALSE)
+		R.set_emagged(FALSE)
 
 /obj/item/borg/upgrade/lavaproof
 	name = "mining cyborg lavaproof chassis"
@@ -571,7 +574,7 @@
 	desc = "A cyborg resizer, it makes a cyborg huge."
 	icon_state = "cyborg_upgrade3"
 
-/obj/item/borg/upgrade/expand/action(mob/living/silicon/robot/R, user = usr)
+/obj/item/borg/upgrade/expand/action(mob/living/silicon/new_robot/R, user = usr)
 	. = ..()
 	if(.)
 
@@ -580,8 +583,8 @@
 			return FALSE
 
 		R.notransform = TRUE
-		var/prev_lockcharge = R.lockcharge
-		R.SetLockdown(TRUE)
+		var/prev_lockcharge = R.locked
+		R.set_locked(TRUE)
 		R.set_anchored(TRUE)
 		var/datum/effect_system/smoke_spread/smoke = new
 		smoke.set_up(TRUE, R.loc)
@@ -591,7 +594,7 @@
 			playsound(R, pick('sound/items/drill_use.ogg', 'sound/items/jaws_cut.ogg', 'sound/items/jaws_pry.ogg', 'sound/items/welder.ogg', 'sound/items/ratchet.ogg'), 80, 1, -1)
 			sleep(12)
 		if(!prev_lockcharge)
-			R.SetLockdown(FALSE)
+			R.set_locked(FALSE)
 		R.set_anchored(FALSE)
 		R.notransform = FALSE
 		R.resize = 2
@@ -869,3 +872,4 @@
 
 #undef STANDARD
 #undef CRITICAL
+*/

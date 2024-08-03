@@ -185,6 +185,8 @@
 	name = "syndicate saboteur teleporter"
 	borg_to_spawn = "Saboteur"
 
+/*
+//TODO: Implement this - Racc
 /obj/item/antag_spawner/nuke_ops/borg_tele/spawn_antag(client/C, turf/T, kind, datum/mind/user)
 	var/mob/living/silicon/robot/R
 	var/datum/antagonist/nukeop/creator_op = user.has_antag_datum(/datum/antagonist/nukeop,TRUE)
@@ -219,6 +221,7 @@
 	new_borg.send_to_spawnpoint = FALSE
 	R.mind.add_antag_datum(new_borg,creator_op.nuke_team)
 	R.mind.special_role = "Syndicate Cyborg"
+*/
 
 ///////////SLAUGHTER DEMON
 

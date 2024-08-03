@@ -173,9 +173,10 @@
 		/obj/item/anomaly_neutralizer,
 		/obj/item/shuttle_creator,
 		/obj/item/soap,
-		/obj/item/borg/upgrade/selfrepair,
-		/obj/item/borg/upgrade/speciality/botany,
-		/obj/item/borg/upgrade/defib,
+		//TODO: - Racc
+		///obj/item/borg/upgrade/selfrepair,
+		///obj/item/borg/upgrade/speciality/botany,
+		///obj/item/borg/upgrade/defib,
 		/obj/item/taperecorder,)
 	new mail_science(loc)
 	return ..()

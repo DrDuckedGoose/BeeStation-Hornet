@@ -696,8 +696,8 @@
 
 /obj/item/shockpaddles/cyborg/attack(mob/M, mob/user)
 	if(iscyborg(user))
-		var/mob/living/silicon/robot/R = user
-		if(R.emagged)
+		var/mob/living/silicon/new_robot/R = user
+		if(R.is_emagged())
 			combat = TRUE
 		else
 			combat = FALSE

@@ -25,13 +25,14 @@
 		"<span class='notice'>Serves as a substitute for <b>fire/air alarm</b>, <b>firelock</b>, and <b>APC</b> electronics.</span>\n"+\
 		"<span class='notice'>It can also be used on an APC with no power cell to <b>fabricate a low-capacity cell</b> at a high power cost.</span>"
 
-/obj/item/electroadaptive_pseudocircuit/proc/adapt_circuit(mob/living/silicon/robot/R, circuit_cost = 0)
+/obj/item/electroadaptive_pseudocircuit/proc/adapt_circuit(mob/living/silicon/new_robot/R, circuit_cost = 0)
 	if(QDELETED(R) || !istype(R))
 		return
-	if(!R.cell)
+	var/obj/item/stock_parts/cell/cell = R.get_cell()
+	if(!cell)
 		to_chat(R, "<span class='warning'>You need a power cell installed for that.</span>")
 		return
-	if(!R.cell.use(circuit_cost))
+	if(!cell.use(circuit_cost))
 		to_chat(R, "<span class='warning'>You don't have the energy for that (you need [display_energy(circuit_cost)].)</span>")
 		return
 	if(recharging)

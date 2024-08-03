@@ -54,8 +54,16 @@
 					else if(ispAI(L))
 						mob_data["module"] = "pAI"
 					else if(iscyborg(L))
-						var/mob/living/silicon/robot/R = L
-						mob_data["module"] = R.module.name
+						//List all the modules our borg has
+						var/mob/living/silicon/new_robot/R = L
+						var/list/modules = list()
+						SEND_SIGNAL(R, COMSIG_ENDO_LIST_PART, /obj/item/new_robot_module, modules)
+						if(!length(modules))
+							mob_data["module"] = "None"
+						else
+							mob_data["module"] = ""
+							for(var/obj/item/new_robot_module/module as() in modules)
+								mob_data["module"] = "[module], [mob_data["module"]]"
 				else
 					category = "others"
 					mob_data["typepath"] = M.type
@@ -482,7 +490,7 @@
 		if(!borg_spacer)
 			borg_spacer = TRUE
 
-	for (var/mob/living/silicon/robot/robo in GLOB.silicon_mobs)
+	for (var/mob/living/silicon/new_robot/robo in GLOB.silicon_mobs)
 		if (!robo.connected_ai && robo.mind)
 			parts += "[borg_spacer?"<br>":""]<b>[robo.name]</b> (Played by: <b>[robo.mind.key]</b>) [(robo.stat != DEAD)? "<span class='greentext'>survived</span> as an AI-less borg!" : "was <span class='redtext'>unable to survive</span> the rigors of being a cyborg without an AI."] Its laws were:"
 

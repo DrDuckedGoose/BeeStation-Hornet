@@ -119,14 +119,15 @@
 	if(isAI(S))
 		var/mob/living/silicon/ai/AI = S
 		AI.disconnect_shell()
-		for(var/mob/living/silicon/robot/R in AI.connected_robots)
+		for(var/mob/living/silicon/new_robot/R in AI.connected_robots)
 			R.connected_ai = null
 		var/mutable_appearance/ai_clock = mutable_appearance('icons/mob/clockwork_mobs.dmi', "aiframe")
 		AI.add_overlay(ai_clock)
 	else if(iscyborg(S))
-		var/mob/living/silicon/robot/R = S
+		var/mob/living/silicon/new_robot/R = S
 		R.connected_ai = null
-		R.SetRatvar(TRUE)
+		//TODO: - Racc
+		//R.SetRatvar(TRUE)
 	S.laws = new /datum/ai_laws/ratvar     //Laws down here so borgs don't instantly resync their laws
 	S.laws.associate(S)
 	S.show_laws()

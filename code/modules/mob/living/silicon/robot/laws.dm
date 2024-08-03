@@ -1,9 +1,9 @@
-/mob/living/silicon/robot/deadchat_lawchange()
+/mob/living/silicon/robot_old/deadchat_lawchange()
 	if(lawupdate)
 		return
 	..()
 
-/mob/living/silicon/robot/show_laws(everyone = 0)
+/mob/living/silicon/robot_old/show_laws(everyone = 0)
 	laws_sanity_check()
 	var/who
 
@@ -35,7 +35,7 @@
 		to_chat(who, "<b>Remember, you are not bound to any AI, you are not required to listen to them.</b>")
 
 
-/mob/living/silicon/robot/proc/lawsync()
+/mob/living/silicon/robot_old/proc/lawsync()
 	laws_sanity_check()
 	var/datum/ai_laws/master = connected_ai?.laws
 	var/temp
@@ -82,6 +82,6 @@
 
 	picturesync()
 
-/mob/living/silicon/robot/post_lawchange(announce = TRUE)
+/mob/living/silicon/robot_old/post_lawchange(announce = TRUE)
 	. = ..()
 	addtimer(CALLBACK(src, PROC_REF(logevent),"Law update processed."), 0, TIMER_UNIQUE | TIMER_OVERRIDE) //Post_Lawchange gets spammed by some law boards, so let's wait it out

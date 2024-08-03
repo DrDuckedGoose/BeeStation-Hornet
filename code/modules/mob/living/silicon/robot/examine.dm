@@ -1,4 +1,4 @@
-/mob/living/silicon/robot/examine(mob/user)
+/mob/living/silicon/robot_old/examine(mob/user)
 	. = list("<span class='info'>This is [icon2html(src, user)] \a <EM>[src]</EM>!")
 	if(desc)
 		. += "[desc]"
@@ -47,5 +47,5 @@
 
 	. += ..()
 
-/mob/living/silicon/robot/get_examine_string(mob/user, thats = FALSE)
+/mob/living/silicon/robot_old/get_examine_string(mob/user, thats = FALSE)
 	return null

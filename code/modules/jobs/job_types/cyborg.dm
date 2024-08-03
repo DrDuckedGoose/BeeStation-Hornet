@@ -28,7 +28,8 @@
 /datum/job/cyborg/after_spawn(mob/living/silicon/robot/R, mob/M, latejoin = FALSE, client/preference_source, on_dummy = FALSE)
 	if(!M.client || on_dummy)
 		return
-	R.updatename(M.client)
+	//TODO: - Racc
+	//R.updatename(M.client)
 	R.gender = NEUTER
 
 /datum/job/cyborg/radio_help_message(mob/M)

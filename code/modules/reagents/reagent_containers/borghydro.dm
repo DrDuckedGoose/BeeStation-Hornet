@@ -88,11 +88,12 @@ Borg Hypospray
 /obj/item/reagent_containers/borghypo/proc/regenerate_reagents()
 	if(iscyborg(src.loc))
 		var/mob/living/silicon/robot/R = src.loc
-		if(R && R.cell)
+		var/obj/item/stock_parts/cell/cell = R?.get_cell()
+		if(cell)
 			for(var/i in 1 to reagent_ids.len)
 				var/datum/reagents/RG = reagent_list[i]
 				if(RG.total_volume < RG.maximum_volume) 	//Don't recharge reagents and drain power if the storage is full.
-					R.cell.use(charge_cost) 					//Take power from borg...
+					cell.use(charge_cost) 					//Take power from borg...
 					RG.add_reagent(reagent_ids[i], 5)		//And fill hypo with reagent.
 
 /obj/item/reagent_containers/borghypo/attack(mob/living/carbon/M, mob/user)
@@ -218,12 +219,13 @@ Borg Shaker
 /obj/item/reagent_containers/borghypo/borgshaker/regenerate_reagents()
 	if(iscyborg(src.loc))
 		var/mob/living/silicon/robot/R = src.loc
-		if(R?.cell)
+		var/obj/item/stock_parts/cell/cell = R?.get_cell()
+		if(cell)
 			for(var/i in modes) //Lots of reagents in this one, so it's best to regenrate them all at once to keep it from being tedious.
 				var/valueofi = modes[i]
 				var/datum/reagents/RG = reagent_list[valueofi]
 				if(RG.total_volume < RG.maximum_volume)
-					R.cell.use(charge_cost)
+					cell.use(charge_cost)
 					RG.add_reagent(reagent_ids[valueofi], 5)
 
 /obj/item/reagent_containers/borghypo/borgshaker/afterattack(obj/target, mob/user, proximity)

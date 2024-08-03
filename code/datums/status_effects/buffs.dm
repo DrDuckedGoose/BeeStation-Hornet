@@ -57,12 +57,13 @@
 	icon_state = "power_regen"
 
 /datum/status_effect/cyborg_power_regen/tick()
-	var/mob/living/silicon/robot/cyborg = owner
-	if(!istype(cyborg) || !cyborg.cell)
+	var/mob/living/silicon/new_robot/cyborg = owner
+	var/obj/item/stock_parts/cell/cell = istype(cyborg) ? cyborg.get_cell() : null
+	if(!istype(cyborg) || !cell)
 		qdel(src)
 		return
 	playsound(cyborg, 'sound/effects/light_flicker.ogg', 50, 1)
-	cyborg.cell.give(power_to_give)
+	cell.give(power_to_give)
 
 /datum/status_effect/his_grace
 	id = "his_grace"

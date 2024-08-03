@@ -153,7 +153,8 @@
 /obj/item/bodypart/chest/robot/Destroy()
 	QDEL_NULL(cell)
 	return ..()
-
+//TODO: - Racc
+/*
 /obj/item/bodypart/chest/robot/attackby(obj/item/W, mob/user, params)
 	if(istype(W, /obj/item/stock_parts/cell))
 		if(cell)
@@ -176,6 +177,7 @@
 			to_chat(user, "<span class='warning'>You need one length of coil to wire it!</span>")
 	else
 		return ..()
+	*/
 
 /obj/item/bodypart/chest/robot/wirecutter_act(mob/living/user, obj/item/I)
 	if(!wired)

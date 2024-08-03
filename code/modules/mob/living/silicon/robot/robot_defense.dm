@@ -1,4 +1,4 @@
-/mob/living/silicon/robot/attackby(obj/item/I, mob/living/user)
+/mob/living/silicon/robot_old/attackby(obj/item/I, mob/living/user)
 	if(I.slot_flags & ITEM_SLOT_HEAD && hat_offset != INFINITY && user.a_intent == INTENT_HELP && !is_type_in_typecache(I, blacklisted_hats))
 		to_chat(user, "<span class='notice'>You begin to place [I] on [src]'s head...</span>")
 		to_chat(src, "<span class='notice'>[user] is placing [I] on your head...</span>")
@@ -10,7 +10,7 @@
 		spark_system.start()
 	return ..()
 
-/mob/living/silicon/robot/attack_alien(mob/living/carbon/alien/humanoid/M)
+/mob/living/silicon/robot_old/attack_alien(mob/living/carbon/alien/humanoid/M)
 	if (M.a_intent == INTENT_DISARM)
 		if(body_position == STANDING_UP)
 			M.do_attack_animation(src, ATTACK_EFFECT_DISARM)
@@ -31,7 +31,7 @@
 		..()
 	return
 
-/mob/living/silicon/robot/attack_slime(mob/living/simple_animal/slime/M)
+/mob/living/silicon/robot_old/attack_slime(mob/living/simple_animal/slime/M)
 	if(..()) //successful slime shock
 		flash_act()
 		if(M.powerlevel)
@@ -53,7 +53,7 @@
 	return
 
 //ATTACK HAND IGNORING PARENT RETURN VALUE
-/mob/living/silicon/robot/attack_hand(mob/living/carbon/human/user)
+/mob/living/silicon/robot_old/attack_hand(mob/living/carbon/human/user)
 	add_fingerprint(user)
 	if(opened && !wiresexposed && !issilicon(user))
 		if(cell)
@@ -63,7 +63,7 @@
 			to_chat(user, "<span class='notice'>You remove \the [cell].</span>")
 			cell = null
 			update_icons()
-			diag_hud_set_borgcell()
+			//diag_hud_set_borgcell()
 
 	if(!opened)
 		if(..()) // hulk attack
@@ -73,12 +73,12 @@
 				sleep(3)
 				step_away(src,user,15)
 
-/mob/living/silicon/robot/fire_act()
+/mob/living/silicon/robot_old/fire_act()
 	if(!on_fire) //Silicons don't gain stacks from hotspots, but hotspots can ignite them
 		IgniteMob()
 
 
-/mob/living/silicon/robot/emp_act(severity)
+/mob/living/silicon/robot_old/emp_act(severity)
 	. = ..()
 	if(. & EMP_PROTECT_SELF)
 		return
@@ -88,7 +88,7 @@
 		if(2)
 			Stun(60)
 
-/mob/living/silicon/robot/proc/should_emag(atom/target, mob/user)
+/mob/living/silicon/robot_old/proc/should_emag(atom/target, mob/user)
 	SIGNAL_HANDLER
 	if(target == user || user == src)
 		return TRUE // signal is inverted
@@ -101,7 +101,7 @@
 		return TRUE
 	return FALSE
 
-/mob/living/silicon/robot/proc/on_emag(atom/target, mob/user, obj/item/card/emag/hacker)
+/mob/living/silicon/robot_old/proc/on_emag(atom/target, mob/user, obj/item/card/emag/hacker)
 	SIGNAL_HANDLER
 
 	if(hacker)
@@ -123,7 +123,7 @@
 	emag_cooldown = world.time + 100
 	addtimer(CALLBACK(src, PROC_REF(after_emag), user), 1)
 
-/mob/living/silicon/robot/proc/after_emag(mob/user)
+/mob/living/silicon/robot_old/proc/after_emag(mob/user)
 	if(connected_ai?.mind && connected_ai.mind.has_antag_datum(/datum/antagonist/traitor))
 		to_chat(src, "<span class='danger'>ALERT: Foreign software execution prevented.</span>")
 		logevent("ALERT: Foreign software execution prevented.")
@@ -168,10 +168,10 @@
 	//Get syndicate access.
 	create_access_card(get_all_syndicate_access())
 
-/mob/living/silicon/robot/proc/after_emag_shell(mob/user)
+/mob/living/silicon/robot_old/proc/after_emag_shell(mob/user)
 	ResetModule()
 
-/mob/living/silicon/robot/blob_act(obj/structure/blob/B)
+/mob/living/silicon/robot_old/blob_act(obj/structure/blob/B)
 	if(stat != DEAD)
 		adjustBruteLoss(30)
 	else
@@ -179,7 +179,7 @@
 		gib()
 	return TRUE
 
-/mob/living/silicon/robot/ex_act(severity, target)
+/mob/living/silicon/robot_old/ex_act(severity, target)
 	switch(severity)
 		if(EXPLODE_DEVASTATE)
 			gib()
@@ -192,13 +192,13 @@
 			if (stat != DEAD)
 				adjustBruteLoss(30)
 
-/mob/living/silicon/robot/bullet_act(var/obj/projectile/Proj, def_zone)
+/mob/living/silicon/robot_old/bullet_act(var/obj/projectile/Proj, def_zone)
 	. = ..()
 	updatehealth()
 	if(prob(75) && Proj.damage > 0)
 		spark_system.start()
 
-/mob/living/silicon/robot/adjustOxyLoss(amount, updating_health = TRUE, forced = FALSE)
+/mob/living/silicon/robot_old/adjustOxyLoss(amount, updating_health = TRUE, forced = FALSE)
 	. = ..()
 	if(isnull(.))
 		return
@@ -209,7 +209,7 @@
 		REMOVE_TRAIT(src, TRAIT_KNOCKEDOUT, OXYLOSS_TRAIT)
 
 
-/mob/living/silicon/robot/setOxyLoss(amount, updating_health = TRUE, forced = FALSE)
+/mob/living/silicon/robot_old/setOxyLoss(amount, updating_health = TRUE, forced = FALSE)
 	. = ..()
 	if(isnull(.))
 		return

@@ -44,8 +44,8 @@ RSF
 		if(5)
 			mode = 1
 			if(iscyborg(user))
-				var/mob/living/silicon/robot/R = user
-				if(R.emagged)
+				var/mob/living/silicon/new_robot/R = user
+				if(R.is_emagged())
 					mode = 6
 			if (mode==1)
 				to_chat(user, "Changed dispensing mode to 'Drinking Glass'")
@@ -76,8 +76,9 @@ RSF
 		return
 
 	if(iscyborg(user))
-		var/mob/living/silicon/robot/R = user
-		if(!R.cell || R.cell.charge < 200)
+		var/mob/living/silicon/new_robot/R = user
+		var/obj/item/stock_parts/cell/cell = !R?.get_cell()
+		if(!cell || cell.charge < 200)
 			to_chat(user, "<span class='warning'>You do not have enough power to use [src].</span>")
 			return
 	else if (matter < 1)
@@ -114,8 +115,8 @@ RSF
 
 /obj/item/rsf/proc/use_matter(charge, mob/user)
 	if (iscyborg(user))
-		var/mob/living/silicon/robot/R = user
-		R.cell.charge -= charge
+		var/mob/living/silicon/new_robot/R = user
+		R.consume_energy(charge)
 	else
 		matter--
 		to_chat(user, "The RSF now holds [matter]/30 fabrication-units.")
@@ -151,13 +152,13 @@ RSF
 		toxin = 0
 
 /obj/item/cookiesynth/attack_self(mob/user)
-	var/mob/living/silicon/robot/P = null
+	var/mob/living/silicon/new_robot/P = null
 	if(iscyborg(user))
 		P = user
 	if((obj_flags & EMAGGED)&&!toxin)
 		toxin = 1
 		to_chat(user, "Cookie Synthesizer Hacked")
-	else if(P.emagged&&!toxin)
+	else if(P.is_emagged() && !toxin)
 		toxin = 1
 		to_chat(user, "Cookie Synthesizer Hacked")
 	else
@@ -180,8 +181,9 @@ RSF
 		to_chat(user, "<span class='warning'>[src] doesn't have enough matter left. Wait for it to recharge!</span>")
 		return
 	if(iscyborg(user))
-		var/mob/living/silicon/robot/R = user
-		if(!R.cell || R.cell.charge < 400)
+		var/mob/living/silicon/new_robot/R = user
+		var/obj/item/stock_parts/cell/cell = R?.get_cell()
+		if(!cell || cell.charge < 400)
 			to_chat(user, "<span class='warning'>You do not have enough power to use [src].</span>")
 			return
 	var/turf/T = get_turf(A)
@@ -191,8 +193,8 @@ RSF
 	if(toxin)
 		S.reagents.add_reagent(/datum/reagent/toxin/chloralhydrate, 10)
 	if (iscyborg(user))
-		var/mob/living/silicon/robot/R = user
-		R.cell.charge -= 100
+		var/mob/living/silicon/new_robot/R = user
+		R.consume_energy(100)
 	else
 		matter--
 	cooldown = world.time + cooldowndelay

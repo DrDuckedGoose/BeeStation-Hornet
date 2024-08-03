@@ -63,6 +63,7 @@ GLOBAL_VAR(medibot_unique_id_gen)
 	var/datum/techweb/linked_techweb
 	var/medibot_counter = 0 //we use this to stop multibotting
 	var/synth_epi = TRUE
+	var/can_heal = TRUE
 	COOLDOWN_DECLARE(synth_cooldown) //prevents spam of "I need a refill!"
 	COOLDOWN_DECLARE(declare_cooldown) //Prevents spam of critical patient alerts.
 
@@ -589,7 +590,7 @@ GLOBAL_VAR(medibot_unique_id_gen)
 	if(!on)
 		return
 
-	if(!istype(C))
+	if(!istype(C) || !can_heal)
 		soft_reset()
 		return
 

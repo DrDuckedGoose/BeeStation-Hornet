@@ -16,11 +16,12 @@
 
 /datum/religion_sect/technophile/sect_bless(mob/living/target, mob/living/chap)
 	if(iscyborg(target))
-		var/mob/living/silicon/robot/R = target
+		var/mob/living/silicon/new_robot/R = target
 		var/charge_amt = 50
 		if(target.mind?.holy_role == HOLY_ROLE_HIGHPRIEST)
 			charge_amt *= 2
-		R.cell?.charge += charge_amt
+		var/obj/item/stock_parts/cell/cell = R?.get_cell()
+		cell?.charge += charge_amt
 		R.visible_message("<span class='notice'>[chap] charges [R] with the power of [GLOB.deity]!</span>")
 		to_chat(R, "<span class='boldnotice'>You are charged by the power of [GLOB.deity]!</span>")
 		SEND_SIGNAL(R, COMSIG_ADD_MOOD_EVENT, "blessing", /datum/mood_event/blessing)

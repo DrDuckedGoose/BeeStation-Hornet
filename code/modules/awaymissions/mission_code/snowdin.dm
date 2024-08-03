@@ -473,9 +473,10 @@
 				/obj/item/grenade/plastic/c4 = 7,
 				/obj/item/grenade/clusterbuster/smoke = 15,
 				/obj/item/clothing/under/chameleon = 13,
-				/obj/item/clothing/shoes/chameleon/noslip = 10,
-				/obj/item/borg/upgrade/ddrill = 3,
-				/obj/item/borg/upgrade/soh = 3)
+				/obj/item/clothing/shoes/chameleon/noslip = 10)
+				//TODO: Implement these - Racc
+				//obj/item/borg/upgrade/ddrill = 3,
+				//obj/item/borg/upgrade/soh = 3)
 
 /obj/effect/spawner/lootdrop/snowdin/dungeonmid
 	name = "dungeon mid"
@@ -499,9 +500,10 @@
 				/obj/item/stack/sheet/mineral/plasma{amount = 15} = 10,
 				/obj/item/stack/sheet/mineral/gold{amount = 15} = 10,
 				/obj/item/book/granter/spell/barnyard = 4,
-				/obj/item/pickaxe/drill/diamonddrill = 6,
-				/obj/item/borg/upgrade/vtec = 7,
-				/obj/item/borg/upgrade/disablercooler = 7)
+				/obj/item/pickaxe/drill/diamonddrill = 6)
+				//TODO: Implement these - Racc
+				///obj/item/borg/upgrade/vtec = 7,
+				///obj/item/borg/upgrade/disablercooler = 7)
 
 
 /obj/effect/spawner/lootdrop/snowdin/dungeonheavy
@@ -519,9 +521,10 @@
 				/obj/item/book/granter/spell/charge = 12,
 				/obj/item/grenade/clusterbuster/spawner_manhacks = 15,
 				/obj/item/book/granter/spell/fireball = 10,
-				/obj/item/pickaxe/drill/jackhammer = 30,
-				/obj/item/borg/upgrade/syndicate = 13,
-				/obj/item/borg/upgrade/selfrepair = 17)
+				/obj/item/pickaxe/drill/jackhammer = 30)
+				//TODO: Implement these - Racc
+				///obj/item/borg/upgrade/syndicate = 13,
+				///obj/item/borg/upgrade/selfrepair = 17)
 
 /obj/effect/spawner/lootdrop/snowdin/dungeonmisc
 	name = "dungeon misc"

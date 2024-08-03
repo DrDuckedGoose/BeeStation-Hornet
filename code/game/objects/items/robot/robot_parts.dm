@@ -1,7 +1,7 @@
 
 
 //The robot bodyparts have been moved to code/module/surgery/bodyparts/robot_bodyparts.dm
-
+//TODO: Go over this and port over what makes sense to - Racc
 
 /obj/item/robot_suit
 	name = "cyborg endoskeleton"
@@ -138,7 +138,8 @@
 	return TRUE
 
 /obj/item/robot_suit/attackby(obj/item/W, mob/user, params)
-
+	/*
+	//TODO: Read over this - Racc
 	if(istype(W, /obj/item/stack/sheet/iron))
 		var/obj/item/stack/sheet/iron/M = W
 		if(!l_arm && !r_arm && !l_leg && !r_leg && !chest && !head)
@@ -275,7 +276,7 @@
 			if(!user.temporarilyRemoveItemFromInventory(W))
 				return
 
-			var/mob/living/silicon/robot/O = new /mob/living/silicon/robot/nocell(get_turf(loc))
+			var/mob/living/silicon/new_robot/O = new /mob/living/silicon/old_robot/nocell(get_turf(loc))
 			if(!O)
 				return
 
@@ -324,15 +325,17 @@
 
 			SSblackbox.record_feedback("amount", "cyborg_birth", 1)
 			forceMove(O)
-			O.robot_suit = src
+			//O.robot_suit = src
 
 			if(!locomotion)
-				O.set_lockcharge(TRUE)
+				O.set_locked(TRUE)
 				to_chat(O, "<span class='warning'>Error: Servo motors unresponsive.</span>")
 
 		else
 			to_chat(user, "<span class='warning'>The MMI must go in after everything else!</span>")
 
+	//TODO: Look over this - Racc
+	/*
 	else if(istype(W, /obj/item/borg/upgrade/ai))
 		var/obj/item/borg/upgrade/ai/M = W
 		if(check_completion())
@@ -346,7 +349,7 @@
 				to_chat(user, "<span class='warning'>[M] is stuck to your hand!</span>")
 				return
 			qdel(M)
-			var/mob/living/silicon/robot/O = new /mob/living/silicon/robot/shell(get_turf(src))
+			var/mob/living/silicon/new_robot/O = new /mob/living/silicon/robot/shell(get_turf(src))
 
 			if(!aisync)
 				lawsync = FALSE
@@ -366,15 +369,17 @@
 			O.locked = panel_locked
 			O.job = JOB_NAME_CYBORG
 			forceMove(O)
-			O.robot_suit = src
+			//O.robot_suit = src
 			if(!locomotion)
-				O.set_lockcharge(TRUE)
-
+				O.set_locked(TRUE)
+	*/
 	else if(istype(W, /obj/item/pen))
 		to_chat(user, "<span class='warning'>You need to use a multitool to name [src]!</span>")
 	else
 		return ..()
 
+
+*/
 /obj/item/robot_suit/proc/Interact(mob/user)
 			var/t1 = "Designation: <A href='?src=[REF(src)];Name=1'>[(created_name ? "[created_name]" : "Default Cyborg")]</a><br>\n"
 			t1 += "Master AI: <A href='?src=[REF(src)];Master=1'>[(forced_ai ? "[forced_ai.name]" : "Automatic")]</a><br><br>\n"
@@ -386,7 +391,6 @@
 			var/datum/browser/popup = new(user, "robotdebug", "Cyborg Boot Debug", 310, 220)
 			popup.set_content(t1)
 			popup.open()
-
 /obj/item/robot_suit/Topic(href, href_list)
 	if(usr.incapacitated() || !Adjacent(usr))
 		return

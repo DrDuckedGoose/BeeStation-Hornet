@@ -170,6 +170,8 @@
 	if(issilicon(M)) // silicons should not drop internal parts since they are supposed to be unobtainable
 		for(var/obj/item/W in contents)
 			qdel(W)
+		/*
+		//TODO: Implement this - Racc
 		if(iscyborg(M))
 			var/mob/living/silicon/robot/Robot = M
 			if(Robot.deployed || Robot.mainframe)
@@ -177,6 +179,7 @@
 			if(Robot.mmi)
 				qdel(Robot.mmi)
 			Robot.notify_ai(NEW_BORG)
+		*/
 	else
 		for(var/obj/item/W in contents)
 			if(!M.dropItemToGround(W))
@@ -190,22 +193,29 @@
 			new_mob = new /mob/living/carbon/monkey(M.loc)
 
 		if("robot")
-			var/robot = pick(200;/mob/living/silicon/robot,
-							/mob/living/silicon/robot/modules/syndicate,
-							/mob/living/silicon/robot/modules/syndicate/medical,
-							/mob/living/silicon/robot/modules/syndicate/saboteur,
-							200;/mob/living/simple_animal/drone/polymorphed)
+			//TODO: - Racc
+			//TEMP
+			var/robot = pick(/mob/living/simple_animal/drone/polymorphed, /mob/living/simple_animal/drone/polymorphed)
+				//TODO: - Racc
+				//200;/mob/living/silicon/robot,
+							///mob/living/silicon/robot/modules/syndicate,
+							///mob/living/silicon/robot/modules/syndicate/medical,
+							///mob/living/silicon/robot/modules/syndicate/saboteur,
+							//200;/mob/living/simple_animal/drone/polymorphed)
 			new_mob = new robot(M.loc)
+			/*
+			//TODO: Implement this - Racc
 			if(issilicon(new_mob))
 				new_mob.gender = M.gender
 				new_mob.invisibility = 0
 				new_mob.job = JOB_NAME_CYBORG
-				var/mob/living/silicon/robot/Robot = new_mob
+				var/mob/living/silicon/new_robot/Robot = new_mob
 				Robot.lawupdate = FALSE
 				Robot.connected_ai = null
 				Robot.mmi.transfer_identity(M)	//Does not transfer key/client.
 				Robot.clear_inherent_laws(0)
 				Robot.clear_zeroth_law(0)
+			*/
 
 		if("slime")
 			new_mob = new /mob/living/simple_animal/slime/random(M.loc)

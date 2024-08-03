@@ -140,8 +140,7 @@
 
 /obj/item/holosign_creator/cyborg/attack_self(mob/user)
 	if(iscyborg(user))
-		var/mob/living/silicon/robot/R = user
-
+		var/mob/living/silicon/new_robot/R = user
 		if(shock)
 			to_chat(user, "<span class='notice'>You clear all active energy fields, and reset your projector to normal.</span>")
 			holosign_type = /obj/structure/holosign/barrier/cyborg
@@ -151,7 +150,7 @@
 					qdel(H)
 			shock = 0
 			return
-		else if(R.emagged&&!shock)
+		else if(R.is_emagged() && !shock)
 			to_chat(user, "<span class='warning'>You clear all active energy fields, and overload your energy projector!</span>")
 			holosign_type = /obj/structure/holosign/barrier/cyborg/hacked
 			creation_time = 30

@@ -149,10 +149,12 @@
 		return
 	if(use_cyborg_cell && !no_cyborg_drain)
 		if(iscyborg(loc))
-			var/mob/living/silicon/robot/R = loc
-			if(R.cell)
+			//TODO: LOC wont be the cyborg - Racc
+			var/mob/living/silicon/new_robot/R = loc
+			var/obj/item/stock_parts/cell/user_cell = R?.get_cell()
+			if(user_cell)
 				var/obj/item/ammo_casing/energy/shot = ammo_type[select] //Necessary to find cost of shot
-				if(R.cell.use(shot.e_cost)) 		//Take power from the borg...
+				if(user_cell.use(shot.e_cost)) 		//Take power from the borg...
 					cell.give(shot.e_cost)	//... to recharge the shot
 	if(!chambered)
 		var/obj/item/ammo_casing/energy/AC = ammo_type[select]

@@ -77,8 +77,8 @@ GLOBAL_VAR(posibrain_notify_cooldown)
 	if(brainmob.key)
 		return TRUE
 	if(iscyborg(loc))
-		var/mob/living/silicon/robot/R = loc
-		if(R.mmi == src)
+		var/mob/living/silicon/new_robot/R = loc
+		if(R.get_mmi() == src)
 			return TRUE
 	return FALSE
 

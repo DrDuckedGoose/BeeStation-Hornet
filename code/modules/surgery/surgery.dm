@@ -68,6 +68,8 @@
 	if(requires_tech)
 		. = FALSE
 
+	/*
+	//TODO: - Racc
 	if(iscyborg(user))
 		var/mob/living/silicon/robot/R = user
 		var/obj/item/surgical_processor/SP = locate() in R.module.modules
@@ -76,7 +78,7 @@
 				return FALSE
 			if(type in SP.advanced_surgeries)
 				return TRUE
-
+	*/
 	if(iscarbon(user))
 		var/mob/living/carbon/C = user
 		var/obj/item/organ/cyberimp/brain/linkedsurgery/IMP = C.getorganslot(ORGAN_SLOT_BRAIN_SURGICAL_IMPLANT )
@@ -157,12 +159,15 @@
 			return TRUE
 	//Grants the user innate access to all surgeries except for certain blacklisted ones. Used by Abductors
 
+	/*
+	//TODO: - Racc
 	if(iscyborg(user))
 		var/mob/living/silicon/robot/R = user
 		var/obj/item/surgical_processor/SP = locate() in R.module.modules
 		if(!isnull(SP))
 			if(type in SP.advanced_surgeries)
 				return TRUE
+	*/
 
 	if(iscarbon(user))
 		var/mob/living/carbon/C = user

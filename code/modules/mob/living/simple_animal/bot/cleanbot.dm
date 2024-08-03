@@ -33,6 +33,8 @@
 	var/next_dest
 	var/next_dest_loc
 
+	var/can_clean = TRUE
+
 /mob/living/simple_animal/bot/cleanbot/Initialize(mapload)
 	. = ..()
 	get_targets()
@@ -264,6 +266,8 @@
 		..()
 
 /mob/living/simple_animal/bot/cleanbot/proc/clean(atom/A)
+	if(!can_clean)
+		return
 	mode = BOT_IDLE
 	icon_state = "cleanbot[on]"
 	if(!on)

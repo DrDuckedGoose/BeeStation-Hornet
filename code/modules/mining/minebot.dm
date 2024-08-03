@@ -139,9 +139,10 @@
 	. += "<span class='notice'>Field repairs can be performed with a welder.</span>"
 	if(stored_pka && stored_pka.max_mod_capacity)
 		. += "<span class='notice'>\The [stored_pka] has <b>[stored_pka.get_remaining_mod_capacity()]%</b> mod capacity remaining.</span>"
-		for(var/A as anything in stored_pka.get_modkits())
-			var/obj/item/borg/upgrade/modkit/M = A
-			. += "<span class='notice'>There is \a [M] installed, using <b>[M.cost]%</b> capacity.</span>"
+		//TODO: - Racc
+		//for(var/A as anything in stored_pka.get_modkits())
+		//	var/obj/item/borg/upgrade/modkit/M = A
+		//	. += "<span class='notice'>There is \a [M] installed, using <b>[M.cost]%</b> capacity.</span>"
 	if(stored_cutter)
 		. += "<span class='notice'>There is \a [stored_cutter] installed on its plasma cutter mount. The charge meter reads [round(stored_cutter.cell.percent())]%.</span>"
 	else
@@ -211,11 +212,12 @@
 		RegisterSignal(stored_scanner, COMSIG_PARENT_QDELETING, PROC_REF(on_scanner_qdel))
 		to_chat(user, "<span class='info'>You install [item].</span>")
 		return TRUE
-	if(istype(item, /obj/item/borg/upgrade/modkit))
-		if(!do_after(user, 20, src))
-			return TRUE
-		item.melee_attack_chain(user, stored_pka, params) // This handles any install messages
-		return TRUE
+	//TODO: - Racc
+	//if(istype(item, /obj/item/borg/upgrade/modkit))
+	//	if(!do_after(user, 20, src))
+	//		return TRUE
+	//	item.melee_attack_chain(user, stored_pka, params) // This handles any install messages
+	//	return TRUE
 	if(item.tool_behaviour == TOOL_CROWBAR)
 		uninstall_upgrades()
 		to_chat(user, "<span class='info'>You uninstall [src]'s upgrades.</span>")
@@ -319,6 +321,8 @@
 	for(var/obj/item/minebot_upgrade/upgrade as anything in installed_upgrades)
 		upgrade.onAltClick(target)
 
+//TODO: - Racc
+/*
 /// Minebot passthrough handling (for the PKA upgrade and crushers)
 /mob/living/simple_animal/hostile/mining_drone/CanAllowThrough(atom/movable/mover, border_dir)
 	. = ..()
@@ -331,6 +335,7 @@
 					return TRUE
 	else if(istype(mover, /obj/projectile/destabilizer))
 		return TRUE
+*/
 
 /**********************Minebot Attack Handling**********************/
 

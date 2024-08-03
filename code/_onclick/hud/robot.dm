@@ -12,7 +12,7 @@
 /atom/movable/screen/robot/module/Click()
 	if(..())
 		return
-	var/mob/living/silicon/robot/R = usr
+	var/mob/living/silicon/robot_old/R = usr
 	if(R.module.type != /obj/item/robot_module)
 		R.hud_used.toggle_show_robot_modules()
 		return 1
@@ -25,7 +25,7 @@
 /atom/movable/screen/robot/module1/Click()
 	if(..())
 		return
-	var/mob/living/silicon/robot/R = usr
+	var/mob/living/silicon/robot_old/R = usr
 	R.toggle_module(1)
 
 /atom/movable/screen/robot/module2
@@ -35,7 +35,7 @@
 /atom/movable/screen/robot/module2/Click()
 	if(..())
 		return
-	var/mob/living/silicon/robot/R = usr
+	var/mob/living/silicon/robot_old/R = usr
 	R.toggle_module(2)
 
 /atom/movable/screen/robot/module3
@@ -45,7 +45,7 @@
 /atom/movable/screen/robot/module3/Click()
 	if(..())
 		return
-	var/mob/living/silicon/robot/R = usr
+	var/mob/living/silicon/robot_old/R = usr
 	R.toggle_module(3)
 
 /atom/movable/screen/robot/radio
@@ -55,8 +55,8 @@
 /atom/movable/screen/robot/radio/Click()
 	if(..())
 		return
-	var/mob/living/silicon/robot/R = usr
-	R.radio.interact(R)
+	var/mob/living/silicon/robot_old/R = usr
+	R?.radio.interact(R)
 
 /atom/movable/screen/robot/store
 	name = "store"
@@ -65,7 +65,7 @@
 /atom/movable/screen/robot/store/Click()
 	if(..())
 		return
-	var/mob/living/silicon/robot/R = usr
+	var/mob/living/silicon/robot_old/R = usr
 	R.uneq_active()
 
 /datum/hud/robot
@@ -73,7 +73,7 @@
 
 /datum/hud/robot/New(mob/owner)
 	..()
-	var/mob/living/silicon/robot/mymobR = mymob
+	var/mob/living/silicon/robot_old/mymobR = mymob
 
 	mymobR.overlay_fullscreen("see_through_darkness", /atom/movable/screen/fullscreen/see_through_darkness)
 
@@ -187,7 +187,7 @@
 	if(!iscyborg(mymob))
 		return
 
-	var/mob/living/silicon/robot/R = mymob
+	var/mob/living/silicon/robot_old/R = mymob
 
 	R.shown_robot_modules = !R.shown_robot_modules
 	update_robot_modules_display()
@@ -196,7 +196,7 @@
 	if(!iscyborg(mymob))
 		return
 
-	var/mob/living/silicon/robot/R = mymob
+	var/mob/living/silicon/robot_old/R = mymob
 
 	var/mob/screenmob = viewer || R
 
@@ -251,7 +251,7 @@
 /datum/hud/robot/persistent_inventory_update(mob/viewer)
 	if(!mymob)
 		return
-	var/mob/living/silicon/robot/R = mymob
+	var/mob/living/silicon/robot_old/R = mymob
 
 	var/mob/screenmob = viewer || R
 
@@ -277,7 +277,7 @@
 /atom/movable/screen/robot/lamp
 	name = "headlamp"
 	icon_state = "lamp_off"
-	var/mob/living/silicon/robot/robot
+	var/mob/living/silicon/robot_old/robot
 
 /atom/movable/screen/robot/lamp/Click()
 	. = ..()
@@ -295,7 +295,7 @@
 /atom/movable/screen/robot/modpc
 	name = "Modular Interface"
 	icon_state = "template"
-	var/mob/living/silicon/robot/robot
+	var/mob/living/silicon/robot_old/robot
 
 /atom/movable/screen/robot/modpc/Click()
 	. = ..()
@@ -312,7 +312,7 @@
 	. = ..()
 	if(.)
 		return
-	var/mob/living/silicon/robot/borgo = usr
+	var/mob/living/silicon/robot_old/borgo = usr
 	borgo.alert_control.ui_interact(borgo)
 
 /atom/movable/screen/robot/crew_manifest
@@ -323,5 +323,5 @@
 /atom/movable/screen/robot/crew_manifest/Click()
 	if(..())
 		return
-	var/mob/living/silicon/robot/borgo = usr
+	var/mob/living/silicon/robot_old/borgo = usr
 	borgo.ai_roster()

@@ -331,11 +331,12 @@
 		charge_tick = 0
 
 /obj/item/reagent_containers/spray/cyborg/proc/regenerate_reagents()
-	var/mob/living/silicon/robot/R = loc
+	var/mob/living/silicon/new_robot/R = loc
 	if(istype(R))
-		if(R.cell)
+		var/obj/item/stock_parts/cell/cell = R?.get_cell()
+		if(cell)
 			if(reagents.total_volume <= volume)
-				R.cell.use(charge_cost)
+				cell.use(charge_cost)
 				reagents.add_reagent(set_reagent, 5)
 
 /obj/item/reagent_containers/spray/cyborg/drying_agent

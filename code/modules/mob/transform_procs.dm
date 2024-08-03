@@ -519,18 +519,20 @@
 
 	qdel(src)
 
+//TODO: Update this to match new robot stuff - Racc
 /mob/living/carbon/human/proc/Robotize(delete_items = 0, transfer_after = TRUE)
 	if(pre_transform(delete_items))
 		return
 
-	var/mob/living/silicon/robot/R = new /mob/living/silicon/robot(loc)
+	var/mob/living/silicon/new_robot/R = new /mob/living/silicon/new_robot(loc)
 
 	R.job = JOB_NAME_CYBORG
 	R.gender = gender
 	R.invisibility = 0
 
-	if(client)
-		R.updatename(client)
+	//TODO: - Racc
+	//if(client)
+	//	R.updatename(client)
 
 	if(mind)//TODO //huh?
 		if(!transfer_after)
@@ -539,8 +541,9 @@
 	else if(transfer_after)
 		R.key = key
 
-	if(R.mmi)
-		R.mmi.transfer_identity(src)
+	//TODO: - racc
+	//if(R.mmi)
+	//	R.mmi.transfer_identity(src)
 
 	R.notify_ai(NEW_BORG)
 

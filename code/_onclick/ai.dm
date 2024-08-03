@@ -95,6 +95,7 @@
 	A.attack_ai(src)
 
 /atom/proc/attack_ai(mob/user)
+	SEND_SIGNAL(src, COMSIG_ATOM_ATTACK_AI, user)
 	return
 
 /*

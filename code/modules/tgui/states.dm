@@ -84,10 +84,11 @@
 		return UI_DISABLED
 	return ..()
 
-/mob/living/silicon/robot/shared_ui_interaction(src_object)
+/mob/living/silicon/new_robot/shared_ui_interaction(src_object)
 	// Disable UIs if the object isn't installed in the borg AND the borg is either locked, has a dead cell, or no cell.
 	var/atom/device = src_object
-	if((istype(device) && device.loc != src) && (!cell || cell.charge <= 0 || lockcharge))
+	var/obj/item/stock_parts/cell/cell = get_cell()
+	if((istype(device) && device.loc != src) && (!cell || cell.charge <= 0 || locked))
 		return UI_DISABLED
 	return ..()
 

@@ -758,7 +758,7 @@
 		qdel(src)
 		return FALSE
 
-	var/mob/living/silicon/robot/borgy = user
+	var/mob/living/silicon/new_robot/borgy = user
 
 	if(!diff)
 		return
@@ -767,8 +767,9 @@
 	var/cost = diff * 25
 	// Cyborgs shouldn't be able to use modules without a cell. But if they do
 	// it's free.
-	if(borgy.cell)
-		borgy.cell.use(cost)
+	var/obj/item/stock_parts/cell/cell = istype(borgy) ? borgy.get_cell() : null
+	if(cell)
+		cell.use(cost)
 
 /obj/item/toy/crayon/spraycan/hellcan
 	name = "hellcan"

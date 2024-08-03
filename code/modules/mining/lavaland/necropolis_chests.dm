@@ -47,7 +47,8 @@
 		/obj/item/clothing/neck/necklace/memento_mori						= 5,
 		/obj/item/reagent_containers/glass/waterbottle/relic				= 5,
 		/obj/item/reagent_containers/glass/bottle/necropolis_seed			= 5,
-		/obj/item/borg/upgrade/modkit/lifesteal								= 5,
+		//TODO: - Racc
+		///obj/item/borg/upgrade/modkit/lifesteal								= 5,
 		/obj/item/shared_storage/red										= 5,
 		/obj/item/staff/storm												= 5
 	)

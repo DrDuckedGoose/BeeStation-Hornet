@@ -144,9 +144,10 @@
 	sword_color = "red"
 	var/hitcost = 50
 
-/obj/item/melee/transforming/energy/sword/cyborg/attack(mob/M, var/mob/living/silicon/robot/R)
-	if(R.cell)
-		var/obj/item/stock_parts/cell/C = R.cell
+/obj/item/melee/transforming/energy/sword/cyborg/attack(mob/M, var/mob/living/silicon/new_robot/R)
+	var/obj/item/stock_parts/cell/cell = R?.get_cell()
+	if(cell)
+		var/obj/item/stock_parts/cell/C = cell
 		if(active && !(C.use(hitcost)))
 			attack_self(R)
 			balloon_alert(R, "Your [name] is out of charge.")

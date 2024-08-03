@@ -13,6 +13,8 @@
 	if(B)
 		B.suicided = suicide_state
 
+//TODO: Implement this for new borgs - Racc
+/*
 /mob/living/silicon/robot/set_suicide(suicide_state)
 	. = ..()
 	if(mmi)
@@ -20,6 +22,7 @@
 			mmi.brain.suicided = suicide_state
 		if(mmi.brainmob)
 			mmi.brainmob.suiciding = suicide_state
+*/
 
 /mob/living/carbon/human/virtual_reality/set_suicide(suicide_state)
 	return

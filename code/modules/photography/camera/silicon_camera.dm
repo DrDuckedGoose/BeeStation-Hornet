@@ -45,9 +45,17 @@
 /obj/item/camera/siliconcam/robot_camera
 	name = "Cyborg photo camera"
 	var/printcost = 2
+///Toner stuff
+	var/toner = 0
+	var/tonermax = 40
+
+/obj/item/camera/siliconcam/robot_camera/Initialize(mapload)
+	. = ..()
+	//TODO: Add stuff to refill this, look at the original robot.dm - Racc
+	toner = tonermax
 
 /obj/item/camera/siliconcam/robot_camera/after_picture(mob/user, datum/picture/picture, proximity_flag)
-	var/mob/living/silicon/robot/C = loc
+	var/mob/living/silicon/new_robot/C = loc
 	if(istype(C) && istype(C.connected_ai))
 		var/number = C.connected_ai.aicamera.stored.len
 		picture.picture_name = "Image [number] (taken by [loc.name])"
@@ -60,16 +68,19 @@
 		to_chat(usr, "<span class='unconscious'>Image recorded and saved to local storage. Upload will happen automatically if unit is lawsynced.</span>")
 
 /obj/item/camera/siliconcam/robot_camera/selectpicture(mob/user, title = "Select Photo", button_text = "Select")
-	var/mob/living/silicon/robot/R = loc
+	//TODO: - Racc
+	/*
+	var/mob/living/silicon/new_robot/R = loc
 	if(istype(R) && R.connected_ai)
 		R.picturesync()
 		return R.connected_ai.aicamera.selectpicture(user, title, button_text)
 	else
 		return ..()
+	*/
 
 /obj/item/camera/siliconcam/robot_camera/proc/borgprint(mob/user)
-	var/mob/living/silicon/robot/C = loc
-	if(!istype(C) || C.toner < 20)
+	var/mob/living/silicon/new_robot/C = loc
+	if(!istype(C) || toner < 20)
 		to_chat(user, "<span class='warning'>Insufficent toner to print image.</span>")
 		return
 	var/datum/picture/selection = selectpicture(user, button_text = "Print")
@@ -79,7 +90,7 @@
 	var/obj/item/photo/p = new /obj/item/photo(C.loc, selection)
 	p.pixel_x = p.base_pixel_x + rand(-10, 10)
 	p.pixel_y = p.base_pixel_y + rand(-10, 10)
-	C.toner -= printcost	 //All fun allowed.
+	toner -= printcost	 //All fun allowed.
 	visible_message("[C.name] spits out a photograph from a narrow slot on its chassis.", "<span class='notice'>You print a photograph.</span>")
 
 /obj/item/camera/siliconcam/proc/paiprint(mob/user)

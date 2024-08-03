@@ -106,9 +106,10 @@
 			attackby(I, H)
 		return
 	else if(iscyborg(AM))
-		var/mob/living/silicon/robot/R = AM
-		if(R.module_active && R.module_active.tool_behaviour == TOOL_MINING)
-			attackby(R.module_active, R)
+		var/mob/living/silicon/new_robot/R = AM
+		var/obj/item/I = R.get_active_held_item()
+		if(I?.tool_behaviour == TOOL_MINING)
+			attackby(I, R)
 			return
 	else
 		return

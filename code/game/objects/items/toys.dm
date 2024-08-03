@@ -1577,7 +1577,7 @@
 
 /obj/item/toy/cards/deck/cyborg
 	name = "dealer module"
-	desc = "A module for handling, fabricating cards and tricking suckers into gambling awaya their money. Ctrl Click to fabricate a new set of cards."
+	desc = "A module for handling, fabricating cards and tricking suckers into gambling away their money. Ctrl Click to fabricate a new set of cards."
 
 /obj/item/toy/cards/deck/cyborg/update_icon()
 	icon_state = "deck_[deckstyle]_full"
@@ -1585,8 +1585,8 @@
 /obj/item/toy/cards/deck/cyborg/CtrlClick(mob/user)
 	..()
 	if(iscyborg(user))
-		var/mob/living/silicon/robot/R = user
-		if(R.cell?.use(300))
+		var/mob/living/silicon/new_robot/R = user
+		if(R.consume_energy(300))
 			populate_deck()
 			to_chat(user, "<span class='notice'>You fabricate a new set of cards.</span>")
 

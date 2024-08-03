@@ -1,0 +1,167 @@
+/*
+	Cyborg ClickOn()
+
+	Cyborgs have no range restriction on attack_robot(), because it is basically an AI click.
+	However, they do have a range restriction on item use, so they cannot do without the
+	adjacency code.
+*/
+
+/mob/living/silicon/new_robot/ClickOn(var/atom/A, var/params)
+	if(world.time <= next_click)
+		return
+	next_click = world.time + 1
+
+	if(check_click_intercept(params,A))
+		return
+
+	if(stat || IsParalyzed() || IsStun())
+		return
+
+	var/list/modifiers = params2list(params)
+	if(LAZYACCESS(modifiers, SHIFT_CLICK))
+		if(LAZYACCESS(modifiers, CTRL_CLICK))
+			CtrlShiftClickOn(A)
+			return
+		if(LAZYACCESS(modifiers, MIDDLE_CLICK))
+			ShiftMiddleClickOn(A, params)
+			return
+		ShiftClickOn(A)
+		return
+	if(LAZYACCESS(modifiers, MIDDLE_CLICK))
+		MiddleClickOn(A, params)
+		return
+	if(LAZYACCESS(modifiers, ALT_CLICK)) // alt and alt-gr (rightalt)
+		AltClickOn(A)
+		return
+	if(LAZYACCESS(modifiers, CTRL_CLICK))
+		CtrlClickOn(A)
+		return
+
+	if(next_move >= world.time)
+		return
+
+	face_atom(A) // change direction to face what you clicked on
+
+	var/obj/item/W = get_active_held_item()
+
+	if(!W && get_dist(src,A) <= interaction_range)
+		A.attack_robot(src)
+		return
+
+	if(W)
+		if(incapacitated())
+			return
+
+		//while buckled, you can still connect to and control things like doors, but you can't use your modules
+		if(buckled)
+			to_chat(src, "<span class='warning'>You can't use modules while buckled to [buckled]!</span>")
+			return
+
+		//Same trait as humans.
+		//While we cant handcuff cyborgs, theres still scenarios where we dont want a mob to be able to use their "hands" or modules in this case
+		if(HAS_TRAIT(src, TRAIT_HANDS_BLOCKED))
+			return
+
+		if(W == A)
+			W.attack_self(src)
+			return
+
+		// cyborgs are prohibited from using storage items so we can I think safely remove (A.loc in contents)
+		if(A == loc || (A in loc) || (A in contents))
+			W.melee_attack_chain(src, A, params)
+			return
+
+		if(!isturf(loc))
+			return
+
+		// cyborgs are prohibited from using storage items so we can I think safely remove (A.loc && isturf(A.loc.loc))
+		if(isturf(A) || isturf(A.loc))
+			if(A.Adjacent(src)) // see adjacent.dm
+				W.melee_attack_chain(src, A, params)
+				return
+			else
+				W.afterattack(A, src, 0, params)
+				return
+
+//Middle click cycles through selected modules.
+/mob/living/silicon/new_robot/MiddleClickOn(atom/A)
+	. = ..()
+	//TODO: - Racc
+	//cycle_modules()
+	return
+
+//Give cyborgs hotkey clicks without breaking existing uses of hotkey clicks
+// for non-doors/apcs
+/mob/living/silicon/new_robot/CtrlShiftClickOn(atom/A)
+	//TODO: make sure the borg has access - Racc
+	A.BorgCtrlShiftClick(src)
+
+/mob/living/silicon/new_robot/ShiftClickOn(atom/A)
+	//TODO: make sure the borg has access - Racc
+	A.BorgShiftClick(src)
+
+/mob/living/silicon/new_robot/CtrlClickOn(atom/A)
+	//TODO: make sure the borg has access - Racc
+	A.BorgCtrlClick(src)
+
+/mob/living/silicon/new_robot/AltClickOn(atom/A)
+	//TODO: make sure the borg has access - Racc
+	A.BorgAltClick(src)
+
+/obj/machinery/door/airlock/BorgCtrlShiftClick(mob/living/silicon/new_robot/user) // Sets/Unsets Emergency Access Override Forwards to AI code.
+	if(get_dist(src,user) <= user.interaction_range)
+		AICtrlShiftClick(user)
+	else
+		..()
+
+/obj/machinery/door/airlock/BorgShiftClick(mob/living/silicon/new_robot/user)  // Opens and closes doors! Forwards to AI code.
+	if(get_dist(src,user) <= user.interaction_range)
+		AIShiftClick(user)
+	else
+		..()
+
+/obj/machinery/door/airlock/BorgCtrlClick(mob/living/silicon/new_robot/user) // Bolts doors. Forwards to AI code.
+	if(get_dist(src,user) <= user.interaction_range)
+		AICtrlClick(user)
+	else
+		..()
+
+/obj/machinery/power/apc/BorgCtrlClick(mob/living/silicon/new_robot/user) // turns off/on APCs. Forwards to AI code.
+	if(get_dist(src,user) <= user.interaction_range)
+		AICtrlClick(user)
+	else
+		..()
+
+/obj/machinery/turretid/BorgCtrlClick(mob/living/silicon/new_robot/user) //turret control on/off. Forwards to AI code.
+	if(get_dist(src,user) <= user.interaction_range)
+		AICtrlClick(user)
+	else
+		..()
+
+/obj/machinery/door/airlock/BorgAltClick(mob/living/silicon/new_robot/user) // Electrifies doors. Forwards to AI code.
+	if(get_dist(src,user) <= user.interaction_range)
+		AIAltClick(user)
+	else
+		..()
+
+/obj/machinery/turretid/BorgAltClick(mob/living/silicon/new_robot/user) //turret lethal on/off. Forwards to AI code.
+	if(get_dist(src,user) <= user.interaction_range)
+		AIAltClick(user)
+	else
+		..()
+
+/*
+	As with AI, these are not used in click code,
+	because the code for robots is specific, not generic.
+
+	If you would like to add advanced features to robot
+	clicks, you can do so here, but you will have to
+	change attack_robot() above to the proper function
+*/
+/mob/living/silicon/new_robot/UnarmedAttack(atom/A)
+	if(HAS_TRAIT(src, TRAIT_HANDS_BLOCKED))
+		return
+	A.attack_robot(src)
+
+/mob/living/silicon/new_robot/RangedAttack(atom/A)
+	A.attack_robot(src)

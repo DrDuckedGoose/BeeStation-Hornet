@@ -23,9 +23,12 @@
 		return
 	if(!scripture_datum)
 		return
-	var/obj/item/clockwork/clockwork_slab/internal_slab = R.internal_clock_slab
-	if(!internal_slab)
-		return
+	//TODO: - Racc
+	//var/obj/item/clockwork/clockwork_slab/internal_slab = R.internal_clock_slab
+	//if(!internal_slab)
+	//	return
+	//TEMP: - Racc
+	var/obj/item/clockwork/clockwork_slab/internal_slab
 	if(internal_slab.invoking_scripture)
 		to_chat(user, "<span class='brass'>You fail to invoke [name].</span>")
 		return FALSE

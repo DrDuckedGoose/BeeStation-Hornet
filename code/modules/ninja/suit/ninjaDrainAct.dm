@@ -218,7 +218,7 @@ They *could* go in their appropriate files, but this is supposed to be modular
 				break
 
 //BORG//
-/mob/living/silicon/robot/ninjadrain_act(obj/item/clothing/suit/space/space_ninja/S, mob/living/carbon/human/H, obj/item/clothing/gloves/space_ninja/G)
+/mob/living/silicon/new_robot/ninjadrain_act(obj/item/clothing/suit/space/space_ninja/S, mob/living/carbon/human/H, obj/item/clothing/gloves/space_ninja/G)
 	if(!S || !H || !G)
 		return INVALID_DRAIN
 
@@ -228,6 +228,7 @@ They *could* go in their appropriate files, but this is supposed to be modular
 
 	to_chat(src, "<span class='danger'>Warning: Unauthorized access through sub-route 12, block C, detected.</span>")
 
+	var/obj/item/stock_parts/cell/cell = get_cell()
 	if(cell && cell.charge)
 		while(G.candrain && cell.charge > 0 && !maxcapacity)
 			drain = rand(G.mindrain,G.maxdrain)

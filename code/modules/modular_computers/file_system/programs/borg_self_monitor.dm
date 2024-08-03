@@ -34,7 +34,7 @@
 	var/list/data = list()
 	if(!iscyborg(user))
 		return data
-	var/mob/living/silicon/robot/borgo = tablet.borgo
+	var/mob/living/silicon/new_robot/borgo = tablet.borgo
 
 	data["name"] = borgo.name
 	data["designation"] = borgo.designation //Borgo module type
@@ -42,9 +42,12 @@
 
 	var/charge = 0
 	var/maxcharge = 1
-	if(borgo.cell)
-		charge = borgo.cell.charge
-		maxcharge = borgo.cell.maxcharge
+	var/obj/item/stock_parts/cell/cell = borgo?.get_cell()
+	if(cell)
+		charge = cell.charge
+		maxcharge = cell.maxcharge
+	/*
+	//TODO: - Racc
 	data["charge"] = charge //Current cell charge
 	data["maxcharge"] = maxcharge //Cell max charge
 	data["integrity"] = (borgo.health / borgo.maxHealth) * 100 //Borgo health, as percentage
@@ -55,12 +58,13 @@
 	data["printerTonerMax"] = borgo.tonermax //It's a variable, might as well use it
 	data["thrustersInstalled"] = borgo.ionpulse //If we have a thruster uprade
 	data["thrustersStatus"] = "[borgo.ionpulse_on?"ACTIVE":"DISABLED"]" //Feedback for thruster status
-	data["selfDestructAble"] = (borgo.emagged || istype(borgo, /mob/living/silicon/robot/modules/syndicate))
+	data["selfDestructAble"] = (borgo.is_emagged() || istype(borgo, /mob/living/silicon/robot/modules/syndicate))
+	*/
 
 	//Cover, TRUE for locked
-	data["cover"] = "[borgo.locked? "LOCKED":"UNLOCKED"]"
+	data["cover"] = "[borgo.cover_open? "UNLOCKED":"LOCKED"]"
 	//Ability to move. FAULT if lockdown wire is cut, DISABLED if borg locked, ENABLED otherwise
-	data["locomotion"] = "[borgo.wires.is_cut(WIRE_LOCKDOWN)?"FAULT":"[borgo.lockcharge?"DISABLED":"ENABLED"]"]"
+	data["locomotion"] = "[borgo.wires.is_cut(WIRE_LOCKDOWN)?"FAULT":"[borgo.locked?"DISABLED":"ENABLED"]"]"
 	//Module wire. FAULT if cut, NOMINAL otherwise
 	data["wireModule"] = "[borgo.wires.is_cut(WIRE_RESET_MODULE)?"FAULT":"NOMINAL"]"
 	//DEBUG -- Camera(net) wire. FAULT if cut (or no cameranet camera), DISABLED if pulse-disabled, NOMINAL otherwise
@@ -80,7 +84,8 @@
 
 	data["Laws"] = borgo.laws.get_law_list(TRUE, TRUE, FALSE)
 	data["borgLog"] = tablet.borglog
-	data["borgUpgrades"] = borgo.upgrades
+	//TODO: - Racc
+	//data["borgUpgrades"] = borgo.upgrades
 	return data
 
 /datum/computer_file/program/borg_self_monitor/ui_act(action, params)
@@ -88,14 +93,14 @@
 	if(.)
 		return
 
-	var/mob/living/silicon/robot/borgo = tablet.borgo
+	var/mob/living/silicon/new_robot/borgo = tablet.borgo
 
 	switch(action)
 		if("coverunlock")
 			if(borgo.locked)
 				borgo.locked = FALSE
 				borgo.update_icons()
-				if(borgo.emagged)
+				if(borgo.is_emagged())
 					borgo.logevent("ChÃ¥vÃis cover lock has been [borgo.locked ? "engaged" : "released"]") //"The cover interface glitches out for a split second"
 				else
 					borgo.logevent("Chassis cover lock has been [borgo.locked ? "engaged" : "released"]")
@@ -108,7 +113,8 @@
 
 		if("alertPower")
 			if(borgo.stat == CONSCIOUS)
-				if(!borgo.cell || !borgo.cell.charge)
+				var/obj/item/stock_parts/cell/cell = borgo?.get_cell()
+				if(!cell || !cell.charge)
 					borgo.visible_message("<span class='notice'>The power warning light on <span class='name'>[borgo]</span> flashes urgently.</span>", \
 						"You announce you are operating in low power mode.")
 					playsound(borgo, 'sound/machines/buzz-two.ogg', 50, FALSE)
@@ -126,6 +132,8 @@
 			var/obj/item/camera/siliconcam/robot_camera/borgcam = borgo.aicamera
 			borgcam?.borgprint(usr)
 
+		/*
+		//TODO: - Racc
 		if("toggleThrusters")
 			borgo.toggle_ionpulse()
 
@@ -134,10 +142,11 @@
 			borgo.toggle_headlamp(FALSE, TRUE)
 
 		if("selfDestruct")
-			if(borgo.stat || borgo.lockcharge) //No detonation while stunned or locked down
+			if(borgo.stat || borgo.locked) //No detonation while stunned or locked down
 				return
-			if(borgo.emagged || istype(borgo, /mob/living/silicon/robot/modules/syndicate)) //This option shouldn't even be showing otherwise
+			if(borgo.is_emagged() || istype(borgo, /mob/living/silicon/robot/modules/syndicate)) //This option shouldn't even be showing otherwise
 				borgo.self_destruct(borgo)
+		*/
 
 /**
   * Forces a full update of the UI, if currently open.

@@ -31,7 +31,7 @@
 	extracting = FALSE
 	ui_update()
 
-/obj/machinery/computer/robotics/proc/can_control(mob/user, mob/living/silicon/robot/R)
+/obj/machinery/computer/robotics/proc/can_control(mob/user, mob/living/silicon/new_robot/R)
 	. = FALSE
 	if(!istype(R))
 		return
@@ -41,7 +41,7 @@
 	if(iscyborg(user))
 		if(R != user)
 			return
-	if(R.scrambledcodes)
+	if(R.console_visible)
 		return
 	return TRUE
 
@@ -70,19 +70,21 @@
 		data["can_hack"] = TRUE
 
 	data["cyborgs"] = list()
-	for(var/mob/living/silicon/robot/R in GLOB.silicon_mobs)
+	for(var/mob/living/silicon/new_robot/R in GLOB.silicon_mobs)
 		if(!can_control(user, R))
 			continue
 		if(get_virtual_z_level() != (get_turf(R)).get_virtual_z_level())
 			continue
+		var/obj/item/stock_parts/cell/cell = R?.get_cell()
 		var/list/cyborg_data = list(
 			name = R.name,
-			locked_down = R.lockcharge,
+			locked_down = R.locked,
 			status = R.stat,
-			charge = R.cell ? round(R.cell.percent()) : null,
-			module = R.module ? "[R.module.name] Module" : "No Module Detected",
+			charge = cell ? round(cell.percent()) : null,
+			//TODO: - Racc
+			//module = R.module ? "[R.module.name] Module" : "No Module Detected",
 			synchronization = R.connected_ai,
-			emagged =  R.emagged,
+			emagged =  R.is_emagged(),
 			ref = REF(R)
 		)
 		data["cyborgs"] += list(cyborg_data)
@@ -128,32 +130,32 @@
 	switch(action)
 		if("killbot")
 			if(allowed(usr))
-				var/mob/living/silicon/robot/R = locate(params["ref"]) in GLOB.silicon_mobs
+				var/mob/living/silicon/new_robot/R = locate(params["ref"]) in GLOB.silicon_mobs
 				if(can_control(usr, R) && !..())
 					R.self_destruct(usr)
 			else
 				to_chat(usr, "<span class='danger'>Access Denied.</span>")
 		if("stopbot")
 			if(allowed(usr))
-				var/mob/living/silicon/robot/R = locate(params["ref"]) in GLOB.silicon_mobs
+				var/mob/living/silicon/new_robot/R = locate(params["ref"]) in GLOB.silicon_mobs
 				if(can_control(usr, R) && !..())
-					message_admins("<span class='notice'>[ADMIN_LOOKUPFLW(usr)] [!R.lockcharge ? "locked down" : "released"] [ADMIN_LOOKUPFLW(R)]!</span>")
-					log_game("[key_name(usr)] [!R.lockcharge ? "locked down" : "released"] [key_name(R)]!")
-					log_combat(usr, R, "[!R.lockcharge ? "locked down" : "released"] cyborg", important = FALSE)
-					R.SetLockdown(!R.lockcharge)
-					to_chat(R, "[!R.lockcharge ? "<span class='notice'>Your lockdown has been lifted!" : "<span class='alert'>You have been locked down!"]</span>")
+					message_admins("<span class='notice'>[ADMIN_LOOKUPFLW(usr)] [!R.locked ? "locked down" : "released"] [ADMIN_LOOKUPFLW(R)]!</span>")
+					log_game("[key_name(usr)] [!R.locked ? "locked down" : "released"] [key_name(R)]!")
+					log_combat(usr, R, "[!R.locked ? "locked down" : "released"] cyborg", important = FALSE)
+					R.set_locked(!R.locked)
+					to_chat(R, "[!R.locked ? "<span class='notice'>Your lockdown has been lifted!" : "<span class='alert'>You have been locked down!"]</span>")
 					if(R.connected_ai)
-						to_chat(R.connected_ai, "[!R.lockcharge ? "<span class='notice'>NOTICE - Cyborg lockdown lifted" : "<span class='alert'>ALERT - Cyborg lockdown detected"]: <a href='?src=[REF(R.connected_ai)];track=[html_encode(R.name)]'>[R.name]</a></span><br>")
+						to_chat(R.connected_ai, "[!R.locked ? "<span class='notice'>NOTICE - Cyborg lockdown lifted" : "<span class='alert'>ALERT - Cyborg lockdown detected"]: <a href='?src=[REF(R.connected_ai)];track=[html_encode(R.name)]'>[R.name]</a></span><br>")
 			else
 				to_chat(usr, "<span class='danger'>Access Denied.</span>")
 		if("magbot")
 			var/mob/living/silicon/S = usr
 			if((istype(S) && S.hack_software) || IsAdminGhost(usr))
-				var/mob/living/silicon/robot/R = locate(params["ref"]) in GLOB.silicon_mobs
-				if(istype(R) && !R.emagged && (R.connected_ai == usr || IsAdminGhost(usr)) && !R.scrambledcodes && can_control(usr, R))
+				var/mob/living/silicon/new_robot/R = locate(params["ref"]) in GLOB.silicon_mobs
+				if(istype(R) && !R.is_emagged() && (R.connected_ai == usr || IsAdminGhost(usr)) && !R.console_visible && can_control(usr, R))
 					log_game("[key_name(usr)] emagged [key_name(R)] using robotic console!")
 					message_admins("[ADMIN_LOOKUPFLW(usr)] emagged cyborg [key_name_admin(R)] using robotic console!")
-					R.SetEmagged(TRUE)
+					R.set_emagged(TRUE)
 					R.logevent("WARN: root privleges granted to PID [num2hex(rand(1,65535), -1)][num2hex(rand(1,65535), -1)].") //random eight digit hex value. Two are used because rand(1,4294967295) throws an error
 		if("killdrone")
 			if(allowed(usr))

@@ -352,7 +352,8 @@
 		/obj/item/taperecorder = 7,
 		/obj/item/toy/plush/slimeplushie/random = 7,
 		/obj/item/disk/tech_disk/research/random  = 4,
-		/obj/item/borg/upgrade/ai = 2,
+		//TODO: - Racc
+		///obj/item/borg/upgrade/ai = 2,
 	)
 
 //ROBOTICIST
@@ -363,7 +364,8 @@
 		/obj/item/storage/box/flashes = 10,
 		//eh.
 		/obj/item/clothing/glasses/hud/diagnostic/sunglasses = 7,
-		/obj/item/borg/upgrade/rename = 5,
+		//TODO: - Racc
+		///obj/item/borg/upgrade/rename = 5,
 		//do anyone ever use this???
 		/obj/item/modular_computer/tablet/preset/advanced = 5,
 	)

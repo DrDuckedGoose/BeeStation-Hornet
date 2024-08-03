@@ -92,20 +92,21 @@
 	sleep(5)
 
 	use_power(5000) // Use a lot of power.
-	var/mob/living/silicon/robot/R = H.Robotize()
-	R.cell = new /obj/item/stock_parts/cell/upgraded/plus(R, robot_cell_charge)
+	var/mob/living/silicon/new_robot/R = H.Robotize()
+	//TODO: - Racc
+	//R.cell = new /obj/item/stock_parts/cell/upgraded/plus(R, robot_cell_charge)
 
  	// So he can't jump out the gate right away.
-	R.SetLockdown()
+	R.set_locked()
 	if(masterAI)
 		R.connected_ai = masterAI
 		R.lawsync()
-		R.lawupdate = TRUE
+		R.toggle_law_sync(TRUE)
 	addtimer(CALLBACK(src, PROC_REF(unlock_new_robot), R), 50)
 
-/obj/machinery/transformer/proc/unlock_new_robot(mob/living/silicon/robot/R)
+/obj/machinery/transformer/proc/unlock_new_robot(mob/living/silicon/new_robot/R)
 	playsound(src.loc, 'sound/machines/ping.ogg', 50, 0)
 	sleep(30)
 	if(R)
-		R.SetLockdown(FALSE)
+		R.set_locked(FALSE)
 		R.notify_ai(NEW_BORG)

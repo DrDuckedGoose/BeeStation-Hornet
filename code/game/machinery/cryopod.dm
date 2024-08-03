@@ -332,10 +332,12 @@ GLOBAL_LIST_EMPTY(cryopod_computers)
 
 	if(iscyborg(mob_occupant))
 		var/mob/living/silicon/robot/R = occupant
-		if(!istype(R)) return
+		if(!istype(R))
+			return
 
-		R.contents -= R.mmi
-		QDEL_NULL(R.mmi)
+		//TODO: Implement this - Racc
+		//R.contents -= R.mmi
+		//QDEL_NULL(R.mmi)
 
 	// Ghost and delete the mob.
 	if(!mob_occupant.get_ghost(TRUE))

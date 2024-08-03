@@ -1,4 +1,4 @@
-/mob/living/silicon/robot/modules/borgi
+/mob/living/silicon/robot_old/modules/borgi
 	set_module = /obj/item/robot_module/borgi
 
 /obj/item/robot_module
@@ -74,7 +74,7 @@
 
 /obj/item/robot_module/proc/get_inactive_modules()
 	. = list()
-	var/mob/living/silicon/robot/R = loc
+	var/mob/living/silicon/robot_old/R = loc
 	for(var/m in get_usable_modules())
 		if(!(m in R.held_items))
 			. += m
@@ -137,10 +137,10 @@
 			if(!EG.chambered)
 				EG.recharge_newshot() //try to reload a new shot.
 
-	R.toner = R.tonermax
+	//R.toner = R.tonermax
 
 /obj/item/robot_module/proc/rebuild_modules() //builds the usable module list from the modules we have
-	var/mob/living/silicon/robot/R = loc
+	var/mob/living/silicon/robot_old/R = loc
 	var/held_modules = R.held_items.Copy()
 	R.uneq_all()
 	modules = list()
@@ -163,7 +163,7 @@
 		R.hud_used.update_robot_modules_display()
 
 /obj/item/robot_module/proc/transform_to(new_module_type)
-	var/mob/living/silicon/robot/R = loc
+	var/mob/living/silicon/robot_old/R = loc
 	var/obj/item/robot_module/RM = new new_module_type(R)
 	if(!RM.be_transformed_to(src))
 		qdel(RM)
@@ -184,7 +184,7 @@
 	return TRUE
 
 /obj/item/robot_module/proc/do_transform_animation()
-	var/mob/living/silicon/robot/R = loc
+	var/mob/living/silicon/robot_old/R = loc
 	if(R.hat)
 		R.hat.forceMove(get_turf(R))
 		R.hat = null
@@ -193,7 +193,7 @@
 	do_transform_delay()
 
 /obj/item/robot_module/proc/do_transform_delay()
-	var/mob/living/silicon/robot/R = loc
+	var/mob/living/silicon/robot_old/R = loc
 	var/prev_lockcharge = R.lockcharge
 	sleep(1)
 	flick("[cyborg_base_icon]_transform", R)
@@ -228,8 +228,8 @@
 		return FALSE
 	if(user.incapacitated())
 		return FALSE
-	if(user.module != old_module)
-		return FALSE
+	//if(user.module != old_module)
+	//	return FALSE
 	return TRUE
 
 /obj/item/robot_module/standard
@@ -543,7 +543,7 @@
 		O.reagents.add_reagent(/datum/reagent/consumable/enzyme, 2 * coeff)
 
 /obj/item/robot_module/butler/be_transformed_to(obj/item/robot_module/old_module)
-	var/mob/living/silicon/robot/cyborg = loc
+	var/mob/living/silicon/robot_old/cyborg = loc
 	var/list/service_icons = list(
 		"Waitress" = image(icon = 'icons/mob/robots.dmi', icon_state = "service_f"),
 		"Butler" = image(icon = 'icons/mob/robots.dmi', icon_state = "service_m"),
@@ -608,7 +608,7 @@
 	var/obj/item/t_scanner/adv_mining_scanner/cyborg/mining_scanner //built in memes.
 
 /obj/item/robot_module/miner/be_transformed_to(obj/item/robot_module/old_module)
-	var/mob/living/silicon/robot/cyborg = loc
+	var/mob/living/silicon/robot_old/cyborg = loc
 	var/list/miner_icons = list(
 		"Lavaland Miner" = image(icon = 'icons/mob/robots.dmi', icon_state = "miner"),
 		"Asteroid Miner" = image(icon = 'icons/mob/robots.dmi', icon_state = "minerOLD"),
@@ -656,12 +656,12 @@
 
 /obj/item/robot_module/syndicate/rebuild_modules()
 	..()
-	var/mob/living/silicon/robot/Syndi = loc
+	var/mob/living/silicon/robot_old/Syndi = loc
 	Syndi.faction  -= "silicon" //ai turrets
 
 /obj/item/robot_module/syndicate/remove_module(obj/item/I, delete_after)
 	..()
-	var/mob/living/silicon/robot/Syndi = loc
+	var/mob/living/silicon/robot_old/Syndi = loc
 	Syndi.faction += "silicon" //ai is your bff now!
 
 /obj/item/robot_module/syndicate_medical
