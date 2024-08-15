@@ -6,7 +6,8 @@
 	//TODO: idk, make this do something - Racc
 	name = "head"
 	required_assembly = list(/datum/endo_assembly/item/eyes, /datum/endo_assembly/item/mmi,
-	/datum/endo_assembly/item/access_module, /datum/endo_assembly/item/radio, /datum/endo_assembly/item/lamp)
+	/datum/endo_assembly/item/access_module, /datum/endo_assembly/item/radio, /datum/endo_assembly/item/lamp,
+	/datum/endo_assembly/item/ai_controller)
 	offset_key = ENDO_OFFSET_KEY_HEAD(1)
 //Hud Stuff
 	///Reference to zone selection hud element

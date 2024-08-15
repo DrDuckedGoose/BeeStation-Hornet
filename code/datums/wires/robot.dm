@@ -31,7 +31,7 @@
 	var/mob/living/silicon/new_robot/R = holder
 	switch(wire)
 		if(WIRE_AI) // Pulse to pick a new AI.
-			if(!R.is_emagged())
+			if(!R.emagged)
 				var/new_ai
 				if(user)
 					new_ai = select_active_ai(user)
@@ -41,9 +41,9 @@
 				if(new_ai && (new_ai != R.connected_ai))
 					log_combat(usr, R, "synced cyborg [R.connected_ai ? "from [ADMIN_LOOKUP(R.connected_ai)]": "false"] to [ADMIN_LOOKUP(new_ai)]", important = FALSE)
 					R.connected_ai = new_ai
-					if(R.shell)
-						//TODO: - Racc
-						//R.undeploy() //If this borg is an AI shell, disconnect the controlling AI and assign ti to a new AI
+					var/obj/item/food/bbqribs/ai_brain/shell = R.get_shell()
+					if(shell)
+						shell.undeploy() //If this borg is an AI shell, disconnect the controlling AI and assign ti to a new AI
 						R.notify_ai(AI_SHELL)
 					else
 						R.notify_ai(TRUE)
@@ -76,17 +76,18 @@
 			if(!mend)
 				R.notify_ai(DISCONNECT)
 				log_combat(usr, R, "cut AI wire on cyborg[R.connected_ai ? " and disconnected from [ADMIN_LOOKUP(R.connected_ai)]": ""]", important = FALSE)
-				//if(R.shell)
-					//TODO: - Racc
-					//R.undeploy()
+				var/obj/item/food/bbqribs/ai_brain/shell = R.get_shell()
+				if(shell)
+					shell.undeploy()
 				R.connected_ai = null
 			R.logevent("AI connection fault [mend?"cleared":"detected"]")
 		if(WIRE_LAWSYNC) // Cut the law wire, and the borg will no longer receive law updates from its AI. Repair and it will re-sync.
+			var/obj/item/food/bbqribs/ai_brain/shell = R.get_shell()
 			if(mend)
-				if(!R.is_emagged())
+				if(!R.emagged)
 					R.toggle_law_sync(TRUE)
 					log_combat(usr, R, "enabled lawsync via wire", important = FALSE)
-			else if(!R.deployed) //AI shells must always have the same laws as the AI
+			else if(!shell?.deployed) //AI shells must always have the same laws as the AI
 				R.toggle_law_sync(FALSE)
 				log_combat(usr, R, "disabled lawsync via wire")
 			R.logevent("Lawsync Module fault [mend?"cleared":"detected"]")

@@ -25,12 +25,14 @@
 	var/amount = 1
 	///also see stack recipes initialisation, param "max_res_amount" must be equal to this max_amount
 	var/max_amount = 50
+
 	///It's TRUE if module is used by a cyborg, and uses its storage
 	var/is_cyborg = FALSE
 	///Holder var for the cyborg energy source
 	var/datum/robot_energy_storage/source
 	///How much energy from storage it costs
 	var/cost = 1
+
 	///This path and its children should merge with this stack, defaults to src.type
 	var/merge_type
 	///The weight class the stack should have at amount > 2/3rds max_amount

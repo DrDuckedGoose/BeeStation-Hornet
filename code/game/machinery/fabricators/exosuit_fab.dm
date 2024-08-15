@@ -18,6 +18,7 @@
 
 	categories = list(
 		"Cyborg",
+		"Bot",
 		"Ripley",
 		"Firefighter",
 		"Odysseus",

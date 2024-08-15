@@ -14,13 +14,8 @@
 
 #define COMSIG_ENDO_LIST_PART "endo_list_part_type"
 
-#define COMSIG_ENDO_CONSUME_ENERGY "endo_consume_energy"
-
-//TODO: Consider just using the robot attack signal, instead of this - Racc
-#define COMSIG_ENDO_ATTACK_UNARMED "endo_attack_unarmed"
-
 /*
-	Assembly datum
+	Assembly, crafting step stuff
 */
 #define COMSIG_ENDO_ASSEMBLY_POLL_PART "endo_assembly_poll_part"
 #define COMSIG_ENDO_ASSEMBLY_POLL_INTERACTION "endo_assembly_poll_interaction"
@@ -36,8 +31,12 @@
 #define ENDO_ASSEMBLY_NON_INTEGRAL (1<<2) //4
 
 /*
-	MISC
+	Robot
 */
+
+#define COMSIG_ROBOT_CONSUME_ENERGY "robot_consume_energy"
+#define COMSIG_ROBOT_PICKUP_ITEM "robot_pickup_item"
+#define COMSIG_ROBOT_SET_EMAGGED "robot_set_emagged"
 
 /*
 	Offset key
@@ -46,3 +45,11 @@
 #define ENDO_OFFSET_KEY_LEG(x) ("offset_key_leg_"+#x)
 #define ENDO_OFFSET_KEY_HEAD(x) ("offset_key_head_"+#x)
 #define ENDO_OFFSET_KEY_CHEST(x) ("offset_key_chest_"+#x)
+
+/*
+	Module
+*/
+#define MODULE_ITEM_CATEGORY_BASIC (1<<0)
+#define MODULE_ITEM_CATEGORY_EMAGGED (1<<1)
+#define MODULE_ITEM_CATEGORY_CLOCKCULT (1<<2)
+#define MODULE_ITEM_CATEGORY_EXTERNAL (1<<3)

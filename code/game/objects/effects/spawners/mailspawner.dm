@@ -175,8 +175,8 @@
 		/obj/item/soap,
 		//TODO: - Racc
 		///obj/item/borg/upgrade/selfrepair,
-		///obj/item/borg/upgrade/speciality/botany,
-		///obj/item/borg/upgrade/defib,
+		/obj/item/borg/upgrade/speciality/botany,
+		/obj/item/borg/upgrade/item/defib,
 		/obj/item/taperecorder,)
 	new mail_science(loc)
 	return ..()

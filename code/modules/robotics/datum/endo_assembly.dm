@@ -15,6 +15,8 @@
 	var/poll_path
 	///Do we allow our parts to be polled?
 	var/allow_poll = FALSE
+	///Do we generate pre-done?
+	var/start_finished = FALSE
 
 /datum/endo_assembly/New(datum/parent)
 	. = ..()
@@ -29,6 +31,9 @@
 	RegisterSignal(part_parent, COMSIG_ENDO_LIST_PART, PROC_REF(poll_part))
 
 	RegisterSignal(part_parent, COMSIG_ENDO_APPLY_HUD, PROC_REF(poll_hud))
+
+	if(start_finished)
+		build_ideal_part()
 
 ///Throw your precheck addition logic here, since most check_assembly() procs will have custom behaviour
 /datum/endo_assembly/proc/pre_check_assemble(datum/source, obj/item/I)
@@ -62,6 +67,8 @@
 
 ///Used to check completion
 /datum/endo_assembly/proc/check_completion()
+	if(start_finished)
+		return ENDO_ASSEMBLY_COMPLETE
 	var/outcome = ENDO_ASSEMBLY_INCOMPLETE
 	if((length(parts) >= amount_required))
 		outcome = ENDO_ASSEMBLY_COMPLETE
@@ -109,6 +116,10 @@
 		return FALSE
 	return TRUE
 
+///Used for pre-made stuff
+/datum/endo_assembly/proc/build_ideal_part()
+	return
+
 /*
 	variant for item parts
 */
@@ -130,12 +141,20 @@
 	if(istype(I, item_requirment))
 		return TRUE
 
+/datum/endo_assembly/item/build_ideal_part()
+	for(var/i in 1 to amount_required)
+		var/obj/item/I = new item_requirment(get_turf(part_parent.parent))
+		if(!part_parent.attach_part(src, I, null))
+			qdel(I)
+
 /*
 	Variant for endo components
 */
 /datum/endo_assembly/endopart
 	///What kind of endo component do we need?
 	var/component_requirment = /datum/component/endopart
+	///What item do we use for ideal pre builds
+	var/obj/item/ideal_part_parent = /obj/item/endopart
 
 /datum/endo_assembly/endopart/New(datum/parent)
 	. = ..()
@@ -150,6 +169,13 @@
 	var/datum/component/endopart/part = I.GetComponent(/datum/component/endopart)
 	if(istype(part, component_requirment))
 		return TRUE
+
+/datum/endo_assembly/endopart/build_ideal_part()
+	for(var/i in 1 to amount_required)
+		var/obj/item/I = new ideal_part_parent(get_turf(part_parent.parent))
+		I.AddComponent(component_requirment, TRUE)
+		if(!part_parent.attach_part(src, I, null))
+			qdel(I)
 
 /*
 	Variant for interaction steps

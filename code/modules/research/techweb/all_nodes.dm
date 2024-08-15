@@ -74,6 +74,8 @@
 	display_name = "Cyborg Construction"
 	description = "Sapient robots with preloaded tool modules and programmable laws."
 	design_ids = list(
+		//TODO: make these match the IDs in cyborg_designs.dm - Racc
+		"borg_chassis",
 		"borg_chest",
 		"borg_head",
 		"borg_l_arm",
@@ -81,12 +83,24 @@
 		"borg_r_arm",
 		"borg_r_leg",
 		"borg_suit",
+		//TODO: - Racc
 		"borg_upgrade_rename",
 		"borg_upgrade_restart",
 		"borgupload",
 		"cyborgrecharger",
 		"robocontrol",
 		"sflash",
+	)
+
+/datum/techweb_node/bot
+	id = "bot"
+	tech_tier = 1
+	starting_node = TRUE
+	display_name = "Bot Construction"
+	description = "Preprogrammed robots designed for specific tasks."
+	design_ids = list(
+		"cleanbot_chassis",
+		"medibot_chassis"
 	)
 
 /datum/techweb_node/mech
@@ -2245,7 +2259,7 @@
 	)
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 1000, TECHWEB_POINT_TYPE_NANITES = 1000)
 	export_price = 5000
-	
+
 /datum/techweb_node/nanite_cc
 	id = "nanite_cc"
 	tech_tier = 5

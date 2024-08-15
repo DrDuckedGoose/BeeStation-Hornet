@@ -14,7 +14,7 @@
 	if(!length(available_hands))
 		return
 	var/obj/item/arm_item = available_hands[active_hand_index]
-	return SEND_SIGNAL(arm_item, COMSIG_ENDO_ATTACK_UNARMED, A)
+	return SEND_SIGNAL(arm_item, COMSIG_ROBOT_PICKUP_ITEM, A)
 
 //TODO: Make sure overwriting this isn't a problem - Racc
 /mob/living/silicon/new_robot/can_equip(obj/item/I, slot, disable_warning = FALSE, bypass_equip_delay_self = FALSE)

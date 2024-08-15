@@ -25,12 +25,11 @@
 		CRASH("dynamic preview is unsupported")
 	return H.Robotize(FALSE, latejoin)
 
-/datum/job/cyborg/after_spawn(mob/living/silicon/robot/R, mob/M, latejoin = FALSE, client/preference_source, on_dummy = FALSE)
+/datum/job/cyborg/after_spawn(mob/living/silicon/new_robot/R, mob/M, latejoin = FALSE, client/preference_source, on_dummy = FALSE)
 	if(!M.client || on_dummy)
 		return
-	//TODO: - Racc
-	//R.updatename(M.client)
+	R.updatename(M.client)
 	R.gender = NEUTER
 
 /datum/job/cyborg/radio_help_message(mob/M)
-	to_chat(M, "<b>Prefix your message with :b to speak with other cyborgs and AI.</b>")
+	to_chat(M, "<b>Prefix your message with :b to speak with other cyborgs and AI.</b>") //hehe :b

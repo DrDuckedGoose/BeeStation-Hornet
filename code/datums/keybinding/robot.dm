@@ -1,5 +1,3 @@
-//TODO: Implement these - Racc
-/*
 /datum/keybinding/robot
 	category = CATEGORY_ROBOT
 	weight = WEIGHT_ROBOT
@@ -7,57 +5,25 @@
 /datum/keybinding/robot/can_use(client/user)
 	return iscyborg(user.mob)
 
+/datum/keybinding/robot/cycle_active_hand
+	keys = list("X")
+	name = "cycle_active_hand"
+	full_name = "Cycle Active Hand"
+	description = "Cycle your active hand as a robot."
+	keybind_signal = COMSIG_KB_SILICON_CYCLEACTIVEHAND_DOWN
 
-/datum/keybinding/robot/toggle_module_1
-	keys = list("1")
-	name = "toggle_module_1"
-	full_name = "Toggle Module 1"
-	description = "Toggle your first module as a robot."
-	keybind_signal = COMSIG_KB_SILICON_TOGGLEMODULEONE_DOWN
-
-/datum/keybinding/robot/toggle_module_1/down(client/user)
+/datum/keybinding/robot/cycle_active_hand/down(client/user)
 	. = ..()
 	if(.)
 		return
-	var/mob/living/silicon/robot/M = user.mob
-	M.toggle_module(1)
+	var/mob/living/silicon/new_robot/M = user.mob
+	M.active_hand_index++
+	if(M.active_hand_index > length(M.available_hands))
+		M.active_hand_index = 1
 	return TRUE
-
-
-/datum/keybinding/robot/toggle_module_2
-	keys = list("2")
-	name = "toggle_module_2"
-	full_name = "Toggle Module 2"
-	description = "Toggle your second module as a robot."
-	keybind_signal = COMSIG_KB_SILICON_TOGGLEMODULETWO_DOWN
-
-/datum/keybinding/robot/toggle_module_2/down(client/user)
-	. = ..()
-	if(.)
-		return
-	var/mob/living/silicon/robot/M = user.mob
-	M.toggle_module(2)
-	return TRUE
-
-
-/datum/keybinding/robot/toggle_module_3
-	keys = list("3")
-	name = "toggle_module_3"
-	full_name = "Toggle Module 3"
-	description = "Toggle your third module as a robot."
-	keybind_signal = COMSIG_KB_SILICON_TOGGLEMODULETHREE_DOWN
-
-/datum/keybinding/robot/toggle_module_3/down(client/user)
-	. = ..()
-	if(.)
-		return
-	var/mob/living/silicon/robot/M = user.mob
-	M.toggle_module(3)
-	return TRUE
-
 
 /datum/keybinding/robot/change_intent_robot
-	keys = list("4")
+	keys = list("4", "1")
 	name = "change_intent_robot"
 	full_name = "Change Intent"
 	description = "Change your intent as a robot."
@@ -67,7 +33,7 @@
 	. = ..()
 	if(.)
 		return
-	var/mob/living/silicon/robot/M = user.mob
+	var/mob/living/silicon/new_robot/M = user.mob
 	M.a_intent_change(INTENT_HOTKEY_LEFT)
 	return TRUE
 
@@ -83,7 +49,7 @@
 	. = ..()
 	if(.)
 		return
-	var/mob/living/silicon/robot/M = user.mob
-	M.uneq_active()
+	var/mob/living/silicon/new_robot/M = user.mob
+	var/obj/item/I = M.get_active_held_item()
+	I.dropped(M)
 	return TRUE
-*/

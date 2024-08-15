@@ -46,7 +46,7 @@
 /obj/item/borg/cyborghug/attack_self(mob/living/user)
 	if(iscyborg(user))
 		var/mob/living/silicon/new_robot/R = user
-		if(R.is_emagged() && shockallowed == 1)
+		if(R.emagged && shockallowed == 1)
 			if(mode < 3)
 				mode++
 			else
@@ -392,7 +392,7 @@
 			to_chat(user, "<font color='red'>You don't have enough charge to do this!</font>")
 			return
 		R.consume_energy(1000)
-		if(R.is_emagged())
+		if(R.emagged)
 			safety = FALSE
 
 	if(safety == TRUE)
@@ -406,10 +406,9 @@
 		playsound(get_turf(src), 'sound/ai/harmalarm.ogg', 70, 3)
 		cooldown = world.time + 200
 		log_game("[key_name(user)] used a Cyborg Harm Alarm in [AREACOORD(user)]")
-		//TODO: Implement this - Racc
-		//if(iscyborg(user))
-		//	var/mob/living/silicon/robot/R = user
-			//to_chat(R.connected_ai, "<br><span class='notice'>NOTICE - Peacekeeping 'HARM ALARM' used by: [user]</span><br>")
+		var/mob/living/silicon/new_robot/R = user
+		if(istype(R) && R.connected_ai)
+			to_chat(R.connected_ai, "<br><span class='notice'>NOTICE - Peacekeeping 'HARM ALARM' used by: [user]</span><br>")
 
 		return
 
@@ -552,7 +551,7 @@
 		if(!user_cell.use(12))
 			to_chat(user, "<span class='warning'>Not enough power.</span>")
 			return FALSE
-		if(R.is_emagged())
+		if(R.emagged)
 			hitdamage = emaggedhitdamage
 	switch(mode)
 		if(DISPENSE_LOLLIPOP_MODE, DISPENSE_ICECREAM_MODE)
@@ -663,6 +662,8 @@
 	var/field_radius = 3
 	var/active = FALSE
 	var/cycle_delay = 0
+	///If the owner is a borg, we'll need to toggle their rideable status back & forth
+	var/old_rideable
 
 /obj/item/borg/projectile_dampen/debug
 	maxenergy = 50000
@@ -704,11 +705,11 @@
 	if(istype(dampening_field))
 		QDEL_NULL(dampening_field)
 	dampening_field = make_field(/datum/proximity_monitor/advanced/peaceborg_dampener, list("current_range" = field_radius, "host" = src, "projector" = src))
-	//var/mob/living/silicon/new_robot/owner = get_host()
-	//TODO: Implement this - Racc
-	//if(owner)
-		//owner.module.allow_riding = FALSE
 	active = TRUE
+	var/mob/living/silicon/new_robot/owner = get_host()
+	if(owner)
+		old_rideable = owner.chassis_component.can_ride
+		owner.chassis_component.can_ride = FALSE
 
 /obj/item/borg/projectile_dampen/proc/deactivate_field()
 	if(istype(dampening_field))
@@ -717,11 +718,9 @@
 	for(var/P in tracked)
 		restore_projectile(P)
 	active = FALSE
-
-	//TODO: Implement this - Racc
-	//var/mob/living/silicon/robot/owner = get_host()
-	//if(owner)
-	//	owner.module.allow_riding = TRUE
+	var/mob/living/silicon/new_robot/owner = get_host()
+	if(owner)
+		owner.chassis_component.can_ride = old_rideable
 
 /obj/item/borg/projectile_dampen/proc/get_host()
 	if(istype(host))

@@ -3,7 +3,7 @@
 
 //TODO: Implement these - Racc
 
-/*
+
 // robot_upgrades.dm
 // Contains various borg upgrades.
 
@@ -328,6 +328,7 @@
 	if (.)
 		R.weather_immunities -= "lava"
 
+//TODO: I don't really like this, do we want it? - Racc
 /obj/item/borg/upgrade/selfrepair
 	name = "self-repair module"
 	desc = "This module will repair the cyborg over time."
@@ -569,6 +570,8 @@
 			R.undeploy()
 			R.notify_ai(AI_SHELL)
 
+
+//TODO: Why the fuck would you want this? - Racc
 /obj/item/borg/upgrade/expand
 	name = "borg expander"
 	desc = "A cyborg resizer, it makes a cyborg huge."
@@ -872,4 +875,3 @@
 
 #undef STANDARD
 #undef CRITICAL
-*/

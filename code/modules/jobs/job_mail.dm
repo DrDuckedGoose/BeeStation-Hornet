@@ -351,9 +351,7 @@
 		/obj/item/clothing/glasses/science/sciencesun = 10,
 		/obj/item/taperecorder = 7,
 		/obj/item/toy/plush/slimeplushie/random = 7,
-		/obj/item/disk/tech_disk/research/random  = 4,
-		//TODO: - Racc
-		///obj/item/borg/upgrade/ai = 2,
+		/obj/item/disk/tech_disk/research/random  = 4
 	)
 
 //ROBOTICIST
@@ -364,8 +362,7 @@
 		/obj/item/storage/box/flashes = 10,
 		//eh.
 		/obj/item/clothing/glasses/hud/diagnostic/sunglasses = 7,
-		//TODO: - Racc
-		///obj/item/borg/upgrade/rename = 5,
+		/obj/item/borg/upgrade/rename = 5,
 		//do anyone ever use this???
 		/obj/item/modular_computer/tablet/preset/advanced = 5,
 	)

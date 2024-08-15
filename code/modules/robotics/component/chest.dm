@@ -14,12 +14,12 @@
 	. = ..()
 	//If the, presumably, chassis we're attached to tries to consume energy
 	var/datum/component/endopart/E = I.GetComponent(/datum/component/endopart)
-	RegisterSignal(E, COMSIG_ENDO_CONSUME_ENERGY, PROC_REF(consume_energy))
+	RegisterSignal(E, COMSIG_ROBOT_CONSUME_ENERGY, PROC_REF(consume_energy))
 
 /datum/component/endopart/chest/remove_from(datum/source, obj/item/I)
 	. = ..()
 	var/datum/component/endopart/E = I.GetComponent(/datum/component/endopart)
-	UnregisterSignal(E,  COMSIG_ENDO_CONSUME_ENERGY)
+	UnregisterSignal(E,  COMSIG_ROBOT_CONSUME_ENERGY)
 
 /datum/component/endopart/chest/consume_energy(datum/source, amount)
 	//TODO: Consider calling parent, if it doesn't break anything - Racc

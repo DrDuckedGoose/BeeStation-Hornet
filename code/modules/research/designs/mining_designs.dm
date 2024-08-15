@@ -88,8 +88,7 @@
 	id = "triggermod"
 	build_type = PROTOLATHE
 	materials = list(/datum/material/iron = 2000, /datum/material/glass = 1500, /datum/material/gold = 1500, /datum/material/uranium = 1000)
-	//TODO: - Racc
-	//build_path = /obj/item/borg/upgrade/modkit/trigger_guard
+	build_path = /obj/item/borg/upgrade/modkit/trigger_guard
 	category = list("Mining Designs")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO
 
@@ -99,8 +98,7 @@
 	id = "damagemod"
 	build_type = PROTOLATHE | MECHFAB
 	materials = list(/datum/material/iron = 2000, /datum/material/glass = 1500, /datum/material/gold = 1500, /datum/material/uranium = 1000)
-	//TODO: - Racc
-	//build_path = /obj/item/borg/upgrade/modkit/damage
+	build_path = /obj/item/borg/upgrade/modkit/damage
 	category = list("Mining Designs", "Cyborg Upgrade Modules")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO
 
@@ -110,8 +108,7 @@
 	id = "cooldownmod"
 	build_type = PROTOLATHE | MECHFAB
 	materials = list(/datum/material/iron = 2000, /datum/material/glass = 1500, /datum/material/gold = 1500, /datum/material/uranium = 1000)
-	//TODO: - Racc
-	//build_path = /obj/item/borg/upgrade/modkit/cooldown
+	build_path = /obj/item/borg/upgrade/modkit/cooldown
 	category = list("Mining Designs", "Cyborg Upgrade Modules")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO
 
@@ -121,8 +118,7 @@
 	id = "rangemod"
 	build_type = PROTOLATHE | MECHFAB
 	materials = list(/datum/material/iron = 2000, /datum/material/glass = 1500, /datum/material/gold = 1500, /datum/material/uranium = 1000)
-	//TODO: - Racc
-	//build_path = /obj/item/borg/upgrade/modkit/range
+	build_path = /obj/item/borg/upgrade/modkit/range
 	category = list("Mining Designs", "Cyborg Upgrade Modules")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO
 
@@ -132,8 +128,7 @@
 	id = "hypermod"
 	build_type = PROTOLATHE | MECHFAB
 	materials = list(/datum/material/iron = 4000, /datum/material/glass = 1500, /datum/material/silver = 1000, /datum/material/gold = 1000, /datum/material/diamond = 1000)
-	//TODO: - Racc
-	//build_path = /obj/item/borg/upgrade/modkit/aoe/turfs
+	build_path = /obj/item/borg/upgrade/modkit/aoe/turfs
 	category = list("Mining Designs", "Cyborg Upgrade Modules")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO
 
@@ -143,8 +138,7 @@
 	id = "hypermodplus"
 	build_type = PROTOLATHE | MECHFAB
 	materials = list(/datum/material/iron = 8000, /datum/material/glass = 1500, /datum/material/silver = 2000, /datum/material/gold = 2000, /datum/material/diamond = 2000)
-	//TODO: - Racc
-	//build_path = /obj/item/borg/upgrade/modkit/aoe/turfs/andmobs
+	build_path = /obj/item/borg/upgrade/modkit/aoe/turfs/andmobs
 	category = list("Mining Designs", "Cyborg Upgrade Modules")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO
 
@@ -154,7 +148,6 @@
 	id = "repeatermod"
 	build_type = PROTOLATHE | MECHFAB
 	materials = list(/datum/material/iron = 8000, /datum/material/glass = 1500, /datum/material/silver = 2000, /datum/material/gold = 2000, /datum/material/diamond = 2000)
-	//TODO: - Racc
-	//build_path = /obj/item/borg/upgrade/modkit/cooldown/repeater
+	build_path = /obj/item/borg/upgrade/modkit/cooldown/repeater
 	category = list("Mining Designs", "Cyborg Upgrade Modules")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO

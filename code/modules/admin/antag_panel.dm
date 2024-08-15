@@ -65,13 +65,13 @@ GLOBAL_VAR(antag_prototypes)
 		common_commands += "<a href='?src=[REF(src)];common=undress'>undress</a>"
 	else if(iscyborg(current))
 		var/mob/living/silicon/new_robot/R = current
-		if(R.is_emagged())
+		if(R.emagged)
 			common_commands += "<a href='?src=[REF(src)];silicon=Unemag'>Unemag</a>"
 	else if(isAI(current))
 		var/mob/living/silicon/ai/A = current
 		if (A.connected_robots.len)
 			for (var/mob/living/silicon/new_robot/R in A.connected_robots)
-				if (R.is_emagged())
+				if (R.emagged)
 					common_commands += "<a href='?src=[REF(src)];silicon=unemagcyborgs'>Unemag slaved cyborgs</a>"
 					break
 	return common_commands
@@ -85,7 +85,7 @@ GLOBAL_VAR(antag_prototypes)
 	//Move these to mob
 	if(iscyborg(current))
 		var/mob/living/silicon/new_robot/robot = current
-		if (robot.is_emagged())
+		if (robot.emagged)
 			result += "<span class='bad'>Emagged</span>"
 	return result.Join(" | ")
 

@@ -727,6 +727,7 @@
 	hat_offset = -4
 	canDispose = TRUE
 
+//TODO: Move this over to its own file in the new module folder - Racc
 /datum/robot_energy_storage
 	var/name = "Generic energy storage"
 	var/max_energy = 30000

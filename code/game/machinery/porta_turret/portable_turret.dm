@@ -447,11 +447,10 @@ DEFINE_BUFFER_HANDLER(/obj/machinery/porta_turret)
 				if(sillycone.stat || in_faction(sillycone))
 					continue
 
-				//TODO: Implement this - Racc
-				//if(iscyborg(sillycone))
-				//	var/mob/living/silicon/robot/sillyconerobot = A
-				//	if((FACTION_SYNDICATE in faction) && sillyconerobot.emagged == TRUE)
-				//		continue
+				if(iscyborg(sillycone))
+					var/mob/living/silicon/new_robot/sillyconerobot = A
+					if((FACTION_SYNDICATE in faction) && sillyconerobot.emagged)
+						continue
 
 			else if(iscarbon(A))
 				var/mob/living/carbon/C = A

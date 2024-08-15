@@ -90,10 +90,9 @@
 	else
 		to_chat(user, "[current.name] selected for law changes.")
 
-/obj/machinery/computer/upload/borg/can_upload_to(mob/living/silicon/robot/B)
-	if(!B || !iscyborg(B))
+/obj/machinery/computer/upload/borg/can_upload_to(mob/living/silicon/new_robot/R)
+	if(!R || !iscyborg(R))
 		return FALSE
-	//TODO: Implement this - Racc
-	//if(B.scrambledcodes || B.emagged)
-	//	return FALSE
+	if(!R.console_visible || R.emagged)
+		return FALSE
 	return ..()

@@ -274,7 +274,7 @@
 		for(var/mob/living/silicon/new_robot/R in connected_robots)
 			var/robot_status = "Nominal"
 			var/obj/item/stock_parts/cell/cell = R?.get_cell()
-			if(R.shell)
+			if(R.get_shell())
 				robot_status = "AI SHELL"
 			else if(R.stat || !R.client)
 				robot_status = "OFFLINE"

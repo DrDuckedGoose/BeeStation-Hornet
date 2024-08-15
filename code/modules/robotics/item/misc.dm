@@ -69,3 +69,42 @@
 		return
 	var/obj/item/bodypart/temp_bodypart = new bodypart(get_turf(target))
 	temp_bodypart.attach_limb(c_target)
+
+/*
+	Temp AI brain
+*/
+
+/obj/item/food/bbqribs/ai_brain
+//TODO: Do we consider moving these to the actual AI brain item? - Racc
+	var/deployed = FALSE
+	var/mob/living/silicon/ai/mainframe = null
+	//TODO: - Racc
+	//var/datum/action/innate/undeployment/undeployment_action = new
+
+/obj/item/food/bbqribs/ai_brain/proc/undeploy()
+	return
+	//TODO: - Racc
+	/*
+	if(!deployed || !mind || !mainframe)
+		return
+	mainframe.redeploy_action.Grant(mainframe)
+	mainframe.redeploy_action.last_used_shell = src
+	mind.transfer_to(mainframe)
+	deployed = FALSE
+	mainframe.deployed_shell = null
+	undeployment_action.Remove(src)
+	if(radio) //Return radio to normal
+		radio.recalculateChannels()
+	if(!QDELETED(builtInCamera))
+		builtInCamera.c_tag = real_name	//update the camera name too
+	//diag_hud_set_aishell()
+	mainframe.diag_hud_set_deployed()
+	if(mainframe.laws)
+		mainframe.laws.show_laws(mainframe) //Always remind the AI when switching
+	if(!mainframe.eyeobj)
+		mainframe.create_eye()
+	mainframe.eyeobj.setLoc(get_turf(src))
+	transfer_observers_to(mainframe.eyeobj) // borg shell to eyemob
+	mainframe.transfer_observers_to(mainframe.eyeobj) // ai core to eyemob
+	mainframe = null
+	*/

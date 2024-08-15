@@ -375,15 +375,15 @@
 //borg-AI shell tracking
 /mob/living/silicon/new_robot/proc/diag_hud_set_aishell() //Shows tracking beacons on the mech
 	var/image/holder = hud_list[DIAG_TRACK_HUD]
+	var/obj/item/food/bbqribs/ai_brain/shell = get_shell()
 	var/icon/I = icon(icon, icon_state, dir)
 	holder.pixel_y = I.Height() - world.icon_size
-	//TODO: Implement this - Racc
-	//if(!shell) //Not an AI shell
-	//	holder.icon_state = null
-	//else if(deployed) //AI shell in use by an AI
-	//	holder.icon_state = "hudtrackingai"
-	//else	//Empty AI shell
-	//	holder.icon_state = "hudtracking"
+	if(!shell) //Not an AI shell
+		holder.icon_state = null
+	else if(shell?.deployed) //AI shell in use by an AI
+		holder.icon_state = "hudtrackingai"
+	else	//Empty AI shell
+		holder.icon_state = "hudtracking"
 
 //AI side tracking of AI shell control
 /mob/living/silicon/ai/proc/diag_hud_set_deployed() //Shows tracking beacons on the mech

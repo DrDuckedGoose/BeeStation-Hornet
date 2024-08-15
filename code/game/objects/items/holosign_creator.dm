@@ -150,7 +150,7 @@
 					qdel(H)
 			shock = 0
 			return
-		else if(R.is_emagged() && !shock)
+		else if(R.emagged && !shock)
 			to_chat(user, "<span class='warning'>You clear all active energy fields, and overload your energy projector!</span>")
 			holosign_type = /obj/structure/holosign/barrier/cyborg/hacked
 			creation_time = 30

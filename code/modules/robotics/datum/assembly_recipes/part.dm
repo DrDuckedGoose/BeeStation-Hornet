@@ -11,7 +11,7 @@
 		outcome = E?.check_completion()
 		if((outcome & ENDO_ASSEMBLY_INCOMPLETE) && !(outcome & ENDO_ASSEMBLY_NON_INTEGRAL))
 			return outcome
-	return outcome
+	return (assembly_integral ? outcome & ENDO_ASSEMBLY_NON_INTEGRAL : outcome)
 
 /*
 	Arms
@@ -20,6 +20,13 @@
 	component_requirment = /datum/component/endopart/arm
 	poll_path = /datum/component/endopart/arm
 	allow_poll = TRUE
+	ideal_part_parent = /obj/item/bodypart/l_arm/robot/endopart
+
+/datum/endo_assembly/endopart/functional_limb/arm/left
+	ideal_part_parent = /obj/item/bodypart/l_arm/robot/endopart
+
+/datum/endo_assembly/endopart/functional_limb/arm/right
+	ideal_part_parent = /obj/item/bodypart/r_arm/robot/endopart
 
 /*
 	Legs
@@ -28,6 +35,13 @@
 	component_requirment = /datum/component/endopart/leg
 	poll_path = /datum/component/endopart/leg
 	allow_poll = TRUE
+	ideal_part_parent = /obj/item/bodypart/l_leg/robot/endopart
+
+/datum/endo_assembly/endopart/functional_limb/leg/left
+	ideal_part_parent = /obj/item/bodypart/l_leg/robot/endopart
+
+/datum/endo_assembly/endopart/functional_limb/leg/right
+	ideal_part_parent = /obj/item/bodypart/r_leg/robot/endopart
 
 /*
 	Head
@@ -36,6 +50,7 @@
 	component_requirment = /datum/component/endopart/head
 	poll_path = /datum/component/endopart/head
 	allow_poll = TRUE
+	ideal_part_parent = /obj/item/bodypart/head/robot/endopart
 
 /*
 	Chest
@@ -44,3 +59,4 @@
 	component_requirment = /datum/component/endopart/chest
 	poll_path = /datum/component/endopart/chest
 	allow_poll = TRUE
+	ideal_part_parent = /obj/item/bodypart/chest/robot/endopart

@@ -14,7 +14,7 @@
 /datum/component/endopart/arm/Initialize(_offset_key = ENDO_OFFSET_KEY_ARM(1))
 	. = ..()
 	offset_key = _offset_key
-	RegisterSignal(parent, COMSIG_ENDO_ATTACK_UNARMED, PROC_REF(catch_unarmed))
+	RegisterSignal(parent, COMSIG_ROBOT_PICKUP_ITEM, PROC_REF(catch_unarmed))
 	RegisterSignal(parent, COMSIG_ENDO_POLL_EQUIP, PROC_REF(poll_equip))
 
 /datum/component/endopart/arm/poll_hud(datum/source, datum/hud/hud)
@@ -59,5 +59,6 @@
 	SIGNAL_HANDLER
 
 	if(check_completion() & ENDO_ASSEMBLY_INCOMPLETE)
+		to_chat(assembled_mob, "<span class='warning'>You can't seem to move [parent]!</span>")
 		return FALSE
 	return !(holding)

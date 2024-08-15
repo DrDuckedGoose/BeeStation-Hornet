@@ -281,7 +281,7 @@
 		var/kick = TRUE
 		if(iscyborg(AM))
 			var/mob/living/silicon/new_robot/R = AM
-			if(R.can_ride(user))
+			if(R.chassis_component.can_ride)
 				kick = FALSE
 		if(kick)
 			to_chat(user, "<span class='userdanger'>You fall off of [AM]!</span>")
@@ -313,11 +313,9 @@
 		for(var/mob/living/M in AM.buckled_mobs)
 			M.setDir(AM.dir)
 			if(iscyborg(AM))
-				//var/mob/living/silicon/new_robot/R = AM
-				//TODO: Implement riding offsets - Racc
-				//M.pixel_x = R.module.ride_offset_x[dir2text(AM.dir)]
-				//M.pixel_y = R.module.ride_offset_y[dir2text(AM.dir)]
-				M.pixel_y += 8 //TEMP
+				var/mob/living/silicon/new_robot/R = AM
+				M.pixel_x = R.chassis_component.ride_offset[1]
+				M.pixel_y = R.chassis_component.ride_offset[2]
 			else
 				..()
 

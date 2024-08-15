@@ -1,14 +1,11 @@
-//TODO: Implement these - Racc
 /datum/keybinding/shell
 	category = CATEGORY_ROBOT
 	weight = WEIGHT_ROBOT
 
 /datum/keybinding/shell/can_use(client/user)
 	if(iscyborg(user.mob))
-		//TODO: Implement this - Racc
-		//var/mob/living/silicon/robot/shell/our_shell = user.mob
 		var/mob/living/silicon/new_robot/our_shell = user.mob
-		if(our_shell)//if(our_shell.shell)
+		if(our_shell.get_shell())
 			return TRUE
 		else
 			return FALSE
@@ -27,7 +24,7 @@
 	. = ..()
 	if(.)
 		return
-	//TODO: - Racc
-	//var/mob/living/silicon/robot/shell/our_shell = user.mob
-	//our_shell.undeploy()
+	var/mob/living/silicon/new_robot/our_shell = user.mob
+	var/obj/item/food/bbqribs/ai_brain/shell = our_shell.get_shell()
+	shell?.undeploy()
 	return TRUE

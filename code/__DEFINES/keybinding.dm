@@ -74,9 +74,7 @@
 #define COMSIG_KB_MOB_MOVEDOWN_DOWN "keybinding_mob_movedown_down"
 
 //Robot
-#define COMSIG_KB_SILICON_TOGGLEMODULEONE_DOWN "keybinding_silicon_togglemoduleone_down"
-#define COMSIG_KB_SILICON_TOGGLEMODULETWO_DOWN "keybinding_silicon_togglemoduletwo_down"
-#define COMSIG_KB_SILICON_TOGGLEMODULETHREE_DOWN "keybinding_silicon_togglemodulethree_down"
+#define COMSIG_KB_SILICON_CYCLEACTIVEHAND_DOWN "keybinding_silicon_cycleactivehand_down"
 #define COMSIG_KB_SILICON_CYCLEINTENT_DOWN "keybinding_silicon_cycleintent_down"
 #define COMSIG_KB_SILICON_UNEQUIPMODULE_DOWN "keybinding_silicon_unequipmodule_down"
 #define COMSIG_KB_SILION_UNDEPLOY_DOWN "keybinding_silicon_undeploy_down"

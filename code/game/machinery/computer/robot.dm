@@ -84,7 +84,7 @@
 			//TODO: - Racc
 			//module = R.module ? "[R.module.name] Module" : "No Module Detected",
 			synchronization = R.connected_ai,
-			emagged =  R.is_emagged(),
+			emagged =  R.emagged,
 			ref = REF(R)
 		)
 		data["cyborgs"] += list(cyborg_data)
@@ -152,7 +152,7 @@
 			var/mob/living/silicon/S = usr
 			if((istype(S) && S.hack_software) || IsAdminGhost(usr))
 				var/mob/living/silicon/new_robot/R = locate(params["ref"]) in GLOB.silicon_mobs
-				if(istype(R) && !R.is_emagged() && (R.connected_ai == usr || IsAdminGhost(usr)) && !R.console_visible && can_control(usr, R))
+				if(istype(R) && !R.emagged && (R.connected_ai == usr || IsAdminGhost(usr)) && !R.console_visible && can_control(usr, R))
 					log_game("[key_name(usr)] emagged [key_name(R)] using robotic console!")
 					message_admins("[ADMIN_LOOKUPFLW(usr)] emagged cyborg [key_name_admin(R)] using robotic console!")
 					R.set_emagged(TRUE)

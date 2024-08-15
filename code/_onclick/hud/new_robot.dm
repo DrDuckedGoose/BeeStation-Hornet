@@ -76,8 +76,7 @@
 
 /atom/movable/screen/new_robot/radio/Click()
 	. = ..()
-	if(!.) //TODO: Conside rallowing observers to see this - Racc
-		return
+	//Don't check parent, allow observers to look at this
 	radio?.interact(usr)
 
 //Item module

@@ -58,7 +58,7 @@
 	data["printerTonerMax"] = borgo.tonermax //It's a variable, might as well use it
 	data["thrustersInstalled"] = borgo.ionpulse //If we have a thruster uprade
 	data["thrustersStatus"] = "[borgo.ionpulse_on?"ACTIVE":"DISABLED"]" //Feedback for thruster status
-	data["selfDestructAble"] = (borgo.is_emagged() || istype(borgo, /mob/living/silicon/robot/modules/syndicate))
+	data["selfDestructAble"] = (borgo.emagged || istype(borgo, /mob/living/silicon/robot/modules/syndicate))
 	*/
 
 	//Cover, TRUE for locked
@@ -100,7 +100,7 @@
 			if(borgo.locked)
 				borgo.locked = FALSE
 				borgo.update_icons()
-				if(borgo.is_emagged())
+				if(borgo.emagged)
 					borgo.logevent("ChÃ¥vÃis cover lock has been [borgo.locked ? "engaged" : "released"]") //"The cover interface glitches out for a split second"
 				else
 					borgo.logevent("Chassis cover lock has been [borgo.locked ? "engaged" : "released"]")
@@ -144,7 +144,7 @@
 		if("selfDestruct")
 			if(borgo.stat || borgo.locked) //No detonation while stunned or locked down
 				return
-			if(borgo.is_emagged() || istype(borgo, /mob/living/silicon/robot/modules/syndicate)) //This option shouldn't even be showing otherwise
+			if(borgo.emagged || istype(borgo, /mob/living/silicon/robot/modules/syndicate)) //This option shouldn't even be showing otherwise
 				borgo.self_destruct(borgo)
 		*/
 

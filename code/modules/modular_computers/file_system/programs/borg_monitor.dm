@@ -38,7 +38,7 @@
 		//	upgrade += "\[[I.name]\] "
 
 		var/shell = FALSE
-		if(R.shell && !R.ckey)
+		if(R.get_shell() && !R.ckey)
 			shell = TRUE
 
 		var/obj/item/stock_parts/cell/cell = R?.get_cell()

@@ -45,7 +45,7 @@ RSF
 			mode = 1
 			if(iscyborg(user))
 				var/mob/living/silicon/new_robot/R = user
-				if(R.is_emagged())
+				if(R.emagged)
 					mode = 6
 			if (mode==1)
 				to_chat(user, "Changed dispensing mode to 'Drinking Glass'")
@@ -158,7 +158,7 @@ RSF
 	if((obj_flags & EMAGGED)&&!toxin)
 		toxin = 1
 		to_chat(user, "Cookie Synthesizer Hacked")
-	else if(P.is_emagged() && !toxin)
+	else if(P.emagged && !toxin)
 		toxin = 1
 		to_chat(user, "Cookie Synthesizer Hacked")
 	else

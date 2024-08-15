@@ -6,6 +6,14 @@
 	name = "chassis"
 	///What mob we assemble, more complex chassies will need to implement more than this
 	var/assembly_mob = /mob/living/silicon/robot
+	///Is this chassis rideable?
+	var/can_ride = FALSE
+	var/can_ride_incapacitated = TRUE
+	var/list/ride_offset = list(0, 0)
+	//Can this chassis be pushed, shoved?
+	var/can_be_pushed = FALSE
+	//Can this chassis be disposed through bins & chutes
+	var/can_dispose = FALSE
 
 /datum/component/endopart/chassis/New(list/raw_args)
 	. = ..()
@@ -21,6 +29,13 @@
 	parent_atom.overlays = list()
 	. = ..()
 	parent_atom.overlays = temp
+
+/datum/component/endopart/chassis/apply_assembly(datum/source, mob/target)
+	. = ..()
+	if(can_be_pushed)
+		target.status_flags |= CANPUSH
+	else
+		target.status_flags &= ~CANPUSH
 
 ///Handles screwdriver interaction, for removing parts
 /datum/component/endopart/chassis/proc/catch_wrench(datum/source, mob/living/user, obj/item/I, list/recipes)

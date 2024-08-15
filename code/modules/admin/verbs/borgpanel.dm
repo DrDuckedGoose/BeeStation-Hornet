@@ -49,7 +49,7 @@
 	.["borg"] = list(
 		"ref" = REF(borg),
 		"name" = "[borg]",
-		"emagged" = borg.is_emagged(),
+		"emagged" = borg.emagged,
 		//TODO: - Racc
 		//"active_module" = "[borg.module.type]",
 		"lawupdate" = borg.laws_synced(),
@@ -117,8 +117,8 @@
 				message_admins("[key_name_admin(user)] changed the cell of [ADMIN_LOOKUPFLW(borg)] to [new_cell].")
 				log_admin("[key_name(user)] changed the cell of [key_name(borg)] to [new_cell].")
 		if ("toggle_emagged")
-			borg.set_emagged(!borg.is_emagged())
-			if (borg.is_emagged())
+			borg.set_emagged(!borg.emagged)
+			if (borg.emagged)
 				message_admins("[key_name_admin(user)] emagged [ADMIN_LOOKUPFLW(borg)].")
 				log_admin("[key_name(user)] emagged [key_name(borg)].")
 			else
@@ -212,20 +212,19 @@
 		*/
 		if ("slavetoai")
 			var/mob/living/silicon/ai/newai = locate(params["slavetoai"]) in GLOB.ai_list
+			var/obj/item/food/bbqribs/ai_brain/shell = borg.get_shell()
 			if (newai && newai != borg.connected_ai)
 				borg.notify_ai(DISCONNECT)
-				//TODO: - Racc
-				//if(borg.shell)
-				//	borg.undeploy()
+				if(shell)
+					shell.undeploy()
 				borg.connected_ai = newai
 				borg.notify_ai(TRUE)
 				message_admins("[key_name_admin(user)] slaved [ADMIN_LOOKUPFLW(borg)] to the AI [ADMIN_LOOKUPFLW(newai)].")
 				log_admin("[key_name(user)] slaved [key_name(borg)] to the AI [key_name(newai)].")
 			else if (params["slavetoai"] == "null")
 				borg.notify_ai(DISCONNECT)
-				//TODO: - Racc
-				//if(borg.shell)
-				//	borg.undeploy()
+				if(shell)
+					shell.undeploy()
 				borg.connected_ai = null
 				message_admins("[key_name_admin(user)] freed [ADMIN_LOOKUPFLW(borg)] from being slaved to an AI.")
 				log_admin("[key_name(user)] freed [key_name(borg)] from being slaved to an AI.")

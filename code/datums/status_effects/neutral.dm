@@ -24,16 +24,13 @@
 	status_type = STATUS_EFFECT_MULTIPLE
 	alert_type = null
 	on_remove_on_mob_delete = TRUE
-	//TODO: - Racc
-	//var/obj/item/borg/upgrade/modkit/bounty/reward_target
+	///Ref to our very cool borg upgrade
+	var/obj/item/borg/upgrade/modkit/bounty/reward_target
 
-//TODO: - Racc
-/*
 /datum/status_effect/syphon_mark/on_creation(mob/living/new_owner, obj/item/borg/upgrade/modkit/bounty/new_reward_target)
 	. = ..()
 	if(.)
 		reward_target = new_reward_target
-*/
 
 /datum/status_effect/syphon_mark/on_apply()
 	if(owner.stat == DEAD)
@@ -41,9 +38,8 @@
 	return ..()
 
 /datum/status_effect/syphon_mark/proc/get_kill()
-	//TODO: - Racc
-	//if(!QDELETED(reward_target))
-	//	reward_target.get_kill(owner)
+	if(!QDELETED(reward_target))
+		reward_target.get_kill(owner)
 
 /datum/status_effect/syphon_mark/tick()
 	if(owner.stat == DEAD)

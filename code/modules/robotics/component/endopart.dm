@@ -18,19 +18,16 @@
 	///Overlay offset key
 	var/offset_key
 	///Offset dictionary
-	var/list/assembly_offsets = list(ENDO_OFFSET_KEY_ARM(1) = list(7, -1), ENDO_OFFSET_KEY_ARM(2) = list(-7, -1),
-	ENDO_OFFSET_KEY_LEG(1) = list(2, -14), ENDO_OFFSET_KEY_LEG(2) = list(-2, -14), ENDO_OFFSET_KEY_HEAD(1) = list(0, 7),
+	var/list/assembly_offsets = list(ENDO_OFFSET_KEY_ARM(1) = list(0, 0), ENDO_OFFSET_KEY_ARM(2) = list(0, 0),
+	ENDO_OFFSET_KEY_LEG(1) = list(0, 0), ENDO_OFFSET_KEY_LEG(2) = list(0, 0), ENDO_OFFSET_KEY_HEAD(1) = list(0, 0),
 	ENDO_OFFSET_KEY_CHEST(1) = list(0, 0))
+	///Do we generate pre-done?
+	var/start_finished = FALSE
 
-/datum/component/endopart/New(list/raw_args)
+/datum/component/endopart/Initialize(_start_finished)
 	. = ..()
 	if(!parent)
 		return
-	//Build our required assembly
-	var/list/compiled_assembly = list()
-	for(var/datum/endo_assembly/recipe as() in required_assembly)
-		compiled_assembly += new recipe(src)
-	required_assembly = compiled_assembly
 	//Setup our signals
 	RegisterSignal(parent, COMSIG_PARENT_ATTACKBY, PROC_REF(attach_part))
 	RegisterSignal(parent, COMSIG_ENDO_ATTACHED, PROC_REF(attach_to))
@@ -46,7 +43,19 @@
 
 	RegisterSignal(parent, COMSIG_BODYPART_ATTACHED, PROC_REF(apply_assembly))
 
-	RegisterSignal(parent, COMSIG_ENDO_CONSUME_ENERGY, PROC_REF(consume_energy))
+	RegisterSignal(parent, COMSIG_ROBOT_CONSUME_ENERGY, PROC_REF(consume_energy))
+	RegisterSignal(parent, COMSIG_ROBOT_SET_EMAGGED, PROC_REF(set_emagged))
+
+	//Build our required assembly
+	start_finished = isnull(_start_finished) ? start_finished : _start_finished
+	var/list/compiled_assembly = list()
+	for(var/datum/endo_assembly/recipe as() in required_assembly)
+		var/datum/endo_assembly/new_recipe = new recipe(src)
+		compiled_assembly += new_recipe
+		if(start_finished && !new_recipe.start_finished)
+			new_recipe.start_finished = TRUE
+			new_recipe.build_ideal_part()
+	required_assembly = compiled_assembly
 
 ///Can something be attached to us
 /datum/component/endopart/proc/can_attach(obj/item/I)
@@ -65,20 +74,23 @@
 /datum/component/endopart/proc/attach_part(datum/source, obj/item/I, mob/living/L, params)
 	SIGNAL_HANDLER
 
+	. = FALSE
 	//handle attaching parts
 	if(can_attach(I))
 		I.forceMove(parent)
 		to_chat(L, "<span class='notice'>You attach [I] to [parent].</span>")
 		current_assembly += I
 		//Let the part we're adding know it's been connected to use
-		SEND_SIGNAL(I, COMSIG_ENDO_ATTACHED, parent)
+		SEND_SIGNAL(I, COMSIG_ENDO_ATTACHED, parent, src)
 		//Let our assembly datums know we're adding a part to ourselves
 		SEND_SIGNAL(src, COMSIG_ENDO_ASSEMBLY_ADD, I, L)
 		//TODO: Sounds and effects - Racc
+		. = TRUE
 	//Handle item interactions
 	if(can_interact(I))
 		SEND_SIGNAL(src, COMSIG_ENDO_ASSEMBLY_INTERACT, I, L)
 		//TODO: Sounds and effects - Racc
+		. = TRUE
 	//If we're already assembled we'll need to reassemble to apply the new changes
 	if(assembled_mob) //TODO: This gets called even if the part dont fit, make sure that isn't a problem - Racc
 		SEND_SIGNAL(parent, COMSIG_ENDO_UNASSEMBLE, assembled_mob)
@@ -96,7 +108,7 @@
 	I.forceMove(get_turf(L))
 	L.put_in_hands(I)
 	//Let the part we're removing know it's no-longer connected to us
-	SEND_SIGNAL(I, COMSIG_ENDO_REMOVED, parent)
+	SEND_SIGNAL(I, COMSIG_ENDO_REMOVED, parent, src)
 	//Let our assembly datums know we removed a part
 	SEND_SIGNAL(src, COMSIG_ENDO_ASSEMBLY_REMOVE, I)
 	//Redo the assembly changes, now without the removed part
@@ -104,29 +116,29 @@
 		SEND_SIGNAL(parent, COMSIG_ENDO_ASSEMBLE, assembled_mob)
 
 ///Attach THIS part to
-/datum/component/endopart/proc/attach_to(datum/source, obj/item/I)
+/datum/component/endopart/proc/attach_to(datum/source, obj/item/I, datum/component/endopart/part)
 	SIGNAL_HANDLER
 
 	build_assembly_overlay(I)
 	RegisterSignal(I, COMSIG_ENDO_ASSEMBLE, PROC_REF(apply_assembly))
 	RegisterSignal(I, COMSIG_ENDO_UNASSEMBLE, PROC_REF(remove_assembly))
 	//Co-op stuff
-	var/datum/component/endopart/E = I.GetComponent(/datum/component/endopart)
-	RegisterSignal(E, COMSIG_ENDO_LIST_PART, PROC_REF(poll_part))
-	RegisterSignal(E, COMSIG_ENDO_APPLY_LIFE, PROC_REF(poll_life))
-	RegisterSignal(E, COMSIG_ENDO_APPLY_HUD, PROC_REF(poll_hud))
+	RegisterSignal(part, COMSIG_ENDO_LIST_PART, PROC_REF(poll_part))
+	RegisterSignal(part, COMSIG_ENDO_APPLY_LIFE, PROC_REF(poll_life))
+	RegisterSignal(part, COMSIG_ENDO_APPLY_HUD, PROC_REF(poll_hud))
+	RegisterSignal(part, COMSIG_ROBOT_SET_EMAGGED, PROC_REF(set_emagged))
 	//TODO: Sounds and effects - Racc
 
-/datum/component/endopart/proc/remove_from(datum/source, obj/item/I)
+/datum/component/endopart/proc/remove_from(datum/source, obj/item/I, datum/component/endopart/part)
 	SIGNAL_HANDLER
 
 	cut_assembly_overlay(I)
 	UnregisterSignal(I, COMSIG_ENDO_ASSEMBLE)
 	UnregisterSignal(I, COMSIG_ENDO_UNASSEMBLE)
-	var/datum/component/endopart/E = I.GetComponent(/datum/component/endopart)
-	UnregisterSignal(E, COMSIG_ENDO_LIST_PART)
-	UnregisterSignal(E, COMSIG_ENDO_APPLY_LIFE)
-	UnregisterSignal(E, COMSIG_ENDO_APPLY_HUD)
+	UnregisterSignal(part, COMSIG_ENDO_LIST_PART)
+	UnregisterSignal(part, COMSIG_ENDO_APPLY_LIFE)
+	UnregisterSignal(part, COMSIG_ENDO_APPLY_HUD)
+	UnregisterSignal(part, COMSIG_ROBOT_SET_EMAGGED)
 
 ///Apply our special and cool effects when Mr. Roboto is assembled
 /datum/component/endopart/proc/apply_assembly(datum/source, mob/target)
@@ -156,6 +168,7 @@
 /datum/component/endopart/proc/screwdriver_async(mob/living/L, obj/item/I, list/recipes)
 	if(!length(current_assembly))
 		return
+	//TODO: Go over this code, it weirds me out - Racc
 	var/list/choices = list()
 	var/list/assoc = list()
 	for(var/atom/part in current_assembly)
@@ -188,16 +201,17 @@
 	show_radial_menu(M, parent, choices, require_near = FALSE, tooltips = TRUE)
 
 /datum/component/endopart/proc/build_assembly_overlay(atom/A)
-	var/atom/parent_atom = parent
-	if(!parent_atom)
+	//For endoparts that aren't limbs, wtf, you will need to overwrite this with your own code for getting the icon
+	var/obj/item/bodypart/parent_atom = parent
+	if(!istype(parent_atom))
 		return
 	if(!assembly_overlay)
 		assembly_overlay = new()
-		assembly_overlay.appearance = parent_atom.appearance
+		assembly_overlay.add_overlay(parent_atom.get_limb_icon())
 		assembly_overlay.pixel_x = 0
 		assembly_overlay.pixel_y = 0
 		assembly_overlay.layer = A.layer
-	//TODO: These are broken, they don't change direction - Racc
+		assembly_overlay.plane = A.plane
 	SEND_SIGNAL(A, COMSIG_ENDO_APPLY_OFFSET, offset_key, assembly_overlay)
 	A?.add_overlay(assembly_overlay)
 
@@ -218,7 +232,7 @@
 /datum/component/endopart/proc/consume_energy(datum/source, amount)
 	SIGNAL_HANDLER
 
-	return SEND_SIGNAL(src, COMSIG_ENDO_CONSUME_ENERGY, amount)
+	return SEND_SIGNAL(src, COMSIG_ROBOT_CONSUME_ENERGY, amount)
 
 ///TODO: Descript this - Racc
 /datum/component/endopart/proc/poll_part(datum/source, type, list/population_list)
@@ -235,8 +249,6 @@
 			outcome |= ENDO_ASSEMBLY_NON_INTEGRAL
 		if((incomplete & ENDO_ASSEMBLY_INCOMPLETE))
 			if(!(incomplete & ENDO_ASSEMBLY_NON_INTEGRAL))
-				var/atom/movable/A = parent
-				A.say("ME! [A]")
 				outcome &= ENDO_ASSEMBLY_COMPLETE
 			outcome |= ENDO_ASSEMBLY_INCOMPLETE
 	return outcome
@@ -252,3 +264,9 @@
 	SIGNAL_HANDLER
 
 	SEND_SIGNAL(src, COMSIG_ENDO_APPLY_HUD, hud)
+
+///TODO: Descript this - Racc
+/datum/component/endopart/proc/set_emagged(datum/source, new_state)
+	SIGNAL_HANDLER
+
+	SEND_SIGNAL(src, COMSIG_ROBOT_SET_EMAGGED, new_state)

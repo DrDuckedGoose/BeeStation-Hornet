@@ -9,7 +9,7 @@
 	name = JOB_NAME_CYBORG //"Cyborg"
 	real_name = JOB_NAME_CYBORG
 	icon = 'icons/obj/robotics/endo.dmi'
-	icon_state = "robot"
+	base_icon_state  = "robot"
 	maxHealth = 200 //TODO: This will be effected by endo parts - Racc
 	health = 200
 	bubble_icon = "robot"
@@ -21,6 +21,7 @@
 	light_on = FALSE
 	///Reference to the chassis we're built from, used for *most* 'things'
 	var/obj/item/endopart/chassis/borg/chassis
+	var/datum/component/endopart/chassis/chassis_component //Shortcut for getting things straight from the component
 	///Is our cover open? Essentially passes inputs to our chassis if it is
 	var/cover_open = FALSE
 	///What's the ambient cell draw of the this robbit
@@ -40,13 +41,10 @@
 	var/wires_exposed = FALSE
 	///Little helper for making sparks on the fly
 	var/datum/effect_system/spark_spread/spark_system
-
-	//TODO: Implement these a little more modularly. I don't really want them here. Maybe in a part. - Racc
-	var/shell = FALSE
-	var/deployed = FALSE
-	var/mob/living/silicon/ai/mainframe = null
-	var/datum/action/innate/undeployment/undeployment_action = new
-
+	///Has this robbit been emagged
+	var/emagged = FALSE
+	///Used for name changing and interfacing with robot name PREFS
+	var/custom_name = ""
 
 //TODO: Consider if this is the best approach, with trying to make it all modular - Racc
 //hand stuff
@@ -62,6 +60,7 @@
 //Setup stuff from our chassis
 	if(_chassis)
 		chassis = _chassis
+		chassis_component = chassis.GetComponent(/datum/component/endopart/chassis)
 	//Build access
 	var/list/access_modules = list()
 	SEND_SIGNAL(chassis, COMSIG_ENDO_LIST_PART, /obj/item/access_module, access_modules)
@@ -117,13 +116,53 @@
 		if(cell)
 			tab_data["[cell]: Charge Left"] = GENERATE_STAT_TEXT("[cell.charge]/[cell.maxcharge]")
 	if(!length(cells))
-		tab_data["Charge Left"] = GENERATE_STAT_TEXT("No Cell Inserted!")
-	return tab_data
-//What modules are we rocking with
+		tab_data["Charge Left"] = GENERATE_STAT_TEXT("No Cells Inserted!")
+/*
+//TODO: This is related to module items that use energy or something? - Racc
+if(module)
+		for(var/datum/robot_energy_storage/st in module.storages)
+			tab_data["[st.name]"] = GENERATE_STAT_TEXT("[st.energy]/[st.max_energy]")
+*/
 //Which AI are we connected to
+	if(connected_ai)
+		tab_data["Master AI"] = GENERATE_STAT_TEXT("[connected_ai.name]")
+	return tab_data
+
+///Easy way for getting our cell for other code stuff
+//TODO: Make sure overwriting this isn't bad news - Racc
+/mob/living/silicon/new_robot/get_cell()
+	//TODO: Revisit this, maybe return the least charged cell? - Racc
+	var/list/cells = list()
+	SEND_SIGNAL(chassis, COMSIG_ENDO_LIST_PART, /obj/item/stock_parts/cell, cells)
+	if(!length(cells))
+		return FALSE
+	return cells[1]
+
+/mob/living/silicon/new_robot/create_mob_hud()
+	. = ..()
+	poll_hud()
+
+/mob/living/silicon/new_robot/fully_replace_character_name(oldname, newname)
+	..()
+	if(oldname != real_name)
+		notify_ai(RENAME, oldname, newname)
+	if(!QDELETED(builtInCamera))
+		builtInCamera.c_tag = real_name
+		modularInterface.saved_identification = real_name
+	custom_name = newname
+
+/mob/living/silicon/new_robot/revive(full_heal = 0, admin_revive = 0)
+	if(..()) //successfully ressuscitated from death
+		if(!QDELETED(builtInCamera) && !wires.is_cut(WIRE_CAMERA))
+			builtInCamera.toggle_cam(src,0)
+		if(admin_revive)
+			locked = TRUE
+		notify_ai(NEW_BORG)
+		wires.ui_update()
+		. = 1 //Should this be TRUE? The parent proc also sets it to 1.
 
 /mob/living/silicon/new_robot/proc/consume_energy(amount)
-	return SEND_SIGNAL(chassis, COMSIG_ENDO_CONSUME_ENERGY, amount)
+	return SEND_SIGNAL(chassis, COMSIG_ROBOT_CONSUME_ENERGY, amount)
 
 //TODO: This is probably temporary - Racc
 /mob/living/silicon/new_robot/proc/poll_hud()
@@ -133,12 +172,6 @@
 /mob/living/silicon/new_robot/proc/is_free()
 	//TODO: - Racc
 	//Must not be connected to an AI, emagged, scrambled, or a shell
-	return TRUE
-
-///Helper to check if something can ride us, checks with the chassis
-/mob/living/silicon/new_robot/proc/can_ride(mob/M)
-	//TODO: - Racc
-	//Mkae sure this checks the chassis, as that decides the rules
 	return TRUE
 
 //TODO: Consider implementing this in the chassis instead - Racc
@@ -152,27 +185,16 @@
 
 ///Change our emagged state
 /mob/living/silicon/new_robot/proc/set_emagged(new_state)
-	//TODO: Implement this - Racc
-	/*
 	emagged = new_state
-	module.rebuild_modules()
-	update_icons()
 	if(emagged)
 		throw_alert("hacked", /atom/movable/screen/alert/hacked)
 	else
 		clear_alert("hacked")
+	SEND_SIGNAL(chassis, COMSIG_ROBOT_SET_EMAGGED, new_state)
+	//TODO: Implement this - Racc
+	/*
 	set_modularInterface_theme()
 	*/
-
-///Easy way for getting our cell for other code stuff
-//TODO: Make sure overwriting this isn't bad news - Racc
-/mob/living/silicon/new_robot/get_cell()
-	//TODO: Revisit this, maybe return the least charged cell? - Racc
-	var/list/cells = list()
-	SEND_SIGNAL(chassis, COMSIG_ENDO_LIST_PART, /obj/item/stock_parts/cell, cells)
-	if(!length(cells))
-		return FALSE
-	return cells[1]
 
 ///Easy way for getting our MMI, if we have one
 /mob/living/silicon/new_robot/proc/get_mmi(index = 1)
@@ -182,10 +204,6 @@
 	if(!length(mmi))
 		return FALSE
 	return mmi[min(index, length(mmi))]
-
-///TODO: Implement this - Racc
-/mob/living/silicon/new_robot/proc/is_emagged()
-	return FALSE
 
 ///TODO: Implement this - Racc
 /mob/living/silicon/new_robot/proc/self_destruct()
@@ -250,6 +268,37 @@
 			to_chat(connected_ai, "<br><br><span class='notice'>NOTICE - New cyborg shell detected: <a href='?src=[REF(connected_ai)];track=[html_encode(name)]'>[name]</a></span><br>")
 		if(DISCONNECT) //Tampering with the wires
 			to_chat(connected_ai, "<br><br><span class='notice'>NOTICE - Remote telemetry lost with [name].</span><br>")
+
+///Helper for getting our AI boris module, if we have one
+/mob/living/silicon/new_robot/proc/get_shell()
+	//You should only ever have one boris module, but you can never be too sure
+	var/list/brains = list()
+	SEND_SIGNAL(chassis, COMSIG_ENDO_LIST_PART, /obj/item/food/bbqribs/ai_brain, brains)
+	if(!length(brains))
+		return
+	return brains[1]
+
+/mob/living/silicon/new_robot/proc/updatename(client/C)
+	if(get_shell())
+		return
+	if(!C)
+		C = client
+	var/changed_name = ""
+	if(custom_name)
+		changed_name = custom_name
+	if(changed_name == "" && C && C.prefs.read_character_preference(/datum/preference/name/cyborg) != DEFAULT_CYBORG_NAME)
+		if(apply_pref_name(/datum/preference/name/cyborg, C))
+			return //built in camera handled in proc
+	if(!changed_name)
+		changed_name = get_standard_name()
+	real_name = changed_name
+	name = real_name
+	if(!QDELETED(builtInCamera))
+		builtInCamera.c_tag = real_name	//update the camera name too
+
+//TODO: - Racc
+/mob/living/silicon/new_robot/proc/get_standard_name()
+	//return "[(designation ? "[designation] " : "")][mmi.braintype]-[ident]"
 
 /mob/living/silicon/new_robot/proc/lawsync()
 	return
