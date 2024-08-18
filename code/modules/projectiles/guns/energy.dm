@@ -149,7 +149,6 @@
 		return
 	if(use_cyborg_cell && !no_cyborg_drain)
 		if(iscyborg(loc))
-			//TODO: LOC wont be the cyborg - Racc
 			var/mob/living/silicon/new_robot/R = loc
 			var/obj/item/stock_parts/cell/user_cell = R?.get_cell()
 			if(user_cell)

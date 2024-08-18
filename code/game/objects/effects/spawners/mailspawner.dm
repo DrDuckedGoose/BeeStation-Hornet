@@ -173,8 +173,6 @@
 		/obj/item/anomaly_neutralizer,
 		/obj/item/shuttle_creator,
 		/obj/item/soap,
-		//TODO: - Racc
-		///obj/item/borg/upgrade/selfrepair,
 		/obj/item/borg/upgrade/speciality/botany,
 		/obj/item/borg/upgrade/item/defib,
 		/obj/item/taperecorder,)

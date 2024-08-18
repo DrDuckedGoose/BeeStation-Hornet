@@ -1,9 +1,8 @@
 /*
 	Sub-component for arms
-	blah blah blah
+	handles item holding
 */
 /datum/component/endopart/arm
-	//TODO: make this disable bot hands if not complete - Racc
 	name = "arm"
 	required_assembly = list(/datum/endo_assembly/item/wire)
 	///What are we currently holding, if anything
@@ -37,11 +36,11 @@
 /datum/component/endopart/arm/proc/catch_unarmed(datum/source, obj/item/item)
 	SIGNAL_HANDLER
 
-	//TODO: make sure you add some checkers here for typical item can_pickup stuff - Racc
 	if(holding)
 		return FALSE
 	holding = item
 	hand.vis_contents += holding
+	RegisterSignal(item, COMSIG_CLICK, PROC_REF(catch_click))
 	RegisterSignal(item, COMSIG_ITEM_DROPPED, PROC_REF(catch_dropped))
 	return TRUE
 
@@ -51,6 +50,7 @@
 	if(!holding)
 		return FALSE
 	UnregisterSignal(source, COMSIG_ITEM_DROPPED)
+	UnregisterSignal(source, COMSIG_CLICK)
 	hand.vis_contents -= holding
 	holding = null
 	return TRUE
@@ -62,3 +62,17 @@
 		to_chat(assembled_mob, "<span class='warning'>You can't seem to move [parent]!</span>")
 		return FALSE
 	return !(holding)
+
+/datum/component/endopart/arm/proc/select()
+	hand?.select()
+
+/datum/component/endopart/arm/proc/deselect()
+	hand?.deselect()
+
+/datum/component/endopart/arm/proc/catch_click(datum/source, location, control, params, mob/user)
+	SIGNAL_HANDLER
+
+	var/mob/living/silicon/new_robot/R = assembled_mob
+	if(!R || user != R)
+		return
+	R.set_hand_index(R.get_hand_index(parent))

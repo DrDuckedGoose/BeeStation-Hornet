@@ -1,8 +1,8 @@
-//TODO: This is a temp file. Rename it or consider moving these elsewhere - Racc
-//LOOK AT robot_modules.dm TO SEE WHATS LEFT TO PORT AND WHAT VARIABLES YOU LEFT OUT
+//TODO: Some of the service module upgrades are stinky, make them their own module, and add ones for science and such - racc
 
 /obj/item/new_robot_module/standard
 	name = "Standard"
+	module_icon = "nomod"
 	basic_items = list(
 		/obj/item/assembly/flash/cyborg,
 		/obj/item/reagent_containers/borghypo/epi,
@@ -32,6 +32,7 @@
 
 /obj/item/new_robot_module/medical
 	name = "Medical"
+	module_icon = "medical"
 	basic_items = list(
 		/obj/item/assembly/flash/cyborg,
 		/obj/item/healthanalyzer,
@@ -64,6 +65,7 @@
 
 /obj/item/new_robot_module/engineering
 	name = "Engineering"
+	module_icon = "engineer"
 	basic_items = list(
 		/obj/item/assembly/flash/cyborg,
 		/obj/item/borg/sight/meson,
@@ -102,6 +104,7 @@
 
 /obj/item/new_robot_module/deathsquad
 	name = "CentCom"
+	module_icon = "malf"
 	basic_items = list(
 		/obj/item/assembly/flash/cyborg,
 		/obj/item/restraints/handcuffs/cable/zipties,
@@ -118,6 +121,7 @@
 
 /obj/item/new_robot_module/security
 	name = "Security"
+	module_icon = "security"
 	basic_items = list(
 		/obj/item/assembly/flash/cyborg,
 		/obj/item/restraints/handcuffs/cable/zipties,
@@ -147,6 +151,7 @@
 
 /obj/item/new_robot_module/peacekeeper
 	name = "Peacekeeper"
+	module_icon = "nomod"
 	basic_items = list(
 		/obj/item/assembly/flash/cyborg,
 		/obj/item/cookiesynth,
@@ -168,6 +173,7 @@
 
 /obj/item/new_robot_module/janitor
 	name = JOB_NAME_JANITOR
+	module_icon = "janitor"
 	basic_items = list(
 		/obj/item/assembly/flash/cyborg,
 		/obj/item/screwdriver/cyborg,
@@ -205,6 +211,7 @@
 
 /obj/item/new_robot_module/clown
 	name = JOB_NAME_CLOWN
+	module_icon = "brobot"
 	basic_items = list(
 		/obj/item/assembly/flash/cyborg,
 		/obj/item/toy/crayon/rainbow,
@@ -235,6 +242,7 @@
 
 /obj/item/new_robot_module/borgi
 	name = "Borgi"
+	module_icon = "brobot"
 	basic_items = list(
 		/obj/item/assembly/flash/cyborg,
 		/obj/item/borg/charger,
@@ -242,6 +250,7 @@
 
 /obj/item/new_robot_module/butler
 	name = "Service"
+	module_icon = "service"
 	basic_items = list(
 		/obj/item/assembly/flash/cyborg,
 		/obj/item/reagent_containers/food/drinks/drinkingglass,
@@ -276,6 +285,7 @@
 
 /obj/item/new_robot_module/miner
 	name = "Miner"
+	module_icon = "miner"
 	basic_items = list(
 		/obj/item/assembly/flash/cyborg,
 		/obj/item/borg/sight/meson,
@@ -300,6 +310,7 @@
 
 /obj/item/new_robot_module/syndicate
 	name = "Syndicate Assault"
+	module_icon = "malf"
 	basic_items = list(
 		/obj/item/assembly/flash/cyborg,
 		/obj/item/melee/transforming/energy/sword/cyborg,
@@ -324,6 +335,7 @@
 
 /obj/item/new_robot_module/syndicate_medical
 	name = "Syndicate Medical"
+	module_icon = "malf"
 	basic_items = list(
 		/obj/item/assembly/flash/cyborg,
 		/obj/item/reagent_containers/borghypo/syndicate,
@@ -349,6 +361,7 @@
 
 /obj/item/new_robot_module/saboteur
 	name = "Syndicate Saboteur"
+	module_icon = "malf"
 	basic_items = list(
 		/obj/item/assembly/flash/cyborg,
 		/obj/item/borg/sight/thermal,

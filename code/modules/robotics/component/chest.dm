@@ -3,7 +3,6 @@
 	blah blah blah
 */
 /datum/component/endopart/chest
-	//TODO: idk, make this do something - Racc
 	name = "chest"
 	required_assembly = list(/datum/endo_assembly/item/cell, /datum/endo_assembly/item/item_module)
 	offset_key = ENDO_OFFSET_KEY_CHEST(1)
@@ -49,3 +48,7 @@
 	//If we got no juice, slow buddy down
 	//TODO: Add some cool indicators, or a hud handler proc - Racc
 	M.add_movespeed_modifier(/datum/movespeed_modifier/nopowercell)
+
+//Transform machine
+/datum/component/endopart/chest/transform_machine
+	required_assembly = list(/datum/endo_assembly/item/cell/transform_machine, /datum/endo_assembly/item/item_module)

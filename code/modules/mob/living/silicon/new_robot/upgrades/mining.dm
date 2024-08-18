@@ -7,31 +7,6 @@
 	module_flags = BORG_MODULE_MINER
 	upgrade_item = /obj/item/pickaxe/drill/cyborg/diamond
 
-/obj/item/borg/upgrade/item/ddrill/install(obj/item/new_robot_module/module, mob/living/silicon/new_robot/R, mob/user)
-	. = ..()
-	if(!.)
-		return
-	//TODO: Do we really need to remove these? - Racc
-	/*
-	for(var/obj/item/pickaxe/drill/cyborg/D in R.module)
-		module.remove_module(D, TRUE)
-	for(var/obj/item/shovel/S in R.module)
-		module.remove_module(S, TRUE)
-	*/
-
-/obj/item/borg/upgrade/item/ddrill/remove(obj/item/new_robot_module/module, mob/living/silicon/new_robot/R, mob/user)
-	. = ..()
-	if(!.)
-		return
-	/*
-	var/obj/item/pickaxe/drill/cyborg/D = new (R.module)
-	R.module.basic_modules += D
-	R.module.add_module(D, FALSE, TRUE)
-	var/obj/item/shovel/S = new (R.module)
-	R.module.basic_modules += S
-	R.module.add_module(S, FALSE, TRUE)
-	*/
-
 //Satchel of Holding
 /obj/item/borg/upgrade/item/soh
 	name = "mining cyborg satchel of holding"
@@ -66,7 +41,6 @@
 /obj/item/borg/upgrade/lavaproof/remove(obj/item/new_robot_module/module, mob/living/silicon/new_robot/R, mob/user)
 	. = ..()
 	if(.)
-		//TODO: Consider handling if they were immune before - Racc
 		R.weather_immunities -= "lava"
 
 /*
@@ -96,8 +70,8 @@
 	. = ..()
 	. += "<span class='notice'>Occupies <b>[cost]%</b> of mod capacity.</span>"
 
+//Allows borgs to install mods
 /obj/item/borg/upgrade/modkit/attackby(obj/item/A, mob/user)
-	//TODO: Do we want this? - Racc
 	if(istype(A, /obj/item/gun/energy/kinetic_accelerator) && !issilicon(user))
 		install(A, user)
 	else
@@ -152,7 +126,6 @@
 	forceMove(get_turf(KA))
 	KA.modkits -= src
 
-//TODO: Look over these, see if it's sane - Racc
 /obj/item/borg/upgrade/modkit/proc/modify_projectile(obj/projectile/kinetic/K)
 //use this one for effects you want to trigger before any damage is done at all and before damage is decreased by pressure
 /obj/item/borg/upgrade/modkit/proc/projectile_prehit(obj/projectile/kinetic/K, atom/target, obj/item/gun/energy/kinetic_accelerator/KA)
@@ -209,10 +182,9 @@
 //AoE blasts
 /obj/item/borg/upgrade/modkit/aoe
 	modifier = 0
-	//TODO: - Racc
-	///
+	///Do we have an area of effect
 	var/turf_aoe = FALSE
-	///
+	///I genuinely don't know or care what this does
 	var/stats_stolen = FALSE
 
 /obj/item/borg/upgrade/modkit/aoe/mount(obj/item/gun/energy/kinetic_accelerator/KA, mob/user)
@@ -300,8 +272,7 @@
 	icon_state = "modkit_crystal"
 	modifier = 2.5 //Not a very effective method of healing.
 	cost = 10
-	//TODO: - Racc
-	///
+	///Healing priority
 	var/static/list/damage_heal_order = list(BRUTE, BURN, OXY)
 
 /obj/item/borg/upgrade/modkit/lifesteal/projectile_prehit(obj/projectile/kinetic/K, atom/target, obj/item/gun/energy/kinetic_accelerator/KA)
@@ -336,10 +307,9 @@
 	maximum_of_type = 1
 	modifier = 1.25
 	cost = 30
-	//TODO: - Racc
-	///
+	///maximum reward
 	var/maximum_bounty = 25
-	///
+	///Rewards we've already acquired
 	var/list/bounties_reaped = list()
 
 /obj/item/borg/upgrade/modkit/bounty/projectile_prehit(obj/projectile/kinetic/K, atom/target, obj/item/gun/energy/kinetic_accelerator/KA)

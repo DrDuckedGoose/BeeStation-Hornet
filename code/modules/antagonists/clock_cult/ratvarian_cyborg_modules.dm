@@ -18,17 +18,14 @@
 	..()
 	if(!is_servant_of_ratvar(user))
 		return
-	var/mob/living/silicon/robot/R = user
+	var/mob/living/silicon/new_robot/R = user
 	if(!istype(R))
 		return
 	if(!scripture_datum)
 		return
-	//TODO: - Racc
-	//var/obj/item/clockwork/clockwork_slab/internal_slab = R.internal_clock_slab
-	//if(!internal_slab)
-	//	return
-	//TEMP: - Racc
-	var/obj/item/clockwork/clockwork_slab/internal_slab
+	var/obj/item/clockwork/clockwork_slab/internal_slab = R.internal_clock_slab
+	if(!internal_slab)
+		return
 	if(internal_slab.invoking_scripture)
 		to_chat(user, "<span class='brass'>You fail to invoke [name].</span>")
 		return FALSE

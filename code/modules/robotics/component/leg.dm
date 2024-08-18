@@ -3,7 +3,6 @@
 	blah blah blah
 */
 /datum/component/endopart/leg
-	//TODO: THis effects bots speed, especially when not fully assembled - Racc
 	name = "leg"
 	required_assembly = list(/datum/endo_assembly/item/wire)
 
@@ -20,8 +19,6 @@
 	if(istype(B))
 		ADD_TRAIT(B, TRAIT_PARALYSIS, src)
 		B.update_disabled()
-	//if(!iscarbon(target))
-		//TODO: Revisit this, I don't think it works with multiple broken legs - Racc
-		//TODO: Migrate this over to new_robot handling disabled limbs - Racc
-		//target.add_or_update_variable_movespeed_modifier(/datum/movespeed_modifier/limbless, multiplicative_slowdown = 6)
+	if(!iscarbon(target) && !iscyborg(target))
+		target.add_or_update_variable_movespeed_modifier(/datum/movespeed_modifier/limbless, multiplicative_slowdown = 6)
 

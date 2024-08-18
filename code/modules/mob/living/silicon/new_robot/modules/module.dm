@@ -35,6 +35,9 @@
 	///Ref to our papa, for convenicence
 	var/mob/living/silicon/new_robot/robot_parent //The assembly recipe sets this for us <3
 
+	///Which icon we're rocking with
+	var/module_icon = "nomod"
+
 /obj/item/new_robot_module/Initialize(mapload)
 	. = ..()
 	populate_module_items()

@@ -125,7 +125,6 @@
 		if(H.equip_to_slot_if_possible(src, ITEM_SLOT_HEAD, 0, 1, 1))
 			H.visible_message("<span class='notice'>[src] lands neatly on [H]'s head!</span>", "<span class='notice'>[src] lands perfectly onto your head!</span>")
 		return
-	//TODO: Implement this in the chassis? - Racc
 	if(iscyborg(hit_atom))
 		var/mob/living/silicon/new_robot/R = hit_atom
 		///hats in the borg's blacklist bounce off

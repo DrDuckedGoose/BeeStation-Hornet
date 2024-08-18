@@ -19,13 +19,6 @@
 	poll_path = /obj/item/organ/eyes
 	allow_poll = TRUE
 
-//Handles MMIs and Posibrains
-//TODO: Consider making a seperate thing for posibrains - Racc
-/datum/endo_assembly/item/mmi
-	item_requirment = /obj/item/mmi
-	poll_path = /obj/item/mmi
-	allow_poll = TRUE
-
 /datum/endo_assembly/item/access_module
 	item_requirment = /obj/item/access_module
 	poll_path = /obj/item/access_module
@@ -36,8 +29,22 @@
 	poll_path = /obj/item/stock_parts/cell
 	allow_poll = TRUE
 
+/datum/endo_assembly/item/cell/transform_machine
+	item_requirment = /obj/item/stock_parts/cell/upgraded/plus
+
+//Handles MMIs and Posibrains
+/datum/endo_assembly/item/mmi
+	item_requirment = /obj/item/mmi
+	poll_path = /obj/item/mmi
+	allow_poll = TRUE
+
+/datum/endo_assembly/item/mmi/pre_check_assemble(datum/source, obj/item/I)
+	var/datum/endo_assembly/item/ai_controller/ai_assembly = locate(/datum/endo_assembly/item/ai_controller) in part_parent.required_assembly
+	if(!ispath(ai_assembly) && (ai_assembly?.check_completion() & ENDO_ASSEMBLY_COMPLETE))
+		return
+	return ..()
+
 //Ai controller
-//TODO: Make this and the MMI assembly not work if the other is fufilled - Racc
 /datum/endo_assembly/item/ai_controller
 	item_requirment = /obj/item/food/bbqribs/ai_brain
 	poll_path = /obj/item/food/bbqribs/ai_brain
@@ -48,22 +55,29 @@
 	//TODO: Add case to remove assembly - Racc
 	RegisterSignal(part_parent.parent, COMSIG_ENDO_ASSEMBLE, PROC_REF(catch_assembly))
 
+/datum/endo_assembly/item/ai_controller/pre_check_assemble(datum/source, obj/item/I)
+	var/datum/endo_assembly/item/mmi/mmi_assembly = locate(/datum/endo_assembly/item/mmi) in part_parent.required_assembly
+	if(!ispath(mmi_assembly) && (mmi_assembly?.check_completion() & ENDO_ASSEMBLY_COMPLETE))
+		return
+	return ..()
+
 /datum/endo_assembly/item/ai_controller/proc/catch_assembly(datum/source, mob/M)
 	SIGNAL_HANDLER
 
 	if(!M || !length(parts))
 		return
 	var/mob/living/silicon/new_robot/R = M
-	if(!istype(R)) //The idea here is me tryng to both future proof, and cover my ass if someone manages to use this on non robots
-		R = null
-	M.name = "[R?.designation || M] ||  AI Shell [rand(100,999)]"
-	M.real_name = M.name
+	var/obj/item/food/bbqribs/ai_brain/ai_controller = parts[1]
+	if(!istype(R))
+		return
+	R.name = "[R.designation || M] ||  AI Shell [rand(100,999)]"
+	R.real_name = R.name
+	ai_controller.undeployment_action.Grant(R)
 	GLOB.available_ai_shells |= M
-	//TODO: Maybe make this an assembly thing - Racc
-	//if(!QDELETED(builtInCamera))
-	//	builtInCamera.c_tag = real_name	//update the camera name too
-	R?.diag_hud_set_aishell()
-	R?.notify_ai(AI_SHELL)
+	if(!QDELETED(R.builtInCamera))
+		R.builtInCamera.c_tag = R.real_name	//update the camera name too
+	R.diag_hud_set_aishell()
+	R.notify_ai(AI_SHELL)
 
 //Radio
 /datum/endo_assembly/item/radio
@@ -107,6 +121,11 @@
 	///Reference to our lamp hud stuff
 	var/atom/movable/screen/new_robot/lamp/lamp
 
+/datum/endo_assembly/item/lamp/add_part(datum/source, obj/item/I, mob/living/L)
+	. = ..()
+	if(.)
+		lamp_functional = TRUE
+
 /datum/endo_assembly/item/lamp/poll_hud(datum/source, datum/hud/hud)
 	. = ..()
 	if(!.)
@@ -146,6 +165,7 @@
 
 		var/obj/item/new_robot_module/item_module = parts[1]
 		item_module.module_hud = module
+		module.icon_state = item_module.module_icon
 	module.screen_loc = ui_borg_module
 	module.hud = hud
 	hud.static_inventory += module
@@ -160,8 +180,8 @@
 
 /datum/endo_assembly/item/item_module/remove_part(datum/source, obj/item/I)
 	. = ..()
-	var/obj/item/new_robot_module/module = I
-	module.remove_parent()
+	var/obj/item/new_robot_module/module = I || source
+	module?.remove_parent()
 
 /datum/endo_assembly/item/item_module/proc/add_module_parent(datum/source)
 	SIGNAL_HANDLER
@@ -178,7 +198,6 @@
 /datum/endo_assembly/item/item_module/proc/set_emagged(datum/source, new_state)
 	SIGNAL_HANDLER
 
-	//TODO: Add a handler for if the new_state is undoing the emag - Racc
 	for(var/obj/item/new_robot_module/module as() in parts)
 		if(new_state)
 			module.show_module_items(MODULE_ITEM_CATEGORY_EMAGGED)

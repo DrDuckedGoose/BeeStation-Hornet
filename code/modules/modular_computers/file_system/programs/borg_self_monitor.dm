@@ -46,33 +46,31 @@
 	if(cell)
 		charge = cell.charge
 		maxcharge = cell.maxcharge
-	/*
 	//TODO: - Racc
 	data["charge"] = charge //Current cell charge
 	data["maxcharge"] = maxcharge //Cell max charge
 	data["integrity"] = (borgo.health / borgo.maxHealth) * 100 //Borgo health, as percentage
-	data["lampIntensity"] = borgo.lamp_intensity //Borgo lamp power setting
+	//data["lampIntensity"] = borgo.lamp_intensity //Borgo lamp power setting
 	data["sensors"] = "[borgo.sensors_on?"ACTIVE":"DISABLED"]"
 	data["printerPictures"] = borgo.connected_ai ? length(borgo.connected_ai.aicamera?.stored) : length(borgo.aicamera?.stored) //Number of pictures taken, synced to AI if available
-	data["printerToner"] = borgo.toner //amount of toner
-	data["printerTonerMax"] = borgo.tonermax //It's a variable, might as well use it
-	data["thrustersInstalled"] = borgo.ionpulse //If we have a thruster uprade
-	data["thrustersStatus"] = "[borgo.ionpulse_on?"ACTIVE":"DISABLED"]" //Feedback for thruster status
-	data["selfDestructAble"] = (borgo.emagged || istype(borgo, /mob/living/silicon/robot/modules/syndicate))
-	*/
+	//data["printerToner"] = borgo.toner //amount of toner
+	//data["printerTonerMax"] = borgo.tonermax //It's a variable, might as well use it
+	//data["thrustersInstalled"] = borgo.ionpulse //If we have a thruster uprade
+	//data["thrustersStatus"] = "[borgo.ionpulse_on?"ACTIVE":"DISABLED"]" //Feedback for thruster status
+	//data["selfDestructAble"] = (borgo.emagged || istype(borgo, /mob/living/silicon/robot/modules/syndicate))
 
 	//Cover, TRUE for locked
 	data["cover"] = "[borgo.cover_open? "UNLOCKED":"LOCKED"]"
 	//Ability to move. FAULT if lockdown wire is cut, DISABLED if borg locked, ENABLED otherwise
 	data["locomotion"] = "[borgo.wires.is_cut(WIRE_LOCKDOWN)?"FAULT":"[borgo.locked?"DISABLED":"ENABLED"]"]"
-	//Module wire. FAULT if cut, NOMINAL otherwise
-	data["wireModule"] = "[borgo.wires.is_cut(WIRE_RESET_MODULE)?"FAULT":"NOMINAL"]"
 	//DEBUG -- Camera(net) wire. FAULT if cut (or no cameranet camera), DISABLED if pulse-disabled, NOMINAL otherwise
 	data["wireCamera"] = "[!borgo.builtInCamera || borgo.wires.is_cut(WIRE_CAMERA)?"FAULT":"[borgo.builtInCamera.can_use()?"NOMINAL":"DISABLED"]"]"
 	//AI wire. FAULT if wire is cut, CONNECTED if connected to AI, READY otherwise
 	data["wireAI"] = "[borgo.wires.is_cut(WIRE_AI)?"FAULT":"[borgo.connected_ai?"CONNECTED":"READY"]"]"
 	//Law sync wire. FAULT if cut, NOMINAL otherwise
 	data["wireLaw"] = "[borgo.wires.is_cut(WIRE_LAWSYNC)?"FAULT":"NOMINAL"]"
+	//TODO: - Racc
+	//data["borgUpgrades"] = borgo.upgrades
 
 	return data
 
@@ -84,8 +82,6 @@
 
 	data["Laws"] = borgo.laws.get_law_list(TRUE, TRUE, FALSE)
 	data["borgLog"] = tablet.borglog
-	//TODO: - Racc
-	//data["borgUpgrades"] = borgo.upgrades
 	return data
 
 /datum/computer_file/program/borg_self_monitor/ui_act(action, params)
@@ -132,14 +128,18 @@
 			var/obj/item/camera/siliconcam/robot_camera/borgcam = borgo.aicamera
 			borgcam?.borgprint(usr)
 
+		if("lampIntensity")
+			var/list/lamps = list()
+			SEND_SIGNAL(borgo.chassis, COMSIG_ENDO_LIST_PART, /datum/endo_assembly/item/lamp, lamps)
+			if(length(lamps))
+				var/datum/endo_assembly/item/lamp/lamp = lamps[1]
+				lamp.lamp_intensity = clamp(text2num(params["ref"]), 1, 5)
+				lamp.lamp.toggle_headlamp(borgo, FALSE, TRUE)
+
 		/*
 		//TODO: - Racc
 		if("toggleThrusters")
 			borgo.toggle_ionpulse()
-
-		if("lampIntensity")
-			borgo.lamp_intensity = clamp(text2num(params["ref"]), 1, 5)
-			borgo.toggle_headlamp(FALSE, TRUE)
 
 		if("selfDestruct")
 			if(borgo.stat || borgo.locked) //No detonation while stunned or locked down

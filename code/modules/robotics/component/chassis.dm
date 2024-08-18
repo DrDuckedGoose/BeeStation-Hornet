@@ -54,12 +54,19 @@
 	//Otherwise, build that robot
 	if(!do_after(L, 3 SECONDS, parent))
 		return
-	var/mob/living/new_mob = assembled_mob()
+	build_robot()
+
+/datum/component/endopart/chassis/proc/build_robot()
+	var/mob/living/new_mob = assemble_mob()
 	var/atom/movable/AM = parent
 	if(istype(AM))
 		AM.forceMove(new_mob) //Hide inside our new mob so we can be used again later
 	apply_assembly(src, new_mob) //TODO: make sure we don't need a way to undo this chassis assembly stuff - Racc
+	return new_mob
 
-/datum/component/endopart/chassis/proc/assembled_mob()
+/datum/component/endopart/chassis/proc/assemble_mob()
 	var/mob/living/L = new assembly_mob(get_turf(parent))
 	return L
+
+/datum/component/endopart/chassis/proc/can_wear(var/obj/item/clothing/head/hat)
+	return TRUE

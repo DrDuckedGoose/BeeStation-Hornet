@@ -68,17 +68,16 @@
 	if(requires_tech)
 		. = FALSE
 
-	/*
-	//TODO: - Racc
 	if(iscyborg(user))
-		var/mob/living/silicon/robot/R = user
-		var/obj/item/surgical_processor/SP = locate() in R.module.modules
-		if(!isnull(SP))
-			if(replaced_by in SP.advanced_surgeries)
+		var/mob/living/silicon/new_robot/R = user
+		var/list/modules = list()
+		SEND_SIGNAL(R.chassis, COMSIG_ENDO_LIST_PART, /obj/item/new_robot_module, modules)
+		for(var/obj/item/new_robot_module/module as() in modules)
+			var/obj/item/surgical_processor/SP = locate() in module.all_items
+			if(replaced_by in SP?.advanced_surgeries)
 				return FALSE
-			if(type in SP.advanced_surgeries)
+			if(type in SP?.advanced_surgeries)
 				return TRUE
-	*/
 	if(iscarbon(user))
 		var/mob/living/carbon/C = user
 		var/obj/item/organ/cyberimp/brain/linkedsurgery/IMP = C.getorganslot(ORGAN_SLOT_BRAIN_SURGICAL_IMPLANT )
@@ -158,16 +157,14 @@
 		if(!abductor_surgery_blacklist)
 			return TRUE
 	//Grants the user innate access to all surgeries except for certain blacklisted ones. Used by Abductors
-
-	/*
-	//TODO: - Racc
 	if(iscyborg(user))
-		var/mob/living/silicon/robot/R = user
-		var/obj/item/surgical_processor/SP = locate() in R.module.modules
-		if(!isnull(SP))
-			if(type in SP.advanced_surgeries)
+		var/mob/living/silicon/new_robot/R = user
+		var/list/modules = list()
+		SEND_SIGNAL(R.chassis, COMSIG_ENDO_LIST_PART, /obj/item/new_robot_module, modules)
+		for(var/obj/item/new_robot_module/module as() in modules)
+			var/obj/item/surgical_processor/SP = locate() in module.all_items
+			if(type in SP?.advanced_surgeries)
 				return TRUE
-	*/
 
 	if(iscarbon(user))
 		var/mob/living/carbon/C = user

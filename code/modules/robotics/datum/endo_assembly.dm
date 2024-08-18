@@ -45,6 +45,17 @@
 	if(SEND_SIGNAL(I, ENDO_ASSEMBLY_IN_USE))
 		return
 	return check_assembly(I)
+///Collect a part to satisfy our needs
+/datum/endo_assembly/proc/add_part(datum/source, obj/item/I, mob/living/L)
+	SIGNAL_HANDLER
+
+	if(!pre_check_assemble(source, I))
+		return
+	parts += I
+	modify_part(I, L)
+	RegisterSignal(I, ENDO_ASSEMBLY_IN_USE, PROC_REF(item_consumed))
+	RegisterSignal(I, COMSIG_PARENT_QDELETING, PROC_REF(remove_part))
+	return TRUE
 
 ///Throw your precheck removal logic here
 /datum/endo_assembly/proc/remove_part(datum/source, obj/item/I)
@@ -56,6 +67,7 @@
 		return
 	parts -= I
 	UnregisterSignal(I, ENDO_ASSEMBLY_IN_USE)
+	UnregisterSignal(I, COMSIG_PARENT_QDELETING)
 
 ///Check if a part matches our needs
 /datum/endo_assembly/proc/check_assembly(obj/item/I)
@@ -76,17 +88,6 @@
 		outcome |= ENDO_ASSEMBLY_NON_INTEGRAL
 	return outcome
 
-///Collect a part to satisfy our needs
-/datum/endo_assembly/proc/add_part(datum/source, obj/item/I, mob/living/L)
-	SIGNAL_HANDLER
-
-	if(!pre_check_assemble(source, I))
-		return
-	parts += I
-	modify_part(I, L)
-	RegisterSignal(I, ENDO_ASSEMBLY_IN_USE, PROC_REF(item_consumed))
-	return TRUE
-
 ///Used to modify stuff like cable coils, so we don't use whole stacks
 /datum/endo_assembly/proc/modify_part(obj/item/I, mob/living/L)
 	//Make sure no-one else is using this part already
@@ -102,13 +103,16 @@
 /datum/endo_assembly/proc/poll_part(datum/source, type, list/population_list)
 	SIGNAL_HANDLER
 
+	if(istype(src, type))
+		population_list += src
+		return
 	if(type != (poll_path) || !allow_poll) //TODO: Consider a better way of doing this - Racc
 		return
 	for(var/part as() in parts)
 		population_list += part
 
 //TODO: Remove hud stuff when the part/s are removed - Racc
-///TODO: Descript this - Racc
+///Add hud elements
 /datum/endo_assembly/proc/poll_hud(datum/source, datum/hud/hud)
 	SIGNAL_HANDLER
 
@@ -166,7 +170,7 @@
 
 /datum/endo_assembly/endopart/check_assembly(obj/item/I)
 	. = ..()
-	var/datum/component/endopart/part = I.GetComponent(/datum/component/endopart)
+	var/datum/component/endopart/part = I.GetComponent(component_requirment)
 	if(istype(part, component_requirment))
 		return TRUE
 

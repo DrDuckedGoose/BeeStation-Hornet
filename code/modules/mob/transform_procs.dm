@@ -519,20 +519,20 @@
 
 	qdel(src)
 
-//TODO: Update this to match new robot stuff - Racc
 /mob/living/carbon/human/proc/Robotize(delete_items = 0, transfer_after = TRUE)
 	if(pre_transform(delete_items))
 		return
 
-	var/mob/living/silicon/new_robot/R = new /mob/living/silicon/new_robot(loc)
+	var/obj/item/endopart/chassis/borg/transform_machine/chassis = new(loc)
+	var/datum/component/endopart/chassis/chassis_component = chassis.GetComponent(/datum/component/endopart/chassis)
+	var/mob/living/silicon/new_robot/R = chassis_component.build_robot()
 
 	R.job = JOB_NAME_CYBORG
 	R.gender = gender
 	R.invisibility = 0
 
-	//TODO: - Racc
-	//if(client)
-	//	R.updatename(client)
+	if(client)
+		R.updatename(client)
 
 	if(mind)//TODO //huh?
 		if(!transfer_after)
@@ -541,9 +541,9 @@
 	else if(transfer_after)
 		R.key = key
 
-	//TODO: - racc
-	//if(R.mmi)
-	//	R.mmi.transfer_identity(src)
+	var/obj/item/mmi/mmi = R.get_mmi()
+	if(mmi)
+		mmi.transfer_identity(src)
 
 	R.notify_ai(NEW_BORG)
 

@@ -15,7 +15,7 @@
 	bubble_icon = "robot"
 	designation = "Default" //used for displaying the prefix & getting the current module of cyborg
 	has_limbs = 1
-	hud_type = /datum/hud/new_robot //TODO: - Racc
+	hud_type = /datum/hud/new_robot
 	blocks_emissive = EMISSIVE_BLOCK_UNIQUE
 	light_system = MOVABLE_LIGHT
 	light_on = FALSE
@@ -25,7 +25,6 @@
 	///Is our cover open? Essentially passes inputs to our chassis if it is
 	var/cover_open = FALSE
 	///What's the ambient cell draw of the this robbit
-	//TODO: Consider moving this to the life() of endoparts - Racc
 	var/ambient_draw = 1
 	///The AI we're connected to, our master
 	var/mob/living/silicon/ai/connected_ai = null
@@ -45,9 +44,10 @@
 	var/emagged = FALSE
 	///Used for name changing and interfacing with robot name PREFS
 	var/custom_name = ""
-
-//TODO: Consider if this is the best approach, with trying to make it all modular - Racc
-//hand stuff
+	///Has this robbit been ratvar'd
+	var/ratvar = FALSE
+	///So this is a lil' stinky, but it's very convenient 'n I'm a big ol' lazy bastard who's incapable of being loved or giving love, lord help me. Bacon had this on the original robot.dm
+	var/obj/item/clockwork/clockwork_slab/internal_clock_slab = null
 	///List of our hands
 	var/list/available_hands = list()
 
@@ -57,6 +57,10 @@
 	spark_system = new /datum/effect_system/spark_spread()
 	spark_system.set_up(5, 0, src)
 	spark_system.attach(src)
+//wires
+	wires = new /datum/wires/robot(src)
+	AddElement(/datum/element/empprotection, EMP_PROTECT_WIRES)
+	RegisterSignal(src, COMSIG_PROCESS_BORGCHARGER_OCCUPANT, PROC_REF(charge))
 //Setup stuff from our chassis
 	if(_chassis)
 		chassis = _chassis
@@ -67,6 +71,8 @@
 	if(length(access_modules))
 		var/obj/item/access_module/AM = access_modules[1]
 		default_access_list = AM.get_access() //TODO: See if you can implement multiple access without this breaking - Racc
+		QDEL_NULL(internal_id_card)
+		create_access_card(default_access_list)
 	//Build hud
 	poll_hud()
 	//Grab radio
@@ -78,6 +84,7 @@
 	SEND_SIGNAL(chassis, COMSIG_ENDO_LIST_PART, /datum/component/endopart/arm, available_hands)
 	if(length(available_hands))
 		active_hand_index = 1
+	set_hand_index(active_hand_index)
 
 /mob/living/silicon/new_robot/Destroy()
 	. = ..()
@@ -177,7 +184,7 @@ if(module)
 //TODO: Consider implementing this in the chassis instead - Racc
 ///Helper to check if we're allowed to wear a particular hat, checks with the chassis
 /mob/living/silicon/new_robot/proc/can_wear(var/obj/item/clothing/head/hat)
-	return TRUE
+	return chassis_component.can_wear(hat)
 
 //TODO: Consider implementing this in the chassis instead - Racc
 /mob/living/silicon/new_robot/proc/can_dispose()
@@ -195,6 +202,15 @@ if(module)
 	/*
 	set_modularInterface_theme()
 	*/
+
+/mob/living/silicon/new_robot/proc/set_ratvar(new_state)
+	ratvar = new_state
+	if(ratvar)
+		internal_clock_slab = new(src)
+		throw_alert("ratvar", /atom/movable/screen/alert/ratvar)
+	else
+		qdel(internal_clock_slab)
+		clear_alert("ratvar")
 
 ///Easy way for getting our MMI, if we have one
 /mob/living/silicon/new_robot/proc/get_mmi(index = 1)
@@ -299,6 +315,17 @@ if(module)
 //TODO: - Racc
 /mob/living/silicon/new_robot/proc/get_standard_name()
 	//return "[(designation ? "[designation] " : "")][mmi.braintype]-[ident]"
+
+/mob/living/silicon/new_robot/proc/charge(datum/source, amount, repairs)
+	SIGNAL_HANDLER
+
+	respawn_consumable(amount * 0.00)
+	var/obj/item/stock_parts/cell/cell = get_cell()
+	if(cell)
+		cell.charge = min(cell.charge + amount, cell.maxcharge)
+	//TODO: I don't like this - Racc
+	if(repairs)
+		heal_bodypart_damage(repairs, repairs - 1)
 
 /mob/living/silicon/new_robot/proc/lawsync()
 	return

@@ -13,10 +13,10 @@
 	var/large_message_a = say_quote(message, list("robot big"))
 	var/message_a = say_quote(message, list("robot"))
 	var/mob/living/silicon/ai/true_ai_core
-	//TODO: - Racc
-	//if(iscyborg(src))  // this detects if a borg is AI shell, so that they can be loud always
-	//	var/mob/living/silicon/robot/ai_shell = src
-	//	true_ai_core = ai_shell.mainframe
+	if(iscyborg(src))  // this detects if a borg is AI shell, so that they can be loud always
+		var/mob/living/silicon/new_robot/ai_shell = src
+		var/obj/item/food/bbqribs/ai_brain/boris = ai_shell.get_shell()
+		true_ai_core = boris.mainframe
 	for(var/mob/M in GLOB.player_list)
 		if(M.binarycheck())
 			if(isAI(M))

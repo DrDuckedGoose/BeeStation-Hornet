@@ -170,16 +170,15 @@
 	if(issilicon(M)) // silicons should not drop internal parts since they are supposed to be unobtainable
 		for(var/obj/item/W in contents)
 			qdel(W)
-		/*
-		//TODO: Implement this - Racc
 		if(iscyborg(M))
-			var/mob/living/silicon/robot/Robot = M
-			if(Robot.deployed || Robot.mainframe)
-				Robot.undeploy() // disconnect any AI shells first
-			if(Robot.mmi)
-				qdel(Robot.mmi)
-			Robot.notify_ai(NEW_BORG)
-		*/
+			var/mob/living/silicon/new_robot/robot = M
+			var/obj/item/food/bbqribs/ai_brain/ai_controller = robot.get_shell()
+			if(ai_controller.deployed || ai_controller.mainframe)
+				ai_controller.undeploy() // disconnect any AI shells first
+			//TODO: - Racc
+			//if(robot.get_mmi())
+			//	qdel(Robot.mmi)
+			robot.notify_ai(NEW_BORG)
 	else
 		for(var/obj/item/W in contents)
 			if(!M.dropItemToGround(W))

@@ -1,4 +1,4 @@
-/datum/component/endopart/chassis/bot/assembled_mob()
+/datum/component/endopart/chassis/bot/assemble_mob()
 	. = ..()
 	/*
 		Typically you handle your special missing assembly behaviour in the component with apply_assembly(datum/source, mob/target),

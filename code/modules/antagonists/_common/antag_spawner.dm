@@ -185,21 +185,22 @@
 	name = "syndicate saboteur teleporter"
 	borg_to_spawn = "Saboteur"
 
-/*
-//TODO: Implement this - Racc
+
 /obj/item/antag_spawner/nuke_ops/borg_tele/spawn_antag(client/C, turf/T, kind, datum/mind/user)
-	var/mob/living/silicon/robot/R
 	var/datum/antagonist/nukeop/creator_op = user.has_antag_datum(/datum/antagonist/nukeop,TRUE)
 	if(!creator_op)
 		return
 
+	var/obj/item/endopart/chassis/borg/chassis
 	switch(borg_to_spawn)
 		if("Medical")
-			R = new /mob/living/silicon/robot/modules/syndicate/medical(T)
+			chassis = new /obj/item/endopart/chassis/borg/syndicate/medical(T)
 		if("Saboteur")
-			R = new /mob/living/silicon/robot/modules/syndicate/saboteur(T)
+			chassis = new /obj/item/endopart/chassis/borg/syndicate/saboteur(T)
 		else
-			R = new /mob/living/silicon/robot/modules/syndicate(T) //Assault borg by default
+			chassis = new /obj/item/endopart/chassis/borg/syndicate(T) //Assault borg by default
+	var/datum/component/endopart/chassis/chassis_component = chassis.GetComponent(/datum/component/endopart/chassis)
+	var/mob/living/silicon/new_robot/R = chassis_component.build_robot()
 
 	var/brainfirstname = pick(GLOB.first_names_male)
 	if(prob(50))
@@ -209,10 +210,11 @@
 		brainopslastname = creator_op.nuke_team.syndicate_name
 	var/brainopsname = "[brainfirstname] [brainopslastname]"
 
-	R.mmi.name = "[initial(R.mmi.name)]: [brainopsname]"
-	R.mmi.brain.name = "[brainopsname]'s brain"
-	R.mmi.brainmob.real_name = brainopsname
-	R.mmi.brainmob.name = brainopsname
+	var/obj/item/mmi/mmi = R.get_mmi()
+	mmi.name = "[initial(mmi.name)]: [brainopsname]"
+	mmi.brain.name = "[brainopsname]'s brain"
+	mmi.brainmob.real_name = brainopsname
+	mmi.brainmob.name = brainopsname
 	R.real_name = R.name
 
 	R.key = C.key
@@ -221,7 +223,6 @@
 	new_borg.send_to_spawnpoint = FALSE
 	R.mind.add_antag_datum(new_borg,creator_op.nuke_team)
 	R.mind.special_role = "Syndicate Cyborg"
-*/
 
 ///////////SLAUGHTER DEMON
 

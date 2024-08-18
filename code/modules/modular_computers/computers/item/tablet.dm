@@ -280,30 +280,47 @@
 //Makes the light settings reflect the borg's headlamp settings
 /obj/item/modular_computer/tablet/integrated/ui_data(mob/user)
 	. = ..()
-	if(iscyborg(borgo))
-		//TODO: - Racc
-		//var/mob/living/silicon/robot/robo = borgo
-		//.["light_on"] = robo.lamp_enabled
-		//.["comp_light_color"] = robo.lamp_color
-		.["has_light"] = TRUE
+	if(!iscyborg(borgo))
+		return
+	var/mob/living/silicon/new_robot/robo = borgo
+	var/list/lamps = list()
+	SEND_SIGNAL(robo.chassis, COMSIG_ENDO_LIST_PART, /datum/endo_assembly/item/lamp, lamps)
+	if(!length(lamps))
+		.["has_light"] = FALSE
+		return
+	//Im going to do a pro gamer move and assume we'll only ever have one lamp :clueless:
+	var/datum/endo_assembly/item/lamp/lamp = lamps[1]
+	.["light_on"] = lamp.lamp_enabled
+	.["comp_light_color"] = lamp.lamp_color
+	.["has_light"] = TRUE
 
 //Makes the flashlight button affect the borg rather than the tablet
 /obj/item/modular_computer/tablet/integrated/toggle_flashlight()
 	if(!borgo || QDELETED(borgo) || !iscyborg(borgo))
 		return FALSE
-	//TODO: - Racc
-	//var/mob/living/silicon/robot/robo = borgo
-	//robo.toggle_headlamp()
+	var/list/lamps = list()
+	var/mob/living/silicon/new_robot/robo = borgo
+	SEND_SIGNAL(robo.chassis, COMSIG_ENDO_LIST_PART, /datum/endo_assembly/item/lamp, lamps)
+	if(!length(lamps))
+		.["has_light"] = FALSE
+		return
+	var/datum/endo_assembly/item/lamp/lamp = lamps[1]
+	lamp.lamp.toggle_headlamp(robo)
 	return TRUE
 
 //Makes the flashlight color setting affect the borg rather than the tablet
 /obj/item/modular_computer/tablet/integrated/set_flashlight_color(color)
 	if(!borgo || QDELETED(borgo) || !color || !iscyborg(borgo))
 		return FALSE
-	//TODO: - Racc
-	//var/mob/living/silicon/robot/robo = borgo
-	//robo.lamp_color = color
-	//robo.toggle_headlamp(FALSE, TRUE)
+	var/list/lamps = list()
+	var/mob/living/silicon/new_robot/robo = borgo
+	SEND_SIGNAL(robo.chassis, COMSIG_ENDO_LIST_PART, /datum/endo_assembly/item/lamp, lamps)
+	if(!length(lamps))
+		.["has_light"] = FALSE
+		return
+	var/datum/endo_assembly/item/lamp/lamp = lamps[1]
+	lamp.lamp_color = color
+	lamp.lamp.toggle_headlamp(robo, FALSE, TRUE)
 	return TRUE
 
 /obj/item/modular_computer/tablet/integrated/alert_call(datum/computer_file/program/caller, alerttext, sound = 'sound/machines/twobeep_high.ogg')
@@ -328,10 +345,16 @@
 
 /obj/item/modular_computer/tablet/integrated/syndicate/Initialize()
 	. = ..()
-	//TODO: - Racc
-	//if(iscyborg(borgo))
-	//	var/mob/living/silicon/robot/robo = borgo
-	//	robo.lamp_color = COLOR_RED //Syndicate likes it red
+	if(!iscyborg(borgo))
+		return
+	var/list/lamps = list()
+	var/mob/living/silicon/new_robot/robo = borgo
+	SEND_SIGNAL(robo.chassis, COMSIG_ENDO_LIST_PART, /datum/endo_assembly/item/lamp, lamps)
+	if(!length(lamps))
+		.["has_light"] = FALSE
+		return
+	var/datum/endo_assembly/item/lamp/lamp = lamps[1]
+	lamp.lamp_color = COLOR_RED //Syndicate likes it red
 
 // Round start tablets
 

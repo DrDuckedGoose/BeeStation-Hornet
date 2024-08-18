@@ -60,3 +60,6 @@
 	poll_path = /datum/component/endopart/chest
 	allow_poll = TRUE
 	ideal_part_parent = /obj/item/bodypart/chest/robot/endopart
+
+/datum/endo_assembly/endopart/functional_limb/chest/transform_machine
+	component_requirment = /datum/component/endopart/chest/transform_machine

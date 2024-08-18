@@ -1,4 +1,3 @@
-//TODO: Go over and see what /obj/item/borg is about - Racc
 /obj/item/borg/upgrade
 	name = "borg upgrade module."
 	desc = "Protected by FRM."
@@ -71,7 +70,6 @@
 		return
 	forceMove(module)
 
-//TODO: Do we need to specify the robot mob? - Racc
 /obj/item/borg/upgrade/proc/remove(obj/item/new_robot_module/module, mob/living/silicon/new_robot/R, mob/user)
 	parent_module = null
 	return TRUE

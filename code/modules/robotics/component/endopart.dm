@@ -198,7 +198,7 @@
 		choices += list(hint_data["name"] = hint_data["image"])
 	if(!length(choices))
 		return
-	show_radial_menu(M, parent, choices, require_near = FALSE, tooltips = TRUE)
+	show_recipe_display_controller(M, parent, choices, require_near = FALSE, tooltips = TRUE)
 
 /datum/component/endopart/proc/build_assembly_overlay(atom/A)
 	//For endoparts that aren't limbs, wtf, you will need to overwrite this with your own code for getting the icon
@@ -234,13 +234,13 @@
 
 	return SEND_SIGNAL(src, COMSIG_ROBOT_CONSUME_ENERGY, amount)
 
-///TODO: Descript this - Racc
+///Part getter stuff
 /datum/component/endopart/proc/poll_part(datum/source, type, list/population_list)
 	SIGNAL_HANDLER
 
 	SEND_SIGNAL(src, COMSIG_ENDO_LIST_PART, type, population_list)
 
-///TODO: Descript this - Racc
+///Is this part complete
 /datum/component/endopart/proc/check_completion()
 	var/outcome = ENDO_ASSEMBLY_COMPLETE
 	for(var/datum/endo_assembly/assembly as() in required_assembly)
@@ -253,19 +253,19 @@
 			outcome |= ENDO_ASSEMBLY_INCOMPLETE
 	return outcome
 
-///TODO: Descript this - Racc
+///What we do in the life loop
 /datum/component/endopart/proc/poll_life(datum/source, mob/M)
 	SIGNAL_HANDLER
 
 	SEND_SIGNAL(src, COMSIG_ENDO_APPLY_LIFE, M)
 
-///TODO: Descript this - Racc
+///Add hud stuff associated with this part
 /datum/component/endopart/proc/poll_hud(datum/source, datum/hud/hud)
 	SIGNAL_HANDLER
 
 	SEND_SIGNAL(src, COMSIG_ENDO_APPLY_HUD, hud)
 
-///TODO: Descript this - Racc
+///You'll never guess what this does
 /datum/component/endopart/proc/set_emagged(datum/source, new_state)
 	SIGNAL_HANDLER
 

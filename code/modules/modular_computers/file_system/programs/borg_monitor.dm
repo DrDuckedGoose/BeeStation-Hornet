@@ -32,11 +32,6 @@
 		if(!evaluate_borg(R))
 			continue
 
-		//TODO: - Racc
-		//var/list/upgrade
-		//for(var/obj/item/borg/upgrade/I in R.upgrades)
-		//	upgrade += "\[[I.name]\] "
-
 		var/shell = FALSE
 		if(R.get_shell() && !R.ckey)
 			shell = TRUE
@@ -48,11 +43,20 @@
 			status = R.stat,
 			shell_discon = shell,
 			charge = cell ? round(cell.percent()) : null,
-			//TODO: - Racc
-			//module = R.module ? "[R.module.name] Module" : "No Module Detected",
-			//upgrades = upgrade,
+			module = "",
+			upgrades = "",
 			ref = REF(R)
 		)
+		//Modules
+		var/list/modules = list()
+		SEND_SIGNAL(R.chassis, COMSIG_ENDO_LIST_PART, /obj/item/new_robot_module, modules)
+		for(var/obj/item/new_robot_module/module as() in modules)
+			cyborg_data["module"] = "[module], [cyborg_data["module"]]"
+			for(var/obj/item/borg/upgrade/U in module.contents)
+				cyborg_data["upgrades"] = "[U], [cyborg_data["upgrades"]]"
+		if(!length(modules))
+			cyborg_data["module"] = "No Module Detected"
+
 		data["cyborgs"] += list(cyborg_data)
 	return data
 

@@ -537,17 +537,6 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 		return
 	attack_paw(A)
 
-/obj/item/attack_ai(mob/user)
-	if(istype(src.loc, /obj/item/robot_module))
-		//If the item is part of a cyborg module, equip it
-		if(!iscyborg(user))
-			return
-		var/mob/living/silicon/new_robot/R = user
-		if(R.powered) //can't equip modules with an empty cell.
-			//TODO: I don't think we need this anymore? - Racc
-			//R.activate_module(src)
-			R.hud_used.update_robot_modules_display()
-
 /obj/item/proc/GetDeconstructableContents()
 	return GetAllContents() - src
 

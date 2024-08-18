@@ -481,9 +481,8 @@
 	apply_pref_name(/datum/preference/name/ai, player_client) // This proc already checks if the player is appearance banned.
 	set_core_display_icon(null, player_client)
 
-/*
-//TODO: Implement this for new borgs - Racc
-/mob/living/silicon/robot/apply_prefs_job(client/player_client, datum/job/job)
+/mob/living/silicon/new_robot/apply_prefs_job(client/player_client, datum/job/job)
+	var/obj/item/mmi/mmi = get_mmi()
 	if(mmi)
 		var/organic_name
 		if(player_client.prefs.read_character_preference(/datum/preference/choiced/random_name) == RANDOM_ENABLED || CONFIG_GET(flag/force_random_names) || is_banned_from(player_client.ckey, "Appearance"))
@@ -507,4 +506,3 @@
 	// If this checks fails, then the name will have been handled during initialization.
 	if(player_client.prefs.read_character_preference(/datum/preference/name/cyborg) != DEFAULT_CYBORG_NAME)
 		apply_pref_name(/datum/preference/name/cyborg, player_client)
-*/

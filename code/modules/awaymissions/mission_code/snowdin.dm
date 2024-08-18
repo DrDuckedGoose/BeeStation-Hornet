@@ -519,9 +519,7 @@
 				/obj/item/grenade/clusterbuster/spawner_manhacks = 15,
 				/obj/item/book/granter/spell/fireball = 10,
 				/obj/item/pickaxe/drill/jackhammer = 30,
-				//TODO: Implement these - Racc
 				/obj/item/borg/upgrade/syndicate = 13)
-				///obj/item/borg/upgrade/selfrepair = 17)
 
 /obj/effect/spawner/lootdrop/snowdin/dungeonmisc
 	name = "dungeon misc"

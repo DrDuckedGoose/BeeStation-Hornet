@@ -93,8 +93,6 @@
 
 	use_power(5000) // Use a lot of power.
 	var/mob/living/silicon/new_robot/R = H.Robotize()
-	//TODO: - Racc
-	//R.cell = new /obj/item/stock_parts/cell/upgraded/plus(R, robot_cell_charge)
 
  	// So he can't jump out the gate right away.
 	R.set_locked()

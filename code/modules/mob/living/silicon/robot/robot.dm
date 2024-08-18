@@ -2,7 +2,7 @@
 	name = JOB_NAME_CYBORG
 	real_name = JOB_NAME_CYBORG
 	icon = 'icons/mob/robots.dmi'
-	icon_state = "" //TODO: - Racc
+	icon_state = ""
 	maxHealth = 200
 	health = 200
 	bubble_icon = "robot"
@@ -115,12 +115,10 @@
 /mob/living/silicon/robot_old/Initialize(mapload)
 	default_access_list = get_all_accesses()
 
-	//TODO: Add to new robot - Racc
 	spark_system = new /datum/effect_system/spark_spread()
 	spark_system.set_up(5, 0, src)
 	spark_system.attach(src)
 
-	//TODO: Add to new robot - Racc
 	wires = new /datum/wires/robot(src)
 	AddElement(/datum/element/empprotection, EMP_PROTECT_WIRES)
 	RegisterSignal(src, COMSIG_PROCESS_BORGCHARGER_OCCUPANT, PROC_REF(charge))
@@ -257,9 +255,9 @@
 	if(module.type != /obj/item/robot_module)
 		return
 
-	if(wires.is_cut(WIRE_RESET_MODULE))
-		to_chat(src,"<span class='userdanger'>ERROR: Module installer reply timeout. Please check internal connections.</span>")
-		return
+	//if(wires.is_cut(WIRE_RESET_MODULE))
+	//	to_chat(src,"<span class='userdanger'>ERROR: Module installer reply timeout. Please check internal connections.</span>")
+	//	return
 
 	var/list/modulelist = list("Standard" = /obj/item/robot_module/standard, \
 	"Engineering" = /obj/item/robot_module/engineering, \
@@ -1032,8 +1030,7 @@
 	module.transform_to(/obj/item/robot_module)
 
 	// Remove upgrades.
-	//TODO: - Racc
-	//for(var/obj/item/borg/upgrade/I in upgrades)
+	///for(var/obj/item/borg/upgrade/I in upgrades)
 	//	I.deactivate(src)
 	//	I.forceMove(get_turf(src))
 
@@ -1150,21 +1147,6 @@
 	//diag_hud_set_aishell()
 	undeployment_action.Grant(src)
 	wires.ui_update()
-
-/datum/action/innate/undeployment
-	name = "Disconnect from shell"
-	desc = "Stop controlling your shell and resume normal core operations."
-	icon_icon = 'icons/mob/actions/actions_AI.dmi'
-	button_icon_state = "ai_core"
-
-/datum/action/innate/undeployment/Trigger()
-	if(!..())
-		return FALSE
-	var/mob/living/silicon/robot_old/R = owner
-
-	R.undeploy()
-	return TRUE
-
 
 /mob/living/silicon/robot_old/proc/undeploy()
 

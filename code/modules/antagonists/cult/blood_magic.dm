@@ -593,18 +593,17 @@
 				new /obj/item/stack/sheet/runed_metal(T,quantity)
 				to_chat(user, "<span class='warning'>A dark cloud emanates from you hand and swirls around the plasteel, transforming it into runed metal!</span>")
 				SEND_SOUND(user, sound('sound/effects/magic.ogg',0,1,25))
-		/*
-		//TODO: Implement this - Racc
-		else if(istype(target,/mob/living/silicon/robot))
-			var/mob/living/silicon/robot/candidate = target
-			if(candidate.mmi || candidate.shell)
+		else if(istype(target,/mob/living/silicon/new_robot))
+			var/mob/living/silicon/new_robot/candidate = target
+			var/obj/item/food/bbqribs/ai_brain/ai_controller = candidate.get_shell()
+			if(candidate.get_mmi() || ai_controller)
 				channeling = TRUE
 				user.visible_message("<span class='danger'>A dark cloud emanates from [user]'s hand and swirls around [candidate]!</span>")
 				playsound(T, 'sound/machines/airlock_alien_prying.ogg', 80, 1)
 				var/prev_color = candidate.color
 				candidate.color = "black"
 				if(do_after(user, 90, target = candidate))
-					candidate.undeploy()
+					ai_controller?.undeploy()
 					candidate.emp_act(EMP_HEAVY)
 					var/construct_class = show_radial_menu(user, src, GLOB.construct_radial_images, custom_check = CALLBACK(src, PROC_REF(check_menu), user), require_near = TRUE, tooltips = TRUE)
 					if(!check_menu(user))
@@ -617,8 +616,9 @@
 					make_new_construct_from_class(construct_class, THEME_CULT, candidate, user, FALSE, T)
 					SEND_SOUND(user, sound('sound/effects/magic.ogg',0,1,25))
 					uses--
-					candidate.mmi = null
-					qdel(candidate)
+					//TODO: - Racc
+					//candidate.mmi = null
+					//qdel(candidate)
 					channeling = FALSE
 				else
 					channeling = FALSE
@@ -630,7 +630,6 @@
 				new /obj/structure/constructshell(T)
 				SEND_SOUND(user, sound('sound/effects/magic.ogg',0,1,25))
 				qdel(candidate)
-		*/
 		else if(istype(target,/obj/machinery/door/airlock))
 			channeling = TRUE
 			playsound(T, 'sound/machines/airlockforced.ogg', 50, 1)

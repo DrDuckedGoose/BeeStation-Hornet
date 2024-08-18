@@ -3,7 +3,6 @@
 	blah blah blah
 */
 /datum/component/endopart/head
-	//TODO: idk, make this do something - Racc
 	name = "head"
 	required_assembly = list(/datum/endo_assembly/item/eyes, /datum/endo_assembly/item/mmi,
 	/datum/endo_assembly/item/access_module, /datum/endo_assembly/item/radio, /datum/endo_assembly/item/lamp,

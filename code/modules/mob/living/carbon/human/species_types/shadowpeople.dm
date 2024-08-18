@@ -270,9 +270,11 @@
 
 /mob/living/silicon/new_robot/lighteater_act(obj/item/light_eater/light_eater, atom/parent)
 	..()
-	//TODO: - Racc
-	//if(lamp_enabled)
-	//	smash_headlamp()
+	var/list/lamps = list()
+	SEND_SIGNAL(chassis, COMSIG_ENDO_LIST_PART, /datum/endo_assembly/item/lamp, lamps)
+	for(var/datum/endo_assembly/item/lamp/L as() in lamps)
+		L.lamp_functional = FALSE
+		L.lamp.toggle_headlamp(src, TRUE)
 
 /obj/structure/bonfire/lighteater_act(obj/item/light_eater/light_eater, atom/parent)
 	if(burning)

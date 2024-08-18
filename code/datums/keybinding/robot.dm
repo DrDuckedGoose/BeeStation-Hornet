@@ -20,6 +20,7 @@
 	M.active_hand_index++
 	if(M.active_hand_index > length(M.available_hands))
 		M.active_hand_index = 1
+	M.set_hand_index(M.active_hand_index)
 	return TRUE
 
 /datum/keybinding/robot/change_intent_robot

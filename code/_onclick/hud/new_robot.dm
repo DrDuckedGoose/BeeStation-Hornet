@@ -123,14 +123,13 @@
 			M.client.screen += A
 		else
 			M.client.screen -= A
+		A.plane = ABOVE_HUD_PLANE
 		//Positioning
 		if(x < 0)
 			A.screen_loc = "CENTER[x]:16,SOUTH+[y]:7"
 		else
 			A.screen_loc = "CENTER+[x]:16,SOUTH+[y]:7"
-		A.plane = ABOVE_HUD_PLANE
-		//TODO: Revisit this code and make sure this is the best it can be, it looks stinky - Racc
-		x++
+		x++ //This is from the original robot code, mind you
 		if(x == 4)
 			x = -4
 			y++
@@ -138,7 +137,7 @@
 //Hands
 /atom/movable/screen/new_robot/hand
 	name = "module"
-	icon_state = "inv1"
+	icon_state = "blank"
 	///Reference to our arm part
 	var/obj/item/bodypart/arm
 
@@ -152,6 +151,10 @@
 		return
 	var/mob/living/silicon/new_robot/R = usr
 	if(istype(R))
-		R.active_hand_index = R.get_hand_index(arm)
-		//TODO: Selected visuals - Racc
+		R.set_hand_index(R.get_hand_index(arm))
 
+/atom/movable/screen/new_robot/hand/proc/select()
+	color = "#fff"
+
+/atom/movable/screen/new_robot/hand/proc/deselect()
+	color = "#ffffffae"

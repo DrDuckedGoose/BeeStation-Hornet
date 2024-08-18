@@ -7,9 +7,11 @@
 	if(!check_rights(R_ADMIN))
 		return
 
-	if (!istype(borgo, /mob/living/silicon/robot))
+	//If borgo isn't a borg, prompt user to pick one
+	if(!istype(borgo, /mob/living/silicon/new_robot))
 		borgo = input("Select a borg", "Select a borg", null, null) as null|anything in sort_names(GLOB.silicon_mobs)
-	if (!istype(borgo, /mob/living/silicon/robot))
+	//If the one they picked ALSO isn't a borg
+	if(!istype(borgo, /mob/living/silicon/new_robot))
 		to_chat(usr, "<span class='warning'>Borg is required for borgpanel</span>")
 
 	var/datum/borgpanel/borgpanel = new(usr, borgo)
@@ -50,24 +52,25 @@
 		"ref" = REF(borg),
 		"name" = "[borg]",
 		"emagged" = borg.emagged,
-		//TODO: - Racc
-		//"active_module" = "[borg.module.type]",
 		"lawupdate" = borg.laws_synced(),
 		"lockdown" = borg.locked,
 		"scrambledcodes" = borg.console_visible
 	)
+	//Modules
+	var/list/modules = list()
+	SEND_SIGNAL(borg.chassis, COMSIG_ENDO_LIST_PART, /obj/item/new_robot_module, modules)
+	for(var/obj/item/new_robot_module/module as() in modules)
+		.["active_module"] = "[module], [.["active_module"] ]"
+	//Upgrades
 	.["upgrades"] = list()
-	/*
-	//TODO: - Racc
-	for (var/upgradetype in subtypesof(/obj/item/borg/upgrade)-/obj/item/borg/upgrade/hypospray) //hypospray is a dummy parent for hypospray upgrades
+	for(var/upgradetype in subtypesof(/obj/item/borg/upgrade)-/obj/item/borg/upgrade/hypospray)
 		var/obj/item/borg/upgrade/upgrade = upgradetype
-		if (initial(upgrade.module_type) && !is_type_in_list(borg.module, initial(upgrade.module_type))) // Upgrade requires a different module
-			continue
 		var/installed = FALSE
-		if (locate(upgradetype) in borg)
-			installed = TRUE
+		for(var/obj/item/new_robot_module/module as() in modules)
+			if(locate(upgrade) in module.contents)
+				installed = TRUE
 		.["upgrades"] += list(list("name" = initial(upgrade.name), "installed" = installed, "type" = upgradetype))
-	*/
+	//Other lame shit
 	.["laws"] = borg.laws ? borg.laws.get_law_list(include_zeroth = TRUE) : list()
 	.["channels"] = list()
 	for (var/k in GLOB.radiochannels)

@@ -1,9 +1,6 @@
 #define STANDARD "standard" //repair module is operating in standard repair mode
 #define CRITICAL "critical" //repair module is operating in critical repair mode
 
-//TODO: Implement these - Racc
-
-
 // robot_upgrades.dm
 // Contains various borg upgrades.
 
@@ -328,7 +325,6 @@
 	if (.)
 		R.weather_immunities -= "lava"
 
-//TODO: I don't really like this, do we want it? - Racc
 /obj/item/borg/upgrade/selfrepair
 	name = "self-repair module"
 	desc = "This module will repair the cyborg over time."
@@ -571,13 +567,12 @@
 			R.notify_ai(AI_SHELL)
 
 
-//TODO: Why the fuck would you want this? - Racc
 /obj/item/borg/upgrade/expand
 	name = "borg expander"
 	desc = "A cyborg resizer, it makes a cyborg huge."
 	icon_state = "cyborg_upgrade3"
 
-/obj/item/borg/upgrade/expand/action(mob/living/silicon/new_robot/R, user = usr)
+s/action(mob/living/silicon/new_robot/R, user = usr)
 	. = ..()
 	if(.)
 

@@ -84,7 +84,7 @@
 	var/acceleration = 1
 
 	var/obj/structure/AIcore/deactivated/linked_core //For exosuit control
-	var/mob/living/silicon/robot/deployed_shell = null //For shell control
+	var/mob/living/silicon/new_robot/deployed_shell = null //For shell control
 	var/datum/action/innate/deploy_shell/deploy_action = new
 	var/datum/action/innate/deploy_last_shell/redeploy_action = new
 	var/chnotify = 0
@@ -974,11 +974,11 @@
 
 	var/list/possible = list()
 
-	//TODO: - Racc
-	//for(var/borgie in GLOB.available_ai_shells)
-		//var/mob/living/silicon/new_robot/R = borgie
-		//if(R.shell && !R.deployed && (R.stat != DEAD) && (!R.connected_ai ||(R.connected_ai == src)) || (R.ratvar && !is_servant_of_ratvar(src)))
-		//	possible += R
+	for(var/borgie in GLOB.available_ai_shells)
+		var/mob/living/silicon/new_robot/R = borgie
+		var/obj/item/food/bbqribs/ai_brain/ai_controller = R.get_shell()
+		if(ai_controller && !ai_controller.deployed && (R.stat != DEAD) && (!R.connected_ai ||(R.connected_ai == src)) || (R.ratvar && !is_servant_of_ratvar(src)))
+			possible += R
 
 	if(!LAZYLEN(possible))
 		to_chat(src, "No usable AI shell beacons detected.")
@@ -986,26 +986,24 @@
 	if(!target || !(target in possible)) //If the AI is looking for a new shell, or its pre-selected shell is no longer valid
 		target = input(src, "Which body to control?") as null|anything in sort_names(possible)
 
-	//TODO: - Racc
-	//if (!target || target.stat || target.deployed || !(!target.connected_ai ||(target.connected_ai == src)) || (target.ratvar && !is_servant_of_ratvar(src)))
-	//	return
+	var/obj/item/food/bbqribs/ai_brain/ai_controller = target.get_shell()
+	if (!target || target.stat || ai_controller?.deployed || !(!target.connected_ai ||(target.connected_ai == src)) || (target.ratvar && !is_servant_of_ratvar(src)))
+		return
 
 	if(target.is_jammed(JAMMER_PROTECTION_AI_SHELL))
 		to_chat(src, "<span class='warning robot'>Unable to establish communication link with target.</span>")
 		return
-	//TODO: - Racc
-	/*
+
 	else if(mind)
 		soullink(/datum/soullink/sharedbody, src, target)
 		deployed_shell = target
 		transfer_observers_to(deployed_shell) // ai core to borg shell
 		eyeobj.transfer_observers_to(deployed_shell) // eyemob to borg
 		if(is_servant_of_ratvar(src) && !deployed_shell.ratvar)
-			deployed_shell.SetRatvar(TRUE)
-		target.deploy_init(src)
+			deployed_shell.set_ratvar(TRUE)
+		ai_controller?.deploy_init(src)
 		mind.transfer_to(target)
 	diag_hud_set_deployed()
-	*/
 
 /datum/action/innate/deploy_shell
 	name = "Deploy to AI Shell"
@@ -1038,8 +1036,8 @@
 /mob/living/silicon/ai/proc/disconnect_shell()
 	if(deployed_shell) //Forcibly call back AI in event of things such as damage, EMP or power loss.
 		to_chat(src, "<span class='danger'>Your remote connection has been reset!</span>")
-		//TODO: - Racc
-		//deployed_shell.undeploy()
+		var/obj/item/food/bbqribs/ai_brain/ai_controller = deployed_shell.get_shell()
+		ai_controller?.undeploy()
 	diag_hud_set_deployed()
 
 /mob/living/silicon/ai/resist()

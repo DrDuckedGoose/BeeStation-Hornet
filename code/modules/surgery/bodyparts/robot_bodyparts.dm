@@ -153,32 +153,8 @@
 /obj/item/bodypart/chest/robot/Destroy()
 	QDEL_NULL(cell)
 	return ..()
-//TODO: - Racc
-/*
-/obj/item/bodypart/chest/robot/attackby(obj/item/W, mob/user, params)
-	if(istype(W, /obj/item/stock_parts/cell))
-		if(cell)
-			to_chat(user, "<span class='warning'>You have already inserted a cell!</span>")
-			return
-		else
-			if(!user.transferItemToLoc(W, src))
-				return
-			cell = W
-			to_chat(user, "<span class='notice'>You insert the cell.</span>")
-	else if(istype(W, /obj/item/stack/cable_coil))
-		if(wired)
-			to_chat(user, "<span class='warning'>You have already inserted wire!</span>")
-			return
-		var/obj/item/stack/cable_coil/coil = W
-		if (coil.use(1))
-			wired = TRUE
-			to_chat(user, "<span class='notice'>You insert the wire.</span>")
-		else
-			to_chat(user, "<span class='warning'>You need one length of coil to wire it!</span>")
-	else
-		return ..()
-	*/
 
+//TODO: Kill this - Racc
 /obj/item/bodypart/chest/robot/wirecutter_act(mob/living/user, obj/item/I)
 	if(!wired)
 		return

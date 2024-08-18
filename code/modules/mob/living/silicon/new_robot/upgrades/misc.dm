@@ -23,3 +23,24 @@
 		R.notify_ai(RENAME, oldname, R.real_name)
 	to_chat(user, "<span class='notice'>You install [src] onto [R], changing their name to [R].</span>")
 	log_game("[key_name(user)] have used a cyborg reclassification board to rename [oldkeyname] to [key_name(R)] at [loc_name(user)]")
+
+//Restart
+/obj/item/borg/upgrade/restart
+	name = "cyborg emergency reboot module"
+	desc = "Used to force a reboot of a disabled-but-repaired cyborg, bringing it back online."
+	icon_state = "cyborg_upgrade1"
+	one_use = TRUE
+
+/obj/item/borg/upgrade/restart/install(obj/item/new_robot_module/module, mob/living/silicon/new_robot/R, mob/user)
+	. = ..()
+	if(R.health < 0)
+		to_chat(user, "<span class='warning'>You have to repair the cyborg before using this module!</span>")
+		return FALSE
+
+	if(R.mind)
+		R.mind.grab_ghost()
+		playsound(loc, 'sound/voice/liveagain.ogg', 75, 1)
+
+	R.revive()
+	R.logevent("WARN -- System recovered from unexpected shutdown.")
+	R.logevent("System brought online.")

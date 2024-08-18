@@ -81,12 +81,16 @@
 			locked_down = R.locked,
 			status = R.stat,
 			charge = cell ? round(cell.percent()) : null,
-			//TODO: - Racc
-			//module = R.module ? "[R.module.name] Module" : "No Module Detected",
 			synchronization = R.connected_ai,
 			emagged =  R.emagged,
 			ref = REF(R)
 		)
+		var/list/modules = list()
+		SEND_SIGNAL(R.chassis, COMSIG_ENDO_LIST_PART, /obj/item/new_robot_module, modules)
+		for(var/obj/item/new_robot_module/module as() in modules)
+			cyborg_data["module"] = "[module], [cyborg_data["module"]]"
+		if(!length(modules))
+			cyborg_data["module"] = "No Module Detected"
 		data["cyborgs"] += list(cyborg_data)
 
 	data["drones"] = list()

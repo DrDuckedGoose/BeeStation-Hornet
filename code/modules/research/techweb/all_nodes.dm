@@ -906,11 +906,9 @@
 	prereq_ids = list("engineering")
 	design_ids = list(
 		"borg_upgrade_circuitapp",
-		"borg_upgrade_expand",
 		"borg_upgrade_holding",
 		"borg_upgrade_lavaproof",
 		"borg_upgrade_rped",
-		"borg_upgrade_selfrepair",
 		"borg_upgrade_thrusters",
 	)
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 2000)

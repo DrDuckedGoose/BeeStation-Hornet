@@ -78,25 +78,27 @@
 //TODO: Do we consider moving these to the actual AI brain item? - Racc
 	var/deployed = FALSE
 	var/mob/living/silicon/ai/mainframe = null
-	//TODO: - Racc
-	//var/datum/action/innate/undeployment/undeployment_action = new
+	var/datum/action/innate/undeployment/undeployment_action
+	///The robot we're controlling
+	var/mob/living/silicon/new_robot/robot
+
+/obj/item/food/bbqribs/ai_brain/Initialize(mapload)
+	. = ..()
+	undeployment_action = new(null, src)
 
 /obj/item/food/bbqribs/ai_brain/proc/undeploy()
-	return
-	//TODO: - Racc
-	/*
-	if(!deployed || !mind || !mainframe)
+	if(!deployed || !robot.mind || !mainframe)
 		return
 	mainframe.redeploy_action.Grant(mainframe)
 	mainframe.redeploy_action.last_used_shell = src
-	mind.transfer_to(mainframe)
+	robot.mind.transfer_to(mainframe)
 	deployed = FALSE
 	mainframe.deployed_shell = null
-	undeployment_action.Remove(src)
-	if(radio) //Return radio to normal
-		radio.recalculateChannels()
-	if(!QDELETED(builtInCamera))
-		builtInCamera.c_tag = real_name	//update the camera name too
+	undeployment_action.Remove(robot)
+	if(robot.radio) //Return radio to normal
+		robot.radio.recalculateChannels()
+	if(!QDELETED(robot.builtInCamera))
+		robot.builtInCamera.c_tag = robot.real_name	//update the camera name too
 	//diag_hud_set_aishell()
 	mainframe.diag_hud_set_deployed()
 	if(mainframe.laws)
@@ -107,4 +109,43 @@
 	transfer_observers_to(mainframe.eyeobj) // borg shell to eyemob
 	mainframe.transfer_observers_to(mainframe.eyeobj) // ai core to eyemob
 	mainframe = null
+
+/obj/item/food/bbqribs/ai_brain/proc/deploy_init(var/mob/living/silicon/ai/AI)
+	//TODO: - Racc
+	/*
+	real_name = "[AI.real_name] shell [rand(100, 999)] - [designation]"	//Randomizing the name so it shows up separately in the shells list
+	name = real_name
+	if(!QDELETED(builtInCamera))
+		builtInCamera.c_tag = real_name	//update the camera name too
+	mainframe = AI
+	deployed = TRUE
+	connected_ai = mainframe
+	mainframe.connected_robots |= src
+	lawupdate = TRUE
+	lawsync()
+	if(radio && AI.radio) //AI keeps all channels, including Syndie if it is a Traitor
+		if(AI.radio.syndie)
+			radio.make_syndie()
+		radio.subspace_transmission = TRUE
+		radio.channels = AI.radio.channels
+		for(var/chan in radio.channels)
+			radio.secure_radio_connections[chan] = add_radio(radio, GLOB.radiochannels[chan])
 	*/
+
+/datum/action/innate/undeployment
+	name = "Disconnect from shell"
+	desc = "Stop controlling your shell and resume normal core operations."
+	icon_icon = 'icons/mob/actions/actions_AI.dmi'
+	button_icon_state = "ai_core"
+	///Ref to the AI controller
+	var/obj/item/food/bbqribs/ai_brain/ai_controller
+
+/datum/action/innate/undeployment/New(Target, _ai_controller)
+	. = ..()
+	ai_controller = _ai_controller
+
+/datum/action/innate/undeployment/Trigger()
+	if(!..())
+		return FALSE
+	ai_controller.undeploy()
+	return TRUE
