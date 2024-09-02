@@ -46,13 +46,12 @@
 
 //Ai controller
 /datum/endo_assembly/item/ai_controller
-	item_requirment = /obj/item/food/bbqribs/ai_brain
-	poll_path = /obj/item/food/bbqribs/ai_brain
+	item_requirment = /obj/item/mmi/ai_brain
+	poll_path = /obj/item/mmi/ai_brain
 	allow_poll = TRUE
 
 /datum/endo_assembly/item/ai_controller/New(datum/parent)
 	. = ..()
-	//TODO: Add case to remove assembly - Racc
 	RegisterSignal(part_parent.parent, COMSIG_ENDO_ASSEMBLE, PROC_REF(catch_assembly))
 
 /datum/endo_assembly/item/ai_controller/pre_check_assemble(datum/source, obj/item/I)
@@ -61,13 +60,18 @@
 		return
 	return ..()
 
+/datum/endo_assembly/item/ai_controller/remove_part(datum/source, obj/item/I)
+	. = ..()
+	UnregisterSignal(part_parent.parent, COMSIG_ENDO_ASSEMBLE)
+	//TODO: Add logic to remove the AI stuff - Racc
+
 /datum/endo_assembly/item/ai_controller/proc/catch_assembly(datum/source, mob/M)
 	SIGNAL_HANDLER
 
 	if(!M || !length(parts))
 		return
 	var/mob/living/silicon/new_robot/R = M
-	var/obj/item/food/bbqribs/ai_brain/ai_controller = parts[1]
+	var/obj/item/mmi/ai_brain/ai_controller = parts[1]
 	if(!istype(R))
 		return
 	R.name = "[R.designation || M] ||  AI Shell [rand(100,999)]"
@@ -132,7 +136,7 @@
 		return
 	//Radio
 	if(!lamp)
-		lamp = new(null, src) //TODO: This looks for a robot lamp and runtimes, make it more modular - Racc
+		lamp = new(null, src)
 	lamp.screen_loc = ui_borg_lamp
 	lamp.hud = hud
 	hud.static_inventory += lamp
@@ -203,30 +207,3 @@
 			module.show_module_items(MODULE_ITEM_CATEGORY_EMAGGED)
 		else
 			module.hide_module_items(MODULE_ITEM_CATEGORY_EMAGGED)
-
-//TODO: Change this to an interaction - Racc
-//Hey fucko, you can't use more than two of these in a given component, because wire merges with itself inside locs, which breaks the system a lil
-/datum/endo_assembly/item/wire
-	item_requirment = /obj/item/stack/cable_coil
-	///How much cable do we use?
-	var/consumed_stacks = 1
-
-/datum/endo_assembly/item/wire/modify_part(obj/item/I, mob/living/L)
-	. = ..()
-	if(!.)
-		return
-	INVOKE_ASYNC(src, PROC_REF(async_modify), I, L)
-
-/datum/endo_assembly/item/wire/proc/async_modify(obj/item/I, mob/living/L)
-	var/obj/item/stack/cable_coil/C = I
-	if((istype(C) && C?.amount <= consumed_stacks))
-		return
-	//This is fine... I'm sure
-	var/obj/item/stack/cable_coil/new_cable = new(get_turf(L || I), C.amount-consumed_stacks, C.color)
-	L?.put_in_hands(new_cable)
-	if(start_finished)
-		qdel(new_cable)
-	C.amount = consumed_stacks
-	C.update_icon()
-
-/datum/endo_assembly/item/wire

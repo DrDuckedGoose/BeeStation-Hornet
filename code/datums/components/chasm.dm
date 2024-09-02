@@ -137,10 +137,6 @@
 		if(!AM || QDELETED(AM))
 			return
 
-		//if(iscyborg(AM))
-		//	var/mob/living/silicon/new_robot/R = AM
-			//TODO: make sure everything is deleted - Racc
-
 		falling_atoms -= falling_ref
 		qdel(AM)
 		if(AM && !QDELETED(AM))	//It's indestructible

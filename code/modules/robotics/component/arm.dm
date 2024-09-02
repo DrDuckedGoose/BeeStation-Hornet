@@ -4,13 +4,13 @@
 */
 /datum/component/endopart/arm
 	name = "arm"
-	required_assembly = list(/datum/endo_assembly/item/wire)
+	required_assembly = list(/datum/endo_assembly/item/interaction/wire)
 	///What are we currently holding, if anything
 	var/obj/holding
 	///Reference to our hand hud
 	var/atom/movable/screen/new_robot/hand/hand
 
-/datum/component/endopart/arm/Initialize(_offset_key = ENDO_OFFSET_KEY_ARM(1))
+/datum/component/endopart/arm/Initialize(_start_finished, _offset_key = ENDO_OFFSET_KEY_ARM(1))
 	. = ..()
 	offset_key = _offset_key
 	RegisterSignal(parent, COMSIG_ROBOT_PICKUP_ITEM, PROC_REF(catch_unarmed))

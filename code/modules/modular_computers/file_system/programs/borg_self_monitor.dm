@@ -30,6 +30,7 @@
 		return TRUE
 	return FALSE
 
+//TODO: Add signal list thing for endoparts and items to feed in their own data - Racc
 /datum/computer_file/program/borg_self_monitor/ui_data(mob/user)
 	var/list/data = list()
 	if(!iscyborg(user))
@@ -46,19 +47,13 @@
 	if(cell)
 		charge = cell.charge
 		maxcharge = cell.maxcharge
-	//TODO: - Racc
 	data["charge"] = charge //Current cell charge
 	data["maxcharge"] = maxcharge //Cell max charge
 	data["integrity"] = (borgo.health / borgo.maxHealth) * 100 //Borgo health, as percentage
-	//data["lampIntensity"] = borgo.lamp_intensity //Borgo lamp power setting
 	data["sensors"] = "[borgo.sensors_on?"ACTIVE":"DISABLED"]"
 	data["printerPictures"] = borgo.connected_ai ? length(borgo.connected_ai.aicamera?.stored) : length(borgo.aicamera?.stored) //Number of pictures taken, synced to AI if available
-	//data["printerToner"] = borgo.toner //amount of toner
-	//data["printerTonerMax"] = borgo.tonermax //It's a variable, might as well use it
-	//data["thrustersInstalled"] = borgo.ionpulse //If we have a thruster uprade
-	//data["thrustersStatus"] = "[borgo.ionpulse_on?"ACTIVE":"DISABLED"]" //Feedback for thruster status
-	//data["selfDestructAble"] = (borgo.emagged || istype(borgo, /mob/living/silicon/robot/modules/syndicate))
-	//data["cameraRadius"] = isnull(borgo.aicamera) ? 1 : borgo.aicamera.picture_size_x // picture_size_x and picture_size_y should always be the same.
+	data["selfDestructAble"] = (borgo.emagged || istype(borgo, /mob/living/silicon/new_robot/syndicate))
+	data["cameraRadius"] = isnull(borgo.aicamera) ? 1 : borgo.aicamera.picture_size_x // picture_size_x and picture_size_y should always be the same.
 	//Cover, TRUE for locked
 	data["cover"] = "[borgo.cover_open? "UNLOCKED":"LOCKED"]"
 	//Ability to move. FAULT if lockdown wire is cut, DISABLED if borg locked, ENABLED otherwise
@@ -69,8 +64,6 @@
 	data["wireAI"] = "[borgo.wires.is_cut(WIRE_AI)?"FAULT":"[borgo.connected_ai?"CONNECTED":"READY"]"]"
 	//Law sync wire. FAULT if cut, NOMINAL otherwise
 	data["wireLaw"] = "[borgo.wires.is_cut(WIRE_LAWSYNC)?"FAULT":"NOMINAL"]"
-	//TODO: - Racc
-	//data["borgUpgrades"] = borgo.upgrades
 
 	return data
 
@@ -136,15 +129,6 @@
 				lamp.lamp_intensity = clamp(text2num(params["ref"]), 1, 5)
 				lamp.lamp.toggle_headlamp(borgo, FALSE, TRUE)
 
-		/*
-		//TODO: - Racc
-		if("toggleThrusters")
-			borgo.toggle_ionpulse()
-
-		if("lampIntensity")
-			borgo.lamp_intensity = clamp(text2num(params["ref"]), 1, 5)
-			borgo.toggle_headlamp(FALSE, TRUE)
-
 		if("cameraRadius")
 			var/obj/item/camera/siliconcam/robot_camera/borgcam = borgo.aicamera
 			if(isnull(borgcam))
@@ -162,9 +146,8 @@
 		if("selfDestruct")
 			if(borgo.stat || borgo.locked) //No detonation while stunned or locked down
 				return
-			if(borgo.emagged || istype(borgo, /mob/living/silicon/robot/modules/syndicate)) //This option shouldn't even be showing otherwise
+			if(borgo.emagged || istype(borgo, /mob/living/silicon/new_robot/syndicate)) //This option shouldn't even be showing otherwise
 				borgo.self_destruct(borgo)
-		*/
 
 /**
   * Forces a full update of the UI, if currently open.

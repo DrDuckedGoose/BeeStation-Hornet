@@ -172,12 +172,10 @@
 			qdel(W)
 		if(iscyborg(M))
 			var/mob/living/silicon/new_robot/robot = M
-			var/obj/item/food/bbqribs/ai_brain/ai_controller = robot.get_shell()
+			var/obj/item/mmi/ai_brain/ai_controller = robot.get_shell()
 			if(ai_controller.deployed || ai_controller.mainframe)
 				ai_controller.undeploy() // disconnect any AI shells first
-			//TODO: - Racc
-			//if(robot.get_mmi())
-			//	qdel(Robot.mmi)
+			qdel(robot.get_mmi())
 			robot.notify_ai(NEW_BORG)
 	else
 		for(var/obj/item/W in contents)
@@ -192,29 +190,23 @@
 			new_mob = new /mob/living/carbon/monkey(M.loc)
 
 		if("robot")
-			//TODO: - Racc
-			//TEMP
-			var/robot = pick(/mob/living/simple_animal/drone/polymorphed, /mob/living/simple_animal/drone/polymorphed)
-				//TODO: - Racc
-				//200;/mob/living/silicon/robot,
-							///mob/living/silicon/robot/modules/syndicate,
-							///mob/living/silicon/robot/modules/syndicate/medical,
-							///mob/living/silicon/robot/modules/syndicate/saboteur,
-							//200;/mob/living/simple_animal/drone/polymorphed)
+			var/robot = pick(200;/mob/living/silicon/robot,
+							/mob/living/silicon/new_robot/syndicate,
+							/mob/living/silicon/new_robot/syndicate/medical,
+							/mob/living/silicon/new_robot/syndicate/saboteur,
+							200;/mob/living/simple_animal/drone/polymorphed)
 			new_mob = new robot(M.loc)
-			/*
-			//TODO: Implement this - Racc
 			if(issilicon(new_mob))
 				new_mob.gender = M.gender
 				new_mob.invisibility = 0
 				new_mob.job = JOB_NAME_CYBORG
 				var/mob/living/silicon/new_robot/Robot = new_mob
-				Robot.lawupdate = FALSE
+				Robot.toggle_law_sync(FALSE)
 				Robot.connected_ai = null
-				Robot.mmi.transfer_identity(M)	//Does not transfer key/client.
+				var/obj/item/mmi/mmi = Robot.get_mmi()
+				mmi.transfer_identity(M)	//Does not transfer key/client.
 				Robot.clear_inherent_laws(0)
 				Robot.clear_zeroth_law(0)
-			*/
 
 		if("slime")
 			new_mob = new /mob/living/simple_animal/slime/random(M.loc)

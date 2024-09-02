@@ -15,6 +15,7 @@ GLOBAL_LIST_EMPTY(recipe_display_controllers)
 	appearance_flags = APPEARANCE_UI_IGNORE_ALPHA
 	plane = ABOVE_HUD_PLANE
 	var/atom/movable/screen/recipe_display_controller/parent
+	pixel_y = 32
 
 /atom/movable/screen/recipe_display/Destroy()
 	if(parent)
@@ -79,6 +80,7 @@ GLOBAL_LIST_EMPTY(recipe_display_controllers)
 	var/client/current_user
 	var/atom/anchor
 	var/image/menu_holder
+	var/finished = FALSE
 	var/next_check = 0
 	var/check_delay = DEFAULT_CHECK_DELAY
 
@@ -151,9 +153,6 @@ GLOBAL_LIST_EMPTY(recipe_display_controllers)
 			HideElement(E)
 		else
 			SetElement(E,page_choices[i],anim = anim,anim_order = i)
-	//Close button position
-	//var/px = (length(elements)+0.5) * 32
-	//close_button.pixel_x = px
 
 /atom/movable/screen/recipe_display_controller/proc/HideElement(atom/movable/screen/recipe_display/slice/E)
 	E.cut_overlays()
@@ -165,7 +164,7 @@ GLOBAL_LIST_EMPTY(recipe_display_controllers)
 
 /atom/movable/screen/recipe_display_controller/proc/SetElement(atom/movable/screen/recipe_display/slice/E, choice_id, anim, anim_order)
 //Position
-	var/px = (anim_order - (length(elements)/2)) * 32
+	var/px = (anim_order - (length(choices)/(length(choices) > 1 ? 2 : 1))) * 32
 	if(anim)
 		var/timing = anim_order * 0.5
 		var/matrix/starting = matrix()
@@ -182,6 +181,14 @@ GLOBAL_LIST_EMPTY(recipe_display_controllers)
 	E.mouse_opacity = MOUSE_OPACITY_ICON
 	E.cut_overlays()
 	E.vis_contents.Cut()
+	//Overlays for start and finish
+	var/icon/wing_icon
+	if(anim_order == 1)
+		wing_icon = icon('icons/obj/robotics/endo.dmi', "start")
+		E.add_overlay(wing_icon)
+	if(anim_order == length(choices))
+		wing_icon = icon('icons/obj/robotics/endo.dmi', "finish")
+		E.add_overlay(wing_icon)
 	//If this slice is just used as a 'next-page' button
 	if(choice_id == NEXT_PAGE_ID)
 		E.name = "Next Page"
@@ -270,7 +277,7 @@ GLOBAL_LIST_EMPTY(recipe_display_controllers)
 		current_user.images -= menu_holder
 
 /atom/movable/screen/recipe_display_controller/proc/wait(atom/user, atom/anchor, require_near = FALSE)
-	while (current_user)
+	while(current_user && !finished)
 		if(require_near && !in_range(anchor, user))
 			return
 		if(next_check < world.time)

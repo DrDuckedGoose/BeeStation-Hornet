@@ -31,6 +31,7 @@
 
 //Syndicate
 /obj/item/endopart/chassis/borg/syndicate
+	endo_component = /datum/component/endopart/chassis/borg/transform_machine
 
 /obj/item/endopart/chassis/borg/syndicate/medical
 

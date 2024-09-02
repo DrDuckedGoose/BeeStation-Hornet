@@ -11,8 +11,11 @@
 #define COMSIG_ENDO_APPLY_LIFE "endo_apply_life"
 #define COMSIG_ENDO_APPLY_OFFSET "endo_apply_offset"
 #define COMSIG_ENDO_APPLY_HUD "endo_apply_hud"
+#define COMSIG_ENDO_REMOVE_HUD "endo_remove_hud"
 
 #define COMSIG_ENDO_LIST_PART "endo_list_part_type"
+
+#define COMSIG_ENDO_REMOVE_PART "endo_remove_part"
 
 /*
 	Assembly, crafting step stuff

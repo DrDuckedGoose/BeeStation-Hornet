@@ -375,7 +375,7 @@
 //borg-AI shell tracking
 /mob/living/silicon/new_robot/proc/diag_hud_set_aishell() //Shows tracking beacons on the mech
 	var/image/holder = hud_list[DIAG_TRACK_HUD]
-	var/obj/item/food/bbqribs/ai_brain/shell = get_shell()
+	var/obj/item/mmi/ai_brain/shell = get_shell()
 	var/icon/I = icon(icon, icon_state, dir)
 	holder.pixel_y = I.Height() - world.icon_size
 	if(!shell) //Not an AI shell

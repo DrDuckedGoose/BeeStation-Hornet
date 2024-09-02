@@ -25,6 +25,6 @@
 	if(.)
 		return
 	var/mob/living/silicon/new_robot/our_shell = user.mob
-	var/obj/item/food/bbqribs/ai_brain/shell = our_shell.get_shell()
+	var/obj/item/mmi/ai_brain/shell = our_shell.get_shell()
 	shell?.undeploy()
 	return TRUE

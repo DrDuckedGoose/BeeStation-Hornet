@@ -45,13 +45,12 @@
 /obj/item/camera/siliconcam/robot_camera
 	name = "Cyborg photo camera"
 	var/printcost = 2
-///Toner stuff
+///Toner stuff for cyborg uses and refills
 	var/toner = 0
 	var/tonermax = 40
 
 /obj/item/camera/siliconcam/robot_camera/Initialize(mapload)
 	. = ..()
-	//TODO: Add stuff to refill this, look at the original robot.dm - Racc
 	toner = tonermax
 
 /obj/item/camera/siliconcam/robot_camera/after_picture(mob/user, datum/picture/picture, proximity_flag)
@@ -68,15 +67,12 @@
 		to_chat(usr, "<span class='unconscious'>Image recorded and saved to local storage. Upload will happen automatically if unit is lawsynced.</span>")
 
 /obj/item/camera/siliconcam/robot_camera/selectpicture(mob/user, title = "Select Photo", button_text = "Select")
-	//TODO: - Racc
-	/*
 	var/mob/living/silicon/new_robot/R = loc
 	if(istype(R) && R.connected_ai)
 		R.picturesync()
 		return R.connected_ai.aicamera.selectpicture(user, title, button_text)
 	else
 		return ..()
-	*/
 
 /obj/item/camera/siliconcam/robot_camera/proc/borgprint(mob/user)
 	var/mob/living/silicon/new_robot/C = loc

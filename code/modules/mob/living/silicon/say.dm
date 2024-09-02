@@ -15,7 +15,7 @@
 	var/mob/living/silicon/ai/true_ai_core
 	if(iscyborg(src))  // this detects if a borg is AI shell, so that they can be loud always
 		var/mob/living/silicon/new_robot/ai_shell = src
-		var/obj/item/food/bbqribs/ai_brain/boris = ai_shell.get_shell()
+		var/obj/item/mmi/ai_brain/boris = ai_shell.get_shell()
 		true_ai_core = boris.mainframe
 	for(var/mob/M in GLOB.player_list)
 		if(M.binarycheck())

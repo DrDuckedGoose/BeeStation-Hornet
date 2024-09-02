@@ -333,10 +333,10 @@ structure_check() searches for nearby cultist structures required for the invoca
 			return FALSE
 		sacrificial.grab_ghost()
 		make_new_construct_from_class(construct_class, THEME_CULT, sacrificial, first_invoker, TRUE, get_turf(src))
-		//TODO: Add a proc to make the robbit dump it's mmi or sum - Racc
-		//var/mob/living/silicon/robot/sacriborg = sacrificial
-		//sacriborg.mmi = null
-		//qdel(sacrificial)
+		var/mob/living/silicon/new_robot/sacriborg = sacrificial
+		var/obj/item/mmi/mmi = sacriborg.get_mmi()
+		SEND_SIGNAL(mmi, COMSIG_ENDO_REMOVE_PART)
+		qdel(sacrificial)
 		return TRUE
 
 	var/obj/item/soulstone/stone = new /obj/item/soulstone(get_turf(src))

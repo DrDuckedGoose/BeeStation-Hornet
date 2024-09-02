@@ -975,7 +975,7 @@
 
 	for(var/borgie in GLOB.available_ai_shells)
 		var/mob/living/silicon/new_robot/R = borgie
-		var/obj/item/food/bbqribs/ai_brain/ai_controller = R.get_shell()
+		var/obj/item/mmi/ai_brain/ai_controller = R.get_shell()
 		if(ai_controller && !ai_controller.deployed && (R.stat != DEAD) && (!R.connected_ai ||(R.connected_ai == src)) || (R.ratvar && !is_servant_of_ratvar(src)))
 			possible += R
 
@@ -985,7 +985,7 @@
 	if(!target || !(target in possible)) //If the AI is looking for a new shell, or its pre-selected shell is no longer valid
 		target = input(src, "Which body to control?") as null|anything in sort_names(possible)
 
-	var/obj/item/food/bbqribs/ai_brain/ai_controller = target.get_shell()
+	var/obj/item/mmi/ai_brain/ai_controller = target.get_shell()
 	if (!target || target.stat || ai_controller?.deployed || !(!target.connected_ai ||(target.connected_ai == src)) || (target.ratvar && !is_servant_of_ratvar(src)))
 		return
 
@@ -1035,7 +1035,7 @@
 /mob/living/silicon/ai/proc/disconnect_shell()
 	if(deployed_shell) //Forcibly call back AI in event of things such as damage, EMP or power loss.
 		to_chat(src, "<span class='danger'>Your remote connection has been reset!</span>")
-		var/obj/item/food/bbqribs/ai_brain/ai_controller = deployed_shell.get_shell()
+		var/obj/item/mmi/ai_brain/ai_controller = deployed_shell.get_shell()
 		ai_controller?.undeploy()
 	diag_hud_set_deployed()
 

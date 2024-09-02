@@ -84,7 +84,7 @@
 		/datum/reagent/water,
 	)
 
-//Based
+//Gamble core
 /obj/item/borg/upgrade/speciality/casino
 	name = "Gambler Speciality"
 	desc = "It's not crew harm if they do it themselves!"
@@ -94,7 +94,7 @@
 		/obj/item/toy/cards/deck/cyborg,
 	)
 
-//Ditto
+//Party Party Party
 /obj/item/borg/upgrade/speciality/party
 	name = "Party Speciality"
 	desc = "The night's still young..."

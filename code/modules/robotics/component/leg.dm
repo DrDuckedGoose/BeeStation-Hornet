@@ -4,9 +4,9 @@
 */
 /datum/component/endopart/leg
 	name = "leg"
-	required_assembly = list(/datum/endo_assembly/item/wire)
+	required_assembly = list(/datum/endo_assembly/item/interaction/wire)
 
-/datum/component/endopart/leg/Initialize(_offset_key = ENDO_OFFSET_KEY_LEG(1))
+/datum/component/endopart/leg/Initialize(_start_finished, _offset_key = ENDO_OFFSET_KEY_LEG(1))
 	. = ..()
 	offset_key = _offset_key
 

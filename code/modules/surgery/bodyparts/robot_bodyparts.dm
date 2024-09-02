@@ -158,51 +158,6 @@
 	QDEL_NULL(cell)
 	return ..()
 
-//TODO: Kill this - Racc
-/obj/item/bodypart/chest/robot/wirecutter_act(mob/living/user, obj/item/I)
-	if(!wired)
-		return
-	. = TRUE
-	I.play_tool_sound(src)
-	to_chat(user, "<span class='notice'>You cut the wires out of [src].</span>")
-	new /obj/item/stack/cable_coil(drop_location(), 1)
-	wired = FALSE
-
-/obj/item/bodypart/chest/robot/screwdriver_act(mob/living/user, obj/item/I)
-	..()
-	. = TRUE
-	if(!cell)
-		to_chat(user, "<span class='warning'>There's no power cell installed in [src]!</span>")
-		return
-	I.play_tool_sound(src)
-	to_chat(user, "<span class='notice'>Remove [cell] from [src].</span>")
-	cell.forceMove(drop_location())
-	cell = null
-
-
-/obj/item/bodypart/chest/robot/examine(mob/user)
-	. = ..()
-	if(cell)
-		. += "It has a [cell] inserted.\n"+\
-		"<span class='info'>You can use a <b>screwdriver</b> to remove [cell].</span>"
-	else
-		. += "<span class='info'>It has an empty port for a <b>power cell</b>.</span>"
-	if(wired)
-		. += "Its all wired up[cell ? " and ready for usage" : ""].\n"+\
-		"<span class='info'>You can use <b>wirecutters</b> to remove the wiring.</span>"
-	else
-		. += "<span class='info'>It has a couple spots that still need to be <b>wired</b>.</span>"
-
-/obj/item/bodypart/chest/robot/drop_organs(mob/user, violent_removal)
-	if(wired)
-		new /obj/item/stack/cable_coil(drop_location(), 1)
-		wired = FALSE
-	if(cell)
-		cell.forceMove(drop_location())
-		cell = null
-	..()
-
-
 /obj/item/bodypart/head/robot
 	name = "cyborg head"
 	desc = "A standard reinforced braincase, with spine-plugged neural socket and sensor gimbals."
@@ -243,67 +198,6 @@
 	QDEL_NULL(flash1)
 	QDEL_NULL(flash2)
 	return ..()
-
-/obj/item/bodypart/head/robot/examine(mob/user)
-	. = ..()
-	if(!flash1 && !flash2)
-		. += "<span class='info'>It has two empty eye sockets for <b>flashes</b>.</span>"
-	else
-		var/single_flash = FALSE
-		if(!flash1 || !flash2)
-			single_flash = TRUE
-			. += "One of its eye sockets is currently occupied by a flash.\n"+\
-			"<span class='info'>It has an empty eye socket for another <b>flash</b>.</span>"
-		else
-			. += "It has two eye sockets occupied by flashes."
-		. += "<span class='notice'>You can remove the seated flash[single_flash ? "":"es"] with a <b>crowbar</b>.</span>"
-
-/obj/item/bodypart/head/robot/attackby(obj/item/W, mob/user, params)
-	if(istype(W, /obj/item/assembly/flash/handheld))
-		var/obj/item/assembly/flash/handheld/F = W
-		if(flash1 && flash2)
-			to_chat(user, "<span class='warning'>You have already inserted the eyes!</span>")
-			return
-		else if(F.burnt_out || !F.bulb)
-			to_chat(user, "<span class='warning'>You need a functional flash!</span>")
-			return
-		else
-			if(!user.transferItemToLoc(F, src))
-				return
-			if(flash1)
-				flash2 = F
-			else
-				flash1 = F
-			to_chat(user, "<span class='notice'>You insert the flash into the eye socket.</span>")
-			return
-	return ..()
-
-/obj/item/bodypart/head/robot/crowbar_act(mob/living/user, obj/item/I)
-	if(flash1 || flash2)
-		I.play_tool_sound(src)
-		to_chat(user, "<span class='notice'>You remove the flash from [src].</span>")
-		if(flash1)
-			flash1.forceMove(drop_location())
-			flash1 = null
-		if(flash2)
-			flash2.forceMove(drop_location())
-			flash2 = null
-	else
-		to_chat(user, "<span class='warning'>There is no flash to remove from [src].</span>")
-	return TRUE
-
-
-/obj/item/bodypart/head/robot/drop_organs(mob/user, violent_removal)
-	if(flash1)
-		flash1.forceMove(user.loc)
-		flash1 = null
-	if(flash2)
-		flash2.forceMove(user.loc)
-		flash2 = null
-	..()
-
-
-
 
 /obj/item/bodypart/l_arm/robot/surplus
 	name = "surplus prosthetic left arm"

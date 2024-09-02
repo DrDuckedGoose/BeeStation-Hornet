@@ -1,3 +1,4 @@
+//TODO: After other TODOs, port the other files in this folder and any other procs in here we need - Racc
 /mob/living/silicon/robot_old
 	name = JOB_NAME_CYBORG
 	real_name = JOB_NAME_CYBORG
@@ -160,11 +161,11 @@
 	add_sensors()
 
 	//If this body is meant to be a borg controlled by the AI player
-	if(shell)
-		make_shell()
+	//if(shell)
+		//make_shell()
 
 	//MMI stuff. Held togheter by magic. ~Miauw
-	else if(!mmi || !mmi.brainmob)
+	if(!mmi || !mmi.brainmob)//else if(!mmi || !mmi.brainmob)
 		mmi = new (src)
 		mmi.brain = new /obj/item/organ/brain(mmi)
 		mmi.brain.organ_flags |= ORGAN_FROZEN
@@ -1044,7 +1045,7 @@
 
 	speed = 0
 	ionpulse = FALSE
-	revert_shell()
+	//revert_shell()
 
 	return 1
 
@@ -1097,39 +1098,6 @@
 	update_icons()
 	. = ..()
 
-/mob/living/silicon/robot_old/proc/make_shell()//var/obj/item/borg/upgrade/ai/board)
-	//TODO: - Racc
-	/*
-	if(!board)
-		upgrades |= new /obj/item/borg/upgrade/ai(src)
-	shell = TRUE
-	braintype = "AI Shell"
-	name = "[designation] AI Shell [rand(100,999)]"
-	real_name = name
-	GLOB.available_ai_shells |= src
-	if(!QDELETED(builtInCamera))
-		builtInCamera.c_tag = real_name	//update the camera name too
-	diag_hud_set_aishell()
-	notify_ai(AI_SHELL)
-	*/
-
-/mob/living/silicon/robot_old/proc/revert_shell()
-	//TODO: - Racc
-	/*
-	if(!shell)
-		return
-	undeploy()
-	for(var/obj/item/borg/upgrade/ai/boris in src)
-	//A player forced reset of a borg would drop the module before this is called, so this is for catching edge cases
-		qdel(boris)
-	shell = FALSE
-	GLOB.available_ai_shells -= src
-	name = "Unformatted Cyborg [rand(100,999)]"
-	real_name = name
-	if(!QDELETED(builtInCamera))
-		builtInCamera.c_tag = real_name
-	diag_hud_set_aishell()
-	*/
 
 /mob/living/silicon/robot_old/proc/deploy_init(var/mob/living/silicon/ai/AI)
 	real_name = "[AI.real_name] shell [rand(100, 999)] - [designation]"	//Randomizing the name so it shows up separately in the shells list
@@ -1188,7 +1156,6 @@
 	shell = TRUE
 	cell = null
 
-//TODO: Port this - Racc
 /mob/living/silicon/robot_old/mouse_buckle_handling(mob/living/M, mob/living/user)
 	//Don't try buckling on INTENT_HARM so that silicons can search people's inventories without loading them
 	if(can_buckle && istype(M) && !(M in buckled_mobs) && ((user!=src)||(a_intent != INTENT_HARM)))

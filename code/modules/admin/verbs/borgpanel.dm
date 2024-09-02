@@ -1,4 +1,3 @@
-//TODO: Rewrite this to be compatible with new borg stuff - Racc
 /datum/admins/proc/open_borgopanel(borgo in GLOB.silicon_mobs)
 	set category = "Admin"
 	set name = "Show Borg Panel"
@@ -158,24 +157,6 @@
 			message_admins("[key_name_admin(user)] renamed [ADMIN_LOOKUPFLW(borg)] to [new_name].")
 			log_admin("[key_name(user)] renamed [key_name(borg)] to [new_name].")
 			borg.fully_replace_character_name(borg.real_name,new_name)
-		/*
-		//TODO: - Racc
-		if ("toggle_upgrade")
-			var/upgradepath = text2path(params["upgrade"])
-			var/obj/item/borg/upgrade/installedupgrade = locate(upgradepath) in borg
-			if (installedupgrade)
-				installedupgrade.deactivate(borg, user)
-				borg.upgrades -= installedupgrade
-				message_admins("[key_name_admin(user)] removed the [installedupgrade] upgrade from [ADMIN_LOOKUPFLW(borg)].")
-				log_admin("[key_name(user)] removed the [installedupgrade] upgrade from [key_name(borg)].")
-				qdel(installedupgrade)
-			else
-				var/obj/item/borg/upgrade/upgrade = new upgradepath(borg)
-				upgrade.action(borg, user)
-				borg.upgrades += upgrade
-				message_admins("[key_name_admin(user)] added the [upgrade] borg upgrade to [ADMIN_LOOKUPFLW(borg)].")
-				log_admin("[key_name(user)] added the [upgrade] borg upgrade to [key_name(borg)].")
-		*/
 		if ("toggle_radio")
 			var/channel = params["channel"]
 			if (channel in borg.radio.channels) // We're removing a channel
@@ -204,18 +185,9 @@
 				message_admins("[key_name_admin(user)] added the [channel] radio channel to [ADMIN_LOOKUPFLW(borg)].")
 				log_admin("[key_name(user)] added the [channel] radio channel to [key_name(borg)].")
 			borg.radio.recalculateChannels()
-		/*
-		TODO: - Racc
-		if ("setmodule")
-			var/newmodulepath = text2path(params["module"])
-			if (ispath(newmodulepath))
-				borg.module.transform_to(newmodulepath)
-				message_admins("[key_name_admin(user)] changed the module of [ADMIN_LOOKUPFLW(borg)] to [newmodulepath].")
-				log_admin("[key_name(user)] changed the module of [key_name(borg)] to [newmodulepath].")
-		*/
 		if ("slavetoai")
 			var/mob/living/silicon/ai/newai = locate(params["slavetoai"]) in GLOB.ai_list
-			var/obj/item/food/bbqribs/ai_brain/shell = borg.get_shell()
+			var/obj/item/mmi/ai_brain/shell = borg.get_shell()
 			if (newai && newai != borg.connected_ai)
 				borg.notify_ai(DISCONNECT)
 				if(shell)

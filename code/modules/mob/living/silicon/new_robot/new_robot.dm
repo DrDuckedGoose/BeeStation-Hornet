@@ -10,7 +10,7 @@
 	real_name = JOB_NAME_CYBORG
 	icon = 'icons/obj/robotics/endo.dmi'
 	base_icon_state  = "robot"
-	maxHealth = 200 //TODO: This will be effected by endo parts - Racc
+	maxHealth = 200
 	health = 200
 	bubble_icon = "robot"
 	designation = "Default" //used for displaying the prefix & getting the current module of cyborg
@@ -22,6 +22,7 @@
 	///Reference to the chassis we're built from, used for *most* 'things'
 	var/obj/item/endopart/chassis/borg/chassis
 	var/datum/component/endopart/chassis/chassis_component //Shortcut for getting things straight from the component
+	var/preset_chassis = /obj/item/endopart/chassis/borg/transform_machine
 	///Is our cover open? Essentially passes inputs to our chassis if it is
 	var/cover_open = FALSE
 	///What's the ambient cell draw of the this robbit
@@ -50,6 +51,9 @@
 	var/obj/item/clockwork/clockwork_slab/internal_clock_slab = null
 	///List of our hands
 	var/list/available_hands = list()
+	///What access is needed to modify this robot
+	var/list/req_access = list(ACCESS_ROBOTICS)
+	//TODO: Add variants that are already shells / already have a MMI & brain - Racc
 
 /mob/living/silicon/new_robot/Initialize(mapload, obj/item/endopart/chassis/borg/_chassis)
 	. = ..()
@@ -62,19 +66,22 @@
 	AddElement(/datum/element/empprotection, EMP_PROTECT_WIRES)
 	RegisterSignal(src, COMSIG_PROCESS_BORGCHARGER_OCCUPANT, PROC_REF(charge))
 //Setup stuff from our chassis
-	if(_chassis)
-		chassis = _chassis
-		chassis_component = chassis.GetComponent(/datum/component/endopart/chassis)
+	if(!_chassis)
+		_chassis = new preset_chassis(get_turf(src))
+	chassis = _chassis
+	chassis_component = chassis.GetComponent(/datum/component/endopart/chassis)
+	if(!chassis_component.assembled_mob)
+		chassis_component.build_robot(src)
 	//Build access
 	var/list/access_modules = list()
 	SEND_SIGNAL(chassis, COMSIG_ENDO_LIST_PART, /obj/item/access_module, access_modules)
+	for(var/obj/item/access_module/AM as() in access_modules)
+		default_access_list += AM.get_access()
 	if(length(access_modules))
-		var/obj/item/access_module/AM = access_modules[1]
-		default_access_list = AM.get_access() //TODO: See if you can implement multiple access without this breaking - Racc
 		QDEL_NULL(internal_id_card)
 		create_access_card(default_access_list)
 	//Build hud
-	poll_hud()
+	SEND_SIGNAL(chassis, COMSIG_ENDO_APPLY_HUD, hud_used)
 	//Grab radio
 	var/list/radios = list()
 	SEND_SIGNAL(chassis, COMSIG_ENDO_LIST_PART, /obj/item/radio, radios)
@@ -98,7 +105,7 @@
 	if(cover_open)
 		chassis?.attackby(I, user, params)
 	//THEN see if we're opening our cover or not
-	if(istype(I, /obj/item/card)) //TODO: Set this up properly, to be an emag or robo ID - Racc
+	if(istype(I, /obj/item/card) && allowed(user))
 		to_chat(user, "<span class='warning'>You [!cover_open ? "open" : "close"] [src]'s cover!</span>")
 		cover_open = !cover_open
 		return
@@ -147,7 +154,7 @@ if(module)
 
 /mob/living/silicon/new_robot/create_mob_hud()
 	. = ..()
-	poll_hud()
+	SEND_SIGNAL(chassis, COMSIG_ENDO_APPLY_HUD, hud_used)
 
 /mob/living/silicon/new_robot/fully_replace_character_name(oldname, newname)
 	..()
@@ -168,12 +175,78 @@ if(module)
 		wires.ui_update()
 		. = 1 //Should this be TRUE? The parent proc also sets it to 1.
 
+/mob/living/silicon/new_robot/mouse_buckle_handling(mob/living/M, mob/living/user)
+	//Don't try buckling on INTENT_HARM so that silicons can search people's inventories without loading them
+	if(can_buckle && istype(M) && !(M in buckled_mobs) && ((user!=src)||(a_intent != INTENT_HARM)))
+		return user_buckle_mob(M, user, check_loc = FALSE)
+
+/mob/living/silicon/new_robot/buckle_mob(mob/living/M, force = FALSE, check_loc = TRUE)
+//Personal checks
+	if(stat || incapacitated())
+		return
+//Chassis checks
+	if(!chassis_component.can_ride(M))
+		M.visible_message("<span class='warning'>[M] really can't seem to mount [src]...</span>")
+		return
+//Riding component checks
+	var/datum/component/riding/riding_datum = LoadComponent(/datum/component/riding/cyborg)
+	if(has_buckled_mobs())
+		if(buckled_mobs.len >= max_buckled_mobs)
+			return
+		if(M in buckled_mobs)
+			return
+	if(iscarbon(M) && (!riding_datum.equip_buckle_inhands(M, 1)))
+		if(M.usable_hands == 0)
+			M.visible_message("<span class='boldwarning'>[M] can't climb onto [src] because [M.p_they()] don't have any usable arms!</span>")
+		else
+			M.visible_message("<span class='boldwarning'>[M] can't climb onto [src] because [M.p_their()] hands are full!</span>")
+		return
+	. = ..(M, force, check_loc)
+
+/mob/living/silicon/new_robot/unbuckle_mob(mob/user, force=FALSE)
+	if(iscarbon(user))
+		var/datum/component/riding/riding_datum = GetComponent(/datum/component/riding)
+		if(istype(riding_datum))
+			riding_datum.unequip_buckle_inhands(user)
+			riding_datum.restore_position(user)
+	. = ..(user)
+
+/mob/living/silicon/new_robot/proc/allowed(mob/M)
+	//check if it doesn't require any access at all
+	if(check_access(null))
+		return TRUE
+	if(ishuman(M))
+		var/mob/living/carbon/human/H = M
+		//if they are holding or wearing a card that has access, that works
+		if(check_access(H.get_active_held_item()) || check_access(H.wear_id))
+			return TRUE
+	else if(ismonkey(M))
+		var/mob/living/carbon/monkey/george = M
+		//they can only hold things :(
+		if(isitem(george.get_active_held_item()))
+			return check_access(george.get_active_held_item())
+	return FALSE
+
+/mob/living/silicon/new_robot/proc/check_access(obj/item/card/id/I)
+	if(!istype(req_access, /list)) //something's very wrong
+		return 1
+
+	var/list/L = req_access
+	if(!L.len) //no requirements
+		return 1
+
+	if(!istype(I, /obj/item/card/id) && isitem(I))
+		I = I.GetID()
+
+	if(!I || !length(I.access)) //not ID or no access
+		return 0
+	for(var/req in req_access)
+		if(!(req in I.access))
+			return 0 //doesn't have this access
+	return 1
+
 /mob/living/silicon/new_robot/proc/consume_energy(amount)
 	return SEND_SIGNAL(chassis, COMSIG_ROBOT_CONSUME_ENERGY, amount)
-
-//TODO: This is probably temporary - Racc
-/mob/living/silicon/new_robot/proc/poll_hud()
-	SEND_SIGNAL(chassis, COMSIG_ENDO_APPLY_HUD, hud_used)
 
 ///Returns wether this borg is free or not
 /mob/living/silicon/new_robot/proc/is_free()
@@ -181,14 +254,12 @@ if(module)
 	//Must not be connected to an AI, emagged, scrambled, or a shell
 	return TRUE
 
-//TODO: Consider implementing this in the chassis instead - Racc
 ///Helper to check if we're allowed to wear a particular hat, checks with the chassis
 /mob/living/silicon/new_robot/proc/can_wear(var/obj/item/clothing/head/hat)
 	return chassis_component.can_wear(hat)
 
-//TODO: Consider implementing this in the chassis instead - Racc
 /mob/living/silicon/new_robot/proc/can_dispose()
-	return TRUE
+	return chassis_component.can_dispose
 
 ///Change our emagged state
 /mob/living/silicon/new_robot/proc/set_emagged(new_state)
@@ -213,21 +284,38 @@ if(module)
 		clear_alert("ratvar")
 
 ///Easy way for getting our MMI, if we have one
-/mob/living/silicon/new_robot/proc/get_mmi(index = 1)
-	//TODO: Revisit this, particularly how we decide which MMI to return - Racc
+/mob/living/silicon/new_robot/proc/get_mmi(index = 1) //I added an index option just incase in the far future we actually want TWO mmis
 	var/list/mmi = list()
 	SEND_SIGNAL(chassis, COMSIG_ENDO_LIST_PART, /obj/item/mmi, mmi)
 	if(!length(mmi))
 		return FALSE
 	return mmi[min(index, length(mmi))]
 
-///TODO: Implement this - Racc
 /mob/living/silicon/new_robot/proc/self_destruct()
-	return
+	var/turf/groundzero = get_turf(src)
+	message_admins("<span class='notice'>[ADMIN_LOOKUPFLW(usr)] detonated [key_name_admin(src, client)] at [ADMIN_VERBOSEJMP(groundzero)]!</span>")
+	log_game("\<span class='notice'>[key_name(usr)] detonated [key_name(src)]!</span>")
+	log_combat(usr, src, "detonated cyborg", "cyborg_detonation")
+	if(connected_ai)
+		to_chat(connected_ai, "<br><br><span class='alert'>ALERT - Cyborg detonation detected: [name]</span><br>")
+	if(emagged)
+		explosion(src.loc,1,2,4,flame_range = 2)
+	else
+		explosion(src.loc,-1,0,2)
+	investigate_log("has self-destructed.", INVESTIGATE_DEATHS)
+	gib()
 
-///TODO: Implement this - Racc
 /mob/living/silicon/new_robot/proc/set_locked(state = TRUE)
-	return
+	if(locked == state)
+		return
+	. = locked
+	locked = state
+	if(locked)
+		if(!.)
+			ADD_TRAIT(src, TRAIT_IMMOBILIZED, LOCKED_BORG_TRAIT)
+	else if(.)
+		REMOVE_TRAIT(src, TRAIT_IMMOBILIZED, LOCKED_BORG_TRAIT)
+	logevent("System lockdown [locked?"triggered":"released"].")
 
 //Helper to respawn the consumables for our modules
 /mob/living/silicon/new_robot/proc/respawn_consumable(coeff = 1)
@@ -243,21 +331,18 @@ if(module)
 		last_flashed = world.time
 		return TRUE
 
-///TODO: Implement this - Racc
+///TODO: Implement this fully - Racc
 /mob/living/silicon/new_robot/proc/TryConnectToAI()
-	return
-	/*
 	connected_ai = select_active_ai_with_fewest_borgs()
 	if(connected_ai)
 		connected_ai.connected_robots += src
 		lawsync()
-		lawupdate = TRUE
+		//lawupdate = TRUE
 		wires.ui_update()
 		return TRUE
-	picturesync()
+	//picturesync()
 	wires.ui_update()
 	return FALSE
-	*/
 
 ///Helper to check if our head, if we have one, has its laws set to be synced
 /mob/living/silicon/new_robot/proc/laws_synced()
@@ -269,7 +354,6 @@ if(module)
 	//TODO: If no mode provided, just toggle, thing = !thing - Racc
 	return TRUE
 
-//TODO: Go over this - Racc
 /mob/living/silicon/new_robot/proc/notify_ai(notifytype, oldname, newname)
 	if(!connected_ai)
 		return
@@ -289,7 +373,7 @@ if(module)
 /mob/living/silicon/new_robot/proc/get_shell()
 	//You should only ever have one boris module, but you can never be too sure
 	var/list/brains = list()
-	SEND_SIGNAL(chassis, COMSIG_ENDO_LIST_PART, /obj/item/food/bbqribs/ai_brain, brains)
+	SEND_SIGNAL(chassis, COMSIG_ENDO_LIST_PART, /obj/item/mmi/ai_brain, brains)
 	if(!length(brains))
 		return
 	return brains[1]
@@ -377,3 +461,12 @@ if(module)
 
 	picturesync()
 	*/
+
+
+/mob/living/silicon/new_robot/proc/picturesync()
+	if(!connected_ai || !connected_ai.aicamera || !aicamera)
+		return
+	for(var/i in aicamera.stored)
+		connected_ai.aicamera.stored[i] = TRUE
+	for(var/i in connected_ai.aicamera.stored)
+		aicamera.stored[i] = TRUE

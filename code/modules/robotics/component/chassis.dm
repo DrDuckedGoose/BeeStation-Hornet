@@ -10,10 +10,12 @@
 	var/can_ride = FALSE
 	var/can_ride_incapacitated = TRUE
 	var/list/ride_offset = list(0, 0)
+	var/static/list/can_ride_typecache = typecacheof(/mob/living/carbon/human)
 	//Can this chassis be pushed, shoved?
 	var/can_be_pushed = FALSE
 	//Can this chassis be disposed through bins & chutes
 	var/can_dispose = FALSE
+
 
 /datum/component/endopart/chassis/New(list/raw_args)
 	. = ..()
@@ -23,7 +25,6 @@
 
 /datum/component/endopart/chassis/build_assembly_overlay(atom/A)
 	//Temporarily remove all our overlays
-	//TODO: Condiser just making then endo parts remove their overlays fromm this when assembled to the mob - Racc
 	var/atom/parent_atom = parent
 	var/list/temp = parent_atom.overlays
 	parent_atom.overlays = list()
@@ -56,12 +57,12 @@
 		return
 	build_robot()
 
-/datum/component/endopart/chassis/proc/build_robot()
-	var/mob/living/new_mob = assemble_mob()
+/datum/component/endopart/chassis/proc/build_robot(mob/M)
+	var/mob/living/new_mob = M || assemble_mob()
 	var/atom/movable/AM = parent
 	if(istype(AM))
 		AM.forceMove(new_mob) //Hide inside our new mob so we can be used again later
-	apply_assembly(src, new_mob) //TODO: make sure we don't need a way to undo this chassis assembly stuff - Racc
+	apply_assembly(src, new_mob)
 	return new_mob
 
 /datum/component/endopart/chassis/proc/assemble_mob()
@@ -70,3 +71,8 @@
 
 /datum/component/endopart/chassis/proc/can_wear(var/obj/item/clothing/head/hat)
 	return TRUE
+
+/datum/component/endopart/chassis/proc/can_ride(mob/M)
+	if(M.incapacitated() && !can_ride_incapacitated || !can_ride)
+		return FALSE
+	return is_type_in_typecache(M, can_ride_typecache)

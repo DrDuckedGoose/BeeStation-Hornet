@@ -331,13 +331,12 @@ GLOBAL_LIST_EMPTY(cryopod_computers)
 	// This should be done after item removal because it checks if your ID card still exists
 
 	if(iscyborg(mob_occupant))
-		var/mob/living/silicon/robot/R = occupant
+		var/mob/living/silicon/new_robot/R = occupant
 		if(!istype(R))
 			return
-
-		//TODO: Implement this - Racc
-		//R.contents -= R.mmi
-		//QDEL_NULL(R.mmi)
+		var/obj/item/mmi/mmi = R.get_mmi()
+		SEND_SIGNAL(mmi, COMSIG_ENDO_REMOVE_PART)
+		qdel(mmi)
 
 	// Ghost and delete the mob.
 	if(!mob_occupant.get_ghost(TRUE))

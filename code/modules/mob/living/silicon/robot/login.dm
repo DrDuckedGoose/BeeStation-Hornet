@@ -3,6 +3,4 @@
 	. = ..()
 	if(!. || !client)
 		return FALSE
-	//TODO: - Racc
-	//regenerate_icons()
-	//show_laws(0)
+	show_laws(0)

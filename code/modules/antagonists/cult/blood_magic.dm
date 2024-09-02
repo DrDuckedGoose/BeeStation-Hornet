@@ -594,7 +594,7 @@
 				SEND_SOUND(user, sound('sound/effects/magic.ogg',0,1,25))
 		else if(istype(target,/mob/living/silicon/new_robot))
 			var/mob/living/silicon/new_robot/candidate = target
-			var/obj/item/food/bbqribs/ai_brain/ai_controller = candidate.get_shell()
+			var/obj/item/mmi/ai_brain/ai_controller = candidate.get_shell()
 			if(candidate.get_mmi() || ai_controller)
 				channeling = TRUE
 				user.visible_message("<span class='danger'>A dark cloud emanates from [user]'s hand and swirls around [candidate]!</span>")
@@ -615,9 +615,9 @@
 					make_new_construct_from_class(construct_class, THEME_CULT, candidate, user, FALSE, T)
 					SEND_SOUND(user, sound('sound/effects/magic.ogg',0,1,25))
 					uses--
-					//TODO: - Racc
-					//candidate.mmi = null
-					//qdel(candidate)
+					var/obj/item/mmi/mmi = candidate.get_mmi()
+					SEND_SIGNAL(mmi, COMSIG_ENDO_REMOVE_PART)
+					qdel(candidate)
 					channeling = FALSE
 				else
 					channeling = FALSE

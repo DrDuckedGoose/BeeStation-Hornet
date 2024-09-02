@@ -223,3 +223,7 @@
 		M.gets_drilled(firer)
 	var/obj/effect/temp_visual/kinetic_blast/K = new /obj/effect/temp_visual/kinetic_blast(target_turf)
 	K.color = color
+
+//mecha_kineticgun version of the projectile
+/obj/projectile/kinetic/mech
+	range = 5

@@ -38,7 +38,7 @@
 				if(new_ai && (new_ai != R.connected_ai))
 					log_combat(usr, R, "synced cyborg [R.connected_ai ? "from [ADMIN_LOOKUP(R.connected_ai)]": "false"] to [ADMIN_LOOKUP(new_ai)]", important = FALSE)
 					R.connected_ai = new_ai
-					var/obj/item/food/bbqribs/ai_brain/shell = R.get_shell()
+					var/obj/item/mmi/ai_brain/shell = R.get_shell()
 					if(shell)
 						shell.undeploy() //If this borg is an AI shell, disconnect the controlling AI and assign ti to a new AI
 						R.notify_ai(AI_SHELL)
@@ -69,13 +69,13 @@
 				R.notify_ai(DISCONNECT)
 				if (user)
 					log_combat(user, R, "cut AI wire on cyborg[R.connected_ai ? " and disconnected from [ADMIN_LOOKUP(R.connected_ai)]": ""]", important = FALSE)
-				//TODO: - Racc
-				//if(R.shell)
-				//	R.undeploy()
+				var/obj/item/mmi/ai_brain/shell = R?.get_shell()
+				if(shell)
+					shell.undeploy()
 				R.connected_ai = null
 			R.logevent("AI connection fault [mend?"cleared":"detected"]")
 		if(WIRE_LAWSYNC) // Cut the law wire, and the borg will no longer receive law updates from its AI. Repair and it will re-sync.
-			var/obj/item/food/bbqribs/ai_brain/shell = R.get_shell()
+			var/obj/item/mmi/ai_brain/shell = R.get_shell()
 			if(mend)
 				if(!R.emagged)
 					R.toggle_law_sync(TRUE)

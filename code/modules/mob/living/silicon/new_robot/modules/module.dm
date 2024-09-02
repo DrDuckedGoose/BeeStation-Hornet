@@ -1,7 +1,6 @@
 /*
 	This is like a backpack for our robot. All our robot's tools and items live here
 */
-//TODO: Clean up this code - Racc
 /obj/item/new_robot_module
 	name = "Default"
 	icon = 'icons/obj/module.dmi'
@@ -62,7 +61,6 @@
 		assoc += list("[ref(upgrade)]" = upgrade)
 	var/choice = show_radial_menu(user, isturf(loc) ? src : get_turf(src), choices, require_near = TRUE, tooltips = TRUE)
 	var/obj/item/borg/upgrade/upgrade = assoc[choice]
-	//TODO: You will probably need to specifiy the robot mob - Racc
 	upgrade.remove(src, robot_parent, user)
 	upgrade.forceMove(get_turf(src))
 	user.put_in_hands(upgrade)
@@ -76,7 +74,6 @@
 ///Populate this modules item lists with instances
 /obj/item/new_robot_module/proc/populate_module_items(category = MODULE_ITEM_CATEGORY_BASIC | MODULE_ITEM_CATEGORY_EMAGGED | MODULE_ITEM_CATEGORY_CLOCKCULT)
 	//This code is a little duplicate-ish, but it's a little more readable over the small sacrifice of a micro-micro optimization
-	//TODO: Consider condesning this - Racc
 //Basic
 	if((category & MODULE_ITEM_CATEGORY_BASIC))
 		for(var/item_index as() in basic_items)
@@ -93,7 +90,6 @@
 			clockcult_items -= item_index
 			clockcult_items += prepare_item(new item_index(src))
 
-//TODO: make sure we update our UI when we do this while it's open - Racc
 ///Prepare items made during population, adds some cool traits and sets up stacks if they are one
 /obj/item/new_robot_module/proc/prepare_item(obj/item/I, nonstandard)
 	if(I.loc != src)
@@ -121,7 +117,6 @@
 			sheet_module.cost = max(sheet_module.cost, 1) // Must not cost 0 to prevent div/0 errors.
 			sheet_module.is_cyborg = TRUE //IDK why we wouldn't do this always, but I'm not going to tempt fate
 	if(module_hud?.display_module)
-		//TODO: Should we be using usr here? - Racc
 		module_hud.update_inventory(usr, TRUE)
 	return I
 
@@ -175,6 +170,9 @@
 			var/obj/item/gun/energy/EG = I
 			if(!EG.chambered)
 				EG.recharge_newshot() //try to reload a new shot.
+		else if(istype(I, /obj/item/camera/siliconcam/robot_camera))
+			var/obj/item/camera/siliconcam/robot_camera/RC = I
+			RC.toner = RC.tonermax
 
 ///Inverse of above
 /obj/item/new_robot_module/proc/show_module_items(category = MODULE_ITEM_CATEGORY_BASIC | MODULE_ITEM_CATEGORY_EMAGGED | MODULE_ITEM_CATEGORY_CLOCKCULT)

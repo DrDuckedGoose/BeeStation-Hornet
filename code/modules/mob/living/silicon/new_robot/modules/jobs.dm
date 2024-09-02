@@ -1,0 +1,201 @@
+//Medical
+/obj/item/new_robot_module/medical
+	name = "Medical"
+	module_icon = "medical"
+	basic_items = list(
+		/obj/item/assembly/flash/cyborg,
+		/obj/item/healthanalyzer,
+		/obj/item/borg/charger,
+		/obj/item/weldingtool/cyborg/mini,
+		/obj/item/reagent_containers/borghypo,
+		/obj/item/borg/apparatus/beaker,
+		/obj/item/reagent_containers/dropper,
+		/obj/item/reagent_containers/syringe,
+		/obj/item/surgical_drapes,
+		/obj/item/retractor,
+		/obj/item/hemostat,
+		/obj/item/cautery,
+		/obj/item/surgicaldrill,
+		/obj/item/scalpel,
+		/obj/item/circular_saw,
+		/obj/item/blood_filter,
+		/obj/item/extinguisher/mini,
+		/obj/item/rollerbed/robo,
+		/obj/item/borg/cyborghug/medical,
+		/obj/item/stack/medical/gauze,
+		/obj/item/organ_storage,
+		/obj/item/borg/lollipop)
+	emag_items = list(/obj/item/reagent_containers/borghypo/hacked)
+	clockcult_items = list(
+		/obj/item/clock_module/abscond,
+		/obj/item/clock_module/sentinels_compromise,
+		/obj/item/clock_module/prosperity_prism,
+		/obj/item/clock_module/vanguard)
+
+//Engineering
+/obj/item/new_robot_module/engineering
+	name = "Engineering"
+	module_icon = "engineer"
+	basic_items = list(
+		/obj/item/assembly/flash/cyborg,
+		/obj/item/borg/sight/meson,
+		/obj/item/borg/charger,
+		/obj/item/construction/rcd/borg,
+		/obj/item/pipe_dispenser,
+		/obj/item/extinguisher,
+		/obj/item/weldingtool/cyborg,
+		/obj/item/screwdriver/cyborg,
+		/obj/item/wrench/cyborg,
+		/obj/item/crowbar/cyborg,
+		/obj/item/wirecutters/cyborg,
+		/obj/item/multitool/cyborg,
+		/obj/item/t_scanner,
+		/obj/item/analyzer,
+		/obj/item/geiger_counter/cyborg,
+		/obj/item/assembly/signaler/cyborg,
+		/obj/item/areaeditor/blueprints/cyborg,
+		/obj/item/electroadaptive_pseudocircuit,
+		/obj/item/stack/sheet/iron,
+		/obj/item/stack/sheet/glass,
+		/obj/item/stack/sheet/rglass/cyborg,
+		/obj/item/stack/rods/cyborg,
+		/obj/item/stack/tile/iron/base/cyborg,
+		/obj/item/stack/cable_coil,
+		/obj/item/holosign_creator/atmos)
+	emag_items = list(/obj/item/borg/stun)
+	clockcult_items = list(
+		/obj/item/clock_module/abscond,
+		/obj/item/clock_module/ocular_warden,
+		/obj/item/clock_module/tinkerers_cache,
+		/obj/item/clock_module/stargazer,
+		/obj/item/clock_module/abstraction_crystal,
+		/obj/item/clockwork/replica_fabricator,
+		/obj/item/stack/sheet/brass/cyborg)
+
+//Security
+/obj/item/new_robot_module/security
+	name = "Security"
+	module_icon = "security"
+	basic_items = list(
+		/obj/item/assembly/flash/cyborg,
+		/obj/item/restraints/handcuffs/cable/zipties,
+		/obj/item/melee/baton/loaded,
+		/obj/item/borg/charger,
+		/obj/item/weldingtool/cyborg/mini,
+		/obj/item/gun/energy/disabler/cyborg,
+		/obj/item/clothing/mask/gas/sechailer/cyborg,
+		/obj/item/extinguisher/mini)
+	emag_items = list(/obj/item/gun/energy/laser/cyborg)
+	clockcult_items = list(
+		/obj/item/clock_module/abscond,
+		/obj/item/clockwork/weapon/brass_spear,
+		/obj/item/clock_module/ocular_warden,
+		/obj/item/clock_module/vanguard)
+
+/obj/item/new_robot_module/security/respawn_consumable(mob/living/silicon/new_robot/R, coeff = 1)
+	..()
+	var/obj/item/gun/energy/e_gun/advtaser/cyborg/T = locate(/obj/item/gun/energy/e_gun/advtaser/cyborg) in basic_items
+	if(T)
+		if(T.cell.charge < T.cell.maxcharge)
+			var/obj/item/ammo_casing/energy/S = T.ammo_type[T.select]
+			T.cell.give(S.e_cost * coeff)
+			T.update_icon()
+		else
+			T.charge_timer = 0
+
+//janitor
+/obj/item/new_robot_module/janitor
+	name = JOB_NAME_JANITOR
+	module_icon = "janitor"
+	basic_items = list(
+		/obj/item/assembly/flash/cyborg,
+		/obj/item/screwdriver/cyborg,
+		/obj/item/crowbar/cyborg,
+		/obj/item/stack/tile/iron/base/cyborg,
+		/obj/item/soap/nanotrasen,
+		/obj/item/borg/charger,
+		/obj/item/weldingtool/cyborg/mini,
+		/obj/item/storage/bag/trash/cyborg,
+		/obj/item/melee/flyswatter,
+		/obj/item/extinguisher/mini,
+		/obj/item/mop/cyborg,
+		/obj/item/reagent_containers/glass/bucket,
+		/obj/item/paint/paint_remover,
+		/obj/item/lightreplacer/cyborg,
+		/obj/item/holosign_creator/janibarrier,
+		/obj/item/reagent_containers/spray/cyborg/drying_agent,
+		/obj/item/reagent_containers/spray/cyborg/plantbgone,
+		/obj/item/wirebrush)
+	emag_items = list(
+		/obj/item/reagent_containers/spray/cyborg/lube,
+		/obj/item/reagent_containers/spray/cyborg/acid)
+	clockcult_items  = list(
+		/obj/item/clock_module/abscond,
+		/obj/item/clock_module/sigil_submission,
+		/obj/item/clock_module/kindle,
+		/obj/item/clock_module/vanguard)
+
+/obj/item/new_robot_module/janitor/respawn_consumable(mob/living/silicon/new_robot/R, coeff = 1)
+	..()
+	var/obj/item/lightreplacer/LR = locate(/obj/item/lightreplacer) in basic_items
+	if(LR)
+		for(var/i in 1 to coeff)
+			LR.Charge(R)
+
+//Clown
+/obj/item/new_robot_module/clown
+	name = JOB_NAME_CLOWN
+	module_icon = "brobot"
+	basic_items = list(
+		/obj/item/assembly/flash/cyborg,
+		/obj/item/toy/crayon/rainbow,
+		/obj/item/instrument/bikehorn,
+		/obj/item/stamp/clown,
+		/obj/item/bikehorn,
+		/obj/item/bikehorn/airhorn,
+		/obj/item/paint/anycolor,
+		/obj/item/borg/charger,
+		/obj/item/weldingtool/cyborg/mini,
+		/obj/item/soap/nanotrasen,
+		/obj/item/pneumatic_cannon/pie/selfcharge/cyborg,
+		/obj/item/razor,					//killbait material - Kevinz000
+		/obj/item/lipstick/purple,
+		/obj/item/reagent_containers/spray/waterflower/cyborg,
+		/obj/item/borg/cyborghug/peacekeeper,
+		/obj/item/borg/lollipop/clown,
+		/obj/item/picket_sign/cyborg,
+		/obj/item/reagent_containers/borghypo/clown,
+		/obj/item/extinguisher/mini)
+	emag_items = list(
+		/obj/item/reagent_containers/borghypo/clown/hacked,
+		/obj/item/reagent_containers/spray/waterflower/cyborg/hacked)
+	clockcult_items = list(
+		/obj/item/clock_module/abscond,
+		/obj/item/clock_module/vanguard,
+		/obj/item/clockwork/weapon/brass_battlehammer)	//honk
+
+//Miner
+/obj/item/new_robot_module/miner
+	name = "Miner"
+	module_icon = "miner"
+	basic_items = list(
+		/obj/item/assembly/flash/cyborg,
+		/obj/item/borg/sight/meson,
+		/obj/item/storage/bag/ore/cyborg,
+		/obj/item/pickaxe/drill/cyborg,
+		/obj/item/shovel,
+		/obj/item/borg/charger,
+		/obj/item/crowbar/cyborg,
+		/obj/item/weldingtool/cyborg/mini,
+		/obj/item/extinguisher/mini,
+		/obj/item/storage/bag/sheetsnatcher/borg,
+		/obj/item/gun/energy/kinetic_accelerator/cyborg,
+		/obj/item/gps/cyborg,
+		/obj/item/stack/marker_beacon,
+		/obj/item/t_scanner/adv_mining_scanner/cyborg)
+	emag_items = list(/obj/item/borg/stun)
+	clockcult_items = list(
+		/obj/item/clock_module/abscond,
+		/obj/item/clock_module/vanguard,
+		/obj/item/clock_module/ocular_warden,
+		/obj/item/clock_module/sentinels_compromise)

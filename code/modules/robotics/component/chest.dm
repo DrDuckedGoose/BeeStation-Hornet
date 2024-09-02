@@ -21,7 +21,7 @@
 	UnregisterSignal(E,  COMSIG_ROBOT_CONSUME_ENERGY)
 
 /datum/component/endopart/chest/consume_energy(datum/source, amount)
-	//TODO: Consider calling parent, if it doesn't break anything - Racc
+	. = ..()
 	var/list/cells = list()
 	SEND_SIGNAL(src, COMSIG_ENDO_LIST_PART, /obj/item/stock_parts/cell, cells)
 	for(var/obj/item/stock_parts/cell/C as() in cells)
@@ -40,13 +40,14 @@
 		return
 	if(R.consume_energy(R.ambient_draw/ambient_reduction)) //We handle ambient in chests so we can attribute behaviour like this
 		//Speed buddy back up, if we slowed him down before
+		M.clear_alert("nocell")
 		M.remove_movespeed_modifier(/datum/movespeed_modifier/nopowercell)
 		R.powered = TRUE
 		return
 	else
 		R.powered = FALSE
 	//If we got no juice, slow buddy down
-	//TODO: Add some cool indicators, or a hud handler proc - Racc
+	M.throw_alert("nocell", /atom/movable/screen/alert/nocell)
 	M.add_movespeed_modifier(/datum/movespeed_modifier/nopowercell)
 
 //Transform machine

@@ -31,6 +31,7 @@
 	RegisterSignal(part_parent, COMSIG_ENDO_LIST_PART, PROC_REF(poll_part))
 
 	RegisterSignal(part_parent, COMSIG_ENDO_APPLY_HUD, PROC_REF(poll_hud))
+	RegisterSignal(part_parent, COMSIG_ENDO_REMOVE_HUD, PROC_REF(remove_hud))
 
 	if(start_finished)
 		build_ideal_part()
@@ -106,12 +107,11 @@
 	if(istype(src, type))
 		population_list += src
 		return
-	if(type != (poll_path) || !allow_poll) //TODO: Consider a better way of doing this - Racc
+	if(type != (poll_path) || !allow_poll)
 		return
 	for(var/part as() in parts)
 		population_list += part
 
-//TODO: Remove hud stuff when the part/s are removed - Racc
 ///Add hud elements
 /datum/endo_assembly/proc/poll_hud(datum/source, datum/hud/hud)
 	SIGNAL_HANDLER
@@ -119,6 +119,11 @@
 	if(!hud || (check_completion() & ENDO_ASSEMBLY_INCOMPLETE))
 		return FALSE
 	return TRUE
+
+/datum/endo_assembly/proc/remove_hud(datum/source, datum/hud/hud)
+	SIGNAL_HANDLER
+
+	return
 
 ///Used for pre-made stuff
 /datum/endo_assembly/proc/build_ideal_part()

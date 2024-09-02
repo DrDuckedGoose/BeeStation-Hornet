@@ -74,19 +74,18 @@
 	Temp AI brain
 */
 
-/obj/item/food/bbqribs/ai_brain
-//TODO: Do we consider moving these to the actual AI brain item? - Racc
+/obj/item/mmi/ai_brain
 	var/deployed = FALSE
 	var/mob/living/silicon/ai/mainframe = null
 	var/datum/action/innate/undeployment/undeployment_action
 	///The robot we're controlling
 	var/mob/living/silicon/new_robot/robot
 
-/obj/item/food/bbqribs/ai_brain/Initialize(mapload)
+/obj/item/mmi/ai_brain/Initialize(mapload)
 	. = ..()
 	undeployment_action = new(null, src)
 
-/obj/item/food/bbqribs/ai_brain/proc/undeploy()
+/obj/item/mmi/ai_brain/proc/undeploy()
 	if(!deployed || !robot.mind || !mainframe)
 		return
 	mainframe.redeploy_action.Grant(mainframe)
@@ -110,27 +109,24 @@
 	mainframe.transfer_observers_to(mainframe.eyeobj) // ai core to eyemob
 	mainframe = null
 
-/obj/item/food/bbqribs/ai_brain/proc/deploy_init(var/mob/living/silicon/ai/AI)
-	//TODO: - Racc
-	/*
-	real_name = "[AI.real_name] shell [rand(100, 999)] - [designation]"	//Randomizing the name so it shows up separately in the shells list
-	name = real_name
-	if(!QDELETED(builtInCamera))
-		builtInCamera.c_tag = real_name	//update the camera name too
+/obj/item/mmi/ai_brain/proc/deploy_init(var/mob/living/silicon/ai/AI)
+	robot.real_name = "[robot.real_name] shell [rand(100, 999)] - [robot.designation]"	//Randomizing the name so it shows up separately in the shells list
+	robot.name = robot.real_name
+	if(!QDELETED(robot.builtInCamera))
+		robot.builtInCamera.c_tag = robot.real_name	//update the camera name too
 	mainframe = AI
 	deployed = TRUE
-	connected_ai = mainframe
+	robot.connected_ai = mainframe
 	mainframe.connected_robots |= src
-	lawupdate = TRUE
-	lawsync()
-	if(radio && AI.radio) //AI keeps all channels, including Syndie if it is a Traitor
+	robot.toggle_law_sync(TRUE)
+	robot.lawsync()
+	if(robot.radio && AI.radio) //AI keeps all channels, including Syndie if it is a Traitor
 		if(AI.radio.syndie)
-			radio.make_syndie()
-		radio.subspace_transmission = TRUE
-		radio.channels = AI.radio.channels
-		for(var/chan in radio.channels)
-			radio.secure_radio_connections[chan] = add_radio(radio, GLOB.radiochannels[chan])
-	*/
+			robot.radio.make_syndie()
+		robot.radio.subspace_transmission = TRUE
+		robot.radio.channels = AI.radio.channels
+		for(var/chan in robot.radio.channels)
+			robot.radio.secure_radio_connections[chan] = add_radio(robot.radio, GLOB.radiochannels[chan])
 
 /datum/action/innate/undeployment
 	name = "Disconnect from shell"
@@ -138,7 +134,7 @@
 	icon_icon = 'icons/mob/actions/actions_AI.dmi'
 	button_icon_state = "ai_core"
 	///Ref to the AI controller
-	var/obj/item/food/bbqribs/ai_brain/ai_controller
+	var/obj/item/mmi/ai_brain/ai_controller
 
 /datum/action/innate/undeployment/New(Target, _ai_controller)
 	. = ..()

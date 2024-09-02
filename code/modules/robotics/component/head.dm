@@ -20,14 +20,17 @@
 
 /datum/component/endopart/head/apply_assembly(datum/source, mob/target)
 	. = ..()
+	var/mob/living/silicon/new_robot/R = target
 	//Put whatever brain that's in us into control of mob/target
-	INVOKE_ASYNC(src, PROC_REF(async_apply_assembly), target)
+	if(!iscarbon(target)) //Remove this check to allow heads with MMIs to control humans when attached
+		INVOKE_ASYNC(src, PROC_REF(async_apply_assembly), target)
 	//If we don't have eyes, we'll go blind
 	var/list/eyes = list()
-	SEND_SIGNAL(src, COMSIG_ENDO_LIST_PART, /obj/item/organ/eyes)
+	SEND_SIGNAL(src, COMSIG_ENDO_LIST_PART, /obj/item/organ/eyes, eyes)
 	if(!length(eyes))
-		//TODO: make 'em blind - Racc
-		return
+		R.become_blind(src)
+	else
+		R.cure_blind(src)
 
 /datum/component/endopart/head/remove_assembly(datum/source, mob/target)
 	. = ..()
@@ -77,7 +80,6 @@
 	var/stage = 6-clamp(round((M.health/M.maxHealth)*6), 0, 6) //0 is healthy, 6 is dying
 	health.icon_state = "health[stage]"
 
-//TODO: I'm pretty sure this would let you control a human, probably not good - Racc
 /datum/component/endopart/head/proc/async_apply_assembly(mob/target)
 	var/datum/endo_assembly/item/mmi/assembly = locate(/datum/endo_assembly/item/mmi) in required_assembly
 	var/obj/item/mmi/mmi = locate(/obj/item/mmi) in assembly?.parts

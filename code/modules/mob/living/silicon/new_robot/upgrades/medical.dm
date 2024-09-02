@@ -62,7 +62,6 @@
 	if(!.)
 		return
 	for(var/obj/item/reagent_containers/borghypo/H in module.all_items)
-		//TODO: Consider adding fix for stuff that was already set to piercing - Racc
 		H.bypass_protection = initial(H.bypass_protection)
 
 //Defib

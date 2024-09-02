@@ -1,7 +1,6 @@
 
 
 //The robot bodyparts have been moved to code/module/surgery/bodyparts/robot_bodyparts.dm
-//TODO: Go over this and port over what makes sense to - Racc
 
 /obj/item/robot_suit
 	name = "cyborg endoskeleton"
@@ -139,7 +138,6 @@
 
 /obj/item/robot_suit/attackby(obj/item/W, mob/user, params)
 	/*
-	//TODO: Read over this - Racc
 	if(istype(W, /obj/item/stack/sheet/iron))
 		var/obj/item/stack/sheet/iron/M = W
 		if(!l_arm && !r_arm && !l_leg && !r_leg && !chest && !head)
@@ -334,7 +332,6 @@
 		else
 			to_chat(user, "<span class='warning'>The MMI must go in after everything else!</span>")
 
-	//TODO: Look over this - Racc
 	/*
 	else if(istype(W, /obj/item/borg/upgrade/ai))
 		var/obj/item/borg/upgrade/ai/M = W

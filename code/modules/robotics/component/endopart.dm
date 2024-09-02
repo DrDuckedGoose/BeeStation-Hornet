@@ -84,15 +84,19 @@
 		SEND_SIGNAL(I, COMSIG_ENDO_ATTACHED, parent, src)
 		//Let our assembly datums know we're adding a part to ourselves
 		SEND_SIGNAL(src, COMSIG_ENDO_ASSEMBLY_ADD, I, L)
-		//TODO: Sounds and effects - Racc
+		//Register a signal so this part can be easily removed
+		RegisterSignal(I, COMSIG_ENDO_REMOVE_PART, PROC_REF(remove_part))
+
+		playsound(parent, 'sound/machines/click.ogg', 60)
 		. = TRUE
 	//Handle item interactions
 	if(can_interact(I))
 		SEND_SIGNAL(src, COMSIG_ENDO_ASSEMBLY_INTERACT, I, L)
-		//TODO: Sounds and effects - Racc
+
+		playsound(parent, 'sound/machines/click.ogg', 60)
 		. = TRUE
 	//If we're already assembled we'll need to reassemble to apply the new changes
-	if(assembled_mob) //TODO: This gets called even if the part dont fit, make sure that isn't a problem - Racc
+	if(assembled_mob)
 		SEND_SIGNAL(parent, COMSIG_ENDO_UNASSEMBLE, assembled_mob)
 		SEND_SIGNAL(parent, COMSIG_ENDO_ASSEMBLE, assembled_mob)
 
@@ -103,14 +107,17 @@
 	//Undo any assembly changes, hopefully with the part we're removing
 	if(assembled_mob)
 		SEND_SIGNAL(parent, COMSIG_ENDO_UNASSEMBLE, assembled_mob)
-	to_chat(L, "<span class='notice'>You remove [I] from [parent].</span>")
+	if(L)
+		to_chat(L, "<span class='notice'>You remove [I] from [parent].</span>")
 	current_assembly -= I
 	I.forceMove(get_turf(L))
-	L.put_in_hands(I)
+	L?.put_in_hands(I)
 	//Let the part we're removing know it's no-longer connected to us
 	SEND_SIGNAL(I, COMSIG_ENDO_REMOVED, parent, src)
 	//Let our assembly datums know we removed a part
 	SEND_SIGNAL(src, COMSIG_ENDO_ASSEMBLY_REMOVE, I)
+	//Remove removal signal
+	UnregisterSignal(I, COMSIG_ENDO_REMOVE_PART)
 	//Redo the assembly changes, now without the removed part
 	if(assembled_mob)
 		SEND_SIGNAL(parent, COMSIG_ENDO_ASSEMBLE, assembled_mob)
@@ -127,7 +134,8 @@
 	RegisterSignal(part, COMSIG_ENDO_APPLY_LIFE, PROC_REF(poll_life))
 	RegisterSignal(part, COMSIG_ENDO_APPLY_HUD, PROC_REF(poll_hud))
 	RegisterSignal(part, COMSIG_ROBOT_SET_EMAGGED, PROC_REF(set_emagged))
-	//TODO: Sounds and effects - Racc
+
+	playsound(parent, 'sound/machines/click.ogg', 60)
 
 /datum/component/endopart/proc/remove_from(datum/source, obj/item/I, datum/component/endopart/part)
 	SIGNAL_HANDLER
@@ -153,6 +161,7 @@
 /datum/component/endopart/proc/remove_assembly(datum/source, mob/target)
 	SIGNAL_HANDLER
 
+	remove_hud(source, assembled_mob?.hud_used)
 	assembled_mob = null
 	cut_assembly_overlay(target)
 	SEND_SIGNAL(parent, COMSIG_ENDO_UNASSEMBLE, target)
@@ -189,7 +198,6 @@
 
 /datum/component/endopart/proc/examine_async(mob/M, list/examine_text)
 	//TODO: Only people with diagostic huds should see this - Racc
-	//TODO: Make a special visual for this, I don't really like the radial menu - Racc
 	var/list/choices = list()
 	for(var/datum/endo_assembly/assembly as() in required_assembly)
 		if(assembly.check_completion() & ENDO_ASSEMBLY_COMPLETE)
@@ -264,6 +272,11 @@
 	SIGNAL_HANDLER
 
 	SEND_SIGNAL(src, COMSIG_ENDO_APPLY_HUD, hud)
+
+/datum/component/endopart/proc/remove_hud(datum/hud/hud)
+	SIGNAL_HANDLER
+
+	SEND_SIGNAL(src, COMSIG_ENDO_REMOVE_HUD, hud)
 
 ///You'll never guess what this does
 /datum/component/endopart/proc/set_emagged(datum/source, new_state)

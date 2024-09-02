@@ -156,6 +156,8 @@
 	category = CAT_WEAPONRY
 	subcategory = CAT_WEAPON
 
+/*
+//TODO: Port these to the new system - Racc
 /datum/crafting_recipe/ed209
 	name = "ED209"
 	result = /mob/living/simple_animal/bot/ed209
@@ -251,6 +253,7 @@
 				/obj/item/tank/internals = 1)
 	time = 40
 	category = CAT_ROBOT
+*/
 
 /datum/crafting_recipe/improvised_pneumatic_cannon //Pretty easy to obtain but
 	name = "Pneumatic Cannon"

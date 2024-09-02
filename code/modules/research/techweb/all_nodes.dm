@@ -76,7 +76,6 @@
 	display_name = "Cyborg Construction"
 	description = "Sapient robots with preloaded tool modules and programmable laws."
 	design_ids = list(
-		//TODO: make these match the IDs in cyborg_designs.dm - Racc
 		"borg_chassis",
 		"borg_chest",
 		"borg_head",
@@ -84,8 +83,6 @@
 		"borg_l_leg",
 		"borg_r_arm",
 		"borg_r_leg",
-		"borg_suit",
-		//TODO: - Racc
 		"borg_upgrade_rename",
 		"borg_upgrade_restart",
 		"borgupload",
