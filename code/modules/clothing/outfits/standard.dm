@@ -21,7 +21,9 @@
 		/obj/item/xenoartifact_labeler/debug=1,\
 		/obj/item/debug/orb_of_power=1,\
 		/obj/item/delimber=1,\
-		/obj/item/relimber=1
+		/obj/item/relimber=1,\
+		/obj/item/map_template_diver=1,\
+		/obj/item/debug/orb_of_power=1
 		)
 
 /datum/outfit/debug/pre_equip(mob/living/carbon/human/H, visualsOnly)

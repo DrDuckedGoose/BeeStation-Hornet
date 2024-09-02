@@ -58,7 +58,7 @@
 	//data["thrustersInstalled"] = borgo.ionpulse //If we have a thruster uprade
 	//data["thrustersStatus"] = "[borgo.ionpulse_on?"ACTIVE":"DISABLED"]" //Feedback for thruster status
 	//data["selfDestructAble"] = (borgo.emagged || istype(borgo, /mob/living/silicon/robot/modules/syndicate))
-
+	//data["cameraRadius"] = isnull(borgo.aicamera) ? 1 : borgo.aicamera.picture_size_x // picture_size_x and picture_size_y should always be the same.
 	//Cover, TRUE for locked
 	data["cover"] = "[borgo.cover_open? "UNLOCKED":"LOCKED"]"
 	//Ability to move. FAULT if lockdown wire is cut, DISABLED if borg locked, ENABLED otherwise
@@ -140,6 +140,24 @@
 		//TODO: - Racc
 		if("toggleThrusters")
 			borgo.toggle_ionpulse()
+
+		if("lampIntensity")
+			borgo.lamp_intensity = clamp(text2num(params["ref"]), 1, 5)
+			borgo.toggle_headlamp(FALSE, TRUE)
+
+		if("cameraRadius")
+			var/obj/item/camera/siliconcam/robot_camera/borgcam = borgo.aicamera
+			if(isnull(borgcam))
+				CRASH("Cyborg embedded AI camera is null somehow, was it qdeleted?")
+			var/desired_radius = text2num(params["ref"])
+			if(isnull(desired_radius))
+				return
+			// respect the limits
+			if(desired_radius > borgcam.picture_size_x_max || desired_radius < borgcam.picture_size_x_min)
+				log_href_exploit(usr, " attempted to select an invalid borg camera size '[desired_radius]'.")
+				return
+			borgcam.picture_size_x = desired_radius
+			borgcam.picture_size_y = desired_radius
 
 		if("selfDestruct")
 			if(borgo.stat || borgo.locked) //No detonation while stunned or locked down
