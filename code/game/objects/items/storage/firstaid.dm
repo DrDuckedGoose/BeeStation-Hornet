@@ -23,6 +23,10 @@
 	w_class = WEIGHT_CLASS_LARGE
 	var/skin_type = MEDBOT_SKIN_DEFAULT
 
+/obj/item/storage/firstaid/ComponentInitialize()
+	. = ..()
+	AddComponent(/datum/component/endopart/chassis/bot/medibot)
+
 /obj/item/storage/firstaid/regular
 	icon_state = "firstaid"
 	desc = "A first aid kit with the ability to heal common types of injuries."

@@ -29,7 +29,7 @@ GLOBAL_VAR_INIT(hsboxspawn, TRUE)
 	//items that shouldn't spawn on the floor because they would bug or act weird
 	var/static/list/spawn_forbidden = list(
 		/obj/item/tk_grab, /obj/item/implant, // not implanter, the actual thing that is inside you
-		/obj/item/assembly, /obj/item/robot_module,
+		/obj/item/assembly, /obj/item/new_robot_module,
 		/obj/item/small_delivery, /obj/projectile,
 		/obj/item/borg/sight, /obj/item/borg/stun
 	)

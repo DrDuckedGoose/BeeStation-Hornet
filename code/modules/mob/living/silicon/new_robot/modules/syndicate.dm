@@ -19,7 +19,7 @@
 	Syndi?.faction  -= "silicon" //ai turrets
 
 /obj/item/new_robot_module/syndicate/remove_parent(obj/item/I, delete_after)
-	var/mob/living/silicon/robot_old/Syndi = robot_parent
+	var/mob/living/silicon/new_robot/Syndi = robot_parent
 	Syndi?.faction += "silicon" //ai is your bff now!
 	return ..()
 

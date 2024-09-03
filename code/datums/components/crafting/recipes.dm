@@ -175,55 +175,6 @@
 	time = 60
 	category = CAT_ROBOT
 
-/datum/crafting_recipe/secbot
-	name = "Secbot"
-	result = /mob/living/simple_animal/bot/secbot
-	reqs = list(/obj/item/assembly/signaler = 1,
-				/obj/item/clothing/head/helmet/sec = 1,
-				/obj/item/melee/baton = 1,
-				/obj/item/assembly/prox_sensor = 1,
-				/obj/item/bodypart/r_arm/robot = 1)
-	tools = list(TOOL_WELDER)
-	time = 60
-	category = CAT_ROBOT
-
-/datum/crafting_recipe/cleanbot
-	name = "Cleanbot"
-	result = /mob/living/simple_animal/bot/cleanbot
-	reqs = list(/obj/item/reagent_containers/glass/bucket = 1,
-				/obj/item/assembly/prox_sensor = 1,
-				/obj/item/bodypart/r_arm/robot = 1)
-	time = 40
-	category = CAT_ROBOT
-
-/datum/crafting_recipe/cleanbot/larry
-	name = "Larry"
-	result = /mob/living/simple_animal/bot/cleanbot/larry
-	reqs = list(/obj/item/larryframe = 1,
-				/obj/item/assembly/prox_sensor = 1,
-				/obj/item/bodypart/r_arm/robot = 1)
-
-
-/datum/crafting_recipe/floorbot
-	name = "Floorbot"
-	result = /mob/living/simple_animal/bot/floorbot
-	reqs = list(/obj/item/storage/toolbox = 1,
-				/obj/item/stack/tile/iron = 10,
-				/obj/item/assembly/prox_sensor = 1,
-				/obj/item/bodypart/r_arm/robot = 1)
-	time = 40
-	category = CAT_ROBOT
-
-/datum/crafting_recipe/medbot
-	name = "Medbot"
-	result = /mob/living/simple_animal/bot/medbot
-	reqs = list(/obj/item/healthanalyzer = 1,
-				/obj/item/storage/firstaid = 1,
-				/obj/item/assembly/prox_sensor = 1,
-				/obj/item/bodypart/r_arm/robot = 1)
-	time = 40
-	category = CAT_ROBOT
-
 /datum/crafting_recipe/honkbot
 	name = "Honkbot"
 	result = /mob/living/simple_animal/bot/honkbot
@@ -241,16 +192,6 @@
 				/obj/item/bodypart/r_arm/robot = 1,
 				/obj/item/assembly/prox_sensor = 1,
 				/obj/item/clothing/head/utility/hardhat/red = 1)
-	time = 40
-	category = CAT_ROBOT
-
-/datum/crafting_recipe/Atmosbot
-	name = "Atmosbot"
-	result = /mob/living/simple_animal/bot/atmosbot
-	reqs = list(/obj/item/analyzer = 1,
-				/obj/item/bodypart/r_arm/robot = 1,
-				/obj/item/assembly/prox_sensor = 1,
-				/obj/item/tank/internals = 1)
 	time = 40
 	category = CAT_ROBOT
 */

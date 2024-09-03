@@ -33,6 +33,8 @@
 	RegisterSignal(part_parent, COMSIG_ENDO_APPLY_HUD, PROC_REF(poll_hud))
 	RegisterSignal(part_parent, COMSIG_ENDO_REMOVE_HUD, PROC_REF(remove_hud))
 
+	RegisterSignal(part_parent, COMSIG_ROBOT_LIST_SELF_MONITOR, PROC_REF(append_monitor))
+
 	if(start_finished)
 		build_ideal_part()
 
@@ -129,6 +131,11 @@
 /datum/endo_assembly/proc/build_ideal_part()
 	return
 
+/datum/endo_assembly/proc/append_monitor(datum/source, list/data)
+	SIGNAL_HANDLER
+
+	return
+
 /*
 	variant for item parts
 */
@@ -223,6 +230,9 @@
 	if(!assembly_integral)
 		outcome |= ENDO_ASSEMBLY_NON_INTEGRAL
 	return outcome
+
+/datum/endo_assembly/item/interaction/build_ideal_part()
+	completed = TRUE
 
 /datum/endo_assembly/item/interaction/proc/interact(datum/source, obj/item/I, mob/living/L)
 	SIGNAL_HANDLER

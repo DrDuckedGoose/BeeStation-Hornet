@@ -50,7 +50,8 @@
 	. = ..()
 	if(.)
 		return
-	var/mob/living/silicon/new_robot/M = user.mob
-	var/obj/item/I = M.get_active_held_item()
-	I.dropped(M)
+	var/mob/living/silicon/new_robot/R = user.mob
+	var/obj/item/I = R.get_active_held_item()
+	I.dropped(R)
+	I.cyborg_unequip(R)
 	return TRUE

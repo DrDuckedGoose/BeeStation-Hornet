@@ -28,6 +28,10 @@
 	. = ..()
 	AddComponent(/datum/component/seclite_attachable, light_icon_state = "flight")
 
+/obj/item/clothing/head/helmet/sec/ComponentInitialize()
+	. = ..()
+	AddComponent(/datum/component/endopart/chassis/bot/secbot)
+
 /obj/item/clothing/head/helmet/sec/attackby(obj/item/attacking_item, mob/user, params)
 	if(issignaler(attacking_item))
 		var/obj/item/assembly/signaler/attached_signaler = attacking_item

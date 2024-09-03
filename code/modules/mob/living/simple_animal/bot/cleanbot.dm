@@ -301,6 +301,10 @@
 	icon = 'icons/obj/janitor.dmi'
 	icon_state = "larryframe"
 
+/obj/item/larryframe/ComponentInitialize()
+	. = ..()
+	AddComponent(/datum/component/endopart/chassis/bot/cleanbot/larry)
+
 /obj/item/larryframe/attackby(obj/O, mob/user, params)
 	if(isprox(O))
 		to_chat(user, "<span class='notice'>You add [O] to [src].</span>")

@@ -189,6 +189,9 @@ GLOBAL_LIST_EMPTY(recipe_display_controllers)
 	if(anim_order == length(choices))
 		wing_icon = icon('icons/obj/robotics/endo.dmi', "finish")
 		E.add_overlay(wing_icon)
+	if(anim_order != length(choices))
+		wing_icon = icon('icons/obj/robotics/endo.dmi', "slice")
+		E.add_overlay(wing_icon)
 	//If this slice is just used as a 'next-page' button
 	if(choice_id == NEXT_PAGE_ID)
 		E.name = "Next Page"

@@ -11,11 +11,16 @@
 	var/can_ride_incapacitated = TRUE
 	var/list/ride_offset = list(0, 0)
 	var/static/list/can_ride_typecache = typecacheof(/mob/living/carbon/human)
-	//Can this chassis be pushed, shoved?
+	///Can this chassis be pushed, shoved?
 	var/can_be_pushed = FALSE
-	//Can this chassis be disposed through bins & chutes
+	///Can this chassis be disposed through bins & chutes
 	var/can_dispose = FALSE
-
+	///Hats we DO NOT fuck with
+	var/list/blacklisted_hats = list( //Hats that don't really work on borgos
+	/obj/item/clothing/head/helmet/space/santahat,
+	/obj/item/clothing/head/utility/welding,
+	/obj/item/clothing/head/helmet/space/eva,
+	)
 
 /datum/component/endopart/chassis/New(list/raw_args)
 	. = ..()
@@ -70,6 +75,8 @@
 	return L
 
 /datum/component/endopart/chassis/proc/can_wear(var/obj/item/clothing/head/hat)
+	if(!istype(hat) || is_type_in_typecache(hat, blacklisted_hats))
+		return FALSE
 	return TRUE
 
 /datum/component/endopart/chassis/proc/can_ride(mob/M)

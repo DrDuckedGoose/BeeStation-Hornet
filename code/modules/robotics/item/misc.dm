@@ -78,8 +78,6 @@
 	var/deployed = FALSE
 	var/mob/living/silicon/ai/mainframe = null
 	var/datum/action/innate/undeployment/undeployment_action
-	///The robot we're controlling
-	var/mob/living/silicon/new_robot/robot
 
 /obj/item/mmi/ai_brain/Initialize(mapload)
 	. = ..()

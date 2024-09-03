@@ -9,6 +9,23 @@
 	var/obj/item/arm_item = available_hands[active_hand_index]
 	return SEND_SIGNAL(arm_item, COMSIG_ENDO_POLL_EQUIP, I)
 
+/mob/living/silicon/new_robot/can_interact_with(atom/A)
+	//We can always interact with our own interface
+	if(A == modularInterface)
+		return TRUE
+	//Otherwise, if we're outta juice, we can't do shit
+	if(!powered)
+		return FALSE
+	//Distance interactions for cool stuff
+	var/turf/T0 = get_turf(src)
+	var/turf/T1 = get_turf(A)
+	if(!T0 || !T1)
+		return FALSE
+	if(A.is_jammed(JAMMER_PROTECTION_WIRELESS))
+		return FALSE
+	//Shout out to Tad Hardesty who wrote this 6 years ago
+	return ISINRANGE(T1.x, T0.x - interaction_range, T0.x + interaction_range) && ISINRANGE(T1.y, T0.y - interaction_range, T0.y + interaction_range)
+
 /mob/living/silicon/new_robot/proc/get_hand_index(obj/item/bodypart/B)
 	var/index = 1
 	for(var/obj/item/bodypart/part as() in available_hands)
@@ -30,3 +47,6 @@
 			A?.select()
 			continue
 		A?.deselect()
+
+/obj/item/proc/cyborg_unequip(mob/user)
+	return

@@ -13,6 +13,6 @@
 	name = "circuit manipulation apparatus"
 	desc = "An engineering cyborg upgrade allowing for manipulation of circuit boards."
 	icon_state = "cyborg_upgrade3"
-	compatible_modules = list(/obj/item/robot_module/engineering, /obj/item/robot_module/saboteur)
+	compatible_modules = list(/obj/item/new_robot_module/engineering, /obj/item/new_robot_module/saboteur)
 	module_flags = BORG_MODULE_ENGINEERING
 	upgrade_item = /obj/item/borg/apparatus/circuit

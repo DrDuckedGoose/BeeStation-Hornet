@@ -22,6 +22,7 @@
 	///Reference to the chassis we're built from, used for *most* 'things'
 	var/obj/item/endopart/chassis/borg/chassis
 	var/datum/component/endopart/chassis/chassis_component //Shortcut for getting things straight from the component
+	///What chassis we use as a preset, if we're not given one
 	var/preset_chassis = /obj/item/endopart/chassis/borg/transform_machine
 	///Is our cover open? Essentially passes inputs to our chassis if it is
 	var/cover_open = FALSE
@@ -53,6 +54,8 @@
 	var/list/available_hands = list()
 	///What access is needed to modify this robot
 	var/list/req_access = list(ACCESS_ROBOTICS)
+	///Cyborgs will sync their laws with their AI by default
+	var/law_update = TRUE
 	//TODO: Add variants that are already shells / already have a MMI & brain - Racc
 
 /mob/living/silicon/new_robot/Initialize(mapload, obj/item/endopart/chassis/borg/_chassis)
@@ -92,6 +95,8 @@
 	if(length(available_hands))
 		active_hand_index = 1
 	set_hand_index(active_hand_index)
+//Other
+	create_modularInterface()
 
 /mob/living/silicon/new_robot/Destroy()
 	. = ..()
@@ -131,26 +136,24 @@
 			tab_data["[cell]: Charge Left"] = GENERATE_STAT_TEXT("[cell.charge]/[cell.maxcharge]")
 	if(!length(cells))
 		tab_data["Charge Left"] = GENERATE_STAT_TEXT("No Cells Inserted!")
-/*
-//TODO: This is related to module items that use energy or something? - Racc
-if(module)
+//Module energy stuff
+	var/list/modules = list()
+	SEND_SIGNAL(chassis, COMSIG_ENDO_LIST_PART, /obj/item/new_robot_module, modules)
+	for(var/obj/item/new_robot_module/module as() in modules)
 		for(var/datum/robot_energy_storage/st in module.storages)
 			tab_data["[st.name]"] = GENERATE_STAT_TEXT("[st.energy]/[st.max_energy]")
-*/
 //Which AI are we connected to
 	if(connected_ai)
 		tab_data["Master AI"] = GENERATE_STAT_TEXT("[connected_ai.name]")
 	return tab_data
 
 ///Easy way for getting our cell for other code stuff
-//TODO: Make sure overwriting this isn't bad news - Racc
-/mob/living/silicon/new_robot/get_cell()
-	//TODO: Revisit this, maybe return the least charged cell? - Racc
+/mob/living/silicon/new_robot/get_cell(index = 1)
 	var/list/cells = list()
 	SEND_SIGNAL(chassis, COMSIG_ENDO_LIST_PART, /obj/item/stock_parts/cell, cells)
 	if(!length(cells))
 		return FALSE
-	return cells[1]
+	return cells[min(index, length(cells))]
 
 /mob/living/silicon/new_robot/create_mob_hud()
 	. = ..()
@@ -250,8 +253,11 @@ if(module)
 
 ///Returns wether this borg is free or not
 /mob/living/silicon/new_robot/proc/is_free()
-	//TODO: - Racc
+	var/list/ai_brains = list()
+	SEND_SIGNAL(chassis, COMSIG_ENDO_LIST_PART, /obj/item/mmi/ai_brain, ai_brains)
 	//Must not be connected to an AI, emagged, scrambled, or a shell
+	if(connected_ai || emagged || console_visible || length(ai_brains))
+		return FALSE
 	return TRUE
 
 ///Helper to check if we're allowed to wear a particular hat, checks with the chassis
@@ -269,10 +275,21 @@ if(module)
 	else
 		clear_alert("hacked")
 	SEND_SIGNAL(chassis, COMSIG_ROBOT_SET_EMAGGED, new_state)
-	//TODO: Implement this - Racc
-	/*
+	//Update our integrated tablet to look gangster
 	set_modularInterface_theme()
-	*/
+
+/mob/living/silicon/new_robot/proc/set_modularInterface_theme()
+	if(emagged)
+		modularInterface.device_theme = THEME_SYNDICATE
+		modularInterface.icon_state = "tablet-silicon-syndicate"
+		modularInterface.icon_state_powered = "tablet-silicon-syndicate"
+		modularInterface.icon_state_unpowered = "tablet-silicon-syndicate"
+	else
+		modularInterface.device_theme = THEME_NTOS
+		modularInterface.icon_state = "tablet-silicon"
+		modularInterface.icon_state_powered = "tablet-silicon"
+		modularInterface.icon_state_unpowered = "tablet-silicon"
+	modularInterface.update_icon()
 
 /mob/living/silicon/new_robot/proc/set_ratvar(new_state)
 	ratvar = new_state
@@ -324,35 +341,33 @@ if(module)
 	for(var/obj/item/new_robot_module/module as() in modules)
 		module.respawn_consumable(src, coeff)
 
-//Helper for flashing
-//TODO: Find where this is used and try standarizing it, messaged and such - Racc
+//Helper for checking flash
 /mob/living/silicon/new_robot/proc/try_flash()
 	if(last_flashed + FLASHED_COOLDOWN < world.time)
 		last_flashed = world.time
 		return TRUE
 
-///TODO: Implement this fully - Racc
 /mob/living/silicon/new_robot/proc/TryConnectToAI()
 	connected_ai = select_active_ai_with_fewest_borgs()
 	if(connected_ai)
 		connected_ai.connected_robots += src
 		lawsync()
-		//lawupdate = TRUE
+		toggle_law_sync(TRUE)
 		wires.ui_update()
 		return TRUE
-	//picturesync()
+	picturesync()
 	wires.ui_update()
 	return FALSE
 
 ///Helper to check if our head, if we have one, has its laws set to be synced
 /mob/living/silicon/new_robot/proc/laws_synced()
-	//TODO: - Racc
-	return TRUE
+	//TODO: Make this and other law stuff controlled by the head - Racc
+	return law_update
 
 ///Helper to toggle law sync mode
 /mob/living/silicon/new_robot/proc/toggle_law_sync(mode)
-	//TODO: If no mode provided, just toggle, thing = !thing - Racc
-	return TRUE
+	law_update = isnull(mode) ? !law_update : mode
+	return law_update
 
 /mob/living/silicon/new_robot/proc/notify_ai(notifytype, oldname, newname)
 	if(!connected_ai)
@@ -396,9 +411,9 @@ if(module)
 	if(!QDELETED(builtInCamera))
 		builtInCamera.c_tag = real_name	//update the camera name too
 
-//TODO: - Racc
 /mob/living/silicon/new_robot/proc/get_standard_name()
-	//return "[(designation ? "[designation] " : "")][mmi.braintype]-[ident]"
+	var/obj/item/mmi/mmi = get_mmi()
+	return "[(designation ? "[designation] " : "")][mmi.braintype]-[rand(1, 999)]"
 
 /mob/living/silicon/new_robot/proc/charge(datum/source, amount, repairs)
 	SIGNAL_HANDLER
@@ -411,58 +426,6 @@ if(module)
 	if(repairs)
 		heal_bodypart_damage(repairs, repairs - 1)
 
-/mob/living/silicon/new_robot/proc/lawsync()
-	return
-	//TODO: - Racc
-	/*
-	laws_sanity_check()
-	var/datum/ai_laws/master = connected_ai?.laws
-	var/temp
-	if (master)
-		laws.devillaws.len = master.devillaws.len
-		for (var/index = 1, index <= master.devillaws.len, index++)
-			temp = master.devillaws[index]
-			if (length(temp) > 0)
-				laws.devillaws[index] = temp
-
-		laws.ion.len = master.ion.len
-		for (var/index in 1 to master.ion.len)
-			temp = master.ion[index]
-			if (length(temp) > 0)
-				laws.ion[index] = temp
-
-		laws.hacked.len = master.hacked.len
-		for (var/index in 1 to master.hacked.len)
-			temp = master.hacked[index]
-			if (length(temp) > 0)
-				laws.hacked[index] = temp
-
-		if(master.zeroth_borg) //If the AI has a defined law zero specifically for its borgs, give it that one, otherwise give it the same one. --NEO
-			temp = master.zeroth_borg
-		else
-			temp = master.zeroth
-		laws.zeroth = temp
-
-		laws.inherent.len = master.inherent.len
-		for (var/index in 1 to master.inherent.len)
-			temp = master.inherent[index]
-			if (length(temp) > 0)
-				laws.inherent[index] = temp
-
-		laws.supplied.len = master.supplied.len
-		for (var/index in 1 to master.supplied.len)
-			temp = master.supplied[index]
-			if (length(temp) > 0)
-				laws.supplied[index] = temp
-
-		var/datum/computer_file/program/borg_self_monitor/program = modularInterface.get_self_monitoring()
-		if(program)
-			program.force_full_update()
-
-	picturesync()
-	*/
-
-
 /mob/living/silicon/new_robot/proc/picturesync()
 	if(!connected_ai || !connected_ai.aicamera || !aicamera)
 		return
@@ -470,3 +433,10 @@ if(module)
 		connected_ai.aicamera.stored[i] = TRUE
 	for(var/i in connected_ai.aicamera.stored)
 		aicamera.stored[i] = TRUE
+
+/mob/living/silicon/new_robot/proc/toggle_headlamp(turn_off = FALSE, update_color = FALSE)
+	var/list/lamps = list()
+	SEND_SIGNAL(chassis, COMSIG_ENDO_LIST_PART, /datum/endo_assembly/item/lamp, lamps)
+	for(var/datum/endo_assembly/item/lamp/L as() in lamps)
+		L.lamp_functional = FALSE
+		L.lamp.toggle_headlamp(src, turn_off, update_color)

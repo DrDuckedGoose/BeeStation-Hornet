@@ -79,8 +79,8 @@
 	var/obj/item/stock_parts/cell/cell = borg.get_cell()
 	.["cell"] = cell ? list("missing" = FALSE, "maxcharge" = cell.maxcharge, "charge" = cell.charge) : list("missing" = TRUE, "maxcharge" = 1, "charge" = 0)
 	.["modules"] = list()
-	for(var/moduletype in typesof(/obj/item/robot_module))
-		var/obj/item/robot_module/module = moduletype
+	for(var/moduletype in typesof(/obj/item/new_robot_module))
+		var/obj/item/new_robot_module/module = moduletype
 		.["modules"] += list(list(
 			"name" = initial(module.name),
 			"type" = "[module]"

@@ -1,18 +1,30 @@
-/datum/endo_assembly/item/bucket
-	item_requirment = /obj/item/reagent_containers/glass/bucket
+/datum/endo_assembly/item/signaler
+	item_requirment = /obj/item/assembly/signaler
 	assembly_integral = TRUE
 
 /datum/endo_assembly/item/proximity_sensor
 	item_requirment = /obj/item/assembly/prox_sensor
 	assembly_integral = TRUE
 
-/datum/endo_assembly/item/medkit
-	item_requirment = /obj/item/storage/firstaid
+/datum/endo_assembly/item/analyzer
+	item_requirment = /obj/item/analyzer
+
+/datum/endo_assembly/item/oxygen
+	item_requirment = /obj/item/tank/internals/oxygen
+
+/datum/endo_assembly/item/toolbox
+	item_requirment = /obj/item/storage/toolbox
+
+/datum/endo_assembly/item/welder
+	item_requirment = /obj/item/weldingtool
+
+/datum/endo_assembly/item/stun_baton
+	item_requirment = /obj/item/melee/baton
 	assembly_integral = TRUE
+
 
 /datum/endo_assembly/item/healthanalyzer
 	item_requirment = /obj/item/healthanalyzer
-	assembly_integral = TRUE
 
 /datum/endo_assembly/item/eyes
 	item_requirment = /obj/item/organ/eyes
@@ -31,6 +43,15 @@
 
 /datum/endo_assembly/item/cell/transform_machine
 	item_requirment = /obj/item/stock_parts/cell/upgraded/plus
+
+/datum/endo_assembly/item/tiles
+	item_requirment = /obj/item/stack/tile
+
+/datum/endo_assembly/item/tiles/add_part(datum/source, obj/item/I, mob/living/L)
+	var/obj/item/stack/tile/stack = I
+	if(istype(stack) && stack.amount < 10)
+		return
+	return ..()
 
 //Handles MMIs and Posibrains
 /datum/endo_assembly/item/mmi
@@ -101,10 +122,18 @@
 		//TODO: this is kinda hacky and will need a fix - Racc
 		var/obj/item/radio/borg/R = new(hud.mymob)
 		radio = new(null, R)
-	radio.screen_loc = ui_borg_radio
+		radio.screen_loc = ui_borg_radio
 	radio.hud = hud
 	hud.static_inventory += radio
 	//Update hud
+	hud.show_hud(HUD_STYLE_STANDARD)
+
+/datum/endo_assembly/item/radio/remove_hud(datum/source, datum/hud/hud)
+	. = ..()
+	if(!radio || !hud)
+		return
+	radio.hud = null
+	hud.static_inventory -= radio
 	hud.show_hud(HUD_STYLE_STANDARD)
 
 //Lamp
@@ -137,11 +166,23 @@
 	//Radio
 	if(!lamp)
 		lamp = new(null, src)
-	lamp.screen_loc = ui_borg_lamp
+		lamp.screen_loc = ui_borg_lamp
 	lamp.hud = hud
 	hud.static_inventory += lamp
 	//Update hud
 	hud.show_hud(HUD_STYLE_STANDARD)
+
+/datum/endo_assembly/item/lamp/remove_hud(datum/source, datum/hud/hud)
+	. = ..()
+	if(!lamp || !hud)
+		return
+	lamp.hud = null
+	hud.static_inventory -= lamp
+	hud.show_hud(HUD_STYLE_STANDARD)
+
+/datum/endo_assembly/item/lamp/append_monitor(datum/source, list/data)
+	. = ..()
+	data["lamp"] = "It's ogre"
 
 //Module
 /datum/endo_assembly/item/item_module
@@ -162,18 +203,24 @@
 	. = ..()
 	if(!.)
 		return
-	//TODO: Cover case for this being removed and such - Racc
 	//Module
 	if(!module)
 		module = new(null, parts[1])
-
 		var/obj/item/new_robot_module/item_module = parts[1]
 		item_module.module_hud = module
 		module.icon_state = item_module.module_icon
-	module.screen_loc = ui_borg_module
+		module.screen_loc = ui_borg_module
 	module.hud = hud
 	hud.static_inventory += module
 	//Update hud
+	hud.show_hud(HUD_STYLE_STANDARD)
+
+/datum/endo_assembly/item/item_module/remove_hud(datum/source, datum/hud/hud)
+	. = ..()
+	if(!module || !hud)
+		return
+	module.hud = null
+	hud.static_inventory -= module
 	hud.show_hud(HUD_STYLE_STANDARD)
 
 /datum/endo_assembly/item/item_module/build_ideal_part()
@@ -184,8 +231,9 @@
 
 /datum/endo_assembly/item/item_module/remove_part(datum/source, obj/item/I)
 	. = ..()
-	var/obj/item/new_robot_module/module = I || source
-	module?.remove_parent()
+	var/obj/item/new_robot_module/item_module = parts[1]
+	item_module.module_hud = null
+	QDEL_NULL(module)
 
 /datum/endo_assembly/item/item_module/proc/add_module_parent(datum/source)
 	SIGNAL_HANDLER

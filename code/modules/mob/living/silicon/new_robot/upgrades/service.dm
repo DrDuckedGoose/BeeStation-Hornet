@@ -21,7 +21,7 @@
 /obj/item/borg/upgrade/speciality
 	name = "Speciality Module"
 	icon_state = "cyborg_upgrade3"
-	compatible_modules = list(/obj/item/robot_module/butler)
+	compatible_modules = list(/obj/item/new_robot_module/butler)
 	module_flags = BORG_MODULE_SPECIALITY
 	///Extra items we'll be adding to the module
 	var/additional_items = list()

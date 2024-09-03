@@ -32,6 +32,14 @@
 	//Update hud
 	hud.show_hud(HUD_STYLE_STANDARD)
 
+/datum/component/endopart/arm/remove_hud(datum/source, datum/hud/hud)
+	. = ..()
+	if(!hud || !hand)
+		return
+	hand.hud = null
+	hud.static_inventory -= hand
+	hud.show_hud(HUD_STYLE_STANDARD)
+
 ///
 /datum/component/endopart/arm/proc/catch_unarmed(datum/source, obj/item/item)
 	SIGNAL_HANDLER
@@ -40,6 +48,7 @@
 		return FALSE
 	holding = item
 	hand.vis_contents += holding
+	hand.select() //just incase it isn't selected already, like at the start
 	RegisterSignal(item, COMSIG_CLICK, PROC_REF(catch_click))
 	RegisterSignal(item, COMSIG_ITEM_DROPPED, PROC_REF(catch_dropped))
 	return TRUE

@@ -144,6 +144,7 @@
 /atom/movable/screen/new_robot/hand/Initialize(mapload, _arm)
 	. = ..()
 	arm = _arm
+	deselect()
 
 /atom/movable/screen/new_robot/hand/Click()
 	. = ..()
@@ -155,6 +156,19 @@
 
 /atom/movable/screen/new_robot/hand/proc/select()
 	color = "#fff"
+	alpha = 255
 
 /atom/movable/screen/new_robot/hand/proc/deselect()
 	color = "#ffffffae"
+
+//Modular tablet
+/atom/movable/screen/new_robot/modpc
+	name = "Modular Interface"
+	icon_state = "template"
+	var/mob/living/silicon/new_robot/robot
+
+/atom/movable/screen/new_robot/modpc/Click()
+	. = ..()
+	if(!.)
+		return
+	robot.modularInterface?.interact(robot)

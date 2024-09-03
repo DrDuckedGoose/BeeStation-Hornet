@@ -40,6 +40,10 @@
 #define COMSIG_ROBOT_CONSUME_ENERGY "robot_consume_energy"
 #define COMSIG_ROBOT_PICKUP_ITEM "robot_pickup_item"
 #define COMSIG_ROBOT_SET_EMAGGED "robot_set_emagged"
+#define COMSIG_ROBOT_LIST_SELF_MONITOR "robot_list_self_monitor"
+
+#define COMSIG_ROBOT_HAS_MAGPULSE "robot_has_magpulse"
+#define COMSIG_ROBOT_HAS_IONPULSE "robot_has_ionpulse"
 
 /*
 	Offset key

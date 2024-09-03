@@ -4,7 +4,7 @@
 	var/recharge_rate = 1000
 	var/energy
 
-/datum/robot_energy_storage/New(var/obj/item/robot_module/R = null)
+/datum/robot_energy_storage/New(var/obj/item/new_robot_module/R = null)
 	energy = max_energy
 	if(R)
 		R.storages |= src

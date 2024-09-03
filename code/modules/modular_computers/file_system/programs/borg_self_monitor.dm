@@ -65,6 +65,9 @@
 	//Law sync wire. FAULT if cut, NOMINAL otherwise
 	data["wireLaw"] = "[borgo.wires.is_cut(WIRE_LAWSYNC)?"FAULT":"NOMINAL"]"
 
+	//Once we've gotten all the basic bitch shit, we'll grab the custom stuff from our everything
+	SEND_SIGNAL(borgo, COMSIG_ROBOT_LIST_SELF_MONITOR, data)
+
 	return data
 
 /datum/computer_file/program/borg_self_monitor/ui_static_data(mob/user)

@@ -257,6 +257,10 @@
 		ITEM_SLOT_DEX_STORAGE
 	)
 
+/obj/item/reagent_containers/glass/bucket/ComponentInitialize()
+	. = ..()
+	AddComponent(/datum/component/endopart/chassis/bot/cleanbot)
+
 /obj/item/reagent_containers/glass/bucket/attackby(obj/O, mob/user, params)
 	if(istype(O, /obj/item/mop))
 		if(reagents.total_volume < 1)

@@ -98,8 +98,6 @@
 		external_items += I
 	ADD_TRAIT(I, TRAIT_NODROP, CYBORG_ITEM_TRAIT)
 	RegisterSignal(I, COMSIG_ATOM_ATTACK_ROBOT, PROC_REF(catch_robot_attack))
-	//TODO: Consider adding this back- Racc
-	//I.mouse_opacity = MOUSE_OPACITY_OPAQUE
 	all_items += I
 	//Special handling for material stacks, since they're a little goofy
 	if(istype(I, /obj/item/stack))

@@ -46,6 +46,8 @@
 	RegisterSignal(parent, COMSIG_ROBOT_CONSUME_ENERGY, PROC_REF(consume_energy))
 	RegisterSignal(parent, COMSIG_ROBOT_SET_EMAGGED, PROC_REF(set_emagged))
 
+	RegisterSignal(parent, COMSIG_ROBOT_LIST_SELF_MONITOR, PROC_REF(append_monitor))
+
 	//Build our required assembly
 	start_finished = isnull(_start_finished) ? start_finished : _start_finished
 	var/list/compiled_assembly = list()
@@ -155,6 +157,7 @@
 	assembled_mob = target
 	build_assembly_overlay(target)
 	SEND_SIGNAL(parent, COMSIG_ENDO_ASSEMBLE, target)
+	poll_hud(source, assembled_mob?.hud_used)
 	return
 
 ///Undo whatever awful shit we did
@@ -218,7 +221,7 @@
 		assembly_overlay.add_overlay(parent_atom.get_limb_icon())
 		assembly_overlay.pixel_x = 0
 		assembly_overlay.pixel_y = 0
-		assembly_overlay.layer = A.layer
+		//assembly_overlay.layer = A.layer
 		assembly_overlay.plane = A.plane
 	SEND_SIGNAL(A, COMSIG_ENDO_APPLY_OFFSET, offset_key, assembly_overlay)
 	A?.add_overlay(assembly_overlay)
@@ -273,7 +276,7 @@
 
 	SEND_SIGNAL(src, COMSIG_ENDO_APPLY_HUD, hud)
 
-/datum/component/endopart/proc/remove_hud(datum/hud/hud)
+/datum/component/endopart/proc/remove_hud(datum/source, datum/hud/hud)
 	SIGNAL_HANDLER
 
 	SEND_SIGNAL(src, COMSIG_ENDO_REMOVE_HUD, hud)
@@ -283,3 +286,9 @@
 	SIGNAL_HANDLER
 
 	SEND_SIGNAL(src, COMSIG_ROBOT_SET_EMAGGED, new_state)
+
+///Used for appending data to the borg self monitor
+/datum/component/endopart/proc/append_monitor(datum/source, list/data)
+	SIGNAL_HANDLER
+
+	SEND_SIGNAL(src, COMSIG_ROBOT_LIST_SELF_MONITOR, data)

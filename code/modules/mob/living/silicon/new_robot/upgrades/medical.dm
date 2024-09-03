@@ -91,7 +91,7 @@
 	desc = "A crew pinpointer module for the medical cyborg. Permits remote access to the crew monitor."
 	icon = 'icons/obj/device.dmi'
 	icon_state = "pinpointer_crew"
-	compatible_modules = list(/obj/item/robot_module/medical, /obj/item/robot_module/syndicate_medical)
+	compatible_modules = list(/obj/item/new_robot_module/medical, /obj/item/new_robot_module/syndicate_medical)
 	module_flags = BORG_MODULE_MEDICAL
 	upgrade_item = /obj/item/pinpointer/crew
 	//Special action for convenience
@@ -124,6 +124,6 @@
 	name = "beaker storage apparatus"
 	desc = "A supplementary beaker storage apparatus for medical cyborgs."
 	icon_state = "cyborg_upgrade3"
-	compatible_modules = list(/obj/item/robot_module/medical)
+	compatible_modules = list(/obj/item/new_robot_module/medical)
 	module_flags = BORG_MODULE_MEDICAL
 	upgrade_item = /obj/item/borg/apparatus/beaker/extra

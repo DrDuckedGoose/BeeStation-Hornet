@@ -1,6 +1,7 @@
 /*
 	Sub-component for heads
-	blah blah blah
+	Is responsible for some important HUD stuff
+	//TODO: I want the head or MMI to be resposible for all the law stuf - Racc
 */
 /datum/component/endopart/head
 	name = "head"
@@ -17,6 +18,8 @@
 	var/atom/movable/screen/language_menu/langauge
 	///Health
 	var/atom/movable/screen/healths/robot/health
+	//Everyone has a modular tablet asshole, it came free with your fucking Xbox
+	var/atom/movable/screen/new_robot/modpc/tablet
 
 /datum/component/endopart/head/apply_assembly(datum/source, mob/target)
 	. = ..()
@@ -50,7 +53,7 @@
 	if(!intent)
 		intent = new /atom/movable/screen/act_intent/robot()
 	intent.icon_state = hud.mymob.a_intent
-	intent.hud = src
+	intent.hud = hud
 	hud.action_intent = intent
 	hud.static_inventory += intent
 	//Language menu
@@ -65,7 +68,40 @@
 	health.hud = hud
 	hud.healths = health
 	hud.infodisplay += health
+	//Tablet
+	if(!tablet)
+		tablet = new /atom/movable/screen/new_robot/modpc()
+	tablet.screen_loc = ui_borg_tablet
+	tablet.hud = hud
+	hud.static_inventory += tablet
+	var/mob/living/silicon/new_robot/robot = hud.mymob
+	if(robot.modularInterface)
+		tablet.vis_contents += robot.modularInterface
+	tablet.robot = robot
 	//Update hud
+	hud.show_hud(HUD_STYLE_STANDARD)
+
+/datum/component/endopart/head/remove_hud(datum/source, datum/hud/hud)
+	. = ..()
+	if(!hud)
+		return
+	//Zone
+	zone_select?.hud = null
+	hud.static_inventory -= zone_select
+	//intent
+	intent?.hud = null
+	hud.action_intent = null
+	hud.static_inventory -= intent
+	//langauge
+	hud.static_inventory -= langauge
+	//Tablet
+	tablet?.hud = null
+	hud.static_inventory -= tablet
+	//healths
+	health?.hud = null
+	hud.healths = null
+	hud.infodisplay -= health
+
 	hud.show_hud(HUD_STYLE_STANDARD)
 
 /datum/component/endopart/head/poll_life(datum/source, mob/living/M)
