@@ -98,7 +98,7 @@
 	R.set_locked()
 	if(masterAI)
 		R.connected_ai = masterAI
-		R.lawsync()
+		R.law_sync()
 		R.toggle_law_sync(TRUE)
 	addtimer(CALLBACK(src, PROC_REF(unlock_new_robot), R), 50)
 

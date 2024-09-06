@@ -20,7 +20,7 @@
 	if(!everyone)
 		for(var/mob/living/silicon/new_robot/R in connected_robots)
 			if(R.laws_synced())
-				R.lawsync()
+				R.law_sync()
 				R.show_laws()
 				R.law_change_counter++
 

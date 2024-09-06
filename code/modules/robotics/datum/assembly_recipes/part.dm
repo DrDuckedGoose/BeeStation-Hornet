@@ -24,9 +24,11 @@
 
 /datum/endo_assembly/endopart/functional_limb/arm/left
 	ideal_part_parent = /obj/item/bodypart/l_arm/robot/endopart
+	required_offset_key = ENDO_OFFSET_KEY_ARM(1)
 
 /datum/endo_assembly/endopart/functional_limb/arm/right
 	ideal_part_parent = /obj/item/bodypart/r_arm/robot/endopart
+	required_offset_key = ENDO_OFFSET_KEY_ARM(2)
 
 /*
 	Legs
@@ -39,9 +41,11 @@
 
 /datum/endo_assembly/endopart/functional_limb/leg/left
 	ideal_part_parent = /obj/item/bodypart/l_leg/robot/endopart
+	required_offset_key = ENDO_OFFSET_KEY_LEG(1)
 
 /datum/endo_assembly/endopart/functional_limb/leg/right
 	ideal_part_parent = /obj/item/bodypart/r_leg/robot/endopart
+	required_offset_key = ENDO_OFFSET_KEY_LEG(2)
 
 /*
 	Head

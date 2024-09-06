@@ -54,7 +54,7 @@
 				R.visible_message("[R] gently chimes.", "LawSync protocol engaged.")
 				log_combat(usr, R, "forcibly synced cyborg laws via pulse", important = FALSE)
 				// TODO, log the laws they gained here
-				R.lawsync()
+				R.law_sync()
 				R.show_laws()
 		if(WIRE_LOCKDOWN)
 			R.set_locked(!R.locked) // Toggle

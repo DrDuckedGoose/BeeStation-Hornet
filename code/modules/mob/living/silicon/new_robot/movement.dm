@@ -1,4 +1,3 @@
-//TODO: You'll need to add module items for ionpulse and magpulse - Racc
 /mob/living/silicon/new_robot/Process_Spacemove(movement_dir = 0)
 	. = ..()
 	if(.)

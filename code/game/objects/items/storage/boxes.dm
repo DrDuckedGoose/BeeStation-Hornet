@@ -886,6 +886,10 @@
 	desc = "A colorful cardboard box for the clown"
 	illustration = "clown"
 
+/obj/item/storage/box/clown/ComponentInitialize()
+	. = ..()
+	AddComponent(/datum/component/endopart/chassis/bot/clown)
+
 /obj/item/storage/box/clown/attackby(obj/item/I, mob/user, params)
 	if((istype(I, /obj/item/bodypart/l_arm/robot)) || (istype(I, /obj/item/bodypart/r_arm/robot)))
 		if(contents.len) //prevent accidently deleting contents

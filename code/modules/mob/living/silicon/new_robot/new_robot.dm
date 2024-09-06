@@ -26,8 +26,6 @@
 	var/preset_chassis = /obj/item/endopart/chassis/borg/transform_machine
 	///Is our cover open? Essentially passes inputs to our chassis if it is
 	var/cover_open = FALSE
-	///What's the ambient cell draw of the this robbit
-	var/ambient_draw = 1
 	///The AI we're connected to, our master
 	var/mob/living/silicon/ai/connected_ai = null
 	///Are we locked down
@@ -351,7 +349,7 @@
 	connected_ai = select_active_ai_with_fewest_borgs()
 	if(connected_ai)
 		connected_ai.connected_robots += src
-		lawsync()
+		law_sync()
 		toggle_law_sync(TRUE)
 		wires.ui_update()
 		return TRUE

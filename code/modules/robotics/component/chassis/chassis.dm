@@ -21,6 +21,8 @@
 	/obj/item/clothing/head/utility/welding,
 	/obj/item/clothing/head/helmet/space/eva,
 	)
+	///How many legs to chassis expects, used for walk speed efficiency
+	var/expected_legs = 2
 
 /datum/component/endopart/chassis/New(list/raw_args)
 	. = ..()
@@ -42,6 +44,34 @@
 		target.status_flags |= CANPUSH
 	else
 		target.status_flags &= ~CANPUSH
+
+/datum/component/endopart/chassis/life(datum/source, mob/M)
+	. = ..()
+	//Power stuff
+	var/mob/living/silicon/new_robot/R = M
+	if(!istype(R))
+		return
+	if(!.)
+		R.powered = FALSE
+		M.throw_alert("nocell", /atom/movable/screen/alert/nocell)
+		M.add_movespeed_modifier(/datum/movespeed_modifier/nopowercell)
+	else
+		M.clear_alert("nocell")
+		M.remove_movespeed_modifier(/datum/movespeed_modifier/nopowercell)
+		R.powered = TRUE
+	//Leg slowdown stuff
+	var/list/legs = list()
+	SEND_SIGNAL(parent, COMSIG_ENDO_LIST_PART, /datum/component/endopart/leg, legs)
+	var/operable_legs = length(legs)
+	for(var/atom/A as() in legs)
+		var/datum/component/endopart/leg/L = A.GetComponent(/datum/component/endopart/leg)
+		if(L?.check_completion() & ENDO_ASSEMBLY_INCOMPLETE)
+			operable_legs--
+	if(expected_legs > operable_legs)
+		var/max_slowdown = 6
+		M.add_or_update_variable_movespeed_modifier(/datum/movespeed_modifier/limbless, multiplicative_slowdown = ((expected_legs-operable_legs)/expected_legs*max_slowdown))
+	else
+		M.remove_movespeed_modifier(/datum/movespeed_modifier/limbless)
 
 ///Handles screwdriver interaction, for removing parts
 /datum/component/endopart/chassis/proc/catch_wrench(datum/source, mob/living/user, obj/item/I, list/recipes)
@@ -75,9 +105,7 @@
 	return L
 
 /datum/component/endopart/chassis/proc/can_wear(var/obj/item/clothing/head/hat)
-	if(!istype(hat) || is_type_in_typecache(hat, blacklisted_hats))
-		return FALSE
-	return TRUE
+	return (istype(hat) && !is_type_in_typecache(hat, blacklisted_hats))
 
 /datum/component/endopart/chassis/proc/can_ride(mob/M)
 	if(M.incapacitated() && !can_ride_incapacitated || !can_ride)

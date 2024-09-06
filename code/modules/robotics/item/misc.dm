@@ -117,7 +117,7 @@
 	robot.connected_ai = mainframe
 	mainframe.connected_robots |= src
 	robot.toggle_law_sync(TRUE)
-	robot.lawsync()
+	robot.law_sync()
 	if(robot.radio && AI.radio) //AI keeps all channels, including Syndie if it is a Traitor
 		if(AI.radio.syndie)
 			robot.radio.make_syndie()

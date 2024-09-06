@@ -20,7 +20,7 @@
 /*
 	Assembly, crafting step stuff
 */
-#define COMSIG_ENDO_ASSEMBLY_POLL_PART "endo_assembly_poll_part"
+#define COMSIG_ENDO_ASSEMBLY_LIST_PART "endo_assembly_list_part"
 #define COMSIG_ENDO_ASSEMBLY_POLL_INTERACTION "endo_assembly_poll_interaction"
 
 #define COMSIG_ENDO_ASSEMBLY_ADD "endo_assembly_add"
@@ -60,3 +60,10 @@
 #define MODULE_ITEM_CATEGORY_EMAGGED (1<<1)
 #define MODULE_ITEM_CATEGORY_CLOCKCULT (1<<2)
 #define MODULE_ITEM_CATEGORY_EXTERNAL (1<<3)
+
+/*
+	Compat flags
+*/
+#define ENDO_COMPATIBILITY_GENERIC (1<<0)
+#define ENDO_COMPATIBILITY_FORD (1<<1)
+#define ENDO_COMPATIBILITY_HONDA (1<<2)

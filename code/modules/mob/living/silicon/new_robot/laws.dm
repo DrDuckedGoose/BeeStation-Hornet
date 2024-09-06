@@ -17,7 +17,7 @@
 			if(connected_ai.stat || connected_ai.control_disabled)
 				to_chat(src, "<b>AI signal lost, unable to sync laws.</b>")
 			else
-				lawsync()
+				law_sync()
 				to_chat(src, "<b>Laws synced with AI, be sure to note any changes.</b>")
 		else
 			to_chat(src, "<b>No AI selected to sync laws with, disabling lawsync protocol.</b>")
@@ -35,7 +35,7 @@
 	else
 		to_chat(who, "<b>Remember, you are not bound to any AI, you are not required to listen to them.</b>")
 
-/mob/living/silicon/new_robot/proc/lawsync()
+/mob/living/silicon/new_robot/proc/law_sync()
 	laws_sanity_check()
 	var/datum/ai_laws/master = connected_ai?.laws
 	var/temp

@@ -19,9 +19,11 @@
 	var/mob/living/silicon/new_robot/R = target
 	if(istype(R) && find_module(R, user))
 		return
+	//Case for module item
 	var/obj/item/new_robot_module/module = target
 	if(istype(module) && install(module, null, user))
 		return
+	//If we can't install it on the borg or module, just go ahead
 	return ..()
 
 /obj/item/borg/upgrade/examine(mob/user)

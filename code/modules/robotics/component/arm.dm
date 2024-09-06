@@ -4,7 +4,7 @@
 */
 /datum/component/endopart/arm
 	name = "arm"
-	required_assembly = list(/datum/endo_assembly/item/interaction/wire)
+	required_assembly = list(/datum/endo_assembly/item/interaction/stack/wire)
 	///What are we currently holding, if anything
 	var/obj/holding
 	///Reference to our hand hud
@@ -16,7 +16,7 @@
 	RegisterSignal(parent, COMSIG_ROBOT_PICKUP_ITEM, PROC_REF(catch_unarmed))
 	RegisterSignal(parent, COMSIG_ENDO_POLL_EQUIP, PROC_REF(poll_equip))
 
-/datum/component/endopart/arm/poll_hud(datum/source, datum/hud/hud)
+/datum/component/endopart/arm/apply_hud(datum/source, datum/hud/hud)
 	. = ..()
 	if(!hud)
 		return

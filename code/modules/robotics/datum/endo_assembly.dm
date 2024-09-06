@@ -23,14 +23,14 @@
 	part_parent = parent
 
 	//Setup Signals
-	RegisterSignal(part_parent, COMSIG_ENDO_ASSEMBLY_POLL_PART, PROC_REF(pre_check_assemble))
+	RegisterSignal(part_parent, COMSIG_ENDO_ASSEMBLY_LIST_PART, PROC_REF(pre_check_assemble))
 
 	RegisterSignal(part_parent, COMSIG_ENDO_ASSEMBLY_ADD, PROC_REF(add_part))
 	RegisterSignal(part_parent, COMSIG_ENDO_ASSEMBLY_REMOVE, PROC_REF(remove_part))
 
-	RegisterSignal(part_parent, COMSIG_ENDO_LIST_PART, PROC_REF(poll_part))
+	RegisterSignal(part_parent, COMSIG_ENDO_LIST_PART, PROC_REF(list_part))
 
-	RegisterSignal(part_parent, COMSIG_ENDO_APPLY_HUD, PROC_REF(poll_hud))
+	RegisterSignal(part_parent, COMSIG_ENDO_APPLY_HUD, PROC_REF(apply_hud))
 	RegisterSignal(part_parent, COMSIG_ENDO_REMOVE_HUD, PROC_REF(remove_hud))
 
 	RegisterSignal(part_parent, COMSIG_ROBOT_LIST_SELF_MONITOR, PROC_REF(append_monitor))
@@ -103,7 +103,7 @@
 
 	return TRUE
 
-/datum/endo_assembly/proc/poll_part(datum/source, type, list/population_list)
+/datum/endo_assembly/proc/list_part(datum/source, type, list/population_list)
 	SIGNAL_HANDLER
 
 	if(istype(src, type))
@@ -115,7 +115,7 @@
 		population_list += part
 
 ///Add hud elements
-/datum/endo_assembly/proc/poll_hud(datum/source, datum/hud/hud)
+/datum/endo_assembly/proc/apply_hud(datum/source, datum/hud/hud)
 	SIGNAL_HANDLER
 
 	if(!hud || (check_completion() & ENDO_ASSEMBLY_INCOMPLETE))
@@ -171,6 +171,10 @@
 	var/component_requirment = /datum/component/endopart
 	///What item do we use for ideal pre builds
 	var/obj/item/ideal_part_parent = /obj/item/endopart
+	///Are we looking for a specific offset key?
+	var/required_offset_key
+	///What compatabilities does this part support
+	var/compatibility_flags = ENDO_COMPATIBILITY_GENERIC
 
 /datum/endo_assembly/endopart/New(datum/parent)
 	. = ..()
@@ -184,12 +188,16 @@
 	. = ..()
 	var/datum/component/endopart/part = I.GetComponent(component_requirment)
 	if(istype(part, component_requirment))
-		return TRUE
+		. = TRUE
+	if(. && !(compatibility_flags & part.compatibility_flags))
+		. = FALSE
+	if(required_offset_key && part?.offset_key != required_offset_key)
+		. =  FALSE
 
 /datum/endo_assembly/endopart/build_ideal_part()
 	for(var/i in 1 to amount_required)
 		var/obj/item/I = new ideal_part_parent(get_turf(part_parent.parent))
-		I.AddComponent(component_requirment, TRUE)
+		I.AddComponent(component_requirment, TRUE, required_offset_key)
 		if(!part_parent.attach_part(src, I, null))
 			qdel(I)
 
@@ -204,7 +212,7 @@
 
 /datum/endo_assembly/item/interaction/New(datum/parent)
 	. = ..()
-	UnregisterSignal(parent, COMSIG_ENDO_ASSEMBLY_POLL_PART)
+	UnregisterSignal(parent, COMSIG_ENDO_ASSEMBLY_LIST_PART)
 	UnregisterSignal(parent, COMSIG_ENDO_ASSEMBLY_ADD)
 	UnregisterSignal(parent, COMSIG_ENDO_ASSEMBLY_REMOVE)
 	//Rebuild hint data

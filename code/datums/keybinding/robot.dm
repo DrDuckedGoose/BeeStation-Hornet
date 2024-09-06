@@ -52,6 +52,8 @@
 		return
 	var/mob/living/silicon/new_robot/R = user.mob
 	var/obj/item/I = R.get_active_held_item()
+	if(!I)
+		return
 	I.dropped(R)
 	I.cyborg_unequip(R)
 	return TRUE

@@ -24,6 +24,12 @@
 	///Do we generate pre-done?
 	var/start_finished = FALSE
 
+	///What compatabilities does this part have
+	var/compatibility_flags = ENDO_COMPATIBILITY_GENERIC
+
+	///What is this part's ambient draw?
+	var/ambient_draw = 0
+
 /datum/component/endopart/Initialize(_start_finished)
 	. = ..()
 	if(!parent)
@@ -37,9 +43,9 @@
 	RegisterSignal(parent, COMSIG_PARENT_EXAMINE, PROC_REF(catch_examine))
 
 	RegisterSignal(parent, COMSIG_ENDO_APPLY_OFFSET, PROC_REF(apply_offset))
-	RegisterSignal(parent, COMSIG_ENDO_LIST_PART, PROC_REF(poll_part))
-	RegisterSignal(parent, COMSIG_ENDO_APPLY_LIFE, PROC_REF(poll_life))
-	RegisterSignal(parent, COMSIG_ENDO_APPLY_HUD, PROC_REF(poll_hud))
+	RegisterSignal(parent, COMSIG_ENDO_LIST_PART, PROC_REF(list_part))
+	RegisterSignal(parent, COMSIG_ENDO_APPLY_LIFE, PROC_REF(life))
+	RegisterSignal(parent, COMSIG_ENDO_APPLY_HUD, PROC_REF(apply_hud))
 
 	RegisterSignal(parent, COMSIG_BODYPART_ATTACHED, PROC_REF(apply_assembly))
 
@@ -61,16 +67,11 @@
 
 ///Can something be attached to us
 /datum/component/endopart/proc/can_attach(obj/item/I)
-	//Check if one of our assembly datums can use this item
-	var/can_attach
-	can_attach = can_attach || SEND_SIGNAL(src, COMSIG_ENDO_ASSEMBLY_POLL_PART, I)
-	return can_attach
+	return SEND_SIGNAL(src, COMSIG_ENDO_ASSEMBLY_LIST_PART, I)
 
 ///Can something interact with us
 /datum/component/endopart/proc/can_interact(obj/item/I)
-	var/can_interact
-	can_interact = can_interact || SEND_SIGNAL(src, COMSIG_ENDO_ASSEMBLY_POLL_INTERACTION, I)
-	return can_interact
+	return SEND_SIGNAL(src, COMSIG_ENDO_ASSEMBLY_POLL_INTERACTION, I)
 
 ///Attach a part to THIS part
 /datum/component/endopart/proc/attach_part(datum/source, obj/item/I, mob/living/L, params)
@@ -89,13 +90,15 @@
 		//Register a signal so this part can be easily removed
 		RegisterSignal(I, COMSIG_ENDO_REMOVE_PART, PROC_REF(remove_part))
 
-		playsound(parent, 'sound/machines/click.ogg', 60)
+		if(!start_finished) //This scared the shit out of me all through testing, this stops that
+			playsound(parent, 'sound/machines/click.ogg', 60)
 		. = TRUE
 	//Handle item interactions
 	if(can_interact(I))
 		SEND_SIGNAL(src, COMSIG_ENDO_ASSEMBLY_INTERACT, I, L)
 
-		playsound(parent, 'sound/machines/click.ogg', 60)
+		if(!start_finished)
+			playsound(parent, 'sound/machines/click.ogg', 60)
 		. = TRUE
 	//If we're already assembled we'll need to reassemble to apply the new changes
 	if(assembled_mob)
@@ -132,12 +135,15 @@
 	RegisterSignal(I, COMSIG_ENDO_ASSEMBLE, PROC_REF(apply_assembly))
 	RegisterSignal(I, COMSIG_ENDO_UNASSEMBLE, PROC_REF(remove_assembly))
 	//Co-op stuff
-	RegisterSignal(part, COMSIG_ENDO_LIST_PART, PROC_REF(poll_part))
-	RegisterSignal(part, COMSIG_ENDO_APPLY_LIFE, PROC_REF(poll_life))
-	RegisterSignal(part, COMSIG_ENDO_APPLY_HUD, PROC_REF(poll_hud))
+	RegisterSignal(part, COMSIG_ENDO_LIST_PART, PROC_REF(list_part))
+	RegisterSignal(part, COMSIG_ENDO_APPLY_LIFE, PROC_REF(life))
+	RegisterSignal(part, COMSIG_ENDO_APPLY_HUD, PROC_REF(apply_hud))
 	RegisterSignal(part, COMSIG_ROBOT_SET_EMAGGED, PROC_REF(set_emagged))
+	RegisterSignal(part, COMSIG_ROBOT_LIST_SELF_MONITOR, PROC_REF(append_monitor))
+	RegisterSignal(part, COMSIG_ROBOT_CONSUME_ENERGY, PROC_REF(consume_energy))
 
-	playsound(parent, 'sound/machines/click.ogg', 60)
+	if(!start_finished)
+		playsound(parent, 'sound/machines/click.ogg', 60)
 
 /datum/component/endopart/proc/remove_from(datum/source, obj/item/I, datum/component/endopart/part)
 	SIGNAL_HANDLER
@@ -149,6 +155,8 @@
 	UnregisterSignal(part, COMSIG_ENDO_APPLY_LIFE)
 	UnregisterSignal(part, COMSIG_ENDO_APPLY_HUD)
 	UnregisterSignal(part, COMSIG_ROBOT_SET_EMAGGED)
+	UnregisterSignal(part, COMSIG_ROBOT_LIST_SELF_MONITOR)
+	UnregisterSignal(part,  COMSIG_ROBOT_CONSUME_ENERGY)
 
 ///Apply our special and cool effects when Mr. Roboto is assembled
 /datum/component/endopart/proc/apply_assembly(datum/source, mob/target)
@@ -157,7 +165,7 @@
 	assembled_mob = target
 	build_assembly_overlay(target)
 	SEND_SIGNAL(parent, COMSIG_ENDO_ASSEMBLE, target)
-	poll_hud(source, assembled_mob?.hud_used)
+	apply_hud(source, assembled_mob?.hud_used)
 	return
 
 ///Undo whatever awful shit we did
@@ -246,7 +254,7 @@
 	return SEND_SIGNAL(src, COMSIG_ROBOT_CONSUME_ENERGY, amount)
 
 ///Part getter stuff
-/datum/component/endopart/proc/poll_part(datum/source, type, list/population_list)
+/datum/component/endopart/proc/list_part(datum/source, type, list/population_list)
 	SIGNAL_HANDLER
 
 	SEND_SIGNAL(src, COMSIG_ENDO_LIST_PART, type, population_list)
@@ -265,13 +273,20 @@
 	return outcome
 
 ///What we do in the life loop
-/datum/component/endopart/proc/poll_life(datum/source, mob/M)
+/datum/component/endopart/proc/life(datum/source, mob/M)
 	SIGNAL_HANDLER
+
+	. = FALSE
+	if(M.stat == DEAD)
+		return
+	var/mob/living/silicon/new_robot/R = M
+	if(istype(R) && R.consume_energy(ambient_draw))
+		. =  TRUE
 
 	SEND_SIGNAL(src, COMSIG_ENDO_APPLY_LIFE, M)
 
 ///Add hud stuff associated with this part
-/datum/component/endopart/proc/poll_hud(datum/source, datum/hud/hud)
+/datum/component/endopart/proc/apply_hud(datum/source, datum/hud/hud)
 	SIGNAL_HANDLER
 
 	SEND_SIGNAL(src, COMSIG_ENDO_APPLY_HUD, hud)

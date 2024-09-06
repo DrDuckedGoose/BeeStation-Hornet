@@ -246,10 +246,13 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 	if(istype(loc, /obj/item/storage))
 		item_flags |= IN_STORAGE
 
+	/*
+	//TODO: Do we need this? - Racc
 	if(istype(loc, /obj/item/new_robot_module))
 		var/obj/item/new_robot_module/parent_module = loc
 		var/mob/living/silicon/parent_robot = parent_module.robot_parent
 		pickup(parent_robot)
+	*/
 
 	if(!hitsound)
 		if(damtype == BURN)

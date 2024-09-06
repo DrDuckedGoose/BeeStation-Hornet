@@ -9,6 +9,7 @@
 	/datum/endo_assembly/item/access_module, /datum/endo_assembly/item/radio, /datum/endo_assembly/item/lamp,
 	/datum/endo_assembly/item/ai_controller)
 	offset_key = ENDO_OFFSET_KEY_HEAD(1)
+	ambient_draw = 1
 //Hud Stuff
 	///Reference to zone selection hud element
 	var/atom/movable/screen/zone_select
@@ -39,7 +40,7 @@
 	. = ..()
 	//TODO: Remove ckey control & hud stuff - Racc
 
-/datum/component/endopart/head/poll_hud(datum/source, datum/hud/hud)
+/datum/component/endopart/head/apply_hud(datum/source, datum/hud/hud)
 	. = ..()
 	if(!hud)
 		return
@@ -104,7 +105,7 @@
 
 	hud.show_hud(HUD_STYLE_STANDARD)
 
-/datum/component/endopart/head/poll_life(datum/source, mob/living/M)
+/datum/component/endopart/head/life(datum/source, mob/living/M)
 	. = ..()
 	//Update our health hud
 	if(!health || !istype(M))

@@ -6,8 +6,23 @@
 	item_requirment = /obj/item/assembly/prox_sensor
 	assembly_integral = TRUE
 
+/datum/endo_assembly/item/vest
+	item_requirment = /obj/item/clothing/suit/armor/vest
+	assembly_integral = TRUE
+
+/datum/endo_assembly/item/helmet
+	item_requirment = /obj/item/clothing/head/helmet
+	assembly_integral = TRUE
+
 /datum/endo_assembly/item/analyzer
 	item_requirment = /obj/item/analyzer
+
+/datum/endo_assembly/item/clown_horn
+	item_requirment = /obj/item/bikehorn
+
+/datum/endo_assembly/item/hardhat
+	item_requirment = /obj/item/clothing/head/utility/hardhat
+	assembly_integral = TRUE
 
 /datum/endo_assembly/item/oxygen
 	item_requirment = /obj/item/tank/internals/oxygen
@@ -22,6 +37,9 @@
 	item_requirment = /obj/item/melee/baton
 	assembly_integral = TRUE
 
+/datum/endo_assembly/item/disabler
+	item_requirment = /obj/item/gun/energy/disabler
+	assembly_integral = TRUE
 
 /datum/endo_assembly/item/healthanalyzer
 	item_requirment = /obj/item/healthanalyzer
@@ -113,7 +131,7 @@
 	///Reference to our radio hud stuff
 	var/atom/movable/screen/new_robot/radio/radio
 
-/datum/endo_assembly/item/radio/poll_hud(datum/source, datum/hud/hud)
+/datum/endo_assembly/item/radio/apply_hud(datum/source, datum/hud/hud)
 	. = ..()
 	if(!.)
 		return
@@ -159,7 +177,7 @@
 	if(.)
 		lamp_functional = TRUE
 
-/datum/endo_assembly/item/lamp/poll_hud(datum/source, datum/hud/hud)
+/datum/endo_assembly/item/lamp/apply_hud(datum/source, datum/hud/hud)
 	. = ..()
 	if(!.)
 		return
@@ -182,7 +200,7 @@
 
 /datum/endo_assembly/item/lamp/append_monitor(datum/source, list/data)
 	. = ..()
-	data["lamp"] = "It's ogre"
+	data["lampIntensity"] = lamp_intensity
 
 //Module
 /datum/endo_assembly/item/item_module
@@ -199,9 +217,9 @@
 	RegisterSignal(part_parent, COMSIG_ENDO_ASSEMBLE, PROC_REF(add_module_parent))
 	RegisterSignal(part_parent, COMSIG_ENDO_UNASSEMBLE, PROC_REF(remove_module_parent))
 
-/datum/endo_assembly/item/item_module/poll_hud(datum/source, datum/hud/hud)
+/datum/endo_assembly/item/item_module/apply_hud(datum/source, datum/hud/hud)
 	. = ..()
-	if(!.)
+	if(!. || !length(parts))
 		return
 	//Module
 	if(!module)
@@ -230,10 +248,10 @@
 			qdel(I)
 
 /datum/endo_assembly/item/item_module/remove_part(datum/source, obj/item/I)
-	. = ..()
 	var/obj/item/new_robot_module/item_module = parts[1]
 	item_module.module_hud = null
 	QDEL_NULL(module)
+	return ..()
 
 /datum/endo_assembly/item/item_module/proc/add_module_parent(datum/source)
 	SIGNAL_HANDLER

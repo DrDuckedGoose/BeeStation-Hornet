@@ -24,8 +24,7 @@
 	name = "Cyborg Upgrade (Ion Thrusters)"
 	id = "borg_upgrade_thrusters"
 	build_type = MECHFAB
-	//TODO: - Racc
-	//build_path = /obj/item/borg/upgrade/thrusters
+	build_path = /obj/item/borg/upgrade/item/ion_pulse
 	materials = list(/datum/material/iron = 10000, /datum/material/glass = 6000, /datum/material/plasma = 5000, /datum/material/uranium = 6000)
 	construction_time = 120
 	category = list("Cyborg Upgrade Modules")

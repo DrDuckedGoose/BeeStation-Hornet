@@ -44,3 +44,55 @@
 	R.revive()
 	R.logevent("WARN -- System recovered from unexpected shutdown.")
 	R.logevent("System brought online.")
+
+//Ion pulse
+/obj/item/borg/upgrade/item/ion_pulse
+	name = "ion thruster upgrade"
+	desc = "An energy-operated thruster system for cyborgs."
+	icon_state = "cyborg_upgrade3"
+	upgrade_item = /obj/item/borg/ion_thing
+
+/obj/item/borg/ion_thing
+	icon = 'icons/obj/module.dmi'
+	icon_state = "cyborg_upgrade"
+
+/obj/item/borg/ion_thing/attack_robot(mob/living/user)
+	. = ..()
+	var/mob/living/silicon/new_robot/R = loc
+	if(istype(R))
+		RegisterSignal(R, COMSIG_ROBOT_HAS_IONPULSE, PROC_REF(catch_ion_pulse))
+
+/obj/item/borg/ion_thing/dropped(mob/user, silent)
+	. = ..()
+	UnregisterSignal(user, COMSIG_ROBOT_HAS_IONPULSE)
+
+/obj/item/borg/ion_thing/proc/catch_ion_pulse(datum/source)
+	SIGNAL_HANDLER
+
+	return TRUE
+
+//Mag pulse
+/obj/item/borg/upgrade/item/mag_pulse
+	name = "mag pulse upgrade"
+	desc = "An energy-operated mag pulse system for cyborgs."
+	icon_state = "cyborg_upgrade3"
+	upgrade_item = /obj/item/borg/mag_thing
+
+/obj/item/borg/mag_thing
+	icon = 'icons/obj/module.dmi'
+	icon_state = "cyborg_upgrade"
+
+/obj/item/borg/mag_thing/attack_robot(mob/living/user)
+	. = ..()
+	var/mob/living/silicon/new_robot/R = loc
+	if(istype(R))
+		RegisterSignal(R, COMSIG_ROBOT_HAS_MAGPULSE, PROC_REF(catch_mag_pulse))
+
+/obj/item/borg/mag_thing/dropped(mob/user, silent)
+	. = ..()
+	UnregisterSignal(user, COMSIG_ROBOT_HAS_MAGPULSE)
+
+/obj/item/borg/mag_thing/proc/catch_mag_pulse(datum/source)
+	SIGNAL_HANDLER
+
+	return TRUE

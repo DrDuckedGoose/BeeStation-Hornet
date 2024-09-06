@@ -89,3 +89,49 @@
 /datum/component/endopart/chassis/bot/floor/broken_assembly(mob/M)
 	. = ..()
 	//TODO: - Racc
+
+/*
+	Honk chassis
+*/
+
+/datum/component/endopart/chassis/bot/clown
+	assembly_mob = /mob/living/simple_animal/bot/honkbot
+	required_assembly = list(/datum/endo_assembly/item/proximity_sensor, /datum/endo_assembly/endopart/functional_limb/arm,
+	/datum/endo_assembly/item/clown_horn, /datum/endo_assembly/item/interaction/tool/screwdriver)
+
+/datum/component/endopart/chassis/bot/clown/broken_assembly(mob/M)
+	. = ..()
+	//TODO: - Racc
+
+/*
+	Firebot chassis
+*/
+
+/datum/component/endopart/chassis/bot/fire
+	assembly_mob = /mob/living/simple_animal/bot/firebot
+	required_assembly = list(/datum/endo_assembly/item/proximity_sensor, /datum/endo_assembly/endopart/functional_limb/arm,
+	/datum/endo_assembly/item/hardhat, /datum/endo_assembly/item/interaction/tool/screwdriver)
+
+/datum/component/endopart/chassis/bot/fire/broken_assembly(mob/M)
+	. = ..()
+	//TODO: - Racc
+
+/*
+	ED209 chassis
+*/
+
+/datum/component/endopart/chassis/bot/ed209
+	assembly_mob = /mob/living/simple_animal/bot/ed209
+	required_assembly = list(/datum/endo_assembly/item/proximity_sensor, /datum/endo_assembly/item/cell, /datum/endo_assembly/item/disabler,
+	/datum/endo_assembly/item/interaction/stack/wire, /datum/endo_assembly/endopart/functional_limb/leg, /datum/endo_assembly/endopart/functional_limb/leg,
+	/datum/endo_assembly/item/helmet, /datum/endo_assembly/item/vest, /datum/endo_assembly/item/interaction/stack/iron,
+	/datum/endo_assembly/item/interaction/tool/welder)
+
+/datum/component/endopart/chassis/bot/ed209/broken_assembly(mob/M)
+	. = ..()
+	//TODO: - Racc
+
+/obj/item/endopart/chassis/ed209
+	name = "ed209 chassis"
+	desc = "A chassis for a ed209 robot"
+	endo_component = /datum/component/endopart/chassis/bot/ed209

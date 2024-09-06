@@ -30,7 +30,6 @@
 		return TRUE
 	return FALSE
 
-//TODO: Add signal list thing for endoparts and items to feed in their own data - Racc
 /datum/computer_file/program/borg_self_monitor/ui_data(mob/user)
 	var/list/data = list()
 	if(!iscyborg(user))
@@ -66,7 +65,7 @@
 	data["wireLaw"] = "[borgo.wires.is_cut(WIRE_LAWSYNC)?"FAULT":"NOMINAL"]"
 
 	//Once we've gotten all the basic bitch shit, we'll grab the custom stuff from our everything
-	SEND_SIGNAL(borgo, COMSIG_ROBOT_LIST_SELF_MONITOR, data)
+	SEND_SIGNAL(borgo.chassis, COMSIG_ROBOT_LIST_SELF_MONITOR, data)
 
 	return data
 

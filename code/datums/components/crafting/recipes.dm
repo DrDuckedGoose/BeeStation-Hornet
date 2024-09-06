@@ -156,46 +156,6 @@
 	category = CAT_WEAPONRY
 	subcategory = CAT_WEAPON
 
-/*
-//TODO: Port these to the new system - Racc
-/datum/crafting_recipe/ed209
-	name = "ED209"
-	result = /mob/living/simple_animal/bot/ed209
-	reqs = list(/obj/item/robot_suit = 1,
-				/obj/item/clothing/head/helmet = 1,
-				/obj/item/clothing/suit/armor/vest = 1,
-				/obj/item/bodypart/l_leg/robot = 1,
-				/obj/item/bodypart/r_leg/robot = 1,
-				/obj/item/stack/sheet/iron = 1,
-				/obj/item/stack/cable_coil = 1,
-				/obj/item/gun/energy/disabler = 1,
-				/obj/item/stock_parts/cell = 1,
-				/obj/item/assembly/prox_sensor = 1)
-	tools = list(TOOL_WELDER, TOOL_SCREWDRIVER)
-	time = 60
-	category = CAT_ROBOT
-
-/datum/crafting_recipe/honkbot
-	name = "Honkbot"
-	result = /mob/living/simple_animal/bot/honkbot
-	reqs = list(/obj/item/storage/box/clown = 1,
-				/obj/item/bodypart/r_arm/robot = 1,
-				/obj/item/assembly/prox_sensor = 1,
-				/obj/item/bikehorn/ = 1)
-	time = 40
-	category = CAT_ROBOT
-
-/datum/crafting_recipe/Firebot
-	name = "Firebot"
-	result = /mob/living/simple_animal/bot/firebot
-	reqs = list(/obj/item/extinguisher = 1,
-				/obj/item/bodypart/r_arm/robot = 1,
-				/obj/item/assembly/prox_sensor = 1,
-				/obj/item/clothing/head/utility/hardhat/red = 1)
-	time = 40
-	category = CAT_ROBOT
-*/
-
 /datum/crafting_recipe/improvised_pneumatic_cannon //Pretty easy to obtain but
 	name = "Pneumatic Cannon"
 	result = /obj/item/pneumatic_cannon/ghetto
