@@ -197,4 +197,3 @@ GLOBAL_LIST_INIT(heavyfootstep, list(
 	FOOTSTEP_MEAT = list(list(
 		'sound/effects/meatslap.ogg'), 100, 0),
 ))
-

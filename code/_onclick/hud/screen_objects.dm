@@ -616,10 +616,6 @@
 	icon = 'icons/mob/screen_alien.dmi'
 	screen_loc = ui_alien_health
 
-/atom/movable/screen/healths/robot
-	icon = 'icons/mob/screen_cyborg.dmi'
-	screen_loc = ui_borg_health
-
 /atom/movable/screen/healths/minebot
 	icon = 'icons/mob/screen_cyborg.dmi'
 	screen_loc = ui_health

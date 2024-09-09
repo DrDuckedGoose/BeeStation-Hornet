@@ -1,20 +1,46 @@
+/*
+	Important to note, the bulk of actual damage application is handled by endoparts catching
+	the apply_damage signal stuff and handling their own damage there. When the borg updates
+	its health, it uses the limbs health
+
+	//TODO: make the borg reference endopart get_health() instead of limb helath - Racc
+*/
+
 /mob/living/silicon/new_robot
 	var/emag_cooldown = 0
 
+//TODO: Go over this, it just copies the past code but throws the item into the apply damage proc - Racc
+/mob/living/silicon/new_robot/attacked_by(obj/item/I, mob/living/user)
+	send_item_attack_message(I, user)
+	if(!I.force)
+		return FALSE
+	var/armour_block = run_armor_check(null, MELEE, armour_penetration = I.armour_penetration)
+	damage_limbs(I.force, I.damtype, check_zone(user.get_combat_bodyzone(src)), armour_block, FALSE, I)
+	if(I.damtype == BRUTE && prob(33))
+		I.add_mob_blood(src)
+		var/turf/location = get_turf(src)
+		add_splatter_floor(location)
+		if(get_dist(user, src) <= 1)	//people with TK won't get smeared with blood
+			user.add_mob_blood(src)
+	return TRUE //successful attack
+
+/mob/living/silicon/new_robot/apply_damage(damage, damagetype, def_zone, blocked, forced, obj/item/I)
+	return
+
+/mob/living/silicon/new_robot/proc/damage_limbs(damage, damagetype, def_zone, blocked, forced, obj/item/I)
+	SEND_SIGNAL(src, COMSIG_MOB_APPLY_DAMGE, damage, damagetype, def_zone, blocked, forced, I)
+	updatehealth()
+
+/*
+	Generic damage handling for stuff like aliens & fire
+*/
+
 /mob/living/silicon/new_robot/attackby(obj/item/I, mob/living/user)
-	//Cool hat stuff
-	if(I.slot_flags & ITEM_SLOT_HEAD && user.a_intent == INTENT_HELP && chassis_component.can_wear(I))
-		to_chat(user, "<span class='notice'>You begin to place [I] on [src]'s head...</span>")
-		to_chat(src, "<span class='notice'>[user] is placing [I] on your head...</span>")
-		if(do_after(user, 30, target = src))
-			if(user.temporarilyRemoveItemFromInventory(I, TRUE))
-				return
-				//TODO: - Racc
-				//place_on_head(I)
-		return
 	//Regular damage effects
 	if(I.force && I.damtype != STAMINA && stat != DEAD)
 		spark_system.start()
+	//Zone damage
+	//TODO: Port the limb damage code from carbons - raccs
 	return ..()
 
 /mob/living/silicon/new_robot/attack_alien(mob/living/carbon/alien/humanoid/M)
@@ -40,16 +66,13 @@
 			"<span class='userdanger'>[M] has forced back [src]!</span>", null, COMBAT_MESSAGE_RANGE)
 	playsound(loc, 'sound/weapons/pierce.ogg', 50, 1, -1)
 
-//TODO: Go over this - Racc
 /mob/living/silicon/new_robot/attack_slime(mob/living/simple_animal/slime/M)
 	if(..()) //successful slime shock
 		flash_act()
 		if(M.powerlevel)
 			adjustBruteLoss(M.powerlevel * 4)
 			M.powerlevel --
-
 	var/damage = rand(3)
-
 	if(M.is_adult)
 		damage = 30
 	else
@@ -63,15 +86,13 @@
 //ATTACK HAND IGNORING PARENT RETURN VALUE
 /mob/living/silicon/new_robot/attack_hand(mob/living/carbon/human/user)
 	add_fingerprint(user)
-	if(cover_open)
-		return
 	//hulk attack
 	if(..())
 		spark_system.start()
 		spawn(0)
-			step_away(src,user,15)
-			sleep(3)
-			step_away(src,user,15)
+		step_away(src,user,15)
+		sleep(3)
+		step_away(src,user,15)
 
 /mob/living/silicon/new_robot/fire_act()
 	if(!on_fire) //Silicons don't gain stacks from hotspots, but hotspots can ignite them

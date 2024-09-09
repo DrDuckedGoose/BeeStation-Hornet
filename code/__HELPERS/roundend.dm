@@ -483,7 +483,7 @@
 		if (aiPlayer.connected_robots.len)
 			var/borg_num = aiPlayer.connected_robots.len
 			parts += "<br><b>[aiPlayer.real_name]</b>'s minions were:"
-			for(var/mob/living/silicon/robot/robo in aiPlayer.connected_robots)
+			for(var/mob/living/silicon/new_robot/robo in aiPlayer.connected_robots)
 				borg_num--
 				if(robo.mind)
 					parts += "<b>[robo.name]</b> (Played by: <b>[robo.mind.key]</b>)[robo.stat == DEAD ? " <span class='redtext'>(Deactivated)</span>" : ""][borg_num ?", ":""]"

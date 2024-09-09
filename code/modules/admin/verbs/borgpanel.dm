@@ -23,7 +23,7 @@
 	var/mob/living/silicon/new_robot/borg
 	var/user
 
-/datum/borgpanel/New(to_user, mob/living/silicon/robot/to_borg)
+/datum/borgpanel/New(to_user, mob/living/silicon/new_robot/to_borg)
 	if(!istype(to_borg))
 		qdel(src)
 		CRASH("Borg panel is only available for borgs")

@@ -549,10 +549,10 @@
 
 	. = R
 	if(R.ckey && is_banned_from(R.ckey, JOB_NAME_CYBORG))
-		INVOKE_ASYNC(R, TYPE_PROC_REF(/mob/living/silicon/robot, replace_banned_cyborg))
+		INVOKE_ASYNC(R, TYPE_PROC_REF(/mob/living/silicon/new_robot, replace_banned_cyborg))
 	qdel(src)
 
-/mob/living/silicon/robot/proc/replace_banned_cyborg()
+/mob/living/silicon/new_robot/proc/replace_banned_cyborg()
 	to_chat(src, "<span class='userdanger'>You are job banned from cyborg! Appeal your job ban if you want to avoid this in the future!</span>")
 	ghostize(FALSE)
 

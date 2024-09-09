@@ -42,46 +42,47 @@
 
 	face_atom(A) // change direction to face what you clicked on
 
-	var/obj/item/W = get_active_held_item()
 
-	if(!W && get_dist(src,A) <= interaction_range)
+	var/obj/item/W = get_active_held_item()
+	var/dist = get_dist(src,A)
+	if((dist > 1 || !W) && dist <= interaction_range)
 		A.attack_robot(src)
 		return
+	else if(isobj(A))
+		to_chat(src, "<span class='warning'>You need a free hand to interact with [A] while this close!</span>")
+	if(!W || incapacitated())
+		return
+	//while buckled, you can still connect to and control things like doors, but you can't use your modules
+	//TODO: Why is this a thing? - Racc
+	if(buckled)
+		to_chat(src, "<span class='warning'>You can't use modules while buckled to [buckled]!</span>")
+		return
 
-	if(W)
-		if(incapacitated())
-			return
+	//Same trait as humans.
+	//While we cant handcuff cyborgs, theres still scenarios where we dont want a mob to be able to use their "hands" or modules in this case
+	if(HAS_TRAIT(src, TRAIT_HANDS_BLOCKED))
+		return
 
-		//while buckled, you can still connect to and control things like doors, but you can't use your modules
-		if(buckled)
-			to_chat(src, "<span class='warning'>You can't use modules while buckled to [buckled]!</span>")
-			return
+	if(W == A)
+		W.attack_self(src)
+		return
 
-		//Same trait as humans.
-		//While we cant handcuff cyborgs, theres still scenarios where we dont want a mob to be able to use their "hands" or modules in this case
-		if(HAS_TRAIT(src, TRAIT_HANDS_BLOCKED))
-			return
+	// cyborgs are prohibited from using storage items so we can I think safely remove (A.loc in contents)
+	if(A == loc || (A in loc) || (A in contents))
+		W.melee_attack_chain(src, A, params)
+		return
 
-		if(W == A)
-			W.attack_self(src)
-			return
+	if(!isturf(loc))
+		return
 
-		// cyborgs are prohibited from using storage items so we can I think safely remove (A.loc in contents)
-		if(A == loc || (A in loc) || (A in contents))
+	// cyborgs are prohibited from using storage items so we can I think safely remove (A.loc && isturf(A.loc.loc))
+	if(isturf(A) || isturf(A.loc))
+		if(A.Adjacent(src)) // see adjacent.dm
 			W.melee_attack_chain(src, A, params)
 			return
-
-		if(!isturf(loc))
+		else
+			W.afterattack(A, src, 0, params)
 			return
-
-		// cyborgs are prohibited from using storage items so we can I think safely remove (A.loc && isturf(A.loc.loc))
-		if(isturf(A) || isturf(A.loc))
-			if(A.Adjacent(src)) // see adjacent.dm
-				W.melee_attack_chain(src, A, params)
-				return
-			else
-				W.afterattack(A, src, 0, params)
-				return
 
 //Give cyborgs hotkey clicks without breaking existing uses of hotkey clicks
 // for non-doors/apcs
@@ -97,7 +98,7 @@
 /mob/living/silicon/new_robot/AltClickOn(atom/A)
 	A.BorgAltClick(src)
 
-/atom/proc/BorgCtrlShiftClick(mob/living/silicon/robot/user) //forward to human click if not overridden
+/atom/proc/BorgCtrlShiftClick(mob/living/silicon/new_robot/user) //forward to human click if not overridden
 	CtrlShiftClick(user)
 
 /obj/machinery/door/airlock/BorgCtrlShiftClick(mob/living/silicon/new_robot/user) // Sets/Unsets Emergency Access Override Forwards to AI code.
@@ -105,7 +106,7 @@
 		AICtrlShiftClick(user)
 	else
 		..()
-/atom/proc/BorgShiftClick(mob/living/silicon/robot/user) //forward to human click if not overridden
+/atom/proc/BorgShiftClick(mob/living/silicon/new_robot/user) //forward to human click if not overridden
 	ShiftClick(user)
 
 /obj/machinery/door/airlock/BorgShiftClick(mob/living/silicon/new_robot/user)  // Opens and closes doors! Forwards to AI code.
@@ -114,7 +115,7 @@
 	else
 		..()
 
-/atom/proc/BorgCtrlClick(mob/living/silicon/robot/user) //forward to human click if not overridden
+/atom/proc/BorgCtrlClick(mob/living/silicon/new_robot/user) //forward to human click if not overridden
 	CtrlClick(user)
 
 /obj/machinery/door/airlock/BorgCtrlClick(mob/living/silicon/new_robot/user) // Bolts doors. Forwards to AI code.
@@ -135,7 +136,7 @@
 	else
 		..()
 
-/atom/proc/BorgAltClick(mob/living/silicon/robot/user)
+/atom/proc/BorgAltClick(mob/living/silicon/new_robot/user)
 	AltClick(user)
 	return
 

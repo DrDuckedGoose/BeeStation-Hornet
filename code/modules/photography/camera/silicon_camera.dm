@@ -74,6 +74,10 @@
 	else
 		return ..()
 
+/obj/item/camera/siliconcam/robot_camera/respawn_borg_consumable()
+	. = ..()
+	toner = tonermax
+
 /obj/item/camera/siliconcam/robot_camera/proc/borgprint(mob/user)
 	var/mob/living/silicon/new_robot/C = loc
 	if(!istype(C) || toner < 20)

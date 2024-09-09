@@ -1,4 +1,3 @@
-//TODO: After other TODOs, port the other files in this folder and any other procs in here we need - Racc
 /mob/living/silicon/robot_old
 	name = JOB_NAME_CYBORG
 	real_name = JOB_NAME_CYBORG

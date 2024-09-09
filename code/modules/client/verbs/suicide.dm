@@ -174,7 +174,7 @@
 		death(FALSE)
 		ghostize(FALSE,SENTIENCE_ERASE)	// Disallows reentering body and disassociates mind
 
-/mob/living/silicon/robot/verb/suicide()
+/mob/living/silicon/new_robot/verb/suicide()
 	set hidden = 1
 	if(!canSuicide())
 		return

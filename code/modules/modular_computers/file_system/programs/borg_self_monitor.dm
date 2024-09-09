@@ -73,7 +73,7 @@
 	var/list/data = list()
 	if(!iscyborg(user))
 		return data
-	var/mob/living/silicon/robot/borgo = user
+	var/mob/living/silicon/new_robot/borgo = user
 
 	data["Laws"] = borgo.laws.get_law_list(TRUE, TRUE, FALSE)
 	data["borgLog"] = tablet.borglog
@@ -88,13 +88,12 @@
 
 	switch(action)
 		if("coverunlock")
-			if(borgo.locked)
-				borgo.locked = FALSE
-				borgo.update_icons()
-				if(borgo.emagged)
-					borgo.logevent("ChÃ¥vÃis cover lock has been [borgo.locked ? "engaged" : "released"]") //"The cover interface glitches out for a split second"
-				else
-					borgo.logevent("Chassis cover lock has been [borgo.locked ? "engaged" : "released"]")
+			borgo.cover_open = !borgo.cover_open
+			borgo.update_icons()
+			if(borgo.emagged)
+				borgo.logevent("ChÃ¥vÃis cover lock has been [borgo.cover_open ? "engaged" : "released"]") //"The cover interface glitches out for a split second"
+			else
+				borgo.logevent("Chassis cover lock has been [borgo.cover_open ? "engaged" : "released"]")
 
 		if("lawchannel")
 			borgo.set_autosay()

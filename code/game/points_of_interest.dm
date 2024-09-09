@@ -38,7 +38,7 @@
 		moblist.Add(M)
 	for(var/mob/living/silicon/pai/M in sortmob)
 		moblist.Add(M)
-	for(var/mob/living/silicon/robot/M in sortmob)
+	for(var/mob/living/silicon/new_robot/M in sortmob)
 		moblist.Add(M)
 	for(var/mob/living/carbon/human/M in sortmob)
 		moblist.Add(M)

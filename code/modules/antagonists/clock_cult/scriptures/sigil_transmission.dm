@@ -69,7 +69,7 @@
 				M.use_power(C.chargerate)
 				GLOB.clockcult_power += 20
 	else if(iscyborg(AM))
-		var/mob/living/silicon/robot/R = AM
+		var/mob/living/silicon/new_robot/R = AM
 		var/obj/item/stock_parts/cell/C = R.get_cell()
 		if(!C)
 			return

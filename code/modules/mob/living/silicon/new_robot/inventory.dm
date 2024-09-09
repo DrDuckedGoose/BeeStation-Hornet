@@ -1,7 +1,9 @@
 /mob/living/silicon/new_robot/get_item_for_held_index(i)
-	var/obj/item/arm_item = available_hands[i]
+	if(!length(available_hands))
+		return
+	var/obj/item/arm_item = available_hands[min(i, length(available_hands))]
 	var/datum/component/endopart/arm/arm_component = arm_item.GetComponent(/datum/component/endopart/arm)
-	return arm_component?.holding
+	return arm_component?.get_holding()
 
 /mob/living/silicon/new_robot/can_equip(obj/item/I, slot, disable_warning = FALSE, bypass_equip_delay_self = FALSE)
 	if(!length(available_hands))
@@ -28,7 +30,7 @@
 
 /mob/living/silicon/new_robot/proc/get_hand_index(obj/item/bodypart/B)
 	var/index = 1
-	for(var/obj/item/bodypart/part as() in available_hands)
+	for(var/obj/item/bodypart/part as anything in available_hands)
 		if(part == B)
 			return index
 		index++

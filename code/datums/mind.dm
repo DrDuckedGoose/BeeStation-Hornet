@@ -833,7 +833,7 @@
 	mind.assigned_role = JOB_NAME_AI
 
 //BORG
-/mob/living/silicon/robot/mind_initialize()
+/mob/living/silicon/new_robot/mind_initialize()
 	..()
 	mind.assigned_role = JOB_NAME_CYBORG
 

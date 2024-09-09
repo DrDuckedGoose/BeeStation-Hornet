@@ -132,7 +132,7 @@
 		var/mob/living/silicon/ai/AI = usr
 		AI.aicamera.toggle_camera_mode(usr)
 	else if(iscyborg(usr))
-		var/mob/living/silicon/robot/R = usr
+		var/mob/living/silicon/new_robot/R = usr
 		R.aicamera.toggle_camera_mode(usr)
 
 /atom/movable/screen/ai/image_view

@@ -172,7 +172,7 @@
 	balloon_alert(user, "You toggle [src] to [mode] mode")
 	update_appearance()
 
-/obj/item/borg/charger/afterattack(obj/item/target, mob/living/silicon/robot/user, proximity_flag)
+/obj/item/borg/charger/afterattack(obj/item/target, mob/living/silicon/new_robot/user, proximity_flag)
 	. = ..()
 	if(!proximity_flag || !iscyborg(user))
 		return

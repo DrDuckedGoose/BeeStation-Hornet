@@ -50,7 +50,7 @@
 			var/mob/living/L = user
 			L.confused += 2
 		if(iscyborg(user) && user.has_buckled_mobs())
-			var/mob/living/silicon/robot/R = user
+			var/mob/living/silicon/new_robot/R = user
 			var/datum/component/riding/riding_datum = R.GetComponent(/datum/component/riding)
 			if(riding_datum)
 				for(var/mob/M in R.buckled_mobs)

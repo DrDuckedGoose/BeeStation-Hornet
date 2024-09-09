@@ -4,6 +4,7 @@
 #define COMSIG_ENDO_ATTACHED "endo_attached"
 #define COMSIG_ENDO_REMOVED "endo_removed"
 #define COMSIG_ENDO_ASSEMBLE "endo_assemble"
+#define COMSIG_ENDO_REFRESH_ASSEMBLY "endo_refresh_assembly"
 #define COMSIG_ENDO_UNASSEMBLE "endo_unassemble"
 
 #define COMSIG_ENDO_POLL_EQUIP "endo_poll_equip"
@@ -41,9 +42,13 @@
 #define COMSIG_ROBOT_PICKUP_ITEM "robot_pickup_item"
 #define COMSIG_ROBOT_SET_EMAGGED "robot_set_emagged"
 #define COMSIG_ROBOT_LIST_SELF_MONITOR "robot_list_self_monitor"
+#define COMSIG_ROBOT_UPDATE_ICONS "robot_update_icons"
 
 #define COMSIG_ROBOT_HAS_MAGPULSE "robot_has_magpulse"
 #define COMSIG_ROBOT_HAS_IONPULSE "robot_has_ionpulse"
+
+#define ROBOT_COVER_OPEN_TIME 3 SECONDS
+#define ROBOT_MODIFY_TIME 1.3 SECONDS
 
 /*
 	Offset key

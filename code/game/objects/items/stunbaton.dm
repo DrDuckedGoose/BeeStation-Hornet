@@ -61,6 +61,10 @@
 /obj/item/melee/baton/loaded //this one starts with a cell pre-installed.
 	preload_cell_type = /obj/item/stock_parts/cell/high
 
+/obj/item/melee/baton/respawn_borg_consumable()
+	. = ..()
+	cell?.charge = cell?.maxcharge
+
 /obj/item/melee/baton/proc/deductcharge(chrgdeductamt)
 	if(cell)
 		//Note this value returned is significant, as it will determine

@@ -14,18 +14,21 @@
 	health = 200
 	bubble_icon = "robot"
 	designation = "Default" //used for displaying the prefix & getting the current module of cyborg
-	has_limbs = 1
+	has_limbs = TRUE
 	hud_type = /datum/hud/new_robot
 	blocks_emissive = EMISSIVE_BLOCK_UNIQUE
 	light_system = MOVABLE_LIGHT
 	light_on = FALSE
+
 	///Reference to the chassis we're built from, used for *most* 'things'
 	var/obj/item/endopart/chassis/borg/chassis
 	var/datum/component/endopart/chassis/chassis_component //Shortcut for getting things straight from the component
 	///What chassis we use as a preset, if we're not given one
 	var/preset_chassis = /obj/item/endopart/chassis/borg/transform_machine
 	///Is our cover open? Essentially passes inputs to our chassis if it is
-	var/cover_open = FALSE
+	var/cover_open = TRUE//FALSE
+	///Overlay for cover
+	var/mutable_appearance/cover_overlay
 	///The AI we're connected to, our master
 	var/mob/living/silicon/ai/connected_ai = null
 	///Are we locked down
@@ -54,10 +57,15 @@
 	var/list/req_access = list(ACCESS_ROBOTICS)
 	///Cyborgs will sync their laws with their AI by default
 	var/law_update = TRUE
-	//TODO: Add variants that are already shells / already have a MMI & brain - Racc
+	///Quick ref to our discovery component
+	var/datum/component/discoverable/robot/discovery_component
 
 /mob/living/silicon/new_robot/Initialize(mapload, obj/item/endopart/chassis/borg/_chassis)
 	. = ..()
+//Overlay
+	cover_overlay = mutable_appearance('icons/mob/robots.dmi', "", layer = ABOVE_MOB_LAYER)
+//Footstep sounds for muh immersion
+	AddElement(/datum/element/footstep, FOOTSTEP_OBJ_ROBOT)
 //Build our spark effects
 	spark_system = new /datum/effect_system/spark_spread()
 	spark_system.set_up(5, 0, src)
@@ -87,41 +95,65 @@
 	var/list/radios = list()
 	SEND_SIGNAL(chassis, COMSIG_ENDO_LIST_PART, /obj/item/radio, radios)
 	if(length(radios))
-		radio = radios[1] //TODO: See if you can implement multiple radios without this breaking - Racc
-	//Grab hands
-	SEND_SIGNAL(chassis, COMSIG_ENDO_LIST_PART, /datum/component/endopart/arm, available_hands)
-	if(length(available_hands))
-		active_hand_index = 1
-	set_hand_index(active_hand_index)
+		//If you want to implement more than one radio, good luck
+		radio = radios[1]
 //Other
 	create_modularInterface()
+	update_icons()
 
 /mob/living/silicon/new_robot/Destroy()
 	. = ..()
+	QDEL_NULL(cover_overlay)
 //Clean up our spark effects
 	QDEL_NULL(spark_system)
 //Poot our chassis out
 	chassis?.forceMove(get_turf(src))
 
+/mob/living/silicon/new_robot/ComponentInitialize()
+	. = ..()
+	discovery_component = AddComponent(/datum/component/discoverable/robot)
+
 /mob/living/silicon/new_robot/attackby(obj/item/I, mob/living/user, params)
 	//See if we can pass this event onto our chassis
-	if(cover_open)
+	if(cover_open && user.a_intent == INTENT_HELP)
 		chassis?.attackby(I, user, params)
 	//THEN see if we're opening our cover or not
 	if(istype(I, /obj/item/card) && allowed(user))
+		if(!cover_open && !do_after(user, ROBOT_COVER_OPEN_TIME, src))
+			return ..()
 		to_chat(user, "<span class='warning'>You [!cover_open ? "open" : "close"] [src]'s cover!</span>")
 		cover_open = !cover_open
+		update_icons()
 		return
 	else if(!cover_open)
 		to_chat(user, "<span class='warning'>[src]'s cover is closed!</span>")
+	//Allows borgs to install new programs with human help
+	if(istype(I, /obj/item/computer_hardware/hard_drive/portable))
+		if(!modularInterface)
+			stack_trace("Cyborg [src] ( [type] ) was somehow missing their integrated tablet. Please make a bug report.")
+			create_modularInterface()
+		var/obj/item/computer_hardware/hard_drive/portable/floppy = I
+		if(modularInterface.install_component(floppy, user))
+			return
+	//Cool hat stuff
+	if(I.slot_flags & ITEM_SLOT_HEAD && user.a_intent == INTENT_HELP && can_wear(I))
+		to_chat(user, "<span class='notice'>You begin to place [I] on [src]'s head...</span>")
+		to_chat(src, "<span class='notice'>[user] is placing [I] on your head...</span>")
+		if(do_after(user, 30, target = src))
+			if(user.temporarilyRemoveItemFromInventory(I, TRUE))
+				place_on_head(I)
+		return
 	return ..()
 
 /mob/living/silicon/new_robot/tool_act(mob/living/user, obj/item/I, tool_type)
 	. = ..()
-	if(cover_open)
+	if(cover_open && do_after(user, ROBOT_MODIFY_TIME, src))
 		return chassis?.tool_act(user, I, tool_type)
-	else
+	else if(!cover_open)
 		to_chat(user, "<span class='warning'>[src]'s cover is closed!</span>")
+
+/mob/living/silicon/new_robot/regenerate_icons()
+	return update_icons()
 
 //Display our stats on the side tab
 /mob/living/silicon/new_robot/get_stat_tab_status()
@@ -143,6 +175,10 @@
 //Which AI are we connected to
 	if(connected_ai)
 		tab_data["Master AI"] = GENERATE_STAT_TEXT("[connected_ai.name]")
+//How much research do we have built up?
+	tab_data["Stored Discovery"] = GENERATE_STAT_TEXT("[discovery_component.point_reward]")
+	tab_data["Stored Generic"] = GENERATE_STAT_TEXT("[discovery_component.general_reward]")
+
 	return tab_data
 
 ///Easy way for getting our cell for other code stuff
@@ -212,6 +248,21 @@
 			riding_datum.restore_position(user)
 	. = ..(user)
 
+/mob/living/silicon/new_robot/update_icons()
+	SEND_SIGNAL(chassis, COMSIG_ROBOT_UPDATE_ICONS, src)
+	//Cover overlays
+	cut_overlay(cover_overlay)
+	if(cover_open)
+		if(wires_exposed)
+			cover_overlay.icon_state = "ov-opencover +w"
+		else if(get_cell())
+			cover_overlay.icon_state =  "ov-opencover +c"
+		else
+			cover_overlay.icon_state = "ov-opencover -c"
+		add_overlay(cover_overlay)
+	//FIRE FIRE FIRE!
+	update_fire()
+
 /mob/living/silicon/new_robot/proc/allowed(mob/M)
 	//check if it doesn't require any access at all
 	if(check_access(null))
@@ -258,9 +309,22 @@
 		return FALSE
 	return TRUE
 
+/mob/living/silicon/new_robot/proc/get_part_datum(path, index = 1)
+	var/list/parts = list()
+	SEND_SIGNAL(chassis, COMSIG_ENDO_LIST_PART, path, parts)
+	if(!length(parts))
+		return
+	var/atom/part_parent = parts[min(length(parts), index)]
+	return part_parent.GetComponent(path)
+
+/mob/living/silicon/new_robot/proc/place_on_head(obj/item/new_hat)
+	var/datum/component/endopart/head/head_component = get_part_datum(/datum/component/endopart/head)
+	head_component?.place_on_head(new_hat)
+
 ///Helper to check if we're allowed to wear a particular hat, checks with the chassis
 /mob/living/silicon/new_robot/proc/can_wear(var/obj/item/clothing/head/hat)
-	return chassis_component.can_wear(hat)
+	var/datum/component/endopart/head/head_component = get_part_datum(/datum/component/endopart/head)
+	return head_component?.can_wear(hat)
 
 /mob/living/silicon/new_robot/proc/can_dispose()
 	return chassis_component.can_dispose

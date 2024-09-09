@@ -34,6 +34,8 @@
 	var/weaponscheck = FALSE //If true, arrest people for weapons if they lack access
 	var/check_records = TRUE //Does it check security records?
 	var/arrest_type = FALSE //If true, don't handcuff
+	///Used for broken assembly
+	var/can_stun = TRUE
 
 /mob/living/simple_animal/bot/secbot/beepsky
 	name = "Officer Beep O'sky"
@@ -203,7 +205,7 @@
 	return ..()
 
 /mob/living/simple_animal/bot/secbot/UnarmedAttack(atom/A)
-	if(!on)
+	if(!on || !can_stun)
 		return
 	if(HAS_TRAIT(src, TRAIT_HANDS_BLOCKED))
 		return

@@ -325,6 +325,12 @@
 		return
 	AOE_flash()
 
+/obj/item/assembly/flash/respawn_borg_consumable()
+	. = ..()
+	bulb.charges_left = INFINITY
+	burnt_out = FALSE
+	update_icon()
+
 /obj/item/assembly/flash/proc/terrible_conversion_proc(mob/living/carbon/H, mob/user)
 	if(istype(H) && H.stat != DEAD)
 		if(user.mind)

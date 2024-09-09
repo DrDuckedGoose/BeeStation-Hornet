@@ -10,7 +10,7 @@
 		if(!M.current || !isAI(M.current))
 			continue
 		var/mob/living/silicon/ai/A = M.current
-		for(var/mob/living/silicon/robot/R as() in A.connected_robots)
+		for(var/mob/living/silicon/new_robot/R as() in A.connected_robots)
 			if(R.stat != DEAD)
 				counter++
 	return (counter >= 8) || ..()

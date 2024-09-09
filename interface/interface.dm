@@ -174,7 +174,8 @@ Any-Mode: (hotkey doesn't need to be on)
 	to_chat(src, hotkey_mode)
 	to_chat(src, other)
 
-/mob/living/silicon/robot/hotkey_help()
+//TODO: - Racc
+/mob/living/silicon/new_robot/hotkey_help()
 	//h = talk-wheel has a nonsense tag in it because \th is an escape sequence in BYOND.
 	var/hotkey_mode = {"<font color='purple'>
 Hotkey-Mode: (hotkey-mode must be on)

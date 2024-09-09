@@ -87,7 +87,7 @@ Borg Hypospray
 
 /obj/item/reagent_containers/borghypo/proc/regenerate_reagents()
 	if(iscyborg(src.loc))
-		var/mob/living/silicon/robot/R = src.loc
+		var/mob/living/silicon/new_robot/R = src.loc
 		var/obj/item/stock_parts/cell/cell = R?.get_cell()
 		if(cell)
 			for(var/i in 1 to reagent_ids.len)
@@ -218,7 +218,7 @@ Borg Shaker
 
 /obj/item/reagent_containers/borghypo/borgshaker/regenerate_reagents()
 	if(iscyborg(src.loc))
-		var/mob/living/silicon/robot/R = src.loc
+		var/mob/living/silicon/new_robot/R = src.loc
 		var/obj/item/stock_parts/cell/cell = R?.get_cell()
 		if(cell)
 			for(var/i in modes) //Lots of reagents in this one, so it's best to regenrate them all at once to keep it from being tedious.

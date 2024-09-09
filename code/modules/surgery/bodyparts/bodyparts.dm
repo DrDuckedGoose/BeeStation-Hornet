@@ -108,6 +108,10 @@
 	*/
 	return ..()
 
+/obj/item/bodypart/ComponentInitialize()
+	. = ..()
+	build_endo_component()
+
 /obj/item/bodypart/forceMove(atom/destination) //Please. Never forcemove a limb if its's actually in use. This is only for borgs.
 	. = ..()
 	if(isturf(destination))
@@ -642,6 +646,9 @@
 	drop_organs()
 	qdel(src)
 
+/obj/item/bodypart/proc/build_endo_component()
+	return
+
 /obj/item/bodypart/chest
 	name = BODY_ZONE_CHEST
 	desc = "It's impolite to stare at a person's chest."
@@ -724,6 +731,8 @@
 	px_y = 0
 	can_be_disabled = TRUE
 
+/obj/item/bodypart/l_arm/build_endo_component()
+	AddComponent(/datum/component/endopart/arm/bio, FALSE, ENDO_OFFSET_KEY_ARM(1))
 
 /obj/item/bodypart/l_arm/set_owner(new_owner)
 	. = ..()
@@ -829,6 +838,8 @@
 	px_y = 0
 	can_be_disabled = TRUE
 
+/obj/item/bodypart/r_arm/build_endo_component()
+	AddComponent(/datum/component/endopart/arm/bio, FALSE, ENDO_OFFSET_KEY_ARM(2))
 
 /obj/item/bodypart/r_arm/set_owner(new_owner)
 	. = ..()
@@ -932,6 +943,8 @@
 	max_stamina_damage = 50
 	can_be_disabled = TRUE
 
+/obj/item/bodypart/l_leg/build_endo_component()
+	AddComponent(/datum/component/endopart/leg/bio, FALSE, ENDO_OFFSET_KEY_LEG(1))
 
 /obj/item/bodypart/l_leg/set_owner(new_owner)
 	. = ..()
@@ -1031,6 +1044,8 @@
 	max_stamina_damage = 50
 	can_be_disabled = TRUE
 
+/obj/item/bodypart/r_leg/build_endo_component()
+	AddComponent(/datum/component/endopart/leg/bio, FALSE, ENDO_OFFSET_KEY_LEG(1))
 
 /obj/item/bodypart/r_leg/set_owner(new_owner)
 	. = ..()

@@ -179,7 +179,7 @@
 		to_chat(user, "<span class='warning'>[src] seems to resist all attempts to deconstruct it!</span>")
 		return FALSE
 
-/obj/structure/ladder/attack_robot(mob/living/silicon/robot/R)
+/obj/structure/ladder/attack_robot(mob/living/silicon/new_robot/R)
 	if(R.Adjacent(src))
 		return use(R)
 

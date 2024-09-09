@@ -91,17 +91,6 @@
 		"sflash",
 	)
 
-/datum/techweb_node/bot
-	id = "bot"
-	tech_tier = 1
-	starting_node = TRUE
-	display_name = "Bot Construction"
-	description = "Preprogrammed robots designed for specific tasks."
-	design_ids = list(
-		"cleanbot_chassis",
-		"medibot_chassis"
-	)
-
 /datum/techweb_node/mech
 	id = "mecha"
 	tech_tier = 1

@@ -17,6 +17,7 @@
 	icon = 'icons/mob/screen_cyborg.dmi'
 
 /atom/movable/screen/new_robot/Click()
+	. = ..()
 	if(isobserver(usr))
 		return FALSE
 	return TRUE
@@ -25,12 +26,15 @@
 /atom/movable/screen/new_robot/lamp
 	name = "headlamp"
 	icon_state = "lamp_off"
+	screen_loc = ui_borg_lamp
 	///Ref to the lamp assembly for some logics
 	var/datum/endo_assembly/item/lamp/lamp
 
 /atom/movable/screen/new_robot/lamp/Initialize(mapload, _lamp)
 	. = ..()
 	lamp = _lamp
+	var/atom/movable/screen/new_robot/info/info = new(src, "Use the Modular Tablet to adjust lamp brightness.")
+	vis_contents += info
 
 /atom/movable/screen/new_robot/lamp/Click()
 	. = ..()
@@ -83,22 +87,29 @@
 /atom/movable/screen/new_robot/module
 	name = "cyborg module"
 	icon_state = "nomod"
+	screen_loc = ui_borg_module
 	///Ref to the particular item module we represent
 	var/obj/item/new_robot_module/module
 	///Our pretty background we layer the items ontop of
 	var/atom/movable/screen/modules_background
 	///Are we displaying or hiding the module
 	var/display_module = FALSE
+	///What is our display index?
+	var/display_index = 0
 
-/atom/movable/screen/new_robot/module/Initialize(mapload, _module)
+/atom/movable/screen/new_robot/module/Initialize(mapload, _module, _display_index)
 	. = ..()
 	module = _module
+	display_index = _display_index
 	//Build background
 	modules_background = new()
 	modules_background.icon_state = "block"
 	modules_background.plane = HUD_PLANE
 	var/display_rows = CEILING(length(module.all_items) / 8, 1)
-	modules_background.screen_loc = "CENTER-4:16,SOUTH+1:7 to CENTER+3:16,SOUTH+[display_rows]:7"
+	modules_background.screen_loc = "CENTER-4:16,SOUTH+[1+display_index]:7 to CENTER+3:16,SOUTH+[display_index+display_rows]:7"
+//Info stuff
+	var/atom/movable/screen/new_robot/info/info = new(src, "Press Q to return equipped items.")
+	vis_contents += info
 
 /atom/movable/screen/new_robot/module/Click()
 	. = ..()
@@ -124,11 +135,11 @@
 		else
 			M.client.screen -= A
 		A.plane = ABOVE_HUD_PLANE
-		//Positioning
+		//Positioning. I thought these were the same, they're not
 		if(x < 0)
-			A.screen_loc = "CENTER[x]:16,SOUTH+[y]:7"
+			A.screen_loc = "CENTER[x]:16,SOUTH+[y+display_index]:7"
 		else
-			A.screen_loc = "CENTER+[x]:16,SOUTH+[y]:7"
+			A.screen_loc = "CENTER+[x]:16,SOUTH+[y+display_index]:7"
 		x++ //This is from the original robot code, mind you
 		if(x == 4)
 			x = -4
@@ -164,7 +175,8 @@
 //Modular tablet
 /atom/movable/screen/new_robot/modpc
 	name = "Modular Interface"
-	icon_state = "template"
+	icon_state = "blank"
+	screen_loc = ui_borg_tablet
 	var/mob/living/silicon/new_robot/robot
 
 /atom/movable/screen/new_robot/modpc/Click()
@@ -172,3 +184,35 @@
 	if(!.)
 		return
 	robot.modularInterface?.interact(robot)
+
+//Health
+/atom/movable/screen/healths/robot
+	icon = 'icons/mob/screen_cyborg.dmi'
+	screen_loc = ui_borg_health
+
+//Info help
+/atom/movable/screen/new_robot/info
+	icon_state = "info"
+	///What awesome info does this cool thing divulge
+	var/dialogue = ""
+
+/atom/movable/screen/new_robot/info/Initialize(mapload, _dialogue)
+	. = ..()
+	dialogue = _dialogue
+
+/atom/movable/screen/new_robot/info/MouseEntered(location, control, params)
+	. = ..()
+	openToolTip(usr, src, params, title = "Info", content = dialogue)
+	//Animashun
+	var/matrix/n_transform = transform
+	n_transform.Scale(1.1)
+	animate(src, transform = n_transform, time = 0.08 SECONDS)
+
+/atom/movable/screen/new_robot/info/MouseExited(location, control, params)
+	. = ..()
+	closeToolTip(usr)
+	animate(src, transform = new /matrix(), time = 0.08 SECONDS)
+
+//Language menu
+/atom/movable/screen/language_menu/robot
+	screen_loc = ui_borg_language_menu

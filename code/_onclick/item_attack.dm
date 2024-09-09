@@ -169,7 +169,7 @@
 	if(!I.force)
 		return FALSE
 	var/armour_block = run_armor_check(null, MELEE, armour_penetration = I.armour_penetration)
-	apply_damage(I.force, I.damtype, blocked = armour_block)
+	apply_damage(I.force, I.damtype, def_zone = check_zone(user.get_combat_bodyzone(src)), blocked = armour_block)
 	if(I.damtype == BRUTE && prob(33))
 		I.add_mob_blood(src)
 		var/turf/location = get_turf(src)

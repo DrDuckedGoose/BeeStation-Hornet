@@ -1453,3 +1453,7 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 	if(ismob(loc))
 		var/mob/mob_loc = loc
 		mob_loc.regenerate_icons()
+
+///Proc used by borgs to refresh this item
+/obj/item/proc/respawn_borg_consumable()
+	return

@@ -1,6 +1,5 @@
 /*
 	Sub-component for chassis
-	blah blah blah
 */
 /datum/component/endopart/chassis
 	name = "chassis"
@@ -15,12 +14,6 @@
 	var/can_be_pushed = FALSE
 	///Can this chassis be disposed through bins & chutes
 	var/can_dispose = FALSE
-	///Hats we DO NOT fuck with
-	var/list/blacklisted_hats = list( //Hats that don't really work on borgos
-	/obj/item/clothing/head/helmet/space/santahat,
-	/obj/item/clothing/head/utility/welding,
-	/obj/item/clothing/head/helmet/space/eva,
-	)
 	///How many legs to chassis expects, used for walk speed efficiency
 	var/expected_legs = 2
 
@@ -35,10 +28,18 @@
 	var/atom/parent_atom = parent
 	var/list/temp = parent_atom.overlays
 	parent_atom.overlays = list()
-	. = ..()
+	if(!assembly_overlay)
+		assembly_overlay = new()
+		assembly_overlay.appearance = parent_atom.appearance
+		assembly_overlay.pixel_x = 0
+		assembly_overlay.pixel_y = 0
+		assembly_overlay.plane = A.plane
+	SEND_SIGNAL(A, COMSIG_ENDO_APPLY_OFFSET, offset_key, assembly_overlay)
+	A?.cut_overlay(assembly_overlay)
+	A?.add_overlay(assembly_overlay)
 	parent_atom.overlays = temp
 
-/datum/component/endopart/chassis/apply_assembly(datum/source, mob/target)
+/datum/component/endopart/chassis/refresh_assembly(datum/source, mob/target)
 	. = ..()
 	if(can_be_pushed)
 		target.status_flags |= CANPUSH
@@ -77,6 +78,8 @@
 /datum/component/endopart/chassis/proc/catch_wrench(datum/source, mob/living/user, obj/item/I, list/recipes)
 	SIGNAL_HANDLER
 
+	if(assembled_mob)
+		return
 	INVOKE_ASYNC(src, PROC_REF(catch_wrench_async), user, I, recipes)
 
 /datum/component/endopart/chassis/proc/catch_wrench_async(mob/living/L, obj/item/I, list/recipes)
@@ -103,9 +106,6 @@
 /datum/component/endopart/chassis/proc/assemble_mob()
 	var/mob/living/L = new assembly_mob(get_turf(parent))
 	return L
-
-/datum/component/endopart/chassis/proc/can_wear(var/obj/item/clothing/head/hat)
-	return (istype(hat) && !is_type_in_typecache(hat, blacklisted_hats))
 
 /datum/component/endopart/chassis/proc/can_ride(mob/M)
 	if(M.incapacitated() && !can_ride_incapacitated || !can_ride)

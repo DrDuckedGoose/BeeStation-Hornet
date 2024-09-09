@@ -45,8 +45,9 @@
 			RegisterSignal(target, COMSIG_MOVABLE_MOVED, PROC_REF(play_simplestep_machine))
 			return
 		if(FOOTSTEP_OBJ_ROBOT)
-			footstep_sounds = 'sound/effects/tank_treads.ogg'
+			footstep_sounds = 'sound/effects/footstep/robotstep.ogg'
 			RegisterSignal(target, COMSIG_MOVABLE_MOVED, PROC_REF(play_simplestep_machine))
+			steps_for_living[target] = 0
 			return
 	RegisterSignal(target, COMSIG_MOVABLE_MOVED, PROC_REF(play_simplestep))
 	steps_for_living[target] = 0
@@ -149,4 +150,7 @@
 	var/turf/open/source_loc = get_turf(source)
 	if(!istype(source_loc))
 		return
-	playsound(source, footstep_sounds, 50, falloff_distance = 1, vary = sound_vary)
+	steps_for_living[source] += 1
+	if(steps_for_living[source] && steps_for_living[source] % 4)
+		return
+	playsound(source, footstep_sounds, 25, falloff_distance = 1, vary = sound_vary)

@@ -889,7 +889,7 @@
 			modularInterface.saved_identification = real_name
 
 		// Notify Cyborgs
-		for(var/mob/living/silicon/robot/Slave in connected_robots)
+		for(var/mob/living/silicon/new_robot/Slave in connected_robots)
 			Slave.show_laws()
 
 /mob/living/silicon/ai/proc/add_malf_picker()
@@ -1021,7 +1021,7 @@
 	desc = "Reconnect to the most recently used AI shell."
 	icon_icon = 'icons/mob/actions/actions_AI.dmi'
 	button_icon_state = "ai_last_shell"
-	var/mob/living/silicon/robot/last_used_shell
+	var/mob/living/silicon/new_robot/last_used_shell
 
 /datum/action/innate/deploy_last_shell/Trigger()
 	if(!owner)

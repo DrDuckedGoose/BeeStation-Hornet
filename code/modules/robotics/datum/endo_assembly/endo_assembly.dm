@@ -109,10 +109,11 @@
 	if(istype(src, type))
 		population_list += src
 		return
-	if(type != (poll_path) || !allow_poll)
+	if(!ispath(poll_path, type) || !allow_poll)
 		return
 	for(var/part as() in parts)
-		population_list += part
+		population_list |= part
+	return TRUE
 
 ///Add hud elements
 /datum/endo_assembly/proc/apply_hud(datum/source, datum/hud/hud)
@@ -175,12 +176,15 @@
 	var/required_offset_key
 	///What compatabilities does this part support
 	var/compatibility_flags = ENDO_COMPATIBILITY_GENERIC
+	///Icons for hint stuff
+	var/hint_icon = 'icons/mob/augmentation/augments.dmi'
+	var/hint_state = "robotic_head"
 
 /datum/endo_assembly/endopart/New(datum/parent)
 	. = ..()
 	poll_path = poll_path || component_requirment
 	//Build hint data
-	var/image/image = image('icons/obj/robotics/endo.dmi', null, "")
+	var/image/image = image(hint_icon, null, hint_state)
 	var/datum/component/endopart/part = component_requirment
 	hint_data = list("name" = initial(part.name), "image" = image)
 

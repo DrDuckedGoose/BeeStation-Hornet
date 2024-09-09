@@ -105,4 +105,6 @@
 	if(occupant)
 		var/mob/living/silicon/new_robot/R = occupant
 		var/coeff = recharge_speed * 0.025
+		balloon_alert(R, "Module Items Restored")
+		balloon_alert(R, "Module Materials Restored at [coeff] coefficient")
 		R.respawn_consumable(coeff)

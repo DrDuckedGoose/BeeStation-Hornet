@@ -21,6 +21,7 @@
 	poll_path = /datum/component/endopart/arm
 	allow_poll = TRUE
 	ideal_part_parent = /obj/item/bodypart/l_arm/robot/endopart
+	hint_state = "robotic_l_arm"
 
 /datum/endo_assembly/endopart/functional_limb/arm/left
 	ideal_part_parent = /obj/item/bodypart/l_arm/robot/endopart
@@ -29,6 +30,7 @@
 /datum/endo_assembly/endopart/functional_limb/arm/right
 	ideal_part_parent = /obj/item/bodypart/r_arm/robot/endopart
 	required_offset_key = ENDO_OFFSET_KEY_ARM(2)
+	hint_state = "robotic_r_arm"
 
 /*
 	Legs
@@ -38,6 +40,7 @@
 	poll_path = /datum/component/endopart/leg
 	allow_poll = TRUE
 	ideal_part_parent = /obj/item/bodypart/l_leg/robot/endopart
+	hint_state = "robotic_l_leg"
 
 /datum/endo_assembly/endopart/functional_limb/leg/left
 	ideal_part_parent = /obj/item/bodypart/l_leg/robot/endopart
@@ -46,6 +49,7 @@
 /datum/endo_assembly/endopart/functional_limb/leg/right
 	ideal_part_parent = /obj/item/bodypart/r_leg/robot/endopart
 	required_offset_key = ENDO_OFFSET_KEY_LEG(2)
+	hint_state = "robotic_r_leg"
 
 /*
 	Head
@@ -64,6 +68,7 @@
 	poll_path = /datum/component/endopart/chest
 	allow_poll = TRUE
 	ideal_part_parent = /obj/item/bodypart/chest/robot/endopart
+	hint_state = "robotic_chest"
 
 /datum/endo_assembly/endopart/functional_limb/chest/transform_machine
 	component_requirment = /datum/component/endopart/chest/transform_machine

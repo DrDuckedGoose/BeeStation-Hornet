@@ -11,7 +11,7 @@
 		who = world
 	else
 		who = src
-//TODO: idk idc what this does - Racc
+//AI connection bs
 	if(law_update)
 		if (connected_ai)
 			if(connected_ai.stat || connected_ai.control_disabled)

@@ -69,6 +69,10 @@
 	robot_parent = M
 
 /obj/item/new_robot_module/proc/remove_parent()
+	if(!robot_parent)
+		return
+	for(var/obj/item/I as anything in all_items)
+		I.dropped(robot_parent)
 	robot_parent = null
 
 ///Populate this modules item lists with instances
@@ -152,25 +156,8 @@
 /obj/item/new_robot_module/proc/respawn_consumable(mob/living/silicon/new_robot/R, coeff = 1)
 	for(var/datum/robot_energy_storage/st as() in storages)
 		st.energy = min(st.max_energy, st.energy + coeff * st.recharge_rate)
-
-	//TODO: i don't like how hardcoded this is, it should live on the item in a dedicated proc - Racc
 	for(var/obj/item/I in all_items & equipped_items)
-		if(istype(I, /obj/item/assembly/flash))
-			var/obj/item/assembly/flash/F = I
-			F.bulb.charges_left = INFINITY
-			F.burnt_out = FALSE
-			F.update_icon()
-		else if(istype(I, /obj/item/melee/baton))
-			var/obj/item/melee/baton/B = I
-			if(B.cell)
-				B.cell.charge = B.cell.maxcharge
-		else if(istype(I, /obj/item/gun/energy))
-			var/obj/item/gun/energy/EG = I
-			if(!EG.chambered)
-				EG.recharge_newshot() //try to reload a new shot.
-		else if(istype(I, /obj/item/camera/siliconcam/robot_camera))
-			var/obj/item/camera/siliconcam/robot_camera/RC = I
-			RC.toner = RC.tonermax
+		I.respawn_borg_consumable()
 
 ///Inverse of above
 /obj/item/new_robot_module/proc/show_module_items(category = MODULE_ITEM_CATEGORY_BASIC | MODULE_ITEM_CATEGORY_EMAGGED | MODULE_ITEM_CATEGORY_CLOCKCULT)

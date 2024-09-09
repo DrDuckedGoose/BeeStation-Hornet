@@ -14,7 +14,7 @@
 /obj/item/endopart_enator/afterattack(atom/target, mob/user, proximity_flag, click_parameters)
 	. = ..()
 	if(!target.GetComponent(component_type))
-		target.AddComponent(component_type)
+		target.AddComponent(component_type, TRUE)
 		to_chat(user, "<span class='notice'>Added [component_type] to [target].</span>")
 
 /*
@@ -143,3 +143,15 @@
 		return FALSE
 	ai_controller.undeploy()
 	return TRUE
+
+/*
+ Box of borg radios for roundstart stuff
+*/
+//TODO: Throw these in robotics on maps - Racc
+/obj/item/storage/box/borg_radio
+	name = "box of robotic radios"
+	desc = "A box containing radios used in robotic assembly."
+
+/obj/item/storage/box/borg_radio/PopulateContents()
+	for(var/i in 1 to rand(1,3))
+		new /obj/item/radio/borg(src)

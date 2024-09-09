@@ -24,7 +24,7 @@
 			COMSIG_ATOM_FIRE_ACT,
 			COMSIG_ATOM_EMP_ACT,
 			)
-	var/mob/living/silicon/robot/user // needed for process()
+	var/mob/living/silicon/new_robot/user // needed for process()
 	var/animation_playing = FALSE
 
 /obj/item/borg_chameleon/Initialize(mapload)
@@ -102,7 +102,7 @@
 	RegisterSignals(user, signalCache, PROC_REF(disrupt))
 	listeningTo = user
 
-/obj/item/borg_chameleon/proc/deactivate(mob/living/silicon/robot/user)
+/obj/item/borg_chameleon/proc/deactivate(mob/living/silicon/new_robot/user)
 	STOP_PROCESSING(SSobj, src)
 	if(listeningTo)
 		UnregisterSignal(listeningTo, signalCache)
@@ -116,7 +116,7 @@
 	user.update_icons()
 	src.user = user
 
-/obj/item/borg_chameleon/proc/disrupt(mob/living/silicon/robot/user)
+/obj/item/borg_chameleon/proc/disrupt(mob/living/silicon/new_robot/user)
 	SIGNAL_HANDLER
 
 	if(active)

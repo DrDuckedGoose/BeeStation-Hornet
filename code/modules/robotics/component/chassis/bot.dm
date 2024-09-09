@@ -14,7 +14,8 @@
 			return
 
 /datum/component/endopart/chassis/bot/proc/broken_assembly(mob/M)
-	return
+	var/mob/living/simple_animal/bot/B = M
+	B.speed = 100
 
 /*
 	Cleanbot chassis
@@ -55,7 +56,8 @@
 
 /datum/component/endopart/chassis/bot/secbot/broken_assembly(mob/M)
 	. = ..()
-	//TODO: - Racc
+	var/mob/living/simple_animal/bot/secbot/S = M
+	S.can_stun = FALSE
 
 /*
 	Larry chassis
@@ -73,10 +75,6 @@
 	required_assembly = list(/datum/endo_assembly/item/proximity_sensor, /datum/endo_assembly/endopart/functional_limb/arm,
 	/datum/endo_assembly/item/oxygen, /datum/endo_assembly/item/analyzer, /datum/endo_assembly/item/interaction/tool/screwdriver)
 
-/datum/component/endopart/chassis/bot/atmos/broken_assembly(mob/M)
-	. = ..()
-	//TODO: - Racc
-
 /*
 	Floorbot chassis
 */
@@ -85,10 +83,6 @@
 	assembly_mob = /mob/living/simple_animal/bot/floorbot
 	required_assembly = list(/datum/endo_assembly/item/proximity_sensor, /datum/endo_assembly/endopart/functional_limb/arm,
 	/datum/endo_assembly/item/toolbox, /datum/endo_assembly/item/tiles, /datum/endo_assembly/item/interaction/tool/screwdriver)
-
-/datum/component/endopart/chassis/bot/floor/broken_assembly(mob/M)
-	. = ..()
-	//TODO: - Racc
 
 /*
 	Honk chassis
@@ -99,10 +93,6 @@
 	required_assembly = list(/datum/endo_assembly/item/proximity_sensor, /datum/endo_assembly/endopart/functional_limb/arm,
 	/datum/endo_assembly/item/clown_horn, /datum/endo_assembly/item/interaction/tool/screwdriver)
 
-/datum/component/endopart/chassis/bot/clown/broken_assembly(mob/M)
-	. = ..()
-	//TODO: - Racc
-
 /*
 	Firebot chassis
 */
@@ -111,10 +101,6 @@
 	assembly_mob = /mob/living/simple_animal/bot/firebot
 	required_assembly = list(/datum/endo_assembly/item/proximity_sensor, /datum/endo_assembly/endopart/functional_limb/arm,
 	/datum/endo_assembly/item/hardhat, /datum/endo_assembly/item/interaction/tool/screwdriver)
-
-/datum/component/endopart/chassis/bot/fire/broken_assembly(mob/M)
-	. = ..()
-	//TODO: - Racc
 
 /*
 	ED209 chassis
@@ -126,10 +112,6 @@
 	/datum/endo_assembly/item/interaction/stack/wire, /datum/endo_assembly/endopart/functional_limb/leg, /datum/endo_assembly/endopart/functional_limb/leg,
 	/datum/endo_assembly/item/helmet, /datum/endo_assembly/item/vest, /datum/endo_assembly/item/interaction/stack/iron,
 	/datum/endo_assembly/item/interaction/tool/welder)
-
-/datum/component/endopart/chassis/bot/ed209/broken_assembly(mob/M)
-	. = ..()
-	//TODO: - Racc
 
 /obj/item/endopart/chassis/ed209
 	name = "ed209 chassis"

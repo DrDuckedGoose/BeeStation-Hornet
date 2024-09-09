@@ -24,4 +24,4 @@
 
 //Transform machine
 /datum/component/endopart/chest/transform_machine
-	required_assembly = list(/datum/endo_assembly/item/cell/transform_machine, /datum/endo_assembly/item/item_module)
+	required_assembly = list(/datum/endo_assembly/item/cell/transform_machine, /datum/endo_assembly/item/item_module/transform_machine)

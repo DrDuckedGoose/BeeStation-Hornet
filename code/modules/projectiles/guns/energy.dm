@@ -318,3 +318,8 @@
 			playsound(user, BB.hitsound, 50, 1)
 			cell.use(E.e_cost)
 			. = "<span class='danger'>[user] casually lights [A.loc == user ? "[user.p_their()] [A.name]" : A] with [src]. Damn.</span>"
+
+/obj/item/gun/energy/respawn_borg_consumable()
+	. = ..()
+	if(!chambered)
+		recharge_newshot()

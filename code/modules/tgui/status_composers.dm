@@ -74,7 +74,7 @@
 /mob/living/silicon/proc/get_ui_access(atom/source)
 	return UI_CLOSE
 
-/mob/living/silicon/robot/get_ui_access(atom/source)
+/mob/living/silicon/new_robot/get_ui_access(atom/source)
 	// Robots can interact with anything they can see.
 	var/list/clientviewlist = getviewsize(client.view)
 	if(get_dist(src, source) <= min(clientviewlist[1],clientviewlist[2]))

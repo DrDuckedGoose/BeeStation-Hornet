@@ -20,7 +20,7 @@
 	if(..())
 		return TRUE
 	var/borgcount = target_amount
-	for(var/mob/living/silicon/robot/R in GLOB.alive_mob_list)
+	for(var/mob/living/silicon/new_robot/R in GLOB.alive_mob_list)
 		if(R.stat != DEAD)
 			borgcount--
 	return borgcount <= 0
