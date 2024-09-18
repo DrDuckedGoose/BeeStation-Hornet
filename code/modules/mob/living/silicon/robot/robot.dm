@@ -142,7 +142,7 @@
 
 	if(lawupdate)
 		make_laws()
-		if(!TryConnectToAI())
+		if(!try_connect_to_ai())
 			lawupdate = FALSE
 			wires.ui_update()
 
@@ -1196,7 +1196,7 @@
 			riding_datum.restore_position(user)
 	. = ..(user)
 
-/mob/living/silicon/robot_old/proc/TryConnectToAI()
+/mob/living/silicon/robot_old/proc/try_connect_to_ai()
 	connected_ai = select_active_ai_with_fewest_borgs()
 	if(connected_ai)
 		connected_ai.connected_robots += src

@@ -67,14 +67,18 @@
 
 	//Build our required assembly
 	start_finished = isnull(_start_finished) ? start_finished : _start_finished
+	build_required_assembly()
+
+/datum/component/endopart/proc/build_required_assembly()
 	var/list/compiled_assembly = list()
-	for(var/datum/endo_assembly/recipe as() in required_assembly)
-		var/datum/endo_assembly/new_recipe = new recipe(src)
+	for(var/datum/endo_assembly/recipe as anything in required_assembly)
+		var/datum/endo_assembly/new_recipe = ispath(recipe) ? new recipe(src) : recipe
 		compiled_assembly += new_recipe
 		if(start_finished && !new_recipe.start_finished)
 			new_recipe.start_finished = TRUE
 			new_recipe.build_ideal_part()
 	required_assembly = compiled_assembly
+
 
 ///Can something be attached to us
 /datum/component/endopart/proc/can_attach(obj/item/I)
@@ -155,6 +159,8 @@
 	if(!start_finished)
 		playsound(parent, 'sound/machines/click.ogg', 60)
 
+	SEND_SIGNAL(src, COMSIG_ENDO_ATTACHED, I, part)
+
 /datum/component/endopart/proc/remove_from(datum/source, obj/item/I, datum/component/endopart/part)
 	SIGNAL_HANDLER
 
@@ -174,6 +180,8 @@
 	UnregisterSignal(part,  COMSIG_ROBOT_CONSUME_ENERGY)
 	UnregisterSignal(part, COMSIG_ROBOT_UPDATE_ICONS)
 
+	SEND_SIGNAL(src, COMSIG_ENDO_REMOVED, I, part)
+
 ///Apply our special and cool effects when Mr. Roboto is assembled
 /datum/component/endopart/proc/apply_assembly(datum/source, mob/target)
 	SIGNAL_HANDLER
@@ -182,7 +190,7 @@
 	build_assembly_overlay(target)
 	refresh_assembly(source, target)
 	SEND_SIGNAL(src, COMSIG_ENDO_ASSEMBLE, target)
-	RegisterSignal(target, COMSIG_MOB_APPLY_DAMGE, PROC_REF(apply_damage))
+	RegisterSignal(target, COMSIG_MOB_APPLY_DAMGE, PROC_REF(apply_damage), TRUE)
 	return
 
 ///Some of your apply_assembly() code should live in here, especially if it changes its behaviour when parts or added or removed

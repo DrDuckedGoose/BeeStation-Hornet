@@ -20,15 +20,15 @@
 	component_requirment = /datum/component/endopart/arm
 	poll_path = /datum/component/endopart/arm
 	allow_poll = TRUE
-	ideal_part_parent = /obj/item/bodypart/l_arm/robot/endopart
+	ideal_part_parent = /obj/item/bodypart/l_arm/robot
 	hint_state = "robotic_l_arm"
 
 /datum/endo_assembly/endopart/functional_limb/arm/left
-	ideal_part_parent = /obj/item/bodypart/l_arm/robot/endopart
+	ideal_part_parent = /obj/item/bodypart/l_arm/robot
 	required_offset_key = ENDO_OFFSET_KEY_ARM(1)
 
 /datum/endo_assembly/endopart/functional_limb/arm/right
-	ideal_part_parent = /obj/item/bodypart/r_arm/robot/endopart
+	ideal_part_parent = /obj/item/bodypart/r_arm/robot
 	required_offset_key = ENDO_OFFSET_KEY_ARM(2)
 	hint_state = "robotic_r_arm"
 
@@ -39,17 +39,24 @@
 	component_requirment = /datum/component/endopart/leg
 	poll_path = /datum/component/endopart/leg
 	allow_poll = TRUE
-	ideal_part_parent = /obj/item/bodypart/l_leg/robot/endopart
+	ideal_part_parent = /obj/item/bodypart/l_leg/robot
 	hint_state = "robotic_l_leg"
 
 /datum/endo_assembly/endopart/functional_limb/leg/left
-	ideal_part_parent = /obj/item/bodypart/l_leg/robot/endopart
+	ideal_part_parent = /obj/item/bodypart/l_leg/robot
 	required_offset_key = ENDO_OFFSET_KEY_LEG(1)
 
 /datum/endo_assembly/endopart/functional_limb/leg/right
-	ideal_part_parent = /obj/item/bodypart/r_leg/robot/endopart
+	ideal_part_parent = /obj/item/bodypart/r_leg/robot
 	required_offset_key = ENDO_OFFSET_KEY_LEG(2)
 	hint_state = "robotic_r_leg"
+
+//Track subtypes from transform machine
+/datum/endo_assembly/endopart/functional_limb/leg/left/track
+	ideal_part_parent = /obj/item/bodypart/l_leg/robot/track
+
+/datum/endo_assembly/endopart/functional_limb/leg/right/track
+	ideal_part_parent = /obj/item/bodypart/r_leg/robot/track
 
 /*
 	Head
@@ -58,7 +65,7 @@
 	component_requirment = /datum/component/endopart/head
 	poll_path = /datum/component/endopart/head
 	allow_poll = TRUE
-	ideal_part_parent = /obj/item/bodypart/head/robot/endopart
+	ideal_part_parent = /obj/item/bodypart/head/robot
 
 /*
 	Chest
@@ -67,7 +74,7 @@
 	component_requirment = /datum/component/endopart/chest
 	poll_path = /datum/component/endopart/chest
 	allow_poll = TRUE
-	ideal_part_parent = /obj/item/bodypart/chest/robot/endopart
+	ideal_part_parent = /obj/item/bodypart/chest/robot
 	hint_state = "robotic_chest"
 
 /datum/endo_assembly/endopart/functional_limb/chest/transform_machine

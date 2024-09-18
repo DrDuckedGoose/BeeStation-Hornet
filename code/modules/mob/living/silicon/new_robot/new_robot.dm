@@ -5,6 +5,14 @@
 		Defense
 	is handled in another castle for readability / sanity. Should be in the same folder as this file
 */
+//TODO: - Racc
+/*
+	Give borgs a law circuit that can be connected to a law server. This server holds a lawset that can be changed by the RD.
+	No preset laws, it is up to the RD each round to come up with laws. When unpowered, brogs will be unable to correctly
+	sync their laws, and may start to malfunction. An AI can set these laws too, essentially making itself the borg's master.
+	Malfunctioning AIs spawn in their own law server, hidden inside them, and can spend points to hack any visible law
+	server, switching all the borgs over to theirs, subtley.
+*/
 /mob/living/silicon/new_robot
 	name = JOB_NAME_CYBORG //"Cyborg"
 	real_name = JOB_NAME_CYBORG
@@ -26,7 +34,7 @@
 	///What chassis we use as a preset, if we're not given one
 	var/preset_chassis = /obj/item/endopart/chassis/borg/transform_machine
 	///Is our cover open? Essentially passes inputs to our chassis if it is
-	var/cover_open = TRUE//FALSE
+	var/cover_open = FALSE
 	///Overlay for cover
 	var/mutable_appearance/cover_overlay
 	///The AI we're connected to, our master
@@ -74,6 +82,12 @@
 	wires = new /datum/wires/robot(src)
 	AddElement(/datum/element/empprotection, EMP_PROTECT_WIRES)
 	RegisterSignal(src, COMSIG_PROCESS_BORGCHARGER_OCCUPANT, PROC_REF(charge))
+//Laws & connection
+	if(law_update)
+		make_laws()
+		if(!try_connect_to_ai())
+			toggle_law_sync(FALSE)
+			wires.ui_update()
 //Setup stuff from our chassis
 	if(!_chassis)
 		_chassis = new preset_chassis(get_turf(src))
@@ -97,9 +111,19 @@
 	if(length(radios))
 		//If you want to implement more than one radio, good luck
 		radio = radios[1]
+//Builtin camera
+	if(!console_visible && !builtInCamera)
+		builtInCamera = new (src)
+		builtInCamera.c_tag = real_name
+		builtInCamera.network = list("ss13")
+		builtInCamera.internal_light = FALSE
+		if(wires.is_cut(WIRE_CAMERA))
+			builtInCamera.status = 0
 //Other
 	create_modularInterface()
+	add_sensors()
 	update_icons()
+	overlay_fullscreen("borg_vision", /atom/movable/screen/fullscreen/borg_vision)
 
 /mob/living/silicon/new_robot/Destroy()
 	. = ..()
@@ -135,14 +159,6 @@
 		var/obj/item/computer_hardware/hard_drive/portable/floppy = I
 		if(modularInterface.install_component(floppy, user))
 			return
-	//Cool hat stuff
-	if(I.slot_flags & ITEM_SLOT_HEAD && user.a_intent == INTENT_HELP && can_wear(I))
-		to_chat(user, "<span class='notice'>You begin to place [I] on [src]'s head...</span>")
-		to_chat(src, "<span class='notice'>[user] is placing [I] on your head...</span>")
-		if(do_after(user, 30, target = src))
-			if(user.temporarilyRemoveItemFromInventory(I, TRUE))
-				place_on_head(I)
-		return
 	return ..()
 
 /mob/living/silicon/new_robot/tool_act(mob/living/user, obj/item/I, tool_type)
@@ -317,15 +333,6 @@
 	var/atom/part_parent = parts[min(length(parts), index)]
 	return part_parent.GetComponent(path)
 
-/mob/living/silicon/new_robot/proc/place_on_head(obj/item/new_hat)
-	var/datum/component/endopart/head/head_component = get_part_datum(/datum/component/endopart/head)
-	head_component?.place_on_head(new_hat)
-
-///Helper to check if we're allowed to wear a particular hat, checks with the chassis
-/mob/living/silicon/new_robot/proc/can_wear(var/obj/item/clothing/head/hat)
-	var/datum/component/endopart/head/head_component = get_part_datum(/datum/component/endopart/head)
-	return head_component?.can_wear(hat)
-
 /mob/living/silicon/new_robot/proc/can_dispose()
 	return chassis_component.can_dispose
 
@@ -409,7 +416,7 @@
 		last_flashed = world.time
 		return TRUE
 
-/mob/living/silicon/new_robot/proc/TryConnectToAI()
+/mob/living/silicon/new_robot/proc/try_connect_to_ai()
 	connected_ai = select_active_ai_with_fewest_borgs()
 	if(connected_ai)
 		connected_ai.connected_robots += src

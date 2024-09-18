@@ -1694,3 +1694,20 @@
 /mob/living/proc/on_handsblocked_end()
 	REMOVE_TRAIT(src, TRAIT_UI_BLOCKED, TRAIT_HANDS_BLOCKED)
 	REMOVE_TRAIT(src, TRAIT_PULL_BLOCKED, TRAIT_HANDS_BLOCKED)
+
+//to recalculate and update the mob's total tint from tinted equipment it's wearing.
+/mob/living/proc/update_tint()
+	if(!GLOB.tinted_weldhelh)
+		return
+	tinttotal = get_total_tint()
+	if(tinttotal >= TINT_BLIND)
+		become_blind(EYES_COVERED)
+	else if(tinttotal >= TINT_DARKENED)
+		cure_blind(EYES_COVERED)
+		overlay_fullscreen("tint", /atom/movable/screen/fullscreen/impaired, 2)
+	else
+		cure_blind(EYES_COVERED)
+		clear_fullscreen("tint", 0)
+
+/mob/living/proc/get_total_tint()
+	return

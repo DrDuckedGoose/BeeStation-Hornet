@@ -153,4 +153,4 @@
 	steps_for_living[source] += 1
 	if(steps_for_living[source] && steps_for_living[source] % 4)
 		return
-	playsound(source, footstep_sounds, 25, falloff_distance = 1, vary = sound_vary)
+	playsound(source, footstep_sounds, 10, falloff_distance = 1, vary = sound_vary)

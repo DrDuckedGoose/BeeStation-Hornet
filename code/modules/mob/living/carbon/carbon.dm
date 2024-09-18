@@ -570,22 +570,7 @@
 		see_invisible = see_override
 	. = ..()
 
-
-//to recalculate and update the mob's total tint from tinted equipment it's wearing.
-/mob/living/carbon/proc/update_tint()
-	if(!GLOB.tinted_weldhelh)
-		return
-	tinttotal = get_total_tint()
-	if(tinttotal >= TINT_BLIND)
-		become_blind(EYES_COVERED)
-	else if(tinttotal >= TINT_DARKENED)
-		cure_blind(EYES_COVERED)
-		overlay_fullscreen("tint", /atom/movable/screen/fullscreen/impaired, 2)
-	else
-		cure_blind(EYES_COVERED)
-		clear_fullscreen("tint", 0)
-
-/mob/living/carbon/proc/get_total_tint()
+/mob/living/carbon/get_total_tint()
 	. = 0
 	if(isclothing(head))
 		. += head.tint

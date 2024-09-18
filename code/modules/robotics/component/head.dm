@@ -6,7 +6,8 @@
 /datum/component/endopart/head
 	name = "head"
 	required_assembly = list(/datum/endo_assembly/item/eyes, /datum/endo_assembly/item/mmi,
-	/datum/endo_assembly/item/access_module, /datum/endo_assembly/item/radio, /datum/endo_assembly/item/lamp,)
+	/datum/endo_assembly/item/access_module, /datum/endo_assembly/item/radio, /datum/endo_assembly/item/lamp,
+	/datum/endo_assembly/item/clothing/hat, /datum/endo_assembly/item/clothing/mask, /datum/endo_assembly/item/law_circuit)
 	///datum/endo_assembly/item/ai_controller)
 	offset_key = ENDO_OFFSET_KEY_HEAD(1)
 	ambient_draw = 1
@@ -15,17 +16,6 @@
 	var/mutable_appearance/eye_lights
 	//Light overlay key
 	var/light_overlay_key = "generic_lights"
-//Hat Stuff
-	///Hats we DO NOT fuck with
-	var/list/blacklisted_hats = list( //Hats that don't really work on borgos
-	/obj/item/clothing/head/helmet/space/santahat,
-	/obj/item/clothing/head/utility/welding,
-	/obj/item/clothing/head/helmet/space/eva,
-	)
-	///Our hat, if we have one
-	var/obj/item/hat
-	///Hat overlay
-	var/mutable_appearance/hat_overlay
 //Hud Stuff
 	///Reference to zone selection hud element
 	var/atom/movable/screen/zone_select
@@ -58,13 +48,6 @@
 		R.cure_blind(src)
 
 /datum/component/endopart/head/remove_assembly(datum/source, mob/target)
-//Hat stuff
-	if(hat_overlay)
-		target.cut_overlay(hat_overlay)
-		QDEL_NULL(hat_overlay)
-	if(hat)
-		hat.forceMove(get_turf(parent))
-		hat = null
 //Control stuff
 	//TODO: Remove ckey control & hud stuff - Racc
 	return ..()
@@ -148,6 +131,7 @@
 	var/mob/living/silicon/new_robot/R = target
 	if(!istype(R))
 		return
+//Eye lights
 	R.cut_overlay(eye_lights)
 	if(R.stat == DEAD || R.IsUnconscious() || !R.powered)
 		return
@@ -168,19 +152,3 @@
 		eye_lights.color = COLOR_WHITE
 		eye_lights.plane = ABOVE_LIGHTING_PLANE
 	R.add_overlay(eye_lights)
-
-/datum/component/endopart/head/proc/can_wear(var/obj/item/clothing/head/hat)
-	return (istype(hat) && !is_type_in_typecache(hat, blacklisted_hats))
-
-/datum/component/endopart/head/proc/place_on_head(obj/item/new_hat)
-	if(hat) //if we already have a hat, remove it
-		hat.forceMove(get_turf(parent))
-	hat = new_hat
-	new_hat.forceMove(parent)
-	//Icon ops
-	var/mob/living/silicon/new_robot/R = assembled_mob
-	if(!istype(R))
-		return
-	hat_overlay = hat.build_worn_icon(default_icon_file = 'icons/mob/clothing/head/default.dmi')
-	R.chassis_component.apply_offset(src, offset_key, hat_overlay)
-	R.add_overlay(hat_overlay)

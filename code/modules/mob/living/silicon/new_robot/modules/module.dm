@@ -3,8 +3,8 @@
 */
 /obj/item/new_robot_module
 	name = "Default"
-	icon = 'icons/obj/module.dmi'
-	icon_state = "std_mod"
+	icon = 'icons/obj/robotics/endo.dmi'
+	icon_state = "module"
 	w_class = WEIGHT_CLASS_GIGANTIC
 	item_state = "electronic"
 	lefthand_file = 'icons/mob/inhands/misc/devices_lefthand.dmi'

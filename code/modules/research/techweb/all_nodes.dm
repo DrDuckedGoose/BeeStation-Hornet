@@ -58,7 +58,12 @@
 		"titaniumglass",
 		"xenoa_labeler",
 		"xlarge_beaker",
-		"epaperread"
+		"epaperread",
+		"access_module_service",
+		"access_module_security",
+		"access_module_engineering",
+		"access_module_medical",
+		"access_module_science",
 	)
 
 /datum/techweb_node/mmi

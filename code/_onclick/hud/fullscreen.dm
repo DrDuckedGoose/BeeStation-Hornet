@@ -257,3 +257,19 @@
 	handle_loc(params)
 	. = ..()
 	loc = null
+
+/atom/movable/screen/fullscreen/borg_vision
+	icon_state = "borg_overlay"
+	layer = FULLSCREEN_LAYER
+	plane = GAME_PLANE
+	blend_mode = BLEND_MULTIPLY
+	alpha = 35
+	color = "#0f0"
+
+/atom/movable/screen/fullscreen/borg_vision/Initialize(mapload)
+	. = ..()
+	var/mutable_appearance/MA = mutable_appearance(src.icon, src.icon_state)
+	MA.layer = FULLSCREEN_LAYER
+	MA.plane = FLOOR_PLANE
+	MA.blend_mode = BLEND_MULTIPLY
+	add_overlay(MA)

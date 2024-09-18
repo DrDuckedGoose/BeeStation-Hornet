@@ -74,7 +74,7 @@ INITIALIZE_IMMEDIATE(/obj/item/organ)
 //Special is for instant replacement like autosurgeons
 /obj/item/organ/proc/Remove(mob/living/carbon/organ_owner, special = FALSE, pref_load = FALSE)
 	owner = null
-	if(organ_owner)
+	if(iscarbon(organ_owner))
 		organ_owner.internal_organs -= src
 		if(organ_owner.internal_organs_slot[slot] == src)
 			organ_owner.internal_organs_slot.Remove(slot)

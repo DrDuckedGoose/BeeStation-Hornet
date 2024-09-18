@@ -62,10 +62,50 @@
 
 /obj/item/storage/box/access_module/PopulateContents()
 	//Add 3 random access
-	var/list/modules = subtypesof(/obj/item/access_module) - /obj/item/access_module/all
+	var/list/modules = subtypesof(/obj/item/access_module) - list(/obj/item/access_module/all)
 	for(var/i in 1 to 3)
 		var/module = pick(modules)
 		modules -= module
 		new module(src)
-	//Add 1 all access
-	new /obj/item/access_module/all(src)
+
+/*
+	Designs
+*/
+/datum/design/access_module
+	name = "command access module"
+	id = "access_module"
+	build_type = PROTOLATHE
+	materials = list(/datum/material/iron = 100, /datum/material/plastic = 100, /datum/material/glass = 100)
+	build_path = /obj/item/access_module/all
+	category = list("Electronics")
+	departmental_flags = DEPARTMENTAL_FLAG_SECURITY //TODO: Why is there no flag for command? - Racc
+
+/datum/design/access_module/service
+	name = "service access module"
+	id = "access_module_service"
+	build_path = /obj/item/access_module/service
+	departmental_flags = DEPARTMENTAL_FLAG_SERVICE | DEPARTMENTAL_FLAG_CARGO
+
+/datum/design/access_module/science
+	name = "science access module"
+	id = "access_module_science"
+	build_path = /obj/item/access_module/science
+	departmental_flags = DEPARTMENTAL_FLAG_SCIENCE
+
+/datum/design/access_module/security
+	name = "security access module"
+	id = "access_module_security"
+	build_path = /obj/item/access_module/security
+	departmental_flags = DEPARTMENTAL_FLAG_SECURITY
+
+/datum/design/access_module/engineering
+	name = "engineering access module"
+	id = "access_module_engineering"
+	build_path = /obj/item/access_module/engineering
+	departmental_flags = DEPARTMENTAL_FLAG_ENGINEERING
+
+/datum/design/access_module/medical
+	name = "medical access module"
+	id = "access_module_medical"
+	build_path = /obj/item/access_module/medical
+	departmental_flags = DEPARTMENTAL_FLAG_MEDICAL

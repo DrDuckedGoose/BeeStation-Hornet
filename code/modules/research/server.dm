@@ -23,7 +23,7 @@
 
 /obj/machinery/rnd/server/Initialize(mapload)
 	. = ..()
-	server_component = AddComponent(/datum/component/server)
+	build_component()
 	server_id = 0
 	while(server_id == 0)
 		var/test_id = rand(1,65535)
@@ -86,6 +86,9 @@
 /obj/machinery/rnd/server/on_set_machine_stat(old_value)
 	. = ..()
 	update_appearance()
+
+/obj/machinery/rnd/server/proc/build_component()
+	server_component = AddComponent(/datum/component/server)
 
 /obj/machinery/computer/rdservercontrol
 	name = "R&D Server Controller"

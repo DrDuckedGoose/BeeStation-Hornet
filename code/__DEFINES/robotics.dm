@@ -72,3 +72,9 @@
 #define ENDO_COMPATIBILITY_GENERIC (1<<0)
 #define ENDO_COMPATIBILITY_FORD (1<<1)
 #define ENDO_COMPATIBILITY_HONDA (1<<2)
+
+/*
+	Server signals
+*/
+
+#define COMSIG_LAW_SERVER_UPDATE "law_server_update"

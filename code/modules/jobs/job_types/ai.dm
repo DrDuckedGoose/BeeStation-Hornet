@@ -52,7 +52,7 @@
 	if(SSticker.current_state == GAME_STATE_SETTING_UP)
 		for(var/mob/living/silicon/new_robot/R in GLOB.silicon_mobs)
 			if(!R.connected_ai)
-				R.TryConnectToAI()
+				R.try_connect_to_ai()
 
 	if(latejoin)
 		announce(AI)

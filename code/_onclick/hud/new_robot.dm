@@ -86,7 +86,7 @@
 //Item module
 /atom/movable/screen/new_robot/module
 	name = "cyborg module"
-	icon_state = "nomod"
+	icon_state = "blank"
 	screen_loc = ui_borg_module
 	///Ref to the particular item module we represent
 	var/obj/item/new_robot_module/module
@@ -94,20 +94,26 @@
 	var/atom/movable/screen/modules_background
 	///Are we displaying or hiding the module
 	var/display_module = FALSE
-	///What is our display index?
+	///What is our display index? Used to offset this hud stuff when we have multiple modules
 	var/display_index = 0
 
 /atom/movable/screen/new_robot/module/Initialize(mapload, _module, _display_index)
 	. = ..()
 	module = _module
 	display_index = _display_index
-	//Build background
+//Visual
+	var/obj/item/new_robot_module/module_item = module
+	add_overlay(mutable_appearance(module_item.icon, module_item.icon_state, color = "#b2b2b2"))
+	add_overlay(mutable_appearance(icon, module_item.module_icon, alpha = 200))
+//Build background
 	modules_background = new()
 	modules_background.icon_state = "block"
 	modules_background.plane = HUD_PLANE
 	var/display_rows = CEILING(length(module.all_items) / 8, 1)
 	modules_background.screen_loc = "CENTER-4:16,SOUTH+[1+display_index]:7 to CENTER+3:16,SOUTH+[display_index+display_rows]:7"
 //Info stuff
+	if(display_index)
+		return
 	var/atom/movable/screen/new_robot/info/info = new(src, "Press Q to return equipped items.")
 	vis_contents += info
 

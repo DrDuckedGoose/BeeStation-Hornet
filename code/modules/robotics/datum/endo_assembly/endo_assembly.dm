@@ -48,6 +48,7 @@
 	if(SEND_SIGNAL(I, ENDO_ASSEMBLY_IN_USE))
 		return
 	return check_assembly(I)
+
 ///Collect a part to satisfy our needs
 /datum/endo_assembly/proc/add_part(datum/source, obj/item/I, mob/living/L)
 	SIGNAL_HANDLER
@@ -201,7 +202,12 @@
 /datum/endo_assembly/endopart/build_ideal_part()
 	for(var/i in 1 to amount_required)
 		var/obj/item/I = new ideal_part_parent(get_turf(part_parent.parent))
-		I.AddComponent(component_requirment, TRUE, required_offset_key)
+		var/datum/component/endopart/part = I.GetComponent(component_requirment)
+		if(!part)
+			I.AddComponent(component_requirment, TRUE, required_offset_key)
+		else if(start_finished)
+			part.start_finished = TRUE
+			part.build_required_assembly()
 		if(!part_parent.attach_part(src, I, null))
 			qdel(I)
 
