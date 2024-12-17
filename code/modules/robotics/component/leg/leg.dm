@@ -8,14 +8,23 @@
 	///What move speed bonus does this leg have. < 0 is fast, > 0 is slow
 	var/speed_bonus = 0
 	var/datum/movespeed_modifier/robot_varspeed/speed_datum
-	///Should we paralyze this arm if it's incomplete
+	///Should we paralyze this leg if it's incomplete
 	var/paralyze = TRUE
+
+	///Footstep counter for playsound
+	var/steps_taken = 0
+	///What footstep sound do we play
+	var/footstep_sound = 'sound/effects/footstep/robotstep.ogg'
 
 /datum/component/endopart/leg/Initialize(_start_finished, _offset_key = ENDO_OFFSET_KEY_LEG(1))
 	. = ..()
 	offset_key = _offset_key
 	speed_datum = new()
 	speed_datum.id = "[ref(src)]"
+
+/datum/component/endopart/leg/apply_assembly(datum/source, mob/target)
+	. = ..()
+	RegisterSignal(target, COMSIG_MOVABLE_MOVED, PROC_REF(catch_step_taken))
 
 /datum/component/endopart/leg/refresh_assembly(datum/source, mob/target)
 	. = ..()
@@ -37,6 +46,17 @@
 	target.remove_movespeed_modifier(speed_datum)
 	if(!iscarbon(target) && !iscyborg(target))
 		target.remove_movespeed_modifier(/datum/movespeed_modifier/limbless)
+	UnregisterSignal(target, COMSIG_MOVABLE_MOVED)
+
+//TODO: Respect the footstep element - Racc
+///Put your 'when we take a step' effects here. By default, we use it to play custom walk sounds 'n such, cuz fuck the footstep element lol
+/datum/component/endopart/leg/proc/catch_step_taken(datum/source, atom/thing, dir)
+	SIGNAL_HANDLER
+
+	steps_taken++
+	if(!(steps_taken % 3))
+		playsound(thing, footstep_sound, 30)
+		steps_taken = 0
 
 /datum/movespeed_modifier/robot_varspeed
 	variable = TRUE

@@ -15,3 +15,16 @@
 	required_assembly = list(/datum/endo_assembly/endopart/functional_limb/arm/left, /datum/endo_assembly/endopart/functional_limb/arm/right,
 	/datum/endo_assembly/endopart/functional_limb/leg/left, /datum/endo_assembly/endopart/functional_limb/leg/right, /datum/endo_assembly/endopart/functional_limb/head,
 	/datum/endo_assembly/endopart/functional_limb/chest/transform_machine)
+
+//Salvage
+/datum/component/endopart/chassis/borg/salvage
+	start_finished = TRUE
+	required_assembly = list(/datum/endo_assembly/endopart/functional_limb/arm/left, /datum/endo_assembly/endopart/functional_limb/arm/right,
+	/datum/endo_assembly/endopart/functional_limb/leg/left, /datum/endo_assembly/endopart/functional_limb/leg/right, /datum/endo_assembly/endopart/functional_limb/head,
+	/datum/endo_assembly/endopart/functional_limb/chest/transform_machine)
+
+/datum/component/endopart/chassis/borg/salvage/build_required_assembly()
+	for(var/part in required_assembly)
+		if(prob(50))
+			required_assembly -= part
+	return ..()

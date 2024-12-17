@@ -38,3 +38,7 @@
 /obj/item/endopart/chassis/borg/syndicate/medical
 
 /obj/item/endopart/chassis/borg/syndicate/saboteur
+
+//Salvage
+/obj/item/endopart/chassis/borg/salvage
+	endo_component = /datum/component/endopart/chassis/borg/salvage

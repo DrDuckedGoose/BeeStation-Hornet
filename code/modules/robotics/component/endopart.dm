@@ -31,6 +31,7 @@
 	///What is this part's ambient draw?
 	var/ambient_draw = 0
 
+///Science rewards
 	///How much discovery research does this limb generate per life() tick
 	var/discovery_tick = 0.1
 	///How much general research
@@ -243,6 +244,7 @@
 /datum/component/endopart/proc/examine_async(mob/M, list/examine_text)
 	if(!M.can_see_reagents())
 		return
+	//Display list of items we want, for assembly
 	var/list/choices = list()
 	for(var/datum/endo_assembly/assembly as() in required_assembly)
 		if(assembly.check_completion() & ENDO_ASSEMBLY_COMPLETE)
@@ -252,6 +254,8 @@
 	if(!length(choices))
 		return
 	show_recipe_display_controller(M, parent, choices, require_near = FALSE, tooltips = TRUE)
+	//Tell the goober some cool facts about us
+	to_chat(M, "<span class='notice'>[parent] yields [discovery_tick] discovery & [general_tick] general research per cycle.</span>")
 
 /datum/component/endopart/proc/build_assembly_overlay(atom/A)
 	if(iscarbon(A))

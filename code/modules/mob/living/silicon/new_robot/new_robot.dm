@@ -72,8 +72,6 @@
 	. = ..()
 //Overlay
 	cover_overlay = mutable_appearance('icons/mob/robots.dmi', "", layer = ABOVE_MOB_LAYER)
-//Footstep sounds for muh immersion
-	AddElement(/datum/element/footstep, FOOTSTEP_OBJ_ROBOT)
 //Build our spark effects
 	spark_system = new /datum/effect_system/spark_spread()
 	spark_system.set_up(5, 0, src)
