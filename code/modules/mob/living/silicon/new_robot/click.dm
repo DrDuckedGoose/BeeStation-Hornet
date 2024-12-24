@@ -42,7 +42,6 @@
 
 	face_atom(A) // change direction to face what you clicked on
 
-
 	var/obj/item/W = get_active_held_item()
 	var/dist = get_dist(src,A)
 	if((dist > 1 || !W) && dist <= interaction_range)

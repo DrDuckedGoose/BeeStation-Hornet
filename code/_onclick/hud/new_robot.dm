@@ -176,7 +176,7 @@
 	alpha = 255
 
 /atom/movable/screen/new_robot/hand/proc/deselect()
-	color = "#ffffffae"
+	color = "#ffffff6d"
 
 //Modular tablet
 /atom/movable/screen/new_robot/modpc
@@ -195,6 +195,63 @@
 /atom/movable/screen/healths/robot
 	icon = 'icons/mob/screen_cyborg.dmi'
 	screen_loc = ui_borg_health
+	///Reference to the robot we're tacking health for
+	var/mob/living/silicon/new_robot/robot
+
+	var/list/cached_parts = list()
+	var/list/cached_index = list()
+
+/atom/movable/screen/healths/robot/Initialize(mapload, _robot)
+	. = ..()
+	robot = _robot
+	//tooltip
+	var/atom/movable/screen/new_robot/info/info = new(src, "Mouse over the health UI to see the integrity of individual parts.")
+	vis_contents += info
+
+//When moused over, show the health & status of our hardware
+/atom/movable/screen/healths/robot/MouseEntered(location, control, params)
+	. = ..()
+	if(!robot)
+		return
+	//Get a list of our robot's hardware
+	var/datum/component/endopart/chassis/chassis_component = robot.chassis_component
+	var/list/parts = chassis_component.current_assembly
+	//Build a visual asset for each part and display its health
+	var/visual_index = -1
+	for(var/atom/movable/part in parts)
+		var/atom/movable/screen/screen_part = cached_parts["[REF(part)]"]
+		if(screen_part)
+			screen_part.maptext = MAPTEXT("<font color='#00ff00ff'>100%<font>")
+			animate(screen_part, pixel_x = 32 * cached_index["[REF(part)]"], 0.25 SECONDS)
+			continue
+		//Visual asset
+		screen_part = new(src)
+		screen_part.appearance = part.appearance
+		screen_part.underlays += icon('icons/mob/screen_cyborg.dmi', "blank")
+		screen_part.plane = plane
+		screen_part.layer = layer-0.1
+		screen_part.maptext = MAPTEXT("<font color='#00ff00ff'>100%<font>")
+
+		animate(screen_part, pixel_x = 32 * visual_index, 0.25 SECONDS)
+
+		vis_contents += screen_part
+
+		cached_parts["[REF(part)]"] = screen_part
+		cached_index["[REF(part)]"] = visual_index
+
+		visual_index -= 1
+
+/atom/movable/screen/healths/robot/MouseExited(location, control, params)
+	. = ..()
+	if(!robot)
+		return
+	var/datum/component/endopart/chassis/chassis_component = robot.chassis_component
+	var/list/parts = chassis_component.current_assembly
+	for(var/atom/movable/part in parts)
+		var/atom/movable/screen/screen_part = cached_parts["[REF(part)]"]
+		if(!screen_part)
+			continue
+		animate(screen_part, pixel_x = 0, 0.25 SECONDS)
 
 //Info help
 /atom/movable/screen/new_robot/info

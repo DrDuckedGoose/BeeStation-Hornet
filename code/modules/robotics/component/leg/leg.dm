@@ -24,7 +24,7 @@
 
 /datum/component/endopart/leg/apply_assembly(datum/source, mob/target)
 	. = ..()
-	RegisterSignal(target, COMSIG_MOVABLE_MOVED, PROC_REF(catch_step_taken))
+	RegisterSignal(target, COMSIG_MOVABLE_MOVED, PROC_REF(catch_step_taken), TRUE)
 
 /datum/component/endopart/leg/refresh_assembly(datum/source, mob/target)
 	. = ..()

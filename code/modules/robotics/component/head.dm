@@ -74,8 +74,9 @@
 		langauge = new/atom/movable/screen/language_menu
 	hud.static_inventory |= langauge
 	//Health
+	var/mob/living/silicon/new_robot/robot = hud.mymob
 	if(!health)
-		health = new /atom/movable/screen/healths/robot()
+		health = new /atom/movable/screen/healths/robot(src, robot)
 	health.hud = hud
 	hud.healths = health
 	hud.infodisplay += health
@@ -84,7 +85,6 @@
 		tablet = new /atom/movable/screen/new_robot/modpc()
 	tablet.hud = hud
 	hud.static_inventory |= tablet
-	var/mob/living/silicon/new_robot/robot = hud.mymob
 	if(robot.modularInterface)
 		tablet.vis_contents += robot.modularInterface
 	tablet.robot = robot
