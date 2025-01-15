@@ -50,7 +50,7 @@
 
 	//Allows mobs to move through dense areas without restriction. For instance, in space or out of holder objects.
 	var/incorporeal_move = FALSE //FALSE is off, INCORPOREAL_MOVE_BASIC is normal, INCORPOREAL_MOVE_SHADOW is for ninjas
-								 //and INCORPOREAL_MOVE_JAUNT is blocked by holy water/salt
+								//and INCORPOREAL_MOVE_JAUNT is blocked by holy water/salt
 
 	var/list/surgeries = list()	//a list of surgery datums. generally empty, they're added when the player wants them.
 
@@ -169,4 +169,9 @@
 	///The x amount a mob's sprite should be offset due to the current position they're in
 	var/body_position_pixel_y_offset = 0
 
-	var/tinttotal = 0	// Total level of visualy impairing items
+	/// Total level of visualy impairing items
+	var/tinttotal = 0
+
+	/// What our current gravity state is. Used to avoid duplicate animates and such
+	var/gravity_state = null
+

@@ -1,3 +1,5 @@
+CREATION_TEST_IGNORE_SELF(/turf/open)
+
 /turf/open
 	plane = FLOOR_PLANE
 	can_hit = FALSE
@@ -26,9 +28,6 @@
 
 	//Refs to filters, for later removal
 	var/list/damage_overlays
-
-	///The variant tiles we can choose from (name = chance, name = chance, name = chance)
-	var/list/variants
 
 	///Is this floor no-slip?
 	var/traction = FALSE
@@ -100,7 +99,7 @@
 /turf/open/indestructible/sound/Entered(atom/movable/arrived, atom/old_loc, list/atom/old_locs)
 	. = ..()
 
-	if(istype(arrived) && !(arrived.movement_type & (FLYING|FLOATING)))
+	if(istype(arrived) && !(arrived.movement_type & MOVETYPES_NOT_TOUCHING_GROUND))
 		playsound(src,sound,50,1)
 
 /turf/open/indestructible/necropolis

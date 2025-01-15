@@ -70,6 +70,7 @@
 
 /mob/living/silicon/new_robot/Initialize(mapload, obj/item/endopart/chassis/borg/_chassis)
 	. = ..()
+	GLOB.cyborg_list += src
 //Overlay
 	cover_overlay = mutable_appearance('icons/mob/robots.dmi', "", layer = ABOVE_MOB_LAYER)
 //Build our spark effects
@@ -125,6 +126,7 @@
 
 /mob/living/silicon/new_robot/Destroy()
 	. = ..()
+	GLOB.cyborg_list -= src
 	QDEL_NULL(cover_overlay)
 //Clean up our spark effects
 	QDEL_NULL(spark_system)

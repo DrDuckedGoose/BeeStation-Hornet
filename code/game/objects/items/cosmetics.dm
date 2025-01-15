@@ -60,16 +60,16 @@
 			return
 		if(H == user)
 			user.visible_message("<span class='notice'>[user] does [user.p_their()] lips with \the [src].</span>", \
-								 "<span class='notice'>You take a moment to apply \the [src]. Perfect!</span>")
+								"<span class='notice'>You take a moment to apply \the [src]. Perfect!</span>")
 			H.lip_style = "lipstick"
 			H.lip_color = colour
 			H.update_body()
 		else
 			user.visible_message("<span class='warning'>[user] begins to do [H]'s lips with \the [src].</span>", \
-								 "<span class='notice'>You begin to apply \the [src] on [H]'s lips...</span>")
+								"<span class='notice'>You begin to apply \the [src] on [H]'s lips...</span>")
 			if(do_after(user, 20, target = H))
 				user.visible_message("[user] does [H]'s lips with \the [src].", \
-									 "<span class='notice'>You apply \the [src] on [H]'s lips.</span>")
+									"<span class='notice'>You apply \the [src] on [H]'s lips.</span>")
 				H.lip_style = "lipstick"
 				H.lip_color = colour
 				H.update_body()
@@ -90,10 +90,10 @@
 				H.update_body()
 			else
 				user.visible_message("<span class='warning'>[user] begins to wipe [H]'s lipstick off with \the [src].</span>", \
-								 	 "<span class='notice'>You begin to wipe off [H]'s lipstick...</span>")
+									"<span class='notice'>You begin to wipe off [H]'s lipstick...</span>")
 				if(do_after(user, 10, target = H))
 					user.visible_message("[user] wipes [H]'s lipstick off with \the [src].", \
-										 "<span class='notice'>You wipe off [H]'s lipstick.</span>")
+										"<span class='notice'>You wipe off [H]'s lipstick.</span>")
 					H.lip_style = null
 					H.update_body()
 	else
@@ -277,7 +277,7 @@
 		attack_verb_continuous = list("slashes", "stabs", "slices", "tears", "lacerates", "rips", "dices", "cuts")
 		attack_verb_simple = list("slash", "stab", "slice", "tear", "lacerate", "rip", "dice", "cut")
 		hitsound = 'sound/weapons/bladeslice.ogg'
-		sharpness = IS_SHARP
+		sharpness = SHARP
 		bleed_force = BLEED_SURFACE
 		tool_behaviour = TOOL_SCALPEL
 	else
@@ -288,7 +288,7 @@
 		attack_verb_continuous = list("stubs", "pokes")
 		attack_verb_simple = list("stub", "poke")
 		hitsound = 'sound/weapons/genhit.ogg'
-		sharpness = IS_BLUNT
+		sharpness = BLUNT
 		bleed_force = 0
 		tool_behaviour = null
 

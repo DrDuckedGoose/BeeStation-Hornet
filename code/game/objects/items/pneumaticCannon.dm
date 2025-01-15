@@ -2,6 +2,7 @@
 #define PCANNON_FIREALL 1
 #define PCANNON_FILO 2
 #define PCANNON_FIFO 3
+
 /obj/item/pneumatic_cannon
 	name = "pneumatic cannon"
 	desc = "A gas-powered cannon that can fire any object loaded into it."
@@ -15,7 +16,7 @@
 	item_state = "bulldog"
 	lefthand_file = 'icons/mob/inhands/weapons/guns_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/weapons/guns_righthand.dmi'
-	armor = list(MELEE = 0,  BULLET = 0, LASER = 0, ENERGY = 0, BOMB = 0, BIO = 0, RAD = 0, FIRE = 60, ACID = 50, STAMINA = 0, BLEED = 0)
+	armor_type = /datum/armor/item_pneumatic_cannon
 	var/maxWeightClass = 20 //The max weight of items that can fit into the cannon
 	var/loadedWeightClass = 0 //The weight of items currently in the cannon
 	var/obj/item/tank/internals/tank = null //The gas tank that is drawn from to fire things
@@ -38,6 +39,11 @@
 	var/spin_item = TRUE //Do the projectiles spin when launched?
 	trigger_guard = TRIGGER_GUARD_NORMAL
 
+
+
+/datum/armor/item_pneumatic_cannon
+	fire = 60
+	acid = 50
 
 /obj/item/pneumatic_cannon/Initialize(mapload)
 	. = ..()
@@ -165,7 +171,7 @@
 		discharge = 1
 	if(!discharge)
 		user.visible_message("<span class='danger'>[user] fires \the [src]!</span>", \
-				    		 "<span class='danger'>You fire \the [src]!</span>")
+							"<span class='danger'>You fire \the [src]!</span>")
 	log_combat(user, target, "fired at", src)
 	var/turf/T = get_target(target, get_turf(src))
 	playsound(src, fire_sound, 50, 1)
@@ -337,10 +343,14 @@
 	STR.max_w_class = WEIGHT_CLASS_BULKY
 	STR.max_combined_w_class = STR.max_w_class*STR.max_items
 	STR.display_numerical_stacking = TRUE
-	STR.can_hold = typecacheof(list(
+	STR.set_holdable(list(
 		/obj/item/throwing_star/magspear
 		))
 
 /obj/item/storage/backpack/magspear_quiver/PopulateContents()
 	for(var/i in 1 to 30)
 		new /obj/item/throwing_star/magspear(src)
+
+#undef PCANNON_FIREALL
+#undef PCANNON_FILO
+#undef PCANNON_FIFO

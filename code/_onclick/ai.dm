@@ -95,8 +95,11 @@
 	A.attack_ai(src)
 
 /atom/proc/attack_ai(mob/user)
-	SEND_SIGNAL(src, COMSIG_ATOM_ATTACK_AI, user)
-	return
+	if(SEND_SIGNAL(src, COMSIG_ATOM_ATTACK_AI, user) & COMPONENT_CANCEL_ATTACK_CHAIN)
+		return TRUE
+	if(attack_silicon(user))
+		return TRUE
+	return FALSE
 
 /*
 	Since the AI handles shift, ctrl, and alt-click differently

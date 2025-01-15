@@ -47,9 +47,9 @@ GLOBAL_LIST_INIT(channel_tokens, list(
 		if(length(channels))
 			for(var/i in 1 to length(channels))
 				if(i == 1)
-					avail_chans += "use [MODE_TOKEN_DEPARTMENT] or [GLOB.channel_tokens[channels[i]]] for [lowertext(channels[i])]"
+					avail_chans += "use [MODE_TOKEN_DEPARTMENT] or [GLOB.channel_tokens[channels[i]]] for [LOWER_TEXT(channels[i])]"
 				else
-					avail_chans += "use [GLOB.channel_tokens[channels[i]]] for [lowertext(channels[i])]"
+					avail_chans += "use [GLOB.channel_tokens[channels[i]]] for [LOWER_TEXT(channels[i])]"
 		. += "<span class='notice'>A small screen on the headset displays the following available frequencies:\n[english_list(avail_chans)].</span>"
 
 		if(command)
@@ -119,19 +119,19 @@ GLOBAL_LIST_INIT(channel_tokens, list(
 	icon_state = "sec_headset"
 	worn_icon_state = "sec_headset"
 
-/obj/item/radio/headset/headset_medsec
-	name = "medical-security radio headset"
-	desc = "Used to hear how many security officers need to be stiched back together."
-	icon_state = "medsec_headset"
-	worn_icon_state = "sec_headset"
-	keyslot = new /obj/item/encryptionkey/headset_medsec
-
 /obj/item/radio/headset/headset_sec/alt
 	name = "security bowman headset"
 	desc = "This is used by your elite security force. Protects ears from flashbangs."
 	icon_state = "sec_headset_alt"
 	worn_icon_state = "sec_headset_alt"
 	bang_protect = 1
+
+/obj/item/radio/headset/headset_medsec
+	name = "medical-security radio headset"
+	desc = "Used to hear how many security officers need to be stiched back together."
+	icon_state = "medsec_headset"
+	worn_icon_state = "sec_headset"
+	keyslot = new /obj/item/encryptionkey/headset_medsec
 
 /obj/item/radio/headset/headset_eng
 	name = "engineering radio headset"

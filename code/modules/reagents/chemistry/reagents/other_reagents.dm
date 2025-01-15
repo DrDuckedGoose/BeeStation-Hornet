@@ -227,7 +227,7 @@
 	if(isoozeling(M))
 		var/touch_mod = 0
 		if(method in list(TOUCH, VAPOR)) // No melting if you have skin protection
-			touch_mod = M.get_permeability_protection()
+			touch_mod = M.getarmor(null, BIO) * 0.01
 		M.blood_volume = max(M.blood_volume - 30 * (1 - touch_mod), 0)
 		if(touch_mod < 0.9)
 			to_chat(M, "<span class='warning'>The water causes you to melt away!</span>")
@@ -537,7 +537,7 @@
 		var/datum/species/species_type = pick(race) //this worked with the old code, somehow, and it works here...
 		H.set_species(species_type)
 		H.reagents.del_reagent(type)
-		to_chat(H, "<span class='warning'>You've become \a [lowertext(initial(species_type.name))]!</span>")
+		to_chat(H, "<span class='warning'>You've become \a [LOWER_TEXT(initial(species_type.name))]!</span>")
 		return
 	..()
 
@@ -560,7 +560,6 @@
 						/datum/species/fly,
 						/datum/species/moth,
 						/datum/species/apid,
-						/datum/species/pod,
 						/datum/species/oozeling,
 						/datum/species/abductor,
 						/datum/species/skeleton)
@@ -604,12 +603,12 @@
 	race = /datum/species/apid
 	taste_description = "honey"
 
-/datum/reagent/mutationtoxin/pod
-	name = "Podperson Mutation Toxin"
+/datum/reagent/mutationtoxin/diona //Admin only, besides maint pills because funny
+	name = "Diona Mutation Toxin"
 	description = "A vegetalizing toxin."
 	color = "#5EFF3B" //RGB: 94, 255, 59
-	chem_flags = CHEMICAL_RNG_FUN | CHEMICAL_RNG_BOTANY
-	race = /datum/species/pod
+	chem_flags = CHEMICAL_RNG_FUN
+	race = /datum/species/diona
 	taste_description = "flowers"
 
 /datum/reagent/mutationtoxin/jelly
@@ -852,6 +851,14 @@
 	chem_flags = CHEMICAL_BASIC_ELEMENT | CHEMICAL_RNG_GENERAL | CHEMICAL_RNG_FUN // because brain damage is fun
 	taste_mult = 0 // apparently tasteless.
 
+/datum/reagent/mercury/lead_acetate
+	name = "Lead Acetate"
+	description = "A sweet neurotoxic chemical. The secret of Roman sweet wine."
+	color = "#AAAAAA"
+	chem_flags = CHEMICAL_RNG_GENERAL | CHEMICAL_RNG_FUN // because brain damage is fun
+	taste_description = "sweetness"
+	taste_mult = 3
+
 /datum/reagent/mercury/on_mob_life(mob/living/carbon/M)
 	if(!HAS_TRAIT(src, TRAIT_IMMOBILIZED) && !isspaceturf(M.loc))
 		step(M, pick(GLOB.cardinals))
@@ -976,12 +983,6 @@
 		C.blood_volume += 0.5
 	..()
 
-/datum/reagent/iron/reaction_mob(mob/living/M, method=TOUCH, reac_volume)
-	if(M.has_bane(BANE_IRON)) //If the target is weak to cold iron, then poison them.
-		if(holder && holder.chem_temp < 100) // COLD iron.
-			M.reagents.add_reagent(/datum/reagent/toxin, reac_volume)
-	..()
-
 /datum/reagent/gold
 	name = "Gold"
 	description = "Gold is a dense, soft, shiny metal and the most malleable and ductile metal known."
@@ -997,11 +998,6 @@
 	color = "#D0D0D0" // rgb: 208, 208, 208
 	chem_flags = CHEMICAL_BASIC_ELEMENT
 	taste_description = "expensive yet reasonable metal"
-
-/datum/reagent/silver/reaction_mob(mob/living/M, method=TOUCH, reac_volume)
-	if(M.has_bane(BANE_SILVER))
-		M.reagents.add_reagent(/datum/reagent/toxin, reac_volume)
-	..()
 
 /datum/reagent/uranium
 	name ="Uranium"
@@ -1459,7 +1455,7 @@
 	color = "#FFFFFF" // white
 	random_color_list = list("#FFFFFF") //doesn't actually change appearance at all
 
- /* used by crayons, can't color living things but still used for stuff like food recipes */
+/* used by crayons, can't color living things but still used for stuff like food recipes */
 
 /datum/reagent/colorful_reagent/powder/red/crayon
 	name = "Red Crayon Powder"
@@ -2203,12 +2199,12 @@
 
 /datum/reagent/consumable/ratlight/on_mob_metabolize(mob/living/L)
 	L.add_blocked_language(subtypesof(/datum/language/) - /datum/language/ratvar, LANGUAGE_REAGENT)
-	L.grant_language(/datum/language/ratvar, TRUE, TRUE, LANGUAGE_REAGENT)
+	L.grant_language(/datum/language/ratvar, source = LANGUAGE_REAGENT)
 	..()
 
 /datum/reagent/consumable/ratlight/on_mob_end_metabolize(mob/living/L)
 	L.remove_blocked_language(subtypesof(/datum/language/), LANGUAGE_REAGENT)
-	L.remove_language(/datum/language/ratvar, TRUE, TRUE, LANGUAGE_REAGENT)
+	L.remove_language(/datum/language/ratvar, source = LANGUAGE_REAGENT)
 	L.set_light(-1)
 
 	..()

@@ -123,7 +123,7 @@
 	attack_verb_continuous = list("slices")
 	attack_verb_simple = list("slice")
 	hitsound = 'sound/weapons/bladeslice.ogg'
-	sharpness = IS_SHARP
+	sharpness = SHARP
 	bleed_force = BLEED_SURFACE
 
 /obj/item/clothing/glasses/meson/prescription
@@ -144,7 +144,12 @@
 	actions_types = list(/datum/action/item_action/toggle_research_scanner)
 	glass_colour_type = /datum/client_colour/glass_colour/purple
 	resistance_flags = ACID_PROOF
-	armor = list(MELEE = 0,  BULLET = 0, LASER = 0, ENERGY = 0, BOMB = 0, BIO = 0, RAD = 0, FIRE = 80, ACID = 100, STAMINA = 0, BLEED = 0)
+	armor_type = /datum/armor/glasses_science
+
+
+/datum/armor/glasses_science
+	fire = 80
+	acid = 100
 
 /obj/item/clothing/glasses/science/item_action_slot_check(slot)
 	if(slot == ITEM_SLOT_EYES)
@@ -156,8 +161,13 @@
 	icon_state = "prescscihud"
 	emissive_state = "prehud_emissive"
 	resistance_flags = NONE
-	armor = list(MELEE = 0,  BULLET = 0, LASER = 0, ENERGY = 0, BOMB = 0, BIO = 0, RAD = 0, FIRE = 20, ACID = 40, STAMINA = 0, BLEED = 0)
+	armor_type = /datum/armor/science_prescription
 	vision_correction = 1
+
+
+/datum/armor/science_prescription
+	fire = 20
+	acid = 40
 
 /obj/item/clothing/glasses/science/sciencesun
 	name = "science sunglasses"
@@ -171,6 +181,15 @@
 	name = "degraded science sunglasses"
 	desc = "A pair of sunglasses outfitted with apparatus to scan reagents, as well as providing an innate understanding of liquid viscosity while in motion."
 	flash_protect = 0
+
+/obj/item/clothing/glasses/science/night
+	name = "night vision science goggles"
+	desc = "A pair of snazzy goggles to protect against chemical spills, AND your fear of the dark! Fitted with an analyzer for scanning items and reagents."
+	icon_state = "purplenight"
+	item_state = "purplenight"
+	emissive_state = "nvgmeson_emissive"
+	darkness_view = 8
+	lighting_alpha = LIGHTING_PLANE_ALPHA_MOSTLY_INVISIBLE
 
 /obj/item/clothing/glasses/night
 	name = "night vision goggles"
@@ -225,7 +244,7 @@
 	attack_verb_continuous = list("slices")
 	attack_verb_simple = list("slice")
 	hitsound = 'sound/weapons/bladeslice.ogg'
-	sharpness = IS_SHARP
+	sharpness = SHARP
 	bleed_force = BLEED_SURFACE
 	glass_colour_type = /datum/client_colour/glass_colour/lightgreen
 
@@ -310,7 +329,7 @@
 	attack_verb_continuous = list("slices")
 	attack_verb_simple = list("slice")
 	hitsound = 'sound/weapons/bladeslice.ogg'
-	sharpness = IS_SHARP
+	sharpness = SHARP
 	bleed_force = BLEED_SURFACE
 
 /obj/item/clothing/glasses/sunglasses/advanced/garb/supergarb
@@ -332,7 +351,7 @@
 	attack_verb_continuous = list("slices")
 	attack_verb_simple = list("slice")
 	hitsound = 'sound/weapons/bladeslice.ogg'
-	sharpness = IS_SHARP
+	sharpness = SHARP
 	bleed_force = BLEED_SURFACE
 	glass_colour_type = /datum/client_colour/glass_colour/orange
 
@@ -420,7 +439,7 @@
 	item_state = "blindfoldwhite"
 	var/colored_before = FALSE
 
-/obj/item/clothing/glasses/blindfold/white/equipped(mob/living/carbon/human/user, slot)
+/obj/item/clothing/glasses/blindfold/white/visual_equipped(mob/living/carbon/human/user, slot)
 	if(ishuman(user) && slot == ITEM_SLOT_EYES)
 		update_icon(user)
 		user.update_inv_glasses() //Color might have been changed by update_icon.

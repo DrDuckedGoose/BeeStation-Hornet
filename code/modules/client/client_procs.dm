@@ -42,7 +42,7 @@ GLOBAL_LIST_INIT(blacklisted_builds, list(
 
 #ifndef TESTING
 	//disable the integrated byond vv in the client side debugging tools since it doesn't respect vv read protections
-	if (lowertext(hsrc_command) == "_debug")
+	if (LOWER_TEXT(hsrc_command) == "_debug")
 		return
 #endif
 
@@ -114,6 +114,9 @@ GLOBAL_LIST_INIT(blacklisted_builds, list(
 	if(href_list["mentor_msg"])
 		cmd_mentor_pm(href_list["mentor_msg"], null)
 		return TRUE
+
+	if(href_list["commandbar_typing"])
+		handle_commandbar_typing(href_list)
 
 	switch(href_list["_src_"])
 		if("holder")
@@ -208,6 +211,8 @@ GLOBAL_LIST_INIT(blacklisted_builds, list(
 
 	tgui_say = new(src, "tgui_say")
 	tgui_asay = new(src, "tgui_asay")
+
+	initialize_commandbar_spy()
 
 	GLOB.ahelp_tickets.ClientLogin(src)
 	GLOB.mhelp_tickets.ClientLogin(src)
@@ -823,7 +828,7 @@ GLOBAL_LIST_INIT(blacklisted_builds, list(
 
 			sleep(15 SECONDS) //Longer sleep here since this would trigger if a client tries to reconnect manually because the inital reconnect failed
 
-			 //we sleep after telling the client to reconnect, so if we still exist something is up
+			//we sleep after telling the client to reconnect, so if we still exist something is up
 			log_access("Forced disconnect: [key] [computer_id] [address] - CID randomizer check")
 
 			qdel(src)
@@ -1133,7 +1138,7 @@ GLOBAL_LIST_INIT(blacklisted_builds, list(
 	if(response.errored || response.status_code != 200 || response.body == "[]")
 		return
 
-	bans = json_decode(response["body"])
+	bans = json_decode(response.body)
 	for(var/list/ban in bans)
 		var/list/ban_attributes = ban["banAttributes"]
 		if(ban_attributes["BeeStationGlobal"])
@@ -1160,3 +1165,10 @@ GLOBAL_LIST_INIT(blacklisted_builds, list(
 
 /client/proc/increase_score(achievement_type, mob/user, value)
 	return player_details.achievements.increase_score(achievement_type, user, value)
+
+#undef LIMITER_SIZE
+#undef CURRENT_SECOND
+#undef SECOND_COUNT
+#undef CURRENT_MINUTE
+#undef MINUTE_COUNT
+#undef ADMINSWARNED_AT

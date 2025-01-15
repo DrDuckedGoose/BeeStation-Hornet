@@ -20,7 +20,7 @@
 	var/obj/machinery/computer/operating/op_computer
 
 // dir check for buckle_lying state
-/obj/machinery/stasis/Initialize()
+/obj/machinery/stasis/Initialize(mapload)
 	RegisterSignal(src, COMSIG_ATOM_DIR_CHANGE, PROC_REF(dir_changed))
 	dir_changed(new_dir = dir)
 	. = ..()
@@ -108,10 +108,10 @@
 		return
 	icon_state = "stasis"
 
-/obj/machinery/stasis/obj_break(damage_flag)
+/obj/machinery/stasis/atom_break(damage_flag)
 	. = ..()
-	play_power_sound()
-	update_icon()
+	if(.)
+		play_power_sound()
 
 /obj/machinery/stasis/power_change()
 	. = ..()
@@ -122,6 +122,9 @@
 		return
 	var/freq = rand(24750, 26550)
 	playsound(src, 'sound/effects/spray.ogg', 5, TRUE, 2, frequency = freq)
+	//we could check inherent_traits, but thats too many var defines. KISS principle.
+	if(HAS_TRAIT(target, TRAIT_NOSTASIS))
+		return
 	target.apply_status_effect(STATUS_EFFECT_STASIS, STASIS_MACHINE_EFFECT)
 	target.ExtinguishMob()
 	use_power = ACTIVE_POWER_USE
@@ -146,7 +149,7 @@
 	update_icon()
 
 /obj/machinery/stasis/process()
-	if( !( occupant && isliving(occupant) && check_nap_violations() ) )
+	if(!(occupant && isliving(occupant) && check_nap_violations()))
 		use_power = IDLE_POWER_USE
 		return
 	var/mob/living/L_occupant = occupant
@@ -172,7 +175,7 @@ DEFINE_BUFFER_HANDLER(/obj/machinery/stasis)
 	if (TRY_STORE_IN_BUFFER(buffer_parent, src))
 		to_chat(user, "<span class='notice'>You store the linking data of \the [src] in \the [buffer_parent]'s buffer. Use it on an operating computer to complete linking.</span>")
 		balloon_alert(user, "saved in buffer")
-		return COMPONENT_BUFFER_RECIEVED
+		return COMPONENT_BUFFER_RECEIVED
 	return NONE
 
 /obj/machinery/stasis/wrench_act(mob/living/user, obj/item/I) //We want to rotate, but we need to do it in 180 degree rotations.

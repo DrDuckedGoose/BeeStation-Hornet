@@ -6,7 +6,7 @@
 	worn_icon_state = "energy_katana"
 	lefthand_file = 'icons/mob/inhands/weapons/swords_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/weapons/swords_righthand.dmi'
-	force = 40
+	force = 25
 	throwforce = 20
 	block_power = 50
 	block_level = 1
@@ -18,7 +18,7 @@
 	attack_verb_continuous = list("attacks", "slashes", "stabs", "slices", "tears", "lacerates", "rips", "dices", "cuts")
 	attack_verb_simple = list("attack", "slash", "stab", "slice", "tear", "lacerate", "rip", "dice", "cut")
 	slot_flags = ITEM_SLOT_BACK|ITEM_SLOT_BELT
-	sharpness = IS_SHARP
+	sharpness = SHARP_DISMEMBER_EASY
 	bleed_force = BLEED_DEEP_WOUND
 	max_integrity = 200
 	resistance_flags = LAVA_PROOF | FIRE_PROOF | ACID_PROOF | INDESTRUCTIBLE

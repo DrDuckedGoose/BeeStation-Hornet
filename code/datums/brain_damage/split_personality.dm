@@ -51,6 +51,12 @@
 		switch_personalities()
 	..()
 
+/datum/brain_trauma/severe/split_personality/on_death()
+	if(current_controller != OWNER)
+		switch_personalities(TRUE)
+	..()
+
+
 /datum/brain_trauma/severe/split_personality/on_lose()
 	if(current_controller != OWNER) //it would be funny to cure a guy only to be left with the other personality, but it seems too cruel
 		switch_personalities(TRUE)
@@ -60,7 +66,7 @@
 
 
 /datum/brain_trauma/severe/split_personality/proc/switch_personalities(reset_to_owner = FALSE)
-	if(QDELETED(owner) || owner.stat == DEAD || QDELETED(stranger_backseat) || QDELETED(owner_backseat))
+	if(QDELETED(owner) || QDELETED(stranger_backseat) || QDELETED(owner_backseat))
 		return
 
 	var/mob/living/split_personality/current_backseat
@@ -127,6 +133,8 @@
 	var/mob/living/carbon/body
 	var/datum/brain_trauma/severe/split_personality/trauma
 
+CREATION_TEST_IGNORE_SUBTYPES(/mob/living/split_personality)
+
 /mob/living/split_personality/Initialize(mapload, _trauma)
 	if(iscarbon(loc))
 		body = loc
@@ -162,7 +170,7 @@
 	return FALSE
 
 /mob/living/split_personality/emote(act, m_type = null, message = null, intentional = FALSE)
-	return
+	return FALSE
 
 ///////////////BRAINWASHING////////////////////
 

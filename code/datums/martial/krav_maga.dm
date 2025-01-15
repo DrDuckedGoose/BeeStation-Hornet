@@ -7,7 +7,7 @@
 
 /datum/action/neck_chop
 	name = "Neck Chop - Injures the neck, stopping the victim from speaking for a while."
-	icon_icon = 'icons/mob/actions/actions_items.dmi'
+	icon_icon = 'icons/hud/actions/actions_items.dmi'
 	button_icon_state = "neckchop"
 
 /datum/action/neck_chop/Trigger()
@@ -24,7 +24,7 @@
 
 /datum/action/leg_sweep
 	name = "Leg Sweep - Trips the victim, knocking them down for a brief moment."
-	icon_icon = 'icons/mob/actions/actions_items.dmi'
+	icon_icon = 'icons/hud/actions/actions_items.dmi'
 	button_icon_state = "legsweep"
 
 /datum/action/leg_sweep/Trigger()
@@ -41,7 +41,7 @@
 
 /datum/action/lung_punch//referred to internally as 'quick choke'
 	name = "Lung Punch - Delivers a strong punch just above the victim's abdomen, constraining the lungs. The victim will be unable to breathe for a short time."
-	icon_icon = 'icons/mob/actions/actions_items.dmi'
+	icon_icon = 'icons/hud/actions/actions_items.dmi'
 	button_icon_state = "lungpunch"
 
 /datum/action/lung_punch/Trigger()
@@ -215,6 +215,10 @@
 	item_state = "combatgloves"
 	worn_icon_state = "combatgloves"
 	siemens_coefficient = 0
-	permeability_coefficient = 0.05
 	strip_delay = 80
-	armor = list(MELEE = 0, BULLET = 0, LASER = 0, ENERGY = 0, BOMB = 0, BIO = 0, RAD = 0, FIRE = 80, ACID = 50, STAMINA = 0, BLEED = 0)
+	armor_type = /datum/armor/krav_maga_combatglovesplus
+
+/datum/armor/krav_maga_combatglovesplus
+	bio = 90
+	fire = 80
+	acid = 50
