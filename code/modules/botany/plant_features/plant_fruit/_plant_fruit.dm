@@ -1,7 +1,10 @@
 /datum/plant_feature/fruit
 	icon = 'icons/obj/hydroponics/features/fruit.dmi'
 	icon_state = "apple"
+	plant_traits = list(/datum/plant_trait/reagent/blood)
 
+	///What kind of 'fruit' do we produce
+	var/obj/item/fruit_product = /obj/item/food/grown/apple
 	///list of fruit we have produced, yet to be harvested
 	var/list/fruits = list()
 
@@ -36,15 +39,22 @@
 		visual_fruits += fruit_effect
 
 /datum/plant_feature/fruit/proc/build_fruit()
-	var/obj/item/food/grown/apple/A = new(parent.plant_item)
+	var/obj/item/A = new fruit_product(parent.plant_item)
+	var/list/plant_genes = list()
+	for(var/datum/plant_feature/gene as anything in parent.plant_features) //TODO: You could probably optimize this - Racc
+		plant_genes += gene?.type
+	A.AddElement(/datum/element/plant_genes, plant_genes)
 	fruits += A
+	SEND_SIGNAL(parent, COMSIG_PLANT_FRUIT_BUILT, fruits)
 
 /datum/plant_feature/fruit/proc/catch_attack_hand(datum/source, mob/user)
 	SIGNAL_HANDLER
 
 	if(!length(fruits))
 		return
+	var/list/temp_fruits = list()
 	for(var/obj/item/fruit as anything in fruits)
 		fruits -= fruit
+		temp_fruits += fruit
 		fruit.forceMove(get_turf(user))
-	SEND_SIGNAL(parent, COMSIG_PLANT_ACTION_HARVEST, user)
+	SEND_SIGNAL(parent, COMSIG_PLANT_ACTION_HARVEST, user, temp_fruits)

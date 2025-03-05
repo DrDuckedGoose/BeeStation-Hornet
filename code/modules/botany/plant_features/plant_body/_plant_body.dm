@@ -1,10 +1,3 @@
-#define COMSIG_PLANT_GET_HARVEST "COMSIG_PLANT_GET_HARVEST"
-
-#define COMSIG_PLANT_GROW_STEP "COMSIG_PLANT_GROW_STEP"
-#define COMSIG_PLANT_GROW_FINAL "COMSIG_PLANT_GROWN"
-
-#define COMSIG_PLANT_FRUIT_READY "COMSIG_PLANT_FRUIT_READY"
-
 /datum/plant_feature/body
 	icon = 'icons/obj/hydroponics/features/body.dmi'
 	icon_state = "tree"
@@ -37,6 +30,10 @@
 		parent.plant_item.add_overlay(feature_appearance)
 	//Start growin'
 	bump_growth()
+
+/datum/plant_feature/body/Destroy(force, ...)
+	. = ..()
+	parent?.plant_item?.cut_overlay(feature_appearance)
 
 /datum/plant_feature/body/proc/bump_growth()
 	if(current_stage >= growth_stages)

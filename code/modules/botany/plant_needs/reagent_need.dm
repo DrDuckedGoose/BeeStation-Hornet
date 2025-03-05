@@ -10,7 +10,7 @@
 	. = ..()
 	var/reagent_hits = 0
 	var/list/reagent_holders = list()
-	SEND_SIGNAL(parent.parent, COMSIG_PLANT_REQUEST_REAGENTS, reagent_holders)
+	SEND_SIGNAL(parent.parent, COMSIG_PLANT_REQUEST_REAGENTS, reagent_holders, parent)
 	if(!length(reagent_holders))
 		return FALSE
 	for(var/datum/reagents/R as anything in reagent_holders)

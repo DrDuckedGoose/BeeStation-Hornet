@@ -3,7 +3,69 @@
 	desc = "A fifth generation space compatible botanical growing tray."
 	icon = 'icons/obj/hydroponics/features/generic.dmi'
 	icon_state = "tray"
+	appearance_flags = TILE_BOUND|PIXEL_SCALE|LONG_GLIDE|KEEP_TOGETHER
+//Effects
+	var/atom/movable/plant_tray_face/face_plate
+	var/atom/movable/plant_tray_reagents/tray_reagents
+	var/icon/mask
 
 /obj/machinery/plant_tray/Initialize(mapload)
 	. = ..()
+//Build effects
+	//mask for plants
+	mask = icon('icons/obj/hydroponics/features/generic.dmi', "tray_mask")
+	add_filter("mask", 1, alpha_mask_filter(icon = mask, flags = MASK_INVERSE))
+	//Face plate to return click-ability
+	face_plate = new(src)
+	vis_contents += face_plate
+	//Reagents, for reagents
+	tray_reagents = new(src)
+	vis_contents += tray_reagents
+//reagents
 	create_reagents(500)
+	reagents.add_reagent(/datum/reagent/water, 250) //TODO: Remove this - Racc
+	tray_reagents.color = mix_color_from_reagents(reagents.reagent_list)
+
+/obj/machinery/plant_tray/attackby(obj/item/C, mob/user)
+	. = ..()
+	if(IS_EDIBLE(C) || istype(C, /obj/item/reagent_containers))
+		var/obj/item/reagent_containers/reagent_source = C
+		if(!reagent_source.reagents.total_volume) //It aint got no gas in it
+			to_chat(user, span_notice("[reagent_source] is empty."))
+			return TRUE
+		//Transfer reagents
+		reagent_source.reagents.trans_to(src, reagent_source.amount_per_transfer_from_this, transfered_by = user)
+		//Update liquid color
+		tray_reagents.color = mix_color_from_reagents(reagents.reagent_list)
+		return TRUE
+
+/obj/machinery/plant_tray/Entered(atom/movable/arrived, atom/old_loc, list/atom/old_locs)
+	. = ..()
+	arrived.pixel_y += 8
+
+/obj/machinery/plant_tray/Exited(atom/movable/gone, direction)
+	. = ..()
+	gone.pixel_y -= 8
+
+//Plant tray's face
+/atom/movable/plant_tray_face
+	icon = 'icons/obj/hydroponics/features/generic.dmi'
+	icon_state = "tray_face"
+	vis_flags = VIS_INHERIT_ID
+	appearance_flags = KEEP_APART
+
+//Reagents overlay
+/atom/movable/plant_tray_reagents
+	icon = 'icons/obj/hydroponics/features/generic.dmi'
+	icon_state = "tray_water"
+	vis_flags = VIS_INHERIT_ID | VIS_UNDERLAY
+	appearance_flags = KEEP_APART
+	layer = BELOW_OBJ_LAYER
+	///
+	var/mutable_appearance/over_water
+
+/atom/movable/plant_tray_reagents/Initialize(mapload)
+	. = ..()
+	//
+	over_water = mutable_appearance('icons/obj/hydroponics/features/generic.dmi', "tray_water_over", ABOVE_OBJ_LAYER)
+	add_overlay(over_water)

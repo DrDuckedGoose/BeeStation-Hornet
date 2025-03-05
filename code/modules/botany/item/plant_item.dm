@@ -9,7 +9,7 @@
 
 /obj/item/plant_item/ComponentInitialize()
 	. = ..()
-	//AddComponent(/datum/component/plant, src)
+	AddComponent(/datum/component/plant, src)
 
 //TODO: Move this to the component / plant feature - Racc
 /obj/item/plant_item/attackby(obj/item/I, mob/living/user, params)

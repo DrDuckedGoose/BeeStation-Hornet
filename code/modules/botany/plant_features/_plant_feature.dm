@@ -6,7 +6,7 @@
 	var/datum/component/plant/parent
 
 	///What traits are we rockin'?
-	var/list/traits = list()
+	var/list/plant_traits = list()
 
 	///
 	var/list/plant_needs = list()
@@ -24,6 +24,9 @@
 	//Build our initial appearance
 	feature_appearance = mutable_appearance(icon, icon_state)
 	//Build initial traits
+	for(var/trait as anything in plant_traits)
+		plant_traits -= trait
+		plant_traits += new trait(src)
 	//Build initial needs
 	for(var/need as anything in plant_needs)
 		plant_needs -= need
