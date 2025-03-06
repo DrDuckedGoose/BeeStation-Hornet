@@ -2,7 +2,7 @@
 	///What reagent are we adding
 	var/datum/reagent/reagent
 	///How much of that reagent are we adding
-	var/volume = 1
+	var/volume = 1 //TODO: Change this to a % - Racc
 
 /datum/plant_trait/reagent/New()
 	. = ..()
@@ -12,8 +12,7 @@
 		return
 	RegisterSignal(parent.parent, COMSIG_PLANT_FRUIT_BUILT, PROC_REF(catch_fruit))
 
-/datum/plant_trait/reagent/proc/catch_fruit(datum/source, list/fruits)
+/datum/plant_trait/reagent/proc/catch_fruit(datum/source, obj/fruit)
 	SIGNAL_HANDLER
 
-	for(var/obj/fruit as anything in fruits)
-		fruit.reagents?.add_reagent(reagent, volume)
+	fruit.reagents?.add_reagent(reagent, volume)

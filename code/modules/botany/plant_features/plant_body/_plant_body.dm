@@ -9,6 +9,9 @@
 	///How many harvests does this plant have?
 	var/yields = 1
 
+	///Reference to the effect we use for the body overlay  / visual content
+	var/atom/movable/body_appearance
+
 ///Growth cycle
 	var/growth_stages = 3
 	var/current_stage = 1
@@ -26,16 +29,20 @@
 		return
 	RegisterSignal(parent, COMSIG_PLANT_ACTION_HARVEST, PROC_REF(catch_harvest))
 	//Appearance
+	body_appearance = new()
+	body_appearance.vis_flags = VIS_INHERIT_ID
+	body_appearance.appearance = feature_appearance
 	if(parent.use_body_appearance && parent.plant_item)
-		parent.plant_item.add_overlay(feature_appearance)
+		parent.plant_item.vis_contents += body_appearance
 	//Start growin'
 	bump_growth()
 
 /datum/plant_feature/body/Destroy(force, ...)
 	. = ..()
-	parent?.plant_item?.cut_overlay(feature_appearance)
+	parent?.plant_item?.vis_contents -= body_appearance
 
 /datum/plant_feature/body/proc/bump_growth()
+//Technical
 	if(current_stage >= growth_stages)
 		//Harvest setup, now we're grown
 		SEND_SIGNAL(src, COMSIG_PLANT_GROW_FINAL)

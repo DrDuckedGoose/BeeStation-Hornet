@@ -1,4 +1,5 @@
 /datum/plant_feature/roots
+	plant_traits = list(/datum/plant_trait/roots/parasitic)
 
 /datum/plant_feature/roots/New(datum/component/plant/_parent)
 	. = ..()

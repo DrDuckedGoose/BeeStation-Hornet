@@ -1,7 +1,7 @@
 /datum/plant_feature/fruit
 	icon = 'icons/obj/hydroponics/features/fruit.dmi'
 	icon_state = "apple"
-	plant_traits = list(/datum/plant_trait/reagent/blood)
+	plant_traits = list(/datum/plant_trait/reagent/fruit/blood)
 
 	///What kind of 'fruit' do we produce
 	var/obj/item/fruit_product = /obj/item/food/grown/apple
@@ -11,6 +11,8 @@
 	///
 	var/growth_time = 1 SECONDS
 	var/list/growth_timers = list()
+
+	//TODO: Add a reagent capacity variable - Racc
 
 /datum/plant_feature/fruit/New(datum/component/plant/_parent)
 	. = ..()
@@ -45,7 +47,7 @@
 		plant_genes += gene?.type
 	A.AddElement(/datum/element/plant_genes, plant_genes)
 	fruits += A
-	SEND_SIGNAL(parent, COMSIG_PLANT_FRUIT_BUILT, fruits)
+	SEND_SIGNAL(parent, COMSIG_PLANT_FRUIT_BUILT, A)
 
 /datum/plant_feature/fruit/proc/catch_attack_hand(datum/source, mob/user)
 	SIGNAL_HANDLER

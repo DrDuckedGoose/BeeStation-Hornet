@@ -1,15 +1,17 @@
-/obj/machinery/plant_tray
+/obj/machinery/plumbing/tank/plant_tray
 	name = "plant tray"
 	desc = "A fifth generation space compatible botanical growing tray."
 	icon = 'icons/obj/hydroponics/features/generic.dmi'
 	icon_state = "tray"
 	appearance_flags = TILE_BOUND|PIXEL_SCALE|LONG_GLIDE|KEEP_TOGETHER
+	reagent_flags = TRANSPARENT | REFILLABLE
+	buffer = 200
 //Effects
 	var/atom/movable/plant_tray_face/face_plate
 	var/atom/movable/plant_tray_reagents/tray_reagents
 	var/icon/mask
 
-/obj/machinery/plant_tray/Initialize(mapload)
+/obj/machinery/plumbing/tank/plant_tray/Initialize(mapload)
 	. = ..()
 //Build effects
 	//mask for plants
@@ -22,11 +24,17 @@
 	tray_reagents = new(src)
 	vis_contents += tray_reagents
 //reagents
-	create_reagents(500)
-	reagents.add_reagent(/datum/reagent/water, 250) //TODO: Remove this - Racc
 	tray_reagents.color = mix_color_from_reagents(reagents.reagent_list)
 
-/obj/machinery/plant_tray/attackby(obj/item/C, mob/user)
+/obj/machinery/plumbing/tank/plant_tray/AltClick(mob/user)
+	return ..()
+
+/obj/machinery/plumbing/tank/plant_tray/wrench_act(mob/living/user, obj/item/I)
+	..()
+	default_unfasten_wrench(user, I)
+	return TRUE
+
+/obj/machinery/plumbing/tank/plant_tray/attackby(obj/item/C, mob/user)
 	. = ..()
 	if(IS_EDIBLE(C) || istype(C, /obj/item/reagent_containers))
 		var/obj/item/reagent_containers/reagent_source = C
@@ -39,11 +47,11 @@
 		tray_reagents.color = mix_color_from_reagents(reagents.reagent_list)
 		return TRUE
 
-/obj/machinery/plant_tray/Entered(atom/movable/arrived, atom/old_loc, list/atom/old_locs)
+/obj/machinery/plumbing/tank/plant_tray/Entered(atom/movable/arrived, atom/old_loc, list/atom/old_locs)
 	. = ..()
 	arrived.pixel_y += 8
 
-/obj/machinery/plant_tray/Exited(atom/movable/gone, direction)
+/obj/machinery/plumbing/tank/plant_tray/Exited(atom/movable/gone, direction)
 	. = ..()
 	gone.pixel_y -= 8
 
