@@ -1,7 +1,11 @@
 /datum/plant_feature/roots
-	plant_traits = list(/datum/plant_trait/roots/parasitic)
 
 /datum/plant_feature/roots/New(datum/component/plant/_parent)
+	. = ..()
+
+/datum/plant_feature/roots/setup_parent(_parent, reset_features)
+	if(parent)
+		UnregisterSignal(parent, COMSIG_PLANT_REQUEST_REAGENTS)
 	. = ..()
 	if(!parent)
 		return

@@ -6,6 +6,9 @@
 
 /datum/plant_trait/roots/parasitic/New(datum/plant_feature/_parent)
 	. = ..()
+
+/datum/plant_trait/roots/parasitic/setup_component_parent(datum/source)
+	. = ..()
 	if(!parent)
 		return
 	RegisterSignal(parent.parent, COMSIG_PLANT_FRUIT_BUILT, PROC_REF(catch_fruit))

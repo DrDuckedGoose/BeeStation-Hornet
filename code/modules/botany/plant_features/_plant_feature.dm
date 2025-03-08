@@ -18,11 +18,10 @@
 
 /datum/plant_feature/New(datum/component/plant/_parent)
 	. = ..()
-	//Setup parent stuff
-	parent = _parent
-	RegisterSignal(parent.plant_item, COMSIG_PARENT_EXAMINE, PROC_REF(catch_examine))
 	//Build our initial appearance
 	feature_appearance = mutable_appearance(icon, icon_state)
+	//Setup parent stuff
+	setup_parent(_parent)
 	//Build initial traits
 	for(var/trait as anything in plant_traits)
 		plant_traits -= trait
@@ -32,9 +31,42 @@
 		plant_needs -= need
 		plant_needs += new need(src)
 
+///Copies the plant's unique data - This is mostly, if not entirely, for randomized stuff & custom player made plants
+/datum/plant_feature/proc/copy(datum/component/plant/_parent, datum/plant_feature/_feature)
+	var/datum/plant_feature/new_feature = _feature || new type(_parent)
+//Copy traits & needs - The reason we do this is to handle randomized traits & needs, make them the same as this one
+	//traits
+	for(var/trait as anything in new_feature.plant_traits)
+		new_feature.plant_traits -= trait
+		qdel(trait)
+	for(var/datum/plant_trait/trait as anything in plant_traits)
+		new_feature.plant_traits += trait.copy(new_feature)
+	//needs
+	for(var/need as anything in new_feature.plant_needs)
+		new_feature.plant_needs -= need
+		qdel(need)
+	for(var/datum/plant_need/need as anything in plant_needs)
+		new_feature.plant_needs += need.copy(new_feature)
+	return new_feature
+
+/datum/plant_feature/proc/setup_parent(_parent, reset_features = TRUE)
+	//Remove our initial parent
+	if(parent?.plant_item)
+		UnregisterSignal(parent.plant_item, COMSIG_PARENT_EXAMINE)
+	//Shack up with the new rockstar
+	parent = _parent
+	if(parent?.plant_item)
+		RegisterSignal(parent.plant_item, COMSIG_PARENT_EXAMINE, PROC_REF(catch_examine))
+	SEND_SIGNAL(src, COMSIG_PLANT_ATTACHED_PARENT)
+
+/datum/plant_feature/proc/remove_parent()
+	setup_parent(null)
+
 /datum/plant_feature/proc/check_needs()
 	for(var/datum/plant_need/need as anything in plant_needs)
-		if(!need.check_need())
+		if(ispath(need))
+			continue
+		if(!need?.check_need())
 			return FALSE
 	return TRUE
 

@@ -13,9 +13,24 @@
 	var/list/growth_timers = list()
 
 	//TODO: Add a reagent capacity variable - Racc
+	///Max amount of reagents we can impart onto our stupid fucking children
+	var/total_volume = 10
 
 /datum/plant_feature/fruit/New(datum/component/plant/_parent)
 	. = ..()
+
+/datum/plant_feature/fruit/setup_parent(_parent, reset_features)
+//Reset
+	for(var/timer as anything in growth_timers)
+		deltimer(growth_timers[timer])
+	for(var/fruit as anything in fruits)
+		fruits -= fruit
+		qdel(fruit)
+	if(parent)
+		UnregisterSignal(parent, COMSIG_PLANT_REQUEST_FRUIT)
+		UnregisterSignal(parent.plant_item, COMSIG_ATOM_ATTACK_HAND)
+	. = ..()
+//Pass over
 	if(!parent)
 		return
 	RegisterSignal(parent, COMSIG_PLANT_REQUEST_FRUIT, PROC_REF(setup_fruit))
@@ -44,7 +59,7 @@
 	var/obj/item/A = new fruit_product(parent.plant_item)
 	var/list/plant_genes = list()
 	for(var/datum/plant_feature/gene as anything in parent.plant_features) //TODO: You could probably optimize this - Racc
-		plant_genes += gene?.type
+		plant_genes += gene.copy()
 	A.AddElement(/datum/element/plant_genes, plant_genes)
 	fruits += A
 	SEND_SIGNAL(parent, COMSIG_PLANT_FRUIT_BUILT, A)

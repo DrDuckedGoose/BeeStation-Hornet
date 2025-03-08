@@ -24,22 +24,43 @@
 	var/list/overlay_positions = list(list(11, 20), list(16, 30), list(23, 23), list(8, 31))
 
 /datum/plant_feature/body/New(datum/component/plant/_parent)
+//Appearance bullshit
+	feature_appearance = mutable_appearance(icon, icon_state)
+	body_appearance = new()
+	body_appearance.vis_flags = VIS_INHERIT_ID
+	body_appearance.appearance = feature_appearance
+	return ..()
+
+/datum/plant_feature/body/Destroy(force, ...)
+	. = ..()
+	parent?.plant_item?.vis_contents -= body_appearance
+
+/datum/plant_feature/body/setup_parent(_parent, reset_features = TRUE)
+//Undo any sins
+	//Fruit overlay clean up
+	for(var/overlay as anything in fruit_overlays)
+		parent?.plant_item?.vis_contents -= overlay
+		fruit_overlays -= overlay
+		qdel(overlay)
+	//Remove any old signals or misc overlays
+	if(parent)
+		UnregisterSignal(parent, COMSIG_PLANT_ACTION_HARVEST)
+		parent.plant_item.vis_contents -= body_appearance
+	//Reset our growth, yield, etc.
+	if(reset_features)
+		current_stage = initial(current_stage)
+		yields = initial(yields)
+	deltimer(growth_timer)
+//Start a new life
 	. = ..()
 	if(!parent)
 		return
 	RegisterSignal(parent, COMSIG_PLANT_ACTION_HARVEST, PROC_REF(catch_harvest))
 	//Appearance
-	body_appearance = new()
-	body_appearance.vis_flags = VIS_INHERIT_ID
-	body_appearance.appearance = feature_appearance
 	if(parent.use_body_appearance && parent.plant_item)
 		parent.plant_item.vis_contents += body_appearance
 	//Start growin'
 	bump_growth()
-
-/datum/plant_feature/body/Destroy(force, ...)
-	. = ..()
-	parent?.plant_item?.vis_contents -= body_appearance
 
 /datum/plant_feature/body/proc/bump_growth()
 //Technical

@@ -23,6 +23,10 @@
 	plant_item = _plant_item
 //Plant features
 	plant_features = _plant_features?.Copy() || plant_features
-	for(var/feature as anything in plant_features)
+	for(var/datum/plant_feature/feature as anything in plant_features)
 		plant_features -= feature
-		plant_features += new feature(src)
+		if(ispath(feature))
+			plant_features += new feature(src)
+		else
+			plant_features += feature
+			feature.setup_parent(src)

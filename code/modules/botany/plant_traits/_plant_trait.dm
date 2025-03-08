@@ -16,4 +16,20 @@
 	. = ..()
 	if(!istype(_parent, plant_feature_compat))
 		return
+	setup_parent(_parent)
+
+/datum/plant_trait/proc/copy(datum/plant_feature/_parent, datum/plant_trait/_trait)
+	var/datum/plant_trait/new_trait = _trait || new type(_parent)
+	return new_trait
+
+/datum/plant_trait/proc/setup_parent(_parent)
 	parent = _parent
+	if(!parent?.parent)
+		RegisterSignal(parent, COMSIG_PLANT_ATTACHED_PARENT, PROC_REF(setup_component_parent))
+	else
+		setup_component_parent(parent.parent)
+
+/datum/plant_trait/proc/setup_component_parent(datum/source)
+	SIGNAL_HANDLER
+
+	return
