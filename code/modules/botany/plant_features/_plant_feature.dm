@@ -1,6 +1,8 @@
+#define PLANT_DATA(title, data) list("data_title" = title, "data_field" = data)
+
 /datum/plant_feature
 	///The 'scientific' name for our plant feature
-	var/species_name = ""
+	var/species_name = "test"
 
 	///Reference to component daddy
 	var/datum/component/plant/parent
@@ -30,6 +32,23 @@
 	for(var/need as anything in plant_needs)
 		plant_needs -= need
 		plant_needs += new need(src)
+
+//generic common stats
+/datum/plant_feature/proc/get_ui_stats()
+	return list("species_name" = species_name, "key" = REF(src), "feature_appearance" = icon2base64(feature_appearance))
+
+//personalized info
+/datum/plant_feature/proc/get_ui_data()
+	return list(PLANT_DATA("Species Name", species_name), PLANT_DATA(null, null))
+
+//our traits
+/datum/plant_feature/proc/get_ui_traits()
+	if(!length(plant_traits))
+		return
+	var/list/trait_ui = list()
+	for(var/datum/plant_trait/trait as anything in plant_traits)
+		trait_ui += list(list("trait_name" = trait.name, "trait_desc" = trait.desc, "trait_ref" = REF(trait)))
+	return trait_ui
 
 ///Copies the plant's unique data - This is mostly, if not entirely, for randomized stuff & custom player made plants
 /datum/plant_feature/proc/copy(datum/component/plant/_parent, datum/plant_feature/_feature)

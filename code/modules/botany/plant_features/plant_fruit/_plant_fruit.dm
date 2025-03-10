@@ -19,6 +19,10 @@
 /datum/plant_feature/fruit/New(datum/component/plant/_parent)
 	. = ..()
 
+/datum/plant_feature/fruit/get_ui_data()
+	. = ..()
+	. += list(PLANT_DATA("Reagent Capacity", "[total_volume] units"), PLANT_DATA("Grow Time", "[growth_time] SECONDS"), PLANT_DATA(null, null))
+
 /datum/plant_feature/fruit/setup_parent(_parent, reset_features)
 //Reset
 	for(var/timer as anything in growth_timers)

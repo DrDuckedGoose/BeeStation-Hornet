@@ -2,12 +2,12 @@
 	///What reagent are we adding
 	var/datum/reagent/reagent
 	///How much of that reagent are we adding
-	var/volume_percentage = 1 //TODO: Change this to a % - Racc
+	var/volume_percentage = 1
 
 /datum/plant_trait/reagent/New()
 	. = ..()
 	name = "[reagent]"
-	desc = "Adds [volume_percentage] units of [reagent] to produced fruit"
+	desc = "[volume_percentage]% of fruit reagents is [reagent]"
 
 /datum/plant_trait/reagent/setup_component_parent(datum/source)
 	. = ..()

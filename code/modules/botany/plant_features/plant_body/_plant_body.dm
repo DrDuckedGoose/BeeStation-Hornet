@@ -1,8 +1,9 @@
 /datum/plant_feature/body
 	icon = 'icons/obj/hydroponics/features/body.dmi'
 	icon_state = "tree"
-	plant_needs = list(/datum/plant_need/reagent/water)
+	//plant_needs = list(/datum/plant_need/reagent/water)
 
+	//TODO: Consider swapping harvest and yield terms - Racc
 	///Max, natural, harvest
 	var/max_harvest = 10
 
@@ -34,6 +35,10 @@
 /datum/plant_feature/body/Destroy(force, ...)
 	. = ..()
 	parent?.plant_item?.vis_contents -= body_appearance
+
+/datum/plant_feature/body/get_ui_data()
+	. = ..()
+	. += list(PLANT_DATA("Harvest", max_harvest), PLANT_DATA("Yields", yields), PLANT_DATA("Growth Time", "[growth_time] SECONDS"), PLANT_DATA(null, null))
 
 /datum/plant_feature/body/setup_parent(_parent, reset_features = TRUE)
 //Undo any sins

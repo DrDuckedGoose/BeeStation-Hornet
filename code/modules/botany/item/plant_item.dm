@@ -5,7 +5,7 @@
 	desc = "plant :)"
 	icon = 'icons/obj/hydroponics/features/generic.dmi'
 	icon_state = ""
-	anchored = TRUE
+	//anchored = TRUE
 
 /obj/item/plant_item/ComponentInitialize()
 	. = ..()
