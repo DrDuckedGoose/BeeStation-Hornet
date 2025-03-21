@@ -2,6 +2,7 @@
 	icon = 'icons/obj/hydroponics/features/body.dmi'
 	icon_state = "tree"
 	//plant_needs = list(/datum/plant_need/reagent/water)
+	feature_catagories = PLANT_FEATURE_BODY
 
 	//TODO: Consider swapping harvest and yield terms - Racc
 	///Max, natural, harvest

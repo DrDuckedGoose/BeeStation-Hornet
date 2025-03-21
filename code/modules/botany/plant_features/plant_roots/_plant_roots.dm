@@ -1,4 +1,5 @@
 /datum/plant_feature/roots
+	feature_catagories = PLANT_FEATURE_ROOTS
 
 /datum/plant_feature/roots/New(datum/component/plant/_parent)
 	. = ..()

@@ -4,6 +4,9 @@
 	///The 'scientific' name for our plant feature
 	var/species_name = "test"
 
+	///What category of feature/s are we? Mostly used for gene editing.
+	var/feature_catagories
+
 	///Reference to component daddy
 	var/datum/component/plant/parent
 
@@ -47,7 +50,7 @@
 		return
 	var/list/trait_ui = list()
 	for(var/datum/plant_trait/trait as anything in plant_traits)
-		trait_ui += list(list("trait_name" = trait.name, "trait_desc" = trait.desc, "trait_ref" = REF(trait)))
+		trait_ui += trait?.get_ui_stats()
 	return trait_ui
 
 ///Copies the plant's unique data - This is mostly, if not entirely, for randomized stuff & custom player made plants

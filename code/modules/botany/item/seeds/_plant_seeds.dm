@@ -13,6 +13,12 @@
 /obj/item/plant_seeds/Initialize(mapload, list/_plant_features)
 	. = ..()
 	plant_features = _plant_features || plant_features
+	for(var/feature as anything in plant_features)
+		plant_features -= feature
+		if(ispath(feature))
+			plant_features += new feature()
+		else
+			plant_features += feature
 
 /obj/item/plant_seeds/afterattack(atom/target, mob/user, proximity_flag, click_parameters)
 	. = ..()

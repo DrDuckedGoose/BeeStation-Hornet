@@ -15,8 +15,11 @@
 /datum/plant_trait/New(datum/plant_feature/_parent)
 	. = ..()
 	if(!istype(_parent, plant_feature_compat))
-		return
+		return INITIALIZE_HINT_QDEL
 	setup_parent(_parent)
+
+/datum/plant_trait/proc/get_ui_stats()
+	return list(list("trait_name" = name, "trait_desc" = desc, "trait_ref" = REF(src)))
 
 /datum/plant_trait/proc/copy(datum/plant_feature/_parent, datum/plant_trait/_trait)
 	var/datum/plant_trait/new_trait = _trait || new type(_parent)

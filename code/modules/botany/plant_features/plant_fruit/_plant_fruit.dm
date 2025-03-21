@@ -1,7 +1,7 @@
 /datum/plant_feature/fruit
 	icon = 'icons/obj/hydroponics/features/fruit.dmi'
 	icon_state = "apple"
-	plant_traits = list(/datum/plant_trait/reagent/fruit/blood)
+	feature_catagories = PLANT_FEATURE_FRUIT
 
 	///What kind of 'fruit' do we produce
 	var/obj/item/fruit_product = /obj/item/food/grown/apple
