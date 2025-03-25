@@ -1,5 +1,8 @@
 /datum/plant_feature/roots
 	feature_catagories = PLANT_FEATURE_ROOTS
+	///Where can we pull reagents from
+	//TODO: change this to the proper type list thing - Racc
+	var/list/access_whitelist = list(/obj/machinery/plumbing/tank/plant_tray)
 
 /datum/plant_feature/roots/New(datum/component/plant/_parent)
 	. = ..()
@@ -18,4 +21,6 @@
 	if(!check_needs() && requestor != src)
 		return
 	var/atom/location = parent.plant_item?.loc
+	if(!(locate(location.type) in access_whitelist))
+		return
 	reagent_holders += location?.reagents

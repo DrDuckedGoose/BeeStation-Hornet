@@ -4,7 +4,9 @@
 	///How much of that reagent are we adding
 	var/volume_percentage = 1
 
-/datum/plant_trait/reagent/New()
+/datum/plant_trait/reagent/New(datum/plant_feature/_parent, _reagent, _percentage)
+	reagent = _reagent || reagent
+	volume_percentage = _percentage || volume_percentage
 	. = ..()
 	name = "[reagent]"
 	desc = "[volume_percentage]% of fruit reagents is [reagent]"

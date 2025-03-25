@@ -11,6 +11,11 @@
 	var/list/whitelist = list()
 	///What kind of plant feature are we compatible with
 	var/plant_feature_compat = /datum/plant_feature
+	//TODO: Implement these - Racc
+	///Can this trait be copied
+	var/can_copy = TRUE
+	///Can this trait be removed
+	var/can_remove = TRUE
 
 /datum/plant_trait/New(datum/plant_feature/_parent)
 	. = ..()

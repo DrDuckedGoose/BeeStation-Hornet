@@ -13,6 +13,8 @@
 
 /obj/machinery/plumbing/tank/plant_tray/Initialize(mapload)
 	. = ..()
+	//TODO: consider making this an element with a 'planting' capacity - Racc
+	ADD_TRAIT(src, TRAIT_PLANTER, INNATE_TRAIT)
 //Build effects
 	//mask for plants
 	mask = icon('icons/obj/hydroponics/features/generic.dmi', "tray_mask")

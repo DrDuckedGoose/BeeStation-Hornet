@@ -4,6 +4,7 @@
 	///The 'scientific' name for our plant feature
 	var/species_name = "test"
 
+
 	///What category of feature/s are we? Mostly used for gene editing.
 	var/feature_catagories
 
@@ -13,8 +14,16 @@
 	///What traits are we rockin'?
 	var/list/plant_traits = list()
 
-	///
+	///What are our desires, what we need to grow
 	var/list/plant_needs = list()
+
+	/*
+		Although this is a list, it might be better, in terms of design, to only
+		mutate into one thing, and have that one thing mutate into the
+		next. Then the final mutation should mutate back into this.
+	*/
+	///What can this feature mutate into?
+	var/list/mutations = list()
 
 //Appearance
 	var/icon = 'icons/obj/hydroponics/features/generic.dmi'

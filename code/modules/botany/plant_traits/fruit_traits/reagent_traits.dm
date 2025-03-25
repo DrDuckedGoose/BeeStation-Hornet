@@ -11,6 +11,11 @@
 	reagent = /datum/reagent/blood
 	volume_percentage = PLANT_REAGENT_MEDIUM
 
+//Blackpowder
+/datum/plant_trait/reagent/fruit/blackpowder
+	reagent = /datum/reagent/blackpowder
+	volume_percentage = PLANT_REAGENT_MEDIUM
+
 //Nutriment
 /datum/plant_trait/reagent/fruit/nutriment
 	reagent = /datum/reagent/consumable/nutriment

@@ -1,3 +1,4 @@
+//TODO: Customize growth time and reagent volume for all fruits - Racc
 /datum/plant_feature/fruit
 	icon = 'icons/obj/hydroponics/features/fruit.dmi'
 	icon_state = "apple"
@@ -16,8 +17,20 @@
 	///Max amount of reagents we can impart onto our stupid fucking children
 	var/total_volume = 10
 
+	///Colour override for greyscale fruits
+	var/colour_override ="#fff"
+
+	///List of reagents this fruit has. Saves us making a unique trait for each one. (reagent = percentage)
+	var/list/fast_reagents = list()
+
 /datum/plant_feature/fruit/New(datum/component/plant/_parent)
 	. = ..()
+	feature_appearance.color = colour_override
+	//Build our fast chemicals
+	if(!length(fast_reagents))
+		return
+	for(var/datum/reagent/reagent as anything in fast_reagents)
+		new /datum/plant_trait/reagent(src, reagent, fast_reagents[reagent])
 
 /datum/plant_feature/fruit/get_ui_data()
 	. = ..()
