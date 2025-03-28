@@ -22,8 +22,9 @@
 
 /obj/item/plant_seeds/afterattack_secondary(atom/target, mob/user, proximity_flag, click_parameters)
 	. = ..()
-	if(!HAS_TRAIT(target, TRAIT_PLANTER)) //Add an override here for roots that let you plant on people
-		return
+//TODO: - Racc
+//	if(!HAS_TRAIT(target, TRAIT_PLANTER)) //Add an override here for roots that let you plant on people
+//		return
 	to_chat(user, "<span class='notice'>You begin to plant [src] into [target].</span>")
 	if(!do_after(user, 2.3 SECONDS, target))
 		return

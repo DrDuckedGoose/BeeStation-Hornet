@@ -30,5 +30,5 @@
 
 //
 /datum/plant_need/reagent/water
-	reagent_needs = list(/datum/reagent/water = 1, /datum/reagent/blood = 1)
+	reagent_needs = list(/datum/reagent/water = 0.1)
 	success_threshold = 0.1

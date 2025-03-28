@@ -8,9 +8,11 @@
 	var/obj/item/fruit_product = /obj/item/food/grown/apple
 	///list of fruit we have produced, yet to be harvested
 	var/list/fruits = list()
+	var/list/visual_fruits = list()
 
 	///
 	var/growth_time = 1 SECONDS
+	var/growth_time_elapsed = 0
 	var/list/growth_timers = list()
 
 	//TODO: Add a reagent capacity variable - Racc
@@ -32,6 +34,24 @@
 	for(var/datum/reagent/reagent as anything in fast_reagents)
 		new /datum/plant_trait/reagent(src, reagent, fast_reagents[reagent])
 
+/datum/plant_feature/fruit/process(delta_time)
+	if(!check_needs() || !length(growth_timers))
+		return
+//Growing
+	for(var/timer as anything in growth_timers)
+		growth_timers[timer] -= delta_time SECONDS
+		//Visuals
+		var/obj/effect/fruit_effect = visual_fruits[timer]
+		var/matrix/new_transform = new()
+		var/progress = min(1, max(0.1, abs(growth_timers[timer]-growth_time) / growth_time))
+		new_transform.Scale(progress, progress)
+		animate(fruit_effect, transform = new_transform, time = delta_time SECONDS)
+		//Offload finished fruits
+		if(growth_timers[timer] <= 0)
+			growth_timers -= timer
+			visual_fruits -= timer
+			build_fruit()
+
 /datum/plant_feature/fruit/get_ui_data()
 	. = ..()
 	. += list(PLANT_DATA("Reagent Capacity", "[total_volume] units"), PLANT_DATA("Grow Time", "[growth_time] SECONDS"), PLANT_DATA(null, null))
@@ -52,25 +72,24 @@
 		return
 	RegisterSignal(parent, COMSIG_PLANT_REQUEST_FRUIT, PROC_REF(setup_fruit))
 	RegisterSignal(parent.plant_item, COMSIG_ATOM_ATTACK_HAND, PROC_REF(catch_attack_hand))
+	START_PROCESSING(SSobj, src)
 
-/datum/plant_feature/fruit/proc/setup_fruit(datum/source, harvest_amount, list/visual_fruits)
+/datum/plant_feature/fruit/proc/setup_fruit(datum/source, harvest_amount, list/_visual_fruits)
 	SIGNAL_HANDLER
 
 	if(!check_needs())
 		return
 	for(var/fruit_index in 1 to harvest_amount)
 	//Build our yummy fruit :)
-		growth_timers["[fruit_index]"] = addtimer(CALLBACK(src, PROC_REF(build_fruit)), growth_time, TIMER_STOPPABLE)
+		growth_timers["[fruit_index]"] = growth_time
 	//Give away an overlay as a gift
 		var/obj/effect/fruit_effect = new()
 		fruit_effect.appearance = feature_appearance
 		fruit_effect.vis_flags = VIS_INHERIT_ID
-		//Grow, visually, the fruit over time
-		var/matrix/new_transform = new(fruit_effect.transform)
+		_visual_fruits += fruit_effect
+		visual_fruits["[fruit_index]"] = fruit_effect
+		//Shrink fruit, we'll grow it later
 		fruit_effect.transform = fruit_effect.transform.Scale(0.1, 0.1)
-		animate(fruit_effect, transform = new_transform, time = growth_time)
-
-		visual_fruits += fruit_effect
 
 /datum/plant_feature/fruit/proc/build_fruit()
 	var/obj/item/A = new fruit_product(parent.plant_item)

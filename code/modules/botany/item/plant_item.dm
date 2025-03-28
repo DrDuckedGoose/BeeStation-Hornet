@@ -1,5 +1,3 @@
-#define TRAIT_PLANTER "TRAIT_PLANTER"
-
 /obj/item/plant_item
 	name = "plant"
 	desc = "plant :)"

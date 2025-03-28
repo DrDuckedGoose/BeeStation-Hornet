@@ -10,15 +10,18 @@
 
 	///How many harvests does this plant have?
 	var/yields = 1
+	///Time between yields
+	var/yield_cooldown_time = 0 SECONDS
+	COOLDOWN_DECLARE(yield_cooldown)
 
 	///Reference to the effect we use for the body overlay  / visual content
 	var/atom/movable/body_appearance
 
 ///Growth cycle
 	var/growth_stages = 3
-	var/current_stage = 1
+	var/current_stage
 	var/growth_time = 1 SECONDS
-	var/growth_timer
+	var/growth_time_elapsed = 0
 
 	///Fruit overlays we're responsible for
 	var/list/fruit_overlays = list()
@@ -29,13 +32,29 @@
 //Appearance bullshit
 	feature_appearance = mutable_appearance(icon, icon_state)
 	body_appearance = new()
-	body_appearance.vis_flags = VIS_INHERIT_ID
 	body_appearance.appearance = feature_appearance
+	body_appearance.vis_flags = VIS_INHERIT_ID
 	return ..()
 
 /datum/plant_feature/body/Destroy(force, ...)
 	. = ..()
 	parent?.plant_item?.vis_contents -= body_appearance
+
+/datum/plant_feature/body/process(delta_time)
+	if(!check_needs())
+		//TODO: Do we want plants to wither away? It's kind of annoying - Racc
+		return
+//Growth
+	if(growth_time_elapsed < growth_time)
+		growth_time_elapsed += delta_time SECONDS
+		growth_time_elapsed = min(growth_time, growth_time_elapsed)
+		current_stage = max(1, FLOOR((growth_time_elapsed/growth_time)*growth_stages, 1))
+		//Little bit of nesting, as a treat
+		if(current_stage >= growth_stages)
+			SEND_SIGNAL(src, COMSIG_PLANT_GROW_FINAL)
+//Harvests
+	if(current_stage >= growth_stages && COOLDOWN_FINISHED(src, yield_cooldown_time) && !length(fruit_overlays) && yields > 0)
+		setup_fruit()
 
 /datum/plant_feature/body/get_ui_data()
 	. = ..()
@@ -56,7 +75,7 @@
 	if(reset_features)
 		current_stage = initial(current_stage)
 		yields = initial(yields)
-	deltimer(growth_timer)
+	growth_time_elapsed = 0 //just in-case idk
 //Start a new life
 	. = ..()
 	if(!parent)
@@ -66,18 +85,7 @@
 	if(parent.use_body_appearance && parent.plant_item)
 		parent.plant_item.vis_contents += body_appearance
 	//Start growin'
-	bump_growth()
-
-/datum/plant_feature/body/proc/bump_growth()
-//Technical
-	if(current_stage >= growth_stages)
-		//Harvest setup, now we're grown
-		SEND_SIGNAL(src, COMSIG_PLANT_GROW_FINAL)
-		setup_fruit()
-		return
-	growth_timer = addtimer(CALLBACK(src, PROC_REF(bump_growth)), growth_time, TIMER_STOPPABLE)
-	if(check_needs())
-		current_stage++
+	START_PROCESSING(SSobj, src)
 
 /datum/plant_feature/body/proc/get_harvest()
 	if(current_stage < growth_stages)
@@ -106,11 +114,9 @@
 /datum/plant_feature/body/proc/catch_harvest(datum/source)
 	SIGNAL_HANDLER
 
+	yields--
+	COOLDOWN_START(src, yield_cooldown, yield_cooldown_time)
 	//Remove our fruit overlays
 	for(var/fruit_effect as anything in fruit_overlays)
 		fruit_overlays -= fruit_effect
 		parent.plant_item.vis_contents -= fruit_effect
-	//Try make another crop
-	yields--
-	if(yields > 0)
-		setup_fruit()
