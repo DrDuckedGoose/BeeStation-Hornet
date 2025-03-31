@@ -11,13 +11,13 @@
 	var/list/visual_fruits = list()
 
 	///
-	var/growth_time = 1 SECONDS
+	var/growth_time = PLANT_FRUIT_GROWTH_FAST
 	var/growth_time_elapsed = 0
 	var/list/growth_timers = list()
 
 	//TODO: Add a reagent capacity variable - Racc
 	///Max amount of reagents we can impart onto our stupid fucking children
-	var/total_volume = 10
+	var/total_volume = PLANT_FRUIT_VOLUME_SMALL
 
 	///Colour override for greyscale fruits
 	var/colour_override ="#fff"

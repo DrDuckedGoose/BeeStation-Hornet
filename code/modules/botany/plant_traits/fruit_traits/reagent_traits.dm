@@ -1,8 +1,3 @@
-#define PLANT_REAGENT_SMALL 15
-#define PLANT_REAGENT_MEDIUM 25
-#define PLANT_REAGENT_LARGE 45
-#define PLANT_REAGENT_EXTRA 75
-
 /datum/plant_trait/reagent/fruit
 	plant_feature_compat = /datum/plant_feature/fruit
 

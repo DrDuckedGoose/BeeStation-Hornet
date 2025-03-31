@@ -6,10 +6,10 @@
 
 	//TODO: Consider swapping harvest and yield terms - Racc
 	///Max, natural, harvest
-	var/max_harvest = 10
+	var/max_harvest = PLANT_BODY_HARVEST_LARGE
 
 	///How many harvests does this plant have?
-	var/yields = 1
+	var/yields = PLANT_BODY_YIELD_MICRO
 	///Time between yields
 	var/yield_cooldown_time = 0 SECONDS
 	COOLDOWN_DECLARE(yield_cooldown)
