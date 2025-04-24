@@ -34,6 +34,11 @@
 	for(var/datum/reagent/reagent as anything in fast_reagents)
 		new /datum/plant_trait/reagent(src, reagent, fast_reagents[reagent])
 
+/datum/plant_feature/fruit/Destroy(force, ...)
+	. = ..()
+	if(!catch_attack_hand(src, null))
+		SEND_SIGNAL(parent, COMSIG_PLANT_ACTION_HARVEST, src, null, TRUE)
+
 /datum/plant_feature/fruit/process(delta_time)
 	if(!check_needs() || !length(growth_timers))
 		return
@@ -106,8 +111,10 @@
 	if(!length(fruits))
 		return
 	var/list/temp_fruits = list()
+	var/turf/T = user ? get_turf(user) : get_turf(parent.plant_item)
 	for(var/obj/item/fruit as anything in fruits)
 		fruits -= fruit
 		temp_fruits += fruit
-		fruit.forceMove(get_turf(user))
-	SEND_SIGNAL(parent, COMSIG_PLANT_ACTION_HARVEST, user, temp_fruits)
+		fruit.forceMove(T)
+	SEND_SIGNAL(parent, COMSIG_PLANT_ACTION_HARVEST, user, temp_fruits, FALSE)
+	return TRUE

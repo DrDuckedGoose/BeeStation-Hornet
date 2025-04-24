@@ -111,10 +111,10 @@
 	fruit_overlays += fruit_effect
 	return
 
-/datum/plant_feature/body/proc/catch_harvest(datum/source)
+/datum/plant_feature/body/proc/catch_harvest(datum/source, mob/user, list/temp_fruits, dummy_harvest = FALSE)
 	SIGNAL_HANDLER
 
-	yields--
+	yields -= !dummy_harvest
 	COOLDOWN_START(src, yield_cooldown, yield_cooldown_time)
 	//Remove our fruit overlays
 	for(var/fruit_effect as anything in fruit_overlays)

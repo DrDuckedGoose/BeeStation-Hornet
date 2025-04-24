@@ -2,7 +2,9 @@
 
 /datum/plant_feature
 	///The 'scientific' name for our plant feature
-	var/species_name = "test"
+	var/species_name = "testus testium"
+	///The regular name
+	var/name = "test"
 
 
 	///What category of feature/s are we? Mostly used for gene editing.

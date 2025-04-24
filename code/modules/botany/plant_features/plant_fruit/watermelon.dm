@@ -2,23 +2,37 @@
 	Watermelon
 */
 /datum/plant_feature/fruit/watermelon
-	icon_state = "apple"
+	species_name = "pepo magna"
+	name = "watermelon"
+	icon_state = "banana" //TODO: - Racc
 	fruit_product = /obj/item/food/grown/watermelon
-	plant_traits = list(/datum/plant_trait/reagent/fruit/nutriment/large, /datum/plant_trait/reagent/fruit/vitamin/large, /datum/plant_trait/reagent/fruit/water)
-	total_volume = PLANT_REAGENT_LARGE
+	plant_traits = list(/datum/plant_trait/reagent/fruit/nutriment/large, /datum/plant_trait/reagent/fruit/vitamin/large)
+	fast_reagents = list(/datum/reagent/water = PLANT_REAGENT_MEDIUM)
+	total_volume = PLANT_FRUIT_VOLUME_LARGE
 	growth_time = PLANT_FRUIT_GROWTH_SLOW
+	mutations = list(/datum/plant_feature/fruit/watermelon/ballolon)
 
 /*
 	Holy Watermelom
 */
 /datum/plant_feature/fruit/watermelon/holy
+	species_name = "pepo sanctus"
+	name = "holy watermelon"
+	icon_state = "banana" //TODO: - Racc
 	fruit_product = /obj/item/food/grown/holymelon
-	fast_reagents = list(/datum/reagent/water/holywater = PLANT_FRUIT_VOLUME_MEDIUM)
+	plant_traits = list(/datum/plant_trait/fruit/biolight) //TODO: Relevant colour - Racc
+	fast_reagents = list(/datum/reagent/water/holywater = PLANT_REAGENT_MEDIUM)
+	mutations = list(/datum/plant_feature/fruit/watermelon)
 
 
 /*
 	Ballolon
 */
 /datum/plant_feature/fruit/watermelon/ballolon
+	species_name = "pepo volare"
+	name = "ballolon"
+	icon_state = "banana" //TODO: - Racc
 	fruit_product = /obj/item/food/grown/ballolon
-	fast_reagents = list(/datum/reagent/hydrogen = PLANT_FRUIT_VOLUME_MEDIUM, /datum/reagent/oxygen = PLANT_FRUIT_VOLUME_MEDIUM)
+	plant_traits = list(/datum/plant_trait/fruit/gaseous)
+	fast_reagents = list(/datum/reagent/hydrogen = PLANT_REAGENT_MEDIUM, /datum/reagent/oxygen = PLANT_REAGENT_MEDIUM)
+	mutations = list(/datum/plant_feature/fruit/watermelon/holy)
