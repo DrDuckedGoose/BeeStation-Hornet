@@ -41,3 +41,7 @@
 	SIGNAL_HANDLER
 
 	return
+
+//use this to give randomized traits unique IDs
+/datum/plant_trait/proc/get_id()
+	return "[type]"

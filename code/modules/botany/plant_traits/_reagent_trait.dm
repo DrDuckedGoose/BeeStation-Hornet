@@ -17,6 +17,14 @@
 		return
 	RegisterSignal(parent.parent, COMSIG_PLANT_FRUIT_BUILT, PROC_REF(catch_fruit))
 
+/datum/plant_trait/reagent/copy(datum/plant_feature/_parent, datum/plant_trait/_trait)
+	//Support for custom reagents traits made with fast reagents
+	var/datum/plant_trait/reagent/new_trait = _trait || new type(_parent, reagent, volume_percentage)
+	return new_trait
+
+/datum/plant_trait/reagent/get_id()
+	return "[reagent]-[volume_percentage]"
+
 /datum/plant_trait/reagent/proc/catch_fruit(datum/source, obj/fruit)
 	SIGNAL_HANDLER
 

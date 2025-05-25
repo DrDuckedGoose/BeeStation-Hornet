@@ -90,12 +90,15 @@
 			var/datum/plant_feature/feature = locate(params["key"])
 			seeds.plant_features -= feature
 			qdel(feature)
+			//We can safely set this to null, so it makes a new ID when planted.
+			seeds.species_id = null
 		if("remove_trait")
 			if(!current_feature)
 				return
 			var/datum/plant_trait/trait = locate(params["key"])
 			current_feature.plant_traits -= trait
 			qdel(trait)
+			seeds.species_id = null
 		if("add_trait")
 			if(!current_feature)
 				return
@@ -105,6 +108,7 @@
 			var/datum/plant_trait/new_trait = trait.copy(current_feature)
 			if(!QDELING(new_trait))
 				current_feature.plant_traits += new_trait
+			seeds.species_id = null
 		if("add_feature")
 			var/datum/plant_feature/feature = locate(params["key"])
 			for(var/datum/plant_feature/current_feature as anything in seeds.plant_features)
@@ -113,3 +117,4 @@
 					return
 			var/datum/plant_feature/new_feature = feature.copy()
 			seeds.plant_features += new_feature
+			seeds.species_id = null

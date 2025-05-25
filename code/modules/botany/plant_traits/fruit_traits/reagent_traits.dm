@@ -1,3 +1,4 @@
+//TODO: You can probably phase most of these out - Racc
 /datum/plant_trait/reagent/fruit
 	plant_feature_compat = /datum/plant_feature/fruit
 

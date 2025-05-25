@@ -39,10 +39,14 @@
 	if(!length(feature.mutations))
 		return
 	var/datum/plant_feature/new_feature = pick(feature.mutations)
-	QDEL_NULL(feature)
+	plant_component.plant_features -= feature
+	qdel(feature)
 	new_feature = new new_feature(plant_component)
 	if(!QDELING(new_feature))
 		plant_component.plant_features += new_feature
+	//Reset species id so a new one can be made
+	plant_component.compile_species_id()
+	//TODO: Reset plant body growth to half it's max, so it has to regrow - Racc
 
 /obj/machinery/plant_mutator/attack_hand_secondary(mob/user, list/modifiers)
 	. = ..()

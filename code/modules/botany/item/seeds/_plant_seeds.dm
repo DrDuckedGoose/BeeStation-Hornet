@@ -3,6 +3,8 @@
 	name = "seeds"
 	icon = 'icons/obj/hydroponics/features/generic.dmi'
 	icon_state = "seeds"
+	///Species ID
+	var/species_id
 	///List of plant features for the plant we're... planting
 	var/list/plant_features = list()
 	///How many seeds do we contain
@@ -10,8 +12,9 @@
 	///Do / What name override do we use?
 	var/name_override
 
-/obj/item/plant_seeds/Initialize(mapload, list/_plant_features)
+/obj/item/plant_seeds/Initialize(mapload, list/_plant_features, _species_id)
 	. = ..()
+	species_id = _species_id
 	plant_features = _plant_features || plant_features
 	for(var/feature as anything in plant_features)
 		plant_features -= feature
@@ -34,12 +37,30 @@
 		var/obj/vis_target = target
 		vis_target.vis_contents += plant
 	plant.name = name_override || plant.name
-	plant.AddComponent(/datum/component/plant, plant, plant_features)
+	plant.AddComponent(/datum/component/plant, plant, plant_features, species_id)
 	seeds--
 	if(seeds <= 0)
 		qdel(src)
 
-//Debug
+/*
+	Preset
+	This is used for making  preset species ids work at runtime
+*/
+/obj/item/plant_seeds/preset
+	///What tier, in the plant catalogue, is this seed?
+	var/tier = 1
+
+/obj/item/plant_seeds/preset/Initialize(mapload, list/_plant_features, _species_id)
+	. = ..()
+	if(species_id) //Just in case someone uses it wrong
+		return
+	//TODO: Find a solution to this not being the same as regular IDs - Racc
+	species_id = "preset-[name]"
+	SSbotany.plant_species |= species_id
+
+/*
+	Debug
+*/
 /obj/item/plant_seeds/debug
 	name = "debug seeds"
 	seeds = INFINITY

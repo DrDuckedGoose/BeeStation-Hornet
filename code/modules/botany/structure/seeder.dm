@@ -8,11 +8,17 @@
 
 /obj/machinery/seeder/attackby(obj/item/C, mob/user)
 	. = ..()
+//General genes
 	var/list/genes = list()
 	SEND_SIGNAL(C, COMSIG_PLANT_GET_GENES, genes)
-	if(!length(genes))
+//Features
+	var/list/features = genes[PLANT_GENE_INDEX_FEATURES]
+//species ID
+	var/species_id = genes[PLANT_GENE_INDEX_ID]
+//Impart onto seeds
+	if(!length(features))
 		return
 	for(var/index in 1 to seed_amount)
-		var/obj/item/plant_seeds/seed = new(get_turf(src), genes)
+		var/obj/item/plant_seeds/seed = new(get_turf(src), features, species_id)
 		to_chat(user, "<span>[seed] created!</span>")
 	qdel(C)

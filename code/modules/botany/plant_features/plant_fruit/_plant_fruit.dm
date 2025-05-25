@@ -102,8 +102,10 @@
 	var/obj/item/A = new fruit_product(parent.plant_item)
 	var/list/plant_genes = list()
 	for(var/datum/plant_feature/gene as anything in parent.plant_features) //TODO: You could probably optimize this - Racc
+		if(QDELETED(gene))
+			continue
 		plant_genes += gene.copy()
-	A.AddElement(/datum/element/plant_genes, plant_genes)
+	A.AddElement(/datum/element/plant_genes, plant_genes, parent.species_id)
 	fruits += A
 	SEND_SIGNAL(parent, COMSIG_PLANT_FRUIT_BUILT, A)
 
