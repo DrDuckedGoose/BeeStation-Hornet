@@ -6,6 +6,8 @@
 	appearance_flags = TILE_BOUND|PIXEL_SCALE|LONG_GLIDE|KEEP_TOGETHER
 	reagent_flags = TRANSPARENT | REFILLABLE
 	buffer = 200
+	///What kind of substrate do we have?
+	var/datum/plant_subtrate/substrate
 //Effects
 	var/atom/movable/plant_tray_face/face_plate
 	var/atom/movable/plant_tray_reagents/tray_reagents

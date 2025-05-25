@@ -17,6 +17,9 @@
 	///Reference to the effect we use for the body overlay  / visual content
 	var/atom/movable/body_appearance
 
+	///How many planter slots does this body type take up
+	var/slot_size = PLANT_BODY_SLOT_SIZE_SMALL
+
 ///Growth cycle
 	var/growth_stages = 3
 	var/current_stage

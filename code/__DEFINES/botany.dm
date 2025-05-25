@@ -22,6 +22,10 @@
 #define PLANT_BODY_YIELD_TIME_SLOW 30 SECONDS
 #define PLANT_BODY_YIELD_TIME_MEDIUM 15 SECONDS
 #define PLANT_BODY_YIELD_TIME_FAST 5 SECONDS
+	//How many planter slots does this body take up
+#define PLANT_BODY_SLOT_SIZE_SMALL 1
+#define PLANT_BODY_SLOT_SIZE_MEDIUM 3
+#define PLANT_BODY_SLOT_SIZE_LARGE 5
 
 //Fruit stat values
 	//How many reagents can the fruit hold
@@ -42,3 +46,9 @@
 #define PLANT_REAGENT_MEDIUM 25
 #define PLANT_REAGENT_LARGE 45
 #define PLANT_REAGENT_VERY_LARGE 75
+
+///Substrate flags
+#define PLANT_SUBSTRATE_DIRT (1<<0)
+#define PLANT_SUBSTRATE_SAND (1<<1)
+#define PLANT_SUBSTRATE_CLAY (1<<2)
+#define PLANT_SUBSTRATE_DEBRIS (1<<3)

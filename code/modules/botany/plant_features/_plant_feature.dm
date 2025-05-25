@@ -108,3 +108,7 @@
 
 	//Info
 	return
+
+///Use this to associate this feature datum with a seed packet, before it's planted
+/datum/plant_feature/proc/associate_seeds(obj/item/plant_seeds/seeds)
+	return

@@ -16,19 +16,29 @@
 	. = ..()
 	species_id = _species_id
 	plant_features = _plant_features || plant_features
-	for(var/feature as anything in plant_features)
+	for(var/datum/plant_feature/feature as anything in plant_features)
 		plant_features -= feature
 		if(ispath(feature))
 			plant_features += new feature()
 		else
 			plant_features += feature
+		feature?.associate_seeds(src)
 
 /obj/item/plant_seeds/afterattack_secondary(atom/target, mob/user, proximity_flag, click_parameters)
 	. = ..()
-//TODO: - Racc
-//	if(!HAS_TRAIT(target, TRAIT_PLANTER)) //Add an override here for roots that let you plant on people
-//		return
+	//Check if our roots fuck with the thing we're planting
+	var/obj/machinery/plumbing/tank/plant_tray/tray = target
+	/*
+		If you want to plant plants elsewhere, that isnt a tray, make the substrate holder into an element or something
+		TODO: Consider doing this - Racc
+	*/
+	var/substrate_flags = (istype(tray) ? tray.substrate : null)
+	if(!SEND_SIGNAL(src, COMSIG_SEEDS_POLL_ROOT_SUBSTRATE, substrate_flags))
+		return
+	//Plant it
 	to_chat(user, "<span class='notice'>You begin to plant [src] into [target].</span>")
+	//TODO: Implement mouse offset planting for plants that use it - Racc
+	//TODO: Implement planter size slots, to plant multiple plants on the same tile - Racc
 	if(!do_after(user, 2.3 SECONDS, target))
 		return
 	var/obj/item/plant_item/plant = new()
