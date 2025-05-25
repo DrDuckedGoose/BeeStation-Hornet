@@ -1,6 +1,6 @@
 /*
 	Cherry
-	Generic small fruit type that grows fast
+	Micro fruit type that grows very fast
 */
 /datum/plant_feature/fruit/cherry
 	species_name = "cerasus parvum"
@@ -11,7 +11,7 @@
 	fast_reagents = list(/datum/reagent/consumable/sugar = PLANT_REAGENT_SMALL)
 	total_volume = PLANT_FRUIT_VOLUME_MICRO
 	growth_time = PLANT_FRUIT_GROWTH_VERY_FAST
-	mutations = list(/datum/plant_feature/fruit/cherry/blue, /datum/plant_feature/fruit/cherry/bomb)
+	mutations = list(/datum/plant_feature/fruit/cherry/blue)
 
 /*
 	Blue Cherry
@@ -32,7 +32,7 @@
 	icon_state = "tomato" //TODO: - Racc
 	plant_traits = list(/datum/plant_trait/reagent/fruit/nutriment, /datum/plant_trait/fruit/biolight) //TODO: Relevant color - Racc
 	fruit_product = /obj/item/food/grown/cherrybulbs
-	mutations = list(/datum/plant_feature/fruit/cherry)
+	mutations = list(/datum/plant_feature/fruit/cherry, /datum/plant_feature/fruit/cherry/bomb)
 
 /*
 	Cherry Bomb
@@ -45,5 +45,5 @@
 	fruit_product = /obj/item/food/grown/cherry_bomb
 	plant_traits = list(/datum/plant_trait/fruit/temperature, /datum/plant_trait/fruit/liquid_contents/sensitive)
 	fast_reagents = list(/datum/reagent/blackpowder = PLANT_REAGENT_MEDIUM)
-	growth_time = PLANT_FRUIT_GROWTH_FAST
+	growth_time = PLANT_FRUIT_GROWTH_MEDIUM
 	mutations = list(/datum/plant_feature/fruit/cherry)

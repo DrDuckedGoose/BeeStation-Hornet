@@ -1,7 +1,6 @@
 //TODO: Sprites - Racc
 /*
 	Banana
-	Generic small fruit type
 */
 /datum/plant_feature/fruit/banana
 	species_name = "lycopersicum solanum"

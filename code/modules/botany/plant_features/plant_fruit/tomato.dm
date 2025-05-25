@@ -1,7 +1,6 @@
 //TODO: Sprites - Racc
 /*
 	Tomato
-	Generic small fruit type that grows fast
 */
 /datum/plant_feature/fruit/tomato
 	species_name = "lycopersicum solanum"

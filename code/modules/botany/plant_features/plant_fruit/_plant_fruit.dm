@@ -1,4 +1,6 @@
 //TODO: Customize growth time and reagent volume for all fruits - Racc
+//TODO: port flowers, weeds, and mushrooms - Racc
+//TODO: Replace meatweat with several rare-ish meat fruits based on types of meat - Racc
 /datum/plant_feature/fruit
 	icon = 'icons/obj/hydroponics/features/fruit.dmi'
 	icon_state = "apple"

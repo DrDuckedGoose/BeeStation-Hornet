@@ -1,6 +1,5 @@
 /*
 	Apple
-	Generic small fruit type that grows fast
 */
 /datum/plant_feature/fruit/apple
 	species_name = "malum parvum"

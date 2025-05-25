@@ -1,6 +1,5 @@
 /*
 	Cocoa
-	Generic small fruit type that grows fast
 */
 /datum/plant_feature/fruit/cocoa
 	species_name = "cocos delectamentum"

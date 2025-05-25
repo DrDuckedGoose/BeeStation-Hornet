@@ -1,6 +1,5 @@
 /*
 	Chili
-	Generic small fruit type that grows fast
 */
 /datum/plant_feature/fruit/chili
 	species_name = "purus calidum"

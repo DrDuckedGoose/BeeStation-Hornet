@@ -1,4 +1,5 @@
 /datum/plant_feature/body/corn_stalk
+	max_harvest = PLANT_BODY_HARVEST_MICRO
 	icon_state = "corn_stalk"
 	overlay_positions = list(list(16, 27))
 

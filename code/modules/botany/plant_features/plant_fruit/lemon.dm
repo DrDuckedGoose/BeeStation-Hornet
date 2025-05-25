@@ -1,6 +1,5 @@
 /*
 	lemon
-	Generic small fruit type that grows fast
 */
 /datum/plant_feature/fruit/lemon
 	species_name = "citrus uvam"
@@ -20,11 +19,10 @@
 	name = "lime"
 	icon_state = "tomato" //TODO: - Racc
 	fruit_product = /obj/item/food/grown/citrus
-	mutations = list()
+	mutations = list(/datum/plant_feature/fruit/lemon/combustible)
 
 /*
-	lemon
-	Generic small fruit type that grows fast
+	Combustible Lemon
 */
 /datum/plant_feature/fruit/lemon/combustible
 	species_name = "citrus crepitus"
