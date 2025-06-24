@@ -4,7 +4,8 @@
 /datum/plant_feature/fruit/wheat
 	species_name = "triticum aurum"
 	name = "wheat"
-	icon_state = "tomato" //TODO: - Racc
+	icon_state = "corn-2"
+	colour_override = "#d8d86d"
 	fruit_product = /obj/item/food/grown/wheat
 	plant_traits = list(/datum/plant_trait/reagent/fruit/nutriment)
 	total_volume = PLANT_FRUIT_VOLUME_MICRO
@@ -17,6 +18,7 @@
 /datum/plant_feature/fruit/wheat/oat
 	species_name = "triticum patet"
 	name = "oat"
-	icon_state = "tomato" //TODO: - Racc
+	icon_state = "corn-2"
+	colour_override = "#48923e"
 	fruit_product = /obj/item/food/grown/oat
 	mutations = list(/datum/plant_feature/fruit/wheat)

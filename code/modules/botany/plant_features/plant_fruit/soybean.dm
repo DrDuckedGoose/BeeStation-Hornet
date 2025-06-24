@@ -4,7 +4,8 @@
 /datum/plant_feature/fruit/soybean
 	species_name = "faba anima"
 	name = "soybean"
-	icon_state = "tomato" //TODO: - Racc
+	icon_state = "pod"
+	colour_override = "#95d94d"
 	fruit_product = /obj/item/food/grown/soybeans
 	plant_traits = list(/datum/plant_trait/reagent/fruit/nutriment, /datum/plant_trait/reagent/fruit/vitamin)
 	fast_reagents = list(/datum/reagent/consumable/nutriment/fat/oil = PLANT_REAGENT_MEDIUM)
@@ -18,7 +19,8 @@
 /datum/plant_feature/fruit/soybean/koi
 	species_name = "faba piscis"
 	name = "koibean"
-	icon_state = "tomato" //TODO: - Racc
+	icon_state = "pod"
+	colour_override = "#d4d94d"
 	fruit_product = /obj/item/food/grown/koibeans
 	fast_reagents = list(/datum/reagent/toxin/carpotoxin = PLANT_REAGENT_SMALL)
 	mutations = list(/datum/plant_feature/fruit/soybean)

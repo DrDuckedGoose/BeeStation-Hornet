@@ -1,3 +1,6 @@
+/*
+	Adds a reagent to the plant, typically fruit
+*/
 /datum/plant_trait/reagent
 	///What reagent are we adding
 	var/datum/reagent/reagent
@@ -15,7 +18,7 @@
 	. = ..()
 	if(!parent)
 		return
-	RegisterSignal(parent.parent, COMSIG_PLANT_FRUIT_BUILT, PROC_REF(catch_fruit))
+	RegisterSignal(parent.parent, COMSIG_FRUIT_BUILT, PROC_REF(catch_fruit))
 
 /datum/plant_trait/reagent/copy(datum/plant_feature/_parent, datum/plant_trait/_trait)
 	//Support for custom reagents traits made with fast reagents

@@ -1,3 +1,4 @@
+//TODO: Refactor / improve all UI code - Racc
 /obj/machinery/seed_editor
 	name = "seed sequencer"
 	desc = "An advanced device designed to manipulate seed genetic makeup."
@@ -118,3 +119,4 @@
 			var/datum/plant_feature/new_feature = feature.copy()
 			seeds.plant_features += new_feature
 			seeds.species_id = null
+		ui_update()

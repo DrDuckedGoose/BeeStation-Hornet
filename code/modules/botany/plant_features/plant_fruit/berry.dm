@@ -39,7 +39,7 @@
 	mutations = list(/datum/plant_feature/fruit/berry/death)
 
 /*
-	Poison Berry
+	Death Berry
 */
 /datum/plant_feature/fruit/berry/death
 	species_name = "bacca mortem"

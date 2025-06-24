@@ -15,13 +15,12 @@
 /obj/item/plant_seeds/Initialize(mapload, list/_plant_features, _species_id)
 	. = ..()
 	species_id = _species_id
-	plant_features = _plant_features || plant_features
+	plant_features = length(_plant_features) ? _plant_features.Copy() : plant_features
 	for(var/datum/plant_feature/feature as anything in plant_features)
 		plant_features -= feature
 		if(ispath(feature))
-			plant_features += new feature()
-		else
-			plant_features += feature
+			feature = new feature()
+		plant_features += feature
 		feature?.associate_seeds(src)
 
 /obj/item/plant_seeds/afterattack_secondary(atom/target, mob/user, proximity_flag, click_parameters)
@@ -34,6 +33,7 @@
 	*/
 	var/substrate_flags = (istype(tray) ? tray.substrate : null)
 	if(!SEND_SIGNAL(src, COMSIG_SEEDS_POLL_ROOT_SUBSTRATE, substrate_flags))
+		to_chat(user, "<span class='warining'>You can't plant [src] here!</span>")
 		return
 	//Plant it
 	to_chat(user, "<span class='notice'>You begin to plant [src] into [target].</span>")
@@ -83,6 +83,11 @@
 	animate(color = "#00f", time = 1 SECONDS)
 	animate(color = "#f0f", time = 1 SECONDS)
 	animate(color = "#f00", time = 1 SECONDS)
+
+/obj/item/plant_seeds/debug/examine(mob/user)
+	. = ..()
+	for(var/feature as anything in plant_features)
+		to_chat(user, "<span class='notice'>[feature]</span>")
 
 /obj/item/plant_seeds/debug/interact(mob/user)
 	. = ..()

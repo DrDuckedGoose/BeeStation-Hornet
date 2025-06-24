@@ -1110,6 +1110,25 @@ GLOBAL_VAR_INIT(icon_holographic_window, init_holographic_window())
 	else
 		create_machine(A, user)
 
+/*
+	Botany variant
+*/
+/obj/item/construction/plumbing/botany
+	name = "Hydroponic Plumbing Constructor"
+	desc = "An expertly modified RCD outfitted to construct hydroponic machinery."
+
+//This is intentionally worse than the generic plumbing device. 'Should' encourage department team work
+/obj/item/construction/plumbing/botany/set_plumbing_designs()
+	plumbing_design_types = list(
+	/obj/machinery/plumbing/input = 5,
+	/obj/machinery/plumbing/output = 5,
+	/obj/machinery/plumbing/tank = 20,
+	/obj/machinery/plumbing/tank/plant_tray = 15
+)
+
+/*
+	Upgrades
+*/
 /obj/item/rcd_upgrade
 	name = "RCD advanced design disk"
 	desc = "It seems to be empty."
@@ -1133,6 +1152,9 @@ GLOBAL_VAR_INIT(icon_holographic_window, init_holographic_window())
 	desc = "It contains the design for chairs, stools, tables, and glass tables."
 	upgrade = RCD_UPGRADE_FURNISHING
 
+/*
+	UI
+*/
 /datum/action/item_action/pick_color
 	name = "Choose A Color"
 

@@ -18,6 +18,6 @@
 /datum/plant_feature/fruit/corn/snap
 	species_name = "frumentum disrumpam"
 	name = "snap corn"
-	icon_state = "corn" //TODO: - Racc
+	icon_state = "snapcorn"
 	fruit_product = /obj/item/grown/snapcorn
 	mutations = list(/datum/plant_feature/fruit/corn)

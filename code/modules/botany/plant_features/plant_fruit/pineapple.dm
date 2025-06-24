@@ -4,7 +4,7 @@
 /datum/plant_feature/fruit/pineapple
 	species_name = "abiete malum"
 	name = "pineapple"
-	icon_state = "tomato" //TODO: - Racc
+	icon_state = "pineapple"
 	fruit_product = /obj/item/food/grown/pineapple
 	plant_traits = list(/datum/plant_trait/reagent/fruit/nutriment/large, /datum/plant_trait/reagent/fruit/vitamin)
 	fast_reagents = list(/datum/reagent/water = PLANT_REAGENT_MEDIUM)

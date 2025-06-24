@@ -4,7 +4,8 @@
 /datum/plant_feature/fruit/orange
 	species_name = "citrum solis"
 	name = "orange"
-	icon_state = "tomato" //TODO: - Racc
+	icon_state = "apple-2"
+	colour_override = "#ff8000"
 	fruit_product = /obj/item/food/grown/citrus/orange
 	plant_traits = list(/datum/plant_trait/reagent/fruit/nutriment, /datum/plant_trait/reagent/fruit/vitamin)
 	total_volume = PLANT_FRUIT_VOLUME_SMALL

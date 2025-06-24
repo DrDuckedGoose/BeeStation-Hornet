@@ -33,7 +33,7 @@
 	mutations = list(/datum/plant_feature/fruit/grass/shamrock)
 
 /*
-	Fairy Grass
+	Clovers
 */
 /datum/plant_feature/fruit/grass/shamrock
 	species_name = "gramen trifolium"

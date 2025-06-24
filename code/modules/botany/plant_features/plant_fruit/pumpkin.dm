@@ -6,7 +6,7 @@
 /datum/plant_feature/fruit/pumpkin
 	species_name = "cucurbita magna"
 	name = "pumpkin"
-	icon_state = "banana" //TODO: - Racc
+	icon_state = "pumpkin"
 	fruit_product = /obj/item/food/grown/pumpkin
 	plant_traits = list(/datum/plant_trait/reagent/fruit/nutriment/large, /datum/plant_trait/reagent/fruit/vitamin/large)
 	total_volume = PLANT_FRUIT_VOLUME_LARGE
@@ -19,7 +19,8 @@
 /datum/plant_feature/fruit/pumpkin/blumpkin
 	species_name = "cucurbita venenum"
 	name = "blumpkin"
-	icon_state = "banana" //TODO: - Racc
+	icon_state = "pumpkin-2"
+	colour_override = "#a8cac2"
 	fruit_product = /obj/item/food/grown/blumpkin
 	fast_reagents = list(/datum/reagent/ammonia = PLANT_REAGENT_MEDIUM, /datum/reagent/chlorine = PLANT_REAGENT_SMALL)
 	mutations = list(/datum/plant_feature/fruit/pumpkin)

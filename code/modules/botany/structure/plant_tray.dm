@@ -30,6 +30,12 @@
 //reagents
 	tray_reagents.color = mix_color_from_reagents(reagents.reagent_list)
 
+/obj/machinery/plumbing/tank/plant_tray/examine(mob/user)
+	. = ..()
+	if(substrate)
+		. += "<span class='notice'>[src] is filled with [substrate.name].\n[substrate.tooltip]</span>"
+	//TODO: Throw some more tray info in here - Racc
+
 /obj/machinery/plumbing/tank/plant_tray/AltClick(mob/user)
 	return ..()
 
@@ -58,6 +64,13 @@
 /obj/machinery/plumbing/tank/plant_tray/Exited(atom/movable/gone, direction)
 	. = ..()
 	gone.pixel_y -= 8
+
+/obj/machinery/plumbing/tank/plant_tray/proc/set_substrate(_substrate)
+	if(substrate)
+		underlays -= substrate.substrate_appearance
+		QDEL_NULL(substrate)
+	substrate = new _substrate(src)
+	underlays += substrate.substrate_appearance
 
 //Plant tray's face
 /atom/movable/plant_tray_face

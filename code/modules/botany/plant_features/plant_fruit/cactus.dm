@@ -5,7 +5,7 @@
 /datum/plant_feature/fruit/cactus
 	species_name = "spinis fructificatio"
 	name = "fruiting cactus"
-	icon_state = "tomato" //TODO: - Racc
+	icon_state = "cactus"
 	fruit_product = /obj/item/food/grown/ash_flora/cactus_fruit
 	//TODO: Add a trait for pickles - Racc
 	plant_traits = list(/datum/plant_trait/reagent/fruit/nutriment, /datum/plant_trait/reagent/fruit/vitamin)

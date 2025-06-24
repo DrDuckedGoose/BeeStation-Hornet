@@ -17,7 +17,7 @@
 	. = ..()
 	if(!parent?.parent)
 		return
-	RegisterSignal(parent.parent, COMSIG_PLANT_FRUIT_BUILT, PROC_REF(catch_fruit))
+	RegisterSignal(parent.parent, COMSIG_FRUIT_BUILT, PROC_REF(catch_fruit))
 
 /datum/plant_trait/fruit/proc/catch_fruit(datum/source, obj/item/fruit)
 	SIGNAL_HANDLER

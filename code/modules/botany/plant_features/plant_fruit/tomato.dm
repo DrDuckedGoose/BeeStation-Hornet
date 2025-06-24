@@ -19,7 +19,8 @@
 /datum/plant_feature/fruit/tomato/blue
 	species_name = "lycopersicum caeruleum"
 	name = "blue tomato"
-	icon_state = "tomato" //TODO: - Racc
+	icon_state = "tomato-2"
+	colour_override = "#09f"
 	fruit_product = /obj/item/food/grown/tomato/blue
 	fast_reagents = list(/datum/reagent/lube = PLANT_REAGENT_MEDIUM)
 	mutations = list(/datum/plant_feature/fruit/tomato/bluespace)
@@ -30,7 +31,8 @@
 /datum/plant_feature/fruit/tomato/bluespace
 	species_name = "lycopersicum caeruleum cerritulus"
 	name = "bluespace tomato"
-	icon_state = "tomato" //TODO: - Racc
+	icon_state = "tomato-2"
+	colour_override = "#03dfe6" //TODO: bluespace effects - Racc
 	fruit_product = /obj/item/food/grown/tomato/blue/bluespace
 	plant_traits = list(/datum/plant_trait/reagent/fruit/nutriment, /datum/plant_trait/reagent/fruit/vitamin,
 	/datum/plant_trait/fruit/liquid_contents, /datum/plant_trait/fruit/bluespace)
@@ -44,7 +46,8 @@
 /datum/plant_feature/fruit/tomato/blood
 	species_name = "lycopersicum sanguis"
 	name = "blood tomato"
-	icon_state = "tomato" //TODO: - Racc
+	icon_state = "tomato-2"
+	colour_override = "#8d1111"
 	fruit_product = /obj/item/food/grown/tomato/blood
 	fast_reagents = list(/datum/reagent/blood = PLANT_REAGENT_MEDIUM)
 	mutations = list(/datum/plant_feature/fruit/tomato/killer)
@@ -55,7 +58,8 @@
 /datum/plant_feature/fruit/tomato/killer
 	species_name = "lycopersicum rabidus"
 	name = "killer tomato"
-	icon_state = "tomato" //TODO: - Racc
+	icon_state = "tomato-2"
+	colour_override = "#8d1111"
 	fruit_product = /obj/item/food/grown/tomato/killer
 	mutations = list(/datum/plant_feature/fruit/tomato)
 	//TODO: Make this a trait, living fruit - Racc

@@ -17,9 +17,8 @@
 	var/growth_time_elapsed = 0
 	var/list/growth_timers = list()
 
-	//TODO: Add a reagent capacity variable - Racc
 	///Max amount of reagents we can impart onto our stupid fucking children
-	var/total_volume = PLANT_FRUIT_VOLUME_SMALL
+	var/total_volume = PLANT_FRUIT_VOLUME_MEDIUM
 
 	///Colour override for greyscale fruits
 	var/colour_override ="#fff"
@@ -100,6 +99,8 @@
 
 /datum/plant_feature/fruit/proc/build_fruit()
 	var/obj/item/A = new fruit_product(parent.plant_item)
+	A.create_reagents(total_volume)
+	SEND_SIGNAL(parent, COMSIG_FRUIT_PREPARE, A) //Used to prepare fruit characteristics, like making the reagents NO_REACT
 	var/list/plant_genes = list()
 	for(var/datum/plant_feature/gene as anything in parent.plant_features) //TODO: You could probably optimize this - Racc
 		if(QDELETED(gene))
@@ -107,7 +108,7 @@
 		plant_genes += gene.copy()
 	A.AddElement(/datum/element/plant_genes, plant_genes, parent.species_id)
 	fruits += A
-	SEND_SIGNAL(parent, COMSIG_PLANT_FRUIT_BUILT, A)
+	SEND_SIGNAL(parent, COMSIG_FRUIT_BUILT, A) //Used when we're done prepping the fruit and we want to add stuff to it, like reagents
 
 /datum/plant_feature/fruit/proc/catch_attack_hand(datum/source, mob/user)
 	SIGNAL_HANDLER
