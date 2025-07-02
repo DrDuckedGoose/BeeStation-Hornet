@@ -37,7 +37,7 @@
 
 /datum/plant_feature/fruit/Destroy(force, ...)
 	. = ..()
-	if(!catch_attack_hand(src, null))
+	if(!catch_attack_hand(src, null) && parent)
 		SEND_SIGNAL(parent, COMSIG_PLANT_ACTION_HARVEST, src, null, TRUE)
 
 /datum/plant_feature/fruit/process(delta_time)
@@ -46,6 +46,9 @@
 //Growing
 	for(var/timer as anything in growth_timers)
 		growth_timers[timer] -= delta_time SECONDS
+		//If our parent is eager to be an adult, used for pre-existing plants
+		if(parent?.skip_growth)
+			growth_timers[timer] = 0
 		//Visuals
 		var/obj/effect/fruit_effect = visual_fruits[timer]
 		var/matrix/new_transform = new()

@@ -7,7 +7,7 @@
 /obj/item/substrate_bag
 	name = "substrate bag"
 	icon = 'icons/obj/hydroponics/features/generic.dmi'
-	icon_state = "seeds"
+	icon_state = "substrate_bag"
 	///What substrate does this bag contain
 	var/substrate = /datum/plant_subtrate
 

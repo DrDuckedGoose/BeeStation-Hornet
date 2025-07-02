@@ -119,4 +119,4 @@
 			var/datum/plant_feature/new_feature = feature.copy()
 			seeds.plant_features += new_feature
 			seeds.species_id = null
-		ui_update()
+	ui_update()

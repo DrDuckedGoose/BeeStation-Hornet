@@ -41,13 +41,12 @@
 	//TODO: Implement planter size slots, to plant multiple plants on the same tile - Racc
 	if(!do_after(user, 2.3 SECONDS, target))
 		return
-	var/obj/item/plant_item/plant = new()
+	var/obj/item/plant_item/plant = new(get_turf(target), plant_features, species_id)
+	plant.name = name_override || plant.name
 	plant.forceMove(target) //forceMove instead of creating it inside to proc Entered()
 	if(!isturf(target) && isobj(target))
 		var/obj/vis_target = target
 		vis_target.vis_contents += plant
-	plant.name = name_override || plant.name
-	plant.AddComponent(/datum/component/plant, plant, plant_features, species_id)
 	seeds--
 	if(seeds <= 0)
 		qdel(src)

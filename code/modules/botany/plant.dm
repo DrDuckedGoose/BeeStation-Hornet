@@ -13,27 +13,24 @@
 	var/list/plant_feature_limits = list()
 	///Our plant features
 	var/list/plant_features = list(/datum/plant_feature/body, /datum/plant_feature/fruit, /datum/plant_feature/roots)
+	///Do we skip the growing phase
+	var/skip_growth
 
 //Appearnace
 	var/use_body_appearance = TRUE
 
-/datum/component/plant/Initialize(obj/item/_plant_item, list/_plant_features, _species_id)
+/datum/component/plant/Initialize(obj/item/_plant_item, list/_plant_features, _species_id, _skip_growth)
 	. = ..()
 	plant_item = _plant_item
+	skip_growth = _skip_growth
 //Species ID setup
 	if(!_species_id)
 		compile_species_id()
 	else
 		species_id = _species_id
 //Plant features
-	plant_features = _plant_features?.Copy() || plant_features
-	for(var/datum/plant_feature/feature as anything in plant_features)
-		plant_features -= feature
-		if(ispath(feature))
-			plant_features += new feature(src)
-		else
-			plant_features += feature
-			feature.setup_parent(src)
+	if(length(_plant_features))
+		populate_features(_plant_features)
 //Add discoverable component for discovering this discoverable discovery
 	plant_item.AddComponent(/datum/component/discoverable/plant, 500) //TODO: Consider making this variable / sane - Racc
 
@@ -42,7 +39,16 @@
 	for(var/feature as anything in plant_features)
 		qdel(feature)
 
-//Set a new species ID
+/datum/component/plant/proc/populate_features(list/_features)
+	plant_features = _features?.Copy() || plant_features
+	for(var/datum/plant_feature/feature as anything in plant_features)
+		plant_features -= feature
+		if(ispath(feature))
+			plant_features += new feature(src)
+		else
+			plant_features += feature
+			feature.setup_parent(src)
+
 /datum/component/plant/proc/compile_species_id()
 	var/new_species_id = "[get_species_id()]"
 	if(new_species_id in SSbotany.plant_species)

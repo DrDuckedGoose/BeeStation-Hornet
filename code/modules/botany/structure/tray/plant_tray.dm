@@ -27,6 +27,8 @@
 	//Reagents, for reagents
 	tray_reagents = new(src)
 	vis_contents += tray_reagents
+	//Bottom most underlay
+	underlays += mutable_appearance('icons/obj/hydroponics/features/generic.dmi', "tray-bottom", LOW_OBJ_LAYER-0.1)
 //reagents
 	tray_reagents.color = mix_color_from_reagents(reagents.reagent_list)
 

@@ -52,6 +52,10 @@
 		growth_time_elapsed += delta_time SECONDS
 		growth_time_elapsed = min(growth_time, growth_time_elapsed)
 		current_stage = max(1, FLOOR((growth_time_elapsed/growth_time)*growth_stages, 1))
+		//If our parent is eager to be an adult, used for pre-existing plants
+		if(parent?.skip_growth)
+			growth_time_elapsed = growth_time
+			current_stage = growth_stages
 		//Little bit of nesting, as a treat
 		if(current_stage >= growth_stages)
 			SEND_SIGNAL(src, COMSIG_PLANT_GROW_FINAL)

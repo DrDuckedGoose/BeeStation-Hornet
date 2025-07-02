@@ -3,11 +3,13 @@
 	desc = "plant :)"
 	icon = 'icons/obj/hydroponics/features/generic.dmi'
 	icon_state = ""
-	//anchored = TRUE
+	flags_1 = IS_ONTOP_1
+	///Does this plant item skip it's growth cycle
+	var/skip_growth = FALSE
 
-/obj/item/plant_item/ComponentInitialize()
+/obj/item/plant_item/Initialize(mapload, _plant_features, _species_id)
 	. = ..()
-	//AddComponent(/datum/component/plant, src)
+	AddComponent(/datum/component/plant, src, _plant_features, _species_id, skip_growth)
 
 //TODO: Move this to the component / plant feature - Racc
 /obj/item/plant_item/attackby(obj/item/I, mob/living/user, params)
