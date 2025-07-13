@@ -29,7 +29,7 @@
 	plant_features = list(/datum/plant_feature/roots, /datum/plant_feature/body/tuber, /datum/plant_feature/fruit/carrot)
 
 //Cherry
-/obj/item/plant_seeds/preset/carrot
+/obj/item/plant_seeds/preset/cherry
 	name = "cherry seeds"
 	name_override = "cherry tree"
 	plant_features = list(/datum/plant_feature/roots, /datum/plant_feature/body/tree/mini, /datum/plant_feature/fruit/cherry)

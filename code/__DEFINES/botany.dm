@@ -16,16 +16,17 @@
 #define PLANT_BODY_YIELD_MICRO 1
 #define PLANT_BODY_YIELD_SMALL 3
 #define PLANT_BODY_YIELD_MEDIUM 5
-#define PLANT_BODY_YIELD_LARGE 10
+#define PLANT_BODY_YIELD_LARGE 8
 #define PLANT_BODY_YIELD_FOREVER INFINITY
 	//How long between yields
 #define PLANT_BODY_YIELD_TIME_SLOW 30 SECONDS
 #define PLANT_BODY_YIELD_TIME_MEDIUM 15 SECONDS
 #define PLANT_BODY_YIELD_TIME_FAST 5 SECONDS
 	//How many planter slots does this body take up
+#define PLANT_BODY_SLOT_SIZE_MICRO 0.5 //Use this for mushrooms and weeds only
 #define PLANT_BODY_SLOT_SIZE_SMALL 1
-#define PLANT_BODY_SLOT_SIZE_MEDIUM 3
-#define PLANT_BODY_SLOT_SIZE_LARGE 5
+#define PLANT_BODY_SLOT_SIZE_MEDIUM 2
+#define PLANT_BODY_SLOT_SIZE_LARGE 3.5
 
 //Fruit stat values
 	//How many reagents can the fruit hold

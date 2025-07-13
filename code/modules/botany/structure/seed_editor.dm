@@ -103,12 +103,16 @@
 		if("add_trait")
 			if(!current_feature)
 				return
+			//Don't allow trait duplication
 			var/datum/plant_trait/trait = locate(params["key"])
-			if(locate(trait.type) in current_feature.plant_traits)
+			var/datum/plant_trait/trait_similar = (locate(trait.type) in current_feature.plant_traits)
+			if(!trait.allow_multiple && trait_similar?.get_id() == trait.get_id()) //Check if it REALLY is the same
 				return
+			//Add the trait
 			var/datum/plant_trait/new_trait = trait.copy(current_feature)
 			if(!QDELING(new_trait))
 				current_feature.plant_traits += new_trait
+			//Reset the species ID
 			seeds.species_id = null
 		if("add_feature")
 			var/datum/plant_feature/feature = locate(params["key"])

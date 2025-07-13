@@ -18,4 +18,4 @@
 /datum/plant_subtrate/New(_tray)
 	. = ..()
 	tray_parent = _tray
-	substrate_appearance = mutable_appearance(icon, icon_state, LOW_OBJ_LAYER, appearance_flags = KEEP_APART)
+	substrate_appearance = mutable_appearance(icon, icon_state, ABOVE_NORMAL_TURF_LAYER+0.1)

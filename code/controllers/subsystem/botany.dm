@@ -5,11 +5,17 @@ SUBSYSTEM_DEF(botany)
 
 	///list of plant species - This is used for the discovery component
 	var/list/plant_species = list()
+
+	///List of plant needs we randomly pick from to compensate for overdrawing genetic budget
+	var/list/overdraw_needs = list()
+
+//TODO: remove this - Racc
 	///List of discovered plant species
 	var/list/discovered_species = list()
 	///List of plant seed tiers, and their seed contents
 	var/list/seed_tiers = list()
 
+//Random Features
 	///List for random plant bodies
 	var/list/random_bodies = list()
 	///List of unused random bodies
@@ -26,6 +32,9 @@ SUBSYSTEM_DEF(botany)
 	var/list/unused_random_roots = list()
 
 /datum/controller/subsystem/botany/Initialize(timeofday)
+//Build overdraw need list
+	//TODO: implement this properly - Racc
+	overdraw_needs = subtypesof(/datum/plant_need)
 //Build random plant feature lists
 	for(var/datum/plant_feature/feature as anything in subtypesof(/datum/plant_feature))
 		feature = new feature()

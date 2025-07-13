@@ -22,13 +22,19 @@
 
 	///Colour override for greyscale fruits
 	var/colour_override ="#fff"
+	///Colourable features, if we don't colour the whole thing
+	var/colour_overlay
 
 	///List of reagents this fruit has. Saves us making a unique trait for each one. (reagent = percentage)
 	var/list/fast_reagents = list()
 
 /datum/plant_feature/fruit/New(datum/component/plant/_parent)
 	. = ..()
-	feature_appearance.color = colour_override
+	if(colour_overlay)
+		var/mutable_appearance/coloured_parts =  mutable_appearance(icon, colour_overlay, color = colour_override)
+		feature_appearance.add_overlay(coloured_parts)
+	else
+		feature_appearance.color = colour_override
 	//Build our fast chemicals
 	if(!length(fast_reagents))
 		return
@@ -41,7 +47,7 @@
 		SEND_SIGNAL(parent, COMSIG_PLANT_ACTION_HARVEST, src, null, TRUE)
 
 /datum/plant_feature/fruit/process(delta_time)
-	if(!check_needs() || !length(growth_timers))
+	if(!check_needs(delta_time) || !length(growth_timers))
 		return
 //Growing
 	for(var/timer as anything in growth_timers)
@@ -86,8 +92,9 @@
 /datum/plant_feature/fruit/proc/setup_fruit(datum/source, harvest_amount, list/_visual_fruits)
 	SIGNAL_HANDLER
 
-	if(!check_needs())
-		return
+	//TODO: Do we need this? - Racc
+	//if(!check_needs(delta_time))
+	//	return
 	for(var/fruit_index in 1 to harvest_amount)
 	//Build our yummy fruit :)
 		growth_timers["[fruit_index]"] = growth_time

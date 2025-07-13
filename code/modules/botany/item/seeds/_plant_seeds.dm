@@ -33,23 +33,37 @@
 	*/
 	var/substrate_flags = (istype(tray) ? tray.substrate : null)
 	if(!SEND_SIGNAL(src, COMSIG_SEEDS_POLL_ROOT_SUBSTRATE, substrate_flags))
-		to_chat(user, "<span class='warining'>You can't plant [src] here!</span>")
+		to_chat(user, "<span class='warining'>You can't plant [src] in this substrate!</span>")
+		return
+	if(!SEND_SIGNAL(src, COMSIG_SEEDS_POLL_TRAY_SIZE, tray))
+		to_chat(user, "<span class='warining'>There's no room to plant [src] here!</span>")
 		return
 	//Plant it
 	to_chat(user, "<span class='notice'>You begin to plant [src] into [target].</span>")
-	//TODO: Implement mouse offset planting for plants that use it - Racc
 	//TODO: Implement planter size slots, to plant multiple plants on the same tile - Racc
 	if(!do_after(user, 2.3 SECONDS, target))
 		return
 	var/obj/item/plant_item/plant = new(get_turf(target), plant_features, species_id)
+	var/datum/component/plant/plant_component = plant.GetComponent(/datum/component/plant)
+	//Plant appearance stuff
 	plant.name = name_override || plant.name
 	plant.forceMove(target) //forceMove instead of creating it inside to proc Entered()
+	SEND_SIGNAL(plant_component, COMSIG_PLANT_PLANTED, target)
 	if(!isturf(target) && isobj(target))
 		var/obj/vis_target = target
 		vis_target.vis_contents += plant
+	//Decrement seeds until it's depleted
 	seeds--
 	if(seeds <= 0)
 		qdel(src)
+	//Mouse offset
+	if(!plant_component?.use_mouse_offset)
+		return
+	var/list/modifiers = params2list(click_parameters)
+	if(!LAZYACCESS(modifiers, ICON_X) || !LAZYACCESS(modifiers, ICON_Y))
+		return
+	//Clamp it so that the icon never moves more than 16 pixels in either direction (thus leaving the table turf)
+	plant.pixel_x = clamp(text2num(LAZYACCESS(modifiers, ICON_X)) - 16, -8, 4) //TODO: make these defines - Racc
 
 /*
 	Preset

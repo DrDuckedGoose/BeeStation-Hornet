@@ -1,4 +1,4 @@
-#define PLANT_DATA(title, data) list("data_title" = title, "data_field" = data)
+#define PLANT_DATA(title, data) list("data_title" = title, "data_field" = data) //TODO: Consider moving this - Racc
 
 /datum/plant_feature
 	///The 'scientific' name for our plant feature
@@ -7,13 +7,19 @@
 	var/name = "test"
 
 	///Can this feature appear in random plants
-	var/random_plant = TRUE
+	var/random_plant = FALSE
 
 	///What category of feature/s are we? Mostly used for gene editing.
 	var/feature_catagories
 
 	///Reference to component daddy
 	var/datum/component/plant/parent
+
+	//TODO: Implement this - Racc
+	///List of features we don't wanna be with
+	var/list/blacklist_features = list()
+	///List of features we can only be with
+	var/list/whitelist_features = list()
 
 	///What traits are we rockin'?
 	var/list/plant_traits = list()
@@ -29,6 +35,15 @@
 	///What can this feature mutate into?
 	var/list/mutations = list()
 
+	///What is our genetic budget for how many traits we can afford?
+	var/genetic_budget = 3
+	var/remaining_genetic_budget
+	///List of needs we've gained from overdrawing our budget
+	var/list/overdraw_needs = list()
+	///List of needs we've previously had from overdrawing, stops rerolling
+	var/list/previous_needs = list()
+
+
 //Appearance
 	var/icon = 'icons/obj/hydroponics/features/generic.dmi'
 	var/icon_state = ""
@@ -36,6 +51,7 @@
 
 /datum/plant_feature/New(datum/component/plant/_parent)
 	. = ..()
+	remaining_genetic_budget = genetic_budget
 	//Build our initial appearance
 	feature_appearance = mutable_appearance(icon, icon_state)
 	//Setup parent stuff
@@ -86,23 +102,31 @@
 
 /datum/plant_feature/proc/setup_parent(_parent, reset_features = TRUE)
 	//Remove our initial parent
-	if(parent?.plant_item)
+	if(parent)
 		UnregisterSignal(parent.plant_item, COMSIG_PARENT_EXAMINE)
+		UnregisterSignal(parent, COMSIG_PLANT_PLANTED)
+		UnregisterSignal(parent, COMSIG_PLANT_UPROOTED)
 	//Shack up with the new rockstar
 	parent = _parent
 	if(parent?.plant_item)
 		RegisterSignal(parent.plant_item, COMSIG_PARENT_EXAMINE, PROC_REF(catch_examine))
-	SEND_SIGNAL(src, COMSIG_PLANT_ATTACHED_PARENT)
+	RegisterSignal(parent, COMSIG_PLANT_PLANTED, PROC_REF(catch_planted))
+	RegisterSignal(parent, COMSIG_PLANT_UPROOTED, PROC_REF(catch_uprooted))
+	SEND_SIGNAL(src, COMSIG_PF_ATTACHED_PARENT) //TODO: rename this signal to reflect feature level action - Racc
 
 /datum/plant_feature/proc/remove_parent()
 	setup_parent(null)
 
-/datum/plant_feature/proc/check_needs()
+/datum/plant_feature/proc/check_needs(_delta_time)
+	if(SEND_SIGNAL(parent, COMSIG_PLANT_NEEDS_PAUSE, src))
+		return
 	for(var/datum/plant_need/need as anything in plant_needs)
 		if(ispath(need))
 			continue
-		if(!need?.check_need())
+		if(!need?.check_need(_delta_time))
+			SEND_SIGNAL(parent, COMSIG_PLANT_NEEDS_FAILS, src)
 			return FALSE
+	SEND_SIGNAL(parent, COMSIG_PLANT_NEEDS_PASS, src)
 	return TRUE
 
 /datum/plant_feature/proc/catch_examine(datum/source, mob/user, list/examine_text)
@@ -111,6 +135,23 @@
 	//Info
 	return
 
+//TODO: Make stuff to unassociate seed packets - Racc
 ///Use this to associate this feature datum with a seed packet, before it's planted
 /datum/plant_feature/proc/associate_seeds(obj/item/plant_seeds/seeds)
 	return
+
+/datum/plant_feature/proc/catch_planted(datum/source, atom/destination)
+	SIGNAL_HANDLER
+
+/datum/plant_feature/proc/catch_uprooted(datum/source, mob/user, obj/item/tool, atom/old_loc)
+	SIGNAL_HANDLER
+
+///Used to adjust our genetic budget, contains logic for overdrawing our budget
+/datum/plant_feature/proc/adjust_genetic_budget(amount, datum/source)
+	remaining_genetic_budget += amount
+	//TODO: - Racc
+//Need management
+	//If we're paying it back, remove needs
+
+	//If we're overdrawing, add needs
+

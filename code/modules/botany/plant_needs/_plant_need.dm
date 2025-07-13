@@ -6,6 +6,8 @@
 /datum/plant_need
 	///Daddy-o
 	var/datum/plant_feature/parent
+	///A brief insert of what this needs is - Essentially, this plant needs [need_description], and [need_description]
+	var/need_description
 
 /datum/plant_need/New(datum/plant_feature/_parent)
 	. = ..()
@@ -14,7 +16,7 @@
 /datum/plant_need/proc/setup_parent(_parent)
 	parent = _parent
 	if(!parent?.parent)
-		RegisterSignal(parent, COMSIG_PLANT_ATTACHED_PARENT, PROC_REF(setup_component_parent))
+		RegisterSignal(parent, COMSIG_PF_ATTACHED_PARENT, PROC_REF(setup_component_parent))
 	else
 		setup_component_parent(parent.parent)
 
@@ -27,5 +29,5 @@
 	var/datum/plant_need/new_need = _need || new type(_parent)
 	return new_need
 
-/datum/plant_need/proc/check_need()
+/datum/plant_need/proc/check_need(_delta_time)
 	return

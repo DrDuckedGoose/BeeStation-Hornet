@@ -1,7 +1,7 @@
 /datum/plant_feature/body
 	icon = 'icons/obj/hydroponics/features/body.dmi'
 	icon_state = "tree"
-	//plant_needs = list(/datum/plant_need/reagent/water)
+	plant_needs = list(/datum/plant_need/reagent/water)
 	feature_catagories = PLANT_FEATURE_BODY
 
 	//TODO: Consider swapping harvest and yield terms - Racc
@@ -17,8 +17,8 @@
 	///Reference to the effect we use for the body overlay  / visual content
 	var/atom/movable/body_appearance
 
-	///How many planter slots does this body type take up
-	var/slot_size = PLANT_BODY_SLOT_SIZE_SMALL
+	///How many planter slots does this feature take up - Typically only bodies use this, but let's try to be flexible
+	var/slot_size = PLANT_BODY_SLOT_SIZE_LARGE
 
 ///Growth cycle
 	var/growth_stages = 3
@@ -26,13 +26,19 @@
 	var/growth_time = 1 SECONDS
 	var/growth_time_elapsed = 0
 
+///Visual technical
 	///Fruit overlays we're responsible for
 	var/list/fruit_overlays = list()
 	///List of fruit overlay positions
 	var/list/overlay_positions = list(list(11, 20), list(16, 30), list(23, 23), list(8, 31))
+	///Do we exist over the water? Use this for stuff that should never be drawn under the tray water
+	var/draw_below_water = TRUE
+	///Do we use the mouse offset when planting?
+	var/use_mouse_offset = FALSE
 
 /datum/plant_feature/body/New(datum/component/plant/_parent)
 //Appearance bullshit
+	//Body appearance
 	feature_appearance = mutable_appearance(icon, icon_state)
 	body_appearance = new()
 	body_appearance.appearance = feature_appearance
@@ -44,7 +50,7 @@
 	parent?.plant_item?.vis_contents -= body_appearance
 
 /datum/plant_feature/body/process(delta_time)
-	if(!check_needs())
+	if(!check_needs(delta_time))
 		//TODO: Do we want plants to wither away? It's kind of annoying - Racc
 		return
 //Growth
@@ -56,7 +62,7 @@
 		if(parent?.skip_growth)
 			growth_time_elapsed = growth_time
 			current_stage = growth_stages
-		//Little bit of nesting, as a treat
+		//Signal for traits and other shit to hook effects into
 		if(current_stage >= growth_stages)
 			SEND_SIGNAL(src, COMSIG_PLANT_GROW_FINAL)
 //Harvests
@@ -77,6 +83,7 @@
 	//Remove any old signals or misc overlays
 	if(parent)
 		UnregisterSignal(parent, COMSIG_PLANT_ACTION_HARVEST)
+		UnregisterSignal(parent, COMSIG_PLANT_POLL_TRAY_SIZE)
 		parent.plant_item.vis_contents -= body_appearance
 	//Reset our growth, yield, etc.
 	if(reset_features)
@@ -88,15 +95,39 @@
 	if(!parent)
 		return
 	RegisterSignal(parent, COMSIG_PLANT_ACTION_HARVEST, PROC_REF(catch_harvest))
+	RegisterSignal(parent, COMSIG_PLANT_POLL_TRAY_SIZE, PROC_REF(catch_occupation))
 	//Appearance
 	if(parent.use_body_appearance && parent.plant_item)
 		parent.plant_item.vis_contents += body_appearance
+	//Draw settings
+	parent.draw_below_water = draw_below_water
+	parent.plant_item.layer = draw_below_water ? OBJ_LAYER : ABOVE_OBJ_LAYER
+	parent.use_mouse_offset = use_mouse_offset
 	//Start growin'
 	START_PROCESSING(SSobj, src)
+
+/datum/plant_feature/body/associate_seeds(obj/item/plant_seeds/seeds)
+	. = ..()
+	RegisterSignal(seeds, COMSIG_SEEDS_POLL_TRAY_SIZE, PROC_REF(catch_occupation))
+
+/datum/plant_feature/body/catch_planted(datum/source, atom/destination)
+	. = ..()
+	var/obj/machinery/plumbing/tank/plant_tray/tray = destination
+	if(!istype(tray))
+		return
+	tray.plant_slots -= slot_size
+
+/datum/plant_feature/body/catch_uprooted(datum/source, mob/user, obj/item/tool, atom/old_loc)
+	. = ..()
+	var/obj/machinery/plumbing/tank/plant_tray/tray = old_loc
+	if(!istype(tray))
+		return
+	tray.plant_slots += slot_size
 
 /datum/plant_feature/body/proc/get_harvest()
 	if(current_stage < growth_stages)
 		return
+	//Use a signal so we can allow traits and other outsiders modify our harvest
 	return SEND_SIGNAL(src, COMSIG_PLANT_GET_HARVEST, max_harvest) || max_harvest
 
 /datum/plant_feature/body/proc/setup_fruit()
@@ -122,8 +153,22 @@
 	SIGNAL_HANDLER
 
 	yields -= !dummy_harvest
+	if(yields <= 0) //If we run out of harvests, it's game over and we delete our entire existance
+		qdel(parent.plant_item)
+		return
 	COOLDOWN_START(src, yield_cooldown, yield_cooldown_time)
 	//Remove our fruit overlays
 	for(var/fruit_effect as anything in fruit_overlays)
 		fruit_overlays -= fruit_effect
 		parent.plant_item.vis_contents -= fruit_effect
+
+///Essentially just checks if there's room for us. Also lets some plants have special occupation rules - Please consider substrate stuff for special planting rules before you use this.
+/datum/plant_feature/body/proc/catch_occupation(datum/source, atom/location)
+	SIGNAL_HANDLER
+
+	var/obj/machinery/plumbing/tank/plant_tray/tray = location
+	if(!istype(tray))
+		return
+	if(tray.plant_slots - slot_size < 0)
+		return
+	return TRUE

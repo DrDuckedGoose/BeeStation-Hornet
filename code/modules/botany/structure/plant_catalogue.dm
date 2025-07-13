@@ -1,3 +1,4 @@
+//TODO: Scrap this and everything related to it - Racc
 /obj/machinery/computer/plant_catalogue
 	name = "electronic plant catalogue"
 	desc = "A catalogue console for plant seed listings.\n\

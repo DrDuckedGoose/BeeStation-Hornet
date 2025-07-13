@@ -1,12 +1,18 @@
 /datum/plant_need/reagent
-	///What kind of reagents do we need
+	///What kind of reagents do we need per second
 	var/list/reagent_needs = list() // (/datum/reagent = amount, /datum/reagent = amount)
 	///Do we consume the reagents we need?
 	var/consume_reagents = TRUE
 	///What % of reagents met do we need to succeed?
 	var/success_threshold = 1 //100%
 
-/datum/plant_need/reagent/check_need()
+/datum/plant_need/reagent/New(datum/plant_feature/_parent)
+	. = ..()
+	//TODO: - Racc
+	//need_description
+
+//TODO: Implement delta time here - Racc
+/datum/plant_need/reagent/check_need(_delta_time)
 	. = ..()
 	if(!parent?.parent)
 		return
@@ -19,10 +25,11 @@
 		if(!R)
 			continue
 		for(var/reagent as anything in reagent_needs)
-			if(!R.has_reagent(reagent, reagent_needs[reagent]))
+			var/amount_needed = reagent_needs[reagent] * _delta_time
+			if(!R.has_reagent(reagent, amount_needed))
 				continue
 			if(consume_reagents)
-				R.remove_reagent(reagent, reagent_needs[reagent])
+				R.remove_reagent(reagent, amount_needed)
 			reagent_hits++
 	if(reagent_hits / length(reagent_needs) >= success_threshold)
 		return TRUE
@@ -30,5 +37,4 @@
 
 //TODO: Move this - Racc
 /datum/plant_need/reagent/water
-	reagent_needs = list(/datum/reagent/water = 0.1)
-	success_threshold = 0.1
+	reagent_needs = list(/datum/reagent/water = 1)

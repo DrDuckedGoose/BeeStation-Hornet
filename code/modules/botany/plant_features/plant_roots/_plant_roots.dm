@@ -1,5 +1,6 @@
 /datum/plant_feature/roots
 	feature_catagories = PLANT_FEATURE_ROOTS
+	random_plant = TRUE
 	///Where can we pull reagents from
 	//TODO: change this to the proper type list thing - Racc
 	var/list/access_whitelist = list(/obj/machinery/plumbing/tank/plant_tray)

@@ -2,6 +2,7 @@
 	Adds a reagent to the plant, typically fruit
 */
 /datum/plant_trait/reagent
+	genetic_cost = 0
 	///What reagent are we adding
 	var/datum/reagent/reagent
 	///How much of that reagent are we adding
