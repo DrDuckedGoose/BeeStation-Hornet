@@ -65,6 +65,13 @@
 		plant_needs -= need
 		plant_needs += new need(src)
 
+//Used to get dialogue / text for hand-held plant scanner
+/datum/plant_feature/proc/get_scan_dialogue()
+	var/dialogue = "[name]([species_name])\n"
+	for(var/datum/plant_trait/trait as anything in plant_traits)
+		dialogue += "	- [trait.name]\n"
+	return dialogue
+
 //generic common stats
 /datum/plant_feature/proc/get_ui_stats()
 	return list("species_name" = species_name, "key" = REF(src), "feature_appearance" = icon2base64(feature_appearance))
@@ -118,7 +125,8 @@
 	setup_parent(null)
 
 /datum/plant_feature/proc/check_needs(_delta_time)
-	if(SEND_SIGNAL(parent, COMSIG_PLANT_NEEDS_PAUSE, src))
+	//TODO: Consider if we only want plants with needs to be pausable - Racc
+	if(SEND_SIGNAL(parent.plant_item.loc, COMSIG_PLANT_NEEDS_PAUSE, parent) && length(plant_needs))
 		return
 	for(var/datum/plant_need/need as anything in plant_needs)
 		if(ispath(need))

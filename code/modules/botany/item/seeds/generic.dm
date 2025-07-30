@@ -165,3 +165,10 @@
 	name = "wheat seeds"
 	name_override = "wheat stalk"
 	plant_features = list(/datum/plant_feature/roots, /datum/plant_feature/body/corn_stalk/wheat, /datum/plant_feature/fruit/wheat)
+
+//TODO: Remove this - Racc
+//Wheat
+/obj/item/plant_seeds/preset/mushroom
+	name = "mushroom seeds"
+	name_override = "generic test mushroom"
+	plant_features = list(/datum/plant_feature/roots/hyphae, /datum/plant_feature/body/mushroom, /datum/plant_feature/fruit/mushroom)

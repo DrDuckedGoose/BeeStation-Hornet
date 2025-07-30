@@ -59,6 +59,7 @@
 	if(!check_needs() && requestor != src)
 		return
 	var/atom/location = parent.plant_item?.loc
-	if(!(locate(location.type) in access_whitelist))
-		return
+	//TODO: re-enable this when you convert the access whitelist to a type list - Racc
+	//if(!(location.type in access_whitelist))
+	//	return
 	reagent_holders += location?.reagents

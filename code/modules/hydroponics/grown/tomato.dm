@@ -129,29 +129,3 @@
 	filling_color = "#FF0000"
 	distill_reagent = /datum/reagent/consumable/ethanol/demonsblood
 	discovery_points = 300
-
-/obj/item/food/grown/tomato/killer/attack(mob/M, mob/user, def_zone)
-	if(awakening)
-		to_chat(user, span_warning("The tomato is twitching and shaking, preventing you from eating it."))
-		return
-	..()
-
-/obj/item/food/grown/tomato/killer/attack_self(mob/user)
-	if(awakening || isspaceturf(user.loc))
-		return
-	user.visible_message(span_notice("[user] beings to awaken the [src]."), \
-	span_notice("You begin to awaken the [src]..."))
-	awakening = TRUE
-	log_game("[key_name(user)] awakened a killer tomato at [AREACOORD(user)].")
-	addtimer(CALLBACK(src, PROC_REF(make_killer_tomato)), 30)
-
-/obj/item/food/grown/tomato/killer/proc/make_killer_tomato()
-	if(!QDELETED(src))
-		var/mob/living/simple_animal/hostile/killertomato/K = new /mob/living/simple_animal/hostile/killertomato(get_turf(src.loc))
-		K.maxHealth += round(seed.endurance / 3)
-		K.melee_damage += round(seed.potency / 10)
-		K.move_to_delay -= round(seed.production / 50)
-		K.frenzythreshold -= round(seed.potency / 25)// max potency tomatoes will enter a frenzy more easily
-		K.health = K.maxHealth
-		K.visible_message(span_notice("The Killer Tomato growls as it suddenly awakens."))
-		qdel(src)

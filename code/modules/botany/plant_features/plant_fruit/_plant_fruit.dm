@@ -5,6 +5,7 @@
 	icon = 'icons/obj/hydroponics/features/fruit.dmi'
 	icon_state = "apple"
 	feature_catagories = PLANT_FEATURE_FRUIT
+	plant_needs = list(/datum/plant_need/reagent/water)
 
 	///What kind of 'fruit' do we produce
 	var/obj/item/fruit_product = /obj/item/food/grown/apple
@@ -47,7 +48,7 @@
 		SEND_SIGNAL(parent, COMSIG_PLANT_ACTION_HARVEST, src, null, TRUE)
 
 /datum/plant_feature/fruit/process(delta_time)
-	if(!check_needs(delta_time) || !length(growth_timers))
+	if(!check_needs(delta_time) || !length(growth_timers))  //TODO: only check this when we need to - Racc
 		return
 //Growing
 	for(var/timer as anything in growth_timers)

@@ -27,6 +27,7 @@
 #define PLANT_BODY_SLOT_SIZE_SMALL 1
 #define PLANT_BODY_SLOT_SIZE_MEDIUM 2
 #define PLANT_BODY_SLOT_SIZE_LARGE 3.5
+#define PLANT_BODY_SLOT_SIZE_LARGEST 4 //Probably don't use this, unless you know what you're doing
 
 //Fruit stat values
 	//How many reagents can the fruit hold

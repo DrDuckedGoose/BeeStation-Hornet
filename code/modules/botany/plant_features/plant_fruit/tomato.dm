@@ -60,6 +60,20 @@
 	name = "killer tomato"
 	icon_state = "tomato-2"
 	colour_override = "#8d1111"
+	plant_traits = list(/datum/plant_trait/reagent/fruit/nutriment, /datum/plant_trait/reagent/fruit/vitamin,
+	/datum/plant_trait/fruit/liquid_contents, /datum/plant_trait/fruit/killer)
 	fruit_product = /obj/item/food/grown/tomato/killer
+	mutations = list(/datum/plant_feature/fruit/tomato/friendly)
+
+/*
+	Friendly Tomato
+*/
+/datum/plant_feature/fruit/tomato/friendly
+	species_name = "lycopersicum rabidus" //TODO: - Racc
+	name = "killer tomato" //TODO: - Racc
+	icon_state = "tomato-2" //TODO: - Racc
+	colour_override = "#fff700" //TODO: - Racc
+	plant_traits = list(/datum/plant_trait/reagent/fruit/nutriment, /datum/plant_trait/reagent/fruit/vitamin,
+	/datum/plant_trait/fruit/liquid_contents, /datum/plant_trait/fruit/killer/friendly)
+	fruit_product = /obj/item/food/grown/tomato/killer //TODO: - Racc
 	mutations = list(/datum/plant_feature/fruit/tomato)
-	//TODO: Make this a trait, living fruit - Racc

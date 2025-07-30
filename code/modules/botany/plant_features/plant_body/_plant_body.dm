@@ -50,7 +50,7 @@
 	parent?.plant_item?.vis_contents -= body_appearance
 
 /datum/plant_feature/body/process(delta_time)
-	if(!check_needs(delta_time))
+	if(!check_needs(delta_time)) //TODO: only check this when we need to, so not when we're done growing and not asking for fruit - Racc
 		//TODO: Do we want plants to wither away? It's kind of annoying - Racc
 		return
 //Growth

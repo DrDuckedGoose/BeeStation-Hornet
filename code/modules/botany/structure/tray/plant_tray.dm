@@ -7,7 +7,7 @@
 	reagent_flags = TRANSPARENT | REFILLABLE
 	buffer = 200
 	///How many available slots do we have for plants
-	var/plant_slots = PLANT_BODY_SLOT_SIZE_LARGE
+	var/plant_slots = PLANT_BODY_SLOT_SIZE_LARGEST
 	///What kind of substrate do we have?
 	var/datum/plant_subtrate/substrate
 //Effects
@@ -16,11 +16,13 @@
 //Tray indicators
 	///Indicator for when the plant is ready to harvest
 	var/obj/effect/tray_indicator/harvest
+	var/list/harvestable_features = list()
 	//Indicator for when the plant's needs are not met
 	var/obj/effect/tray_indicator/need
 	var/list/needy_features = list()
 	//Indicator for when the plant has 'problem'
 	var/obj/effect/tray_indicator/problem
+	var/list/problem_features = list()
 
 /obj/machinery/plumbing/tank/plant_tray/Initialize(mapload)
 	. = ..()
@@ -80,6 +82,10 @@
 	//Needs
 	RegisterSignal(plant_component, COMSIG_PLANT_NEEDS_FAILS, PROC_REF(catch_plant_need_fail))
 	RegisterSignal(plant_component, COMSIG_PLANT_NEEDS_PASS, PROC_REF(catch_plant_need_pass))
+	//Problems
+	if(SEND_SIGNAL(src, COMSIG_PLANT_NEEDS_PAUSE))
+		problem_features |= plant_component
+		vis_contents |= problem
 //Visuals
 	//Add visuals, move the plant upwards to make it look like it's inside us
 	arrived.pixel_y += 12
@@ -96,6 +102,15 @@
 	//Remove visuals from previous step
 	gone.pixel_y -= 12
 	gone.remove_filter("plant_tray_mask")
+//Component related
+	var/datum/component/plant/plant_component = gone.GetComponent(/datum/component/plant)
+	if(!plant_component)
+		return
+//Indicators
+	//Problem light
+	problem_features -= plant_component
+	if(!length(problem_features))
+		vis_contents -= problem
 
 ///Helper to set out substrate
 /obj/machinery/plumbing/tank/plant_tray/proc/set_substrate(_substrate)
@@ -112,12 +127,15 @@
 /obj/machinery/plumbing/tank/plant_tray/proc/catch_plant_harvest_ready(datum/source)
 	SIGNAL_HANDLER
 
+	harvestable_features |= source
 	vis_contents |= harvest
 
 /obj/machinery/plumbing/tank/plant_tray/proc/catch_plant_harvest_collected(datum/source)
 	SIGNAL_HANDLER
 
-	vis_contents -= harvest
+	harvestable_features -= source
+	if(!length(harvestable_features))
+		vis_contents -= harvest
 
 /*
 	Signal handlers for plant needs

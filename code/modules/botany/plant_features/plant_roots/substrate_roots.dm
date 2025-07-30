@@ -6,6 +6,7 @@
 //Dirt
 /datum/plant_feature/roots/dirt
 	compatible_substrate = PLANT_SUBSTRATE_DIRT
+	random_plant = TRUE
 
 //Sand
 /datum/plant_feature/roots/sand
