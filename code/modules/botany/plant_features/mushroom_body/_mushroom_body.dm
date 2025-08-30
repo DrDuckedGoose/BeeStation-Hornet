@@ -2,9 +2,9 @@
 	Mycelium, generic body for mushrooms
 */
 /datum/plant_feature/body/mushroom
-	species_name = "testus testium" //TODO: - Racc
+	species_name = "testus testium"
 	name = "mycelium"
-	icon_state = "" //TODO: This should be nothing, invisible. Maybe cuts the fruit in half, visually, to make it look like it's in the dirt - Racc
+	icon_state = ""
 	overlay_positions = list(list(16,6)) //TODO: various positions in the tray - Racc
 	yields = PLANT_BODY_YIELD_FOREVER
 	yield_cooldown_time = PLANT_BODY_YIELD_TIME_FAST

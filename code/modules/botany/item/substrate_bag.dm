@@ -18,8 +18,8 @@
 		return
 	if(!do_after(user, 2.3 SECONDS, target))
 		return
-	//TODO: SFX - Racc
 	to_chat(user, "<span class='notice'>You fill [target] from [src]</span>")
+	playsound(src, 'sound/effects/shovel_dig.ogg', 60)
 	tray.set_substrate(substrate)
 
 /*

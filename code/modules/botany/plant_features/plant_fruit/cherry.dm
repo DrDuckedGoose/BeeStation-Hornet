@@ -33,7 +33,7 @@
 	name = "bulb cherry"
 	icon_state = "cherry"
 	colour_override = "#ff5e00"
-	plant_traits = list(/datum/plant_trait/reagent/fruit/nutriment, /datum/plant_trait/fruit/biolight) //TODO: Relevant color - Racc
+	plant_traits = list(/datum/plant_trait/reagent/fruit/nutriment, /datum/plant_trait/fruit/biolight/orange)
 	fruit_product = /obj/item/food/grown/cherrybulbs
 	mutations = list(/datum/plant_feature/fruit/cherry, /datum/plant_feature/fruit/cherry/bomb)
 

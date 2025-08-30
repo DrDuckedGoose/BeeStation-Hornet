@@ -1,5 +1,4 @@
-#define PLANT_DATA(title, data) list("data_title" = title, "data_field" = data) //TODO: Consider moving this - Racc
-
+//TODO: Bug with fruit being harvestable before animation is done - Racc
 /datum/plant_feature
 	///The 'scientific' name for our plant feature
 	var/species_name = "testus testium"
@@ -23,6 +22,8 @@
 
 	///What traits are we rockin'?
 	var/list/plant_traits = list()
+	///What is the power coefficient for our traits that use it? Generally scale this as stuff like 1.3 1.8 2.1
+	var/trait_power = 1
 
 	///What are our desires, what we need to grow
 	var/list/plant_needs = list()
@@ -67,14 +68,21 @@
 
 //Used to get dialogue / text for hand-held plant scanner
 /datum/plant_feature/proc/get_scan_dialogue()
-	var/dialogue = "[name]([species_name])\n"
+	var/dialogue = "<b>[name]([species_name])</b>\n"
 	for(var/datum/plant_trait/trait as anything in plant_traits)
-		dialogue += "	- [trait.name]\n"
+		dialogue += "<i>[trait.name]</i>\n"
+	return dialogue
+
+//Used to get dialogue / text for needs, when a tray is scanned
+/datum/plant_feature/proc/get_need_dialogue()
+	var/dialogue = "[name]([species_name])\n"
+	for(var/datum/plant_need/need as anything in plant_needs)
+		dialogue += "	- [need.need_description]\n"
 	return dialogue
 
 //generic common stats
 /datum/plant_feature/proc/get_ui_stats()
-	return list("species_name" = species_name, "key" = REF(src), "feature_appearance" = icon2base64(feature_appearance))
+	return list("name" = name, "species_name" = species_name, "key" = REF(src), "feature_appearance" = icon2base64(feature_appearance))
 
 //personalized info
 /datum/plant_feature/proc/get_ui_data()
@@ -119,13 +127,12 @@
 		RegisterSignal(parent.plant_item, COMSIG_PARENT_EXAMINE, PROC_REF(catch_examine))
 	RegisterSignal(parent, COMSIG_PLANT_PLANTED, PROC_REF(catch_planted))
 	RegisterSignal(parent, COMSIG_PLANT_UPROOTED, PROC_REF(catch_uprooted))
-	SEND_SIGNAL(src, COMSIG_PF_ATTACHED_PARENT) //TODO: rename this signal to reflect feature level action - Racc
+	SEND_SIGNAL(src, COMSIG_PF_ATTACHED_PARENT)
 
 /datum/plant_feature/proc/remove_parent()
 	setup_parent(null)
 
 /datum/plant_feature/proc/check_needs(_delta_time)
-	//TODO: Consider if we only want plants with needs to be pausable - Racc
 	if(SEND_SIGNAL(parent.plant_item.loc, COMSIG_PLANT_NEEDS_PAUSE, parent) && length(plant_needs))
 		return
 	for(var/datum/plant_need/need as anything in plant_needs)

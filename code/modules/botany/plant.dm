@@ -8,13 +8,12 @@
 	var/obj/item/plant_item
 	///Species ID, used for stuff like book keeping
 	var/species_id
-	///Our plant feature limits - this can typically be improved by traits
-	//TODO: Implement this - Racc
-	var/list/plant_feature_limits = list()
 	///Our plant features
 	var/list/plant_features = list(/datum/plant_feature/body, /datum/plant_feature/fruit, /datum/plant_feature/roots)
 	///Do we skip the growing phase
 	var/skip_growth
+	///How much we reward we give when scanned, discovery points. Nothing really changes this, but it's here for the future in case certain traits or features buff it
+	var/discovery_reward = 500
 
 //Appearance
 	///Used to toggle if we want to use body feature's appearances. You can toggle this off if you want to make something with an existing appearance a plant
@@ -39,7 +38,7 @@
 	if(length(_plant_features))
 		populate_features(_plant_features)
 //Add discoverable component for discovering this discoverable discovery
-	plant_item.AddComponent(/datum/component/discoverable/plant, 500) //TODO: Consider making this variable / sane - Racc
+	plant_item.AddComponent(/datum/component/discoverable/plant, discovery_reward)
 
 /datum/component/plant/Destroy(force, silent)
 	SEND_SIGNAL(src, COMSIG_PLANT_UPROOTED,  null, null, plant_item.loc)

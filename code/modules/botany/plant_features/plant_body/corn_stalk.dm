@@ -1,14 +1,14 @@
-//TODO: Consider giving these unique stats - Racc
+//TODO: Consider giving these unique stats, and fix the sprites - Racc
 /*
 	Corn Stalk
 */
 /datum/plant_feature/body/corn_stalk
-	species_name = "testus testium" //TODO: - Racc
-	name = "test" //TODO: - Racc
+	species_name = "aureum culmus"
+	name = "corn stalk"
 	icon_state = "corn_stalk"
 	overlay_positions = list(list(16, 27))
 	yields = PLANT_BODY_YIELD_MICRO
-	yield_cooldown_time = PLANT_BODY_YIELD_TIME_SLOW //Doesn't really matter
+	yield_cooldown_time = PLANT_BODY_YIELD_TIME_SLOW //Doesn't really matter, we only get one
 	max_harvest = PLANT_BODY_HARVEST_MICRO
 
 /datum/plant_feature/body/corn_stalk/apply_fruit_overlay(obj/effect/fruit_effect, offset_x, offset_y)
@@ -19,8 +19,8 @@
 	Rice Stalk
 */
 /datum/plant_feature/body/corn_stalk/rice
-	species_name = "testus testium" //TODO: - Racc
-	name = "test" //TODO: - Racc
+	species_name = "stipula alba"
+	name = "rice stalk"
 	icon_state = "corn_stalk"
 	overlay_positions = list(list(16, 27))
 
@@ -28,7 +28,16 @@
 	Wheat Stalk
 */
 /datum/plant_feature/body/corn_stalk/wheat
-	species_name = "testus testium" //TODO: - Racc
-	name = "test" //TODO: - Racc
+	species_name = "bracchium aurum"
+	name = "wheat stalk"
+	icon_state = "corn_stalk"
+	overlay_positions = list(list(16, 27))
+
+/*
+	Pineapple Stalk
+*/
+/datum/plant_feature/body/corn_stalk/pineapple
+	species_name = "bracchium spinosum"
+	name = "pineapple stalk"
 	icon_state = "corn_stalk"
 	overlay_positions = list(list(16, 27))

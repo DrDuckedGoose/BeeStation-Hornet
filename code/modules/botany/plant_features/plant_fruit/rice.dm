@@ -2,7 +2,7 @@
 	Rice
 */
 /datum/plant_feature/fruit/rice
-	species_name = "semen album" //TODO: - Racc
+	species_name = "alba parva"
 	name = "rice"
 	icon_state = "corn-2"
 	fruit_product = /obj/item/food/grown/rice

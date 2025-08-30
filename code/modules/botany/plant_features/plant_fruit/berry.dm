@@ -1,6 +1,3 @@
-//TODO: Consider make different berry types, instead of the generic - Racc
-//TODO: Blueberry, raspberry, whatever - Racc
-//TODO: Sprites - Racc
 /*
 	Berry
 	Micro fruit type that grows very fast
@@ -11,7 +8,7 @@
 	icon_state = "berry"
 	fruit_product = /obj/item/food/grown/berries
 	plant_traits = list(/datum/plant_trait/reagent/fruit/nutriment, /datum/plant_trait/reagent/fruit/vitamin)
-	colour_override = "#ff0037"
+	colour_override = list("#ff0037", "#ffe600", "#00aeff")
 	total_volume = PLANT_FRUIT_VOLUME_MICRO
 	growth_time = PLANT_FRUIT_GROWTH_VERY_FAST
 	mutations = list(/datum/plant_feature/fruit/berry/glow)

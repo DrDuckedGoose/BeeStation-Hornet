@@ -32,7 +32,7 @@
 #define COMSIG_PLANT_NEEDS_FAILS "COMSIG_PLANT_NEEDS_FAILS"
 //From /datum/plant_feature/proc/check_needs(): (datum/plant_feature/passing_feature)
 #define COMSIG_PLANT_NEEDS_PASS "COMSIG_PLANT_NEEDS_PASS"
-//TODO: - Racc
+//From /datum/plant_feature/proc/check_needs(): (datum/component/plant)
 #define COMSIG_PLANT_NEEDS_PAUSE "COMSIG_PLANT_NEEDS_PAUSE"
 
 /*

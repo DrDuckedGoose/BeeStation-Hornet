@@ -2,15 +2,16 @@
 	Tuber, generic
 */
 /datum/plant_feature/body/tuber
-	species_name = "testus testium" //TODO: - Racc
-	name = "test" //TODO: - Racc
-	icon_state = "" //TODO: This should be nothing, invisible. Maybe cuts the fruit in half, visually, to make it look like it's in the dirt - Racc
-	overlay_positions = list(list(16,6)) //TODO: Make this the middle - Racc
+	species_name = "infra lutum"
+	name = "tuber"
+	icon_state = ""
+	overlay_positions = list(list(16,6))
 	yields = PLANT_BODY_YIELD_MICRO
 	yield_cooldown_time = PLANT_BODY_YIELD_TIME_FAST
 	max_harvest = PLANT_BODY_HARVEST_MICRO
 	use_mouse_offset = TRUE
 	slot_size = PLANT_BODY_SLOT_SIZE_SMALL
+	draw_below_water = FALSE
 	///Pre-made mask for making fruits look burried
 	var/icon/tuber_mask
 

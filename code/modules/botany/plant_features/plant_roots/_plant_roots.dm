@@ -1,4 +1,6 @@
 /datum/plant_feature/roots
+	species_name = "primum radices"
+	name = "roots"
 	feature_catagories = PLANT_FEATURE_ROOTS
 	random_plant = TRUE
 	///Where can we pull reagents from

@@ -122,7 +122,7 @@
 /obj/item/plant_seeds/preset/pineapple
 	name = "pineapple seeds"
 	name_override = "pineapple"
-	plant_features = list(/datum/plant_feature/roots, /datum/plant_feature/body/tuber, /datum/plant_feature/fruit/pineapple) //TODO: Consider the body - Racc
+	plant_features = list(/datum/plant_feature/roots, /datum/plant_feature/body/corn_stalk/pineapple, /datum/plant_feature/fruit/pineapple)
 
 //Potato
 /obj/item/plant_seeds/preset/potato
@@ -166,9 +166,32 @@
 	name_override = "wheat stalk"
 	plant_features = list(/datum/plant_feature/roots, /datum/plant_feature/body/corn_stalk/wheat, /datum/plant_feature/fruit/wheat)
 
-//TODO: Remove this - Racc
-//Wheat
-/obj/item/plant_seeds/preset/mushroom
-	name = "mushroom seeds"
-	name_override = "generic test mushroom"
-	plant_features = list(/datum/plant_feature/roots/hyphae, /datum/plant_feature/body/mushroom, /datum/plant_feature/fruit/mushroom)
+//Ambrosia
+/obj/item/plant_seeds/preset/ambrosia
+	name = "ambrosia vulgaris seeds"
+	name_override = "ambrosia vulgaris"
+	plant_features = list(/datum/plant_feature/roots, /datum/plant_feature/body/bush_vine/ambrosia, /datum/plant_feature/fruit/ambrosia)
+
+//whitebeet
+/obj/item/plant_seeds/preset/whitebeet
+	name = "whitebeet seeds"
+	name_override = "whitebeet"
+	plant_features = list(/datum/plant_feature/roots, /datum/plant_feature/body/tuber, /datum/plant_feature/fruit/whitebeet)
+
+//Chanterelle
+/obj/item/plant_seeds/preset/chanterelle
+	name = "chanterelle spores"
+	name_override = "chanterelle mushroom"
+	plant_features = list(/datum/plant_feature/roots/hyphae, /datum/plant_feature/body/mushroom, /datum/plant_feature/fruit/mushroom/chanterelle)
+
+//Amanita
+/obj/item/plant_seeds/preset/amanita
+	name = "fly amanita spores"
+	name_override = "fly amanita mushroom"
+	plant_features = list(/datum/plant_feature/roots/hyphae, /datum/plant_feature/body/mushroom, /datum/plant_feature/fruit/mushroom/fly)
+
+//Glowshroom
+/obj/item/plant_seeds/preset/glowshroom
+	name = "glowshroom spores"
+	name_override = "glowshroom"
+	plant_features = list(/datum/plant_feature/roots/hyphae, /datum/plant_feature/body/mushroom, /datum/plant_feature/fruit/mushroom/glowshroom)

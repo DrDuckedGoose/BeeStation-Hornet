@@ -4,17 +4,18 @@
 	product_slogans = "THIS'S WHERE TH' SEEDS LIVE! GIT YOU SOME!;Hands down the best seed selection on the station!;Also certain mushroom varieties available, more for experts! Get certified today!"
 	product_ads = "We like plants!;Grow some crops!;Grow, baby, growww!;Aw h'yeah son!"
 	icon_state = "seeds"
-	light_mask = "seeds-light-mask" //TODO: Fix this - Racc
-	products = list(//obj/item/plant_seeds/preset/ambrosia = 3,
+	light_mask = "seeds-light-mask"
+	//TODO: Fix this - Racc
+	products = list(/obj/item/plant_seeds/preset/ambrosia = 3,
 					/obj/item/plant_seeds/preset/apple = 3,
 					/obj/item/plant_seeds/preset/banana = 3,
 					/obj/item/plant_seeds/preset/berry = 3,
 					/obj/item/plant_seeds/preset/cabbage = 3,
 					/obj/item/plant_seeds/preset/carrot = 3,
-					//obj/item/plant_seeds/preset/cherry = 3,
-					//obj/item/plant_seeds/preset/chanter = 3,
+					/obj/item/plant_seeds/preset/cherry = 3,
+					/obj/item/plant_seeds/preset/chanterelle = 3,
 					/obj/item/plant_seeds/preset/chili = 3,
-					//obj/item/plant_seeds/preset/cocoapod = 3,
+					/obj/item/plant_seeds/preset/cocoa = 3,
 					/obj/item/plant_seeds/preset/coconut = 3,
 					/obj/item/plant_seeds/preset/coffee = 3,
 					/obj/item/plant_seeds/preset/corn = 3,
@@ -41,10 +42,11 @@
 					/obj/item/plant_seeds/preset/tomato = 3,
 					//obj/item/plant_seeds/preset/tower = 3,
 					/obj/item/plant_seeds/preset/watermelon = 3,
-					/obj/item/plant_seeds/preset/wheat = 3,)
-					//obj/item/plant_seeds/preset/whitebeet = 3)
-	contraband = list(/obj/item/seeds/amanita = 2,
-						/obj/item/seeds/glowshroom = 2,
+					/obj/item/plant_seeds/preset/wheat = 3,
+					/obj/item/plant_seeds/preset/whitebeet = 3)
+	contraband = list(/obj/item/plant_seeds/preset/amanita = 2, //TODO: - Racc
+						/obj/item/plant_seeds/preset/glowshroom = 2,
+
 						/obj/item/seeds/liberty = 2,
 						/obj/item/seeds/nettle = 2,
 						/obj/item/seeds/plump = 2,

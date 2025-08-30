@@ -1,7 +1,7 @@
-//TODO: Customize growth time and reagent volume for all fruits - Racc
-//TODO: port flowers, weeds, and mushrooms - Racc
 //TODO: Replace meatweat with several rare-ish meat fruits based on types of meat - Racc
 /datum/plant_feature/fruit
+	species_name = "testus testium"
+	name = "fruit"
 	icon = 'icons/obj/hydroponics/features/fruit.dmi'
 	icon_state = "apple"
 	feature_catagories = PLANT_FEATURE_FRUIT
@@ -26,16 +26,25 @@
 	///Colourable features, if we don't colour the whole thing
 	var/colour_overlay
 
+	///Do we have an icon for bunching?
+	var/bunch_icon
+	var/mutable_appearance/bunch_appearance
+	///How many fruits in a bunch?
+	var/bunch_amount = 3
+
 	///List of reagents this fruit has. Saves us making a unique trait for each one. (reagent = percentage)
 	var/list/fast_reagents = list()
 
 /datum/plant_feature/fruit/New(datum/component/plant/_parent)
 	. = ..()
 	if(colour_overlay)
-		var/mutable_appearance/coloured_parts =  mutable_appearance(icon, colour_overlay, color = colour_override)
+		var/mutable_appearance/coloured_parts =  mutable_appearance(icon, colour_overlay, color = islist(colour_override) ? "#fff" : colour_override)
 		feature_appearance.add_overlay(coloured_parts)
 	else
-		feature_appearance.color = colour_override
+		feature_appearance.color = islist(colour_override) ? "#fff" : colour_override
+	//bunch icon
+	if(bunch_icon)
+		bunch_appearance = mutable_appearance(icon, bunch_icon)
 	//Build our fast chemicals
 	if(!length(fast_reagents))
 		return
@@ -48,7 +57,7 @@
 		SEND_SIGNAL(parent, COMSIG_PLANT_ACTION_HARVEST, src, null, TRUE)
 
 /datum/plant_feature/fruit/process(delta_time)
-	if(!check_needs(delta_time) || !length(growth_timers))  //TODO: only check this when we need to - Racc
+	if(!length(growth_timers) || !check_needs(delta_time))
 		return
 //Growing
 	for(var/timer as anything in growth_timers)
@@ -56,17 +65,19 @@
 		//If our parent is eager to be an adult, used for pre-existing plants
 		if(parent?.skip_growth)
 			growth_timers[timer] = 0
-		//Visuals
-		var/obj/effect/fruit_effect = visual_fruits[timer]
-		var/matrix/new_transform = new()
-		var/progress = min(1, max(0.1, abs(growth_timers[timer]-growth_time) / growth_time))
-		new_transform.Scale(progress, progress)
-		animate(fruit_effect, transform = new_transform, time = delta_time SECONDS)
-		//Offload finished fruits
+		//Offload finished fruits - Do this before visuals, because they want to exit early sometimes
 		if(growth_timers[timer] <= 0)
 			growth_timers -= timer
 			visual_fruits -= timer
 			build_fruit()
+		//Visuals
+		var/obj/effect/fruit_effect = visual_fruits[timer]
+		if(!fruit_effect) //This can be null when we fuck around with bunching
+			continue
+		var/matrix/new_transform = new()
+		var/progress = min(1, max(0.1, abs(growth_timers[timer]-growth_time) / growth_time))
+		new_transform.Scale(progress, progress)
+		animate(fruit_effect, transform = new_transform, time = delta_time SECONDS)
 
 /datum/plant_feature/fruit/get_ui_data()
 	. = ..()
@@ -90,18 +101,26 @@
 	RegisterSignal(parent.plant_item, COMSIG_ATOM_ATTACK_HAND, PROC_REF(catch_attack_hand))
 	START_PROCESSING(SSobj, src)
 
-/datum/plant_feature/fruit/proc/setup_fruit(datum/source, harvest_amount, list/_visual_fruits)
+/datum/plant_feature/fruit/proc/setup_fruit(datum/source, harvest_amount, list/_visual_fruits, skip_growth = FALSE)
 	SIGNAL_HANDLER
 
-	//TODO: Do we need this? - Racc
-	//if(!check_needs(delta_time))
-	//	return
+	var/bunch_debt = 0
 	for(var/fruit_index in 1 to harvest_amount)
 	//Build our yummy fruit :)
-		growth_timers["[fruit_index]"] = growth_time
+		growth_timers["[fruit_index]"] = skip_growth ? 0 : growth_time
+	//bunch logic
+		var/bunch = FALSE
+		if(floor((harvest_amount-fruit_index)/bunch_amount) >= 1 && bunch_debt <= 0 && bunch_icon)
+			bunch_debt += bunch_amount
+			bunch = TRUE
+		if(bunch_debt > 0 && !bunch)
+			bunch_debt--
+			continue
 	//Give away an overlay as a gift
 		var/obj/effect/fruit_effect = new()
-		fruit_effect.appearance = feature_appearance
+		fruit_effect.appearance = bunch ? bunch_appearance : feature_appearance
+		if(islist(colour_override))
+			fruit_effect.color = pick(colour_override)
 		fruit_effect.vis_flags = VIS_INHERIT_ID
 		_visual_fruits += fruit_effect
 		visual_fruits["[fruit_index]"] = fruit_effect

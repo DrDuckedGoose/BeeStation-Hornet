@@ -1,4 +1,3 @@
-//TODO: Sprites - Racc
 /*
 	Coffee
 	Micro fruit type that grows very fast

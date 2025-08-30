@@ -1,5 +1,5 @@
 /datum/plant_need/reagent
-	///What kind of reagents do we need per second
+	///What kind of reagents do we need per second - This can be multiple for special cases and punishments, but try to keep it to one
 	var/list/reagent_needs = list() // (/datum/reagent = amount, /datum/reagent = amount)
 	///Do we consume the reagents we need?
 	var/consume_reagents = TRUE
@@ -8,10 +8,12 @@
 
 /datum/plant_need/reagent/New(datum/plant_feature/_parent)
 	. = ..()
-	//TODO: - Racc
-	//need_description
+	need_description = "This plant needs"
+	var/reagent_index = 1
+	for(var/datum/reagent/reagent as anything in reagent_needs)
+		need_description = "[need_description] [reagent_needs[reagent]] of [initial(reagent.name)][reagent_index < length(reagent_needs) ? ", " : ""]"
+		reagent_index++
 
-//TODO: Implement delta time here - Racc
 /datum/plant_need/reagent/check_need(_delta_time)
 	. = ..()
 	if(!parent?.parent)
@@ -35,6 +37,10 @@
 		return TRUE
 	return FALSE
 
-//TODO: Move this - Racc
-/datum/plant_need/reagent/water
-	reagent_needs = list(/datum/reagent/water = 1)
+/datum/plant_need/reagent/fufill_need(atom/location)
+	. = ..()
+	if(!location?.reagents)
+		return
+	for(var/datum/reagent/reagent as anything in reagent_needs)
+		//This essentially gives each reagent an equal % of the volume to occupy. This doesn't handle needs that have different % needs, like (water = 1, blood = 10)
+		location.reagents.add_reagent(reagent, location?.reagents.maximum_volume / length(reagent_needs))

@@ -28,14 +28,27 @@
 	if(istype(C, /obj/item/plant_disk) && !disk)
 		C.forceMove(src)
 		disk = C
-		return
+		ui_update()
+		return FALSE
 	//Insert plant
-	var/datum/component/plant/plant = C.GetComponent(/datum/component/plant)
+	if(!istype(C, /obj/item/shovel/spade))
+		return
+	var/datum/component/plant/plant
+	var/obj/item/plant_item
+	for(var/obj/item/potential_plant in C.contents)
+		plant = potential_plant.GetComponent(/datum/component/plant)
+		plant_item = potential_plant
+		if(!C)
+			continue
+		break
 	if(!plant)
 		return
-	C.forceMove(src)
-	inserted_plant = C
+	C.vis_contents -= plant_item
+	plant_item.forceMove(src)
+	inserted_plant = plant_item
 	plant_component = plant
+	ui_update()
+	return FALSE
 
 //TODO: Add a button in the UI to do this too - Racc
 /obj/machinery/plant_analyser/attack_hand_secondary(mob/user, list/modifiers)
@@ -47,6 +60,8 @@
 	user.put_in_active_hand(disk)
 	disk = null
 
+//TODO: Add blurb in UI to explain this - Racc
+//TODO: Move this to aTTACK PRIMARY - Racc
 /obj/machinery/plant_analyser/attackby_secondary(obj/item/weapon, mob/user, params)
 	. = ..()
 	//TODO: Make this work exclusively with a spade - Racc

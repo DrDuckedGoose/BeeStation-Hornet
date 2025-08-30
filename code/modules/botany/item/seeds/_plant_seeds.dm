@@ -1,4 +1,6 @@
-//TODO: Consider making this a generic 'thing' and the actual seed part an element - Racc
+#define PLANT_X_CLAMP -8
+#define PLANT_Y_CLAMP 4
+
 /obj/item/plant_seeds
 	name = "seeds"
 	icon = 'icons/obj/hydroponics/features/generic.dmi'
@@ -27,10 +29,6 @@
 	. = ..()
 	//Check if our roots fuck with the thing we're planting
 	var/obj/machinery/plumbing/tank/plant_tray/tray = target
-	/*
-		If you want to plant plants elsewhere, that isnt a tray, make the substrate holder into an element or something
-		TODO: Consider doing this - Racc
-	*/
 	var/substrate_flags = (istype(tray) ? tray.substrate : null)
 	if(!SEND_SIGNAL(src, COMSIG_SEEDS_POLL_ROOT_SUBSTRATE, substrate_flags))
 		to_chat(user, "<span class='warining'>You can't plant [src] in this substrate!</span>")
@@ -40,7 +38,6 @@
 		return
 	//Plant it
 	to_chat(user, "<span class='notice'>You begin to plant [src] into [target].</span>")
-	//TODO: Implement planter size slots, to plant multiple plants on the same tile - Racc
 	if(!do_after(user, 2.3 SECONDS, target))
 		return
 	var/obj/item/plant_item/plant = new(get_turf(target), plant_features, species_id)
@@ -62,8 +59,8 @@
 	var/list/modifiers = params2list(click_parameters)
 	if(!LAZYACCESS(modifiers, ICON_X) || !LAZYACCESS(modifiers, ICON_Y))
 		return
-	//Clamp it so that the icon never moves more than 16 pixels in either direction (thus leaving the table turf)
-	plant.pixel_x = clamp(text2num(LAZYACCESS(modifiers, ICON_X)) - 16, -8, 4) //TODO: make these defines - Racc
+	//Clamp it so that the icon never moves more than 16 pixels in either direction (thus leaving the planting turf)
+	plant.pixel_x = clamp(text2num(LAZYACCESS(modifiers, ICON_X)) - 16, PLANT_X_CLAMP, PLANT_Y_CLAMP)
 
 /*
 	Preset
@@ -112,3 +109,6 @@
 /obj/item/plant_seeds/debug/AltClick(mob/user)
 	. = ..()
 	plant_features = list()
+
+#undef PLANT_X_CLAMP
+#undef PLANT_Y_CLAMP

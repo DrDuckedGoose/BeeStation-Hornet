@@ -1,10 +1,11 @@
 /datum/plant_feature/body
+	species_name = "testus testium"
+	name = "plant body"
 	icon = 'icons/obj/hydroponics/features/body.dmi'
 	icon_state = "tree"
 	plant_needs = list(/datum/plant_need/reagent/water)
 	feature_catagories = PLANT_FEATURE_BODY
 
-	//TODO: Consider swapping harvest and yield terms - Racc
 	///Max, natural, harvest
 	var/max_harvest = PLANT_BODY_HARVEST_LARGE
 
@@ -50,7 +51,8 @@
 	parent?.plant_item?.vis_contents -= body_appearance
 
 /datum/plant_feature/body/process(delta_time)
-	if(!check_needs(delta_time)) //TODO: only check this when we need to, so not when we're done growing and not asking for fruit - Racc
+	//If we're done growing, and we're resting, and we're not hosting and fruits, and we have more fruits to give- don't bother sucking up needs
+	if(growth_time_elapsed >= growth_time && !COOLDOWN_FINISHED(src, yield_cooldown_time) && !length(fruit_overlays) && yields > 0  || !check_needs(delta_time))
 		//TODO: Do we want plants to wither away? It's kind of annoying - Racc
 		return
 //Growth
@@ -67,7 +69,8 @@
 			SEND_SIGNAL(src, COMSIG_PLANT_GROW_FINAL)
 //Harvests
 	if(current_stage >= growth_stages && COOLDOWN_FINISHED(src, yield_cooldown_time) && !length(fruit_overlays) && yields > 0)
-		setup_fruit()
+		setup_fruit(parent?.skip_growth)
+		parent?.skip_growth = FALSE //We can happily set this to false here in any case without issues
 
 /datum/plant_feature/body/get_ui_data()
 	. = ..()
@@ -130,9 +133,9 @@
 	//Use a signal so we can allow traits and other outsiders modify our harvest
 	return SEND_SIGNAL(src, COMSIG_PLANT_GET_HARVEST, max_harvest) || max_harvest
 
-/datum/plant_feature/body/proc/setup_fruit()
+/datum/plant_feature/body/proc/setup_fruit(skip_growth)
 	var/list/visual_fruits = list()
-	SEND_SIGNAL(parent, COMSIG_PLANT_REQUEST_FRUIT, get_harvest(), visual_fruits)
+	SEND_SIGNAL(parent, COMSIG_PLANT_REQUEST_FRUIT, get_harvest(), visual_fruits, skip_growth)
 	var/list/available_positions = overlay_positions.Copy()
 	for(var/obj/effect/fruit_effect as anything in visual_fruits)
 		if(!length(fruit_effect))

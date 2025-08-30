@@ -27,18 +27,14 @@
 		seeds = C
 
 //TODO: Add a button in the UI to do this too - Racc
-/obj/machinery/seed_editor/attack_hand(mob/living/user, list/modifiers)
+/obj/machinery/seed_editor/attack_hand_secondary(mob/user, list/modifiers)
 	. = ..()
-	if(!seeds)
-		return
+	//TODO: Optimize / review this - Racc
+//Remove Seeds
 	seeds.forceMove(get_turf(src))
 	user.put_in_active_hand(seeds)
 	seeds = null
-
-//TODO: Add a button in the UI to do this too - Racc
-/obj/machinery/seed_editor/attack_hand_secondary(mob/user, list/modifiers)
-	. = ..()
-	//Remove disk
+//Remove disk
 	if(!disk)
 		return
 	disk.forceMove(get_turf(src))
@@ -117,8 +113,10 @@
 		if("add_feature")
 			var/datum/plant_feature/feature = locate(params["key"])
 			for(var/datum/plant_feature/current_feature as anything in seeds.plant_features)
-				if(current_feature.feature_catagories & feature.feature_catagories)
-					//TODO: Add an error message and explanation - Racc
+				if(current_feature.feature_catagories & feature.feature_catagories) //If you want to have multiple features of the same type on one plant, this is the only thing stopping you
+					playsound(src, 'sound/machines/terminal_error.ogg', 60)
+					say("ERROR: Seed composition cannot fit selected feature!")
+					say("SOLUTION: Please remove existing feature.")
 					return
 			var/datum/plant_feature/new_feature = feature.copy()
 			seeds.plant_features += new_feature

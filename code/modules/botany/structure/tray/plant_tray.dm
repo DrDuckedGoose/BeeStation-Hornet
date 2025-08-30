@@ -1,3 +1,4 @@
+//TODO: Make the planting tray thing a component, holds stuff like substrate and plant_slots, but keep this - Racc
 /obj/machinery/plumbing/tank/plant_tray
 	name = "plant tray"
 	desc = "A fifth generation space compatible botanical growing tray."
@@ -14,6 +15,7 @@
 	var/atom/movable/plant_tray_reagents/tray_reagents
 	var/icon/mask
 //Tray indicators
+	var/use_indicators = TRUE
 	///Indicator for when the plant is ready to harvest
 	var/obj/effect/tray_indicator/harvest
 	var/list/harvestable_features = list()
@@ -30,18 +32,20 @@
 	ADD_TRAIT(src, TRAIT_PLANTER, INNATE_TRAIT)
 //Build effects
 	//mask for plants
-	mask = icon('icons/obj/hydroponics/features/generic.dmi', "tray_mask")
+	mask = icon('icons/obj/hydroponics/features/generic.dmi', "[icon_state]_mask")
 	//Reagents, for reagents
-	tray_reagents = new(src)
+	tray_reagents = new(src, icon_state)
 	vis_contents += tray_reagents
 	//Bottom most underlay
-	underlays += mutable_appearance('icons/obj/hydroponics/features/generic.dmi', "tray-bottom", ABOVE_NORMAL_TURF_LAYER)
-//Build tray indicatos
-	harvest = new(src, "plant harvest indicator", "#0f0", 1)
-	need = new(src, "plant need indicator", "#ff0", 2)
-	problem = new(src, "plant problem indicator", "#f00", 3)
+	underlays += mutable_appearance('icons/obj/hydroponics/features/generic.dmi', "[icon_state]_bottom", ABOVE_NORMAL_TURF_LAYER)
 //reagents
 	tray_reagents.color = mix_color_from_reagents(reagents.reagent_list)
+//Build tray indicatos
+	if(!use_indicators)
+		return
+	harvest = new(src, "#0f0", 1)
+	need = new(src, "#ff9100", 2)
+	problem = new(src, "#f00", 3)
 
 /obj/machinery/plumbing/tank/plant_tray/examine(mob/user)
 	. = ..()
@@ -102,11 +106,26 @@
 	//Remove visuals from previous step
 	gone.pixel_y -= 12
 	gone.remove_filter("plant_tray_mask")
+	vis_contents -= gone
 //Component related
 	var/datum/component/plant/plant_component = gone.GetComponent(/datum/component/plant)
 	if(!plant_component)
 		return
+	UnregisterSignal(plant_component, COMSIG_FRUIT_BUILT)
+	UnregisterSignal(plant_component, COMSIG_PLANT_ACTION_HARVEST)
+	UnregisterSignal(plant_component, COMSIG_PLANT_NEEDS_FAILS)
+	UnregisterSignal(plant_component, COMSIG_PLANT_NEEDS_PASS)
 //Indicators
+	//Harvest light
+	for(var/datum/plant_feature/feature as anything in plant_component.plant_features)
+		harvestable_features -= feature
+	if(!length(harvestable_features))
+		vis_contents -= harvest
+	//Need light
+	for(var/datum/plant_feature/feature as anything in plant_component.plant_features)
+		needy_features -= feature
+	if(!length(needy_features))
+		vis_contents -= need
 	//Problem light
 	problem_features -= plant_component
 	if(!length(problem_features))
@@ -155,11 +174,6 @@
 		vis_contents -= need
 
 /*
-	Signal handlers for plant problems
-*/
-//TODO: - Racc
-
-/*
 	Some effects live down here
 		- Water overlay
 */
@@ -172,11 +186,11 @@
 	appearance_flags = KEEP_APART
 	layer = BELOW_OBJ_LAYER
 	color = "#fff0"
-	///
+	///Water rendered over the plant
 	var/mutable_appearance/over_water
 
-/atom/movable/plant_tray_reagents/Initialize(mapload)
+/atom/movable/plant_tray_reagents/Initialize(mapload, key = "tray")
 	. = ..()
-	//
-	over_water = mutable_appearance('icons/obj/hydroponics/features/generic.dmi', "tray_water_over", ABOVE_OBJ_LAYER)
+	icon_state = "[key]_water"
+	over_water = mutable_appearance('icons/obj/hydroponics/features/generic.dmi', "[key]_water_over", ABOVE_OBJ_LAYER)
 	add_overlay(over_water)

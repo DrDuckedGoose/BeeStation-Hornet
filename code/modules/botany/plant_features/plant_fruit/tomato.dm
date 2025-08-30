@@ -70,7 +70,7 @@
 */
 /datum/plant_feature/fruit/tomato/friendly
 	species_name = "lycopersicum rabidus" //TODO: - Racc
-	name = "killer tomato" //TODO: - Racc
+	name = "friendly tomato" //TODO: - Racc
 	icon_state = "tomato-2" //TODO: - Racc
 	colour_override = "#fff700" //TODO: - Racc
 	plant_traits = list(/datum/plant_trait/reagent/fruit/nutriment, /datum/plant_trait/reagent/fruit/vitamin,
