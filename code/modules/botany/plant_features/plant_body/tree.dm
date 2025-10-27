@@ -28,7 +28,7 @@
 /datum/plant_feature/body/tree/sparse
 	species_name = "arbor sparsa"
 	name = "sparse tree"
-	icon_state = "tree"
+	icon_state = "missing"
 	overlay_positions = list(list(11, 20), list(16, 30), list(23, 23), list(8, 31))
 	mutations = list(/datum/plant_feature/body/tree/palm)
 

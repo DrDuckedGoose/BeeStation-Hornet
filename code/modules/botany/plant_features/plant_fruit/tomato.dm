@@ -71,7 +71,7 @@
 /datum/plant_feature/fruit/tomato/friendly
 	species_name = "lycopersicum rabidus" //TODO: - Racc
 	name = "friendly tomato" //TODO: - Racc
-	icon_state = "tomato-2" //TODO: - Racc
+	icon_state = "missing" //TODO: - Racc
 	colour_override = "#fff700" //TODO: - Racc
 	plant_traits = list(/datum/plant_trait/reagent/fruit/nutriment, /datum/plant_trait/reagent/fruit/vitamin,
 	/datum/plant_trait/fruit/liquid_contents, /datum/plant_trait/fruit/killer/friendly)

@@ -1,3 +1,4 @@
+//TODO: Plants that shares the same body should use a special subtype with the plants name on it, so we dont have berry bushes with generic bush body - Racc
 //Apple
 /obj/item/plant_seeds/preset/apple
 	name = "apple seeds"
@@ -145,7 +146,7 @@
 //Soybean
 /obj/item/plant_seeds/preset/soybean
 	name = "soybean seeds"
-	name_override = "soybean vine"
+	name_override = "soybean bush"
 	plant_features = list(/datum/plant_feature/roots/clay, /datum/plant_feature/body/bush_vine, /datum/plant_feature/fruit/soybean)
 
 //Tomato
@@ -195,3 +196,75 @@
 	name = "glowshroom spores"
 	name_override = "glowshroom"
 	plant_features = list(/datum/plant_feature/roots/hyphae, /datum/plant_feature/body/mushroom, /datum/plant_feature/fruit/mushroom/glowshroom)
+
+//Liberty
+/obj/item/plant_seeds/preset/liberty
+	name = "liberty-cap spores"
+	name_override = "liberty-cap mushroom"
+	plant_features = list(/datum/plant_feature/roots/hyphae, /datum/plant_feature/body/mushroom, /datum/plant_feature/fruit/mushroom/liberty)
+
+//Plump
+/obj/item/plant_seeds/preset/plump
+	name = "plump helmet spores"
+	name_override = "plump helmet mushroom"
+	plant_features = list(/datum/plant_feature/roots/hyphae, /datum/plant_feature/body/mushroom, /datum/plant_feature/fruit/mushroom/plump)
+
+//Reishi
+/obj/item/plant_seeds/preset/reishi
+	name = "reishi spores"
+	name_override = "reishi mushroom"
+	plant_features = list(/datum/plant_feature/roots/hyphae, /datum/plant_feature/body/mushroom, /datum/plant_feature/fruit/mushroom/reishi)
+
+//Tower
+/obj/item/plant_seeds/preset/tower
+	name = "tower-cap spores"
+	name_override = "tower-cap mushroom"
+	plant_features = list(/datum/plant_feature/roots/hyphae, /datum/plant_feature/body/mushroom, /datum/plant_feature/fruit/mushroom/tower)
+
+//Nettle
+/obj/item/plant_seeds/preset/nettle
+	name = "nettle seeds"
+	name_override = "nettle bush"
+	plant_features = list(/datum/plant_feature/roots, /datum/plant_feature/body/bush_vine/nettle, /datum/plant_feature/fruit/nettle)
+
+//Starthistle
+/obj/item/plant_seeds/preset/starthistle
+	name = "starthistle seeds"
+	name_override = "starthistle bush"
+	plant_features = list(/datum/plant_feature/roots, /datum/plant_feature/body/bush_vine/nettle, /datum/plant_feature/fruit/starthistle)
+
+//Cannabis
+/obj/item/plant_seeds/preset/cannabis
+	name = "cannabis seeds"
+	name_override = "cannabis bush"
+	plant_features = list(/datum/plant_feature/roots, /datum/plant_feature/body/bush_vine/cannabis, /datum/plant_feature/fruit/cannabis)
+
+//Poppy
+/obj/item/plant_seeds/preset/poppy
+	name = "poppy seeds"
+	name_override = "poppy"
+	plant_features = list(/datum/plant_feature/roots, /datum/plant_feature/body/sprout, /datum/plant_feature/fruit/flower/poppy)
+
+//Sugarcane
+/obj/item/plant_seeds/preset/sugarcane
+	name = "sugarcane seeds"
+	name_override = "sugarcane"
+	plant_features = list(/datum/plant_feature/roots, /datum/plant_feature/body/tuber, /datum/plant_feature/fruit/sugarcane)
+
+//Tobacco
+/obj/item/plant_seeds/preset/tobacco
+	name = "tobacco seeds"
+	name_override = "tobacco bush"
+	plant_features = list(/datum/plant_feature/roots, /datum/plant_feature/body/bush_vine/cannabis, /datum/plant_feature/fruit/tobacco)
+
+//Tea
+/obj/item/plant_seeds/preset/tea
+	name = "tea seeds"
+	name_override = "tea bush"
+	plant_features = list(/datum/plant_feature/roots, /datum/plant_feature/body/bush_vine/tea, /datum/plant_feature/fruit/tea)
+
+//Sunflower
+/obj/item/plant_seeds/preset/sunflower
+	name = "sunflower seeds"
+	name_override = "sunflower"
+	plant_features = list(/datum/plant_feature/roots, /datum/plant_feature/body/corn_stalk/sunflower, /datum/plant_feature/fruit/flower/sun)

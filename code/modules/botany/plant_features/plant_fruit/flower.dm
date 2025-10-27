@@ -74,7 +74,7 @@
 /datum/plant_feature/fruit/flower/trumpet
 	species_name = "tubae flos"
 	name = "spaceman's trumpet"
-	icon_state = "flower_2" //TODO: make custom sprite - Racc
+	icon_state = "missing" //TODO: make custom sprite - Racc
 	colour_overlay = "flower_2_colour"
 	fruit_product = /obj/item/food/grown/flower/trumpet
 	colour_override = "#f700ff"
@@ -87,7 +87,7 @@
 /datum/plant_feature/fruit/flower/sun
 	species_name = "sol flos"
 	name = "sun flower"
-	icon_state = "flower_2" //TODO: make custom sprite - Racc
+	icon_state = "missing" //TODO: make custom sprite - Racc
 	colour_overlay = "flower_2_colour"
 	fruit_product = /obj/item/grown/sunflower
 	fast_reagents = list(/datum/reagent/consumable/nutriment/fat/oil = PLANT_REAGENT_MEDIUM)
@@ -99,7 +99,7 @@
 /datum/plant_feature/fruit/flower/nova
 	species_name = "flos nova"
 	name = "nova flower"
-	icon_state = "flower_2" //TODO: make custom sprite - Racc
+	icon_state = "missing" //TODO: make custom sprite - Racc
 	colour_overlay = "flower_2_colour"
 	fruit_product = /obj/item/grown/novaflower
 	fast_reagents = list(/datum/reagent/consumable/condensedcapsaicin = PLANT_REAGENT_MEDIUM, /datum/reagent/consumable/capsaicin = PLANT_REAGENT_MEDIUM)
@@ -111,7 +111,7 @@
 /datum/plant_feature/fruit/flower/moon
 	species_name = "flos lunae"
 	name = "moon flower"
-	icon_state = "flower_2" //TODO: make custom sprite - Racc
+	icon_state = "missing" //TODO: make custom sprite - Racc
 	colour_overlay = "flower_2_colour"
 	fruit_product = /obj/item/food/grown/flower/moonflower
 	fast_reagents = list(/datum/reagent/consumable/ethanol/moonshine = PLANT_REAGENT_MEDIUM, /datum/reagent/acetone = PLANT_REAGENT_SMALL)

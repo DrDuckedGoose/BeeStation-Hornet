@@ -18,7 +18,7 @@
 /datum/plant_feature/fruit/orange/threedee
 	species_name = "citrum veritas"
 	name = "extradimensional orange"
-	icon_state = "tomato" //TODO: - Racc
+	icon_state = "missing" //TODO: - Racc
 	fruit_product = /obj/item/food/grown/citrus/orange_3d
 	plant_traits = list(/datum/plant_trait/reagent/fruit/nutriment, /datum/plant_trait/reagent/fruit/vitamin,
 	/datum/plant_trait/fruit/biolight/orange)

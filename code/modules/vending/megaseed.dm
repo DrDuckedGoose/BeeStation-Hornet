@@ -31,29 +31,27 @@
 					/obj/item/plant_seeds/preset/orange = 3,
 					/obj/item/plant_seeds/preset/pineapple = 3,
 					/obj/item/plant_seeds/preset/potato = 3,
-					//obj/item/plant_seeds/preset/flower/poppy = 3,
+					/obj/item/plant_seeds/preset/poppy = 3,
 					/obj/item/plant_seeds/preset/pumpkin = 3,
-					//obj/item/plant_seeds/preset/wheat/rice = 3,
-					//obj/item/plant_seeds/preset/soya = 3,
-					//obj/item/plant_seeds/preset/sunflower = 3,
-					//obj/item/plant_seeds/preset/sugarcane = 3,
-					//obj/item/plant_seeds/preset/tea = 3,
-					//obj/item/plant_seeds/preset/tobacco = 3,
+					/obj/item/plant_seeds/preset/rice = 3,
+					/obj/item/plant_seeds/preset/soybean = 3,
+					/obj/item/plant_seeds/preset/sunflower = 3,
+					/obj/item/plant_seeds/preset/sugarcane = 3,
+					/obj/item/plant_seeds/preset/tea = 3,
+					/obj/item/plant_seeds/preset/tobacco = 3,
 					/obj/item/plant_seeds/preset/tomato = 3,
-					//obj/item/plant_seeds/preset/tower = 3,
+					/obj/item/plant_seeds/preset/tower = 3,
 					/obj/item/plant_seeds/preset/watermelon = 3,
 					/obj/item/plant_seeds/preset/wheat = 3,
 					/obj/item/plant_seeds/preset/whitebeet = 3)
-	contraband = list(/obj/item/plant_seeds/preset/amanita = 2, //TODO: - Racc
+	contraband = list(/obj/item/plant_seeds/preset/amanita = 2,
 						/obj/item/plant_seeds/preset/glowshroom = 2,
-
-						/obj/item/seeds/liberty = 2,
-						/obj/item/seeds/nettle = 2,
-						/obj/item/seeds/plump = 2,
-						/obj/item/seeds/reishi = 2,
-						/obj/item/seeds/cannabis = 3,
-						/obj/item/seeds/starthistle = 2,
-						/obj/item/seeds/random = 2)
+						/obj/item/plant_seeds/preset/liberty = 2,
+						/obj/item/plant_seeds/preset/nettle = 2,
+						/obj/item/plant_seeds/preset/plump = 2,
+						/obj/item/plant_seeds/preset/reishi = 2,
+						/obj/item/plant_seeds/preset/cannabis = 3,
+						/obj/item/plant_seeds/preset/starthistle = 2)
 	premium = list(/obj/item/reagent_containers/spray/waterflower = 1)
 	refill_canister = /obj/item/vending_refill/hydroseeds
 	default_price = 10

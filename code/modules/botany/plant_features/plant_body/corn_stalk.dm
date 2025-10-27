@@ -21,7 +21,7 @@
 /datum/plant_feature/body/corn_stalk/rice
 	species_name = "stipula alba"
 	name = "rice stalk"
-	icon_state = "corn_stalk"
+	icon_state = "missing"
 	overlay_positions = list(list(16, 27))
 
 /*
@@ -30,7 +30,7 @@
 /datum/plant_feature/body/corn_stalk/wheat
 	species_name = "bracchium aurum"
 	name = "wheat stalk"
-	icon_state = "corn_stalk"
+	icon_state = "missing"
 	overlay_positions = list(list(16, 27))
 
 /*
@@ -39,5 +39,15 @@
 /datum/plant_feature/body/corn_stalk/pineapple
 	species_name = "bracchium spinosum"
 	name = "pineapple stalk"
-	icon_state = "corn_stalk"
+	icon_state = "missing"
 	overlay_positions = list(list(16, 27))
+
+/*
+	Sun Stalk
+*/
+/datum/plant_feature/body/corn_stalk/sunflower
+	species_name = "sol culmo"
+	name = "sunflower stalk"
+	icon_state = "missing"
+	overlay_positions = list(list(16, 27))
+

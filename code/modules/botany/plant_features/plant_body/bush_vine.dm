@@ -1,4 +1,5 @@
 //TODO: Consider giving these unique stats - Racc
+//TODO: Sprites for all of these - Racc
 /*
 	Tomato Bush-Vine
 */
@@ -37,7 +38,7 @@
 /datum/plant_feature/body/bush_vine/grape
 	species_name = "uva arbor"
 	name = "grape vine"
-	icon_state = "bush_vine"
+	icon_state = "missing"
 	overlay_positions = list(list(13, 16), list(21, 16), list(13, 9), list(21, 9), list(13, 2), list(21, 2)) //TODO: Remember to update these - Racc
 
 /*
@@ -56,6 +57,37 @@
 /datum/plant_feature/body/bush_vine/ambrosia
 	species_name = "folium rubi"
 	name = "ambrosia bush"
-	icon_state = "vine_ground"
+	icon_state = "missing"
+	draw_below_water = FALSE
+	overlay_positions = list(list(24, 6))
+
+/*
+	Nettle bush
+*/
+/datum/plant_feature/body/bush_vine/nettle
+	species_name = "aculeatum rubi"
+	name = "nettle bush"
+	icon_state = "missing"
+	draw_below_water = FALSE
+	overlay_positions = list(list(24, 6))
+
+/*
+	Cannabis bush
+*/
+/datum/plant_feature/body/bush_vine/cannabis
+	species_name = "ridiculam rubi"
+	name = "cannabis bush"
+	icon_state = "missing"
+	draw_below_water = FALSE
+	overlay_positions = list(list(24, 6))
+
+
+/*
+	Tea bush
+*/
+/datum/plant_feature/body/bush_vine/tea
+	species_name = "asperae rubi"
+	name = "tea bush"
+	icon_state = "missing"
 	draw_below_water = FALSE
 	overlay_positions = list(list(24, 6))

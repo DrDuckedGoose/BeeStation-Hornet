@@ -20,7 +20,7 @@
 /datum/plant_feature/fruit/banana/mime
 	species_name = "lycopersicum mimum"
 	name = "mimana"
-	icon_state = "banana" //TODO: - Racc
+	icon_state = "missing" //TODO: - Racc
 	fruit_product = /obj/item/food/grown/banana/mime
 	fast_reagents = list(/datum/reagent/consumable/nothing = PLANT_REAGENT_MEDIUM, /datum/reagent/toxin/mutetoxin = PLANT_REAGENT_MEDIUM)
 	mutations = list(/datum/plant_feature/fruit/banana)
@@ -31,7 +31,7 @@
 /datum/plant_feature/fruit/banana/bluespace
 	species_name = "lycopersicum fatum"
 	name = "bluespace banana"
-	icon_state = "banana" //TODO: - Racc
+	icon_state = "missing" //TODO: - Racc
 	fruit_product = /obj/item/food/grown/banana/bluespace
 	plant_traits = list(/datum/plant_trait/reagent/fruit/nutriment, /datum/plant_trait/reagent/fruit/vitamin/large,
 	/datum/plant_trait/fruit/slippery, /datum/plant_trait/fruit/bluespace)
