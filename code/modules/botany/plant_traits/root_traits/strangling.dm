@@ -31,7 +31,7 @@
 /datum/plant_trait/roots/strangling/proc/catch_pause(datum/source, datum/component/plant/_plant)
 	SIGNAL_HANDLER
 
-	//Avoid strangling ourselves
-	if(_plant == parent.parent)
+	//Avoid strangling ourselves or our brothers & sisters
+	if(_plant == parent.parent || _plant.species_id == parent.parent.species_id)
 		return
 	return TRUE

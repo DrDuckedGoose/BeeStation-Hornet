@@ -6,6 +6,7 @@
 	icon_state = "apple"
 	feature_catagories = PLANT_FEATURE_FRUIT
 	plant_needs = list(/datum/plant_need/reagent/water)
+	trait_type_shortcut = /datum/plant_feature/fruit
 
 	///What kind of 'fruit' do we produce
 	var/obj/item/fruit_product = /obj/item/food/grown/apple
@@ -20,6 +21,9 @@
 
 	///Max amount of reagents we can impart onto our stupid fucking children
 	var/total_volume = PLANT_FRUIT_VOLUME_MEDIUM
+
+	///Fruit size for body compatibility
+	var/fruit_size = PLANT_FRUIT_SIZE_SMALL
 
 	///Colour override for greyscale fruits
 	var/colour_override ="#fff"
@@ -56,6 +60,10 @@
 	if(!catch_attack_hand(src, null) && parent)
 		SEND_SIGNAL(parent, COMSIG_PLANT_ACTION_HARVEST, src, null, TRUE)
 
+/datum/plant_feature/fruit/get_scan_dialogue()
+	. = ..()
+	. += "<b>Fruit size: [fruit_size]</b>"
+
 /datum/plant_feature/fruit/process(delta_time)
 	if(!length(growth_timers) || !check_needs(delta_time))
 		return
@@ -65,11 +73,6 @@
 		//If our parent is eager to be an adult, used for pre-existing plants
 		if(parent?.skip_growth)
 			growth_timers[timer] = 0
-		//Offload finished fruits - Do this before visuals, because they want to exit early sometimes
-		if(growth_timers[timer] <= 0)
-			growth_timers -= timer
-			visual_fruits -= timer
-			build_fruit()
 		//Visuals
 		var/obj/effect/fruit_effect = visual_fruits[timer]
 		if(!fruit_effect) //This can be null when we fuck around with bunching
@@ -78,6 +81,11 @@
 		var/progress = min(1, max(0.1, abs(growth_timers[timer]-growth_time) / growth_time))
 		new_transform.Scale(progress, progress)
 		animate(fruit_effect, transform = new_transform, time = delta_time SECONDS)
+		//Offload finished fruits
+		if(growth_timers[timer] <= 0)
+			growth_timers -= timer
+			visual_fruits -= timer
+			build_fruit()
 
 /datum/plant_feature/fruit/get_ui_data()
 	. = ..()
@@ -139,6 +147,7 @@
 	A.AddElement(/datum/element/plant_genes, plant_genes, parent.species_id)
 	fruits += A
 	SEND_SIGNAL(parent, COMSIG_FRUIT_BUILT, A) //Used when we're done prepping the fruit and we want to add stuff to it, like reagents
+	return A
 
 /datum/plant_feature/fruit/proc/catch_attack_hand(datum/source, mob/user)
 	SIGNAL_HANDLER

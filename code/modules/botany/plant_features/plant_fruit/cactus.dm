@@ -11,3 +11,4 @@
 	fast_reagents = list(/datum/reagent/consumable/vitfro = PLANT_REAGENT_MEDIUM)
 	total_volume = PLANT_FRUIT_VOLUME_MEDIUM
 	growth_time = PLANT_FRUIT_GROWTH_FAST
+	fruit_size = PLANT_FRUIT_SIZE_MEDIUM

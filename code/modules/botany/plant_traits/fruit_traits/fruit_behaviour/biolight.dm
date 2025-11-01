@@ -13,7 +13,7 @@
 
 /datum/plant_trait/fruit/biolight/New(datum/plant_feature/_parent)
 	. = ..()
-	if(!fruit_parent)
+	if(!fruit_parent || parent)
 		return
 	fruit_parent.light_system = MOVABLE_LIGHT
 	fruit_parent.AddComponent(/datum/component/overlay_lighting, glow_range*parent.trait_power, glow_power*parent.trait_power, glow_color)

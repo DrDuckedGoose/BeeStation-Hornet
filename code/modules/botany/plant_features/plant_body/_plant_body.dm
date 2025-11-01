@@ -5,6 +5,7 @@
 	icon_state = "tree"
 	plant_needs = list(/datum/plant_need/reagent/water)
 	feature_catagories = PLANT_FEATURE_BODY
+	trait_type_shortcut = /datum/plant_feature/body
 
 	///Max, natural, harvest
 	var/max_harvest = PLANT_BODY_HARVEST_LARGE
@@ -20,6 +21,9 @@
 
 	///How many planter slots does this feature take up - Typically only bodies use this, but let's try to be flexible
 	var/slot_size = PLANT_BODY_SLOT_SIZE_LARGE
+
+	///What's the upper fruit size we can hold?
+	var/upper_fruit_size = PLANT_FRUIT_SIZE_LARGE
 
 ///Growth cycle
 	var/growth_stages = 3
@@ -49,6 +53,10 @@
 /datum/plant_feature/body/Destroy(force, ...)
 	. = ..()
 	parent?.plant_item?.vis_contents -= body_appearance
+
+/datum/plant_feature/body/get_scan_dialogue()
+	. = ..()
+	. += "<b>Upper fruit size: [upper_fruit_size]</b>"
 
 /datum/plant_feature/body/process(delta_time)
 	//If we're done growing, and we're resting, and we're not hosting and fruits, and we have more fruits to give- don't bother sucking up needs
@@ -113,19 +121,23 @@
 	. = ..()
 	RegisterSignal(seeds, COMSIG_SEEDS_POLL_TRAY_SIZE, PROC_REF(catch_occupation))
 
+/datum/plant_feature/body/unassociate_seeds(obj/item/plant_seeds/seeds)
+	. = ..()
+	UnregisterSignal(seeds, COMSIG_SEEDS_POLL_TRAY_SIZE)
+
 /datum/plant_feature/body/catch_planted(datum/source, atom/destination)
 	. = ..()
-	var/obj/machinery/plumbing/tank/plant_tray/tray = destination
-	if(!istype(tray))
+	var/datum/component/planter/tray_component = destination.GetComponent(/datum/component/planter)
+	if(!tray_component)
 		return
-	tray.plant_slots -= slot_size
+	tray_component.plant_slots -= slot_size
 
 /datum/plant_feature/body/catch_uprooted(datum/source, mob/user, obj/item/tool, atom/old_loc)
 	. = ..()
-	var/obj/machinery/plumbing/tank/plant_tray/tray = old_loc
-	if(!istype(tray))
+	var/datum/component/planter/tray_component = old_loc.GetComponent(/datum/component/planter)
+	if(!tray_component)
 		return
-	tray.plant_slots += slot_size
+	tray_component.plant_slots += slot_size
 
 /datum/plant_feature/body/proc/get_harvest()
 	if(current_stage < growth_stages)
@@ -169,9 +181,9 @@
 /datum/plant_feature/body/proc/catch_occupation(datum/source, atom/location)
 	SIGNAL_HANDLER
 
-	var/obj/machinery/plumbing/tank/plant_tray/tray = location
-	if(!istype(tray))
+	var/datum/component/planter/tray_component = location.GetComponent(/datum/component/planter)
+	if(!tray_component)
 		return
-	if(tray.plant_slots - slot_size < 0)
+	if(tray_component.plant_slots - slot_size < 0)
 		return
 	return TRUE

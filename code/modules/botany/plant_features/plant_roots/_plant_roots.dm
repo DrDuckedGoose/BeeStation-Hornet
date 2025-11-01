@@ -3,9 +3,9 @@
 	name = "roots"
 	feature_catagories = PLANT_FEATURE_ROOTS
 	random_plant = TRUE
+	trait_type_shortcut = /datum/plant_feature/roots
 	///Where can we pull reagents from
-	//TODO: change this to the proper type list thing - Racc
-	var/list/access_whitelist = list(/obj/machinery/plumbing/tank/plant_tray)
+	var/list/access_whitelist = list(/obj/item/plant_tray, /turf/open)
 	///What kinda of substrate can we grow in?
 	var/compatible_substrate = PLANT_SUBSTRATE_DIRT | PLANT_SUBSTRATE_SAND |  PLANT_SUBSTRATE_CLAY | PLANT_SUBSTRATE_DEBRIS
 	///Set to TRUE if you want our desired substrate to have all the ones we're compatible with, instead of one
@@ -15,6 +15,7 @@
 
 /datum/plant_feature/roots/New(datum/component/plant/_parent)
 	. = ..()
+	access_whitelist = typecacheof(access_whitelist)
 	//Generate compatible substrate dialogue - Semi messy code, whatever
 	if(compatible_substrate & PLANT_SUBSTRATE_DIRT)
 		substrate_dialogue += "Dirt "
@@ -24,6 +25,16 @@
 		substrate_dialogue += "Clay "
 	if(compatible_substrate & PLANT_SUBSTRATE_DEBRIS)
 		substrate_dialogue += "Debris "
+
+/datum/plant_feature/roots/setup_parent(_parent, reset_features)
+//Reset
+	if(parent)
+		UnregisterSignal(parent, COMSIG_SEEDS_POLL_ROOT_SUBSTRATE)
+	. = ..()
+//Pass over
+	if(!parent)
+		return
+	RegisterSignal(parent, COMSIG_SEEDS_POLL_ROOT_SUBSTRATE, PROC_REF(catch_substrate))
 
 /datum/plant_feature/roots/get_ui_data()
 	. = ..()
@@ -42,6 +53,11 @@
 	RegisterSignal(seeds, COMSIG_SEEDS_POLL_ROOT_SUBSTRATE, PROC_REF(catch_substrate))
 	RegisterSignal(seeds, COMSIG_ATOM_EXAMINE, PROC_REF(catch_seed_examine))
 
+/datum/plant_feature/roots/unassociate_seeds(obj/item/plant_seeds/seeds)
+	. = ..()
+	UnregisterSignal(seeds, COMSIG_SEEDS_POLL_ROOT_SUBSTRATE)
+	UnregisterSignal(seeds, COMSIG_ATOM_EXAMINE)
+
 /datum/plant_feature/roots/proc/catch_seed_examine(datum/source, mob/user, list/examine_text)
 	SIGNAL_HANDLER
 
@@ -50,7 +66,7 @@
 /datum/plant_feature/roots/proc/catch_substrate(datum/source, datum/plant_subtrate/polling_substrate)
 	SIGNAL_HANDLER
 
-	if((compatible_substrate == polling_substrate) && substrate_strict || (compatible_substrate & polling_substrate?.substrate_flags) && !substrate_strict)
+	if((compatible_substrate == polling_substrate?.substrate_flags) && substrate_strict || (compatible_substrate & polling_substrate?.substrate_flags) && !substrate_strict)
 		return TRUE
 	if(!compatible_substrate) //If there's no specified substrate stuff, plant it anywhere
 		return TRUE
@@ -61,7 +77,6 @@
 	if(!check_needs() && requestor != src)
 		return
 	var/atom/location = parent.plant_item?.loc
-	//TODO: re-enable this when you convert the access whitelist to a type list - Racc
-	//if(!(location.type in access_whitelist))
-	//	return
+	if(!is_type_in_typecache(location, access_whitelist))
+		return
 	reagent_holders += location?.reagents

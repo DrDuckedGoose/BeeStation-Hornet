@@ -85,6 +85,8 @@
 			return
 		if("remove_feature")
 			var/datum/plant_feature/feature = locate(params["key"])
+			if(!feature.can_remove)
+				return
 			seeds.plant_features -= feature
 			qdel(feature)
 			//We can safely set this to null, so it makes a new ID when planted.
@@ -93,6 +95,8 @@
 			if(!current_feature)
 				return
 			var/datum/plant_trait/trait = locate(params["key"])
+			if(!trait.can_remove)
+				return
 			current_feature.plant_traits -= trait
 			qdel(trait)
 			seeds.species_id = null
@@ -112,12 +116,38 @@
 			seeds.species_id = null
 		if("add_feature")
 			var/datum/plant_feature/feature = locate(params["key"])
+		//Generic compatibility checking
 			for(var/datum/plant_feature/current_feature as anything in seeds.plant_features)
-				if(current_feature.feature_catagories & feature.feature_catagories) //If you want to have multiple features of the same type on one plant, this is the only thing stopping you
+				//Does this plant already have this kind of feature>
+				if(current_feature.feature_catagories & feature.feature_catagories) //If you want to have multiple features of the same type on one plant, this is one of the things stopping you
 					playsound(src, 'sound/machines/terminal_error.ogg', 60)
 					say("ERROR: Seed composition cannot fit selected feature!")
 					say("SOLUTION: Please remove existing feature.")
 					return
+				//Is this feature blacklisted from another feature
+				if(is_type_in_typecache(feature, current_feature.blacklist_features))
+					playsound(src, 'sound/machines/terminal_error.ogg', 60)
+					say("ERROR: Seed composition not compatible with selected feature!")
+					return
+				//If a feature has a whitelist, are we in it?
+				if(length(current_feature.whitelist_features) && !is_type_in_typecache(feature, current_feature.whitelist_features))
+					playsound(src, 'sound/machines/terminal_error.ogg', 60)
+					say("ERROR: Seed composition not compatible with selected feature!")
+					return
+		//Special compatibility checking
+			//If it's a fruit- check if it fits on the body - This will be the other thing you'll have to potentially rewrite if you allow duplicate features
+			var/datum/plant_feature/fruit/fruit_feature = feature
+			var/datum/plant_feature/body/body_feature = locate(/datum/plant_feature/body) in seeds.plant_features //Might create overhead if they spam it and we later add 5 million unique features
+			//These are arranged to be a little more readable, dont sweat efficiency
+			if(istype(fruit_feature) && !body_feature)
+				playsound(src, 'sound/machines/terminal_error.ogg', 60)
+				say("ERROR: Seed composition does not contain a supporting body for this feature!")
+				return
+			if((istype(fruit_feature) && body_feature) && fruit_feature.fruit_size > body_feature.upper_fruit_size)
+				playsound(src, 'sound/machines/terminal_error.ogg', 60)
+				say("ERROR: Seed composition's body feature doesn't support this feature!")
+				return
+		//Good to go, slap that bad boy on
 			var/datum/plant_feature/new_feature = feature.copy()
 			seeds.plant_features += new_feature
 			seeds.species_id = null

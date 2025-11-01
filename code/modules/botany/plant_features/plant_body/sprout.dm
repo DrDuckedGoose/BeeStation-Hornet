@@ -11,3 +11,4 @@
 	yields = PLANT_BODY_YIELD_SMALL
 	yield_cooldown_time = PLANT_BODY_YIELD_TIME_FAST
 	max_harvest = PLANT_BODY_HARVEST_SMALL
+	upper_fruit_size = PLANT_FRUIT_SIZE_MEDIUM

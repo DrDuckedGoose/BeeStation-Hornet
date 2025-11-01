@@ -3,6 +3,7 @@
 */
 /datum/plant_trait/reagent
 	genetic_cost = 0
+	random_trait = FALSE
 	///What reagent are we adding
 	var/datum/reagent/reagent
 	///How much of that reagent are we adding

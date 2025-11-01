@@ -117,6 +117,8 @@
 			if(disk.saved)
 				qdel(disk.saved)
 			var/datum/plant_trait/trait = locate(params["key"])
+			if(!trait.can_copy)
+				return
 			disk.saved = trait.copy()
 			ui_update()
 		if("save_feature")
@@ -124,8 +126,12 @@
 				return
 			if(disk.saved)
 				qdel(disk.saved)
+			var/datum/plant_feature/feature = locate(params["key"])
+			if(!feature.can_copy)
+				saving_feature = FALSE
+				ui_update()
+				return
 			if(!length(current_feature.plant_traits) || params["force"])
-				var/datum/plant_feature/feature = locate(params["key"])
 				feature = feature.copy()
 				for(var/datum/plant_trait/trait as anything in feature.plant_traits)
 					if(trait.type in save_excluded_traits)
@@ -138,6 +144,8 @@
 			saving_feature = !isnull(current_feature?.get_ui_traits())
 		if("toggle_trait")
 			var/datum/plant_trait/trait = locate(params["key"])
+			if(!trait.can_remove)
+				return
 			if(params["key"] in save_excluded_traits_ref)
 				save_excluded_traits_ref -= params["key"]
 				save_excluded_traits -= trait.type

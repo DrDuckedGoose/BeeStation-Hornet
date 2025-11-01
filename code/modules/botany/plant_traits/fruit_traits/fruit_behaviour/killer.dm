@@ -33,21 +33,18 @@
 	if(QDELETED(src))
 		return
 	awaken_mob = new awaken_mob(get_turf(fruit_parent.loc))
-	//TODO: - Racc
-	//K.maxHealth += round(seed.endurance / 3)
-	//K.melee_damage += round(seed.potency / 10)
-	//K.move_to_delay -= round(seed.production / 50)
-	//K.frenzythreshold -= round(seed.potency / 25)// max potency tomatoes will enter a frenzy more easily
+	awaken_mob.maxHealth += (parent.trait_power-1) * awaken_mob.maxHealth
 	awaken_mob.health = awaken_mob.maxHealth
+	awaken_mob.melee_damage += (parent.trait_power-1) * 10
 	awaken_mob.visible_message(span_notice("[awaken_mob] suddenly awakens!"))
 	qdel(fruit_parent)
 
 /*
-	bio-malignant, this trait makes the plant spawn an evil plant. Can be eaten to stop it.
+	bio-benign, this trait makes the plant spawn an benign plant. Can be eaten to stop it.
 */
 
 /datum/plant_trait/fruit/killer/friendly
 	name = "Bio-Benign"
-	desc = "The fruit exhibits semi-sentient tendincies. Triggering the fruit will transform it into a benign monster."
-	awaken_mob = /mob/living/simple_animal/butterfly //TODO: - Racc
+	desc = "The fruit exhibits semi-sentient tendincies. Triggering the fruit will transform it into a benign 'monster'."
+	awaken_mob = /mob/living/simple_animal/friendly_fruit
 	//TODO: Add the option for player control - Racc

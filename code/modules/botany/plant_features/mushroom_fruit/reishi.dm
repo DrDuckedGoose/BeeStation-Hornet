@@ -5,7 +5,9 @@
 /datum/plant_feature/fruit/mushroom/reishi
 	species_name = "orientalem fungus"
 	name = "reishi"
-	icon_state = "missing"
+	icon_state = "chanterelle"
+	colour_overlay = "chanterelle_colour"
+	colour_override = "#ff7b00"
 	fruit_product = /obj/item/food/grown/mushroom/reishi
 	total_volume = PLANT_FRUIT_VOLUME_SMALL
 	growth_time = PLANT_FRUIT_GROWTH_FAST

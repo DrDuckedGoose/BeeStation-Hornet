@@ -12,6 +12,9 @@ SUBSYSTEM_DEF(botany)
 	///List of discovered plant species
 	var/list/discovered_species = list()
 
+	///Blacklist of fruits that can't be slippery
+	var/list/fruit_blacklist = list(/obj/item/food/grown/banana)
+
 //Random Features
 	///List for random plant bodies
 	var/list/random_bodies = list()
@@ -28,12 +31,18 @@ SUBSYSTEM_DEF(botany)
 	///List of unused random roots
 	var/list/unused_random_roots = list()
 
+//Random traits
+	///List of all random traits - linked list, arranged by trait compat list(/datum/plant_feature/body = list(traits))
+	var/list/random_traits = list()
+	var/list/unused_random_traits = list()
+
 /datum/controller/subsystem/botany/Initialize(timeofday)
-//Build overdraw need list
+	fruit_blacklist = typecacheof(fruit_blacklist)
+	//Build overdraw need list
 	for(var/datum/plant_need/need as anything in subtypesof(/datum/plant_need))
 		if(initial(need.overdraw_need))
 			overdraw_needs += need
-//Build random plant feature lists
+	//Build random plant feature lists
 	for(var/datum/plant_feature/feature as anything in subtypesof(/datum/plant_feature))
 		feature = new feature()
 		if(!feature.random_plant)
@@ -45,6 +54,17 @@ SUBSYSTEM_DEF(botany)
 		if(istype(feature, /datum/plant_feature/roots))
 			random_roots += feature.type
 		QDEL_NULL(feature)
+	//Build random traits
+	for(var/datum/plant_trait/trait as anything in subtypesof(/datum/plant_trait))
+		if(!initial(trait.random_trait))
+			continue
+		//Don't let abstract types through
+		var/path = initial(trait.type)
+		if(path == /datum/plant_trait || path == /datum/plant_trait/fruit || path == /datum/plant_trait/body || path == /datum/plant_trait/roots || path == /datum/plant_trait/reagent)
+			continue
+		if(!random_traits["[initial(trait.plant_feature_compat)]"])
+			random_traits["[initial(trait.plant_feature_compat)]"] = list()
+		random_traits["[initial(trait.plant_feature_compat)]"] += trait
 
 //Template for random features
 /datum/controller/subsystem/botany/proc/get_random_feature(list/feature_list, list/unused_feature_list, consider_unused = TRUE)
@@ -67,3 +87,17 @@ SUBSYSTEM_DEF(botany)
 /datum/controller/subsystem/botany/proc/get_random_root(consider_unused = TRUE)
 	return get_random_feature(random_roots, unused_random_roots, consider_unused)
 
+/datum/controller/subsystem/botany/proc/get_random_need()
+	return pick(overdraw_needs)
+
+/datum/controller/subsystem/botany/proc/get_random_trait(filter, consider_unused = TRUE)
+	if(!filter)
+		return
+	if(!consider_unused)
+		return pick(random_traits[filter])
+	if(!length(unused_random_traits[filter]))
+		var/list/copy_list = random_traits[filter]
+		unused_random_traits[filter] = copy_list.Copy()
+	var/trait = pick(unused_random_traits[filter])
+	unused_random_traits[filter] -= trait
+	return trait

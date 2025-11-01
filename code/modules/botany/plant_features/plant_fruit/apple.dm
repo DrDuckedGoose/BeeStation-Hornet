@@ -17,7 +17,7 @@
 /datum/plant_feature/fruit/apple/gold
 	species_name = "malum aurum"
 	name = "gold apple"
-	icon_state = "missing" //TODO: - Racc
+	icon_state = "apple_gold"
 	fruit_product = /obj/item/food/grown/apple/gold
 	fast_reagents = list(/datum/reagent/gold = PLANT_REAGENT_SMALL)
 	mutations = list(/datum/plant_feature/fruit/apple)

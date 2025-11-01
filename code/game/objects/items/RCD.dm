@@ -1009,6 +1009,9 @@ GLOBAL_VAR_INIT(icon_holographic_window, init_holographic_window())
 				return TRUE
 			return FALSE
 
+#define GENERIC_PLUMBING_RCD_COST 15
+#define GENERIC_PLUMBING_RCD_DELAY 20
+
 /obj/item/construction/plumbing
 	name = "Plumbing Constructor"
 	desc = "An expertly modified RCD outfitted to construct plumbing machinery."
@@ -1059,6 +1062,12 @@ GLOBAL_VAR_INIT(icon_holographic_window, init_holographic_window())
 	if(!choices.len)
 		for(var/A in plumbing_design_types)
 			var/obj/machinery/plumbing/M = A
+			if(!istype(M))
+				choices += list(initial(M.name) = image(icon = initial(M.icon), icon_state = initial(M.icon_state)))
+				name_to_type[initial(M.name)] = M
+				machinery_data["cost"][A] = GENERIC_PLUMBING_RCD_COST
+				machinery_data["delay"][A] = GENERIC_PLUMBING_RCD_DELAY
+				continue
 			if(initial(M.rcd_constructable))
 				choices += list(initial(M.name) = image(icon = initial(M.icon), icon_state = initial(M.icon_state)))
 				name_to_type[initial(M.name)] = M
@@ -1110,6 +1119,9 @@ GLOBAL_VAR_INIT(icon_holographic_window, init_holographic_window())
 	else
 		create_machine(A, user)
 
+#undef GENERIC_PLUMBING_RCD_COST
+#undef GENERIC_PLUMBING_RCD_DELAY
+
 /*
 	Botany variant
 */
@@ -1123,7 +1135,7 @@ GLOBAL_VAR_INIT(icon_holographic_window, init_holographic_window())
 	/obj/machinery/plumbing/input = 5,
 	/obj/machinery/plumbing/output = 5,
 	/obj/machinery/plumbing/tank = 20,
-	/obj/machinery/plumbing/tank/plant_tray = 15
+	/obj/item/plant_tray = 15
 )
 
 /*

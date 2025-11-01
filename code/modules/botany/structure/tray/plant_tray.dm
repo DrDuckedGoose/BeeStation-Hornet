@@ -1,16 +1,17 @@
-//TODO: Make the planting tray thing a component, holds stuff like substrate and plant_slots, but keep this - Racc
-/obj/machinery/plumbing/tank/plant_tray
+/obj/item/plant_tray
 	name = "plant tray"
 	desc = "A fifth generation space compatible botanical growing tray."
 	icon = 'icons/obj/hydroponics/features/generic.dmi'
 	icon_state = "tray"
 	appearance_flags = TILE_BOUND|PIXEL_SCALE|LONG_GLIDE|KEEP_TOGETHER
-	reagent_flags = TRANSPARENT | REFILLABLE
-	buffer = 200
-	///How many available slots do we have for plants
-	var/plant_slots = PLANT_BODY_SLOT_SIZE_LARGEST
-	///What kind of substrate do we have?
-	var/datum/plant_subtrate/substrate
+	density = TRUE
+	interaction_flags_item = NONE
+	///Reagents volume
+	var/buffer = 200
+	///Do we want the plumbing shit?
+	var/plumbing = TRUE
+	///Tray component
+	var/datum/component/planter/tray_component
 //Effects
 	var/atom/movable/plant_tray_reagents/tray_reagents
 	var/icon/mask
@@ -26,10 +27,16 @@
 	var/obj/effect/tray_indicator/problem
 	var/list/problem_features = list()
 
-/obj/machinery/plumbing/tank/plant_tray/Initialize(mapload)
+/obj/item/plant_tray/Initialize(mapload)
 	. = ..()
-	//TODO: consider making this an element with a 'planting' capacity - Racc
-	ADD_TRAIT(src, TRAIT_PLANTER, INNATE_TRAIT)
+	create_reagents(buffer, TRANSPARENT | REFILLABLE)
+	if(plumbing)
+		AddComponent(/datum/component/plumbing/tank, FALSE)
+		AddComponent(/datum/component/simple_rotation)
+//Tray component setup
+	tray_component = AddComponent(/datum/component/planter, 12)
+	RegisterSignal(tray_component, COMSIG_PLANTER_UPDATE_SUBSTRATE_SETUP, PROC_REF(remove_substrate))
+	RegisterSignal(tray_component, COMSIG_PLANTER_UPDATE_SUBSTRATE, PROC_REF(add_substrate))
 //Build effects
 	//mask for plants
 	mask = icon('icons/obj/hydroponics/features/generic.dmi', "[icon_state]_mask")
@@ -37,7 +44,7 @@
 	tray_reagents = new(src, icon_state)
 	vis_contents += tray_reagents
 	//Bottom most underlay
-	underlays += mutable_appearance('icons/obj/hydroponics/features/generic.dmi', "[icon_state]_bottom", ABOVE_NORMAL_TURF_LAYER)
+	underlays += mutable_appearance('icons/obj/hydroponics/features/generic.dmi', "[icon_state]_bottom", layer-0.1)
 //reagents
 	tray_reagents.color = mix_color_from_reagents(reagents.reagent_list)
 //Build tray indicatos
@@ -47,36 +54,14 @@
 	need = new(src, "#ff9100", 2)
 	problem = new(src, "#f00", 3)
 
-/obj/machinery/plumbing/tank/plant_tray/examine(mob/user)
+/obj/item/plant_tray/attackby(obj/item/C, mob/user)
 	. = ..()
-	if(substrate)
-		. += "<span class='notice'>[src] is filled with [substrate.name].\n[substrate.tooltip]</span>"
-
-/*
-/obj/machinery/plumbing/tank/plant_tray/wrench_act(mob/living/user, obj/item/I)
-	..()
-	default_unfasten_wrench(user, I)
-	return TRUE
-*/
-
-/obj/machinery/plumbing/tank/plant_tray/attackby(obj/item/C, mob/user)
-	. = ..()
-	if(!IS_EDIBLE(C) && !istype(C, /obj/item/reagent_containers))
-		return
-	//Let people fill trays with reagents by hand
-	var/obj/item/reagent_containers/reagent_source = C
-	if(!reagent_source.reagents.total_volume) //It aint got no gas in it
-		to_chat(user, span_warning("[reagent_source] is empty!"))
-		return TRUE
-	//Transfer reagents
-	reagent_source.reagents.trans_to(src, reagent_source.amount_per_transfer_from_this, transfered_by = user)
 	//Update liquid color
 	//TODO: need a better way to do this, so it updates with plumbing too - Racc
 	tray_reagents.color = mix_color_from_reagents(reagents.reagent_list)
-	return TRUE
 
 //When a plant is inserted / planted
-/obj/machinery/plumbing/tank/plant_tray/Entered(atom/movable/arrived, atom/old_loc, list/atom/old_locs)
+/obj/item/plant_tray/Entered(atom/movable/arrived, atom/old_loc, list/atom/old_locs)
 	. = ..()
 	var/datum/component/plant/plant_component = arrived.GetComponent(/datum/component/plant)
 //Start listening to component for signals, for indicators
@@ -91,8 +76,6 @@
 		problem_features |= plant_component
 		vis_contents |= problem
 //Visuals
-	//Add visuals, move the plant upwards to make it look like it's inside us
-	arrived.pixel_y += 12
 	//Masking
 	if(!plant_component)
 		return
@@ -100,13 +83,12 @@
 		arrived.add_filter("plant_tray_mask", 1, alpha_mask_filter(y = -12, icon = mask, flags = MASK_INVERSE))
 
 //When a plant is uprooted / ceases to exist
-/obj/machinery/plumbing/tank/plant_tray/Exited(atom/movable/gone, direction)
+/obj/item/plant_tray/Exited(atom/movable/gone, direction)
 	. = ..()
 //Visuals
 	//Remove visuals from previous step
-	gone.pixel_y -= 12
 	gone.remove_filter("plant_tray_mask")
-	vis_contents -= gone
+	vis_contents -= gone//Do this here because plants don't clean up for themselves
 //Component related
 	var/datum/component/plant/plant_component = gone.GetComponent(/datum/component/plant)
 	if(!plant_component)
@@ -131,25 +113,25 @@
 	if(!length(problem_features))
 		vis_contents -= problem
 
-///Helper to set out substrate
-/obj/machinery/plumbing/tank/plant_tray/proc/set_substrate(_substrate)
-	if(substrate)
-		underlays -= substrate.substrate_appearance
-		QDEL_NULL(substrate)
-	substrate = new _substrate(src)
+///Helpers to handle substrate vvisuals
+/obj/item/plant_tray/proc/add_substrate(_substrate)
+	var/datum/plant_subtrate/substrate = tray_component.substrate
 	underlays += substrate.substrate_appearance
+
+/obj/item/plant_tray/proc/remove_substrate(_substrate)
+	underlays -= tray_component.substrate.substrate_appearance
 
 /*
 	Signal handlers for plant harvest
 */
 
-/obj/machinery/plumbing/tank/plant_tray/proc/catch_plant_harvest_ready(datum/source)
+/obj/item/plant_tray/proc/catch_plant_harvest_ready(datum/source)
 	SIGNAL_HANDLER
 
 	harvestable_features |= source
 	vis_contents |= harvest
 
-/obj/machinery/plumbing/tank/plant_tray/proc/catch_plant_harvest_collected(datum/source)
+/obj/item/plant_tray/proc/catch_plant_harvest_collected(datum/source)
 	SIGNAL_HANDLER
 
 	harvestable_features -= source
@@ -160,13 +142,13 @@
 	Signal handlers for plant needs
 */
 
-/obj/machinery/plumbing/tank/plant_tray/proc/catch_plant_need_fail(datum/source, datum/plant_feature/_needy)
+/obj/item/plant_tray/proc/catch_plant_need_fail(datum/source, datum/plant_feature/_needy)
 	SIGNAL_HANDLER
 
 	needy_features |= _needy
 	vis_contents |= need
 
-/obj/machinery/plumbing/tank/plant_tray/proc/catch_plant_need_pass(datum/source, datum/plant_feature/_passy)
+/obj/item/plant_tray/proc/catch_plant_need_pass(datum/source, datum/plant_feature/_passy)
 	SIGNAL_HANDLER
 
 	needy_features -= _passy
@@ -184,7 +166,7 @@
 	icon_state = "tray_water"
 	vis_flags = VIS_INHERIT_ID
 	appearance_flags = KEEP_APART
-	layer = BELOW_OBJ_LAYER
+	layer = BELOW_OBJ_LAYER+0.1
 	color = "#fff0"
 	///Water rendered over the plant
 	var/mutable_appearance/over_water

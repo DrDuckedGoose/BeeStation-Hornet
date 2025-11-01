@@ -1,4 +1,3 @@
-//TODO: Sprites - Racc
 /*
 	Tomato
 */
@@ -58,8 +57,7 @@
 /datum/plant_feature/fruit/tomato/killer
 	species_name = "lycopersicum rabidus"
 	name = "killer tomato"
-	icon_state = "tomato-2"
-	colour_override = "#8d1111"
+	icon_state = "killer_tomato"
 	plant_traits = list(/datum/plant_trait/reagent/fruit/nutriment, /datum/plant_trait/reagent/fruit/vitamin,
 	/datum/plant_trait/fruit/liquid_contents, /datum/plant_trait/fruit/killer)
 	fruit_product = /obj/item/food/grown/tomato/killer
@@ -69,11 +67,16 @@
 	Friendly Tomato
 */
 /datum/plant_feature/fruit/tomato/friendly
-	species_name = "lycopersicum rabidus" //TODO: - Racc
-	name = "friendly tomato" //TODO: - Racc
-	icon_state = "missing" //TODO: - Racc
-	colour_override = "#fff700" //TODO: - Racc
+	species_name = "lycopersicum amica"
+	name = "friendly tomato"
+	icon_state = "friendly_tomato"
 	plant_traits = list(/datum/plant_trait/reagent/fruit/nutriment, /datum/plant_trait/reagent/fruit/vitamin,
 	/datum/plant_trait/fruit/liquid_contents, /datum/plant_trait/fruit/killer/friendly)
-	fruit_product = /obj/item/food/grown/tomato/killer //TODO: - Racc
+	fruit_product = /obj/item/food/grown/tomato/friendly
 	mutations = list(/datum/plant_feature/fruit/tomato)
+
+/obj/item/food/grown/tomato/friendly
+	seed = /obj/item/seeds/tomato
+	name = "friendly tomato"
+	desc = "The real treasure are the friends we made along the way!"
+	icon_state = "friendly_tomato"

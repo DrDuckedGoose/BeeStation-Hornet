@@ -25,13 +25,25 @@
 	if(QDELING(src))
 		return
 	SEND_SIGNAL(fruit_parent, COMSIG_FRUIT_ACTIVATE_TARGET, src, hit_atom)
-	//TODO: The fruit imparts it's chemicals on the target, but only after sending the signal - Racc
+	fruit_parent.visible_message(span_warning("[fruit_parent] has been squashed."), span_italics("You hear a smack."))
+	//Cough on the actual target, if there is one
+	if(hit_atom)
+		fruit_parent.reagents.expose(hit_atom)
+	//Cough on everything in the turf we just hit
+	var/turf/T = get_turf(fruit_parent)
+	for(var/victim in T)
+		fruit_parent.reagents.expose(victim)
+	//koos
 	if(impact_del)
 		qdel(fruit_parent)
 
 /datum/plant_trait/fruit/liquid_contents/catch_activate(datum/source)
 	. = ..()
-	//TODO: add squash message and effects - Racc
+	// Lil' bit of dupe code but it's not a dealbreaker
+	fruit_parent.visible_message(span_warning("[fruit_parent] has been squashed."), span_italics("You hear a smack."))
+	var/turf/T = get_turf(fruit_parent)
+	for(var/victim in T)
+		fruit_parent.reagents.expose(victim)
 	if(!QDELING(src) && impact_del)
 		qdel(src)
 

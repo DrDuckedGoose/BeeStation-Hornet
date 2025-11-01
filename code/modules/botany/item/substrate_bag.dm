@@ -13,14 +13,14 @@
 
 /obj/item/substrate_bag/afterattack(atom/target, mob/user, proximity_flag, click_parameters)
 	. = ..()
-	var/obj/machinery/plumbing/tank/plant_tray/tray = target
-	if(!istype(tray))
+	var/datum/component/planter/tray_component = target.GetComponent(/datum/component/planter)
+	if(!tray_component)
 		return
 	if(!do_after(user, 2.3 SECONDS, target))
 		return
 	to_chat(user, "<span class='notice'>You fill [target] from [src]</span>")
 	playsound(src, 'sound/effects/shovel_dig.ogg', 60)
-	tray.set_substrate(substrate)
+	tray_component.set_substrate(substrate)
 
 /*
 	Generic presets for botany

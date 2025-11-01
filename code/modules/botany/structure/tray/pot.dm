@@ -1,22 +1,29 @@
-/obj/machinery/plumbing/tank/plant_tray/pot
+/obj/item/plant_tray/pot
 	name = "plant pot"
 	icon_state = "pot"
 	use_indicators = FALSE
+	plumbing = FALSE
 	density = FALSE
-	//TODO: let people hide behind this - Racc
+	layer = ABOVE_MOB_LAYER
+	interaction_flags_item = INTERACT_ITEM_ATTACK_HAND_PICKUP
+
+/obj/item/plant_tray/pot/ComponentInitialize()
+	. = ..()
+	AddComponent(/datum/component/tactical)
+	AddComponent(/datum/component/two_handed, require_twohands=TRUE, force_unwielded=10, force_wielded=10)
 
 /*
 	Variant that contains a random plant
 	Used for hallway plants
 */
-/obj/machinery/plumbing/tank/plant_tray/pot/random
+/obj/item/plant_tray/pot/random
 
-/obj/machinery/plumbing/tank/plant_tray/pot/random/Initialize(mapload)
+/obj/item/plant_tray/pot/random/Initialize(mapload)
 	. = ..()
 //Plant
 	var/obj/item/plant_item/random/random_plant = new(get_turf(src))
 	var/datum/component/plant/plant_component = random_plant.GetComponent(/datum/component/plant)
-	if(!SEND_SIGNAL(plant_component, COMSIG_PLANT_POLL_TRAY_SIZE, src)) //Just in case //TODO: Do something with this - Racc
+	if(!SEND_SIGNAL(plant_component, COMSIG_PLANT_POLL_TRAY_SIZE, src)) //Just in case - All random plants should be designed to fit in a plant pot
 		qdel(random_plant)
 		return
 	random_plant.forceMove(src) //forceMove instead of creating it inside to proc Entered()

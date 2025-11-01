@@ -1,4 +1,3 @@
-//TODO: Bug with fruit being harvestable before animation is done - Racc
 /datum/plant_feature
 	///The 'scientific' name for our plant feature
 	var/species_name = "testus testium"
@@ -14,7 +13,6 @@
 	///Reference to component daddy
 	var/datum/component/plant/parent
 
-	//TODO: Implement this - Racc
 	///List of features we don't wanna be with
 	var/list/blacklist_features = list()
 	///List of features we can only be with
@@ -44,11 +42,19 @@
 	///List of needs we've previously had from overdrawing, stops rerolling
 	var/list/previous_needs = list()
 
+	///Trait type shortcut
+	var/trait_type_shortcut = /datum/plant_feature
 
 //Appearance
 	var/icon = 'icons/obj/hydroponics/features/generic.dmi'
 	var/icon_state = ""
 	var/mutable_appearance/feature_appearance
+
+//Trait editing properties
+	///Can this trait be copied
+	var/can_copy = TRUE
+	///Can this trait be removed
+	var/can_remove = TRUE
 
 /datum/plant_feature/New(datum/component/plant/_parent)
 	. = ..()
@@ -65,6 +71,9 @@
 	for(var/need as anything in plant_needs)
 		plant_needs -= need
 		plant_needs += new need(src)
+	//Build white & black list
+	blacklist_features = typecacheof(blacklist_features)
+	whitelist_features = typecacheof(whitelist_features)
 
 //Used to get dialogue / text for hand-held plant scanner
 /datum/plant_feature/proc/get_scan_dialogue()
@@ -108,10 +117,10 @@
 	for(var/datum/plant_trait/trait as anything in plant_traits)
 		new_feature.plant_traits += trait.copy(new_feature)
 	//needs
-	for(var/need as anything in new_feature.plant_needs)
+	for(var/need as anything in new_feature.plant_needs) //Remove new feature's generic needs
 		new_feature.plant_needs -= need
 		qdel(need)
-	for(var/datum/plant_need/need as anything in plant_needs)
+	for(var/datum/plant_need/need as anything in plant_needs) //Replace them with ours
 		new_feature.plant_needs += need.copy(new_feature)
 	return new_feature
 
@@ -150,9 +159,12 @@
 	//Info
 	return
 
-//TODO: Make stuff to unassociate seed packets - Racc
 ///Use this to associate this feature datum with a seed packet, before it's planted
 /datum/plant_feature/proc/associate_seeds(obj/item/plant_seeds/seeds)
+	return
+
+///Undo any association. Used for seed packets with more than 1 seed
+/datum/plant_feature/proc/unassociate_seeds(obj/item/plant_seeds/seeds)
 	return
 
 /datum/plant_feature/proc/catch_planted(datum/source, atom/destination)
@@ -164,9 +176,21 @@
 ///Used to adjust our genetic budget, contains logic for overdrawing our budget
 /datum/plant_feature/proc/adjust_genetic_budget(amount, datum/source)
 	remaining_genetic_budget += amount
-	//TODO: - Racc
 //Need management
-	//If we're paying it back, remove needs
-
 	//If we're overdrawing, add needs
+	if(amount < 0 && remaining_genetic_budget <= 0)
+		var/datum/plant_need = previous_needs["[source.type]"] || SSbotany.get_random_need()
+		plant_need = new plant_need(src)
+		overdraw_needs += list(REF(source) = plant_need)
+		plant_needs += plant_need
+		return
+	//If we're paying it back, remove needs
+	if(amount > 0 && plant_needs[REF(source)])
+		//Archive the need so people don't try to reroll it
+		var/datum/plant_need = overdraw_needs[REF(source)]
+		previous_needs += list("[source.type]" = plant_need.type)
+		//Remove it from ourselves
+		plant_needs -= plant_need
+		overdraw_needs -= REF(source)
+		qdel(plant_need)
 

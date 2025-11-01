@@ -1,11 +1,10 @@
 /*
 	Grape
 */
-//TODO: make this and other fruits like it use grouped sprites when there are multiple fruits - Racc
 /datum/plant_feature/fruit/grape
 	species_name = "uva erubesco"
 	name = "grape"
-	icon_state = "berry"
+	icon_state = "grapes"
 	fruit_product = /obj/item/food/grown/grapes
 	plant_traits = list(/datum/plant_trait/reagent/fruit/nutriment, /datum/plant_trait/reagent/fruit/vitamin)
 	fast_reagents = list(/datum/reagent/consumable/sugar = PLANT_REAGENT_MEDIUM)

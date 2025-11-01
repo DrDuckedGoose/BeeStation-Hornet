@@ -10,12 +10,8 @@
 	color = _color
 	icon_state = "tray_light_[_index]"
 //Emmisive
-	//TODO: Do this properly - Racc
-	var/mutable_appearance/emissive = new()
-	emissive.appearance = appearance
-	emissive.blend_mode = BLEND_INSET_OVERLAY
-	emissive.plane = LIGHTING_PLANE
+	var/mutable_appearance/emissive = emissive_appearance(icon, icon_state)
 	add_overlay(emissive)
-//Animation - Do this post appearance copying to avoid headache
+//Animation
 	animate(src, alpha = 0, time = 0.5 SECONDS, loop = -1)
 	animate(alpha = 255, time = 0.25 SECONDS)

@@ -27,13 +27,16 @@
 
 /obj/item/plant_seeds/afterattack_secondary(atom/target, mob/user, proximity_flag, click_parameters)
 	. = ..()
-	//Check if our roots fuck with the thing we're planting
-	var/obj/machinery/plumbing/tank/plant_tray/tray = target
-	var/substrate_flags = (istype(tray) ? tray.substrate : null)
-	if(!SEND_SIGNAL(src, COMSIG_SEEDS_POLL_ROOT_SUBSTRATE, substrate_flags))
+	//Is this even a planter?
+	var/datum/component/planter/tray_component = target.GetComponent(/datum/component/planter)
+	if(!tray_component)
+		to_chat(user, "<span class='warining'>You can't plant [src] here!</span>")
+		return
+	//Check if our roots fuck with the substrate we're planting it in
+	if(!SEND_SIGNAL(src, COMSIG_SEEDS_POLL_ROOT_SUBSTRATE, tray_component.substrate))
 		to_chat(user, "<span class='warining'>You can't plant [src] in this substrate!</span>")
 		return
-	if(!SEND_SIGNAL(src, COMSIG_SEEDS_POLL_TRAY_SIZE, tray))
+	if(!SEND_SIGNAL(src, COMSIG_SEEDS_POLL_TRAY_SIZE, target))
 		to_chat(user, "<span class='warining'>There's no room to plant [src] here!</span>")
 		return
 	//Plant it
@@ -42,13 +45,15 @@
 		return
 	var/obj/item/plant_item/plant = new(get_turf(target), plant_features, species_id)
 	var/datum/component/plant/plant_component = plant.GetComponent(/datum/component/plant)
+	//Unassociate
+	for(var/datum/plant_feature/feature as anything in plant_component.plant_features)
+		feature.unassociate_seeds(src)
 	//Plant appearance stuff
 	plant.name = name_override || plant.name
 	plant.forceMove(target) //forceMove instead of creating it inside to proc Entered()
 	SEND_SIGNAL(plant_component, COMSIG_PLANT_PLANTED, target)
-	if(!isturf(target) && isobj(target))
-		var/obj/vis_target = target
-		vis_target.vis_contents += plant
+	var/obj/vis_target = target
+	vis_target.vis_contents |= plant
 	//Decrement seeds until it's depleted
 	seeds--
 	if(seeds <= 0)
@@ -62,6 +67,16 @@
 	//Clamp it so that the icon never moves more than 16 pixels in either direction (thus leaving the planting turf)
 	plant.pixel_x = clamp(text2num(LAZYACCESS(modifiers, ICON_X)) - 16, PLANT_X_CLAMP, PLANT_Y_CLAMP)
 
+//basically a direct copy from the plant component, sue me
+/obj/item/plant_seeds/proc/get_species_id()
+	var/new_species_id = ""
+	for(var/datum/plant_feature/feature as anything in plant_features)
+		var/traits = ""
+		for(var/datum/plant_trait/trait as anything in feature.plant_traits)
+			traits = "[traits]-[trait?.get_id()]"
+		new_species_id = "[new_species_id][feature?.species_name]-([traits])-"
+	return new_species_id
+
 /*
 	Preset
 	This is used for making  preset species ids work at runtime
@@ -74,8 +89,7 @@
 	. = ..()
 	if(species_id) //Just in case someone uses it wrong
 		return
-	//TODO: Find a solution to this not being the same as regular IDs - Racc
-	species_id = "preset-[name]"
+	species_id = get_species_id()
 	SSbotany.plant_species |= species_id
 
 /*

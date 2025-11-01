@@ -12,7 +12,7 @@
 	//TODO: optimize this code - Racc
 	var/scan_dialogue = ""
 //Tray Code
-	var/obj/machinery/plumbing/tank/plant_tray/tray = target
+	var/obj/item/plant_tray/tray = target
 	if(istype(tray))
 		//Report needs //TODO: maybe make this a proc. like the below for() - Racc
 		//TODO: make this work for all plants, not just need ones. Make scanning the tray for PROBLEMS. Or Just make scanning the tray informative - Racc

@@ -10,6 +10,7 @@
 	yields = PLANT_BODY_YIELD_MICRO
 	yield_cooldown_time = PLANT_BODY_YIELD_TIME_SLOW //Doesn't really matter, we only get one
 	max_harvest = PLANT_BODY_HARVEST_MICRO
+	upper_fruit_size = PLANT_FRUIT_SIZE_SMALL
 
 /datum/plant_feature/body/corn_stalk/apply_fruit_overlay(obj/effect/fruit_effect, offset_x, offset_y)
 	. = ..()

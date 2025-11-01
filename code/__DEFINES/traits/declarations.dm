@@ -406,8 +406,4 @@ Remember to update _globalvars/traits.dm if you're adding/removing/renaming trai
 #define TRAIT_NEGATES_GRAVITY "negates_gravity"
 #define TRAIT_NIGHT_VISION "night_vision"
 
-//Botany traits
-/// this object can be used as planter
-#define TRAIT_PLANTER "planter"
-
 // END TRAIT DEFINES

@@ -102,6 +102,10 @@
 		if(mind)
 			switch_ability.on_activate(src, null) //If we have someone conscious in the drone, throw them out.
 		switch_ability.Remove(src)
+	//Setup our plant component, so we can be planted, and saved
+	var/datum/plant_feature/fruit/cabbage/diona/pod = new()
+	pod.our_mind = mind
+	AddComponent(/datum/component/plant, src, list(/datum/plant_feature/roots, /datum/plant_feature/body/diona_pod, pod))
 	return ..(gibbed,death_msg)
 
 /mob/living/simple_animal/hostile/retaliate/nymph/adjustBruteLoss(amount, updating_health, forced)
@@ -343,19 +347,10 @@
 	L.put_in_hands(holder)
 
 /obj/item/clothing/head/mob_holder/nymph
-	var/moving_cooldown
-	var/on_head
-	//Variables for planting a dead nymph into a hydroponics tray
-	tool_behaviour = null
-	fake_seed = null
 	grind_results = list(/datum/reagent/consumable/chlorophyll = 20)
 	juice_typepath = /datum/reagent/consumable/chlorophyll
-
-/obj/item/clothing/head/mob_holder/nymph/Initialize(mapload, mob/living/M, worn_state, head_icon, lh_icon, rh_icon, worn_slot_flags)
-	if(M.mind)
-		fake_seed = new /obj/item/seeds/nymph
-		fake_seed.mind = M.mind
-	. = ..()
+	var/moving_cooldown
+	var/on_head
 
 /obj/item/clothing/head/mob_holder/nymph/relaymove(mob/user) // Hold nymph like petulant child...
 	if(moving_cooldown <= world.time)

@@ -126,32 +126,4 @@
 	icon_state = "flower_1"
 	colour_overlay = "flower_1_colour"
 	fruit_product = /obj/item/food/grown/flower/rainbow
-
-/datum/plant_feature/fruit/flower/rainbow/New(datum/component/plant/_parent)
-	var/flower_color = rand(1,8)
-	switch(flower_color)
-		if(1)
-			colour_override = "#DA0000"
-			fast_reagents = list(/datum/reagent/colorful_reagent/powder/red = PLANT_REAGENT_MEDIUM)
-		if(2)
-			colour_override = "#FF9300"
-			fast_reagents = list(/datum/reagent/colorful_reagent/powder/orange = PLANT_REAGENT_MEDIUM)
-		if(3)
-			colour_override = "#FFF200"
-			fast_reagents = list(/datum/reagent/colorful_reagent/powder/yellow = PLANT_REAGENT_MEDIUM)
-		if(4)
-			colour_override = "#A8E61D"
-			fast_reagents = list(/datum/reagent/colorful_reagent/powder/green = PLANT_REAGENT_MEDIUM)
-		if(5)
-			colour_override = "#00B7EF"
-			fast_reagents = list(/datum/reagent/colorful_reagent/powder/blue = PLANT_REAGENT_MEDIUM)
-		if(6)
-			colour_override = "#DA00FF"
-			fast_reagents = list(/datum/reagent/colorful_reagent/powder/purple = PLANT_REAGENT_MEDIUM)
-		if(7)
-			colour_override = "#1C1C1C"
-			fast_reagents = list(/datum/reagent/colorful_reagent/powder/black = PLANT_REAGENT_MEDIUM)
-		if(8)
-			colour_override = "#FFFFFF"
-			fast_reagents = list(/datum/reagent/colorful_reagent/powder/white = PLANT_REAGENT_MEDIUM)
-	return ..()
+	colour_override = list("#DA0000", "#FF9300", "#FFF200", "#A8E61D", "#00B7EF", "#DA00FF", "#1C1C1C", "#FFFFFF")

@@ -10,3 +10,4 @@
 	fast_reagents = list(/datum/reagent/water = PLANT_REAGENT_MEDIUM)
 	total_volume = PLANT_FRUIT_VOLUME_MEDIUM
 	growth_time = PLANT_FRUIT_GROWTH_MEDIUM
+	fruit_size = PLANT_FRUIT_SIZE_MEDIUM

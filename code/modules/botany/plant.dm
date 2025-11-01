@@ -27,17 +27,18 @@
 	. = ..()
 	plant_item = _plant_item
 	skip_growth = _skip_growth
-//Setup signals for spade behaviour
+	plant_item.flags_1 |= IS_ONTOP_1
+	//Setup signals for spade behaviour
 	RegisterSignal(plant_item, COMSIG_PARENT_ATTACKBY, PROC_REF(catch_attackby))
-//Species ID setup
+	//Species ID setup
 	if(!_species_id)
 		compile_species_id()
 	else
 		species_id = _species_id
-//Plant features
+	//Plant features
 	if(length(_plant_features))
 		populate_features(_plant_features)
-//Add discoverable component for discovering this discoverable discovery
+	//Add discoverable component for discovering this discoverable discovery
 	plant_item.AddComponent(/datum/component/discoverable/plant, discovery_reward)
 
 /datum/component/plant/Destroy(force, silent)
@@ -73,15 +74,27 @@
 
 	if(target == plant_item)
 		return
-	var/obj/item/spade = source
-	var/obj/obj_target = target
+	//Is this even a planter?
+	var/datum/component/planter/tray_component = target.GetComponent(/datum/component/planter)
+	if(!tray_component)
+		to_chat(user, "<span class='warining'>You can't plant [plant_item] here!</span>")
+		return
+	if(!SEND_SIGNAL(src, COMSIG_SEEDS_POLL_ROOT_SUBSTRATE, tray_component.substrate))
+		to_chat(user, "<span class='warining'>You can't plant [plant_item] in this substrate!</span>")
+		return
 	if(!SEND_SIGNAL(src, COMSIG_PLANT_POLL_TRAY_SIZE, target))
-		to_chat(user, "<span class='warining'>There's no room to plant [src] here!</span>")
+		to_chat(user, "<span class='warining'>There's no room to plant [plant_item] here!</span>")
+		return
+	INVOKE_ASYNC(src, PROC_REF(catch_spade_attack_async), source, target, user)
+
+/datum/component/plant/proc/catch_spade_attack_async(obj/spade, obj/target, mob/user)
+	playsound(plant_item, 'sound/effects/shovel_dig.ogg', 60)
+	if(!do_after(user, 2.5 SECONDS, target))
 		return
 	UnregisterSignal(spade, COMSIG_ITEM_AFTERATTACK)
 	SEND_SIGNAL(src, COMSIG_PLANT_PLANTED, target)
 	plant_item.forceMove(target)
-	obj_target.vis_contents += plant_item
+	target.vis_contents += plant_item
 	spade.vis_contents -= plant_item
 
 /datum/component/plant/proc/populate_features(list/_features)

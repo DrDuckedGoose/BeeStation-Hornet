@@ -5,6 +5,7 @@
 	icon_state = ""
 	flags_1 = IS_ONTOP_1
 	appearance_flags = TILE_BOUND | LONG_GLIDE | KEEP_APART | KEEP_TOGETHER
+	interaction_flags_item = NONE
 	///Does this plant item skip it's growth cycle
 	var/skip_growth = FALSE
 

@@ -1,8 +1,10 @@
 /datum/plant_trait
-///Daddy-o, refers to the feature we belong to
+	///Daddy-o, refers to the feature we belong to
 	var/datum/plant_feature/parent
-///How much does this trait cost to use, in terms of genetic cost
+	///How much does this trait cost to use, in terms of genetic cost
 	var/genetic_cost = 1
+	///Can this trait appear as a random trait?
+	var/random_trait = TRUE
 //Identity
 	var/name = ""
 	var/desc = ""
@@ -14,7 +16,6 @@
 	///What kind of plant feature are we compatible with
 	var/plant_feature_compat = /datum/plant_feature
 //Trait editing properties
-	//TODO: Implement these - Racc
 	///Can this trait be copied
 	var/can_copy = TRUE
 	///Can this trait be removed
