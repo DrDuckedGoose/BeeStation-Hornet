@@ -62,7 +62,13 @@
 
 /datum/plant_feature/fruit/get_scan_dialogue()
 	. = ..()
-	. += "<b>Fruit size: [fruit_size]</b>"
+	. += "Fruit Volume: [total_volume]u\n"
+	. += "Growth Time: [growth_time/10] seconds\n"
+	. += "Fruit Size: [fruit_size]\n"
+
+/datum/plant_feature/fruit/get_ui_data()
+	. = ..()
+	. += list(PLANT_DATA("Fruit Volume", "[total_volume]u"), PLANT_DATA("Growth Time", "[growth_time/10] SECONDS"), PLANT_DATA("Fruit Size", "[fruit_size]"), PLANT_DATA(null, null))
 
 /datum/plant_feature/fruit/process(delta_time)
 	if(!length(growth_timers) || !check_needs(delta_time))
@@ -86,10 +92,6 @@
 			growth_timers -= timer
 			visual_fruits -= timer
 			build_fruit()
-
-/datum/plant_feature/fruit/get_ui_data()
-	. = ..()
-	. += list(PLANT_DATA("Reagent Capacity", "[total_volume] units"), PLANT_DATA("Grow Time", "[growth_time] SECONDS"), PLANT_DATA(null, null))
 
 /datum/plant_feature/fruit/setup_parent(_parent, reset_features)
 //Reset

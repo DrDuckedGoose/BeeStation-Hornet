@@ -1,21 +1,26 @@
-//TODO: Refactor / improve all UI code - Racc
-/obj/machinery/seed_editor
+/obj/machinery/plant_machine/seed_editor
 	name = "seed sequencer"
 	desc = "An advanced device designed to manipulate seed genetic makeup."
-	icon = 'icons/obj/hydroponics/equipment.dmi'
-	icon_state = "dnamod"
+	icon = 'icons/obj/hydroponics/features/generic.dmi'
+	icon_state = "editor_open"
 	density = TRUE
 	pass_flags = PASSTABLE
+	interaction_flags_atom = INTERACT_ATOM_ATTACK_HAND
+
 	///Inserted seeds we're editing
 	var/obj/item/plant_seeds/seeds
+
 	///Currently selected feature
 	var/datum/plant_feature/current_feature
 	var/current_feature_ref
-	//TODO: Please consider if this is really the best way to design this, giving access to saved traits - Racc
+
 	///Inserted disk we're reading data from
 	var/obj/item/plant_disk/disk
 
-/obj/machinery/seed_editor/attackby(obj/item/C, mob/user)
+	///Last 'command' for UI stuff
+	var/last_command = ""
+
+/obj/machinery/plant_machine/seed_editor/attackby(obj/item/C, mob/user)
 	. = ..()
 	//insert disk
 	if(istype(C, /obj/item/plant_disk) && !disk)
@@ -25,42 +30,46 @@
 	if(istype(C, /obj/item/plant_seeds) && !seeds)
 		C.forceMove(src)
 		seeds = C
+		icon_state = "editor"
+		playsound(src, 'sound/machines/click.ogg', 30)
+	ui_update()
 
-//TODO: Add a button in the UI to do this too - Racc
-/obj/machinery/seed_editor/attack_hand_secondary(mob/user, list/modifiers)
+/obj/machinery/plant_machine/seed_editor/attack_hand_secondary(mob/user, list/modifiers)
 	. = ..()
-	//TODO: Optimize / review this - Racc
 //Remove Seeds
-	seeds.forceMove(get_turf(src))
-	user.put_in_active_hand(seeds)
-	seeds = null
+	if(seeds)
+		seeds.forceMove(get_turf(src))
+		user.put_in_active_hand(seeds)
+		seeds = null
+		icon_state = "editor_open"
 //Remove disk
-	if(!disk)
-		return
-	disk.forceMove(get_turf(src))
-	user.put_in_active_hand(disk)
-	disk = null
+	if(disk)
+		disk.forceMove(get_turf(src))
+		user.put_in_active_hand(disk)
+		disk = null
+	ui_update()
 
-/obj/machinery/seed_editor/ui_interact(mob/user, datum/tgui/ui)
+/obj/machinery/plant_machine/seed_editor/ui_interact(mob/user, datum/tgui/ui)
 	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui)
 		ui = new(user, src, "SeedEditor")
 		ui.open()
 
-/obj/machinery/seed_editor/ui_data(mob/user)
+/obj/machinery/plant_machine/seed_editor/ui_data(mob/user)
 	var/list/data = list()
+	//last command, cosmetic
+	data["last_command"] = last_command
 	//generic stats
 	data["seeds_feature_data"] = list()
 	if(seeds)
 		for(var/datum/plant_feature/feature as anything in seeds.plant_features)
 			data["seeds_feature_data"] += list(feature.get_ui_stats())
-	//icons
 	//current feature
 	data["current_feature"] = current_feature_ref
 	data["current_feature_data"] = current_feature?.get_ui_data()
 	data["current_feature_traits"] = current_feature?.get_ui_traits()
 	//Current inserted plant's name
-	data["inserted_plant"] = seeds?.name
+	data["inserted_plant"] = capitalize(seeds?.name)
 	///Is there a disk inserted
 	data["disk_inserted"] = disk
 	data["disk_feature_data"] = null
@@ -74,32 +83,47 @@
 
 	return data
 
-/obj/machinery/seed_editor/ui_act(action, params)
+/obj/machinery/plant_machine/seed_editor/ui_act(action, params)
 	if(..())
 		return
+	playsound(src, get_sfx("keyboard"), 30, TRUE)
 	switch(action)
 		if("select_feature")
 			current_feature_ref = current_feature_ref == params["key"] ? null : params["key"]
 			current_feature = locate(current_feature_ref)
+			last_command = "pit feature select -m [params["key"]]"
 			ui_update()
-			return
 		if("remove_feature")
 			var/datum/plant_feature/feature = locate(params["key"])
 			if(!feature.can_remove)
 				return
+			//If it's a disk feature
+			if(feature == disk?.saved)
+				disk?.saved = null
+			//Fix focus
+			if(feature == current_feature)
+				current_feature_ref = null
+				current_feature = null
 			seeds.plant_features -= feature
 			qdel(feature)
 			//We can safely set this to null, so it makes a new ID when planted.
 			seeds.species_id = null
+			last_command = "pit feature remove -f -m [params["key"]]"
+			ui_update()
 		if("remove_trait")
-			if(!current_feature)
-				return
 			var/datum/plant_trait/trait = locate(params["key"])
 			if(!trait.can_remove)
 				return
-			current_feature.plant_traits -= trait
+			//If it's a disk trait
+			if(trait == disk?.saved)
+				disk?.saved = null
+			else //otherwise just carry on and null our species ID while we're at it, to gen a new one
+				seeds.species_id = null
+			if(current_feature)
+				current_feature.plant_traits -= trait
 			qdel(trait)
-			seeds.species_id = null
+			last_command = "pit trait remove -f -m [params["key"]]"
+			ui_update()
 		if("add_trait")
 			if(!current_feature)
 				return
@@ -112,8 +136,14 @@
 			var/datum/plant_trait/new_trait = trait.copy(current_feature)
 			if(!QDELING(new_trait))
 				current_feature.plant_traits += new_trait
+			else
+				playsound(src, 'sound/machines/terminal_error.ogg', 60)
+				say("ERROR: Seed composition not compatible with selected trait!")
+				return
 			//Reset the species ID
 			seeds.species_id = null
+			last_command = "pit trait add -f -cd [params["key"]]"
+			ui_update()
 		if("add_feature")
 			var/datum/plant_feature/feature = locate(params["key"])
 		//Generic compatibility checking
@@ -122,7 +152,6 @@
 				if(current_feature.feature_catagories & feature.feature_catagories) //If you want to have multiple features of the same type on one plant, this is one of the things stopping you
 					playsound(src, 'sound/machines/terminal_error.ogg', 60)
 					say("ERROR: Seed composition cannot fit selected feature!")
-					say("SOLUTION: Please remove existing feature.")
 					return
 				//Is this feature blacklisted from another feature
 				if(is_type_in_typecache(feature, current_feature.blacklist_features))
@@ -151,4 +180,15 @@
 			var/datum/plant_feature/new_feature = feature.copy()
 			seeds.plant_features += new_feature
 			seeds.species_id = null
-	ui_update()
+			last_command = "pit feature add -f -cd [params["key"]]"
+			ui_update()
+		if("remove_disk")
+			//Fix focus
+			if(disk.saved == current_feature)
+				current_feature_ref = null
+				current_feature = null
+			//Spit disk out
+			disk.forceMove(get_turf(src))
+			disk = null
+			last_command = "per reader eject -f"
+			ui_update()

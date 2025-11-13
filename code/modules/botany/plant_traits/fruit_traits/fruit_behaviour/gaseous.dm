@@ -4,10 +4,8 @@
 	///How much smoke do we make, size
 	var/smoke_amount = 1
 
-/datum/plant_trait/fruit/gaseous/New(datum/plant_feature/_parent)
+/datum/plant_trait/fruit/gaseous/setup_fruit_parent()
 	. = ..()
-	if(!fruit_parent)
-		return
 	RegisterSignal(fruit_parent, COMSIG_FRUIT_ACTIVATE_TARGET, TYPE_PROC_REF(/datum/plant_trait/fruit, catch_activate))
 	RegisterSignal(fruit_parent, COMSIG_FRUIT_ACTIVATE_NO_CONTEXT, TYPE_PROC_REF(/datum/plant_trait/fruit, catch_activate))
 
@@ -18,7 +16,7 @@
 	var/datum/effect_system/smoke_spread/chem/S = new
 	var/turf/T = get_turf(fruit_parent)
 	S.attach(T)
-	S.set_up(fruit_parent.reagents, smoke_amount*parent.trait_power, T, 0)
+	S.set_up(fruit_parent.reagents, smoke_amount*trait_power, T, 0)
 	S.start()
 	log_admin_private("[fruit_parent.fingerprintslast] has caused a plant to create smoke containing [fruit_parent.reagents.log_list()] at [AREACOORD(T)]")
 	message_admins("[fruit_parent.fingerprintslast] has caused a plant to create smoke containing [fruit_parent.reagents.log_list()] at [ADMIN_VERBOSEJMP(T)]")

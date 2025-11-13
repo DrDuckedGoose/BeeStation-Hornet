@@ -36,6 +36,10 @@
 		return
 	RegisterSignal(parent, COMSIG_SEEDS_POLL_ROOT_SUBSTRATE, PROC_REF(catch_substrate))
 
+/datum/plant_feature/roots/get_scan_dialogue()
+	. = ..()
+	. += "Compatible Substrate: [substrate_dialogue]"
+
 /datum/plant_feature/roots/get_ui_data()
 	. = ..()
 	. += list(PLANT_DATA("Compatible Substrate", "[substrate_dialogue]"))

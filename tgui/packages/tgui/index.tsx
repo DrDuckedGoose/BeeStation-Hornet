@@ -42,6 +42,7 @@ import './styles/themes/paper.scss';
 import './styles/themes/retro.scss';
 import './styles/themes/syndicate.scss';
 import './styles/themes/thinktronic-classic.scss';
+import './styles/themes/plant_menu.scss';
 
 import { configureStore } from './store';
 

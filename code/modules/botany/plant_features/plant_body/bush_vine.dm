@@ -12,6 +12,7 @@
 	yield_cooldown_time = PLANT_BODY_YIELD_TIME_FAST
 	max_harvest = PLANT_BODY_HARVEST_MEDIUM
 	upper_fruit_size = PLANT_FRUIT_SIZE_SMALL
+	seeds = 2
 
 /*
 	Berry Bush

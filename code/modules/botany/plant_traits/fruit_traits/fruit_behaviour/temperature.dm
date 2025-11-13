@@ -8,10 +8,8 @@
 	///Verb + friends for visible message
 	var/temperature_verb = "heating up"
 
-/datum/plant_trait/fruit/temperature/New(datum/plant_feature/_parent)
+/datum/plant_trait/fruit/temperature/setup_fruit_parent()
 	. = ..()
-	if(!fruit_parent)
-		return
 	RegisterSignal(fruit_parent, COMSIG_FRUIT_ACTIVATE_TARGET, TYPE_PROC_REF(/datum/plant_trait/fruit, catch_activate))
 	RegisterSignal(fruit_parent, COMSIG_FRUIT_ACTIVATE_NO_CONTEXT, TYPE_PROC_REF(/datum/plant_trait/fruit, catch_activate))
 

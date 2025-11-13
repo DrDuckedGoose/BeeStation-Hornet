@@ -2064,7 +2064,6 @@
 	dir = 10
 	},
 /obj/machinery/seeder,
-/obj/structure/table,
 /obj/effect/turf_decal/tile/neutral/fourcorners/contrasted,
 /turf/open/floor/iron/dark,
 /area/storage/primary)
@@ -2118,6 +2117,14 @@
 	},
 /turf/open/floor/iron,
 /area/hallway/primary/central)
+"kw" = (
+/obj/effect/turf_decal/tile/green/half/contrasted,
+/obj/item/shovel/spade,
+/obj/item/shovel/spade,
+/obj/item/shovel/spade,
+/obj/item/shovel/spade,
+/turf/open/floor/iron,
+/area/storage/primary)
 "kK" = (
 /obj/structure/cable{
 	icon_state = "4-8"
@@ -2285,6 +2292,7 @@
 /obj/effect/turf_decal/stripes/line{
 	dir = 1
 	},
+/obj/item/plant_tray/pot/random,
 /turf/open/floor/iron/white,
 /area/storage/primary)
 "oV" = (
@@ -2397,10 +2405,8 @@
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer2,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubber/hidden/layer4,
 /obj/structure/table,
-/obj/machinery/plant_mutator{
-	color = "#00f"
-	},
 /obj/effect/turf_decal/tile/neutral/fourcorners/contrasted,
+/obj/machinery/plant_machine/plant_analyser,
 /turf/open/floor/iron/dark,
 /area/storage/primary)
 "sE" = (
@@ -2427,17 +2433,6 @@
 	},
 /turf/open/floor/iron,
 /area/hallway/primary/central)
-"tt" = (
-/obj/machinery/power/apc{
-	areastring = "/area/hydroponics";
-	name = "Hydroponics APC";
-	pixel_y = -24
-	},
-/obj/effect/turf_decal/stripes/line{
-	dir = 1
-	},
-/turf/open/floor/iron/white,
-/area/storage/primary)
 "tA" = (
 /obj/effect/spawner/structure/window/reinforced,
 /turf/open/floor/plating,
@@ -2630,6 +2625,7 @@
 /obj/effect/turf_decal/stripes/line{
 	dir = 1
 	},
+/obj/item/plant_tray/pot/random,
 /turf/open/floor/iron/white,
 /area/storage/primary)
 "yJ" = (
@@ -2722,6 +2718,7 @@
 /obj/effect/turf_decal/stripes/line{
 	dir = 5
 	},
+/obj/item/plant_tray/pot/random,
 /turf/open/floor/iron/white,
 /area/storage/primary)
 "Br" = (
@@ -3102,6 +3099,7 @@
 /obj/effect/turf_decal/stripes/line{
 	dir = 9
 	},
+/obj/item/plant_tray/pot/random,
 /turf/open/floor/iron/white,
 /area/storage/primary)
 "MY" = (
@@ -3158,10 +3156,10 @@
 /area/science)
 "Pt" = (
 /obj/structure/table,
-/obj/machinery/seed_editor{
-	color = "#f00"
-	},
 /obj/effect/turf_decal/tile/neutral/fourcorners/contrasted,
+/obj/machinery/computer/plant_machine_controller{
+	dir = 1
+	},
 /turf/open/floor/iron/dark,
 /area/storage/primary)
 "PC" = (
@@ -3296,6 +3294,16 @@
 	},
 /turf/open/floor/iron,
 /area/hallway/primary/central)
+"Vc" = (
+/obj/effect/turf_decal/tile/green/half/contrasted{
+	dir = 8
+	},
+/obj/structure/table,
+/obj/machinery/plant_machine/plant_mutator{
+	color = "#f00"
+	},
+/turf/open/floor/iron,
+/area/storage/primary)
 "Vg" = (
 /obj/machinery/light,
 /turf/open/floor/iron,
@@ -3345,8 +3353,8 @@
 /area/engine/atmos)
 "WC" = (
 /obj/structure/table,
-/obj/machinery/plant_analyser,
 /obj/effect/turf_decal/tile/neutral/fourcorners/contrasted,
+/obj/machinery/plant_machine/seed_editor,
 /turf/open/floor/iron/dark,
 /area/storage/primary)
 "WG" = (
@@ -8510,7 +8518,7 @@ uA
 it
 Uo
 IC
-tt
+oP
 dJ
 lO
 cS
@@ -8877,7 +8885,7 @@ Eb
 yJ
 mc
 Xd
-IC
+Vc
 WC
 dJ
 dN
@@ -8968,7 +8976,7 @@ Yc
 IA
 NL
 NL
-NL
+kw
 Is
 Pt
 dJ

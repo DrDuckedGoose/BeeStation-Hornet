@@ -9,10 +9,8 @@
 	///How far we teleport, at a minimum
 	var/teleport_radius = 10
 
-/datum/plant_trait/fruit/bluespace/New(datum/plant_feature/_parent)
+/datum/plant_trait/fruit/bluespace/setup_fruit_parent()
 	. = ..()
-	if(!fruit_parent)
-		return
 	//TODO: Maybe some visuals - Racc
 	RegisterSignal(fruit_parent, COMSIG_FRUIT_ACTIVATE_TARGET, TYPE_PROC_REF(/datum/plant_trait/fruit, catch_activate))
 	RegisterSignal(fruit_parent, COMSIG_FRUIT_ACTIVATE_NO_CONTEXT, TYPE_PROC_REF(/datum/plant_trait/fruit, catch_activate))

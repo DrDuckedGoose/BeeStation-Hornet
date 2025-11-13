@@ -3,8 +3,8 @@
 
 /obj/item/plant_seeds
 	name = "seeds"
-	icon = 'icons/obj/hydroponics/features/generic.dmi'
-	icon_state = "seeds"
+	icon = 'icons/obj/hydroponics/features/seeds.dmi'
+	icon_state = "base"
 	///Species ID
 	var/species_id
 	///List of plant features for the plant we're... planting
@@ -24,6 +24,10 @@
 			feature = new feature()
 		plant_features += feature
 		feature?.associate_seeds(src)
+
+/obj/item/plant_seeds/examine(mob/user)
+	. = ..()
+	. += span_notice("This seed pack contains [seeds] seeds.")
 
 /obj/item/plant_seeds/afterattack_secondary(atom/target, mob/user, proximity_flag, click_parameters)
 	. = ..()

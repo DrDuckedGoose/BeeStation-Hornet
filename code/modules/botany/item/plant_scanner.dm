@@ -9,24 +9,38 @@
 
 /obj/item/plant_scanner/afterattack(atom/target, mob/user, proximity_flag, click_parameters)
 	. = ..()
-	//TODO: optimize this code - Racc
 	var/scan_dialogue = ""
-//Tray Code
+	//This code is kinda samey but it's easier to read
+//Tray
 	var/obj/item/plant_tray/tray = target
 	if(istype(tray))
-		//Report needs //TODO: maybe make this a proc. like the below for() - Racc
-		//TODO: make this work for all plants, not just need ones. Make scanning the tray for PROBLEMS. Or Just make scanning the tray informative - Racc
+		//Report needs
 		for(var/datum/plant_feature/feature as anything in tray.needy_features)
-			scan_dialogue += feature.get_need_dialogue()
-		to_chat(user, "<span class='plant_scan'><span class='big bold'>[target.name]</span><br/>[scan_dialogue]</span>") //TODO: the text formatting everywhere in this file - Racc
-		return
-//Plant Code
+			scan_dialogue += "<span class='plant_sub'>[feature.get_need_dialogue()]</span>"
+		//Report problems
+		for(var/datum/plant_feature/feature as anything in tray.problem_features)
+			scan_dialogue += "<span class='plant_sub'>[feature.get_scan_dialogue()]</span>"
+		//Report harvest
+		for(var/datum/component/plant/plant as anything in tray.harvestable_components)
+			scan_dialogue += "<span class='plant_sub'>[plant.plant_item]([plant.get_species_name()])\n\nReady For Harvest</span>"
+		to_chat(user, "<span class='plant_scan'><b>[capitalize(target.name)]</b></span><span class='plant_scan'>[scan_dialogue]</span>")
+		playsound(src, 'sound/effects/fastbeep.ogg', 20)
+		return FALSE
+//Seed packet
+	var/obj/item/plant_seeds/seeds = target
+	if(istype(seeds))
+		for(var/datum/plant_feature/feature as anything in seeds.plant_features)
+			scan_dialogue += "<span class='plant_sub'>[feature.get_scan_dialogue()]</span>"
+		to_chat(user, "<span class='plant_scan'><b>[capitalize(target.name)]</b></span><span class='plant_scan'>[scan_dialogue]</span>")
+		playsound(src, 'sound/effects/fastbeep.ogg', 20)
+		return FALSE
+//Plant
 	var/datum/component/plant/plant_component = target.GetComponent(/datum/component/plant)
-	if(!plant_component || !length(plant_component.plant_features)) //Find me a plant with no features, unless a player makes one, for some reason
-		return
+	if(!plant_component || !length(plant_component.plant_features)) //Find me a plant with no features, unless a player makes one, for some somehow
+		return FALSE
 	//Cycle through features to collect dialogue
 	for(var/datum/plant_feature/feature as anything in plant_component.plant_features)
 		scan_dialogue += "<span class='plant_sub'>[feature.get_scan_dialogue()]</span>"
-	to_chat(user, "<span class='plant_scan'><span class='big bold'>[target.name]</span><br/>[scan_dialogue]</span>")
+	to_chat(user, "<span class='plant_scan'><b>[capitalize(target.name)]</b></span><span class='plant_scan'>[scan_dialogue]</span>")
 	playsound(src, 'sound/effects/fastbeep.ogg', 20)
 	return FALSE

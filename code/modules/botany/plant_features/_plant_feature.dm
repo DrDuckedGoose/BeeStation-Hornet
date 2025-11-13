@@ -77,21 +77,28 @@
 
 //Used to get dialogue / text for hand-held plant scanner
 /datum/plant_feature/proc/get_scan_dialogue()
-	var/dialogue = "<b>[name]([species_name])</b>\n"
+	var/dialogue = "[capitalize(name)]([species_name])\n"
+	//Traits
 	for(var/datum/plant_trait/trait as anything in plant_traits)
 		dialogue += "<i>[trait.name]</i>\n"
+	if(!length(plant_traits))
+		dialogue += "\n"
+	//generic shared info
+	dialogue += "Genetic Stability: [genetic_budget]\n"
+	dialogue += "Genetic Availability: [remaining_genetic_budget]\n"
+	dialogue += "Trait Modifier: [trait_power]\n"
 	return dialogue
 
 //Used to get dialogue / text for needs, when a tray is scanned
 /datum/plant_feature/proc/get_need_dialogue()
-	var/dialogue = "[name]([species_name])\n"
+	var/dialogue = "[name]([species_name])\n\n"
 	for(var/datum/plant_need/need as anything in plant_needs)
-		dialogue += "	- [need.need_description]\n"
+		dialogue += "[need.need_description]\n"
 	return dialogue
 
 //generic common stats
 /datum/plant_feature/proc/get_ui_stats()
-	return list("name" = name, "species_name" = species_name, "key" = REF(src), "feature_appearance" = icon2base64(feature_appearance))
+	return list("name" = capitalize(name), "species_name" = capitalize(species_name), "key" = REF(src), "feature_appearance" = icon2base64(feature_appearance))
 
 //personalized info
 /datum/plant_feature/proc/get_ui_data()

@@ -3,9 +3,6 @@
 		Plant signals refer to signals sent by the plant component
 */
 
-///From datum/plant_feature/body/proc/get_harvest(): (max_harvest)
-#define COMSIG_PLANT_GET_HARVEST "COMSIG_PLANT_GET_HARVEST"
-
 ///From datum/plant_feature/body/process(): ()
 #define COMSIG_PLANT_GROW_FINAL "COMSIG_PLANT_GROWN"
 

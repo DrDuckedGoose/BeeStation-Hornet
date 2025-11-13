@@ -23,9 +23,6 @@
 //Plant
 	var/obj/item/plant_item/random/random_plant = new(get_turf(src))
 	var/datum/component/plant/plant_component = random_plant.GetComponent(/datum/component/plant)
-	if(!SEND_SIGNAL(plant_component, COMSIG_PLANT_POLL_TRAY_SIZE, src)) //Just in case - All random plants should be designed to fit in a plant pot
-		qdel(random_plant)
-		return
 	random_plant.forceMove(src) //forceMove instead of creating it inside to proc Entered()
 	vis_contents += random_plant
 	SEND_SIGNAL(plant_component, COMSIG_PLANT_PLANTED, src)

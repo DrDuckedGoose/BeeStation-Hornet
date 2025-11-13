@@ -268,3 +268,9 @@
 	name = "sunflower seeds"
 	name_override = "sunflower"
 	plant_features = list(/datum/plant_feature/roots, /datum/plant_feature/body/corn_stalk/sunflower, /datum/plant_feature/fruit/flower/sun)
+
+//Diona pod
+/obj/item/plant_seeds/preset/diona_pod
+	name = "diona pod seeds"
+	name_override = "diona pod"
+	plant_features = list(/datum/plant_feature/roots, /datum/plant_feature/body/diona_pod, /datum/plant_feature/fruit/cabbage/diona)

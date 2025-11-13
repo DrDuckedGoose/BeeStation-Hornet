@@ -11,12 +11,10 @@
 	var/glow_range = 2
 	var/glow_power = 3
 
-/datum/plant_trait/fruit/biolight/New(datum/plant_feature/_parent)
+/datum/plant_trait/fruit/biolight/setup_fruit_parent()
 	. = ..()
-	if(!fruit_parent || parent)
-		return
 	fruit_parent.light_system = MOVABLE_LIGHT
-	fruit_parent.AddComponent(/datum/component/overlay_lighting, glow_range*parent.trait_power, glow_power*parent.trait_power, glow_color)
+	fruit_parent.AddComponent(/datum/component/overlay_lighting, glow_range*trait_power, glow_power*trait_power, glow_color)
 
 //TODO: Add the other colours - Racc
 //Yellow

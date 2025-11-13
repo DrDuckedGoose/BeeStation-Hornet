@@ -11,10 +11,8 @@
 	///What kinda of mob do we awaken to be?
 	var/mob/living/awaken_mob = /mob/living/simple_animal/hostile/killertomato //Remake killer tomato into an ambiguous plant monster
 
-/datum/plant_trait/fruit/killer/New(datum/plant_feature/_parent)
+/datum/plant_trait/fruit/killer/setup_fruit_parent()
 	. = ..()
-	if(!fruit_parent)
-		return
 	RegisterSignal(fruit_parent, COMSIG_FRUIT_ACTIVATE_TARGET, TYPE_PROC_REF(/datum/plant_trait/fruit, catch_activate))
 	RegisterSignal(fruit_parent, COMSIG_FRUIT_ACTIVATE_NO_CONTEXT, TYPE_PROC_REF(/datum/plant_trait/fruit, catch_activate))
 
@@ -33,9 +31,9 @@
 	if(QDELETED(src))
 		return
 	awaken_mob = new awaken_mob(get_turf(fruit_parent.loc))
-	awaken_mob.maxHealth += (parent.trait_power-1) * awaken_mob.maxHealth
+	awaken_mob.maxHealth += (trait_power-1) * awaken_mob.maxHealth
 	awaken_mob.health = awaken_mob.maxHealth
-	awaken_mob.melee_damage += (parent.trait_power-1) * 10
+	awaken_mob.melee_damage += (trait_power-1) * 10
 	awaken_mob.visible_message(span_notice("[awaken_mob] suddenly awakens!"))
 	qdel(fruit_parent)
 

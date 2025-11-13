@@ -13,8 +13,8 @@
 	reagent = _reagent || reagent
 	volume_percentage = _percentage || volume_percentage
 	. = ..()
-	name = "[initial(reagent.name)]"
-	desc = "[volume_percentage]% of fruit reagents is [name]"
+	name = "[capitalize(initial(reagent.name))]"
+	desc = "[volume_percentage*100]% of fruit reagents is [name]"
 
 /datum/plant_trait/reagent/setup_component_parent(datum/source)
 	. = ..()

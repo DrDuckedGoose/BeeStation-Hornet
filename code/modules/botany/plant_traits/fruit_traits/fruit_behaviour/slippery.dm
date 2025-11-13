@@ -1,17 +1,14 @@
 /*
 	Slippery, guess what this does asshole
 */
-
 /datum/plant_trait/fruit/slippery
 	name = "Slippery"
 	desc = "The fruit becomes slippery. Slipping a mob will trigger the fruit."
 	///Ref to our slip component
 	var/datum/component/slippery/slip_component
 
-/datum/plant_trait/fruit/slippery/New(datum/plant_feature/_parent)
+/datum/plant_trait/fruit/slippery/setup_fruit_parent()
 	. = ..()
-	if(!fruit_parent)
-		return
 	if(is_type_in_typecache(fruit_parent, SSbotany.fruit_blacklist))
 		return
 	slip_component = fruit_parent.AddComponent(/datum/component/slippery, 60, NONE, CALLBACK(src, PROC_REF(handle_slip), fruit_parent))

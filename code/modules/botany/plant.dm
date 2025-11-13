@@ -67,6 +67,7 @@
 		plant_item.forceMove(item)
 		item.vis_contents += plant_item
 		RegisterSignal(item, COMSIG_ITEM_AFTERATTACK, PROC_REF(catch_spade_attack))
+		return TRUE
 
 //Follow up for spade interaction
 /datum/component/plant/proc/catch_spade_attack(datum/source, atom/target, mob/user, params)
@@ -126,3 +127,13 @@
 			traits = "[traits]-[trait?.get_id()]"
 		new_species_id = "[new_species_id][feature?.species_name]-([traits])-"
 	return new_species_id
+
+///Used to a combined string of all the feature's species name
+/datum/component/plant/proc/get_species_name()
+	var/species_name = ""
+	var/index = 1
+	var/max_index = length(plant_features)-1
+	for(var/datum/plant_feature/feature as anything in plant_features)
+		species_name = "[feature.species_name][index < max_index ? "" : " "][species_name]"
+		index += 1
+	return species_name

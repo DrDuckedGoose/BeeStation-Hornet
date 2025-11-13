@@ -25,8 +25,10 @@
 
 /datum/plant_trait/New(datum/plant_feature/_parent)
 	. = ..()
-	if(!istype(_parent, plant_feature_compat))
-		return INITIALIZE_HINT_QDEL
+	if(istype(_parent, /datum/plant_feature) && !istype(_parent, plant_feature_compat))
+		// INITIALIZE_HINT_QDEL doesn't work here
+		qdel(src)
+		return
 	setup_parent(_parent)
 
 /datum/plant_trait/Destroy(force, ...)
@@ -43,7 +45,8 @@
 
 /datum/plant_trait/proc/setup_parent(_parent)
 	parent = _parent
-	if(!parent)
+	if(!parent || !istype(parent))
+		parent = null //Null parent in the case it's not the right type, like an object
 		return
 //Stuff we can do with just our feature parent
 	//Tax genetic budget

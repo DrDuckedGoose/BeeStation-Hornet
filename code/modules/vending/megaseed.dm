@@ -5,7 +5,6 @@
 	product_ads = "We like plants!;Grow some crops!;Grow, baby, growww!;Aw h'yeah son!"
 	icon_state = "seeds"
 	light_mask = "seeds-light-mask"
-	//TODO: Fix this - Racc
 	products = list(/obj/item/plant_seeds/preset/ambrosia = 3,
 					/obj/item/plant_seeds/preset/apple = 3,
 					/obj/item/plant_seeds/preset/banana = 3,
@@ -20,7 +19,7 @@
 					/obj/item/plant_seeds/preset/coffee = 3,
 					/obj/item/plant_seeds/preset/corn = 3,
 					/obj/item/plant_seeds/preset/cotton = 3,
-					//obj/item/plant_seeds/preset/dionapod = 3,
+					/obj/item/plant_seeds/preset/diona_pod = 3,
 					/obj/item/plant_seeds/preset/eggplant = 3,
 					/obj/item/plant_seeds/preset/garlic = 3,
 					/obj/item/plant_seeds/preset/grape = 3,

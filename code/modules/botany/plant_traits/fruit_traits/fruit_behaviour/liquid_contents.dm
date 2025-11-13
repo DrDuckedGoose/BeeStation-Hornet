@@ -8,10 +8,8 @@
 	///Do we delete ourselves after impact
 	var/impact_del = TRUE
 
-/datum/plant_trait/fruit/liquid_contents/New(datum/plant_feature/_parent)
+/datum/plant_trait/fruit/liquid_contents/setup_fruit_parent()
 	. = ..()
-	if(!fruit_parent)
-		return
 	//We're chill to re-use the catch impact and qdel procs, the argument line up fine
 	RegisterSignal(fruit_parent, COMSIG_MOVABLE_IMPACT, PROC_REF(catch_impact))
 	RegisterSignal(fruit_parent, COMSIG_ATOM_INTERACT, PROC_REF(catch_impact))

@@ -46,6 +46,10 @@
 	recover_layers += list("[REF(entering)]" = entering.layer)
 	var/atom/parent_atom = parent
 	entering.layer = parent_atom.layer
+	//Some extra visual logic to fix little plants
+	var/datum/component/plant/plant_component = entering.GetComponent(/datum/component/plant)
+	if(!plant_component?.draw_below_water)
+		entering.layer += 0.1
 	//Add visuals, move the plant upwards to make it look like it's inside us
 	entering.pixel_y += visual_upset
 

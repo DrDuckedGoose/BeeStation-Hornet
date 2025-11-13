@@ -1,5 +1,5 @@
 /datum/plant_trait/roots/parasitic
-	name = "parasitic"
+	name = "Parasitic"
 	desc = "This gene causes roots to parasitically feed of a plant's fruit, depositing their reagents into their environment."
 	///How much do we multiply cannibalized reagents?
 	var/cannibal_multiplier = 1.5

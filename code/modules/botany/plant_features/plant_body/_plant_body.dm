@@ -25,6 +25,9 @@
 	///What's the upper fruit size we can hold?
 	var/upper_fruit_size = PLANT_FRUIT_SIZE_LARGE
 
+	///How many seeds does this plant give seed packets
+	var/seeds = 1
+
 ///Growth cycle
 	var/growth_stages = 3
 	var/current_stage
@@ -56,7 +59,16 @@
 
 /datum/plant_feature/body/get_scan_dialogue()
 	. = ..()
-	. += "<b>Upper fruit size: [upper_fruit_size]</b>"
+	. += "Harvest Size: [max_harvest]\n"
+	. += "Remaining Yields: [yields]\n"
+	. += "Growth Time: [growth_time/10] seconds\n"
+	. += "Fruit Size: [upper_fruit_size]\n"
+	. += "Plant Size: [slot_size]\n"
+
+/datum/plant_feature/body/get_ui_data()
+	. = ..()
+	. += list(PLANT_DATA("Harvest Size", max_harvest), PLANT_DATA("Yields", yields), PLANT_DATA("Growth Time", "[growth_time/10] seconds"), PLANT_DATA("Fruit Size", "[upper_fruit_size]"), PLANT_DATA("Plant Size", "[slot_size]"),
+	PLANT_DATA(null, null))
 
 /datum/plant_feature/body/process(delta_time)
 	//If we're done growing, and we're resting, and we're not hosting and fruits, and we have more fruits to give- don't bother sucking up needs
@@ -79,10 +91,6 @@
 	if(current_stage >= growth_stages && COOLDOWN_FINISHED(src, yield_cooldown_time) && !length(fruit_overlays) && yields > 0)
 		setup_fruit(parent?.skip_growth)
 		parent?.skip_growth = FALSE //We can happily set this to false here in any case without issues
-
-/datum/plant_feature/body/get_ui_data()
-	. = ..()
-	. += list(PLANT_DATA("Harvest", max_harvest), PLANT_DATA("Yields", yields), PLANT_DATA("Growth Time", "[growth_time] SECONDS"), PLANT_DATA(null, null))
 
 /datum/plant_feature/body/setup_parent(_parent, reset_features = TRUE)
 //Undo any sins
@@ -119,6 +127,7 @@
 
 /datum/plant_feature/body/associate_seeds(obj/item/plant_seeds/seeds)
 	. = ..()
+	seeds.seeds = seeds //This does mean seeds come magically out of thin air in the seed editor but it's convenient design wise
 	RegisterSignal(seeds, COMSIG_SEEDS_POLL_TRAY_SIZE, PROC_REF(catch_occupation))
 
 /datum/plant_feature/body/unassociate_seeds(obj/item/plant_seeds/seeds)
@@ -139,15 +148,11 @@
 		return
 	tray_component.plant_slots += slot_size
 
-/datum/plant_feature/body/proc/get_harvest()
+/datum/plant_feature/body/proc/setup_fruit(skip_growth)
 	if(current_stage < growth_stages)
 		return
-	//Use a signal so we can allow traits and other outsiders modify our harvest
-	return SEND_SIGNAL(src, COMSIG_PLANT_GET_HARVEST, max_harvest) || max_harvest
-
-/datum/plant_feature/body/proc/setup_fruit(skip_growth)
 	var/list/visual_fruits = list()
-	SEND_SIGNAL(parent, COMSIG_PLANT_REQUEST_FRUIT, get_harvest(), visual_fruits, skip_growth)
+	SEND_SIGNAL(parent, COMSIG_PLANT_REQUEST_FRUIT, max_harvest, visual_fruits, skip_growth)
 	var/list/available_positions = overlay_positions.Copy()
 	for(var/obj/effect/fruit_effect as anything in visual_fruits)
 		if(!length(fruit_effect))
@@ -168,8 +173,9 @@
 	SIGNAL_HANDLER
 
 	yields -= !dummy_harvest
-	if(yields <= 0) //If we run out of harvests, it's game over and we delete our entire existance
-		qdel(parent.plant_item)
+	if(yields < 0) //If we run out of harvests, it's game over and we delete our entire existance
+		//qdel(parent.plant_item)
+		//TODO: Consider not having this - Racc
 		return
 	COOLDOWN_START(src, yield_cooldown, yield_cooldown_time)
 	//Remove our fruit overlays
