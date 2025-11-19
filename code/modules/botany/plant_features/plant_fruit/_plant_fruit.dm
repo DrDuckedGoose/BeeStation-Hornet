@@ -53,7 +53,7 @@
 	if(!length(fast_reagents))
 		return
 	for(var/datum/reagent/reagent as anything in fast_reagents)
-		new /datum/plant_trait/reagent(src, reagent, fast_reagents[reagent])
+		plant_traits += new /datum/plant_trait/reagent(src, reagent, fast_reagents[reagent])
 
 /datum/plant_feature/fruit/Destroy(force, ...)
 	. = ..()

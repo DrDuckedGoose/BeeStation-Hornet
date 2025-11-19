@@ -81,6 +81,15 @@
 		new_species_id = "[new_species_id][feature?.species_name]-([traits])-"
 	return new_species_id
 
+/obj/item/plant_seeds/proc/get_species_name()
+	var/species_name = ""
+	var/index = 1
+	var/max_index = length(plant_features)-1
+	for(var/datum/plant_feature/feature as anything in plant_features)
+		species_name = "[feature.species_name][index < max_index ? "" : " "][species_name]"
+		index += 1
+	return species_name
+
 /*
 	Preset
 	This is used for making  preset species ids work at runtime

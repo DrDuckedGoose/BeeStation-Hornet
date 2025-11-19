@@ -1,8 +1,8 @@
 /obj/machinery/plant_machine/plant_mutator
 	name = "plant mutator"
 	desc = "An advanced device designed to gawk gawk."
-	icon = 'icons/obj/hydroponics/equipment.dmi'
-	icon_state = "dnamod"
+	icon = 'icons/obj/hydroponics/features/generic.dmi'
+	icon_state = "mutator"
 	density = TRUE
 	pass_flags = PASSTABLE
 	interaction_flags_atom = INTERACT_ATOM_ATTACK_HAND

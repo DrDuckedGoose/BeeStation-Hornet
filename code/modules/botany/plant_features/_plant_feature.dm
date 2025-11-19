@@ -96,11 +96,11 @@
 		dialogue += "[need.need_description]\n"
 	return dialogue
 
-//generic common stats
+//generic common stats between feature types
 /datum/plant_feature/proc/get_ui_stats()
-	return list("name" = capitalize(name), "species_name" = capitalize(species_name), "key" = REF(src), "feature_appearance" = icon2base64(feature_appearance))
+	return list("name" = capitalize(name), "species_name" = capitalize(species_name), "key" = REF(src), "feature_appearance" = icon2base64(feature_appearance), "type_shortcut" = "[trait_type_shortcut]")
 
-//personalized info
+//personalized info unqiue to different features
 /datum/plant_feature/proc/get_ui_data()
 	return list(PLANT_DATA("Species Name", species_name), PLANT_DATA(null, null))
 

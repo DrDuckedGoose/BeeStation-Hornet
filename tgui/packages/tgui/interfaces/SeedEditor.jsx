@@ -15,84 +15,86 @@ export const SeedEditor = (props) => {
   } = data;
   return (
     <Window width={600} height={500} theme="plant_menu">
-      <Box m={'3px'} height={'100%'}>
-        <Flex direction={'column'} height={'100%'}>
-          {/* World building fluff top banner */}
-          <Flex.Item>
-            <Section textAlign={'center'}>Seed Sequencer [Version 4.1.1.9]</Section>
-          </Flex.Item>
-          {/* Top banner, contains plant name */}
-          <Flex.Item>
-            <Flex direction={'row'}>
-              <Section textAlign={'center'} width={'100%'}>
-                <h1>{inserted_plant || 'No Seeds Inserted'}</h1>
-              </Section>
-              <Section textAlign={'center'} width={'100%'}>
-                TODO: Genetic stability breakdown here - Racc
-              </Section>
-            </Flex>
-          </Flex.Item>
-          {/* Bottom section for plant feature select panel, and inspection panel */}
-          <Flex.Item>
-            <Flex direction={'row'}>
-              {/* Feature panel */}
-              <Flex.Item grow={1} width={'100%'}>
-                <Section>
-                  <Flex direction={'column'} grow={1}>
-                    {/* Features */}
-                    <Flex.Item>
-                      {seeds_feature_data.length
-                        ? seeds_feature_data.map((feature_data) => (
-                          <PlantFeaturePanel feature={feature_data} key={feature_data} />
-                        ))
-                        : '...'}
-                    </Flex.Item>
-                    <Divider />
-                    {/* Disk */}
-                    <Flex.Item>
-                      {disk_feature_data ? (
-                        <DiskFeatureTab feature={disk_feature_data} />
-                      ) : disk_trait_data ? (
-                        <DiskTraitTab data_set={disk_trait_data} />
-                      ) : disk_inserted ? (
-                        <Flex.Item>
-                          <DiskEmptyTab />
-                        </Flex.Item>
-                      ) : (
-                        <Flex.Item>
-                          <Button width={'100%'} className="plant__button--display">
-                            {'No Disk Inserted'}
-                          </Button>
-                        </Flex.Item>
-                      )}
-                    </Flex.Item>
-                  </Flex>
+      <Window.Content scrollable={1}>
+        <Box m={'-3px'} height={'100%'}>
+          <Flex direction={'column'} height={'100%'}>
+            {/* World building fluff top banner */}
+            <Flex.Item>
+              <Section textAlign={'center'}>Seed Sequencer [Version 4.1.1.9]</Section>
+            </Flex.Item>
+            {/* Top banner, contains plant name */}
+            <Flex.Item>
+              <Flex direction={'row'}>
+                <Section textAlign={'center'} width={'100%'}>
+                  <h1>{inserted_plant || 'No Seeds Inserted'}</h1>
                 </Section>
-              </Flex.Item>
-              {/* Inspection panel */}
-              <Flex.Item width={'100%'}>
-                <Section>{current_feature ? <InspectionPanel /> : ' ... '}</Section>
-              </Flex.Item>
-            </Flex>
-          </Flex.Item>
-          {/* World building fluff top banner */}
-          <Flex.Item height={'100%'}>
-            <Box />
-          </Flex.Item>
-          <Flex.Item>
-            <Section textAlign={'start'} mb={'7px'}>
-              <Box>Yamato OS [Version 19.89.3.5]</Box>
-              <Box>© 2554 Yamato. All Rights Reserved.</Box>
-              <br />
-              <Box>
-                {'C:\\Users\\admin>'}
-                {last_command}
-                <span className={'terminal'}>|</span>
-              </Box>
-            </Section>
-          </Flex.Item>
-        </Flex>
-      </Box>
+                <Section textAlign={'center'} width={'100%'}>
+                  TODO: Genetic stability breakdown here - Racc
+                </Section>
+              </Flex>
+            </Flex.Item>
+            {/* Bottom section for plant feature select panel, and inspection panel */}
+            <Flex.Item>
+              <Flex direction={'row'}>
+                {/* Feature panel */}
+                <Flex.Item grow={1} width={'100%'}>
+                  <Section>
+                    <Flex direction={'column'} grow={1}>
+                      {/* Features */}
+                      <Flex.Item>
+                        {seeds_feature_data.length
+                          ? seeds_feature_data.map((feature_data) => (
+                            <PlantFeaturePanel feature={feature_data} key={feature_data} />
+                          ))
+                          : '...'}
+                      </Flex.Item>
+                      <Divider />
+                      {/* Disk */}
+                      <Flex.Item>
+                        {disk_feature_data ? (
+                          <DiskFeatureTab feature={disk_feature_data} />
+                        ) : disk_trait_data ? (
+                          <DiskTraitTab data_set={disk_trait_data} />
+                        ) : disk_inserted ? (
+                          <Flex.Item>
+                            <DiskEmptyTab />
+                          </Flex.Item>
+                        ) : (
+                          <Flex.Item>
+                            <Button width={'100%'} className="plant__button--display">
+                              {'No Disk Inserted'}
+                            </Button>
+                          </Flex.Item>
+                        )}
+                      </Flex.Item>
+                    </Flex>
+                  </Section>
+                </Flex.Item>
+                {/* Inspection panel */}
+                <Flex.Item width={'100%'}>
+                  <Section>{current_feature ? <InspectionPanel /> : ' ... '}</Section>
+                </Flex.Item>
+              </Flex>
+            </Flex.Item>
+            {/* World building fluff top banner */}
+            <Flex.Item height={'100%'}>
+              <Box />
+            </Flex.Item>
+            <Flex.Item>
+              <Section textAlign={'start'} mb={'-3px'}>
+                <Box>Yamato OS [Version 19.89.3.5]</Box>
+                <Box>© 2554 Yamato. All Rights Reserved.</Box>
+                <br />
+                <Box>
+                  {'C:\\Users\\admin>'}
+                  {last_command}
+                  <span className={'terminal'}>|</span>
+                </Box>
+              </Section>
+            </Flex.Item>
+          </Flex>
+        </Box>
+      </Window.Content>
     </Window>
   );
 };

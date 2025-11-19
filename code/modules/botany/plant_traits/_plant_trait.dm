@@ -37,7 +37,7 @@
 	parent?.adjust_genetic_budget(genetic_cost, src)
 
 /datum/plant_trait/proc/get_ui_stats()
-	return list(list("trait_name" = name, "trait_desc" = desc, "trait_ref" = REF(src)))
+	return list(list("trait_name" = name, "trait_desc" = desc, "trait_ref" = REF(src), "dictionary_name" = name))
 
 /datum/plant_trait/proc/copy(datum/plant_feature/_parent, datum/plant_trait/_trait)
 	var/datum/plant_trait/new_trait = _trait || new type(_parent)

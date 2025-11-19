@@ -16,7 +16,7 @@ export const PlantEditor = (props) => {
   } = data;
   return (
     <Window width={600} height={500} theme="plant_menu">
-      <Window.Content>
+      <Window.Content scrollable={1}>
         {saving_feature ? <Dimmer /> : ''}
         <Box m={'-3px'} height={'100%'}>
           <Flex direction={'column'} height={'100%'}>

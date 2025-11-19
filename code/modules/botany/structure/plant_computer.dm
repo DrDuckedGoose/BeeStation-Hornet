@@ -1,17 +1,25 @@
+#define PC_LINK_RANGE 2
+
 /obj/machinery/computer/plant_machine_controller
 	name = "hydroponics machine terminal"
 	desc = "A proprietary terminal made by Yamato to control Yamato machines."
 	icon = 'icons/obj/hydroponics/features/generic.dmi'
 	icon_state = "pc"
+	interaction_flags_atom = INTERACT_ATOM_ATTACK_HAND
 	///List of linked machines
 	var/list/machines = list()
 	///List of assembled machine options
 	var/list/machine_options = list()
 	var/list/option_links = list()
 
+	var/selected_chapter = "features"
+	var/selected_entry
+	var/selected_type_shortcut
+
 /obj/machinery/computer/plant_machine_controller/LateInitialize()
 	. = ..()
 	locate_machines()
+	selected_entry = ref(pick(SSbotany.chapters["features"]))
 
 /obj/machinery/computer/plant_machine_controller/attack_hand(mob/living/user, list/modifiers)
 	. = ..()
@@ -21,10 +29,76 @@
 	var/obj/machinery/machine = option_links[result]
 	machine.ui_interact(user)
 
+/obj/machinery/computer/plant_machine_controller/ui_interact(mob/user, datum/tgui/ui)
+	ui = SStgui.try_update_ui(user, src, ui)
+	if(!ui)
+		ui = new(user, src, "PlantDictionary")
+		ui.open()
+
+/obj/machinery/computer/plant_machine_controller/ui_static_data(mob/user)
+	. = ..()
+	var/list/data = list()
+	data["chapters"] = list("plants" = list(), "features" = list(), "traits" = list())
+	//Features
+	for(var/datum/plant_feature/feature as anything in SSbotany.chapters["features"])
+		var/list/feature_list = list()
+		feature_list["data"] = feature.get_ui_data()
+		feature_list["traits"] =feature.get_ui_traits()
+		feature_list["stats"] = feature.get_ui_stats()
+		//An interesting way of seperating features into their distinct types
+		data["chapters"]["features"]["[feature.trait_type_shortcut]"] = data["chapters"]["features"]["[feature.trait_type_shortcut]"] || list()
+		data["chapters"]["features"]["[feature.trait_type_shortcut]"] += list("[ref(feature)]" = feature_list)
+	//Traits
+	for(var/datum/plant_trait/trait as anything in SSbotany.chapters["traits"])
+		data["chapters"]["traits"] += list("[ref(trait)]" = trait.get_ui_stats())
+	//Plants
+	for(var/obj/item/plant_seeds/preset as anything in SSbotany.chapters["plants"])
+		var/list/plant_data = list()
+		for(var/datum/plant_feature/feature as anything in preset.plant_features)
+			var/list/feature_list = list()
+			feature_list["data"] = feature.get_ui_data()
+			feature_list["traits"] = feature.get_ui_traits()
+			feature_list["stats"] = feature.get_ui_stats()
+			plant_data += list(feature_list)
+		data["chapters"]["plants"] += list("[ref(preset)]" = list("name" = preset.name_override, "features" = plant_data))
+	return data
+
+/obj/machinery/computer/plant_machine_controller/ui_data(mob/user)
+	. = ..()
+	var/list/data = list()
+	data["selected_chapter"] = selected_chapter
+	data["selected_entry"] = selected_entry
+	data["selected_type_shortcut"] = selected_type_shortcut
+	return data
+
+/obj/machinery/computer/plant_machine_controller/ui_act(action, params)
+	if(..())
+		return
+	//playsound(src, get_sfx("keyboard"), 30, TRUE)
+	switch(action)
+		if("select_entry")
+			selected_entry = selected_entry == params["key"] ? null : params["key"]
+			var/datum/plant_feature/feature = locate(params["key"])
+			if(istype(feature))
+				selected_type_shortcut = "[feature.trait_type_shortcut]"
+			ui_update()
+		if("select_chapter")
+			selected_chapter = params["key"]
+			selected_entry = null
+			ui_update()
+
+/obj/machinery/computer/plant_machine_controller/ratvar_act()
+	if(!clockwork)
+		clockwork = TRUE
+
+/obj/machinery/computer/plant_machine_controller/update_overlays()
+	. = ..()
+	icon_state = "pc"
+
 /obj/machinery/computer/plant_machine_controller/proc/locate_machines()
 	//Link machines
 	//TODO: Could probably clean this up with signals - Racc
-	for(var/obj/machinery/machine in range(1, src))
+	for(var/obj/machinery/machine in range(PC_LINK_RANGE, src))
 		if(machine_options["[machine]"])
 			continue
 		if(!istype(machine, /obj/machinery/plant_machine))
@@ -41,3 +115,9 @@
 		image.appearance = machine.appearance
 		machine_options["[machine]"] = image
 		option_links["[machine]"] = machine
+	//Add ourself
+	var/image/image = image(icon, null, "plant")
+	machine_options["[src]"] = image
+	option_links["[src]"] = src
+
+#undef PC_LINK_RANGE
