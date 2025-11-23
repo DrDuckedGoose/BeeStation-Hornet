@@ -19,7 +19,7 @@
 	reagents_add = list(/datum/reagent/consumable/nutriment/vitamin = 0.04, /datum/reagent/consumable/nutriment = 0.1)
 
 /obj/item/food/grown/potato
-	seed = /obj/item/seeds/potato
+	seed = /obj/item/plant_seeds/preset/potato
 	name = "potato"
 	desc = "Boil 'em! Mash 'em! Stick 'em in a stew!"
 	icon_state = "potato"
@@ -57,7 +57,6 @@
 	reagents_add = list(/datum/reagent/consumable/nutriment/vitamin = 0.1, /datum/reagent/consumable/sugar = 0.1, /datum/reagent/consumable/nutriment = 0.1)
 
 /obj/item/food/grown/potato/sweet
-	seed = /obj/item/seeds/potato/sweet
 	name = "sweet potato"
 	desc = "It's sweet."
 	icon_state = "sweetpotato"

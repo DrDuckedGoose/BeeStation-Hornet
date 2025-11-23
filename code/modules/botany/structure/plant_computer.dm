@@ -49,8 +49,10 @@
 		data["chapters"]["features"]["[feature.trait_type_shortcut]"] = data["chapters"]["features"]["[feature.trait_type_shortcut]"] || list()
 		data["chapters"]["features"]["[feature.trait_type_shortcut]"] += list("[ref(feature)]" = feature_list)
 	//Traits
+	data["chapters"]["traits"]["reagents"] = list()
+	data["chapters"]["traits"]["other"] = list()
 	for(var/datum/plant_trait/trait as anything in SSbotany.chapters["traits"])
-		data["chapters"]["traits"] += list("[ref(trait)]" = trait.get_ui_stats())
+		data["chapters"]["traits"][istype(trait, /datum/plant_trait/reagent) ? "reagents" : "other"] += list("[ref(trait)]" = trait.get_ui_stats())
 	//Plants
 	for(var/obj/item/plant_seeds/preset as anything in SSbotany.chapters["plants"])
 		var/list/plant_data = list()
@@ -61,6 +63,8 @@
 			feature_list["stats"] = feature.get_ui_stats()
 			plant_data += list(feature_list)
 		data["chapters"]["plants"] += list("[ref(preset)]" = list("name" = preset.name_override, "features" = plant_data))
+	//Dictionary links
+	data["links"] = SSbotany.dictionary_links
 	return data
 
 /obj/machinery/computer/plant_machine_controller/ui_data(mob/user)
@@ -78,6 +82,7 @@
 	switch(action)
 		if("select_entry")
 			selected_entry = selected_entry == params["key"] ? null : params["key"]
+			//Logic for selectring a feature
 			var/datum/plant_feature/feature = locate(params["key"])
 			if(istype(feature))
 				selected_type_shortcut = "[feature.trait_type_shortcut]"
@@ -85,6 +90,15 @@
 		if("select_chapter")
 			selected_chapter = params["key"]
 			selected_entry = null
+			ui_update()
+		if("select_link")
+			selected_entry = params["key"]
+			//Logic for selectring a feature
+			var/datum/plant_feature/feature = locate(params["key"])
+			if(istype(feature))
+				selected_type_shortcut = "[feature.trait_type_shortcut]"
+			//Chapter
+			selected_chapter = params["chapter"]
 			ui_update()
 
 /obj/machinery/computer/plant_machine_controller/ratvar_act()

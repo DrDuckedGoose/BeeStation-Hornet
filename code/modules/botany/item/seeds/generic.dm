@@ -1,15 +1,14 @@
-//TODO: Plants that shares the same body should use a special subtype with the plants name on it, so we dont have berry bushes with generic bush body - Racc
 //Apple
 /obj/item/plant_seeds/preset/apple
 	name = "apple seeds"
 	name_override = "apple tree"
-	plant_features = list(/datum/plant_feature/roots, /datum/plant_feature/body/tree, /datum/plant_feature/fruit/apple)
+	plant_features = list(/datum/plant_feature/roots/dirt, /datum/plant_feature/body/tree/apple, /datum/plant_feature/fruit/apple)
 
 //Banana
 /obj/item/plant_seeds/preset/banana
 	name = "banana seeds"
 	name_override = "banana tree"
-	plant_features = list(/datum/plant_feature/roots/sand, /datum/plant_feature/body/tree/palm, /datum/plant_feature/fruit/banana)
+	plant_features = list(/datum/plant_feature/roots/sand, /datum/plant_feature/body/tree/palm/banana, /datum/plant_feature/fruit/banana)
 
 //Berry
 /obj/item/plant_seeds/preset/berry
@@ -33,31 +32,31 @@
 /obj/item/plant_seeds/preset/cherry
 	name = "cherry seeds"
 	name_override = "cherry tree"
-	plant_features = list(/datum/plant_feature/roots, /datum/plant_feature/body/tree/mini, /datum/plant_feature/fruit/cherry)
+	plant_features = list(/datum/plant_feature/roots, /datum/plant_feature/body/tree/mini/cherry, /datum/plant_feature/fruit/cherry)
 
 //Chili, or Chilli
 /obj/item/plant_seeds/preset/chili
 	name = "chili seeds"
 	name_override = "chili bush"
-	plant_features = list(/datum/plant_feature/roots, /datum/plant_feature/body/bush_vine, /datum/plant_feature/fruit/chili)
+	plant_features = list(/datum/plant_feature/roots, /datum/plant_feature/body/bush_vine/chili, /datum/plant_feature/fruit/chili)
 
 //Cocoa
 /obj/item/plant_seeds/preset/cocoa
 	name = "cocoa seeds"
 	name_override = "cocoa tree"
-	plant_features = list(/datum/plant_feature/roots, /datum/plant_feature/body/tree/mini, /datum/plant_feature/fruit/cocoa)
+	plant_features = list(/datum/plant_feature/roots, /datum/plant_feature/body/tree/mini/cocoa, /datum/plant_feature/fruit/cocoa)
 
 //Coconut
 /obj/item/plant_seeds/preset/coconut
 	name = "coconut seeds"
 	name_override = "coconut tree"
-	plant_features = list(/datum/plant_feature/roots/sand, /datum/plant_feature/body/tree/palm, /datum/plant_feature/fruit/coconut)
+	plant_features = list(/datum/plant_feature/roots/sand, /datum/plant_feature/body/tree/palm/coconut, /datum/plant_feature/fruit/coconut)
 
 //coffee
 /obj/item/plant_seeds/preset/coffee
 	name = "coffee arabica seeds"
 	name_override = "coffee arabica bush"
-	plant_features = list(/datum/plant_feature/roots, /datum/plant_feature/body/bush_vine, /datum/plant_feature/fruit/coffee)
+	plant_features = list(/datum/plant_feature/roots, /datum/plant_feature/body/bush_vine/coffee, /datum/plant_feature/fruit/coffee)
 
 //Corn
 /obj/item/plant_seeds/preset/corn
@@ -69,61 +68,61 @@
 /obj/item/plant_seeds/preset/cotton
 	name = "cotton seeds"
 	name_override = "cotton bush"
-	plant_features = list(/datum/plant_feature/roots, /datum/plant_feature/body/bush_vine/flower, /datum/plant_feature/fruit/cotton)
+	plant_features = list(/datum/plant_feature/roots, /datum/plant_feature/body/bush_vine/flower/cotton, /datum/plant_feature/fruit/cotton)
 
 //Eggplant
 /obj/item/plant_seeds/preset/eggplant
 	name = "eggplant seeds"
 	name_override = "eggplant vine"
-	plant_features = list(/datum/plant_feature/roots/clay, /datum/plant_feature/body/bush_vine, /datum/plant_feature/fruit/eggplant)
+	plant_features = list(/datum/plant_feature/roots/clay, /datum/plant_feature/body/bush_vine/eggplant, /datum/plant_feature/fruit/eggplant)
 
 //Garlic
 /obj/item/plant_seeds/preset/garlic
 	name = "garlic seeds"
 	name_override = "garlic"
-	plant_features = list(/datum/plant_feature/roots, /datum/plant_feature/body/tuber, /datum/plant_feature/fruit/garlic)
+	plant_features = list(/datum/plant_feature/roots/dirt, /datum/plant_feature/body/tuber, /datum/plant_feature/fruit/garlic)
 
 //Grape
 /obj/item/plant_seeds/preset/grape
 	name = "grape seeds"
 	name_override = "grape vine"
-	plant_features = list(/datum/plant_feature/roots, /datum/plant_feature/body/bush_vine/grape, /datum/plant_feature/fruit/grape)
+	plant_features = list(/datum/plant_feature/roots/dirt, /datum/plant_feature/body/bush_vine/grape, /datum/plant_feature/fruit/grape)
 
 //Grass
 /obj/item/plant_seeds/preset/grass
 	name = "grass seeds"
 	name_override = "grass"
-	plant_features = list(/datum/plant_feature/roots, /datum/plant_feature/body/tuber, /datum/plant_feature/fruit/grass)
+	plant_features = list(/datum/plant_feature/roots/dirt, /datum/plant_feature/body/tuber/grass, /datum/plant_feature/fruit/grass)
 
 //Lemon
 /obj/item/plant_seeds/preset/lemon
 	name = "lemon seeds"
 	name_override = "lemon tree"
-	plant_features = list(/datum/plant_feature/roots, /datum/plant_feature/body/tree/mini, /datum/plant_feature/fruit/lemon)
+	plant_features = list(/datum/plant_feature/roots/clay, /datum/plant_feature/body/tree/mini/lemon, /datum/plant_feature/fruit/lemon)
 
 //Lime
 /obj/item/plant_seeds/preset/lime
 	name = "lime seeds"
 	name_override = "lime tree"
-	plant_features = list(/datum/plant_feature/roots, /datum/plant_feature/body/tree/mini, /datum/plant_feature/fruit/lemon/lime)
+	plant_features = list(/datum/plant_feature/roots/clay, /datum/plant_feature/body/tree/mini/lime, /datum/plant_feature/fruit/lemon/lime)
 
 //Onion
 /obj/item/plant_seeds/preset/onion
 	name = "onion seeds"
 	name_override = "onion"
-	plant_features = list(/datum/plant_feature/roots, /datum/plant_feature/body/tuber, /datum/plant_feature/fruit/onion)
+	plant_features = list(/datum/plant_feature/roots/dirt, /datum/plant_feature/body/tuber, /datum/plant_feature/fruit/onion)
 
 //Orange
 /obj/item/plant_seeds/preset/orange
 	name = "orange seeds"
 	name_override = "orange tree"
-	plant_features = list(/datum/plant_feature/roots, /datum/plant_feature/body/tree, /datum/plant_feature/fruit/orange)
+	plant_features = list(/datum/plant_feature/roots/sand, /datum/plant_feature/body/tree/orange, /datum/plant_feature/fruit/orange)
 
 //Pineapple
 /obj/item/plant_seeds/preset/pineapple
 	name = "pineapple seeds"
 	name_override = "pineapple"
-	plant_features = list(/datum/plant_feature/roots, /datum/plant_feature/body/corn_stalk/pineapple, /datum/plant_feature/fruit/pineapple)
+	plant_features = list(/datum/plant_feature/roots, /datum/plant_feature/body/pineapple, /datum/plant_feature/fruit/pineapple)
 
 //Potato
 /obj/item/plant_seeds/preset/potato
@@ -147,13 +146,13 @@
 /obj/item/plant_seeds/preset/soybean
 	name = "soybean seeds"
 	name_override = "soybean bush"
-	plant_features = list(/datum/plant_feature/roots/clay, /datum/plant_feature/body/bush_vine, /datum/plant_feature/fruit/soybean)
+	plant_features = list(/datum/plant_feature/roots/clay, /datum/plant_feature/body/bush_vine/soybean, /datum/plant_feature/fruit/soybean)
 
 //Tomato
 /obj/item/plant_seeds/preset/tomato
 	name = "tomato seeds"
 	name_override = "tomato vine"
-	plant_features = list(/datum/plant_feature/roots, /datum/plant_feature/body/bush_vine, /datum/plant_feature/fruit/tomato)
+	plant_features = list(/datum/plant_feature/roots, /datum/plant_feature/body/bush_vine/tomato, /datum/plant_feature/fruit/tomato)
 
 //Watermelon
 /obj/item/plant_seeds/preset/watermelon
@@ -231,7 +230,7 @@
 /obj/item/plant_seeds/preset/starthistle
 	name = "starthistle seeds"
 	name_override = "starthistle bush"
-	plant_features = list(/datum/plant_feature/roots, /datum/plant_feature/body/bush_vine/nettle, /datum/plant_feature/fruit/starthistle)
+	plant_features = list(/datum/plant_feature/roots, /datum/plant_feature/body/bush_vine/nettle/thistle, /datum/plant_feature/fruit/starthistle)
 
 //Cannabis
 /obj/item/plant_seeds/preset/cannabis
@@ -243,7 +242,7 @@
 /obj/item/plant_seeds/preset/poppy
 	name = "poppy seeds"
 	name_override = "poppy"
-	plant_features = list(/datum/plant_feature/roots, /datum/plant_feature/body/sprout, /datum/plant_feature/fruit/flower/poppy)
+	plant_features = list(/datum/plant_feature/roots, /datum/plant_feature/body/corn_stalk/flower, /datum/plant_feature/fruit/flower/poppy)
 
 //Sugarcane
 /obj/item/plant_seeds/preset/sugarcane
@@ -255,7 +254,7 @@
 /obj/item/plant_seeds/preset/tobacco
 	name = "tobacco seeds"
 	name_override = "tobacco bush"
-	plant_features = list(/datum/plant_feature/roots, /datum/plant_feature/body/bush_vine/cannabis, /datum/plant_feature/fruit/tobacco)
+	plant_features = list(/datum/plant_feature/roots, /datum/plant_feature/body/bush_vine/cannabis/tobacco, /datum/plant_feature/fruit/tobacco)
 
 //Tea
 /obj/item/plant_seeds/preset/tea

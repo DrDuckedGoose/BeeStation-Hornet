@@ -18,6 +18,9 @@
 	var/growth_time = PLANT_FRUIT_GROWTH_FAST
 	var/growth_time_elapsed = 0
 	var/list/growth_timers = list()
+	var/list/o_transform = list()
+	///Do we skip the grow animation? - For stuff like grass
+	var/skip_animation = FALSE
 
 	///Max amount of reagents we can impart onto our stupid fucking children
 	var/total_volume = PLANT_FRUIT_VOLUME_MEDIUM
@@ -75,18 +78,24 @@
 		return
 //Growing
 	for(var/timer as anything in growth_timers)
+		var/obj/effect/fruit_effect = visual_fruits[timer]
+		//Archive the transform to preserve stuff done by body features
+		o_transform[timer] = o_transform[timer] || fruit_effect.transform
+		//If this is the first time it's being process, shrink it down and reval the alpha
+		if(growth_timers[timer] == growth_time)
+			fruit_effect.alpha = 255
+			fruit_effect.transform = skip_animation ?  fruit_effect.transform.Scale(1, 1) : fruit_effect.transform.Scale(0.1, 0.1)
 		growth_timers[timer] -= delta_time SECONDS
 		//If our parent is eager to be an adult, used for pre-existing plants
-		if(parent?.skip_growth)
-			growth_timers[timer] = 0
+		growth_timers[timer] = parent?.skip_growth ? 0 : growth_timers[timer]
 		//Visuals
-		var/obj/effect/fruit_effect = visual_fruits[timer]
 		if(!fruit_effect) //This can be null when we fuck around with bunching
 			continue
-		var/matrix/new_transform = new()
-		var/progress = min(1, max(0.1, abs(growth_timers[timer]-growth_time) / growth_time))
-		new_transform.Scale(progress, progress)
-		animate(fruit_effect, transform = new_transform, time = delta_time SECONDS)
+		if(!skip_animation) //Need to animate before we can offload, so don't change this to an early return
+			var/matrix/new_transform = matrix(o_transform[timer])
+			var/progress = min(1, max(0.1, abs(growth_timers[timer]-growth_time) / growth_time))
+			new_transform.Scale(progress, progress)
+			animate(fruit_effect, transform = new_transform, time = delta_time SECONDS, flags = ANIMATION_PARALLEL)
 		//Offload finished fruits
 		if(growth_timers[timer] <= 0)
 			growth_timers -= timer
@@ -131,11 +140,10 @@
 		fruit_effect.appearance = bunch ? bunch_appearance : feature_appearance
 		if(islist(colour_override))
 			fruit_effect.color = pick(colour_override)
+		fruit_effect.alpha = 0 //Fruits shouldn't fuck with alpha, use colour instead - Make the alpha 0 until we start animating
 		fruit_effect.vis_flags = VIS_INHERIT_ID
 		_visual_fruits += fruit_effect
 		visual_fruits["[fruit_index]"] = fruit_effect
-		//Shrink fruit, we'll grow it later
-		fruit_effect.transform = fruit_effect.transform.Scale(0.1, 0.1)
 
 /datum/plant_feature/fruit/proc/build_fruit()
 	var/obj/item/A = new fruit_product(parent.plant_item)

@@ -1,6 +1,6 @@
 // Ambrosia - base type
 /obj/item/food/grown/ambrosia
-	seed = /obj/item/seeds/ambrosia
+	seed = /obj/item/plant_seeds/preset/ambrosia
 	name = "ambrosia branch"
 	desc = "This is a plant."
 	icon_state = "ambrosiavulgaris"
@@ -39,7 +39,6 @@
 	reagents_add = list(/datum/reagent/drug/space_drugs = 0.15, /datum/reagent/medicine/bicaridine = 0.1, /datum/reagent/medicine/kelotane = 0.1, /datum/reagent/consumable/nutriment/vitamin = 0.04, /datum/reagent/consumable/nutriment = 0.05, /datum/reagent/toxin = 0.1)
 
 /obj/item/food/grown/ambrosia/vulgaris
-	seed = /obj/item/seeds/ambrosia
 	name = "ambrosia vulgaris branch"
 	desc = "This is a plant containing various healing chemicals."
 	wine_power = 30
@@ -57,7 +56,6 @@
 	rarity = 40
 
 /obj/item/food/grown/ambrosia/deus
-	seed = /obj/item/seeds/ambrosia/deus
 	name = "ambrosia deus branch"
 	desc = "Eating this makes you feel immortal!"
 	icon_state = "ambrosiadeus"
@@ -85,7 +83,6 @@
 	icon_state = "ambrosia_gaia"
 	light_system = MOVABLE_LIGHT
 	light_range = 3
-	seed = /obj/item/seeds/ambrosia/gaia
 	wine_power = 70
 	wine_flavor = "the earthmother's blessing"
 	discovery_points = 300

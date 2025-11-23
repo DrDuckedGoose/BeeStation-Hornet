@@ -1,4 +1,3 @@
-//TODO: Consider giving these unique stats, and fix the sprites - Racc
 /*
 	Corn Stalk
 */
@@ -6,11 +5,13 @@
 	species_name = "aureum culmus"
 	name = "corn stalk"
 	icon_state = "corn_stalk"
-	overlay_positions = list(list(16, 27))
+	use_mouse_offset = TRUE
+	overlay_positions = list(list(17, 16))
 	yields = PLANT_BODY_YIELD_MICRO
 	yield_cooldown_time = PLANT_BODY_YIELD_TIME_SLOW //Doesn't really matter, we only get one
 	max_harvest = PLANT_BODY_HARVEST_MICRO
 	upper_fruit_size = PLANT_FRUIT_SIZE_SMALL
+	slot_size = PLANT_BODY_SLOT_SIZE_SMALL
 	seeds = 5
 
 /datum/plant_feature/body/corn_stalk/apply_fruit_overlay(obj/effect/fruit_effect, offset_x, offset_y)
@@ -23,8 +24,8 @@
 /datum/plant_feature/body/corn_stalk/rice
 	species_name = "stipula alba"
 	name = "rice stalk"
-	icon_state = "missing"
-	overlay_positions = list(list(16, 27))
+	icon_state = "rice_stalk"
+	overlay_positions = list(list(17, 16))
 
 /*
 	Wheat Stalk
@@ -32,17 +33,8 @@
 /datum/plant_feature/body/corn_stalk/wheat
 	species_name = "bracchium aurum"
 	name = "wheat stalk"
-	icon_state = "missing"
-	overlay_positions = list(list(16, 27))
-
-/*
-	Pineapple Stalk
-*/
-/datum/plant_feature/body/corn_stalk/pineapple
-	species_name = "bracchium spinosum"
-	name = "pineapple stalk"
-	icon_state = "missing"
-	overlay_positions = list(list(16, 27))
+	icon_state = "wheat_stalk"
+	overlay_positions = list(list(17, 16))
 
 /*
 	Sun Stalk
@@ -50,6 +42,14 @@
 /datum/plant_feature/body/corn_stalk/sunflower
 	species_name = "sol culmo"
 	name = "sunflower stalk"
-	icon_state = "missing"
-	overlay_positions = list(list(16, 27))
+	icon_state = "sunflower_stalk"
+	overlay_positions = list(list(17, 16))
 
+/*
+	Flower Stalk
+*/
+/datum/plant_feature/body/corn_stalk/flower
+	species_name = "stipula flos"
+	name = "flower stem"
+	icon_state = "flower_stalk"
+	overlay_positions = list(list(17, 8))

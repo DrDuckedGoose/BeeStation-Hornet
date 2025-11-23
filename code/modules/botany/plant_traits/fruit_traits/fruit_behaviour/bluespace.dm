@@ -11,9 +11,9 @@
 
 /datum/plant_trait/fruit/bluespace/setup_fruit_parent()
 	. = ..()
-	//TODO: Maybe some visuals - Racc
 	RegisterSignal(fruit_parent, COMSIG_FRUIT_ACTIVATE_TARGET, TYPE_PROC_REF(/datum/plant_trait/fruit, catch_activate))
 	RegisterSignal(fruit_parent, COMSIG_FRUIT_ACTIVATE_NO_CONTEXT, TYPE_PROC_REF(/datum/plant_trait/fruit, catch_activate))
+
 
 /datum/plant_trait/fruit/bluespace/catch_activate(datum/source, datum/plant_trait/trait, mob/living/target)
 	. = ..()
@@ -24,7 +24,7 @@
 		focus = fruit_parent //If there's nothing to TP, TP ourselves
 	var/turf/T = get_turf(focus)
 	new /obj/effect/decal/cleanable/molten_object(T) //Leave a pile of goo behind for dramatic effect...
-	do_teleport(focus, T, teleport_radius*parent.trait_power, channel = TELEPORT_CHANNEL_BLUESPACE)
+	do_teleport(focus, T, teleport_radius*trait_power, channel = TELEPORT_CHANNEL_BLUESPACE)
 	//logging
 	if(target?.ckey == fruit_parent.fingerprintslast) //Dont log self harm
 		return

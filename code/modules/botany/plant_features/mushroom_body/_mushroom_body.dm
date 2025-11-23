@@ -5,7 +5,8 @@
 	species_name = "testus testium"
 	name = "mycelium"
 	icon_state = ""
-	overlay_positions = list(list(16,6)) //TODO: various positions in the tray - Racc
+	layer_offset = 0
+	overlay_positions = list(list(9, 2), list(20, 2), list(16, 4))
 	yields = PLANT_BODY_YIELD_FOREVER
 	yield_cooldown_time = PLANT_BODY_YIELD_TIME_FAST
 	max_harvest = PLANT_BODY_HARVEST_SMALL

@@ -18,7 +18,7 @@
 	reagents_add = list(/datum/reagent/consumable/nutriment/vitamin = 0.04, /datum/reagent/consumable/nutriment = 0.05, /datum/reagent/consumable/nutriment/fat/oil = 0.03) //Vegetable oil!
 
 /obj/item/food/grown/soybeans
-	seed = /obj/item/seeds/soya
+	seed = /obj/item/plant_seeds/preset/soybean
 	name = "soybeans"
 	desc = "It's pretty bland, but oh the possibilities..."
 	gender = PLURAL
@@ -42,7 +42,6 @@
 	rarity = 20
 
 /obj/item/food/grown/koibeans
-	seed = /obj/item/seeds/soya/koi
 	name = "koibean"
 	desc = "Something about these seems fishy."
 	icon_state = "koibeans"

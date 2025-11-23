@@ -1,7 +1,6 @@
 /*
 	Used to make and store seeds
 		Semi important that this isn't a plant machine subtype
-	//TODO: Make the UI scrollable, you can test this by inserting everytype of seed into the machine on init - Racc
 */
 /obj/machinery/seeder
 	name = "industrial seeder"
@@ -17,6 +16,7 @@
 
 /obj/machinery/seeder/Initialize(mapload)
 	. = ..()
+	//TODO: remove before release - Racc
 	for(var/obj/item/plant_seeds/seeds as anything in subtypesof(/obj/item/plant_seeds/preset))
 		var/obj/item/plant_seeds/new_seeds = new seeds()
 		stored_seeds["[new_seeds.species_id]"] = stored_seeds["[new_seeds.species_id]"] || list()
@@ -70,7 +70,6 @@
 			continue
 		var/obj/item/plant_seeds/seeds = stored_seeds[species_id][1]
 		var/list/features = list()
-		//TODO: Reformat this to support multiple features - Racc
 		for(var/datum/plant_feature/feature as anything in seeds.plant_features)
 			features["[ref(feature)]"] = list()
 			features["[ref(feature)]"]["data"] = feature.get_ui_data()

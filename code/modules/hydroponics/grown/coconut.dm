@@ -18,7 +18,7 @@ when processed, it lets you choose between coconut flesh or the coconut cup*/
 	reagents_add = list(/datum/reagent/consumable/coconutmilk = 0.2, /datum/reagent/consumable/nutriment/vitamin = 0.04, /datum/reagent/consumable/nutriment = 0.2)
 
 /obj/item/grown/coconut
-	seed = /obj/item/seeds/coconut
+	seed = /obj/item/plant_seeds/preset/coconut
 	name = "coconut"
 	desc = "A coconut. It's a hard nut to crack."
 	icon_state = "coconut"

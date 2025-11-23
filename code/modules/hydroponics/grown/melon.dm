@@ -22,7 +22,7 @@
 	return MANUAL_SUICIDE
 
 /obj/item/food/grown/watermelon
-	seed = /obj/item/seeds/watermelon
+	seed = /obj/item/plant_seeds/preset/watermelon
 	name = "watermelon"
 	desc = "It's full of watery goodness."
 	icon_state = "watermelon"
@@ -52,7 +52,6 @@
 	rarity = 20
 
 /obj/item/food/grown/holymelon
-	seed = /obj/item/seeds/watermelon/holy
 	name = "holymelon"
 	desc = "The water within this melon has been blessed by some deity that's particularly fond of watermelon."
 	icon_state = "holymelon"
@@ -127,7 +126,6 @@
 	rarity = 15
 
 /obj/item/food/grown/ballolon
-	seed = /obj/item/seeds/watermelon/ballolon
 	name = "ballolon"
 	desc = "A organic balloon, lighter then air."
 	icon_state = "ballolon"

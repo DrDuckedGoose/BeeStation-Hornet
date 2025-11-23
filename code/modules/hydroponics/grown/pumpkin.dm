@@ -17,7 +17,7 @@
 	reagents_add = list(/datum/reagent/consumable/nutriment/vitamin = 0.04, /datum/reagent/consumable/nutriment = 0.2)
 
 /obj/item/food/grown/pumpkin
-	seed = /obj/item/seeds/pumpkin
+	seed = /obj/item/plant_seeds/preset/pumpkin
 	name = "pumpkin"
 	desc = "It's large and scary."
 	icon_state = "pumpkin"
@@ -48,7 +48,6 @@
 	rarity = 20
 
 /obj/item/food/grown/blumpkin
-	seed = /obj/item/seeds/pumpkin/blumpkin
 	name = "blumpkin"
 	desc = "The pumpkin's toxic sibling."
 	icon_state = "blumpkin"

@@ -15,7 +15,7 @@
 	reagents_add = list(/datum/reagent/consumable/nutriment/vitamin = 0.02, /datum/reagent/consumable/nutriment = 0.2, /datum/reagent/water = 0.04)
 
 /obj/item/food/grown/pineapple
-	seed = /obj/item/seeds/pineapple
+	seed = /obj/item/plant_seeds/preset/pineapple
 	name = "pineapples"
 	desc = "Blorble."
 	icon_state = "pineapple"

@@ -42,7 +42,7 @@
 
 /datum/plant_feature/roots/get_ui_data()
 	. = ..()
-	. += list(PLANT_DATA("Compatible Substrate", "[substrate_dialogue]"))
+	. += list(PLANT_DATA("Compatible Substrate", "[substrate_dialogue]"), PLANT_DATA(null, null))
 
 /datum/plant_feature/roots/setup_parent(_parent, reset_features)
 	if(parent)
@@ -56,11 +56,6 @@
 	. = ..()
 	RegisterSignal(seeds, COMSIG_SEEDS_POLL_ROOT_SUBSTRATE, PROC_REF(catch_substrate))
 	RegisterSignal(seeds, COMSIG_ATOM_EXAMINE, PROC_REF(catch_seed_examine))
-
-/datum/plant_feature/roots/unassociate_seeds(obj/item/plant_seeds/seeds)
-	. = ..()
-	UnregisterSignal(seeds, COMSIG_SEEDS_POLL_ROOT_SUBSTRATE)
-	UnregisterSignal(seeds, COMSIG_ATOM_EXAMINE)
 
 /datum/plant_feature/roots/proc/catch_seed_examine(datum/source, mob/user, list/examine_text)
 	SIGNAL_HANDLER

@@ -17,7 +17,7 @@ export const PlantMutator = (props) => {
   } = data;
   return (
     <Window width={600} height={500} theme="plant_menu">
-      <Window.Content>
+      <Window.Content scrollable={1}>
         {working ? (
           <Dimmer className={'Dimmer--super'}>
             <Section>
@@ -64,8 +64,12 @@ export const PlantMutator = (props) => {
                       </Section>
                       {/* Body */}
                       <Section>
-                        <ProgressBar color={'#ffff77'} value={catalyst_strength * 0.01}>
-                          {catalyst_strength || '0'} Roentgen
+                        <Box textAlign={'center'}>Roentgen</Box>
+                        <ProgressBar
+                          color={'#ffff77'}
+                          textColor={catalyst_strength ? (catalyst_strength > 90 ? '#252517ff' : '#ffff77') : '#ffff77'}
+                          value={Math.min(catalyst_strength * 0.01, 1)}>
+                          {catalyst_strength || '0'}
                         </ProgressBar>
                         <Divider />
                         {catalyst_desc || '...'}

@@ -19,7 +19,7 @@
 	reagents_add = list(/datum/reagent/consumable/capsaicin = 0.25, /datum/reagent/consumable/nutriment/vitamin = 0.04, /datum/reagent/consumable/nutriment = 0.04)
 
 /obj/item/food/grown/chili
-	seed = /obj/item/seeds/chili
+	seed = /obj/item/plant_seeds/preset/chili
 	name = "chili"
 	desc = "It's spicy! Wait... IT'S BURNING ME!!"
 	icon_state = "chilipepper"
@@ -43,7 +43,6 @@
 	reagents_add = list(/datum/reagent/consumable/frostoil = 0.25, /datum/reagent/consumable/nutriment/vitamin = 0.02, /datum/reagent/consumable/nutriment = 0.02)
 
 /obj/item/food/grown/icepepper
-	seed = /obj/item/seeds/chili/ice
 	name = "ice pepper"
 	desc = "It's a mutant strain of chili."
 	icon_state = "icepepper"
@@ -69,7 +68,6 @@
 	reagents_add = list(/datum/reagent/consumable/condensedcapsaicin = 0.3, /datum/reagent/consumable/capsaicin = 0.55, /datum/reagent/consumable/nutriment = 0.04)
 
 /obj/item/food/grown/ghost_chili
-	seed = /obj/item/seeds/chili/ghost
 	name = "ghost chili"
 	desc = "It seems to be vibrating gently."
 	icon_state = "ghostchilipepper"

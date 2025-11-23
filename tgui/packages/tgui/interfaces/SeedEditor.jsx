@@ -1,5 +1,5 @@
 import { useBackend } from '../backend';
-import { Button, Section, Box, Flex, Input, BlockQuote, Divider, Icon, Dimmer } from '../components';
+import { Button, Section, Box, Flex, Input, BlockQuote, Divider, Icon, Dimmer, ProgressBar } from '../components';
 import { Window } from '../layouts';
 
 export const SeedEditor = (props) => {
@@ -12,6 +12,8 @@ export const SeedEditor = (props) => {
     disk_trait_data,
     disk_inserted,
     last_command,
+    current_feature_genetic_budget,
+    current_feature_remaining_genetic_budget,
   } = data;
   return (
     <Window width={600} height={500} theme="plant_menu">
@@ -29,7 +31,21 @@ export const SeedEditor = (props) => {
                   <h1>{inserted_plant || 'No Seeds Inserted'}</h1>
                 </Section>
                 <Section textAlign={'center'} width={'100%'}>
-                  TODO: Genetic stability breakdown here - Racc
+                  Genetic Stability
+                  {/* TODO: implememnt this text colour to the mutator - Racc */}
+                  <ProgressBar
+                    color={'#ffff77'}
+                    textColor={
+                      current_feature_genetic_budget
+                        ? current_feature_genetic_budget - current_feature_remaining_genetic_budget <= 0
+                          ? '#252517ff'
+                          : '#ffff77'
+                        : '#ffff77'
+                    }
+                    maxValue={current_feature_genetic_budget || 1}
+                    value={current_feature_remaining_genetic_budget || 0}>
+                    {current_feature_remaining_genetic_budget || 0}
+                  </ProgressBar>
                 </Section>
               </Flex>
             </Flex.Item>

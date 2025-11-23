@@ -14,13 +14,31 @@
 	upper_fruit_size = PLANT_FRUIT_SIZE_SMALL
 	seeds = 2
 
+/datum/plant_feature/body/bush_vine/chili
+	name = "chili bush"
+	icon_state = "bush_vine_2"
+
+/datum/plant_feature/body/bush_vine/coffee
+	name = "coffee bush"
+	icon_state = "bush_vine_2"
+
+/datum/plant_feature/body/bush_vine/eggplant
+	name = "eggplant vine"
+
+/datum/plant_feature/body/bush_vine/soybean
+	name = "soybean stalk"
+
+/datum/plant_feature/body/bush_vine/tomato
+	name = "tomato vine"
+
 /*
 	Berry Bush
 */
 /datum/plant_feature/body/bush_vine/berry
 	species_name = "parvum parva fructum"
 	name = "berry bush"
-	icon_state = "bush"
+	icon_state = "bush_berry"
+	overlay_positions = list(list(17, 15), list(14, 17), list(21, 16), list(12, 10), list(17, 9), list(22, 9), list(15, 11), list(19, 19), list(12, 17))
 	random_plant = TRUE
 
 /*
@@ -33,6 +51,9 @@
 	draw_below_water = FALSE
 	random_plant = TRUE
 	overlay_positions = list(list(11, 12), list(21, 17), list(18, 11), list(24, 9), list(9, 8))
+
+/datum/plant_feature/body/bush_vine/flower/cotton
+	name = "cotton bush"
 
 /*
 	Grape Vine
@@ -59,9 +80,10 @@
 /datum/plant_feature/body/bush_vine/ambrosia
 	species_name = "folium rubi"
 	name = "ambrosia bush"
-	icon_state = "missing"
+	icon_state = "sprouting_bush"
 	draw_below_water = FALSE
-	overlay_positions = list(list(24, 6))
+	overlay_positions = list(list(16, 10), list(18, 11))
+	whitelist_features = list(/datum/plant_feature/fruit/ambrosia, /datum/plant_feature/roots)
 
 /*
 	Nettle bush
@@ -73,16 +95,21 @@
 	draw_below_water = FALSE
 	overlay_positions = list(list(24, 6))
 
+/datum/plant_feature/body/bush_vine/nettle/thistle
+	name = "thistle bush"
+
 /*
 	Cannabis bush
 */
 /datum/plant_feature/body/bush_vine/cannabis
 	species_name = "ridiculam rubi"
 	name = "cannabis bush"
-	icon_state = "missing"
-	draw_below_water = FALSE
-	overlay_positions = list(list(24, 6))
+	icon_state = "bush_spiky_2"
+	overlay_positions = list(list(17, 16), list(17, 10), list(13, 14), list(21, 14), list(19, 21))
+	seeds = 5
 
+/datum/plant_feature/body/bush_vine/cannabis/tobacco
+	name = "tobacco bush"
 
 /*
 	Tea bush

@@ -17,7 +17,7 @@
 	reagents_add = list(/datum/reagent/fluorine = 0.02, /datum/reagent/consumable/nutriment/vitamin = 0.04, /datum/reagent/toxin/teapowder = 0.1)
 
 /obj/item/food/grown/tea
-	seed = /obj/item/seeds/tea
+	seed = /obj/item/plant_seeds/preset/tea
 	name = "Tea Aspera tips"
 	desc = "These aromatic tips of the tea plant can be dried to make tea."
 	icon_state = "tea_aspera_leaves"
@@ -38,7 +38,6 @@
 	rarity = 20
 
 /obj/item/food/grown/tea/astra
-	seed = /obj/item/seeds/tea/astra
 	name = "Tea Astra tips"
 	desc = "A special blend of tea to sooth the mind."
 	icon_state = "tea_astra_leaves"
@@ -67,7 +66,7 @@
 	reagents_add = list(/datum/reagent/consumable/nutriment/vitamin = 0.04, /datum/reagent/toxin/coffeepowder = 0.1)
 
 /obj/item/food/grown/coffee
-	seed = /obj/item/seeds/coffee
+	seed = /obj/item/plant_seeds/preset/coffee
 	name = "coffee arabica beans"
 	desc = "Dry them out to make coffee."
 	icon_state = "coffee_arabica"
@@ -88,7 +87,6 @@
 	rarity = 20
 
 /obj/item/food/grown/coffee/robusta
-	seed = /obj/item/seeds/coffee/robusta
 	name = "coffee robusta beans"
 	desc = "Increases robustness by 37 percent!"
 	icon_state = "coffee_robusta"

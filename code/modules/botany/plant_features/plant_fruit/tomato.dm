@@ -31,13 +31,20 @@
 	species_name = "lycopersicum caeruleum cerritulus"
 	name = "bluespace tomato"
 	icon_state = "tomato-2"
-	colour_override = "#03dfe6" //TODO: bluespace effects - Racc
+	colour_override = "#03dfe6"
 	fruit_product = /obj/item/food/grown/tomato/blue/bluespace
 	plant_traits = list(/datum/plant_trait/reagent/fruit/nutriment, /datum/plant_trait/reagent/fruit/vitamin,
 	/datum/plant_trait/fruit/liquid_contents, /datum/plant_trait/fruit/bluespace)
 	fast_reagents = list(/datum/reagent/bluespace = PLANT_REAGENT_SMALL)
 	growth_time = PLANT_FRUIT_GROWTH_MEDIUM
 	mutations = list(/datum/plant_feature/fruit/tomato)
+
+/datum/plant_feature/fruit/tomato/bluespace/setup_fruit(datum/source, harvest_amount, list/_visual_fruits, skip_growth)
+	. = ..()
+	for(var/timer as anything in growth_timers)
+		var/obj/effect/fruit_effect = visual_fruits[timer]
+		animate(fruit_effect, color = "#24618a", time = 0.3 SECONDS, loop = -1, flags = ANIMATION_PARALLEL)
+		animate(color = "#03dfe6", time = 1 SECONDS)
 
 /*
 	Blood Tomato
@@ -76,7 +83,6 @@
 	mutations = list(/datum/plant_feature/fruit/tomato)
 
 /obj/item/food/grown/tomato/friendly
-	seed = /obj/item/seeds/tomato
 	name = "friendly tomato"
 	desc = "The real treasure are the friends we made along the way!"
 	icon_state = "friendly_tomato"

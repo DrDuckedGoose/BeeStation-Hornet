@@ -86,7 +86,7 @@ CREATION_TEST_IGNORE_SUBTYPES(/obj/item/seeds/galaxythistle)
 	reagents_add = list(/datum/reagent/consumable/nutriment/vitamin = 0.04, /datum/reagent/consumable/nutriment = 0.1)
 
 /obj/item/food/grown/cabbage
-	seed = /obj/item/seeds/cabbage
+	seed = /obj/item/plant_seeds/preset/cabbage
 	name = "cabbage"
 	desc = "Ewwwwwwwwww. Cabbage."
 	icon_state = "cabbage"
@@ -112,7 +112,7 @@ CREATION_TEST_IGNORE_SUBTYPES(/obj/item/seeds/galaxythistle)
 	mutatelist = list(/obj/item/seeds/bamboo)
 
 /obj/item/food/grown/sugarcane
-	seed = /obj/item/seeds/sugarcane
+	seed = /obj/item/plant_seeds/preset/sugarcane
 	name = "sugarcane"
 	desc = "Sickly sweet."
 	icon_state = "sugarcane"

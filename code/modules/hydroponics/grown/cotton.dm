@@ -18,7 +18,7 @@
 	mutatelist = list(/obj/item/seeds/cotton/durathread)
 
 /obj/item/grown/cotton
-	seed = /obj/item/seeds/cotton
+	seed = /obj/item/plant_seeds/preset/cotton
 	name = "cotton bundle"
 	desc = "A fluffy bundle of cotton."
 	icon_state = "cotton"
@@ -66,7 +66,6 @@
 	icon_dead = "cotton-dead"
 
 /obj/item/grown/cotton/durathread
-	seed = /obj/item/seeds/cotton/durathread
 	name = "durathread bundle"
 	desc = "A tough bundle of durathread, good luck unraveling this."
 	icon_state = "durathread"

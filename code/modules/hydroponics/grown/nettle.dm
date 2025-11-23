@@ -29,7 +29,7 @@
 	rarity = 20
 
 /obj/item/food/grown/nettle // "snack". yeah. try eating it, pussy
-	seed = /obj/item/seeds/nettle
+	seed = /obj/item/plant_seeds/preset/nettle
 	name = "nettle"
 	desc = "It's probably <B>not</B> wise to touch it with bare hands..."
 	icon = 'icons/obj/items_and_weapons.dmi'
@@ -79,7 +79,7 @@
 		qdel(src)
 
 /obj/item/food/grown/nettle/basic
-	seed = /obj/item/seeds/nettle
+	seed = /obj/item/plant_seeds/preset/nettle
 
 CREATION_TEST_IGNORE_SUBTYPES(/obj/item/food/grown/nettle/basic)
 
@@ -88,7 +88,6 @@ CREATION_TEST_IGNORE_SUBTYPES(/obj/item/food/grown/nettle/basic)
 	force = round((5 + seed.potency / 5), 1)
 
 /obj/item/food/grown/nettle/death
-	seed = /obj/item/seeds/nettle/death
 	name = "deathnettle"
 	desc = "The " + span_danger("glowing") + " nettle incites " + span_boldannounce("rage") + " in you just from looking at it!"
 	icon_state = "deathnettle"

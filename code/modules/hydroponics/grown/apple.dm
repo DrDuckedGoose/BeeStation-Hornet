@@ -1,4 +1,5 @@
 // Apple
+//TODO: Take these old seeds out back and shoot them - Racc
 /obj/item/seeds/apple
 	name = "pack of apple seeds"
 	desc = "These seeds grow into apple trees."
@@ -17,7 +18,7 @@
 	reagents_add = list(/datum/reagent/consumable/nutriment/vitamin = 0.04, /datum/reagent/consumable/nutriment = 0.1)
 
 /obj/item/food/grown/apple
-	seed = /obj/item/seeds/apple
+	seed = /obj/item/plant_seeds/preset/apple
 	name = "apple"
 	desc = "It's a little piece of Eden."
 	icon_state = "apple"
@@ -42,7 +43,6 @@
 	rarity = 40 // Alchemy!
 
 /obj/item/food/grown/apple/gold
-	seed = /obj/item/seeds/apple/gold
 	name = "golden apple"
 	desc = "Emblazoned upon the apple is the word 'Kallisti'."
 	icon_state = "goldapple"

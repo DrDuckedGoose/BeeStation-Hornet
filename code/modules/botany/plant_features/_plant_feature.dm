@@ -75,7 +75,7 @@
 	blacklist_features = typecacheof(blacklist_features)
 	whitelist_features = typecacheof(whitelist_features)
 
-//Used to get dialogue / text for hand-held plant scanner
+//Used to get dialogue / text for hand-held plant scanner - This is like get_ui_data() but it has more information about specific things you'd want to know on the fly
 /datum/plant_feature/proc/get_scan_dialogue()
 	var/dialogue = "[capitalize(name)]([species_name])\n"
 	//Traits
@@ -83,7 +83,7 @@
 		dialogue += "<i>[trait.name]</i>\n"
 	if(!length(plant_traits))
 		dialogue += "\n"
-	//generic shared info
+	//generic shared info - This can be a little duplicate when compared with get_ui_data() but it'll be good to keep this seperate for future additions
 	dialogue += "Genetic Stability: [genetic_budget]\n"
 	dialogue += "Genetic Availability: [remaining_genetic_budget]\n"
 	dialogue += "Trait Modifier: [trait_power]\n"
@@ -96,11 +96,11 @@
 		dialogue += "[need.need_description]\n"
 	return dialogue
 
-//generic common stats between feature types
+///This is a keyed list for UIs to get specific values, usually for logic or display
 /datum/plant_feature/proc/get_ui_stats()
 	return list("name" = capitalize(name), "species_name" = capitalize(species_name), "key" = REF(src), "feature_appearance" = icon2base64(feature_appearance), "type_shortcut" = "[trait_type_shortcut]")
 
-//personalized info unqiue to different features
+///This is for display+, a pre-formatted list of nice looking text
 /datum/plant_feature/proc/get_ui_data()
 	return list(PLANT_DATA("Species Name", species_name), PLANT_DATA(null, null))
 
@@ -168,10 +168,6 @@
 
 ///Use this to associate this feature datum with a seed packet, before it's planted
 /datum/plant_feature/proc/associate_seeds(obj/item/plant_seeds/seeds)
-	return
-
-///Undo any association. Used for seed packets with more than 1 seed
-/datum/plant_feature/proc/unassociate_seeds(obj/item/plant_seeds/seeds)
 	return
 
 /datum/plant_feature/proc/catch_planted(datum/source, atom/destination)

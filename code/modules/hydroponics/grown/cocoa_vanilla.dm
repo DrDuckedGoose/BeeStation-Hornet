@@ -19,7 +19,7 @@
 	reagents_add = list(/datum/reagent/consumable/cocoa = 0.25, /datum/reagent/consumable/nutriment = 0.1)
 
 /obj/item/food/grown/cocoapod
-	seed = /obj/item/seeds/cocoapod
+	seed = /obj/item/plant_seeds/preset/cocoa
 	name = "cocoa pod"
 	desc = "Fattening... Mmmmm... Chocolate."
 	icon_state = "cocoapod"
@@ -41,7 +41,6 @@
 	reagents_add = list(/datum/reagent/consumable/vanilla = 0.25, /datum/reagent/consumable/nutriment = 0.1)
 
 /obj/item/food/grown/vanillapod
-	seed = /obj/item/seeds/cocoapod/vanillapod
 	name = "vanilla pod"
 	desc = "Fattening... Mmmmm... Vanilla."
 	icon_state = "vanillapod"
@@ -72,7 +71,6 @@
 	rarity = 15
 
 /obj/item/food/grown/bungofruit
-	seed = /obj/item/seeds/cocoapod/bungotree
 	name = "bungo fruit"
 	desc = "A strange fruit, tough leathery skin protects its juicy flesh and large poisonous seed."
 	icon_state = "bungo"
@@ -85,7 +83,6 @@
 	discovery_points = 300
 
 /obj/item/food/grown/bungopit
-	seed = /obj/item/seeds/cocoapod/bungotree
 	name = "bungo pit"
 	icon_state = "bungopit"
 	bite_consumption_mod = 5

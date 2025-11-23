@@ -31,19 +31,18 @@
 
 //Insert
 /obj/machinery/plant_machine/plant_mutator/attackby(obj/item/C, mob/user)
-	. = ..()
 	if(working)
-		return
+		return ..()
 //Catalyst
 	radiation = radiation || C.GetComponent(/datum/component/radioactive)
 	if(radiation && !catalyst)
 		C.forceMove(src)
 		catalyst = C
 		ui_update()
-		return TRUE
+		return
 //Spade / Plant
 	if(!istype(C, /obj/item/shovel/spade))
-		return
+		return ..()
 	//Return plant to spade, to remove it
 	if(plant && plant_component.async_catch_attackby(C, user))
 		plant = null
@@ -51,7 +50,7 @@
 		current_feature = null
 		current_feature_ref = null
 		ui_update()
-		return TRUE
+		return
 	//Insert plant from spade
 	var/datum/component/plant/comp
 	var/obj/item/plant_item
@@ -62,13 +61,12 @@
 			continue
 		break
 	if(!comp)
-		return
+		return ..()
 	C.vis_contents -= plant_item
 	plant_item.forceMove(src)
 	plant = plant_item
 	plant_component = comp
 	ui_update()
-	return TRUE
 
 //Remove
 /obj/machinery/plant_machine/plant_mutator/attack_hand_secondary(mob/user, list/modifiers)
@@ -159,33 +157,39 @@
 			//Check compatibility
 			var/datum/plant_feature/new_feature = pick(feature.mutations)
 			new_feature = new new_feature(plant_component)
-			for(var/datum/plant_feature/current_feature as anything in plant_component.plant_features)
+			for(var/datum/plant_feature/current_feature as anything in plant_component.plant_features-feature)
 				//Is this feature blacklisted from another feature
-				if(is_type_in_typecache(new_feature, current_feature.blacklist_features))
+				if(is_type_in_typecache(new_feature, current_feature.blacklist_features) || is_type_in_typecache(current_feature, new_feature.blacklist_features))
 					playsound(src, 'sound/machines/terminal_error.ogg', 60)
 					say("ERROR: Seed composition not compatible with selected feature!")
 					qdel(new_feature)
 					return
 				//If a feature has a whitelist, are we in it?
-				if(length(current_feature.whitelist_features) && !is_type_in_typecache(new_feature, current_feature.whitelist_features))
+				if(length(current_feature.whitelist_features) && !is_type_in_typecache(new_feature, current_feature.whitelist_features) || length(new_feature.whitelist_features) && !is_type_in_typecache(current_feature, new_feature.whitelist_features))
 					playsound(src, 'sound/machines/terminal_error.ogg', 60)
 					say("ERROR: Seed composition not compatible with selected feature!")
 					qdel(new_feature)
 					return
-			//Rip out old feature
 			plant_component.plant_features -= feature
-			qdel(feature)
-			//Throw new bad boy in
 			if(!QDELING(new_feature))
 				plant_component.plant_features += new_feature
+			//TODO: make this a togglable option, off by default - Racc
+			//Transfer old feature's traits to new feature
+			for(var/datum/plant_trait/trait as anything in feature.plant_traits)
+				//TODO: Same for seed editor, make this go through the trait list, this locate thing get sthe first, not a whole list - Racc
+				var/datum/plant_trait/trait_similar = (locate(trait.type) in new_feature.plant_traits)
+				if(!trait.allow_multiple && trait_similar?.get_id() == trait.get_id())
+					continue
+				var/datum/plant_trait/new_trait = trait.copy(new_feature)
+				if(!QDELING(new_trait))
+					new_feature.plant_traits += new_trait
 			//Reset species id so a new one can be made
 			plant_component.compile_species_id()
-			//TODO: Make the plant's fruit drop off or be destroyed - Racc
-			//TODO: transfer traits between features, if you can - Racc
 			//Reset the plant's growth
 			for(var/datum/plant_feature/body/body_feature in plant_component.plant_features)
 				body_feature.growth_time_elapsed = 0
 				body_feature.current_stage = 0
+			qdel(feature)
 			working = TRUE
 			addtimer(CALLBACK(src, PROC_REF(reset_working)), working_time)
 			ui_update()

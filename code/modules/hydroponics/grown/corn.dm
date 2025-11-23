@@ -16,7 +16,7 @@
 	reagents_add = list(/datum/reagent/consumable/nutriment/fat/oil = 0.2, /datum/reagent/consumable/nutriment/vitamin = 0.04, /datum/reagent/consumable/nutriment = 0.1)
 
 /obj/item/food/grown/corn
-	seed = /obj/item/seeds/corn
+	seed = /obj/item/plant_seeds/preset/corn
 	name = "ear of corn"
 	desc = "Needs some butter!"
 	icon_state = "corn"
@@ -64,7 +64,6 @@
 	rarity = 10
 
 /obj/item/grown/snapcorn
-	seed = /obj/item/seeds/corn/snapcorn
 	name = "snap corn"
 	desc = "A cob with snap pops."
 	icon_state = "snapcorn"

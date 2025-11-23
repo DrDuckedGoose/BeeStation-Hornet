@@ -19,7 +19,7 @@
 	reagents_add = list(/datum/reagent/consumable/nutriment = 0.02, /datum/reagent/hydrogen = 0.05)
 
 /obj/item/food/grown/grass
-	seed = /obj/item/seeds/grass
+	seed = /obj/item/plant_seeds/preset/grass
 	name = "grass"
 	desc = "Green and lush."
 	icon_state = "grassclump"
@@ -52,7 +52,6 @@
 	reagents_add = list(/datum/reagent/consumable/nutriment = 0.02, /datum/reagent/hydrogen = 0.05, /datum/reagent/drug/space_drugs = 0.15)
 
 /obj/item/food/grown/grass/fairy
-	seed = /obj/item/seeds/grass/fairy
 	name = "fairygrass"
 	desc = "Glowing, and smells fainly of mushrooms."
 	icon_state = "fairygrassclump"
@@ -103,7 +102,6 @@
 	rarity = 10
 
 /obj/item/food/grown/grass/carpet
-	seed = /obj/item/seeds/grass/carpet
 	name = "carpet"
 	desc = "The textile industry's dark secret."
 	icon_state = "carpetclump"
@@ -124,7 +122,6 @@
 	reagents_add = list(/datum/reagent/nitrogen = 0.1, /datum/reagent/consumable/nutriment = 0.02)
 
 /obj/item/food/grown/grass/shamrock
-	seed = /obj/item/seeds/grass/shamrock
 	name = "shamrock"
 	desc = "Luck of the irish."
 	icon_state = "shamrock"

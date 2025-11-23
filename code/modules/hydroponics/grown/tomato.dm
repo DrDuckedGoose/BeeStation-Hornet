@@ -15,7 +15,7 @@
 	reagents_add = list(/datum/reagent/consumable/nutriment/vitamin = 0.04, /datum/reagent/consumable/nutriment = 0.1)
 
 /obj/item/food/grown/tomato
-	seed = /obj/item/seeds/tomato
+	seed = /obj/item/plant_seeds/preset/tomato
 	name = "tomato"
 	desc = "I say to-mah-to, you say tom-mae-to."
 	icon_state = "tomato"
@@ -38,7 +38,6 @@
 	rarity = 20
 
 /obj/item/food/grown/tomato/blood
-	seed = /obj/item/seeds/tomato/blood
 	name = "blood-tomato"
 	desc = "So bloody...so...very...bloody....AHHHH!!!!"
 	icon_state = "bloodtomato"
@@ -70,7 +69,6 @@
 	rarity = 20
 
 /obj/item/food/grown/tomato/blue
-	seed = /obj/item/seeds/tomato/blue
 	name = "blue-tomato"
 	desc = "I say blue-mah-to, you say blue-mae-to."
 	icon_state = "bluetomato"
@@ -94,7 +92,6 @@
 	rarity = 50
 
 /obj/item/food/grown/tomato/blue/bluespace
-	seed = /obj/item/seeds/tomato/blue/bluespace
 	name = "bluespace tomato"
 	desc = "So lubricated, you might slip through space-time."
 	icon_state = "bluespacetomato"
@@ -121,7 +118,6 @@
 	rarity = 30
 
 /obj/item/food/grown/tomato/killer
-	seed = /obj/item/seeds/tomato/killer
 	name = "killer-tomato"
 	desc = "I say to-mah-to, you say tom-mae-to... OH GOD IT'S EATING MY LEGS!!"
 	icon_state = "killertomato"

@@ -26,7 +26,7 @@
 	reagents_add = list(/datum/reagent/medicine/morphine = 0.35, /datum/reagent/medicine/charcoal = 0.35, /datum/reagent/consumable/nutriment = 0)
 
 /obj/item/food/grown/mushroom/reishi
-	seed = /obj/item/seeds/reishi
+	seed = /obj/item/plant_seeds/preset/reishi
 	name = "reishi"
 	desc = "<I>Ganoderma lucidum</I>: A special fungus known for its medicinal and stress relieving properties."
 	icon_state = "reishi"
@@ -51,7 +51,7 @@
 	reagents_add = list(/datum/reagent/drug/mushroomhallucinogen = 0.04, /datum/reagent/toxin/amatoxin = 0.35, /datum/reagent/consumable/nutriment = 0, /datum/reagent/growthserum = 0.1)
 
 /obj/item/food/grown/mushroom/amanita
-	seed = /obj/item/seeds/amanita
+	seed = /obj/item/plant_seeds/preset/amanita
 	name = "fly amanita"
 	desc = "<I>Amanita Muscaria</I>: Learn poisonous mushrooms by heart. Only pick mushrooms you know."
 	icon_state = "amanita"

@@ -16,28 +16,45 @@
 	fruit_parent.light_system = MOVABLE_LIGHT
 	fruit_parent.AddComponent(/datum/component/overlay_lighting, glow_range*trait_power, glow_power*trait_power, glow_color)
 
-//TODO: Add the other colours - Racc
 //Yellow
 /datum/plant_trait/fruit/biolight/yellow
 	name = "Yellow Bioluminescence"
 	desc = "Makes the fruit glow yellow."
-	glow_color = "#fbff00"
+	glow_color = "#FFFF66"
 
 //Orange
 /datum/plant_trait/fruit/biolight/orange
 	name = "Orange Bioluminescence"
 	desc = "Makes the fruit glow orange."
-	glow_color = "#ff8800"
+	glow_color = "#D05800"
 
 
 //Green
 /datum/plant_trait/fruit/biolight/green
 	name = "Green Bioluminescence"
 	desc = "Makes the fruit glow green."
-	glow_color = "#66ff00"
+	glow_color = "#99FF99"
 
 //Red
 /datum/plant_trait/fruit/biolight/red
 	name = "Red Bioluminescence"
 	desc = "Makes the fruit glow red."
-	glow_color = "#ff0000"
+	glow_color = "#FF3333"
+
+//Blue
+/datum/plant_trait/fruit/biolight/blue
+	//the best one - Pirill
+	name = "Blue Bioluminescence"
+	glow_color = "#6699FF"
+
+//Purple
+/datum/plant_trait/fruit/biolight/purple
+	//did you know that Notepad++ doesnt think bioluminescence is a word - Pirill
+	name = "Purple Bioluminescence"
+	glow_color = "#D966FF"
+
+//Pink
+/datum/plant_trait/fruit/biolight/pink
+	//gay tide station pride - Pirill
+	name = "Pink Bioluminescence"
+	glow_color = "#FFB3DA"

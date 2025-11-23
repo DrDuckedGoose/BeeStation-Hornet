@@ -12,7 +12,7 @@
 	reagents_add = list(/datum/reagent/consumable/garlic = 0.15, /datum/reagent/consumable/nutriment = 0.1)
 
 /obj/item/food/grown/garlic
-	seed = /obj/item/seeds/garlic
+	seed = /obj/item/plant_seeds/preset/garlic
 	name = "garlic"
 	desc = "Delicious, but with a potentially overwhelming odor."
 	icon_state = "garlic"

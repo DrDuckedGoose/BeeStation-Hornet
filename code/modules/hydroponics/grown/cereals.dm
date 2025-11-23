@@ -14,7 +14,7 @@
 	reagents_add = list(/datum/reagent/consumable/nutriment = 0.04)
 
 /obj/item/food/grown/wheat
-	seed = /obj/item/seeds/wheat
+	seed = /obj/item/plant_seeds/preset/wheat
 	name = "wheat"
 	desc = "Sigh... wheat... a-grain?"
 	gender = PLURAL
@@ -36,7 +36,6 @@
 	mutatelist = list()
 
 /obj/item/food/grown/oat
-	seed = /obj/item/seeds/wheat/oat
 	name = "oat"
 	desc = "Eat oats, do squats."
 	gender = PLURAL
@@ -61,7 +60,7 @@
 	growthstages = 3
 
 /obj/item/food/grown/rice
-	seed = /obj/item/seeds/wheat/rice
+	seed = /obj/item/plant_seeds/preset/rice
 	name = "rice"
 	desc = "Rice to meet you."
 	gender = PLURAL

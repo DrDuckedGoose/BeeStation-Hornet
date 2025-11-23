@@ -21,17 +21,18 @@
 	var/last_command = ""
 
 /obj/machinery/plant_machine/seed_editor/attackby(obj/item/C, mob/user)
-	. = ..()
 	//insert disk
 	if(istype(C, /obj/item/plant_disk) && !disk)
 		C.forceMove(src)
 		disk = C
 	//insert seeds
-	if(istype(C, /obj/item/plant_seeds) && !seeds)
+	else if(istype(C, /obj/item/plant_seeds) && !seeds)
 		C.forceMove(src)
 		seeds = C
 		icon_state = "editor"
 		playsound(src, 'sound/machines/click.ogg', 30)
+	else
+		return ..()
 	ui_update()
 
 /obj/machinery/plant_machine/seed_editor/attack_hand_secondary(mob/user, list/modifiers)
@@ -68,6 +69,8 @@
 	data["current_feature"] = current_feature_ref
 	data["current_feature_data"] = current_feature?.get_ui_data()
 	data["current_feature_traits"] = current_feature?.get_ui_traits()
+	data["current_feature_genetic_budget"] = current_feature?.genetic_budget
+	data["current_feature_remaining_genetic_budget"] = current_feature?.remaining_genetic_budget
 	//Current inserted plant's name
 	data["inserted_plant"] = capitalize(seeds?.name)
 	///Is there a disk inserted
@@ -130,7 +133,7 @@
 			//Don't allow trait duplication
 			var/datum/plant_trait/trait = locate(params["key"])
 			var/datum/plant_trait/trait_similar = (locate(trait.type) in current_feature.plant_traits)
-			if(!trait.allow_multiple && trait_similar?.get_id() == trait.get_id()) //Check if it REALLY is the same
+			if(!trait.allow_multiple && trait_similar?.get_id() == trait.get_id())
 				return
 			//Add the trait
 			var/datum/plant_trait/new_trait = trait.copy(current_feature)
@@ -154,12 +157,12 @@
 					say("ERROR: Seed composition cannot fit selected feature!")
 					return
 				//Is this feature blacklisted from another feature
-				if(is_type_in_typecache(feature, current_feature.blacklist_features))
+				if(is_type_in_typecache(feature, current_feature.blacklist_features) || is_type_in_typecache(current_feature, feature.blacklist_features))
 					playsound(src, 'sound/machines/terminal_error.ogg', 60)
 					say("ERROR: Seed composition not compatible with selected feature!")
 					return
 				//If a feature has a whitelist, are we in it?
-				if(length(current_feature.whitelist_features) && !is_type_in_typecache(feature, current_feature.whitelist_features))
+				if(length(current_feature.whitelist_features) && !is_type_in_typecache(feature, current_feature.whitelist_features) || length(feature.whitelist_features) && !is_type_in_typecache(current_feature, feature.whitelist_features))
 					playsound(src, 'sound/machines/terminal_error.ogg', 60)
 					say("ERROR: Seed composition not compatible with selected feature!")
 					return
@@ -178,6 +181,7 @@
 				return
 		//Good to go, slap that bad boy on
 			var/datum/plant_feature/new_feature = feature.copy()
+			new_feature.associate_seeds(seeds)
 			seeds.plant_features += new_feature
 			seeds.species_id = null
 			last_command = "pit feature add -f -cd [params["key"]]"

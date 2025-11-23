@@ -78,13 +78,13 @@
 	//Is this even a planter?
 	var/datum/component/planter/tray_component = target.GetComponent(/datum/component/planter)
 	if(!tray_component)
-		to_chat(user, "<span class='warining'>You can't plant [plant_item] here!</span>")
+		to_chat(user, "<span class='warning'>You can't plant [plant_item] here!</span>")
 		return
 	if(!SEND_SIGNAL(src, COMSIG_SEEDS_POLL_ROOT_SUBSTRATE, tray_component.substrate))
-		to_chat(user, "<span class='warining'>You can't plant [plant_item] in this substrate!</span>")
+		to_chat(user, "<span class='warning'>You can't plant [plant_item] in this substrate!</span>")
 		return
 	if(!SEND_SIGNAL(src, COMSIG_PLANT_POLL_TRAY_SIZE, target))
-		to_chat(user, "<span class='warining'>There's no room to plant [plant_item] here!</span>")
+		to_chat(user, "<span class='warning'>There's no room to plant [plant_item] here!</span>")
 		return
 	INVOKE_ASYNC(src, PROC_REF(catch_spade_attack_async), source, target, user)
 
@@ -105,8 +105,7 @@
 		if(ispath(feature))
 			plant_features += new feature(src)
 		else
-			plant_features += feature
-			feature.setup_parent(src)
+			plant_features += feature.copy(src)
 
 ///This generates a unqiue species ID for us. Call this when a plant is modified or created or whatever
 /datum/component/plant/proc/compile_species_id()

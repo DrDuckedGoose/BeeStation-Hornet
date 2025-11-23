@@ -37,9 +37,11 @@ SUBSYSTEM_DEF(botany)
 	var/list/unused_random_traits = list()
 
 //Plant dictionary
-	//
+	///List of dictionary chapters- features, plants, traits
 	var/list/chapters = list()
-	//Special index for fast reagents, keeping track of what's logged already
+	///List of links for dictionary references, like finding which features a trait appears in
+	var/list/dictionary_links = list()
+	///Special index for fast reagents, keeping track of what's logged already
 	var/list/fast_reagents = list()
 
 /datum/controller/subsystem/botany/Initialize(timeofday)
@@ -74,8 +76,8 @@ SUBSYSTEM_DEF(botany)
 		random_traits["[initial(trait.plant_feature_compat)]"] += trait
 
 /datum/controller/subsystem/botany/proc/build_dict()
-	//TODO: implement link lists or something, so traits show what features have it - Racc
 //Features
+	var/list/keyed_features = list() //List of features keyed by type, so we can link them to plants
 	chapters["features"] = list()
 	var/list/features = subtypesof(/datum/plant_feature)
 	for(var/datum/plant_feature/feature as anything in features)
@@ -85,8 +87,12 @@ SUBSYSTEM_DEF(botany)
 			qdel(entry_feature)
 			continue
 		chapters["features"] += entry_feature
+		keyed_features["[entry_feature.type]"] = "[ref(entry_feature)]"
+		//Build links
+		for(var/datum/plant_trait/trait as anything in entry_feature.plant_traits)
+			dictionary_links["[trait.get_id()]"] = dictionary_links["[trait.get_id()]"] || list()
+			dictionary_links["[trait.get_id()]"] += "[ref(entry_feature)]"
 //Traits
-	//TODO: Seperate these into sub categories for fruit, body, root, and reagent traits. - Racc
 	chapters["traits"] = chapters["traits"] || list() //Race condition weirdness
 	var/list/traits = subtypesof(/datum/plant_trait)
 	for(var/datum/plant_trait/trait as anything in traits)
@@ -103,6 +109,11 @@ SUBSYSTEM_DEF(botany)
 			qdel(seeds)
 			continue
 		chapters["plants"] += seeds
+		//Build links
+		for(var/datum/plant_feature/feature as anything in seeds.plant_features)
+			var/link_feature = keyed_features["[feature.type]"]
+			dictionary_links[link_feature] = dictionary_links[link_feature] || list()
+			dictionary_links[link_feature] += "[ref(seeds)]"
 
 //Template for random features
 /datum/controller/subsystem/botany/proc/get_random_feature(list/feature_list, list/unused_feature_list, consider_unused = TRUE)

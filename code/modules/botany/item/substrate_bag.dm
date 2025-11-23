@@ -28,16 +28,25 @@
 
 /obj/item/substrate_bag/dirt
 	name = "dirt substrate bag"
+	icon_state = "substrate_dirt"
 	substrate = /datum/plant_subtrate/dirt
 
 /obj/item/substrate_bag/clay
 	name = "clay substrate bag"
+	icon_state = "substrate_clay"
 	substrate = /datum/plant_subtrate/clay
 
 /obj/item/substrate_bag/sand
 	name = "sand substrate bag"
+	icon_state = "substrate_sand"
 	substrate = /datum/plant_subtrate/sand
 
 /obj/item/substrate_bag/debris
 	name = "debris substrate bag"
+	icon_state = "substrate_debris"
 	substrate = /datum/plant_subtrate/debris
+
+/obj/item/substrate_bag/fairy
+	name = "mysterious substrate bag"
+	icon_state = "substrate_fairy"
+	substrate = /datum/plant_subtrate/fairy

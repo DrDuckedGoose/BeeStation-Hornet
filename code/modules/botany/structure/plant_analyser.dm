@@ -27,16 +27,15 @@
 	var/last_command = ""
 
 /obj/machinery/plant_machine/plant_analyser/attackby(obj/item/C, mob/user)
-	. = ..()
 //Disk
 	if(istype(C, /obj/item/plant_disk) && !disk)
 		C.forceMove(src)
 		disk = C
 		ui_update()
-		return TRUE
+		return
 //Spade / Plant
 	if(!istype(C, /obj/item/shovel/spade))
-		return
+		return ..()
 	//Return plant to spade, to remove it
 	if(inserted_plant && plant_component.async_catch_attackby(C, user))
 		inserted_plant = null
@@ -44,7 +43,7 @@
 		current_feature = null
 		current_feature_ref = null
 		ui_update()
-		return TRUE
+		return
 	//Insert plant from spade
 	var/datum/component/plant/plant
 	var/obj/item/plant_item
@@ -55,13 +54,12 @@
 			continue
 		break
 	if(!plant)
-		return
+		return ..()
 	C.vis_contents -= plant_item
 	plant_item.forceMove(src)
 	inserted_plant = plant_item
 	plant_component = plant
 	ui_update()
-	return TRUE
 
 /obj/machinery/plant_machine/plant_analyser/attack_hand_secondary(mob/user, list/modifiers)
 	. = ..()
@@ -90,6 +88,7 @@
 	//current feature
 	data["current_feature"] = current_feature_ref
 	data["current_feature_data"] = current_feature?.get_ui_data()
+	data["current_feature_data"] += list(PLANT_DATA("Trait Modifier", current_feature?.trait_power), PLANT_DATA(null, null)) //Some special information unqiue to this interface & scanners
 	data["current_feature_traits"] = current_feature?.get_ui_traits()
 	//Current inserted plant's name
 	data["inserted_plant"] = capitalize(inserted_plant?.name)

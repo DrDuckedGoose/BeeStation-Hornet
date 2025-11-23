@@ -16,6 +16,8 @@
 //Effects
 	var/atom/movable/plant_tray_reagents/tray_reagents
 	var/icon/mask
+	//Mostly used for subtypes, like pots
+	var/layer_offset = 0
 //Tray indicators
 	var/use_indicators = TRUE
 	///Indicator for when the plant is ready to harvest
@@ -36,7 +38,7 @@
 		AddComponent(/datum/component/plumbing/tank, FALSE)
 		AddComponent(/datum/component/simple_rotation)
 //Tray component setup
-	tray_component = AddComponent(/datum/component/planter, 12)
+	tray_component = AddComponent(/datum/component/planter, 14, layer_offset)
 	RegisterSignal(tray_component, COMSIG_PLANTER_UPDATE_SUBSTRATE_SETUP, PROC_REF(remove_substrate))
 	RegisterSignal(tray_component, COMSIG_PLANTER_UPDATE_SUBSTRATE, PROC_REF(add_substrate))
 //Build effects

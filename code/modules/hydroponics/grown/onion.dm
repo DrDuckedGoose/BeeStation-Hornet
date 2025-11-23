@@ -17,7 +17,7 @@
 	mutatelist = list(/obj/item/seeds/onion/red)
 
 /obj/item/food/grown/onion
-	seed = /obj/item/seeds/onion
+	seed = /obj/item/plant_seeds/preset/onion
 	name = "onion"
 	desc = "Nothing to cry over."
 	icon_state = "onion"
@@ -38,7 +38,6 @@
 	reagents_add = list(/datum/reagent/consumable/nutriment/vitamin = 0.04, /datum/reagent/consumable/nutriment = 0.1, /datum/reagent/consumable/tearjuice = 0.05)
 
 /obj/item/food/grown/onion/red
-	seed = /obj/item/seeds/onion/red
 	name = "red onion"
 	desc = "Purple despite the name."
 	icon_state = "onion_red"

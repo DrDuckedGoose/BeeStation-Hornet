@@ -1,6 +1,6 @@
 // Citrus - base type
 /obj/item/food/grown/citrus
-	seed = /obj/item/seeds/lime
+	seed = /obj/item/plant_seeds/preset/lime
 	name = "citrus"
 	desc = "It's so sour, your face will twist."
 	icon_state = "lime"
@@ -25,7 +25,7 @@
 	reagents_add = list(/datum/reagent/consumable/nutriment/vitamin = 0.04, /datum/reagent/consumable/nutriment = 0.05)
 
 /obj/item/food/grown/citrus/lime
-	seed = /obj/item/seeds/lime
+	seed = /obj/item/plant_seeds/preset/lime
 	name = "lime"
 	desc = "It's so sour, your face will twist."
 	icon_state = "lime"
@@ -51,7 +51,7 @@
 	reagents_add = list(/datum/reagent/consumable/nutriment/vitamin = 0.04, /datum/reagent/consumable/nutriment = 0.05)
 
 /obj/item/food/grown/citrus/orange
-	seed = /obj/item/seeds/orange
+	seed = /obj/item/plant_seeds/preset/orange
 	name = "orange"
 	desc = "It's a tangy fruit."
 	icon_state = "orange"
@@ -77,7 +77,7 @@
 	reagents_add = list(/datum/reagent/consumable/nutriment/vitamin = 0.04, /datum/reagent/consumable/nutriment = 0.05)
 
 /obj/item/food/grown/citrus/lemon
-	seed = /obj/item/seeds/lemon
+	seed = /obj/item/plant_seeds/preset/lemon
 	name = "lemon"
 	desc = "When life gives you lemons, make lemonade."
 	icon_state = "lemon"
@@ -101,7 +101,6 @@
 	reagents_add = list(/datum/reagent/consumable/nutriment = 0.05, /datum/reagent/sulfur = 0.1, /datum/reagent/medicine/charcoal = 0.1, /datum/reagent/saltpetre = 0.1)
 
 /obj/item/food/grown/firelemon
-	seed = /obj/item/seeds/firelemon
 	name = "Combustible Lemon"
 	desc = "Made for burning houses down."
 	icon_state = "firelemon"
@@ -170,7 +169,6 @@
 	reagents_add = list(/datum/reagent/consumable/nutriment/vitamin = 0.04, /datum/reagent/consumable/nutriment = 0.05)
 
 /obj/item/food/grown/citrus/orange_3d
-	seed = /obj/item/seeds/orange_3d
 	name = "extradimensional orange"
 	desc = "You can hardly wrap your head around this thing."
 	icon_state = "orang"

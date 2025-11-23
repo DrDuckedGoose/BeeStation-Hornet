@@ -87,7 +87,7 @@
 // ---------------------------------------------------------------
 
 /obj/item/food/grown/cannabis
-	seed = /obj/item/seeds/cannabis
+	seed = /obj/item/plant_seeds/preset/cannabis
 	name = "cannabis leaf"
 	desc = "Recently legalized in most galaxies."
 	icon_state = "cannabis"
@@ -97,7 +97,6 @@
 	wine_power = 20
 
 /obj/item/food/grown/cannabis/rainbow
-	seed = /obj/item/seeds/cannabis/rainbow
 	name = "rainbow cannabis leaf"
 	desc = "Is it supposed to be glowing like that...?"
 	icon_state = "megacannabis"
@@ -105,7 +104,6 @@
 	discovery_points = 300
 
 /obj/item/food/grown/cannabis/death
-	seed = /obj/item/seeds/cannabis/death
 	name = "death cannabis leaf"
 	desc = "Looks a bit dark. Oh well."
 	icon_state = "blackcannabis"
@@ -113,7 +111,6 @@
 	discovery_points = 300
 
 /obj/item/food/grown/cannabis/white
-	seed = /obj/item/seeds/cannabis/white
 	name = "white cannabis leaf"
 	desc = "It feels smooth and nice to the touch."
 	icon_state = "whitecannabis"
@@ -121,7 +118,6 @@
 	discovery_points = 300
 
 /obj/item/food/grown/cannabis/ultimate
-	seed = /obj/item/seeds/cannabis/ultimate
 	name = "omega cannabis leaf"
 	desc = "You feel dizzy looking at it. What the fuck?"
 	icon_state = "ocannabis"

@@ -34,14 +34,14 @@
 	//Is this even a planter?
 	var/datum/component/planter/tray_component = target.GetComponent(/datum/component/planter)
 	if(!tray_component)
-		to_chat(user, "<span class='warining'>You can't plant [src] here!</span>")
+		to_chat(user, "<span class='warning'>You can't plant [src] here!</span>")
 		return
 	//Check if our roots fuck with the substrate we're planting it in
 	if(!SEND_SIGNAL(src, COMSIG_SEEDS_POLL_ROOT_SUBSTRATE, tray_component.substrate))
-		to_chat(user, "<span class='warining'>You can't plant [src] in this substrate!</span>")
+		to_chat(user, "<span class='warning'>You can't plant [src] in this substrate!</span>")
 		return
 	if(!SEND_SIGNAL(src, COMSIG_SEEDS_POLL_TRAY_SIZE, target))
-		to_chat(user, "<span class='warining'>There's no room to plant [src] here!</span>")
+		to_chat(user, "<span class='warning'>There's no room to plant [src] here!</span>")
 		return
 	//Plant it
 	to_chat(user, "<span class='notice'>You begin to plant [src] into [target].</span>")
@@ -49,9 +49,6 @@
 		return
 	var/obj/item/plant_item/plant = new(get_turf(target), plant_features, species_id)
 	var/datum/component/plant/plant_component = plant.GetComponent(/datum/component/plant)
-	//Unassociate
-	for(var/datum/plant_feature/feature as anything in plant_component.plant_features)
-		feature.unassociate_seeds(src)
 	//Plant appearance stuff
 	plant.name = name_override || plant.name
 	plant.forceMove(target) //forceMove instead of creating it inside to proc Entered()
@@ -131,7 +128,9 @@
 	var/list/features = typesof(/datum/plant_feature)
 	var/choice = tgui_input_list(user, "Add Feature", "Plant Features", features)
 	if(choice)
-		plant_features += choice
+		var/datum/plant_feature/feature = new choice()
+		feature.associate_seeds(src)
+		plant_features += feature
 
 /obj/item/plant_seeds/debug/AltClick(mob/user)
 	. = ..()

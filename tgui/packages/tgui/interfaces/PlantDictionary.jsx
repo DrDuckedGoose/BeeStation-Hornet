@@ -7,7 +7,7 @@ export const PlantDictionary = (props) => {
   const { chapters, selected_chapter, selected_entry, selected_type_shortcut } = data;
   const [searchText, setSearchText] = useLocalState('searchText', '');
   return (
-    <Window width={600} height={700} theme="plant_menu">
+    <Window width={600} height={750} theme="plant_menu">
       <Window.Content scrollable={1}>
         <Box m={'-3px'} height={'100%'}>
           <Flex direction={'column'} height={'100%'}>
@@ -75,13 +75,23 @@ export const PlantDictionary = (props) => {
                               )}
                             </Box>
                           ) : selected_chapter === 'traits' ? (
-                            Object.entries(chapters[selected_chapter]).map(([entry_key, entry]) =>
-                              entry[0]['dictionary_name'].toLowerCase().includes(searchText.toLowerCase()) ? (
-                                <Entry key={entry_key} title={entry[0]['dictionary_name']} selected_key={entry_key} />
-                              ) : (
-                                ''
-                              )
-                            )
+                            <Box>
+                              {Object.entries(chapters[selected_chapter]['other']).map(([entry_key, entry]) =>
+                                entry[0]['dictionary_name'].toLowerCase().includes(searchText.toLowerCase()) ? (
+                                  <Entry key={entry_key} title={entry[0]['dictionary_name']} selected_key={entry_key} />
+                                ) : (
+                                  ''
+                                )
+                              )}
+                              <Divider />
+                              {Object.entries(chapters[selected_chapter]['reagents']).map(([entry_key, entry]) =>
+                                entry[0]['dictionary_name'].toLowerCase().includes(searchText.toLowerCase()) ? (
+                                  <Entry key={entry_key} title={entry[0]['dictionary_name']} selected_key={entry_key} />
+                                ) : (
+                                  ''
+                                )
+                              )}
+                            </Box>
                           ) : selected_chapter === 'plants' ? (
                             Object.entries(chapters[selected_chapter]).map(([entry_key, entry]) =>
                               entry['name'].toLowerCase().includes(searchText.toLowerCase()) ? (
@@ -107,6 +117,7 @@ export const PlantDictionary = (props) => {
                         <InspectionPanelFeature
                           current_feature_data={chapters[selected_chapter][selected_type_shortcut][selected_entry]['data']}
                           current_feature_traits={chapters[selected_chapter][selected_type_shortcut][selected_entry]['traits']}
+                          feature_key={selected_entry}
                         />
                       ) : (
                         ''
@@ -115,7 +126,11 @@ export const PlantDictionary = (props) => {
                       selected_entry ? (
                         <Box>
                           <Box mb={'10px'} />
-                          <InspectionPanelTrait current_feature_traits={chapters[selected_chapter][selected_entry]} />
+                          {chapters[selected_chapter]['other'][selected_entry] ? (
+                            <InspectionPanelTrait data_set={chapters[selected_chapter]['other'][selected_entry][0]} />
+                          ) : (
+                            <InspectionPanelTrait data_set={chapters[selected_chapter]['reagents'][selected_entry][0]} />
+                          )}
                         </Box>
                       ) : (
                         ''
@@ -124,7 +139,7 @@ export const PlantDictionary = (props) => {
                       <Box>
                         {Object.entries(chapters[selected_chapter][selected_entry]['features']).map(
                           ([feature_key, feature]) => (
-                            <InspectionPanelFeature
+                            <InspectionPanelPlantFeature
                               key={feature_key}
                               current_feature_data={feature['data']}
                               current_feature_traits={feature['traits']}
@@ -167,9 +182,66 @@ export const PlantDictionary = (props) => {
 
 const InspectionPanelTrait = (props) => {
   const { act, data } = useBackend();
-  const { current_feature_traits } = props;
+  const { links, chapters } = data;
+  const { data_set } = props;
   return (
     <Flex direction="column">
+      {/* traits */}
+      <Flex.Item>
+        <PlantTraitInstance
+          title={data_set['trait_name']}
+          body={data_set['trait_desc']}
+          trait_key={data_set['trait_ref']}
+          key={data_set}
+        />
+      </Flex.Item>
+      <Divider />
+      {/* Links */}
+      <Flex.Item width={'50%'}>
+        <Flex direction="column">
+          {links[data_set['trait_id']] ? (
+            links[data_set['trait_id']].map((id) => (
+              <Button key={id} className="plant__button" onClick={() => act('select_link', { key: id, chapter: 'features' })}>
+                {`${
+                  chapters['features']['/datum/plant_feature/fruit'][id]
+                    ? chapters['features']['/datum/plant_feature/fruit'][id]['stats']['name']
+                    : chapters['features']['/datum/plant_feature/body'][id]
+                      ? chapters['features']['/datum/plant_feature/body'][id]['stats']['name']
+                      : chapters['features']['/datum/plant_feature/roots'][id]
+                        ? chapters['features']['/datum/plant_feature/roots'][id]['stats']['name']
+                        : 'No Records'
+                }
+              `}
+              </Button>
+            ))
+          ) : (
+            <Button className="plant__button--display">No Records</Button>
+          )}
+        </Flex>
+      </Flex.Item>
+    </Flex>
+  );
+};
+
+const InspectionPanelFeature = (props) => {
+  const { act, data } = useBackend();
+  const { links, chapters } = data;
+  const { current_feature_data, current_feature_traits, feature_key } = props;
+  return (
+    <Flex direction="column">
+      {/* base feature information, stats */}
+      <Flex.Item>
+        <Button className="plant__button--display" width={'100%'} mt={'10px'}>
+          {current_feature_data.map((data_set) =>
+            data_set['data_title'] ? (
+              <PlantDataInstance title={data_set['data_title']} body={data_set['data_field']} key={data_set} />
+            ) : (
+              <Divider key={data_set} />
+            )
+          )}
+        </Button>
+      </Flex.Item>
+      <Divider />
       {/* traits */}
       <Flex.Item>
         {current_feature_traits ? (
@@ -185,11 +257,29 @@ const InspectionPanelTrait = (props) => {
           <Button className="plant__button--display">No Traits Found</Button>
         )}
       </Flex.Item>
+      <Divider />
+      {/* Links */}
+      <Flex.Item width={'50%'}>
+        <Flex direction={'column'}>
+          {links[feature_key] ? (
+            links[feature_key].map((plant_key) => (
+              <Button
+                key={plant_key}
+                className="plant__button"
+                onClick={() => act('select_link', { key: plant_key, chapter: 'plants' })}>
+                {chapters['plants'][plant_key]['name']}
+              </Button>
+            ))
+          ) : (
+            <Button className="plant__button--display">No Records</Button>
+          )}
+        </Flex>
+      </Flex.Item>
     </Flex>
   );
 };
 
-const InspectionPanelFeature = (props) => {
+const InspectionPanelPlantFeature = (props) => {
   const { act, data } = useBackend();
   const { current_feature_data, current_feature_traits } = props;
   return (

@@ -22,6 +22,7 @@
 	fruit_product = /mob/living/simple_animal/hostile/retaliate/nymph
 	can_copy = FALSE
 	can_remove = FALSE
+	whitelist_features = list(/datum/plant_feature/body/diona_pod, /datum/plant_feature/roots)
 	///Do we have a mind associated with this feature?
 	var/datum/mind/our_mind
 

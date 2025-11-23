@@ -1,5 +1,5 @@
 /obj/item/plant_item/random
-	skip_growth = TRUE
+	skip_growth = FALSE
 
 /obj/item/plant_item/random/Initialize(mapload)
 	. = ..()
@@ -18,6 +18,8 @@
 			if(trait.allow_multiple)
 				continue
 			//Essentially just remove ourselves from the pool of possible random traits - Don't worry, this gets refilled!
+			if(!SSbotany.unused_random_traits["[feature.trait_type_shortcut]"]) //For nectar, and any other weirdo future traits
+				continue
 			SSbotany.unused_random_traits["[feature.trait_type_shortcut]"] -= trait.type
 		var/datum/plant_trait/trait = SSbotany.get_random_trait("[feature.trait_type_shortcut]")
 		trait = new trait(feature)

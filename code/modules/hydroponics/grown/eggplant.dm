@@ -16,7 +16,7 @@
 	reagents_add = list(/datum/reagent/consumable/nutriment/vitamin = 0.04, /datum/reagent/consumable/nutriment = 0.1)
 
 /obj/item/food/grown/eggplant
-	seed = /obj/item/seeds/eggplant
+	seed = /obj/item/plant_seeds/preset/eggplant
 	name = "eggplant"
 	desc = "Maybe there's a chicken inside?"
 	icon_state = "eggplant"
@@ -37,7 +37,6 @@
 	reagents_add = list(/datum/reagent/consumable/nutriment = 0.1)
 
 /obj/item/food/grown/shell/eggy
-	seed = /obj/item/seeds/eggplant/eggy
 	name = "egg-plant"
 	desc = "There MUST be a chicken inside."
 	icon_state = "eggyplant"

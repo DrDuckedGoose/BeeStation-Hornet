@@ -3,3 +3,4 @@
 	name = "Nectar"
 	desc = "TODO: - Racc"
 	plant_feature_compat = /datum/plant_feature/fruit/flower
+	random_trait = FALSE

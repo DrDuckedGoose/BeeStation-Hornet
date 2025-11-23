@@ -49,10 +49,8 @@
 /datum/plant_feature/fruit/flower/harebell
 	species_name = "viriditas flos"
 	name = "harebell"
-	icon_state = "flower_3" //TODO: make custom sprite - Racc
-	colour_overlay = "flower_3_colour"
+	icon_state = "harebell"
 	fruit_product = /obj/item/food/grown/flower/harebell
-	colour_override = "#a561e6"
 
 /*
 	Lily
@@ -74,10 +72,8 @@
 /datum/plant_feature/fruit/flower/trumpet
 	species_name = "tubae flos"
 	name = "spaceman's trumpet"
-	icon_state = "missing" //TODO: make custom sprite - Racc
-	colour_overlay = "flower_2_colour"
+	icon_state = "trumpet"
 	fruit_product = /obj/item/food/grown/flower/trumpet
-	colour_override = "#f700ff"
 	fast_reagents = list(/datum/reagent/medicine/polypyr = PLANT_REAGENT_MEDIUM)
 	mutations = list(/datum/plant_feature/fruit/flower/poppy)
 
@@ -87,11 +83,10 @@
 /datum/plant_feature/fruit/flower/sun
 	species_name = "sol flos"
 	name = "sun flower"
-	icon_state = "missing" //TODO: make custom sprite - Racc
-	colour_overlay = "flower_2_colour"
+	icon_state = "sun"
 	fruit_product = /obj/item/grown/sunflower
 	fast_reagents = list(/datum/reagent/consumable/nutriment/fat/oil = PLANT_REAGENT_MEDIUM)
-	mutations = list()
+	mutations = list(/datum/plant_feature/fruit/flower/nova)
 
 /*
 	Nova Flower
@@ -99,8 +94,8 @@
 /datum/plant_feature/fruit/flower/nova
 	species_name = "flos nova"
 	name = "nova flower"
-	icon_state = "missing" //TODO: make custom sprite - Racc
-	colour_overlay = "flower_2_colour"
+	icon_state = "sun_colour"
+	colour_override = "#ff4800"
 	fruit_product = /obj/item/grown/novaflower
 	fast_reagents = list(/datum/reagent/consumable/condensedcapsaicin = PLANT_REAGENT_MEDIUM, /datum/reagent/consumable/capsaicin = PLANT_REAGENT_MEDIUM)
 	mutations = list(/datum/plant_feature/fruit/flower/moon)
@@ -111,8 +106,8 @@
 /datum/plant_feature/fruit/flower/moon
 	species_name = "flos lunae"
 	name = "moon flower"
-	icon_state = "missing" //TODO: make custom sprite - Racc
-	colour_overlay = "flower_2_colour"
+	icon_state = "sun_colour"
+	colour_override = "#9c90e0"
 	fruit_product = /obj/item/food/grown/flower/moonflower
 	fast_reagents = list(/datum/reagent/consumable/ethanol/moonshine = PLANT_REAGENT_MEDIUM, /datum/reagent/acetone = PLANT_REAGENT_SMALL)
 	mutations = list(/datum/plant_feature/fruit/flower/sun)

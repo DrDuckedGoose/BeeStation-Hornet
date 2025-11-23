@@ -18,7 +18,7 @@
 	reagents_add = list(/datum/reagent/consumable/nutriment/vitamin = 0.04, /datum/reagent/consumable/nutriment = 0.1)
 
 /obj/item/food/grown/berries
-	seed = /obj/item/seeds/berry
+	seed = /obj/item/plant_seeds/preset/berry
 	name = "bunch of berries"
 	desc = "Nutritious!"
 	icon_state = "berrypile"
@@ -41,7 +41,6 @@
 	rarity = 10 // Mildly poisonous berries are common in reality
 
 /obj/item/food/grown/berries/poison
-	seed = /obj/item/seeds/berry/poison
 	name = "bunch of poison-berries"
 	desc = "Taste so good, you might die!"
 	icon_state = "poisonberrypile"
@@ -68,7 +67,6 @@
 	rarity = 30
 
 /obj/item/food/grown/berries/death
-	seed = /obj/item/seeds/berry/death
 	name = "bunch of death-berries"
 	desc = "Taste so good, you will die!"
 	icon_state = "deathberrypile"
@@ -96,7 +94,6 @@
 	rarity = 20
 
 /obj/item/food/grown/berries/glow
-	seed = /obj/item/seeds/berry/glow
 	name = "bunch of glow-berries"
 	desc = "Nutritious!"
 	bite_consumption_mod = 3
@@ -128,7 +125,7 @@
 	reagents_add = list(/datum/reagent/consumable/nutriment = 0.07, /datum/reagent/consumable/sugar = 0.07)
 
 /obj/item/food/grown/cherries
-	seed = /obj/item/seeds/cherry
+	seed = /obj/item/plant_seeds/preset/cherry
 	name = "cherries"
 	desc = "Great for toppings!"
 	icon_state = "cherry"
@@ -152,7 +149,6 @@
 	rarity = 10
 
 /obj/item/food/grown/bluecherries
-	seed = /obj/item/seeds/cherry/blue
 	name = "blue cherries"
 	desc = "They're cherries that are blue."
 	icon_state = "bluecherry"
@@ -178,7 +174,6 @@
 	rarity = 10
 
 /obj/item/food/grown/cherrybulbs
-	seed = /obj/item/seeds/cherry/bulb
 	name = "cherry bulbs"
 	desc = "They're like little Space Christmas lights!"
 	icon_state = "cherry_bulb"
@@ -211,7 +206,7 @@
 	reagents_add = list(/datum/reagent/consumable/nutriment/vitamin = 0.04, /datum/reagent/consumable/nutriment = 0.1, /datum/reagent/consumable/sugar = 0.1)
 
 /obj/item/food/grown/grapes
-	seed = /obj/item/seeds/grape
+	seed = /obj/item/plant_seeds/preset/grape
 	name = "bunch of grapes"
 	desc = "Nutritious!"
 	icon_state = "grapes"
@@ -237,7 +232,6 @@
 	mutatelist = list()
 
 /obj/item/food/grown/grapes/green
-	seed = /obj/item/seeds/grape/green
 	name = "bunch of green grapes"
 	icon_state = "greengrapes"
 	bite_consumption_mod = 3

@@ -13,5 +13,5 @@
 	var/mutable_appearance/emissive = emissive_appearance(icon, icon_state)
 	add_overlay(emissive)
 //Animation
-	animate(src, alpha = 0, time = 0.5 SECONDS, loop = -1)
+	animate(src, alpha = 127, time = 0.5 SECONDS, loop = -1)
 	animate(alpha = 255, time = 0.25 SECONDS)

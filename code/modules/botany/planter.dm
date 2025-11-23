@@ -4,15 +4,16 @@
 	///What kind of substrate do we have?
 	var/datum/plant_subtrate/substrate
 	///How much do we visually offset the plant when planting it
-	var/visual_upset = 12
+	var/visual_upset = 14
+	///
+	var/layer_upset = 0
 	///Do we allow our substrate to be changed?
 	var/allow_substrate_change = TRUE
-	///List of plant's old layer
-	var/list/recover_layers = list()
 
-/datum/component/planter/Initialize(_upset)
+/datum/component/planter/Initialize(_visual_upset, _layer_upset)
 	. = ..()
-	visual_upset = _upset || visual_upset
+	visual_upset = _visual_upset || visual_upset
+	layer_upset = _layer_upset || layer_upset
 	RegisterSignal(parent, COMSIG_PARENT_ATTACKBY, PROC_REF(catch_attack))
 	RegisterSignal(parent, COMSIG_ATOM_EXAMINE, PROC_REF(catch_examine))
 	RegisterSignal(parent, COMSIG_ATOM_ENTERED, PROC_REF(catch_entered))
@@ -43,21 +44,14 @@
 /datum/component/planter/proc/catch_entered(datum/source, atom/movable/entering)
 	SIGNAL_HANDLER
 
-	recover_layers += list("[REF(entering)]" = entering.layer)
-	var/atom/parent_atom = parent
-	entering.layer = parent_atom.layer
-	//Some extra visual logic to fix little plants
-	var/datum/component/plant/plant_component = entering.GetComponent(/datum/component/plant)
-	if(!plant_component?.draw_below_water)
-		entering.layer += 0.1
+	entering.layer += layer_upset
 	//Add visuals, move the plant upwards to make it look like it's inside us
 	entering.pixel_y += visual_upset
 
 /datum/component/planter/proc/catch_exited(datum/source, atom/movable/exiting)
 	SIGNAL_HANDLER
 
-	exiting.layer = recover_layers["[REF(exiting)]"] || exiting.layer
-	recover_layers -= recover_layers["[REF(exiting)]"]
+	exiting.layer -= layer_upset
 	exiting.pixel_y -= visual_upset
 
 /datum/component/planter/proc/set_substrate(_substrate)

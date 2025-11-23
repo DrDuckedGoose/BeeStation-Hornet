@@ -50,7 +50,7 @@
 */
 
 /datum/plant_trait/fruit/liquid_contents/sensitive
-	name = "sensitive contents"
+	name = "Sensitive contents"
 	desc = "The fruit triggers when thrown or used."
 	impact_del = FALSE
 	///Cooldown between triggers
