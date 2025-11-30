@@ -24,7 +24,7 @@ export const SeedEditor = (props) => {
             <Flex.Item>
               <Section textAlign={'center'}>Seed Sequencer [Version 4.1.1.9]</Section>
             </Flex.Item>
-            {/* Top banner, contains plant name */}
+            {/* Top banner, contains plant name & genetic stability */}
             <Flex.Item>
               <Flex direction={'row'}>
                 <Section textAlign={'center'} width={'100%'}>
@@ -32,7 +32,6 @@ export const SeedEditor = (props) => {
                 </Section>
                 <Section textAlign={'center'} width={'100%'}>
                   Genetic Stability
-                  {/* TODO: implememnt this text colour to the mutator - Racc */}
                   <ProgressBar
                     color={'#ffff77'}
                     textColor={
@@ -194,7 +193,7 @@ const DiskFeatureTab = (props) => {
 
 const PlantTraitInstance = (props) => {
   const { act, data } = useBackend();
-  const { title, body, trait_key } = props;
+  const { title, body, trait_key, remove_disabled } = props;
   return (
     <Flex direction={'row'}>
       <Flex.Item grow={1}>
@@ -209,6 +208,7 @@ const PlantTraitInstance = (props) => {
         verticalAlignContent={'middle'}
         icon={'trash'}
         tooltip="Remove Trait"
+        disabled={!remove_disabled}
         onClick={() => act('remove_trait', { key: trait_key })}
       />
     </Flex>
@@ -242,6 +242,7 @@ const InspectionPanel = (props) => {
               body={data_set['trait_desc']}
               trait_key={data_set['trait_ref']}
               key={data_set}
+              remove_disabled={data_set['can_remove']}
             />
           ))
         ) : (
@@ -280,6 +281,7 @@ const PlantFeaturePanel = (props) => {
         verticalAlignContent={'middle'}
         icon={'trash'}
         tooltip="Remove Feature"
+        disabled={!feature['can_remove']}
         onClick={() => act('remove_feature', { key: feature['key'] })}
       />
     </Flex>

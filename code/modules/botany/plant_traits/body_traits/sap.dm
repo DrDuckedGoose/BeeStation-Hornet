@@ -1,6 +1,4 @@
-//TODO: Implement a sap trait, dik what it does. This is for testing atm - Racc
+//TODO: Lets the body take reagent traits. Reagents can be collected from the body, like sap, after building up. - Racc
 /datum/plant_trait/body/sap
 	name = "Sap"
-	desc = "TODO: - Racc"
-	genetic_cost = 100
-
+	desc = "empty"

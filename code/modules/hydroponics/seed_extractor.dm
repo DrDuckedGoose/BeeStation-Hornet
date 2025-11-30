@@ -32,10 +32,12 @@
 			if(user && !user.temporarilyRemoveItemFromInventory(O)) //couldn't drop the item
 				return
 			while(t_amount < t_max)
-				var/obj/item/seeds/t_prod = F.seed.Copy()
-				seeds.Add(t_prod)
-				t_prod.forceMove(seedloc)
-				t_amount++
+				//TODO: delete this file - Racc
+				//var/obj/item/seeds/t_prod = F.seed.Copy()
+				////seeds.Add(t_prod)
+				//t_prod.forceMove(seedloc)
+				//t_amount++
+				break
 			qdel(O)
 			return seeds
 

@@ -23,7 +23,7 @@
 	colour_override = "#362218"
 	fruit_product = /obj/item/food/grown/vanillapod
 	fast_reagents = list(/datum/reagent/consumable/vanilla = PLANT_REAGENT_MEDIUM)
-	mutations = list(/datum/plant_feature/fruit/cocoa/bungo)
+	mutations = list(/datum/plant_feature/fruit/cocoa/bungo = 5)
 
 /*
 	Bungo = Lungo

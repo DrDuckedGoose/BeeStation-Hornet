@@ -11,4 +11,4 @@
 	fruit_product = /obj/item/food/grown/mushroom/reishi
 	total_volume = PLANT_FRUIT_VOLUME_SMALL
 	growth_time = PLANT_FRUIT_GROWTH_FAST
-	fast_reagents = list(/datum/reagent/medicine/morphine = PLANT_FRUIT_VOLUME_MEDIUM, /datum/reagent/medicine/charcoal = PLANT_FRUIT_VOLUME_MEDIUM)
+	fast_reagents = list(/datum/reagent/medicine/morphine = PLANT_REAGENT_MEDIUM, /datum/reagent/medicine/charcoal = PLANT_REAGENT_MEDIUM)

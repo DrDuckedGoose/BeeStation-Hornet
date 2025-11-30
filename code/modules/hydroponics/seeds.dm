@@ -175,13 +175,14 @@ CREATION_TEST_IGNORE_SUBTYPES(/obj/item/seeds)
 			t_prod.desc = parent.myseed.plantdesc
 		t_prod.seed.name = parent.myseed.name
 		t_prod.seed.desc = parent.myseed.desc
-		t_prod.seed.plantname = parent.myseed.plantname
-		t_prod.seed.plantdesc = parent.myseed.plantdesc
+		//TODO: Kill this file - Racc
+		//t_prod.seed.plantname = parent.myseed.plantname
+		//t_prod.seed.plantdesc = parent.myseed.plantdesc
 		result.Add(t_prod) // User gets a consumable
 		if(!t_prod)
 			return
 		t_amount++
-		product_name = t_prod.seed.plantname
+		//product_name = t_prod.seed.plantname
 	if(getYield() >= 1)
 		SSblackbox.record_feedback("tally", "food_harvested", getYield(), product_name)
 		var/investigated_plantname = get_product_true_name_for_investigate()

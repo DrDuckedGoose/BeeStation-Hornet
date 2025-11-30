@@ -12,7 +12,7 @@
 	fast_reagents = list(/datum/reagent/consumable/banana = PLANT_REAGENT_MEDIUM, /datum/reagent/potassium = PLANT_REAGENT_MEDIUM)
 	total_volume = PLANT_FRUIT_VOLUME_SMALL
 	growth_time = PLANT_FRUIT_GROWTH_FAST
-	mutations = list(/datum/plant_feature/fruit/banana/mime, /datum/plant_feature/fruit/banana/bluespace)
+	mutations = list(/datum/plant_feature/fruit/banana/mime)
 
 /*
 	Mimana
@@ -24,7 +24,7 @@
 	bunch_icon = "mimana_bunch"
 	fruit_product = /obj/item/food/grown/banana/mime
 	fast_reagents = list(/datum/reagent/consumable/nothing = PLANT_REAGENT_MEDIUM, /datum/reagent/toxin/mutetoxin = PLANT_REAGENT_MEDIUM)
-	mutations = list(/datum/plant_feature/fruit/banana)
+	mutations = list(/datum/plant_feature/fruit/banana/bluespace = 15)
 
 /*
 	Bluespace Banana

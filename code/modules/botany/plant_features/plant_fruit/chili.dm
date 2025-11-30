@@ -11,7 +11,7 @@
 	fast_reagents = list(/datum/reagent/consumable/capsaicin = PLANT_REAGENT_MEDIUM)
 	total_volume = PLANT_FRUIT_VOLUME_SMALL
 	growth_time = PLANT_FRUIT_GROWTH_FAST
-	mutations = list(/datum/plant_feature/fruit/chili/ghost)
+	mutations = list(/datum/plant_feature/fruit/chili/ghost = 10)
 
 /*
 	Ghost Chili
@@ -23,7 +23,7 @@
 	colour_override = "#e9cdcf"
 	fruit_product = /obj/item/food/grown/ghost_chili
 	fast_reagents = list(/datum/reagent/consumable/capsaicin = PLANT_REAGENT_MEDIUM, /datum/reagent/consumable/condensedcapsaicin = PLANT_REAGENT_MEDIUM)
-	mutations = list(/datum/plant_feature/fruit/chili/blue)
+	mutations = list(/datum/plant_feature/fruit/chili/blue = 5)
 
 /*
 	Blue Chili

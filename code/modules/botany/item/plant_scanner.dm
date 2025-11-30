@@ -22,7 +22,10 @@
 			scan_dialogue += "<span class='plant_sub'>[feature.get_scan_dialogue()]</span>"
 		//Report harvest
 		for(var/datum/component/plant/plant as anything in tray.harvestable_components)
-			scan_dialogue += "<span class='plant_sub'>[plant.plant_item]([plant.get_species_name()])\n\nReady For Harvest</span>"
+			scan_dialogue += "<span class='plant_sub'>[plant.plant_item]([get_species_name(plant.plant_features)])\n\nReady For Harvest</span>"
+		//Report Weeds
+		var/datum/component/planter/tray_component = tray.GetComponent(/datum/component/planter)
+		scan_dialogue +="<span class='plant_sub'>Weed Composition: [tray_component.weed_level]%</span>"
 		to_chat(user, "<span class='plant_scan'><b>[capitalize(target.name)]</b></span><span class='plant_scan'>[scan_dialogue]</span>")
 		playsound(src, 'sound/effects/fastbeep.ogg', 20)
 		return FALSE
@@ -44,3 +47,5 @@
 	to_chat(user, "<span class='plant_scan'><b>[capitalize(target.name)]</b></span><span class='plant_scan'>[scan_dialogue]</span>")
 	playsound(src, 'sound/effects/fastbeep.ogg', 20)
 	return FALSE
+//Fruit
+	//TODO: - Racc

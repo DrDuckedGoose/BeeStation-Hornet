@@ -9,7 +9,7 @@
 	fast_reagents = list(/datum/reagent/drug/space_drugs = PLANT_REAGENT_MEDIUM, /datum/reagent/toxin/lipolicide = PLANT_REAGENT_MEDIUM)
 	total_volume = PLANT_FRUIT_VOLUME_SMALL
 	growth_time = PLANT_FRUIT_GROWTH_FAST
-	mutations = list(/datum/plant_feature/fruit/cannabis/death)
+	mutations = list(/datum/plant_feature/fruit/cannabis/death = 5)
 
 /*
 	Death Weed
@@ -20,7 +20,7 @@
 	colour_override = "#918181"
 	fruit_product = /obj/item/food/grown/cannabis/death
 	fast_reagents = list(/datum/reagent/drug/space_drugs = PLANT_REAGENT_MEDIUM, /datum/reagent/toxin/lipolicide = PLANT_REAGENT_MEDIUM, /datum/reagent/toxin/cyanide = PLANT_REAGENT_MEDIUM)
-	mutations = list(/datum/plant_feature/fruit/cannabis/life)
+	mutations = list(/datum/plant_feature/fruit/cannabis/life = 10)
 
 /*
 	Life Weed
@@ -31,7 +31,7 @@
 	colour_override = "#deecd3"
 	fruit_product = /obj/item/food/grown/cannabis/white
 	fast_reagents = list(/datum/reagent/drug/space_drugs = PLANT_REAGENT_MEDIUM, /datum/reagent/toxin/lipolicide = PLANT_REAGENT_MEDIUM, /datum/reagent/medicine/omnizine = PLANT_REAGENT_MEDIUM)
-	mutations = list(/datum/plant_feature/fruit/cannabis/rainbow)
+	mutations = list(/datum/plant_feature/fruit/cannabis/rainbow = 15)
 
 /*
 	Rainbow Weed
@@ -42,7 +42,7 @@
 	colour_override = "#ff0000"
 	fruit_product = /obj/item/food/grown/cannabis/rainbow
 	fast_reagents = list(/datum/reagent/toxin/mindbreaker = PLANT_REAGENT_MEDIUM, /datum/reagent/toxin/lipolicide = PLANT_REAGENT_MEDIUM)
-	mutations = list(/datum/plant_feature/fruit/cannabis/omega)
+	mutations = list(/datum/plant_feature/fruit/cannabis/omega = 20)
 
 /datum/plant_feature/fruit/cannabis/rainbow/setup_fruit(datum/source, harvest_amount, list/_visual_fruits, skip_growth)
 	. = ..()

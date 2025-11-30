@@ -30,11 +30,12 @@
 
 /obj/item/food/grown/grass/attack_self(mob/user)
 	to_chat(user, span_notice("You prepare the astroturf."))
-	var/grassAmt = 1 + round(seed.potency * tile_coefficient) // The grass we're holding
+	var/potency = get_fruit_trait_power(src) * 50
+	var/grassAmt = 1 + round(potency * tile_coefficient) // The grass we're holding
 	for(var/obj/item/food/grown/grass/G in user.loc) // The grass on the floor
 		if(G.type != type)
 			continue
-		grassAmt += 1 + round(G.seed.potency * tile_coefficient)
+		grassAmt += 1 + round(potency * tile_coefficient)
 		qdel(G)
 	new stacktype(user.drop_location(), grassAmt)
 	qdel(src)
@@ -60,6 +61,8 @@
 	discovery_points = 300
 
 /obj/item/food/grown/grass/fairy/attack_self(mob/user)
+	//TODO: - Racc
+	/*
 	var/datum/plant_gene/trait/glow/G = null
 	for(var/datum/plant_gene/trait/glow/gene in seed.genes)
 		G = gene
@@ -89,6 +92,7 @@
 				stacktype = /obj/item/stack/tile/fairygrass/dark
 
 	. = ..()
+	*/
 
 // Carpet
 /obj/item/seeds/grass/carpet

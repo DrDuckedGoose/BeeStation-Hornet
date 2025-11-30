@@ -35,3 +35,16 @@
 /mob/living/simple_animal/friendly_fruit/Initialize(mapload)
 	. = ..()
 	color = pick(list("#FF4848", "#5DFF5D", "#FFFF00", "#66FFFF"))
+
+/mob/living/simple_animal/friendly_fruit/attack_ghost(mob/dead/observer/user)
+	if(client || key || ckey)
+		to_chat(user, span_warning("\The [src] already has a player."))
+		return
+	if(stat == DEAD)
+		to_chat(user, span_warning("\The [src] is not possessable!"))
+		return
+	var/control_ask = tgui_alert(usr, "Do you wish to take control of \the [src]", "Become [src]?", list("Yes", "No"))
+	if(control_ask != "Yes" || QDELETED(src) || QDELETED(user))
+		return
+	key = user.key
+	to_chat(src, span_boldwarning("Remember that you have forgotten all of your past lives and are a new person!"))

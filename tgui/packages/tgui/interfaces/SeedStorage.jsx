@@ -27,7 +27,7 @@ export const SeedStorage = (props) => {
                 <Flex.Item width={'60%'}>
                   <Section>
                     <Box mb={'-10px'} />
-                    {focused_seeds['key']
+                    {focused_seeds['key'] && seeds[focused_seeds['species_id']]
                       ? Object.entries(seeds[focused_seeds['species_id']]['features']).map(([feature_key, feature]) => (
                         <Box key={feature_key}>
                           <InspectionPanel

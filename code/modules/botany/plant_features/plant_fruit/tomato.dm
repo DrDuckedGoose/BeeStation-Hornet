@@ -22,7 +22,7 @@
 	colour_override = "#09f"
 	fruit_product = /obj/item/food/grown/tomato/blue
 	fast_reagents = list(/datum/reagent/lube = PLANT_REAGENT_MEDIUM)
-	mutations = list(/datum/plant_feature/fruit/tomato/bluespace)
+	mutations = list(/datum/plant_feature/fruit/tomato/bluespace = 20)
 
 /*
 	BlueSpace Tomato
@@ -56,7 +56,7 @@
 	colour_override = "#8d1111"
 	fruit_product = /obj/item/food/grown/tomato/blood
 	fast_reagents = list(/datum/reagent/blood = PLANT_REAGENT_MEDIUM)
-	mutations = list(/datum/plant_feature/fruit/tomato/killer)
+	mutations = list(/datum/plant_feature/fruit/tomato/killer = 10)
 
 /*
 	Killer Tomato
@@ -68,7 +68,7 @@
 	plant_traits = list(/datum/plant_trait/reagent/fruit/nutriment, /datum/plant_trait/reagent/fruit/vitamin,
 	/datum/plant_trait/fruit/liquid_contents, /datum/plant_trait/fruit/killer)
 	fruit_product = /obj/item/food/grown/tomato/killer
-	mutations = list(/datum/plant_feature/fruit/tomato/friendly)
+	mutations = list(/datum/plant_feature/fruit/tomato/friendly = 5)
 
 /*
 	Friendly Tomato

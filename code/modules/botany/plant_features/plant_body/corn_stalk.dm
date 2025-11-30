@@ -44,6 +44,7 @@
 	name = "sunflower stalk"
 	icon_state = "sunflower_stalk"
 	overlay_positions = list(list(17, 16))
+	random_plant = TRUE
 
 /*
 	Flower Stalk
@@ -53,3 +54,15 @@
 	name = "flower stem"
 	icon_state = "flower_stalk"
 	overlay_positions = list(list(17, 8))
+	random_plant = TRUE
+
+/*
+	Ground Stalk
+*/
+/datum/plant_feature/body/corn_stalk/ground
+	species_name = "terra arbore"
+	name = "ground stalk"
+	icon_state = "vine_ground"
+	draw_below_water = FALSE
+	overlay_positions = list(list(23, 7))
+	random_plant = TRUE

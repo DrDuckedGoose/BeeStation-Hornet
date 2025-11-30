@@ -7,6 +7,7 @@
 	layer = ABOVE_MOB_LAYER
 	interaction_flags_item = INTERACT_ITEM_ATTACK_HAND_PICKUP
 	layer_offset = 1.2
+	gain_weeds = FALSE
 
 /obj/item/plant_tray/pot/ComponentInitialize()
 	. = ..()

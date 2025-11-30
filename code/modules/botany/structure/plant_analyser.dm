@@ -175,7 +175,7 @@
 		if("toggle_trait")
 			var/datum/plant_trait/trait = locate(params["key"])
 			if(!trait.can_remove)
-				return //TODO: same for seed editor, add a hint in the UI for this, and the no copy rule - Racc
+				return
 			if(params["key"] in save_excluded_traits_ref)
 				save_excluded_traits_ref -= params["key"]
 				save_excluded_traits -= trait.type
@@ -212,3 +212,10 @@
 			ui_update()
 
 	return TRUE
+
+//Circuitboard
+/obj/item/circuitboard/machine/plant_analyser
+	name = "plant analyser (Machine Board)"
+	icon_state = "service"
+	build_path = /obj/machinery/plant_machine/plant_analyser
+	req_components = list(/obj/item/stock_parts/matter_bin = 2, /obj/item/stock_parts/scanning_module = 1)

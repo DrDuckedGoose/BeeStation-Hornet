@@ -1,3 +1,4 @@
+//TODO: Kill this file - Racc
 /datum/plant_gene
 	var/name
 	var/mutability_flags = PLANT_GENE_EXTRACTABLE | PLANT_GENE_REMOVABLE ///These flags tells the genemodder if we want the gene to be extractable, only removable or neither.
@@ -241,8 +242,7 @@
 	G.AddComponent(/datum/component/slippery, min(stun_len,140), NONE, CALLBACK(src, PROC_REF(handle_slip), G))
 
 /datum/plant_gene/trait/slip/proc/handle_slip(obj/item/food/grown/G, mob/M)
-	for(var/datum/plant_gene/trait/T in G.seed.genes)
-		T.on_slip(G, M)
+	return
 
 /datum/plant_gene/trait/cell_charge
 	// Cell recharging trait. Charges all mob's power cells to (potency*rate)% mark when eaten.
@@ -252,6 +252,8 @@
 	name = "Electrical Activity"
 	rate = 0.2
 
+//TODO: port this - racc
+/*
 /datum/plant_gene/trait/cell_charge/on_slip(obj/item/food/grown/G, mob/living/carbon/C)
 	var/power = round(G.seed.potency*rate)
 	if(prob(power))
@@ -285,7 +287,7 @@
 				batteries_recharged = 1
 		if(batteries_recharged)
 			to_chat(target, span_notice("Your batteries are recharged!"))
-
+*/
 
 
 /datum/plant_gene/trait/glow
@@ -363,32 +365,6 @@
 	name = "Bluespace Activity"
 	rate = 0.1
 
-/datum/plant_gene/trait/teleport/on_squash(obj/item/food/grown/G, atom/target)
-	if(isliving(target))
-		var/teleport_radius = max(round(G.seed.potency / 10), 1)
-		var/turf/T = get_turf(target)
-		var/mob/living/carbon/C = target
-		new /obj/effect/decal/cleanable/molten_object(T) //Leave a pile of goo behind for dramatic effect...
-		do_teleport(target, T, teleport_radius, channel = TELEPORT_CHANNEL_BLUESPACE)
-		if(C.ckey == G.fingerprintslast)		//what's the point of logging someone attacking himself
-			return
-		log_combat(G.thrownby, C, "hit", G, "at [AREACOORD(T)] teleporting them to [AREACOORD(C)]")
-		C.investigate_log("has been hit by a bluespace plant at [AREACOORD(T)] teleporting them to [AREACOORD(C)]. Last fingerprint: [G.fingerprintslast].", INVESTIGATE_BOTANY)
-
-/datum/plant_gene/trait/teleport/on_slip(obj/item/food/grown/G, mob/living/carbon/C)
-	var/teleport_radius = max(round(G.seed.potency / 10), 1)
-	var/turf/T = get_turf(C)
-	to_chat(C, span_warning("You slip through spacetime!"))
-	do_teleport(C, T, teleport_radius, channel = TELEPORT_CHANNEL_BLUESPACE)
-	if(C.ckey != G.fingerprintslast)			//what's the point of logging someone attacking himself
-		C.investigate_log("has slipped on bluespace plant at [AREACOORD(T)] teleporting them to [AREACOORD(C)]. Last fingerprint: [G.fingerprintslast].", INVESTIGATE_BOTANY)
-		log_combat(C, G, "slipped on", null, "teleporting them from [AREACOORD(T)] to [AREACOORD(C)]. Last fingerprint: [G.fingerprintslast].")
-	if(prob(50))
-		do_teleport(G, T, teleport_radius, channel = TELEPORT_CHANNEL_BLUESPACE)
-	else
-		new /obj/effect/decal/cleanable/molten_object(T) //Leave a pile of goo behind for dramatic effect...
-		qdel(G)
-
 /datum/plant_gene/trait/maxchem
 	// 2x to max reagents volume.
 	name = "Densified Chemicals"
@@ -409,9 +385,12 @@
 		return FALSE
 	return TRUE
 
+//TODO: port this - racc
+
 /datum/plant_gene/trait/battery
 	name = "Capacitive Cell Production"
 
+/*
 /datum/plant_gene/trait/battery/on_attackby(obj/item/food/grown/G, obj/item/I, mob/user)
 	if(istype(I, /obj/item/stack/cable_coil))
 		var/obj/item/stack/cable_coil/C = I
@@ -435,7 +414,7 @@
 			qdel(G)
 		else
 			to_chat(user, span_warning("You need five lengths of cable to make a [G] battery!"))
-
+*/
 
 /datum/plant_gene/trait/stinging
 	name = "Hypodermic Prickles"
@@ -464,7 +443,7 @@
 	if(!L.reagents && !L.can_inject(null, 0))
 		return FALSE
 
-	var/injecting_amount = max(1, G.seed.potency*0.2) // Minimum of 1, max of 20
+	var/injecting_amount = 1// max(1, G.seed.potency*0.2) // Minimum of 1, max of 20
 	var/fraction = min(injecting_amount/G.reagents.total_volume, 1)
 	G.reagents.expose(L, INJECT, fraction)
 	G.reagents.trans_to(L, injecting_amount)
@@ -477,7 +456,7 @@
 /datum/plant_gene/trait/smoke/on_squash(obj/item/food/grown/G, atom/target)
 	var/datum/effect_system/smoke_spread/chem/S = new
 	var/splat_location = get_turf(target)
-	var/smoke_amount = round(sqrt(G.seed.potency * 0.1), 1)
+	var/smoke_amount = 1//round(sqrt(G.seed.potency * 0.1), 1)
 	var/turf/T = get_turf(G)
 	S.attach(splat_location)
 	S.set_up(G.reagents, smoke_amount, splat_location, 0)

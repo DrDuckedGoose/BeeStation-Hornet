@@ -11,7 +11,7 @@
 	colour_override = list("#ff0037", "#ffe600", "#00aeff")
 	total_volume = PLANT_FRUIT_VOLUME_MICRO
 	growth_time = PLANT_FRUIT_GROWTH_VERY_FAST
-	mutations = list(/datum/plant_feature/fruit/berry/glow)
+	mutations = list(/datum/plant_feature/fruit/berry/glow = 5)
 
 /*
 	Glow Berry
@@ -22,7 +22,7 @@
 	fruit_product = /obj/item/food/grown/berries/glow
 	fast_reagents = list(/datum/reagent/uranium/radium = PLANT_REAGENT_MEDIUM, /datum/reagent/iodine = PLANT_REAGENT_MEDIUM)
 	colour_override = "#a6ff00"
-	mutations = list(/datum/plant_feature/fruit/berry/poison)
+	mutations = list(/datum/plant_feature/fruit/berry/poison = 5)
 
 /*
 	Poison Berry
@@ -33,7 +33,7 @@
 	fruit_product = /obj/item/food/grown/berries/poison
 	fast_reagents = list(/datum/reagent/toxin/cyanide = PLANT_REAGENT_MEDIUM, /datum/reagent/toxin/staminatoxin = PLANT_REAGENT_MEDIUM)
 	colour_override = "#0dff00"
-	mutations = list(/datum/plant_feature/fruit/berry/death)
+	mutations = list(/datum/plant_feature/fruit/berry/death = 10)
 
 /*
 	Death Berry

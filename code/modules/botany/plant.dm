@@ -38,8 +38,10 @@
 	//Plant features
 	if(length(_plant_features))
 		populate_features(_plant_features)
-	//Add discoverable component for discovering this discoverable discovery
+	//Discoverable
 	plant_item.AddComponent(/datum/component/discoverable/plant, discovery_reward)
+	//Genes
+	populate_gene_cache()
 
 /datum/component/plant/Destroy(force, silent)
 	SEND_SIGNAL(src, COMSIG_PLANT_UPROOTED,  null, null, plant_item.loc)
@@ -109,30 +111,16 @@
 
 ///This generates a unqiue species ID for us. Call this when a plant is modified or created or whatever
 /datum/component/plant/proc/compile_species_id()
-	var/new_species_id = "[get_species_id()]"
-	if(new_species_id in SSbotany.plant_species)
-		return FALSE
-	SSbotany.plant_species |= new_species_id
-	species_id = new_species_id
-	return TRUE
+	species_id = build_plant_species_id(plant_features)
+	SSbotany.plant_species |= species_id
+	populate_gene_cache()
 
-//Formatted like "[feature](trait-types)-[feature](trait-types)-[feature](trait-types)"
-///Use this to generate a species ID based on our feature's and their traits
-/datum/component/plant/proc/get_species_id()
-	var/new_species_id = ""
-	for(var/datum/plant_feature/feature as anything in plant_features)
-		var/traits = ""
-		for(var/datum/plant_trait/trait as anything in feature.plant_traits)
-			traits = "[traits]-[trait?.get_id()]"
-		new_species_id = "[new_species_id][feature?.species_name]-([traits])-"
-	return new_species_id
-
-///Used to a combined string of all the feature's species name
-/datum/component/plant/proc/get_species_name()
-	var/species_name = ""
-	var/index = 1
-	var/max_index = length(plant_features)-1
-	for(var/datum/plant_feature/feature as anything in plant_features)
-		species_name = "[feature.species_name][index < max_index ? "" : " "][species_name]"
-		index += 1
-	return species_name
+/datum/component/plant/proc/populate_gene_cache()
+	if(SSbotany.gene_cache[species_id])
+		return
+	var/list/plant_genes = list()
+	for(var/datum/plant_feature/gene as anything in plant_features)
+		if(QDELETED(gene))
+			continue
+		plant_genes += gene?.copy()
+	SSbotany.gene_cache[species_id] = plant_genes

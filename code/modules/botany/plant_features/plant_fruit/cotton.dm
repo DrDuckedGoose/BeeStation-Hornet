@@ -9,7 +9,7 @@
 	fruit_product = /obj/item/grown/cotton
 	total_volume = 0
 	growth_time = PLANT_FRUIT_GROWTH_FAST
-	mutations = list(/datum/plant_feature/fruit/cotton/durathread)
+	mutations = list(/datum/plant_feature/fruit/cotton/durathread = 20)
 
 /*
 	Durathread

@@ -15,6 +15,13 @@ SUBSYSTEM_DEF(botany)
 	///Blacklist of fruits that can't be slippery
 	var/list/fruit_blacklist = list(/obj/item/food/grown/banana)
 
+	///List of cached genes - list('species_id' = list(genes))
+	var/list/gene_cache = list()
+
+	///List of possible weeds, and their weights - These values are interpreted from old botany
+	var/list/weeds = list(/obj/item/plant_seeds/preset/amanita = 1, /obj/item/plant_seeds/preset/reishi = 2, /obj/item/plant_seeds/preset/nettle = 1, /obj/item/plant_seeds/preset/chanterelle = 1,
+	/obj/item/plant_seeds/preset/tower = 1, /obj/item/plant_seeds/preset/plump = 1, /obj/item/plant_seeds/preset/starthistle = 3, /obj/item/plant_seeds/preset/harebell = 1)
+
 //Random Features
 	///List for random plant bodies
 	var/list/random_bodies = list()
@@ -88,10 +95,17 @@ SUBSYSTEM_DEF(botany)
 			continue
 		chapters["features"] += entry_feature
 		keyed_features["[entry_feature.type]"] = "[ref(entry_feature)]"
-		//Build links
+	//Build links
+		//Traits
 		for(var/datum/plant_trait/trait as anything in entry_feature.plant_traits)
 			dictionary_links["[trait.get_id()]"] = dictionary_links["[trait.get_id()]"] || list()
 			dictionary_links["[trait.get_id()]"] += "[ref(entry_feature)]"
+		//Mutations
+	for(var/datum/plant_feature/feature as anything in chapters["features"])
+		for(var/datum/plant_feature/mutation as anything in feature.mutations)
+			var/link_feature = keyed_features["[mutation]"]
+			dictionary_links[link_feature] = dictionary_links[link_feature] || list()
+			dictionary_links[link_feature] += "[ref(feature)]"
 //Traits
 	chapters["traits"] = chapters["traits"] || list() //Race condition weirdness
 	var/list/traits = subtypesof(/datum/plant_trait)
@@ -156,3 +170,30 @@ SUBSYSTEM_DEF(botany)
 		fast_reagents["[reagent.name][reagent.volume_percentage]"] = reagent
 		SSbotany.chapters["traits"] = SSbotany.chapters["traits"] || list() //Race condition weirdness
 		SSbotany.chapters["traits"] += reagent
+
+//Formatted like "[feature](trait-types)-[feature](trait-types)-[feature](trait-types)"
+///Use this to generate a species ID based on our feature's and their traits
+/proc/build_plant_species_id(list/feature_list)
+	var/new_species_id = ""
+	for(var/datum/plant_feature/feature as anything in feature_list)
+		var/traits = ""
+		for(var/datum/plant_trait/trait as anything in feature.plant_traits)
+			traits = "[traits]-[trait?.get_id()]"
+		new_species_id = "[new_species_id][feature?.species_name]-([traits])-"
+	return new_species_id
+
+/proc/get_species_name(list/feature_list)
+	var/species_name = ""
+	var/index = 1
+	var/max_index = length(feature_list)-1
+	for(var/datum/plant_feature/feature as anything in feature_list)
+		species_name = "[feature.species_name][index < max_index ? "" : " "][species_name]"
+		index += 1
+	return species_name
+
+//get a GROWN's fruit trait modifier
+/proc/get_fruit_trait_power(obj/item/food/grown/fruit)
+	var/list/genes = list()
+	SEND_SIGNAL(fruit, COMSIG_PLANT_GET_GENES, genes)
+	var/datum/plant_feature/fruit/fruit_feature = locate(/datum/plant_feature/fruit) in genes[PLANT_GENE_INDEX_FEATURES]
+	return fruit_feature?.trait_power

@@ -1,3 +1,4 @@
+import { ButtonCheckbox } from 'tgui/components/Button';
 import { useBackend } from '../backend';
 import { Button, Section, Box, Flex, Input, BlockQuote, Divider, Icon, Dimmer, ProgressBar } from '../components';
 import { Window } from '../layouts';
@@ -14,6 +15,7 @@ export const PlantMutator = (props) => {
     current_feature,
     confirm_radiation,
     working,
+    port_traits,
   } = data;
   return (
     <Window width={600} height={500} theme="plant_menu">
@@ -79,6 +81,16 @@ export const PlantMutator = (props) => {
                 </Flex.Item>
                 {/* Inspection row */}
                 <Flex.Item width={'100%'}>
+                  <Section textAlign={'center'}>
+                    <ButtonCheckbox
+                      width={'100%'}
+                      className={'plant__button'}
+                      checked={port_traits}
+                      tooltip="Port traits from the original feature to the mutated result, when possible"
+                      onClick={() => act('toggle_port', { port_state: !port_traits })}>
+                      Preserve Traits
+                    </ButtonCheckbox>
+                  </Section>
                   <Section>{current_feature ? <InspectionPanel /> : ' ... '}</Section>
                 </Flex.Item>
               </Flex>

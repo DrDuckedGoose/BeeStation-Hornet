@@ -110,7 +110,8 @@
 			seeds.plant_features -= feature
 			qdel(feature)
 			//We can safely set this to null, so it makes a new ID when planted.
-			seeds.species_id = null
+			seeds.update_species_id()
+			seeds.update_plant_name()
 			last_command = "pit feature remove -f -m [params["key"]]"
 			ui_update()
 		if("remove_trait")
@@ -121,7 +122,8 @@
 			if(trait == disk?.saved)
 				disk?.saved = null
 			else //otherwise just carry on and null our species ID while we're at it, to gen a new one
-				seeds.species_id = null
+				seeds.update_species_id()
+				seeds.update_plant_name()
 			if(current_feature)
 				current_feature.plant_traits -= trait
 			qdel(trait)
@@ -132,9 +134,11 @@
 				return
 			//Don't allow trait duplication
 			var/datum/plant_trait/trait = locate(params["key"])
-			var/datum/plant_trait/trait_similar = (locate(trait.type) in current_feature.plant_traits)
-			if(!trait.allow_multiple && trait_similar?.get_id() == trait.get_id())
-				return
+			for(var/datum/plant_trait/local_trait as anything in current_feature.plant_traits)
+				if(!local_trait.allow_multiple && local_trait.get_id() == trait.get_id())
+					playsound(src, 'sound/machines/terminal_error.ogg', 60)
+					say("ERROR: Seed composition cannot support multiple of selected trait!")
+					return
 			//Add the trait
 			var/datum/plant_trait/new_trait = trait.copy(current_feature)
 			if(!QDELING(new_trait))
@@ -144,7 +148,8 @@
 				say("ERROR: Seed composition not compatible with selected trait!")
 				return
 			//Reset the species ID
-			seeds.species_id = null
+			seeds.update_species_id()
+			seeds.update_plant_name()
 			last_command = "pit trait add -f -cd [params["key"]]"
 			ui_update()
 		if("add_feature")
@@ -183,7 +188,8 @@
 			var/datum/plant_feature/new_feature = feature.copy()
 			new_feature.associate_seeds(seeds)
 			seeds.plant_features += new_feature
-			seeds.species_id = null
+			seeds.update_species_id()
+			seeds.update_plant_name()
 			last_command = "pit feature add -f -cd [params["key"]]"
 			ui_update()
 		if("remove_disk")
@@ -196,3 +202,10 @@
 			disk = null
 			last_command = "per reader eject -f"
 			ui_update()
+
+//Circuitboard
+/obj/item/circuitboard/machine/seed_editor
+	name = "seed editor (Machine Board)"
+	icon_state = "service"
+	build_path = /obj/machinery/plant_machine/seed_editor
+	req_components = list(/obj/item/stock_parts/matter_bin = 2, /obj/item/stock_parts/manipulator = 2, /obj/item/stock_parts/capacitor = 1, /obj/item/stock_parts/scanning_module = 1)

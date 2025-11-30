@@ -1,4 +1,5 @@
-//TODO: Replace meatweat with several rare-ish meat fruits based on types of meat - Racc
+#define FRUIT_MINIMUM_BITES 2
+
 /datum/plant_feature/fruit
 	species_name = "testus testium"
 	name = "fruit"
@@ -146,18 +147,18 @@
 		visual_fruits["[fruit_index]"] = fruit_effect
 
 /datum/plant_feature/fruit/proc/build_fruit()
-	var/obj/item/A = new fruit_product(parent.plant_item)
-	A.create_reagents(total_volume)
-	SEND_SIGNAL(parent, COMSIG_FRUIT_PREPARE, A) //Used to prepare fruit characteristics, like making the reagents NO_REACT
-	var/list/plant_genes = list()
-	for(var/datum/plant_feature/gene as anything in parent.plant_features) //TODO: You could probably optimize this - Racc
-		if(QDELETED(gene))
-			continue
-		plant_genes += gene.copy()
-	A.AddElement(/datum/element/plant_genes, plant_genes, parent.species_id)
-	fruits += A
-	SEND_SIGNAL(parent, COMSIG_FRUIT_BUILT, A) //Used when we're done prepping the fruit and we want to add stuff to it, like reagents
-	return A
+//Fruit setup
+	var/obj/item/food/grown/new_fruit = new fruit_product(parent.plant_item)
+	if(istype(new_fruit))
+		new_fruit.seed = null //Otherwise this will overwrite our inherited genes
+	new_fruit.create_reagents(total_volume)
+	new_fruit.bite_consumption = new_fruit.reagents.maximum_volume / (new_fruit.bite_consumption_mod + FRUIT_MINIMUM_BITES)
+	SEND_SIGNAL(parent, COMSIG_FRUIT_PREPARE, new_fruit) //Used to prepare fruit characteristics, like making the reagents NO_REACT
+//Genes
+	new_fruit.AddElement(/datum/element/plant_genes, SSbotany.gene_cache["[parent.species_id]"], parent.species_id)
+	fruits += new_fruit
+	SEND_SIGNAL(parent, COMSIG_FRUIT_BUILT, new_fruit) //Used when we're done prepping the fruit and we want to add stuff to it, like reagents
+	return new_fruit
 
 /datum/plant_feature/fruit/proc/catch_attack_hand(datum/source, mob/user)
 	SIGNAL_HANDLER
@@ -172,3 +173,5 @@
 		fruit.forceMove(T)
 	SEND_SIGNAL(parent, COMSIG_PLANT_ACTION_HARVEST, user, temp_fruits, FALSE)
 	return TRUE
+
+#undef FRUIT_MINIMUM_BITES

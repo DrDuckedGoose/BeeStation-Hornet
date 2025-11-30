@@ -62,7 +62,7 @@
 			feature_list["traits"] = feature.get_ui_traits()
 			feature_list["stats"] = feature.get_ui_stats()
 			plant_data += list(feature_list)
-		data["chapters"]["plants"] += list("[ref(preset)]" = list("name" = preset.name_override, "features" = plant_data))
+		data["chapters"]["plants"] += list("[ref(preset)]" = list("name" = capitalize(preset.name_override), "features" = plant_data))
 	//Dictionary links
 	data["links"] = SSbotany.dictionary_links
 	return data

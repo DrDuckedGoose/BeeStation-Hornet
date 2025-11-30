@@ -193,6 +193,7 @@ const InspectionPanel = (props) => {
               body={data_set['trait_desc']}
               trait_key={data_set['trait_ref']}
               key={data_set}
+              save_disabled={data_set['can_copy']}
             />
           ))
         ) : (
@@ -215,7 +216,7 @@ const PlantDataInstance = (props) => {
 
 const PlantTraitInstance = (props) => {
   const { act, data } = useBackend();
-  const { title, body, trait_key } = props;
+  const { title, body, trait_key, save_disabled } = props;
   const { saving_feature, save_excluded_traits } = data;
   return (
     <Flex direction={'row'}>
@@ -230,6 +231,7 @@ const PlantTraitInstance = (props) => {
           verticalAlignContent={'middle'}
           icon={'save'}
           onClick={() => act('save_trait', { key: trait_key })}
+          disabled={!save_disabled}
         />
       ) : (
         <Button.Checkbox
@@ -237,6 +239,7 @@ const PlantTraitInstance = (props) => {
           verticalAlignContent={'middle'}
           checked={!save_excluded_traits.includes(trait_key)}
           onClick={() => act('toggle_trait', { key: trait_key })}
+          disabled={!save_disabled}
         />
       )}
     </Flex>
@@ -261,6 +264,7 @@ const PlantFeaturePanel = (props) => {
         verticalAlignContent={'middle'}
         icon={saving_feature ? 'save' : 'search'}
         tooltip="Save Feature"
+        disabled={!feature['can_copy']}
         onClick={() => act('save_feature', { key: feature['key'], force: saving_feature ? 1 : 0 })}
       />
     </Flex>

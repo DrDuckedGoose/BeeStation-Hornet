@@ -5,6 +5,9 @@
 	name = "seeds"
 	icon = 'icons/obj/hydroponics/features/seeds.dmi'
 	icon_state = "base"
+	w_class = WEIGHT_CLASS_TINY
+	resistance_flags = FLAMMABLE
+	tool_behaviour = TOOL_SEED
 	///Species ID
 	var/species_id
 	///List of plant features for the plant we're... planting
@@ -20,10 +23,14 @@
 	plant_features = length(_plant_features) ? _plant_features.Copy() : plant_features
 	for(var/datum/plant_feature/feature as anything in plant_features)
 		plant_features -= feature
+		var/datum/plant_feature/new_feature
 		if(ispath(feature))
-			feature = new feature()
-		plant_features += feature
-		feature?.associate_seeds(src)
+			new_feature = new feature()
+		else
+			new_feature = feature.copy()
+		plant_features += new_feature
+		new_feature.associate_seeds(src)
+	update_plant_name()
 
 /obj/item/plant_seeds/examine(mob/user)
 	. = ..()
@@ -31,23 +38,32 @@
 
 /obj/item/plant_seeds/afterattack_secondary(atom/target, mob/user, proximity_flag, click_parameters)
 	. = ..()
+	var/info = plant(target, user, proximity_flag, click_parameters)
+	if(istext(info))
+		to_chat(user, info)
+
+//Throw any extra special copy logic in here
+/obj/item/plant_seeds/proc/copy()
+	var/obj/item/plant_seeds/copy = new type(src.loc, src.plant_features, src.species_id)
+	return copy
+
+/obj/item/plant_seeds/proc/plant(atom/target, mob/user, proximity_flag, click_parameters, logic)
 	//Is this even a planter?
 	var/datum/component/planter/tray_component = target.GetComponent(/datum/component/planter)
 	if(!tray_component)
-		to_chat(user, "<span class='warning'>You can't plant [src] here!</span>")
-		return
+		return logic ? FALSE : "<span class='warning'>You can't plant [src] here!</span>"
 	//Check if our roots fuck with the substrate we're planting it in
 	if(!SEND_SIGNAL(src, COMSIG_SEEDS_POLL_ROOT_SUBSTRATE, tray_component.substrate))
-		to_chat(user, "<span class='warning'>You can't plant [src] in this substrate!</span>")
-		return
+		return logic ? FALSE : "<span class='warning'>You can't plant [src] in this substrate!</span>"
 	if(!SEND_SIGNAL(src, COMSIG_SEEDS_POLL_TRAY_SIZE, target))
-		to_chat(user, "<span class='warning'>There's no room to plant [src] here!</span>")
-		return
+		return logic ? FALSE : "<span class='warning'>There's no room to plant [src] here!</span>"
 	//Plant it
-	to_chat(user, "<span class='notice'>You begin to plant [src] into [target].</span>")
-	if(!do_after(user, 2.3 SECONDS, target))
+	if(user)
+		to_chat(user, "<span class='notice'>You begin to plant [src] into [target].</span>")
+	if(!logic && !do_after(user, 2.3 SECONDS, target))
 		return
-	var/obj/item/plant_item/plant = new(get_turf(target), plant_features, species_id)
+	. = TRUE
+	var/obj/item/plant_item/plant = new(get_turf(target), plant_features, species_id, (name_override || get_species_name(plant_features)))
 	var/datum/component/plant/plant_component = plant.GetComponent(/datum/component/plant)
 	//Plant appearance stuff
 	plant.name = name_override || plant.name
@@ -68,24 +84,12 @@
 	//Clamp it so that the icon never moves more than 16 pixels in either direction (thus leaving the planting turf)
 	plant.pixel_x = clamp(text2num(LAZYACCESS(modifiers, ICON_X)) - 16, PLANT_X_CLAMP, PLANT_Y_CLAMP)
 
-//basically a direct copy from the plant component, sue me
-/obj/item/plant_seeds/proc/get_species_id()
-	var/new_species_id = ""
-	for(var/datum/plant_feature/feature as anything in plant_features)
-		var/traits = ""
-		for(var/datum/plant_trait/trait as anything in feature.plant_traits)
-			traits = "[traits]-[trait?.get_id()]"
-		new_species_id = "[new_species_id][feature?.species_name]-([traits])-"
-	return new_species_id
+/obj/item/plant_seeds/proc/update_plant_name()
+	name = "[name_override || get_species_name(plant_features)] seeds"
 
-/obj/item/plant_seeds/proc/get_species_name()
-	var/species_name = ""
-	var/index = 1
-	var/max_index = length(plant_features)-1
-	for(var/datum/plant_feature/feature as anything in plant_features)
-		species_name = "[feature.species_name][index < max_index ? "" : " "][species_name]"
-		index += 1
-	return species_name
+/obj/item/plant_seeds/proc/update_species_id()
+	species_id = build_plant_species_id(plant_features)
+	SSbotany.plant_species |= species_id
 
 /*
 	Preset
@@ -99,8 +103,7 @@
 	. = ..()
 	if(species_id) //Just in case someone uses it wrong
 		return
-	species_id = get_species_id()
-	SSbotany.plant_species |= species_id
+	update_species_id()
 
 /*
 	Debug

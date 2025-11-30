@@ -31,7 +31,7 @@
 		mutate into one thing, and have that one thing mutate into the
 		next. Then the final mutation should mutate back into this.
 	*/
-	///What can this feature mutate into?
+	///What can this feature mutate into? typically list(mutation, mutation, mutation) but it can also be list(mutation = 10) if you want certain mutations to cost more
 	var/list/mutations = list()
 
 	///What is our genetic budget for how many traits we can afford?
@@ -98,7 +98,8 @@
 
 ///This is a keyed list for UIs to get specific values, usually for logic or display
 /datum/plant_feature/proc/get_ui_stats()
-	return list("name" = capitalize(name), "species_name" = capitalize(species_name), "key" = REF(src), "feature_appearance" = icon2base64(feature_appearance), "type_shortcut" = "[trait_type_shortcut]")
+	return list("name" = capitalize(name), "species_name" = capitalize(species_name), "key" = REF(src), "feature_appearance" = icon2base64(feature_appearance), "type_shortcut" = "[trait_type_shortcut]",
+	"can_copy" = can_copy, "can_remove" = can_remove)
 
 ///This is for display+, a pre-formatted list of nice looking text
 /datum/plant_feature/proc/get_ui_data()

@@ -1,5 +1,5 @@
-//TODO: Do we need this? - Racc
 #define SEPERATED_CONTENTS_DEFAULT_VOLUME 50
+#define SEPERATED_CONTENTS_MINIMUM_TIMER 2 SECONDS
 
 /*
 	Keep reagents in the fruit seperated until something triggers it
@@ -35,9 +35,9 @@
 	//Sleep for a bit to give people time to react
 	fruit?.visible_message("<span class='warning'>[fruit] starts to mix its contents!</span>")
 	playsound(fruit, 'sound/effects/bubbles.ogg', 45)
-	sleep(2 SECONDS)
+	sleep(SEPERATED_CONTENTS_MINIMUM_TIMER)
 	//Recreate fruit reagents without the NO_REACT flag
-	//TODO: There's probably a better way to copy reagents - Racc
+	//You can't just remove the flag and call the reactions, apparently
 	var/list/reagents = list()
 	for(var/datum/reagent/reagent_index as anything in fruit.reagents.reagent_list)
 		if(QDELETED(reagent_index))
@@ -47,3 +47,15 @@
 	fruit.reagents.add_reagent_list(reagents)
 
 #undef SEPERATED_CONTENTS_DEFAULT_VOLUME
+#undef SEPERATED_CONTENTS_MINIMUM_TIMER
+
+//Watermelon
+/obj/item/plant_seeds/preset/watermelon/bomb
+	name = "watermelon seeds"
+	name_override = "watermelon"
+	plant_features = list(/datum/plant_feature/roots, /datum/plant_feature/body/corn_stalk/ground, /datum/plant_feature/fruit/watermelon/bomb)
+
+/datum/plant_feature/fruit/watermelon/bomb
+	plant_traits = list(/datum/plant_trait/seperated_contents, /datum/plant_trait/fruit/liquid_contents/sensitive)
+	fast_reagents = list(/datum/reagent/water = PLANT_REAGENT_MEDIUM, /datum/reagent/potassium = PLANT_REAGENT_MEDIUM)
+

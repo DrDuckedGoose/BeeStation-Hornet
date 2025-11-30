@@ -128,22 +128,15 @@
 	qdel(src) //Ensuring that it's deleted by its own explosion
 
 /obj/item/food/grown/firelemon/proc/prime(mob/living/lanced_by)
-	switch(seed.potency) //Combustible lemons are alot like IEDs, lots of flame, very little bang.
-		if(0 to 30)
+	var/potency = get_fruit_trait_power(src) * 25
+	switch(potency) //Combustible lemons are alot like IEDs, lots of flame, very little bang.
+		if(0 to 25)
 			update_mob()
 			explosion(src.loc,-1,-1,2, flame_range = 1)
 			qdel(src)
-		if(31 to 50)
-			update_mob()
-			explosion(src.loc,-1,-1,2, flame_range = 2)
-			qdel(src)
-		if(51 to 70)
+		if(26 to 50)
 			update_mob()
 			explosion(src.loc,-1,-1,2, flame_range = 3)
-			qdel(src)
-		if(71 to 90)
-			update_mob()
-			explosion(src.loc,-1,-1,2, flame_range = 4)
 			qdel(src)
 		else
 			update_mob()

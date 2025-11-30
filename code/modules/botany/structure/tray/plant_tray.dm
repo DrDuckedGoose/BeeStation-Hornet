@@ -11,6 +11,8 @@
 	var/buffer = 200
 	///Do we want the plumbing shit?
 	var/plumbing = TRUE
+	///Do we gain weeds?
+	var/gain_weeds = TRUE
 	///Tray component
 	var/datum/component/planter/tray_component
 //Effects
@@ -38,7 +40,7 @@
 		AddComponent(/datum/component/plumbing/tank, FALSE)
 		AddComponent(/datum/component/simple_rotation)
 //Tray component setup
-	tray_component = AddComponent(/datum/component/planter, 14, layer_offset)
+	tray_component = AddComponent(/datum/component/planter, 14, layer_offset, gain_weeds)
 	RegisterSignal(tray_component, COMSIG_PLANTER_UPDATE_SUBSTRATE_SETUP, PROC_REF(remove_substrate))
 	RegisterSignal(tray_component, COMSIG_PLANTER_UPDATE_SUBSTRATE, PROC_REF(add_substrate))
 //Build effects
@@ -65,6 +67,11 @@
 	SEND_SIGNAL(src, COMSIG_PLANT_NEEDS_PAUSE, null, problem_features)
 	if(length(problem_features))
 		vis_contents |= problem
+	//Warnings - handled elsewhere too, when listening to plant needs
+	if(tray_component.weed_level >= 50)
+		vis_contents |= need
+	else if(!length(needy_features))
+		vis_contents -= need
 
 /obj/item/plant_tray/attackby(obj/item/I, mob/living/user, params)
 	. = ..()
@@ -121,9 +128,9 @@
 ///Helpers to handle substrate vvisuals
 /obj/item/plant_tray/proc/add_substrate(_substrate)
 	var/datum/plant_subtrate/substrate = tray_component.substrate
-	underlays += substrate.substrate_appearance
+	underlays += substrate?.substrate_appearance
 
-/obj/item/plant_tray/proc/remove_substrate(_substrate)
+/obj/item/plant_tray/proc/remove_substrate()
 	underlays -= tray_component.substrate?.substrate_appearance
 
 /*

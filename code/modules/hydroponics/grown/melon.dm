@@ -95,7 +95,7 @@
 	. = ..()
 	var/uses = 1
 	if(seed)
-		uses = round(seed.potency / 20)
+		uses = round(get_fruit_trait_power(src) * 2.3)
 	AddComponent(/datum/component/anti_magic, \
 	_source = src, \
 	antimagic_flags = (MAGIC_RESISTANCE|MAGIC_RESISTANCE_HOLY),\

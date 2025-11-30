@@ -78,7 +78,7 @@
 /datum/plant_feature/body/process(delta_time)
 	//If we're done growing, and we're resting, and we're not hosting and fruits, and we have more fruits to give- don't bother sucking up needs
 	if(growth_time_elapsed >= growth_time && !COOLDOWN_FINISHED(src, yield_cooldown_time) && !length(fruit_overlays) && yields > 0  || !check_needs(delta_time))
-		//TODO: Do we want plants to wither away? It's kind of annoying - Racc
+		//If you want plants to wither away when not watered, put that logic in here. For now, it just pauses everything.
 		return
 //Growth
 	if(growth_time_elapsed < growth_time)

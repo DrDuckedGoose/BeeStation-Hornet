@@ -11,7 +11,7 @@
 	fast_reagents = list(/datum/reagent/consumable/nutriment/fat/oil = PLANT_REAGENT_MEDIUM)
 	total_volume = PLANT_FRUIT_VOLUME_SMALL
 	growth_time = PLANT_FRUIT_GROWTH_VERY_FAST
-	mutations = list(/datum/plant_feature/fruit/soybean/koi)
+	mutations = list(/datum/plant_feature/fruit/soybean/koi = 10)
 
 /*
 	Koibean

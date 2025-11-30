@@ -1,7 +1,5 @@
 /*
 	Plant substrate, the stuff you plant plants in. Stuff like dirt.
-	This has various effects
-	TODO: Develop this into an actual idea - Racc
 */
 /datum/plant_subtrate
 	var/name = "generic substrate"

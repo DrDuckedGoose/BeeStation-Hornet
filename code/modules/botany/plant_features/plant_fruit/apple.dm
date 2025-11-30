@@ -9,7 +9,7 @@
 	plant_traits = list(/datum/plant_trait/reagent/fruit/nutriment, /datum/plant_trait/reagent/fruit/vitamin)
 	total_volume = PLANT_FRUIT_VOLUME_SMALL
 	growth_time = PLANT_FRUIT_GROWTH_FAST
-	mutations = list(/datum/plant_feature/fruit/apple/gold)
+	mutations = list(/datum/plant_feature/fruit/apple/gold = 20)
 
 /*
  Gold Apple

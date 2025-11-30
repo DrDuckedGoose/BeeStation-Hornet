@@ -5,6 +5,8 @@
 /datum/plant_trait/fruit/liquid_contents
 	name = "Liquid Contents"
 	desc = "The fruit squishes when thrown, used, or triggered. Triggers when squished."
+	examine_line = span_info("It has a lot of liquid contents inside.")
+	blacklist = list(/datum/plant_trait/fruit/liquid_contents/sensitive)
 	///Do we delete ourselves after impact
 	var/impact_del = TRUE
 
@@ -53,6 +55,7 @@
 	name = "Sensitive contents"
 	desc = "The fruit triggers when thrown or used."
 	impact_del = FALSE
+	blacklist = list(/datum/plant_trait/fruit/liquid_contents)
 	///Cooldown between triggers
 	COOLDOWN_DECLARE(trigger)
 	var/trigger_cooldown = 5 SECONDS

@@ -11,4 +11,4 @@
 	fruit_product = /obj/item/food/grown/mushroom/libertycap
 	total_volume = PLANT_FRUIT_VOLUME_SMALL
 	growth_time = PLANT_FRUIT_GROWTH_FAST
-	fast_reagents = list(/datum/reagent/drug/mushroomhallucinogen = PLANT_FRUIT_VOLUME_MICRO)
+	fast_reagents = list(/datum/reagent/drug/mushroomhallucinogen = PLANT_REAGENT_SMALL)

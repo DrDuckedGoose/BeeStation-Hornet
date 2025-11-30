@@ -41,7 +41,6 @@ export const PlantDictionary = (props) => {
                     <Flex.Item>
                       <Section>
                         <Box className={'scrollbox'} height={'300px'} overflowY="scroll">
-                          {/* TODO: Figure out why this expoands to hell - Racc*/}
                           {selected_chapter === 'features' ? (
                             <Box className={'discrete'}>
                               {/* Fruits */}
@@ -259,20 +258,38 @@ const InspectionPanelFeature = (props) => {
       </Flex.Item>
       <Divider />
       {/* Links */}
-      <Flex.Item width={'50%'}>
-        <Flex direction={'column'}>
-          {links[feature_key] ? (
-            links[feature_key].map((plant_key) => (
-              <Button
-                key={plant_key}
-                className="plant__button"
-                onClick={() => act('select_link', { key: plant_key, chapter: 'plants' })}>
-                {chapters['plants'][plant_key]['name']}
-              </Button>
-            ))
-          ) : (
-            <Button className="plant__button--display">No Records</Button>
-          )}
+      <Flex.Item>
+        <Flex direction={'row'}>
+          <Flex direction={'column'}>
+            {links[feature_key] ? (
+              links[feature_key].map((plant_key) => (
+                <Button
+                  key={plant_key}
+                  className="plant__button"
+                  onClick={() =>
+                    act('select_link', {
+                      key: plant_key,
+                      chapter:
+                        chapters['features']['/datum/plant_feature/fruit'][plant_key] ||
+                        chapters['features']['/datum/plant_feature/body'][plant_key] ||
+                        chapters['features']['/datum/plant_feature/roots'][plant_key]
+                          ? 'features'
+                          : 'plants',
+                    })
+                  }>
+                  {chapters['plants'][plant_key]
+                    ? `${chapters['plants'][plant_key]['name']} (found in)`
+                    : `${
+                      chapters['features']['/datum/plant_feature/fruit'][plant_key]['stats']['name'] ||
+                      chapters['features']['/datum/plant_feature/body'][plant_key]['stats']['name'] ||
+                      chapters['features']['/datum/plant_feature/roots'][plant_key]['stats']['name']
+                    } (mutates into)`}
+                </Button>
+              ))
+            ) : (
+              <Button className="plant__button--display">No Records</Button>
+            )}
+          </Flex>
         </Flex>
       </Flex.Item>
     </Flex>

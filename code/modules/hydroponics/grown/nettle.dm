@@ -85,7 +85,8 @@ CREATION_TEST_IGNORE_SUBTYPES(/obj/item/food/grown/nettle/basic)
 
 /obj/item/food/grown/nettle/basic/Initialize(mapload, obj/item/seeds/new_seed)
 	. = ..()
-	force = round((5 + seed.potency / 5), 1)
+	var/potency = get_fruit_trait_power(src) * 25
+	force = round((5 + potency / 5), 1)
 
 /obj/item/food/grown/nettle/death
 	name = "deathnettle"
@@ -100,8 +101,9 @@ CREATION_TEST_IGNORE_SUBTYPES(/obj/item/food/grown/nettle/death)
 
 /obj/item/food/grown/nettle/death/Initialize(mapload, obj/item/seeds/new_seed)
 	. = ..()
-	force = round((5 + seed.potency / 5), 1)
-	throwforce = round((2 + seed.potency / 10), 1)
+	var/potency = get_fruit_trait_power(src) * 25
+	force = round((5 + potency / 5), 1)
+	throwforce = round((2 + potency / 10), 1)
 
 /obj/item/food/grown/nettle/death/pickup(mob/living/carbon/user)
 	if(..())

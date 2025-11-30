@@ -21,7 +21,7 @@
 	icon_state = "citrus"
 	colour_override = "#2bff00"
 	fruit_product = /obj/item/food/grown/citrus
-	mutations = list(/datum/plant_feature/fruit/lemon/combustible)
+	mutations = list(/datum/plant_feature/fruit/lemon/combustible = 20)
 
 /*
 	Combustible Lemon

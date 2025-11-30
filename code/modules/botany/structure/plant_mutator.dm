@@ -23,6 +23,8 @@
 	var/datum/plant_feature/current_feature
 	var/current_feature_ref
 
+	///Do we want port traits from old features to new features?
+	var/port_traits = FALSE
 	///UI confirmation switch so we don't have accidents
 	var/confirm_radiation = FALSE
 	///Are we under going the process of mutating?
@@ -108,6 +110,7 @@
 	//Machine info
 	data["confirm_radiation"] = confirm_radiation
 	data["working"] = working
+	data["port_traits"] = port_traits
 	return data
 
 /obj/machinery/plant_machine/plant_mutator/ui_act(action, params)
@@ -122,6 +125,9 @@
 			ui_update()
 		if("cancel")
 			confirm_radiation = FALSE
+			ui_update()
+		if("toggle_port")
+			port_traits = params["port_state"] //You could make this port_traits = !port_traits, but I suspect that might lead to UI desync
 			ui_update()
 		if("mutate")
 			//Fix focus
@@ -142,7 +148,7 @@
 				playsound(src, 'sound/machines/terminal_error.ogg', 60)
 				say("ERROR: No catalyst inserted!")
 				return
-			if(!radiation?.strength > 0) //TODO: Revise how this works, how much rads we need, and how we spend it - Racc
+			if(radiation?.strength <= 0)
 				playsound(src, 'sound/machines/terminal_error.ogg', 60)
 				say("ERROR: Catalyst lacks adequate radioactivity!")
 				return
@@ -151,11 +157,16 @@
 				playsound(src, 'sound/machines/terminal_error.ogg', 60)
 				say("ERROR: Feature lacks genetic avenues!")
 				return
-			//Tax radiation before checks becuase fuck you >:)
-			//TODO: rework this cost system - Racc
-			radiation.strength -= 1
 			//Check compatibility
 			var/datum/plant_feature/new_feature = pick(feature.mutations)
+			//Tax radiation
+			var/tax = feature.mutations[new_feature] || 1
+			if(radiation?.strength-tax <= 0)
+				playsound(src, 'sound/machines/terminal_error.ogg', 60)
+				say("ERROR: Catalyst lacks adequate radioactivity, operation requires [tax] Roentgen!")
+				return
+			radiation.strength -= tax
+			//Flight checks
 			new_feature = new new_feature(plant_component)
 			for(var/datum/plant_feature/current_feature as anything in plant_component.plant_features-feature)
 				//Is this feature blacklisted from another feature
@@ -170,19 +181,23 @@
 					say("ERROR: Seed composition not compatible with selected feature!")
 					qdel(new_feature)
 					return
+			//Transfer old feature's traits to new feature
+			if(port_traits)
+				for(var/datum/plant_trait/trait as anything in feature.plant_traits)
+					var/bad_hit = FALSE
+					for(var/datum/plant_trait/local_trait as anything in new_feature.plant_traits)
+						if(!trait.allow_multiple && local_trait.get_id() == trait.get_id())
+							bad_hit = TRUE
+							break
+					if(bad_hit)
+						continue
+					var/datum/plant_trait/new_trait = trait.copy(new_feature)
+					if(!QDELING(new_trait))
+						new_feature.plant_traits += new_trait
+			//Out with the old, in with the new
 			plant_component.plant_features -= feature
 			if(!QDELING(new_feature))
 				plant_component.plant_features += new_feature
-			//TODO: make this a togglable option, off by default - Racc
-			//Transfer old feature's traits to new feature
-			for(var/datum/plant_trait/trait as anything in feature.plant_traits)
-				//TODO: Same for seed editor, make this go through the trait list, this locate thing get sthe first, not a whole list - Racc
-				var/datum/plant_trait/trait_similar = (locate(trait.type) in new_feature.plant_traits)
-				if(!trait.allow_multiple && trait_similar?.get_id() == trait.get_id())
-					continue
-				var/datum/plant_trait/new_trait = trait.copy(new_feature)
-				if(!QDELING(new_trait))
-					new_feature.plant_traits += new_trait
 			//Reset species id so a new one can be made
 			plant_component.compile_species_id()
 			//Reset the plant's growth
@@ -192,8 +207,17 @@
 			qdel(feature)
 			working = TRUE
 			addtimer(CALLBACK(src, PROC_REF(reset_working)), working_time)
+			current_feature_ref = ref(new_feature)
+			current_feature = new_feature
 			ui_update()
 
 /obj/machinery/plant_machine/plant_mutator/proc/reset_working()
 	working = FALSE
 	ui_update()
+
+//Circuitboard
+/obj/item/circuitboard/machine/plant_mutator
+	name = "plant mutator (Machine Board)"
+	icon_state = "service"
+	build_path = /obj/machinery/plant_machine/plant_mutator
+	req_components = list(/obj/item/stock_parts/matter_bin = 2, /obj/item/stock_parts/manipulator = 2, /obj/item/stock_parts/capacitor = 1, /obj/item/stock_parts/scanning_module = 1)

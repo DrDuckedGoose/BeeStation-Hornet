@@ -5,6 +5,7 @@
 /datum/plant_trait/fruit/biolight
 	name = "Bioluminescence"
 	desc = "Makes the fruit glow."
+	examine_line = span_info("It emits a soft glow.")
 ///Glow characteristics
 	var/glow_color = "#ffffff"
 	//Minimums

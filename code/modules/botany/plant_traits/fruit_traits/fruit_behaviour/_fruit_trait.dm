@@ -7,6 +7,8 @@
 	var/obj/item/fruit_parent
 	///Archive of our fruit parent's trait power, for when we live on a fruit
 	var/trait_power
+	///Extra text that shows up on fruit with this trait
+	var/examine_line = ""
 
 /datum/plant_trait/fruit/setup_parent(_parent)
 	. = ..()
@@ -33,12 +35,18 @@
 
 ///Use this to add your changes to the fruit item
 /datum/plant_trait/fruit/proc/setup_fruit_parent()
+	RegisterSignal(fruit_parent, COMSIG_PARENT_EXAMINE, PROC_REF(catch_examine))
 	RegisterSignal(fruit_parent, COMSIG_PARENT_QDELETING, PROC_REF(catch_qdel))
 
 /datum/plant_trait/fruit/proc/catch_fruit(datum/source, obj/item/fruit)
 	SIGNAL_HANDLER
 
 	copy(fruit)
+
+/datum/plant_trait/fruit/proc/catch_examine(datum/source, /mob/looker, list/examine_text)
+	SIGNAL_HANDLER
+
+	examine_text += examine_line
 
 /datum/plant_trait/fruit/proc/catch_qdel(datum/source)
 	SIGNAL_HANDLER

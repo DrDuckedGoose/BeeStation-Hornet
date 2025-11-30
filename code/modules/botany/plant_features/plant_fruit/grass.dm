@@ -10,7 +10,7 @@
 	total_volume = 0
 	growth_time = PLANT_FRUIT_GROWTH_VERY_FAST
 	skip_animation = TRUE
-	mutations = list(/datum/plant_feature/fruit/grass/carpet)
+	mutations = list(/datum/plant_feature/fruit/grass/carpet = 5)
 	whitelist_features = list(/datum/plant_feature/body/tuber/grass, /datum/plant_feature/roots)
 
 /*
@@ -21,7 +21,7 @@
 	name = "carpet"
 	icon_state = "carpet"
 	fruit_product = /obj/item/food/grown/grass/carpet
-	mutations = list(/datum/plant_feature/fruit/grass/fairy)
+	mutations = list(/datum/plant_feature/fruit/grass/shamrock = 5)
 
 /*
 	Clovers
@@ -31,7 +31,7 @@
 	name = "shamrock"
 	icon_state = "shamrock"
 	fruit_product = /obj/item/food/grown/grass/shamrock
-	mutations = list(/datum/plant_feature/fruit/grass/fairy)
+	mutations = list(/datum/plant_feature/fruit/grass/fairy = 10)
 
 /*
 	Fairy Grass
@@ -41,4 +41,4 @@
 	name = "fairy grass"
 	icon_state = "fairy_grass"
 	fruit_product = /obj/item/food/grown/grass/fairy
-	mutations = list(/datum/plant_feature/fruit/grass/)
+	mutations = list(/datum/plant_feature/fruit/grass)

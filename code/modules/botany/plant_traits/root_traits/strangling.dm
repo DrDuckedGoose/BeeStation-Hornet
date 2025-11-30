@@ -25,16 +25,21 @@
 
 	if(strangle_loc)
 		UnregisterSignal(strangle_loc, COMSIG_PLANT_NEEDS_PAUSE)
-	strangle_loc = plant_item.loc //TODO: loc qdel cleanup - Racc
+	strangle_loc = plant_item.loc
+	RegisterSignal(strangle_loc, COMSIG_PARENT_QDELETING, PROC_REF(catch_qdel))
 	RegisterSignal(strangle_loc, COMSIG_PLANT_NEEDS_PAUSE, PROC_REF(catch_pause))
 
 /datum/plant_trait/roots/strangling/proc/catch_pause(datum/source, datum/component/plant/_plant, list/problem_list)
 	SIGNAL_HANDLER
 
-	//plant_item.say("[source], [_plant], [problem_list]")
 	if(problem_list)
 		problem_list |= parent
 	//Avoid strangling ourselves or our brothers & sisters
 	if(_plant == parent.parent || _plant?.species_id == parent.parent.species_id)
 		return
 	return TRUE
+
+/datum/plant_trait/roots/strangling/proc/catch_qdel(datum/source)
+	SIGNAL_HANDLER
+
+	strangle_loc = null

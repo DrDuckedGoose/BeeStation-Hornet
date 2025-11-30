@@ -158,7 +158,7 @@
 /obj/item/plant_seeds/preset/watermelon
 	name = "watermelon seeds"
 	name_override = "watermelon"
-	plant_features = list(/datum/plant_feature/roots, /datum/plant_feature/body/tuber, /datum/plant_feature/fruit/watermelon)
+	plant_features = list(/datum/plant_feature/roots, /datum/plant_feature/body/corn_stalk/ground, /datum/plant_feature/fruit/watermelon)
 
 //Wheat
 /obj/item/plant_seeds/preset/wheat
@@ -273,3 +273,9 @@
 	name = "diona pod seeds"
 	name_override = "diona pod"
 	plant_features = list(/datum/plant_feature/roots, /datum/plant_feature/body/diona_pod, /datum/plant_feature/fruit/cabbage/diona)
+
+//Harebell
+/obj/item/plant_seeds/preset/harebell
+	name = "harebell seeds"
+	name_override = "harebell"
+	plant_features = list(/datum/plant_feature/roots, /datum/plant_feature/body/bush_vine/flower, /datum/plant_feature/fruit/flower/harebell)

@@ -86,7 +86,7 @@
 	icon_state = "sun"
 	fruit_product = /obj/item/grown/sunflower
 	fast_reagents = list(/datum/reagent/consumable/nutriment/fat/oil = PLANT_REAGENT_MEDIUM)
-	mutations = list(/datum/plant_feature/fruit/flower/nova)
+	mutations = list(/datum/plant_feature/fruit/flower/nova = 10)
 
 /*
 	Nova Flower
@@ -98,7 +98,7 @@
 	colour_override = "#ff4800"
 	fruit_product = /obj/item/grown/novaflower
 	fast_reagents = list(/datum/reagent/consumable/condensedcapsaicin = PLANT_REAGENT_MEDIUM, /datum/reagent/consumable/capsaicin = PLANT_REAGENT_MEDIUM)
-	mutations = list(/datum/plant_feature/fruit/flower/moon)
+	mutations = list(/datum/plant_feature/fruit/flower/moon = 10)
 
 /*
 	Moon Flower

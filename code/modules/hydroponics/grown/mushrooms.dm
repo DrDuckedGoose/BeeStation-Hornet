@@ -162,10 +162,11 @@
 	if(isspaceturf(user.loc))
 		return
 	var/mob/living/simple_animal/hostile/mushroom/M = new /mob/living/simple_animal/hostile/mushroom(user.loc)
-	M.maxHealth += round(seed.endurance / 4)
-	M.melee_damage += round(seed.potency / 20)
-	M.move_to_delay -= round(seed.production / 50)
+	var/potency = get_fruit_trait_power(src)
+	M.maxHealth += (potency-1) * M.maxHealth
 	M.health = M.maxHealth
+	M.melee_damage += (potency-1) * 10
+	M.move_to_delay -= round(potency)
 	qdel(src)
 	to_chat(user, span_notice("You plant the walking mushroom."))
 

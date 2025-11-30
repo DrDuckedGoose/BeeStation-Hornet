@@ -1,7 +1,3 @@
-#define COMSIG_PLANT_GET_GENES "COMSIG_PLANT_GET_GENES"
-#define PLANT_GENE_INDEX_FEATURES "PLANT_GENE_INDEX_FEATURES"
-#define PLANT_GENE_INDEX_ID "PLANT_GENE_INDEX_ID"
-
 /*
 	Plant gene element. Allows most things grown from plants to be turned into seeds
 	Technically anything can have this

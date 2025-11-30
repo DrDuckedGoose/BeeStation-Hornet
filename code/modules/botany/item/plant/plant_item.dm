@@ -10,8 +10,9 @@
 	///Does this plant item skip it's growth cycle
 	var/skip_growth = FALSE
 
-/obj/item/plant_item/Initialize(mapload, _plant_features, _species_id)
+/obj/item/plant_item/Initialize(mapload, _plant_features, _species_id, _plant_name)
 	. = ..()
+	name = _plant_name || name
 	AddComponent(/datum/component/plant, src, _plant_features, _species_id, skip_growth)
 
 /obj/item/plant_item/attack_hand(mob/user, modifiers)

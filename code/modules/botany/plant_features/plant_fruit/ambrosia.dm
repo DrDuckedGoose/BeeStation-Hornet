@@ -24,7 +24,7 @@
 	fruit_product = /obj/item/food/grown/ambrosia/deus
 	plant_traits = list(/datum/plant_trait/reagent/fruit/nutriment, /datum/plant_trait/reagent/fruit/vitamin)
 	fast_reagents = list(/datum/reagent/medicine/synaptizine = PLANT_REAGENT_SMALL, /datum/reagent/medicine/omnizine = PLANT_REAGENT_SMALL, /datum/reagent/drug/space_drugs = PLANT_REAGENT_SMALL)
-	mutations = list(/datum/plant_feature/fruit/ambrosia/gaia)
+	mutations = list(/datum/plant_feature/fruit/ambrosia/gaia = 10)
 
 /*
 	Ambrosia Vulgaris

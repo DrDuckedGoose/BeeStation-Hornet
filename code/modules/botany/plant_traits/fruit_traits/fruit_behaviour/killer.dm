@@ -45,4 +45,3 @@
 	name = "Bio-Benign"
 	desc = "The fruit exhibits semi-sentient tendincies. Triggering the fruit will transform it into a benign 'monster'."
 	awaken_mob = /mob/living/simple_animal/friendly_fruit
-	//TODO: Add the option for player control - Racc

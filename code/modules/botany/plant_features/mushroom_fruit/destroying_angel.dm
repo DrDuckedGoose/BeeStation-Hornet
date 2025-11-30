@@ -8,7 +8,7 @@
 	fruit_product = /obj/item/food/grown/mushroom/angel
 	total_volume = PLANT_FRUIT_VOLUME_SMALL
 	growth_time = PLANT_FRUIT_GROWTH_FAST
-	fast_reagents = list(/datum/reagent/toxin/amatoxin = PLANT_REAGENT_SMALL, /datum/reagent/drug/mushroomhallucinogen = PLANT_FRUIT_VOLUME_MICRO, /datum/reagent/toxin/amanitin = PLANT_REAGENT_MEDIUM)
+	fast_reagents = list(/datum/reagent/toxin/amatoxin = PLANT_REAGENT_SMALL, /datum/reagent/drug/mushroomhallucinogen = PLANT_REAGENT_SMALL, /datum/reagent/toxin/amanitin = PLANT_REAGENT_MEDIUM)
 	mutations = list(/datum/plant_feature/fruit/mushroom/fly)
 
 /*
@@ -23,5 +23,5 @@
 	fruit_product = /obj/item/food/grown/mushroom/amanita
 	total_volume = PLANT_FRUIT_VOLUME_SMALL
 	growth_time = PLANT_FRUIT_GROWTH_FAST
-	fast_reagents = list(/datum/reagent/toxin/amatoxin = PLANT_REAGENT_MEDIUM, /datum/reagent/drug/mushroomhallucinogen = PLANT_FRUIT_VOLUME_MICRO, /datum/reagent/growthserum = PLANT_REAGENT_SMALL)
+	fast_reagents = list(/datum/reagent/toxin/amatoxin = PLANT_REAGENT_MEDIUM, /datum/reagent/drug/mushroomhallucinogen = PLANT_REAGENT_SMALL, /datum/reagent/growthserum = PLANT_REAGENT_SMALL)
 	mutations = list(/datum/plant_feature/fruit/mushroom/destroying_angel)

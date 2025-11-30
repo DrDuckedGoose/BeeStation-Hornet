@@ -6,4 +6,4 @@
 	var/saved
 
 /obj/item/plant_disk/test
-	saved = new /datum/plant_trait/fruit/spikey()
+	saved = new /datum/plant_trait/seperated_contents()
