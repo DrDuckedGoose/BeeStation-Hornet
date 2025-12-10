@@ -6,7 +6,6 @@
 	supervisors = "the head of personnel"
 	faction = "Station"
 	total_positions = 1
-	spawn_positions = 1
 	selection_color = "#dddddd"
 	exp_requirements = 60
 	exp_type = EXP_TYPE_CREW
@@ -39,7 +38,7 @@
 
 	id = /obj/item/card/id/job/curator
 	shoes = /obj/item/clothing/shoes/laceup
-	belt = /obj/item/modular_computer/tablet/pda/curator
+	belt = /obj/item/modular_computer/tablet/pda/preset/curator
 	ears = /obj/item/radio/headset/headset_curator
 	uniform = /obj/item/clothing/under/rank/civilian/curator
 	l_hand = /obj/item/storage/bag/books
@@ -52,10 +51,10 @@
 		/obj/item/barcodescanner = 1
 	)
 
-/datum/outfit/job/curator/post_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
+/datum/outfit/job/curator/post_equip(mob/living/carbon/human/H, visuals_only = FALSE)
 	..()
 
-	if(visualsOnly)
+	if(visuals_only)
 		return
 
 	H.grant_all_languages(source = LANGUAGE_CURATOR)

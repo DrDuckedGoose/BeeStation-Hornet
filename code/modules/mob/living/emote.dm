@@ -294,9 +294,9 @@
 	mob_type_blacklist_typecache = list(/mob/living/carbon/human) //Humans get specialized scream.
 	sound_wall_ignore = TRUE
 
-/datum/emote/living/scream/select_message_type(mob/user, intentional)
+/datum/emote/living/scream/select_message_type(mob/user, message, intentional)
 	. = ..()
-	if(!intentional && isanimal(user))
+	if(!intentional && isanimal_or_basicmob(user))
 		return "makes a loud and pained whimper."
 
 /datum/emote/living/scowl
@@ -490,7 +490,7 @@
 	if(QDELETED(user))
 		return FALSE
 
-	if(user.client && user.client.prefs.muted & MUTE_IC)
+	if(user.client && user.client.player_details.muted & MUTE_IC)
 		to_chat(user, "You cannot send IC messages (muted).")
 		return FALSE
 

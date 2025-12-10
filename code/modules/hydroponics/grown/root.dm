@@ -65,7 +65,7 @@
 	species = "whitebeet"
 	plantname = "White-Beet Plants"
 	product = /obj/item/food/grown/whitebeet
-	lifespan = 60
+	lifespan = 240
 	endurance = 50
 	yield = 6
 	growing_icon = 'icons/obj/hydroponics/growing_vegetables.dmi'
@@ -91,7 +91,7 @@
 	species = "redbeet"
 	plantname = "Red-Beet Plants"
 	product = /obj/item/food/grown/redbeet
-	lifespan = 60
+	lifespan = 240
 	endurance = 50
 	yield = 6
 	growing_icon = 'icons/obj/hydroponics/growing_vegetables.dmi'
