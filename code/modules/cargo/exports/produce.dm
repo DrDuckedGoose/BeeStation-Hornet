@@ -27,7 +27,8 @@
 		base_price = 0
 
 	// Scale price by
-	var/potency_multiplier = produce.seed.potency / 100
+	//TODO: Condier how we'll do this with new stuff - Racc
+	var/potency_multiplier = 1//produce.seed.potency / 100
 	if(base_price)	// Makes sure items that HAVE a value don't get completely dogged by the calculations causing it to return 0
 		return max(1, round(base_price * demand_ratio) * potency_multiplier)
 	else

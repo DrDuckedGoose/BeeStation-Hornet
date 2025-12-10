@@ -1,3 +1,4 @@
+//TODO: add parts, and machine board. Parts improve reagent capacity - Racc
 /obj/item/plant_tray
 	name = "plant tray"
 	desc = "A fifth generation space compatible botanical growing tray."
@@ -194,3 +195,13 @@
 	layer = layer_override
 	over_water = mutable_appearance('icons/obj/hydroponics/features/generic.dmi', "[key]_water_over", layer_override+0.1)
 	add_overlay(over_water)
+
+/*
+TODO: port this - Racc
+/obj/machinery/hydroponics/soil
+
+else if(istype(O, /obj/item/storage/bag/plants))
+		harvest_plant(user)
+		for(var/obj/item/food/grown/G in locate(user.x,user.y,user.z))
+			O.atom_storage?.attempt_insert(G, user, TRUE)
+*/

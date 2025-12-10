@@ -34,27 +34,9 @@
 		seeds.forceMove(src)
 		return
 //Turn fruit into seeds
-	//Shortcut for fruit that appears roundstart
-	if(istype(fruit) && fruit.seed)
-		for(var/index in 1 to seed_amount)
-			new fruit.seed(get_turf(src))
-		to_chat(user, "<span class='notice'>[seed_amount] seeds created!</span>")
-		qdel(C)
-		return
-	//General genes
-	var/list/genes = list()
-	SEND_SIGNAL(C, COMSIG_PLANT_GET_GENES, genes)
-	//Features
-	var/list/features = genes[PLANT_GENE_INDEX_FEATURES]
-	//species ID
-	var/species_id = genes[PLANT_GENE_INDEX_ID]
-	//Impart onto seeds
-	if(!length(features))
-		return
-	for(var/index in 1 to seed_amount)
-		new /obj/item/plant_seeds(get_turf(src), features, species_id)
+	C.forceMove(get_turf(src))
+	seedify(C, seed_amount)
 	to_chat(user, "<span class='notice'>[seed_amount] seeds created!</span>")
-	qdel(C)
 
 /obj/machinery/seeder/ui_interact(mob/user, datum/tgui/ui)
 	ui = SStgui.try_update_ui(user, src, ui)
@@ -104,3 +86,21 @@
 			if(stored_seeds_amount[species_id] <= 0 && focused_seeds == ref(seeds))
 				focused_seeds = null
 			ui_update()
+
+///proc used to transform produce into seeds
+/proc/seedify(obj/produce, _seed_amount)
+	//General genes
+	var/list/genes = list()
+	SEND_SIGNAL(produce, COMSIG_PLANT_GET_GENES, genes)
+	if(!length(genes))
+		return
+	//Features
+	var/list/features = genes[PLANT_GENE_INDEX_FEATURES]
+	//species ID
+	var/species_id = genes[PLANT_GENE_INDEX_ID]
+	//Impart onto seeds
+	if(!length(features))
+		return
+	for(var/index in 1 to _seed_amount)
+		new /obj/item/plant_seeds(produce.loc, features, species_id)
+	qdel(produce)

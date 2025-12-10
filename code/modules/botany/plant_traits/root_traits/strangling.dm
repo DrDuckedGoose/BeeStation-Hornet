@@ -26,7 +26,7 @@
 	if(strangle_loc)
 		UnregisterSignal(strangle_loc, COMSIG_PLANT_NEEDS_PAUSE)
 	strangle_loc = plant_item.loc
-	RegisterSignal(strangle_loc, COMSIG_PARENT_QDELETING, PROC_REF(catch_qdel))
+	RegisterSignal(strangle_loc, COMSIG_QDELETING, PROC_REF(catch_qdel))
 	RegisterSignal(strangle_loc, COMSIG_PLANT_NEEDS_PAUSE, PROC_REF(catch_pause))
 
 /datum/plant_trait/roots/strangling/proc/catch_pause(datum/source, datum/component/plant/_plant, list/problem_list)

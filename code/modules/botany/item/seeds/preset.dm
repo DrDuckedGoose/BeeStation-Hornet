@@ -1,3 +1,7 @@
+/*
+	Seeds acquirable in normal circumstance, typically through the vendor
+*/
+
 //Apple
 /obj/item/plant_seeds/preset/apple
 	name = "apple seeds"
@@ -237,6 +241,7 @@
 	name = "cannabis seeds"
 	name_override = "cannabis bush"
 	plant_features = list(/datum/plant_feature/roots, /datum/plant_feature/body/bush_vine/cannabis, /datum/plant_feature/fruit/cannabis)
+	trade_flags = TRADE_CONTRABAND
 
 //Poppy
 /obj/item/plant_seeds/preset/poppy
@@ -273,9 +278,3 @@
 	name = "diona pod seeds"
 	name_override = "diona pod"
 	plant_features = list(/datum/plant_feature/roots, /datum/plant_feature/body/diona_pod, /datum/plant_feature/fruit/cabbage/diona)
-
-//Harebell
-/obj/item/plant_seeds/preset/harebell
-	name = "harebell seeds"
-	name_override = "harebell"
-	plant_features = list(/datum/plant_feature/roots, /datum/plant_feature/body/bush_vine/flower, /datum/plant_feature/fruit/flower/harebell)

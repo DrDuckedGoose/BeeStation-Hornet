@@ -1,7 +1,6 @@
 /*
 	Plump
 */
-//TODO: - Sprites
 /datum/plant_feature/fruit/mushroom/plump
 	species_name = "denso fungus"
 	name = "plump helmet"
@@ -11,3 +10,15 @@
 	fruit_product = /obj/item/food/grown/mushroom/plumphelmet
 	total_volume = PLANT_FRUIT_VOLUME_SMALL
 	growth_time = PLANT_FRUIT_GROWTH_FAST
+
+/*
+	Walking
+*/
+/datum/plant_feature/fruit/mushroom/plump/walking
+	species_name = "ingredior fungus"
+	fruit_product = /obj/item/food/grown/mushroom/plumphelmet
+	plant_traits = list(/datum/plant_trait/fruit/killer/friendly/walking)
+	total_volume = PLANT_FRUIT_VOLUME_SMALL
+	growth_time = PLANT_FRUIT_GROWTH_FAST
+
+

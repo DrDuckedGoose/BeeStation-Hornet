@@ -59,3 +59,16 @@
 	//gay tide station pride - Pirill
 	name = "Pink Bioluminescence"
 	glow_color = "#FFB3DA"
+
+//White
+/datum/plant_trait/fruit/biolight/white
+	//gay tide station pride - Pirill
+	name = "White Bioluminescence"
+	glow_color = "#FFF"
+
+//Shadow
+/datum/plant_trait/fruit/biolight/dark
+	name = "Shadow Emission"
+	desc = "Makes the fruit emmit shadows."
+	glow_color = "#AAD84B"
+	glow_power = 0.04

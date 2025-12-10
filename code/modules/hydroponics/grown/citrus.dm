@@ -8,22 +8,6 @@
 	wine_power = 30
 
 // Lime
-/obj/item/seeds/lime
-	name = "pack of lime seeds"
-	desc = "These are very sour seeds."
-	icon_state = "seed-lime"
-	species = "lime"
-	plantname = "Lime Tree"
-	product = /obj/item/food/grown/citrus/lime
-	lifespan = 220
-	endurance = 50
-	yield = 4
-	potency = 15
-	growing_icon = 'icons/obj/hydroponics/growing_fruits.dmi'
-	genes = list(/datum/plant_gene/trait/repeated_harvest)
-	mutatelist = list(/obj/item/seeds/orange)
-	reagents_add = list(/datum/reagent/consumable/nutriment/vitamin = 0.04, /datum/reagent/consumable/nutriment = 0.05)
-
 /obj/item/food/grown/citrus/lime
 	seed = /obj/item/plant_seeds/preset/lime
 	name = "lime"
@@ -32,24 +16,6 @@
 	juice_typepath = /datum/reagent/consumable/limejuice
 
 // Orange
-/obj/item/seeds/orange
-	name = "pack of orange seeds"
-	desc = "Sour seeds."
-	icon_state = "seed-orange"
-	species = "orange"
-	plantname = "Orange Tree"
-	product = /obj/item/food/grown/citrus/orange
-	lifespan = 240
-	endurance = 50
-	yield = 5
-	potency = 20
-	growing_icon = 'icons/obj/hydroponics/growing_fruits.dmi'
-	icon_grow = "lime-grow"
-	icon_dead = "lime-dead"
-	genes = list(/datum/plant_gene/trait/repeated_harvest)
-	mutatelist = list(/obj/item/seeds/lime, /obj/item/seeds/orange_3d)
-	reagents_add = list(/datum/reagent/consumable/nutriment/vitamin = 0.04, /datum/reagent/consumable/nutriment = 0.05)
-
 /obj/item/food/grown/citrus/orange
 	seed = /obj/item/plant_seeds/preset/orange
 	name = "orange"
@@ -59,23 +25,6 @@
 	distill_reagent = /datum/reagent/consumable/ethanol/triple_sec
 
 // Lemon
-/obj/item/seeds/lemon
-	name = "pack of lemon seeds"
-	desc = "These are sour seeds."
-	icon_state = "seed-lemon"
-	species = "lemon"
-	plantname = "Lemon Tree"
-	product = /obj/item/food/grown/citrus/lemon
-	lifespan = 220
-	endurance = 45
-	yield = 4
-	growing_icon = 'icons/obj/hydroponics/growing_fruits.dmi'
-	icon_grow = "lime-grow"
-	icon_dead = "lime-dead"
-	genes = list(/datum/plant_gene/trait/repeated_harvest)
-	mutatelist = list(/obj/item/seeds/firelemon)
-	reagents_add = list(/datum/reagent/consumable/nutriment/vitamin = 0.04, /datum/reagent/consumable/nutriment = 0.05)
-
 /obj/item/food/grown/citrus/lemon
 	seed = /obj/item/plant_seeds/preset/lemon
 	name = "lemon"
@@ -84,22 +33,6 @@
 	juice_typepath = /datum/reagent/consumable/lemonjuice
 
 // Combustible lemon
-/obj/item/seeds/firelemon //combustible lemon is too long so firelemon
-	name = "pack of combustible lemon seeds"
-	desc = "When life gives you lemons, don't make lemonade. Make life take the lemons back! Get mad! I don't want your damn lemons!"
-	icon_state = "seed-firelemon"
-	species = "firelemon"
-	plantname = "Combustible Lemon Tree"
-	product = /obj/item/food/grown/firelemon
-	growing_icon = 'icons/obj/hydroponics/growing_fruits.dmi'
-	icon_grow = "lime-grow"
-	icon_dead = "lime-dead"
-	genes = list(/datum/plant_gene/trait/repeated_harvest)
-	lifespan = 220
-	endurance = 45
-	yield = 4
-	reagents_add = list(/datum/reagent/consumable/nutriment = 0.05, /datum/reagent/sulfur = 0.1, /datum/reagent/medicine/charcoal = 0.1, /datum/reagent/saltpetre = 0.1)
-
 /obj/item/food/grown/firelemon
 	name = "Combustible Lemon"
 	desc = "Made for burning houses down."
@@ -108,6 +41,7 @@
 	wine_power = 70
 	discovery_points = 300
 
+//TODO: Convert to traits - Racc
 /obj/item/food/grown/firelemon/attack_self(mob/living/user)
 	user.visible_message(span_warning("[user] primes [src]!"), span_userdanger("You prime [src]!"))
 	log_bomber(user, "primed a", src, "for detonation")
@@ -144,23 +78,6 @@
 			qdel(src)
 
 //3D Orange
-/obj/item/seeds/orange_3d
-	name = "pack of extradimensional orange seeds"
-	desc = "Polygonal seeds."
-	icon_state = "seed-orange"
-	species = "orange"
-	plantname = "Extradimensional Orange Tree"
-	product = /obj/item/food/grown/citrus/orange_3d
-	lifespan = 240
-	endurance = 50
-	yield = 5
-	potency = 20
-	growing_icon = 'icons/obj/hydroponics/growing_fruits.dmi'
-	icon_grow = "lime-grow"
-	icon_dead = "lime-dead"
-	genes = list(/datum/plant_gene/trait/repeated_harvest, /datum/plant_gene/trait/glow/orange, /datum/plant_gene/trait/richer_juice)
-	reagents_add = list(/datum/reagent/consumable/nutriment/vitamin = 0.04, /datum/reagent/consumable/nutriment = 0.05)
-
 /obj/item/food/grown/citrus/orange_3d
 	name = "extradimensional orange"
 	desc = "You can hardly wrap your head around this thing."

@@ -29,7 +29,7 @@
 	skip_growth = _skip_growth
 	plant_item.flags_1 |= IS_ONTOP_1
 	//Setup signals for spade behaviour
-	RegisterSignal(plant_item, COMSIG_PARENT_ATTACKBY, PROC_REF(catch_attackby))
+	RegisterSignal(plant_item, COMSIG_ATOM_AFTER_ATTACKEDBY, PROC_REF(catch_attackby))
 	//Species ID setup
 	if(!_species_id)
 		compile_species_id()

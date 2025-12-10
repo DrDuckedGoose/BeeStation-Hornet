@@ -1,21 +1,4 @@
 // A very special plant, deserving it's own file.
-
-/obj/item/seeds/kudzu
-	name = "pack of kudzu seeds"
-	desc = "These seeds grow into a weed that grows incredibly fast."
-	icon_state = "seed-kudzu"
-	species = "kudzu"
-	plantname = "Kudzu"
-	product = /obj/item/food/grown/kudzupod
-	genes = list(/datum/plant_gene/trait/repeated_harvest, /datum/plant_gene/trait/plant_type/weed_hardy)
-	lifespan = 80
-	endurance = 10
-	yield = 4
-	growthstages = 4
-	rarity = 30
-	var/list/mutations = list()
-	reagents_add = list(/datum/reagent/medicine/charcoal = 0.04, /datum/reagent/consumable/nutriment = 0.02)
-
 /obj/item/seeds/kudzu/Copy()
 	var/obj/item/seeds/kudzu/S = ..()
 	S.mutations = mutations.Copy()

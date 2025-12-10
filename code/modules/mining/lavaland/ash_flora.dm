@@ -148,22 +148,6 @@
 	regrowth_time_low = 4800
 	regrowth_time_high = 7200
 
-
-/obj/structure/flora/ash/strange
-	name = "strange plant"
-	desc = "An alient plant born under warming glow of space radiation. What mysteries does it hold? Botanist should know."
-	icon_state = "xpod1"
-	base_icon_state = "xpod"
-	harvest = /obj/item/food/grown/random
-	needs_sharp_harvest = FALSE
-	harvest_amount_high = 2
-	harvest_time = 10
-	harvest_message_low = "You bravely pick a strange plant."
-	harvest_message_high = "You bravely pick a pair of strange plant."
-	light_range = 1.5
-	light_power = 2.1
-	destroy_on_harvest = TRUE
-
 /obj/structure/flora/ash/cacti/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/caltrop, min_damage = 3, max_damage = 6, probability = 70)
@@ -217,7 +201,8 @@
 	wine_power = 50
 
 //SEEDS
-
+//TODO: port these - Racc
+/*
 /obj/item/seeds/lavaland
 	name = "lavaland seeds"
 	desc = "You should never see this."
@@ -305,3 +290,4 @@
 		add_overlay(filling)
 	else
 		icon_state = "mushroom_bowl"
+*/

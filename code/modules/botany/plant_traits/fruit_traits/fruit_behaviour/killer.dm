@@ -45,3 +45,10 @@
 	name = "Bio-Benign"
 	desc = "The fruit exhibits semi-sentient tendincies. Triggering the fruit will transform it into a benign 'monster'."
 	awaken_mob = /mob/living/simple_animal/friendly_fruit
+
+/*
+	Variant for walking mushroom
+*/
+
+/datum/plant_trait/fruit/killer/friendly/walking
+	awaken_mob = /mob/living/simple_animal/hostile/mushroom

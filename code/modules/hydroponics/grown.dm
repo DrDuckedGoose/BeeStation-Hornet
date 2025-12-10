@@ -52,13 +52,23 @@ CREATION_TEST_IGNORE_SUBTYPES(/obj/item/food/grown)
 	make_dryable()
 	if(discovery_points)
 		AddComponent(/datum/component/discoverable, discovery_points)
-	//Make sure maploaded produce loads with it's traits
+	//Make sure maploaded produce loads with it's traits & genes
 	if(!seed || !mapload)
 		return
 	var/obj/item/plant_seeds/new_seed = new seed(src)
+	//Traits - This doesn't cover modifications added by body & root traits, sue me
 	var/datum/plant_feature/fruit/fruit_feature = locate(/datum/plant_feature/fruit) in new_seed.plant_features
 	for(var/datum/plant_trait/trait as anything in fruit_feature?.plant_traits)
 		trait.copy(src)
+	//Add genes
+	if(!SSbotany.gene_cache["[new_seed.species_id]"])
+		var/list/plant_genes = list()
+		for(var/datum/plant_feature/gene as anything in new_seed.plant_features)
+			if(QDELETED(gene))
+				continue
+			plant_genes += gene?.copy()
+		SSbotany.gene_cache[new_seed.species_id] = plant_genes
+	AddElement(/datum/element/plant_genes, SSbotany.gene_cache["[new_seed.species_id]"], new_seed.species_id)
 	qdel(new_seed)
 
 /obj/item/food/grown/Destroy()
@@ -85,10 +95,6 @@ CREATION_TEST_IGNORE_SUBTYPES(/obj/item/food/grown)
 /obj/item/food/grown/make_leave_trash()
 	if(trash_type)
 		AddElement(/datum/element/food_trash, trash_type, FOOD_TRASH_OPENABLE, TYPE_PROC_REF(/obj/item/food/grown/, generate_trash))
-	return
-
-/obj/item/food/grown/proc/squash(atom/target)
-	//TODO: - Racc
 	return
 
 ///Callback for bonus behavior for generating trash of grown food.

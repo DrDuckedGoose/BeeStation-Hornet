@@ -35,8 +35,8 @@
 
 ///Use this to add your changes to the fruit item
 /datum/plant_trait/fruit/proc/setup_fruit_parent()
-	RegisterSignal(fruit_parent, COMSIG_PARENT_EXAMINE, PROC_REF(catch_examine))
-	RegisterSignal(fruit_parent, COMSIG_PARENT_QDELETING, PROC_REF(catch_qdel))
+	RegisterSignal(fruit_parent, COMSIG_ATOM_EXAMINE, PROC_REF(catch_examine))
+	RegisterSignal(fruit_parent, COMSIG_QDELETING, PROC_REF(catch_qdel))
 
 /datum/plant_trait/fruit/proc/catch_fruit(datum/source, obj/item/fruit)
 	SIGNAL_HANDLER

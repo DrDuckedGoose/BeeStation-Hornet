@@ -40,5 +40,22 @@
 	species_name = "gramen mediocris"
 	name = "fairy grass"
 	icon_state = "fairy_grass"
+	plant_traits = list(/datum/plant_trait/fruit/biolight/pink)
 	fruit_product = /obj/item/food/grown/grass/fairy
 	mutations = list(/datum/plant_feature/fruit/grass)
+
+/datum/plant_feature/fruit/grass/fairy/New(datum/component/plant/_parent)
+	. = ..()
+	var/mutable_appearance/emissive = emissive_appearance(icon, colour_overlay)
+	emissive.color = colour_override
+	feature_appearance.add_overlay(emissive)
+
+/datum/plant_feature/fruit/grass/fairy/setup_fruit(datum/source, harvest_amount, list/_visual_fruits, skip_growth)
+	. = ..()
+	//Inherit the colour of any bio light we have
+	var/datum/plant_trait/fruit/biolight/light = locate(/datum/plant_trait/fruit/biolight) in plant_traits
+	if(!light)
+		return
+	for(var/fruit_index as anything in visual_fruits)
+		var/obj/effect/fruit_effect = visual_fruits[fruit_index]
+		fruit_effect.color = light.glow_color

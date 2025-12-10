@@ -9,7 +9,7 @@
 	layer_offset = 1.2
 	gain_weeds = FALSE
 
-/obj/item/plant_tray/pot/ComponentInitialize()
+/obj/item/plant_tray/pot/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/tactical)
 	AddComponent(/datum/component/two_handed, require_twohands=TRUE, force_unwielded=10, force_wielded=10)

@@ -22,7 +22,7 @@
 	visual_upset = _visual_upset || visual_upset
 	layer_upset = _layer_upset || layer_upset
 	gain_weeds = _gain_weeds
-	RegisterSignal(parent, COMSIG_PARENT_ATTACKBY, PROC_REF(catch_attack))
+	RegisterSignal(parent, COMSIG_ATOM_AFTER_ATTACKEDBY, PROC_REF(catch_attack))
 	RegisterSignal(parent, COMSIG_ATOM_EXAMINE, PROC_REF(catch_examine))
 	RegisterSignal(parent, COMSIG_ATOM_ENTERED, PROC_REF(catch_entered))
 	RegisterSignal(parent, COMSIG_ATOM_EXITED, PROC_REF(catch_exited))

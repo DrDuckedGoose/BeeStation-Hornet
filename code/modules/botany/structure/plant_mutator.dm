@@ -1,3 +1,5 @@
+#define RAD_GAIN_MOD 0.01
+
 /obj/machinery/plant_machine/plant_mutator
 	name = "plant mutator"
 	desc = "An advanced device designed to gawk gawk."
@@ -13,7 +15,9 @@
 	///Catalyst item we use for source of rads
 	var/obj/item/catalyst
 	///Shortcut to catalyst's radiation component
-	var/datum/component/radioactive/radiation
+	var/datum/component/irradiated/radiation
+	///How much rads we've saved up
+	var/stored_rads = 0
 
 	///The plant we're michael-waving
 	var/obj/item/plant
@@ -31,12 +35,24 @@
 	var/working = FALSE
 	var/working_time = 5 SECONDS
 
+/obj/machinery/plant_machine/plant_mutator/Initialize(mapload)
+	. = ..()
+	START_PROCESSING(SSobj, src)
+	var/obj/item/irradiated_rock/rock = new(get_turf(src))
+	attackby(rock)
+
+/obj/machinery/plant_machine/plant_mutator/process(delta_time)
+	if(!radiation)
+		return
+	stored_rads += radiation.intensity * RAD_GAIN_MOD * delta_time
+	ui_update()
+
 //Insert
 /obj/machinery/plant_machine/plant_mutator/attackby(obj/item/C, mob/user)
 	if(working)
 		return ..()
 //Catalyst
-	radiation = radiation || C.GetComponent(/datum/component/radioactive)
+	radiation = radiation || C.GetComponent(/datum/component/irradiated)
 	if(radiation && !catalyst)
 		C.forceMove(src)
 		catalyst = C
@@ -106,7 +122,7 @@
 	//Catalyst info
 	data["catalyst"] = capitalize(catalyst?.name)
 	data["catalyst_desc"] = catalyst?.desc
-	data["catalyst_strength"] = radiation?.strength
+	data["catalyst_strength"] = stored_rads
 	//Machine info
 	data["confirm_radiation"] = confirm_radiation
 	data["working"] = working
@@ -148,7 +164,7 @@
 				playsound(src, 'sound/machines/terminal_error.ogg', 60)
 				say("ERROR: No catalyst inserted!")
 				return
-			if(radiation?.strength <= 0)
+			if(stored_rads <= 0)
 				playsound(src, 'sound/machines/terminal_error.ogg', 60)
 				say("ERROR: Catalyst lacks adequate radioactivity!")
 				return
@@ -161,11 +177,11 @@
 			var/datum/plant_feature/new_feature = pick(feature.mutations)
 			//Tax radiation
 			var/tax = feature.mutations[new_feature] || 1
-			if(radiation?.strength-tax <= 0)
+			if(stored_rads-tax <= 0)
 				playsound(src, 'sound/machines/terminal_error.ogg', 60)
 				say("ERROR: Catalyst lacks adequate radioactivity, operation requires [tax] Roentgen!")
 				return
-			radiation.strength -= tax
+			stored_rads -= tax
 			//Flight checks
 			new_feature = new new_feature(plant_component)
 			for(var/datum/plant_feature/current_feature as anything in plant_component.plant_features-feature)
@@ -221,3 +237,17 @@
 	icon_state = "service"
 	build_path = /obj/machinery/plant_machine/plant_mutator
 	req_components = list(/obj/item/stock_parts/matter_bin = 2, /obj/item/stock_parts/manipulator = 2, /obj/item/stock_parts/capacitor = 1, /obj/item/stock_parts/scanning_module = 1)
+
+/*
+
+*/
+/obj/item/irradiated_rock
+	name = "debris"
+	desc = "A piece of cement broken away from its original structure."
+	icon_state = "skub"
+
+/obj/item/irradiated_rock/Initialize(mapload)
+	. = ..()
+	AddComponent(/datum/component/irradiated, 1)
+
+#undef RAD_GAIN_MOD

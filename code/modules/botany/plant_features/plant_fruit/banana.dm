@@ -40,3 +40,13 @@
 	/datum/plant_trait/fruit/slippery, /datum/plant_trait/fruit/bluespace)
 	fast_reagents = list(/datum/reagent/bluespace = PLANT_REAGENT_SMALL)
 	mutations = list(/datum/plant_feature/fruit/banana)
+
+/*
+	Bombnana
+*/
+/datum/plant_feature/fruit/banana/bomb
+	name = "bombnana"
+	fruit_product = /obj/item/food/grown/banana/bombanana
+	plant_traits = list(/datum/plant_trait/reagent/fruit/nutriment, /datum/plant_trait/reagent/fruit/vitamin/large,
+	/datum/plant_trait/fruit/slippery)
+	mutations = list()

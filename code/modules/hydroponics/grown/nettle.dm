@@ -1,34 +1,3 @@
-/obj/item/seeds/nettle
-	name = "pack of nettle seeds"
-	desc = "These seeds grow into nettles."
-	icon_state = "seed-nettle"
-	species = "nettle"
-	plantname = "Nettles"
-	product = /obj/item/food/grown/nettle
-	lifespan = 120
-	endurance = 40 // tuff like a toiger
-	yield = 4
-	growthstages = 5
-	genes = list(/datum/plant_gene/trait/repeated_harvest, /datum/plant_gene/trait/plant_type/weed_hardy)
-	mutatelist = list(/obj/item/seeds/nettle/death)
-	reagents_add = list(/datum/reagent/toxin/acid = 0.25)
-	trade_flags = TRADE_CONTRABAND
-
-/obj/item/seeds/nettle/death
-	name = "pack of death-nettle seeds"
-	desc = "These seeds grow into death-nettles."
-	icon_state = "seed-deathnettle"
-	species = "deathnettle"
-	plantname = "Death Nettles"
-	product = /obj/item/food/grown/nettle/death
-	endurance = 25
-	maturation = 8
-	yield = 2
-	genes = list(/datum/plant_gene/trait/repeated_harvest, /datum/plant_gene/trait/plant_type/weed_hardy, /datum/plant_gene/trait/stinging)
-	mutatelist = list()
-	reagents_add = list(/datum/reagent/toxin/acid/fluacid = 0.12)
-	rarity = 20
-
 /obj/item/food/grown/nettle // "snack". yeah. try eating it, pussy
 	seed = /obj/item/plant_seeds/preset/nettle
 	name = "nettle"

@@ -1,6 +1,8 @@
 /*
 	Adds a reagent to the plant, typically fruit
 */
+//TODO: Make blood reagents always o- - Racc
+//TODO: make argument for init-ing this on a fruit - Racc
 /datum/plant_trait/reagent
 	genetic_cost = 0
 	random_trait = FALSE

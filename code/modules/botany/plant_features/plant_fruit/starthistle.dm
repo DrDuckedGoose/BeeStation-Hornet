@@ -5,7 +5,7 @@
 	species_name = "stella carduus"
 	name = "starthistle"
 	icon_state = "star"
-	fruit_product = null
+	fruit_product = /obj/item/plant_seeds/preset/starthistle
 	plant_traits = list(/datum/plant_trait/reagent/fruit/nutriment, /datum/plant_trait/reagent/fruit/vitamin,
 	/datum/plant_trait/fruit/liquid_contents)
 	total_volume = PLANT_FRUIT_VOLUME_SMALL

@@ -30,4 +30,16 @@
 	fruit_product = /obj/item/food/grown/mushroom/glowshroom/glowcap
 	plant_traits = list(/datum/plant_trait/fruit/biolight/red)
 	fast_reagents = list(/datum/reagent/teslium = PLANT_REAGENT_SMALL)
+	mutations = list(/datum/plant_feature/fruit/mushroom/glowshroom/shadow)
+
+/*
+	Glowcap
+*/
+/datum/plant_feature/fruit/mushroom/glowshroom/shadow
+	species_name = "umbra fungus"
+	name = "shadowshroom"
+	colour_override = "#2f2636"
+	fruit_product = /obj/item/food/grown/mushroom/glowshroom/shadowshroom
+	plant_traits = list(/datum/plant_trait/fruit/biolight/dark)
+	fast_reagents = list(/datum/reagent/uranium/radium = PLANT_REAGENT_MEDIUM)
 	mutations = list(/datum/plant_feature/fruit/mushroom/glowshroom)

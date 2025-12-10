@@ -279,7 +279,7 @@
 			/obj/item/seeds,
 			/obj/item/grown,
 			/obj/item/food/honeycomb,
-			/obj/item/disk/plantgene,
+			/obj/item/plant_disk,
 			/obj/item/food/seaweed_sheet
 		)
 	)

@@ -1,6 +1,16 @@
 import { ButtonCheckbox } from 'tgui/components/Button';
+
 import { useBackend } from '../backend';
-import { Button, Section, Box, Flex, Input, BlockQuote, Divider, Icon, Dimmer, ProgressBar } from '../components';
+import {
+  Box,
+  Button,
+  Dimmer,
+  Divider,
+  Flex,
+  Icon,
+  ProgressBar,
+  Section,
+} from '../components';
 import { Window } from '../layouts';
 
 export const PlantMutator = (props) => {
@@ -34,7 +44,9 @@ export const PlantMutator = (props) => {
           <Flex direction={'column'} height={'100%'}>
             {/* World building fluff top banner */}
             <Flex.Item>
-              <Section textAlign={'center'}>Irradiator Kiln [Version 1.0.0.3]</Section>
+              <Section textAlign={'center'}>
+                Irradiator Kiln [Version 1.0.0.3]
+              </Section>
             </Flex.Item>
             {/* Plant stuff column */}
             <Flex.Item>
@@ -53,8 +65,11 @@ export const PlantMutator = (props) => {
                       <Section>
                         {plant_feature_data.length
                           ? plant_feature_data.map((feature_data) => (
-                            <PlantFeaturePanel feature={feature_data} key={feature_data} />
-                          ))
+                              <PlantFeaturePanel
+                                feature={feature_data}
+                                key={feature_data}
+                              />
+                            ))
                           : '...'}
                       </Section>
                     </Flex.Item>
@@ -63,18 +78,25 @@ export const PlantMutator = (props) => {
                       {/* Title */}
                       <Section>
                         <h1>{catalyst || 'No Catalyst Inserted'}</h1>
+                        <Divider />
+                        {catalyst_desc || '...'}
                       </Section>
                       {/* Body */}
                       <Section>
-                        <Box textAlign={'center'}>Roentgen</Box>
+                        <Box textAlign={'center'}>Irradiator Coil Charge</Box>
                         <ProgressBar
                           color={'#ffff77'}
-                          textColor={catalyst_strength ? (catalyst_strength > 90 ? '#252517ff' : '#ffff77') : '#ffff77'}
-                          value={Math.min(catalyst_strength * 0.01, 1)}>
+                          textColor={
+                            catalyst_strength
+                              ? catalyst_strength > 90
+                                ? '#252517ff'
+                                : '#ffff77'
+                              : '#ffff77'
+                          }
+                          value={Math.min(catalyst_strength * 0.01, 1)}
+                        >
                           {catalyst_strength || '0'}
                         </ProgressBar>
-                        <Divider />
-                        {catalyst_desc || '...'}
                       </Section>
                     </Flex.Item>
                   </Flex>
@@ -87,11 +109,16 @@ export const PlantMutator = (props) => {
                       className={'plant__button'}
                       checked={port_traits}
                       tooltip="Port traits from the original feature to the mutated result, when possible"
-                      onClick={() => act('toggle_port', { port_state: !port_traits })}>
+                      onClick={() =>
+                        act('toggle_port', { port_state: !port_traits })
+                      }
+                    >
                       Preserve Traits
                     </ButtonCheckbox>
                   </Section>
-                  <Section>{current_feature ? <InspectionPanel /> : ' ... '}</Section>
+                  <Section>
+                    {current_feature ? <InspectionPanel /> : ' ... '}
+                  </Section>
                 </Flex.Item>
               </Flex>
             </Flex.Item>
@@ -152,10 +179,14 @@ const InspectionPanel = (props) => {
         <Button className="plant__button--display--beacon" width={'100%'}>
           {current_feature_data.map((data_set) =>
             data_set['data_title'] ? (
-              <PlantDataInstance title={data_set['data_title']} body={data_set['data_field']} key={data_set} />
+              <PlantDataInstance
+                title={data_set['data_title']}
+                body={data_set['data_field']}
+                key={data_set}
+              />
             ) : (
               <Divider key={data_set} />
-            )
+            ),
           )}
         </Button>
       </Flex.Item>
@@ -172,7 +203,9 @@ const InspectionPanel = (props) => {
             />
           ))
         ) : (
-          <Button className="plant__button--display--beacon">No Traits Found</Button>
+          <Button className="plant__button--display--beacon">
+            No Traits Found
+          </Button>
         )}
       </Flex.Item>
     </Flex>
@@ -188,12 +221,21 @@ const PlantFeaturePanel = (props) => {
       <Button
         className="plant__button"
         width={'100%'}
-        onClick={() => (confirm_radiation ? act('cancel') : act('select_feature', { key: feature['key'] }))}
-        selected={feature['key'] === current_feature}>
+        onClick={() =>
+          confirm_radiation
+            ? act('cancel')
+            : act('select_feature', { key: feature['key'] })
+        }
+        selected={feature['key'] === current_feature}
+      >
         {`${feature['name']}`}
       </Button>
       <Button
-        className={feature['key'] === current_feature ? 'plant__button--beacon' : 'plant__button'}
+        className={
+          feature['key'] === current_feature
+            ? 'plant__button--beacon'
+            : 'plant__button'
+        }
         verticalAlignContent={'middle'}
         icon={confirm_radiation ? 'check' : 'radiation'}
         tooltip="Mutate Feature"
