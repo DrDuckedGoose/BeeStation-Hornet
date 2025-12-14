@@ -8,11 +8,13 @@
 
 /datum/plant_need/reagent/New(datum/plant_feature/_parent)
 	. = ..()
-	need_description = "This plant needs"
+	var/old_desc = need_description
+	need_description = "This plant [buff ? "uses" : "needs"]"
 	var/reagent_index = 1
 	for(var/datum/reagent/reagent as anything in reagent_needs)
-		need_description = "[need_description]([parent.name]) [reagent_needs[reagent]]u of [initial(reagent.name)][reagent_index < length(reagent_needs) ? ", " : ""]"
+		need_description = "[need_description] [reagent_needs[reagent]]u of [initial(reagent.name)][reagent_index < length(reagent_needs) ? ", " : ""]"
 		reagent_index++
+	need_description = "[need_description]\n	'[old_desc]'"
 
 /datum/plant_need/reagent/check_need(_delta_time)
 	. = ..()

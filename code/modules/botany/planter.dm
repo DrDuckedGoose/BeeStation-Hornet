@@ -16,6 +16,10 @@
 	var/gain_weeds = TRUE
 	///Weed buildup
 	var/weed_level = 0
+	///Have we been visited by a bee recently?
+	var/recent_bee_visit = FALSE
+	///
+	var/list/plants = list()
 
 /datum/component/planter/Initialize(_visual_upset, _layer_upset, _gain_weeds)
 	. = ..()
@@ -90,15 +94,24 @@
 /datum/component/planter/proc/catch_entered(datum/source, atom/movable/entering)
 	SIGNAL_HANDLER
 
+	if(!entering.GetComponent(/datum/component/plant))
+		return
+//Visuals
 	entering.layer += layer_upset
 	//Add visuals, move the plant upwards to make it look like it's inside us
 	entering.pixel_y += visual_upset
+//Records
+	//TODO: setup harddel catch stuff - Racc
+	plants += entering
 
 /datum/component/planter/proc/catch_exited(datum/source, atom/movable/exiting)
 	SIGNAL_HANDLER
 
+	if(!exiting.GetComponent(/datum/component/plant))
+		return
 	exiting.layer -= layer_upset
 	exiting.pixel_y -= visual_upset
+	plants -= exiting
 
 /datum/component/planter/proc/set_substrate(_substrate)
 	if(!allow_substrate_change)

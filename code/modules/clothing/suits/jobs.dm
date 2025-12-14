@@ -16,7 +16,7 @@
 	allowed = list(
 		/obj/item/reagent_containers/spray/plantbgone,
 		/obj/item/plant_analyzer,
-		/obj/item/seeds,
+		/obj/item/plant_seeds,
 		/obj/item/reagent_containers/cup/bottle,
 		/obj/item/reagent_containers/cup/beaker,
 		/obj/item/cultivator,

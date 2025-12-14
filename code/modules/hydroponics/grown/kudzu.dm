@@ -1,3 +1,4 @@
+/* //TODO: - Racc
 // A very special plant, deserving it's own file.
 /obj/item/seeds/kudzu/Copy()
 	var/obj/item/seeds/kudzu/S = ..()
@@ -76,10 +77,10 @@
 
 	if(S.has_reagent(/datum/reagent/water/holywater, 10))
 		adjust_potency(rand(15, -5))
-
+*/
 
 /obj/item/food/grown/kudzupod
-	seed = /obj/item/seeds/kudzu
+	//seed = /obj/item/seeds/kudzu
 	name = "kudzu pod"
 	desc = "<I>Pueraria Virallis</I>: An invasive species with vines that rapidly creep and wrap around whatever they contact."
 	icon_state = "kudzupod"

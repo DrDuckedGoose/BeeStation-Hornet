@@ -91,10 +91,12 @@
 	return dialogue
 
 //Used to get dialogue / text for needs, when a tray is scanned
-/datum/plant_feature/proc/get_need_dialogue()
-	var/dialogue = "[name]([species_name])\n\n"
+/datum/plant_feature/proc/get_need_dialogue(buffs = TRUE)
+	var/dialogue = ""
 	for(var/datum/plant_need/need as anything in plant_needs)
-		dialogue += "[need.need_description]\n"
+		if(!buffs && need.buff)
+			continue
+		dialogue += "[need.need_description]<br/>\n"
 	return dialogue
 
 ///This is a keyed list for UIs to get specific values, usually for logic or display
@@ -156,7 +158,7 @@
 	for(var/datum/plant_need/need as anything in plant_needs)
 		if(ispath(need))
 			continue
-		if(!need?.check_need(_delta_time))
+		if(!need?.buff && !need?.check_need(_delta_time))
 			SEND_SIGNAL(parent, COMSIG_PLANT_NEEDS_FAILS, src)
 			return FALSE
 	SEND_SIGNAL(parent, COMSIG_PLANT_NEEDS_PASS, src)

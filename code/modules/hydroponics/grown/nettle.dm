@@ -54,7 +54,7 @@
 
 CREATION_TEST_IGNORE_SUBTYPES(/obj/item/food/grown/nettle/basic)
 
-/obj/item/food/grown/nettle/basic/Initialize(mapload, obj/item/seeds/new_seed)
+/obj/item/food/grown/nettle/basic/Initialize(mapload)
 	. = ..()
 	var/potency = get_fruit_trait_power(src) * 25
 	force = round((5 + potency / 5), 1)
@@ -70,7 +70,7 @@ CREATION_TEST_IGNORE_SUBTYPES(/obj/item/food/grown/nettle/basic)
 
 CREATION_TEST_IGNORE_SUBTYPES(/obj/item/food/grown/nettle/death)
 
-/obj/item/food/grown/nettle/death/Initialize(mapload, obj/item/seeds/new_seed)
+/obj/item/food/grown/nettle/death/Initialize(mapload)
 	. = ..()
 	var/potency = get_fruit_trait_power(src) * 25
 	force = round((5 + potency / 5), 1)

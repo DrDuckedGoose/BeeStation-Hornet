@@ -135,12 +135,11 @@
 	if(isliving(A))
 		var/mob/living/H = A
 		return !H.bee_friendly()
-	if(istype(A, /obj/machinery/hydroponics))
-		var/obj/machinery/hydroponics/Hydro = A
-		if(Hydro.myseed && !Hydro.dead && !Hydro.recent_bee_visit)
-			wanted_objects |= hydroponicstypecache //so we only hunt them while they're alive/seeded/not visisted
-			return TRUE
-	return FALSE
+	var/datum/component/planter/plant_tray = A.GetComponent(/datum/component/planter)
+	if(!plant_tray || plant_tray?.recent_bee_visit || !length(plant_tray.plants))
+		return FALSE
+	wanted_objects |= hydroponicstypecache
+	return TRUE
 
 
 /mob/living/simple_animal/hostile/poison/bees/AttackingTarget()
@@ -174,7 +173,18 @@
 		generate_bee_visuals()
 
 
-/mob/living/simple_animal/hostile/poison/bees/proc/pollinate(obj/machinery/hydroponics/Hydro)
+/mob/living/simple_animal/hostile/poison/bees/proc/pollinate(obj/tray)
+	var/datum/component/planter/plant_tray = tray.GetComponent(/datum/component/planter)
+	if(!plant_tray || plant_tray?.recent_bee_visit || !length(plant_tray.plants))
+		return
+	LoseTarget() //so we pick a new hydro tray next FindTarget(), instead of loving the same plant for eternity
+	wanted_objects -= hydroponicstypecache //so we only hunt them while they're alive/seeded/not visisted
+	plant_tray.recent_bee_visit = TRUE
+	addtimer(VARSET_CALLBACK(plant_tray, recent_bee_visit, FALSE), BEE_TRAY_RECENT_VISIT)
+	//TODO: Put buffs here - Racc
+	if(beehome)
+		beehome.bee_resources = min(beehome.bee_resources + health, 100)
+	/*
 	if(!istype(Hydro) || !Hydro.myseed || Hydro.dead || Hydro.recent_bee_visit)
 		LoseTarget()
 		return
@@ -197,7 +207,7 @@
 
 	if(beehome)
 		beehome.bee_resources = min(beehome.bee_resources + growth, 100)
-
+	*/
 
 /mob/living/simple_animal/hostile/poison/bees/handle_automated_action()
 	. = ..()

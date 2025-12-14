@@ -96,8 +96,6 @@
 	This is used for making  preset species ids work at runtime
 */
 /obj/item/plant_seeds/preset
-	///What tier, in the plant catalogue, is this seed?
-	var/tier = 1
 
 /obj/item/plant_seeds/preset/Initialize(mapload, list/_plant_features, _species_id)
 	. = ..()

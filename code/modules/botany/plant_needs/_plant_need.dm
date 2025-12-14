@@ -9,6 +9,9 @@
 	var/need_description = ""
 	///Can this need be a random overdraw need?
 	var/overdraw_need = FALSE
+	///is this need actually a buff? - Buff needs aren't needed to pass need checks
+	var/buff = FALSE
+	var/buff_applied = FALSE
 
 /datum/plant_need/New(datum/plant_feature/_parent)
 	. = ..()

@@ -42,7 +42,6 @@
 /datum/xenoartifact_trait/major/growing/youth
 	label_name = "Flourishing Δ"
 	label_desc = "Flourishing Δ: The artifact seems to contain flourishing components. Triggering these components will wither plants, killing them."
-	max_aging = -5
 	conductivity = 3
 	revive = FALSE
 

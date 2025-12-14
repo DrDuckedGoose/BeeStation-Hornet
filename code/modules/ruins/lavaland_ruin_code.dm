@@ -10,8 +10,8 @@
 	name = "seed vault seeds"
 	lootcount = 1
 
-	loot = list(/obj/item/seeds/gatfruit = 10,
-				/obj/item/seeds/cherry/bomb = 10,
+	loot = list(/obj/item/plant_seeds/preset/gat = 10,
+				/obj/item/plant_seeds/preset/cherry_bomb = 10,
 				/obj/item/plant_seeds/preset/glow_berry = 10,
 				/obj/item/plant_seeds/preset/moonflower = 8
 				)

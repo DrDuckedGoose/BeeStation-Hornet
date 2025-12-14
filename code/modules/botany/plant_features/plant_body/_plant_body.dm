@@ -3,7 +3,7 @@
 	name = "plant body"
 	icon = 'icons/obj/hydroponics/features/body.dmi'
 	icon_state = "tree"
-	plant_needs = list(/datum/plant_need/reagent/water)
+	plant_needs = list(/datum/plant_need/reagent/water, /datum/plant_need/reagent/buff/robust)
 	feature_catagories = PLANT_FEATURE_BODY
 	trait_type_shortcut = /datum/plant_feature/body
 

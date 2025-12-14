@@ -60,6 +60,8 @@ CREATION_TEST_IGNORE_SUBTYPES(/obj/item/food/grown)
 	var/datum/plant_feature/fruit/fruit_feature = locate(/datum/plant_feature/fruit) in new_seed.plant_features
 	for(var/datum/plant_trait/trait as anything in fruit_feature?.plant_traits)
 		trait.copy(src)
+	var/trait_scale = max(fruit_feature.trait_power * 0.3, 1)
+	transform.Scale(trait_scale, trait_scale)
 	//Add genes
 	if(!SSbotany.gene_cache["[new_seed.species_id]"])
 		var/list/plant_genes = list()

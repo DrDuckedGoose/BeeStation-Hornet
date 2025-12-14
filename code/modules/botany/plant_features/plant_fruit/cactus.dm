@@ -4,7 +4,7 @@
 */
 /datum/plant_feature/fruit/cactus
 	species_name = "spinis fructificatio"
-	name = "fruiting cactus"
+	name = "cactus"
 	icon_state = "cactus"
 	fruit_product = /obj/item/food/grown/ash_flora/cactus_fruit
 	plant_traits = list(/datum/plant_trait/reagent/fruit/nutriment, /datum/plant_trait/reagent/fruit/vitamin, /datum/plant_trait/fruit/spikey)

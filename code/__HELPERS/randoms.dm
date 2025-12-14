@@ -57,7 +57,6 @@
 /proc/get_random_seed()
 	var/list/blocked = list(
 		/obj/item/plant_seeds/preset/bombanana,
-		/obj/item/seeds/lavaland,
-		/obj/item/seeds/cherry/bomb
+		/obj/item/plant_seeds/preset/cherry_bomb
 		)
-	return pick(subtypesof(/obj/item/seeds) - blocked)
+	return pick(subtypesof(/obj/item/plant_seeds/preset) - blocked)

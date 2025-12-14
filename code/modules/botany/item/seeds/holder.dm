@@ -38,6 +38,12 @@
 	name_override = "moonflower"
 	plant_features = list(/datum/plant_feature/roots, /datum/plant_feature/body/corn_stalk/sunflower, /datum/plant_feature/fruit/flower/moon)
 
+//Novaflower
+/obj/item/plant_seeds/preset/novaflower
+	name = "novaflower seeds"
+	name_override = "novaflower"
+	plant_features = list(/datum/plant_feature/roots, /datum/plant_feature/body/corn_stalk/sunflower, /datum/plant_feature/fruit/flower/nova)
+
 //Fire-Lemon
 /obj/item/plant_seeds/preset/firelemon
 	name = "combustible seeds"
@@ -103,3 +109,69 @@
 	name = "cherry bomb seeds"
 	name_override = "cherry bomb tree"
 	plant_features = list(/datum/plant_feature/roots, /datum/plant_feature/body/tree/mini/cherry, /datum/plant_feature/fruit/cherry/bomb)
+
+//lily
+/obj/item/plant_seeds/preset/lily
+	name = "lily seeds"
+	name_override = "lily"
+	plant_features = list(/datum/plant_feature/roots, /datum/plant_feature/body/corn_stalk/flower, /datum/plant_feature/fruit/flower/lily)
+
+//Geranium
+/obj/item/plant_seeds/preset/geranium
+	name = "geranium seeds"
+	name_override = "geranium"
+	plant_features = list(/datum/plant_feature/roots, /datum/plant_feature/body/corn_stalk/flower, /datum/plant_feature/fruit/flower/geranium)
+
+//Geranium
+/obj/item/plant_seeds/preset/forget
+	name = "forget seeds"
+	name_override = "forget"
+	plant_features = list(/datum/plant_feature/roots, /datum/plant_feature/body/bush_vine/flower, /datum/plant_feature/fruit/flower)
+
+//Embershroom
+/obj/item/plant_seeds/preset/embershroom
+	name = "embershroom spores"
+	name_override = "embershroom mushroom"
+	plant_features = list(/datum/plant_feature/roots/hyphae, /datum/plant_feature/body/mushroom, /datum/plant_feature/fruit/mushroom/embershroom)
+
+//Cactus
+/obj/item/plant_seeds/preset/cactus
+	name = "cactus seeds"
+	name_override = "cactus"
+	plant_features = list(/datum/plant_feature/roots, /datum/plant_feature/body/tuber, /datum/plant_feature/fruit/cactus)
+
+//Inocybe
+/obj/item/plant_seeds/preset/inocybe
+	name = "inocybe spores"
+	name_override = "inocybe mushroom"
+	plant_features = list(/datum/plant_feature/roots/hyphae, /datum/plant_feature/body/mushroom, /datum/plant_feature/fruit/mushroom/embershroom/inocybe)
+
+//Porcini
+/obj/item/plant_seeds/preset/porcini
+	name = "porcini spores"
+	name_override = "porcini mushroom"
+	plant_features = list(/datum/plant_feature/roots/hyphae, /datum/plant_feature/body/mushroom, /datum/plant_feature/fruit/mushroom/embershroom/porcini)
+
+//Polypore
+/obj/item/plant_seeds/preset/polypore
+	name = "polypore spores"
+	name_override = "polypore mushroom"
+	plant_features = list(/datum/plant_feature/roots/hyphae, /datum/plant_feature/body/mushroom, /datum/plant_feature/fruit/mushroom/embershroom/polypore)
+
+//Galaxythistle
+/obj/item/plant_seeds/preset/galaxythistle
+	name = "galaxythistle seeds"
+	name_override = "galaxythistle bush"
+	plant_features = list(/datum/plant_feature/roots, /datum/plant_feature/body/bush_vine/nettle/thistle, /datum/plant_feature/fruit/starthistle/galaxy)
+
+//Jupitercup
+/obj/item/plant_seeds/preset/jupitercup
+	name = "jupitercup spores"
+	name_override = "jupitercup mushroom"
+	plant_features = list(/datum/plant_feature/roots/hyphae, /datum/plant_feature/body/mushroom, /datum/plant_feature/fruit/mushroom/chanterelle/jupiter)
+
+//Trumpet
+/obj/item/plant_seeds/preset/trumpet
+	name = "trumpet seeds"
+	name_override = "trumpet"
+	plant_features = list(/datum/plant_feature/roots, /datum/plant_feature/body/corn_stalk/flower, /datum/plant_feature/fruit/flower/trumpet)

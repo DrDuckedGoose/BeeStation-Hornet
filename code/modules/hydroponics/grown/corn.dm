@@ -49,7 +49,7 @@
 	var/snap_pops = 1
 	discovery_points = 300
 
-/obj/item/grown/snapcorn/Initialize(mapload, obj/item/seeds/new_seed)
+/obj/item/grown/snapcorn/Initialize(mapload)
 	. = ..()
 	snap_pops = get_fruit_trait_power(src) * 3
 

@@ -16,7 +16,7 @@
 	if(istype(tray))
 		//Report needs
 		for(var/datum/plant_feature/feature as anything in tray.needy_features)
-			scan_dialogue += "<span class='plant_sub'>[feature.get_need_dialogue()]</span>"
+			scan_dialogue += "<span class='plant_sub'>[feature.get_need_dialogue(FALSE)]</span>"
 		//Report problems
 		for(var/datum/plant_feature/feature as anything in tray.problem_features)
 			scan_dialogue += "<span class='plant_sub'>[feature.get_scan_dialogue()]</span>"
@@ -33,7 +33,7 @@
 	var/obj/item/plant_seeds/seeds = target
 	if(istype(seeds))
 		for(var/datum/plant_feature/feature as anything in seeds.plant_features)
-			scan_dialogue += "<span class='plant_sub'>[feature.get_scan_dialogue()]</span>"
+			scan_dialogue += "<span class='plant_sub'>[feature.get_scan_dialogue()]<br/>[feature.get_need_dialogue()]</span>"
 		to_chat(user, "<span class='plant_scan'><b>[capitalize(target.name)]</b></span><span class='plant_scan'>[scan_dialogue]</span>")
 		playsound(src, 'sound/effects/fastbeep.ogg', 20)
 		return FALSE
@@ -42,7 +42,7 @@
 	SEND_SIGNAL(target, COMSIG_PLANT_GET_GENES, genes)
 	if(length(genes))
 		for(var/datum/plant_feature/feature as anything in genes[PLANT_GENE_INDEX_FEATURES])
-			scan_dialogue += "<span class='plant_sub'>[feature.get_scan_dialogue()]</span>"
+			scan_dialogue += "<span class='plant_sub'>[feature.get_scan_dialogue()]<br/>[feature.get_need_dialogue()]</span>"
 		to_chat(user, "<span class='plant_scan'><b>[capitalize(target.name)]</b></span><span class='plant_scan'>[scan_dialogue]</span>")
 		playsound(src, 'sound/effects/fastbeep.ogg', 20)
 		return FALSE
@@ -50,9 +50,8 @@
 	var/datum/component/plant/plant_component = target.GetComponent(/datum/component/plant)
 	if(!plant_component || !length(plant_component.plant_features))
 		return FALSE
-	//Cycle through features to collect dialogue
 	for(var/datum/plant_feature/feature as anything in plant_component.plant_features)
-		scan_dialogue += "<span class='plant_sub'>[feature.get_scan_dialogue()]</span>"
+		scan_dialogue += "<span class='plant_sub'>[feature.get_scan_dialogue()]<br/>[feature.get_need_dialogue()]</span>"
 	to_chat(user, "<span class='plant_scan'><b>[capitalize(target.name)]</b></span><span class='plant_scan'>[scan_dialogue]</span>")
 	playsound(src, 'sound/effects/fastbeep.ogg', 20)
 	return FALSE

@@ -39,15 +39,8 @@
 	discovery_points = 300
 
 //Spacemans's Trumpet
-CREATION_TEST_IGNORE_SUBTYPES(/obj/item/seeds/flower/trumpet)
-
-/obj/item/seeds/flower/trumpet/Initialize(mapload,nogenes)
-	. = ..()
-	if(!nogenes)
-		unset_mutability(/datum/plant_gene/reagent/polypyr, PLANT_GENE_EXTRACTABLE)
-
 /obj/item/food/grown/flower/trumpet
-	seed = /obj/item/seeds/flower/trumpet
+	seed = /obj/item/plant_seeds/preset/trumpet
 	name = "spaceman's trumpet"
 	desc = "A vivid flower that smells faintly of freshly cut grass. Touching the flower seems to stain the skin some time after contact, yet most other surfaces seem to be unaffected by this phenomenon."
 	icon_state = "spacemanstrumpet"
@@ -56,7 +49,7 @@ CREATION_TEST_IGNORE_SUBTYPES(/obj/item/seeds/flower/trumpet)
 
 // Geranium
 /obj/item/food/grown/flower/geranium
-	seed = /obj/item/seeds/flower/geranium
+	seed = /obj/item/plant_seeds/preset/geranium
 	name = "geranium"
 	desc = "A cluster of small purple geranium flowers. They symbolize happiness, good health, wishes and friendship and are generally associated with positive emotions."
 	icon_state = "geranium"
@@ -64,7 +57,7 @@ CREATION_TEST_IGNORE_SUBTYPES(/obj/item/seeds/flower/trumpet)
 
 //Forget-Me-Not
 /obj/item/food/grown/flower/forgetmenot
-	seed = /obj/item/seeds/flower/forgetmenot
+	seed = /obj/item/plant_seeds/preset/forget
 	name = "forget-me-not"
 	desc = "A clump of small blue flowers, they are primarily associated with rememberance, respect and loyalty."
 	icon_state = "forget_me_not"
@@ -80,7 +73,7 @@ CREATION_TEST_IGNORE_SUBTYPES(/obj/item/seeds/flower/trumpet)
 
 // Sunflower
 /obj/item/grown/sunflower // FLOWER POWER!
-	seed = /obj/item/seeds/sunflower
+	seed = /obj/item/plant_seeds/preset/sunflower
 	name = "sunflower"
 	desc = "It's beautiful! A certain person might beat you to death if you trample these."
 	icon_state = "sunflower"
@@ -113,7 +106,7 @@ CREATION_TEST_IGNORE_SUBTYPES(/obj/item/seeds/flower/trumpet)
 
 // Moonflower
 /obj/item/food/grown/flower/moonflower
-	seed = /obj/item/seeds/sunflower/moonflower
+	seed = /obj/item/plant_seeds/preset/moonflower
 	name = "moonflower"
 	desc = "Store in a location at least 50 yards away from werewolves."
 	icon_state = "moonflower"
@@ -123,7 +116,7 @@ CREATION_TEST_IGNORE_SUBTYPES(/obj/item/seeds/flower/trumpet)
 
 // Novaflower
 /obj/item/grown/novaflower
-	seed = /obj/item/seeds/sunflower/novaflower
+	seed = /obj/item/plant_seeds/preset/novaflower
 	name = "novaflower"
 	desc = "These beautiful flowers have a crisp smokey scent, like a summer bonfire."
 	icon_state = "novaflower"
@@ -143,16 +136,16 @@ CREATION_TEST_IGNORE_SUBTYPES(/obj/item/seeds/flower/trumpet)
 
 CREATION_TEST_IGNORE_SUBTYPES(/obj/item/grown/novaflower)
 
-/obj/item/grown/novaflower/Initialize(mapload, obj/item/seeds/new_seed)
+/obj/item/grown/novaflower/Initialize(mapload)
 	..()
-	force = round((5 + seed.potency / 5), 1)
+	force = round((5 + (get_fruit_trait_power(src) * 8)), 1)
 
 /obj/item/grown/novaflower/attack(mob/living/carbon/M, mob/user)
 	if(!..())
 		return
 	if(isliving(M))
 		to_chat(M, span_danger("You are lit on fire from the intense heat of the [name]!"))
-		M.adjust_fire_stacks(seed.potency / 20)
+		M.adjust_fire_stacks(get_fruit_trait_power(src)+1)
 		if(M.IgniteMob())
 			message_admins("[ADMIN_LOOKUPFLW(user)] set [ADMIN_LOOKUPFLW(M)] on fire with [src] at [AREACOORD(user)]")
 			log_game("[key_name(user)] set [key_name(M)] on fire with [src] at [AREACOORD(user)]")

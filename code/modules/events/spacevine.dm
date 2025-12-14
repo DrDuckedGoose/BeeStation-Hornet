@@ -473,12 +473,15 @@
 	S.master = null
 	vines -= S
 	growth_queue -= S
+	/*
+	//TODO: - Racc
 	if(!vines.len)
 		var/obj/item/seeds/kudzu/KZ = new(S.loc)
 		KZ.mutations |= S.mutations
 		KZ.set_potency(mutativeness * 10)
 		KZ.set_production(11 - (spread_cap / initial(spread_cap)) * 5) //Reverts spread_cap formula so resulting seed gets original production stat or equivalent back.
 		qdel(src)
+	*/
 
 /datum/spacevine_controller/process(delta_time)
 	if(!LAZYLEN(vines))

@@ -1,13 +1,6 @@
 //Galaxy Thistle
-CREATION_TEST_IGNORE_SUBTYPES(/obj/item/seeds/galaxythistle)
-
-/obj/item/seeds/galaxythistle/Initialize(mapload,nogenes)
-	. = ..()
-	if(!nogenes)
-		unset_mutability(/datum/plant_gene/trait/invasive, PLANT_GENE_REMOVABLE)
-
 /obj/item/food/grown/galaxythistle
-	seed = /obj/item/seeds/galaxythistle
+	seed = /obj/item/plant_seeds/preset/galaxythistle
 	name = "galaxythistle flower head"
 	desc = "This spiny cluster of florets reminds you of the highlands."
 	icon_state = "galaxythistle"

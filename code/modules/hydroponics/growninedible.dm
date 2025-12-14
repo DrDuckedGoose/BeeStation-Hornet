@@ -13,7 +13,7 @@
 
 CREATION_TEST_IGNORE_SUBTYPES(/obj/item/grown)
 
-/obj/item/grown/Initialize(mapload, obj/item/seeds/_new_seed)
+/obj/item/grown/Initialize(mapload, obj/item/plant_seeds/_new_seed)
 	. = ..()
 	create_reagents(50)
 

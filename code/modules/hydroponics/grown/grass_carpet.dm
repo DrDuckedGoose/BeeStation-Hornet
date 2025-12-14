@@ -94,7 +94,7 @@
 //clover
 CREATION_TEST_IGNORE_SUBTYPES(/obj/item/food/grown/grass/shamrock)
 
-/obj/item/food/grown/grass/shamrock/Initialize(mapload, /obj/item/seeds/new_seed)
+/obj/item/food/grown/grass/shamrock/Initialize(mapload)
 	. = ..()
 	if(prob(0.001)) // 0.001% chance to be a clover
 		name = "four leafed clover"

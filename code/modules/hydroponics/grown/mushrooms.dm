@@ -60,22 +60,14 @@
 
 // Chanterelle
 /obj/item/food/grown/mushroom/chanterelle
-	seed = /obj/item/seeds/chanter
+	seed = /obj/item/plant_seeds/preset/chanterelle
 	name = "chanterelle cluster"
 	desc = "<I>Cantharellus Cibarius</I>: These jolly yellow little shrooms sure look tasty!"
 	icon_state = "chanterelle"
 
 //Jupiter Cup
-CREATION_TEST_IGNORE_SUBTYPES(/obj/item/seeds/chanter/jupitercup)
-
-/obj/item/seeds/chanter/jupitercup/Initialize(mapload,nogenes)
-	. = ..()
-	if(!nogenes)
-		unset_mutability(/datum/plant_gene/reagent/liquidelectricity, PLANT_GENE_EXTRACTABLE)
-		unset_mutability(/datum/plant_gene/trait/plant_type/carnivory, PLANT_GENE_REMOVABLE)
-
 /obj/item/food/grown/mushroom/jupitercup
-	seed = /obj/item/seeds/chanter/jupitercup
+	seed = /obj/item/plant_seeds/preset/jupitercup
 	name = "jupiter cup"
 	desc = "A strange red mushroom, its surface is moist and slick. You wonder how many tiny worms have met their fate inside."
 	icon_state = "jupitercup"

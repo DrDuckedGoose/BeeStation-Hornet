@@ -99,7 +99,7 @@
 		/obj/item/shovel/spade,
 		/obj/item/plant_disk,
 		/obj/item/wrench,//because botanists move around trays with those
-		/obj/item/seeds,
+		/obj/item/plant_seeds,
 		/obj/item/clothing/gloves/botanic_leather,
 		/obj/item/rollingpaper,//dudeweed
 		/obj/item/lighter,
