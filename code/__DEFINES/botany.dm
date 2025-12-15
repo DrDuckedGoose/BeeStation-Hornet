@@ -31,6 +31,10 @@
 #define PLANT_BODY_SLOT_SIZE_MEDIUM 2
 #define PLANT_BODY_SLOT_SIZE_LARGE 3.5
 #define PLANT_BODY_SLOT_SIZE_LARGEST 4 //Probably don't use this, unless you know what you're doing
+	//Health array
+#define PLANT_BODY_HEALTH_SMALL 50
+#define PLANT_BODY_HEALTH_MEDIUM 100
+#define PLANT_BODY_HEALTH_LARGE 200
 
 //Fruit stat values
 	//How many reagents can the fruit hold

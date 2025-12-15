@@ -25,6 +25,7 @@
 
 	if(strangle_loc)
 		UnregisterSignal(strangle_loc, COMSIG_PLANT_NEEDS_PAUSE)
+		UnregisterSignal(strangle_loc, COMSIG_QDELETING)
 	strangle_loc = plant_item.loc
 	RegisterSignal(strangle_loc, COMSIG_QDELETING, PROC_REF(catch_qdel))
 	RegisterSignal(strangle_loc, COMSIG_PLANT_NEEDS_PAUSE, PROC_REF(catch_pause))
@@ -32,7 +33,10 @@
 /datum/plant_trait/roots/strangling/proc/catch_pause(datum/source, datum/component/plant/_plant, list/problem_list)
 	SIGNAL_HANDLER
 
-	if(problem_list)
+	var/obj/item/plant_tray/tray = source
+	if(istype(tray) && problem_list)
+		tray.add_feature_indicator(src, parent, problem_list)
+	else if(problem_list) //Shouldn't happen, but I don't know how people will use it in a few years
 		problem_list |= parent
 	//Avoid strangling ourselves or our brothers & sisters
 	if(_plant == parent.parent || _plant?.species_id == parent.parent.species_id)

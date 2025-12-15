@@ -1,4 +1,4 @@
-#define WEED_RATE 1
+#define WEED_RATE 0.3
 #define WEED_THRESHOLD 100
 
 /datum/component/planter
@@ -18,7 +18,7 @@
 	var/weed_level = 0
 	///Have we been visited by a bee recently?
 	var/recent_bee_visit = FALSE
-	///
+	///List of plants stored in us
 	var/list/plants = list()
 
 /datum/component/planter/Initialize(_visual_upset, _layer_upset, _gain_weeds)
@@ -94,24 +94,27 @@
 /datum/component/planter/proc/catch_entered(datum/source, atom/movable/entering)
 	SIGNAL_HANDLER
 
-	if(!entering.GetComponent(/datum/component/plant))
+	var/plant_comp = entering.GetComponent(/datum/component/plant)
+	if(!plant_comp)
 		return
 //Visuals
 	entering.layer += layer_upset
 	//Add visuals, move the plant upwards to make it look like it's inside us
 	entering.pixel_y += visual_upset
 //Records
-	//TODO: setup harddel catch stuff - Racc
-	plants += entering
+	plants |= plant_comp
+	RegisterSignal(entering, COMSIG_QDELETING, PROC_REF(catch_qdel))
 
 /datum/component/planter/proc/catch_exited(datum/source, atom/movable/exiting)
 	SIGNAL_HANDLER
 
-	if(!exiting.GetComponent(/datum/component/plant))
+	var/plant_comp = exiting.GetComponent(/datum/component/plant)
+	if(!plant_comp)
 		return
 	exiting.layer -= layer_upset
 	exiting.pixel_y -= visual_upset
-	plants -= exiting
+	plants -= plant_comp
+	UnregisterSignal(exiting, COMSIG_QDELETING)
 
 /datum/component/planter/proc/set_substrate(_substrate)
 	if(!allow_substrate_change)
@@ -123,6 +126,11 @@
 		substrate = new _substrate()
 	SEND_SIGNAL(src, COMSIG_PLANTER_UPDATE_SUBSTRATE, substrate)
 	return substrate
+
+/datum/component/planter/proc/catch_qdel(datum/source)
+	SIGNAL_HANDLER
+
+	plants -= source
 
 #undef WEED_RATE
 #undef WEED_THRESHOLD

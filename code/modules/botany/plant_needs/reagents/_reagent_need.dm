@@ -5,14 +5,18 @@
 	var/consume_reagents = TRUE
 	///What % of reagents met do we need to succeed?
 	var/success_threshold = 1 //100%
+	var/auto_threshold = FALSE
 
 /datum/plant_need/reagent/New(datum/plant_feature/_parent)
 	. = ..()
+	success_threshold = auto_threshold ? 1 / length(reagent_needs) : success_threshold
 	var/old_desc = need_description
-	need_description = "This plant [buff ? "uses" : "needs"]"
+	need_description = "This plant([parent.name]) [buff ? "uses" : "needs"]"
 	var/reagent_index = 1
 	for(var/datum/reagent/reagent as anything in reagent_needs)
 		need_description = "[need_description] [reagent_needs[reagent]]u of [initial(reagent.name)][reagent_index < length(reagent_needs) ? ", " : ""]"
+		if(auto_threshold) //Add 'or' to the last option to show you only need 1 of the ingredients
+			need_description = "[need_description][reagent_index+1 == length(reagent_needs) ? "or" : ""]"
 		reagent_index++
 	need_description = "[need_description]\n	'[old_desc]'"
 
@@ -30,6 +34,7 @@
 			continue
 		for(var/reagent as anything in reagent_needs)
 			var/amount_needed = reagent_needs[reagent] * _delta_time
+			amount_needed /= COOLDOWN_FINISHED(src, nectar_timer) ? 1 : 2 //Nectar buff halves the amount needed
 			if(!R.has_reagent(reagent, amount_needed))
 				continue
 			if(consume_reagents)
@@ -39,6 +44,7 @@
 		return TRUE
 	return FALSE
 
+///used to automatically satisfy this need, used for roundstart pot plants
 /datum/plant_need/reagent/fufill_need(atom/location)
 	. = ..()
 	if(!location?.reagents)

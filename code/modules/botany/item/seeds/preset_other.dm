@@ -175,3 +175,9 @@
 	name = "trumpet seeds"
 	name_override = "trumpet"
 	plant_features = list(/datum/plant_feature/roots, /datum/plant_feature/body/corn_stalk/flower, /datum/plant_feature/fruit/flower/trumpet)
+
+//Mail
+/obj/item/plant_seeds/preset/mail
+	name = "trumpet seeds"
+	name_override = "trumpet"
+	plant_features = list(/datum/plant_feature/roots/sand, /datum/plant_feature/body/tree/gum, /datum/plant_feature/fruit/mail)

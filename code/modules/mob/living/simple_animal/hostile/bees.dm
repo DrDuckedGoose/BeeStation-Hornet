@@ -61,7 +61,7 @@
 	var/isqueen = FALSE
 	var/icon_base = "bee"
 	var/static/beehometypecache = typecacheof(/obj/structure/beebox)
-	var/static/hydroponicstypecache = typecacheof(/obj/machinery/hydroponics)
+	var/static/hydroponicstypecache = typecacheof(/obj/item/plant_tray)
 
 /mob/living/simple_animal/hostile/poison/bees/Initialize(mapload)
 	. = ..()
@@ -144,9 +144,9 @@
 
 /mob/living/simple_animal/hostile/poison/bees/AttackingTarget()
 	//Pollinate
-	if(istype(target, /obj/machinery/hydroponics))
-		var/obj/machinery/hydroponics/Hydro = target
-		pollinate(Hydro)
+	if(istype(target, /obj/item/plant_tray))
+		pollinate(target)
+		return
 	else if(istype(target, /obj/structure/beebox))
 		if(target == beehome)
 			var/obj/structure/beebox/BB = target
@@ -181,33 +181,10 @@
 	wanted_objects -= hydroponicstypecache //so we only hunt them while they're alive/seeded/not visisted
 	plant_tray.recent_bee_visit = TRUE
 	addtimer(VARSET_CALLBACK(plant_tray, recent_bee_visit, FALSE), BEE_TRAY_RECENT_VISIT)
-	//TODO: Put buffs here - Racc
+	for(var/datum/component/plant/plant_comp as anything in plant_tray.plants)
+		SEND_SIGNAL(plant_comp, COMSIG_PLANT_BEE_BUFF)
 	if(beehome)
 		beehome.bee_resources = min(beehome.bee_resources + health, 100)
-	/*
-	if(!istype(Hydro) || !Hydro.myseed || Hydro.dead || Hydro.recent_bee_visit)
-		LoseTarget()
-		return
-
-	LoseTarget() //so we pick a new hydro tray next FindTarget(), instead of loving the same plant for eternity
-	wanted_objects -= hydroponicstypecache //so we only hunt them while they're alive/seeded/not visisted
-	Hydro.recent_bee_visit = TRUE
-	addtimer(VARSET_CALLBACK(Hydro, recent_bee_visit, FALSE), BEE_TRAY_RECENT_VISIT)
-
-	var/growth = health //Health also means how many bees are in the swarm, roughly.
-	//better healthier plants!
-	Hydro.adjustHealth(growth*0.5)
-	if(prob(BEE_POLLINATE_PEST_CHANCE))
-		Hydro.adjustPests(-10)
-	if(prob(BEE_POLLINATE_YIELD_CHANCE))
-		Hydro.myseed.adjust_yield(1)
-		Hydro.yieldmod = 2
-	if(prob(BEE_POLLINATE_POTENCY_CHANCE))
-		Hydro.myseed.adjust_potency(1)
-
-	if(beehome)
-		beehome.bee_resources = min(beehome.bee_resources + growth, 100)
-	*/
 
 /mob/living/simple_animal/hostile/poison/bees/handle_automated_action()
 	. = ..()

@@ -66,8 +66,6 @@
 	update_reagents()
 	//Problems
 	SEND_SIGNAL(src, COMSIG_PLANT_NEEDS_PAUSE, null, problem_features)
-	if(length(problem_features))
-		vis_contents |= problem
 	//Warnings - handled elsewhere too, when listening to plant needs
 	if(tray_component.weed_level >= 50)
 		vis_contents |= need
@@ -112,19 +110,14 @@
 	UnregisterSignal(plant_component, COMSIG_PLANT_NEEDS_PASS)
 //Indicators
 	//Harvest light
-	harvestable_components -= plant_component
-	if(!length(harvestable_components))
-		vis_contents -= harvest
+	harvestable_components -= "[ref(plant_component)]"
 	//Need light
 	for(var/datum/plant_feature/feature as anything in plant_component.plant_features)
-		needy_features -= feature
-	if(!length(needy_features))
-		vis_contents -= need
+		needy_features -= "[ref(feature)]"
 	//Problem light
 	for(var/datum/plant_feature/feature as anything in plant_component.plant_features)
-		problem_features -= feature
-	if(!length(problem_features))
-		vis_contents -= problem
+		problem_features -= "[ref(feature)]"
+	update_indicators()
 
 ///Helpers to handle substrate vvisuals
 /obj/item/plant_tray/proc/add_substrate(_substrate)
@@ -141,37 +134,61 @@
 /obj/item/plant_tray/proc/catch_plant_harvest_ready(datum/source)
 	SIGNAL_HANDLER
 
-	harvestable_components |= source
-	vis_contents |= harvest
+	add_feature_indicator(src, source, harvestable_components)
 
 /obj/item/plant_tray/proc/catch_plant_harvest_collected(datum/source)
 	SIGNAL_HANDLER
 
-	harvestable_components -= source
-	if(!length(harvestable_components))
-		vis_contents -= harvest
+	remove_feature_indicator(src, source, harvestable_components)
 
 /*
 	Signal handlers for plant needs
 */
-
 /obj/item/plant_tray/proc/catch_plant_need_fail(datum/source, datum/plant_feature/_needy)
 	SIGNAL_HANDLER
 
-	needy_features |= _needy
-	vis_contents |= need
+	add_feature_indicator(src, _needy, needy_features)
 
 /obj/item/plant_tray/proc/catch_plant_need_pass(datum/source, datum/plant_feature/_passy)
 	SIGNAL_HANDLER
 
-	needy_features -= _passy
-	if(!length(needy_features))
-		vis_contents -= need
+	remove_feature_indicator(src, _passy, needy_features)
 
+//You can throw any special reagent logic here
 /obj/item/plant_tray/proc/update_reagents()
 	tray_reagents.color = mix_color_from_reagents(reagents.reagent_list)
 	if(reagents.total_volume <= 0)
 		tray_reagents.color ="#0000"
+
+/obj/item/plant_tray/proc/add_feature_indicator(datum/_source, datum/feature, datum/feature_list)
+	if(!feature_list["[ref(feature)]"])
+		feature_list["[ref(feature)]"] = list()
+	feature_list["[ref(feature)]"] += "[ref(_source)]"
+	update_indicators()
+
+/obj/item/plant_tray/proc/remove_feature_indicator(datum/_source, datum/feature, datum/feature_list)
+	if(feature_list["[ref(feature)]"])
+		feature_list["[ref(feature)]"] -= "[ref(_source)]"
+	if(!length(feature_list["[ref(feature)]"]))
+		feature_list -= "[ref(feature)]"
+	update_indicators()
+
+/obj/item/plant_tray/proc/update_indicators()
+	//needs
+	if(length(needy_features))
+		vis_contents |= need
+	else
+		vis_contents -= need
+	//harvests
+	if(length(harvestable_components))
+		vis_contents |= harvest
+	else
+		vis_contents -= harvest
+	//problems
+	if(length(problem_features))
+		vis_contents |= problem
+	else
+		vis_contents -= problem
 
 /*
 	Some effects live down here
@@ -197,8 +214,7 @@
 	add_overlay(over_water)
 
 /*
-TODO: port this - Racc
-/obj/machinery/hydroponics/soil
+TODO: - Racc
 
 else if(istype(O, /obj/item/storage/bag/plants))
 		harvest_plant(user)

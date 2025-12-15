@@ -25,7 +25,7 @@
 
 /datum/plant_trait/New(datum/plant_feature/_parent)
 	. = ..()
-	if(istype(_parent, /datum/plant_feature) && !istype(_parent, plant_feature_compat))
+	if(plant_feature_compat && istype(_parent, /datum/plant_feature) && !istype(_parent, plant_feature_compat))
 		// INITIALIZE_HINT_QDEL doesn't work here
 		qdel(src)
 		return

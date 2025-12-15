@@ -6,7 +6,7 @@
 	icon = 'icons/obj/hydroponics/features/fruit.dmi'
 	icon_state = "apple"
 	feature_catagories = PLANT_FEATURE_FRUIT
-	plant_needs = list(/datum/plant_need/reagent/water)
+	plant_needs = list(/datum/plant_need/reagent/water, /datum/plant_need/reagent/buff/pests, /datum/plant_need/reagent/buff/robust)
 	trait_type_shortcut = /datum/plant_feature/fruit
 
 	///What kind of 'fruit' do we produce
@@ -75,7 +75,9 @@
 	. += list(PLANT_DATA("Fruit Volume", "[total_volume]u"), PLANT_DATA("Growth Time", "[growth_time/10] SECONDS"), PLANT_DATA("Fruit Size", "[fruit_size]"), PLANT_DATA(null, null))
 
 /datum/plant_feature/fruit/process(delta_time)
-	if(!length(growth_timers) || !check_needs(delta_time))
+	if(!check_needs(delta_time))
+		return
+	if(!length(growth_timers))
 		return
 //Growing
 	for(var/timer as anything in growth_timers)
@@ -152,7 +154,8 @@
 	if(istype(new_fruit))
 		new_fruit.seed = null //Otherwise this will overwrite our inherited genes
 	new_fruit.create_reagents(total_volume)
-	new_fruit.bite_consumption = new_fruit.reagents.maximum_volume / (new_fruit.bite_consumption_mod + FRUIT_MINIMUM_BITES)
+	if(istype(new_fruit))
+		new_fruit.bite_consumption = new_fruit.reagents.maximum_volume / (new_fruit.bite_consumption_mod + FRUIT_MINIMUM_BITES)
 	var/trait_scale = max(trait_power * 0.3, 1)
 	new_fruit.transform.Scale(trait_scale, trait_scale)
 	SEND_SIGNAL(parent, COMSIG_FRUIT_PREPARE, new_fruit) //Used to prepare fruit characteristics, like making the reagents NO_REACT

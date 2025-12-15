@@ -1,3 +1,6 @@
+/*
+	FYI these used to have scientific names, and some of them were refs to real mushrooms. I dont want to condone the risk of eating these mushrooms irl, so try not to use real latin names
+*/
 /obj/item/food/grown/mushroom
 	name = "mushroom"
 	bite_consumption_mod = 3
@@ -10,7 +13,7 @@
 /obj/item/food/grown/mushroom/reishi
 	seed = /obj/item/plant_seeds/preset/reishi
 	name = "reishi"
-	desc = "<I>Ganoderma lucidum</I>: A special fungus known for its medicinal and stress relieving properties."
+	desc = "A special fungus known for its medicinal and stress relieving properties."
 	icon_state = "reishi"
 	trade_flags = TRADE_CONTRABAND
 
@@ -18,7 +21,7 @@
 /obj/item/food/grown/mushroom/amanita
 	seed = /obj/item/plant_seeds/preset/amanita
 	name = "fly amanita"
-	desc = "<I>Amanita Muscaria</I>: Learn poisonous mushrooms by heart. Only pick mushrooms you know."
+	desc = "Learn poisonous mushrooms by heart. Only pick mushrooms you know."
 	icon_state = "amanita"
 	trade_flags = TRADE_CONTRABAND
 
@@ -26,7 +29,7 @@
 /obj/item/food/grown/mushroom/angel
 	seed = /obj/item/plant_seeds/preset/angel
 	name = "destroying angel"
-	desc = "<I>Amanita Virosa</I>: Deadly poisonous basidiomycete fungus filled with alpha amatoxins."
+	desc = "Deadly poisonous basidiomycete fungus filled with alpha amatoxins."
 	icon_state = "angel"
 	wine_power = 60
 	discovery_points = 300
@@ -35,7 +38,7 @@
 /obj/item/food/grown/mushroom/libertycap
 	seed = /obj/item/plant_seeds/preset/liberty
 	name = "liberty-cap"
-	desc = "<I>Psilocybe Semilanceata</I>: Liberate yourself!" //TODO: port these latin names - Racc
+	desc = "Liberate yourself!"
 	icon_state = "libertycap"
 	wine_power = 80
 	trade_flags = TRADE_CONTRABAND
@@ -44,7 +47,7 @@
 /obj/item/food/grown/mushroom/plumphelmet
 	seed = /obj/item/plant_seeds/preset/plump
 	name = "plump-helmet"
-	desc = "<I>Plumus Hellmus</I>: Plump, soft and s-so inviting~"
+	desc = "Plump, soft and s-so inviting~"
 	icon_state = "plumphelmet"
 	distill_reagent = /datum/reagent/consumable/ethanol/manly_dorf
 	trade_flags = TRADE_CONTRABAND
@@ -53,7 +56,7 @@
 /obj/item/food/grown/mushroom/walkingmushroom
 	seed = /obj/item/plant_seeds/preset/walking
 	name = "walking mushroom"
-	desc = "<I>Plumus Locomotus</I>: The beginning of the great walk."
+	desc = "The beginning of the great walk."
 	icon_state = "walkingmushroom"
 	can_distill = FALSE
 	discovery_points = 300
@@ -62,7 +65,7 @@
 /obj/item/food/grown/mushroom/chanterelle
 	seed = /obj/item/plant_seeds/preset/chanterelle
 	name = "chanterelle cluster"
-	desc = "<I>Cantharellus Cibarius</I>: These jolly yellow little shrooms sure look tasty!"
+	desc = "These jolly yellow little shrooms sure look tasty!"
 	icon_state = "chanterelle"
 
 //Jupiter Cup
@@ -77,7 +80,7 @@
 /obj/item/food/grown/mushroom/glowshroom
 	seed = /obj/item/plant_seeds/preset/glowshroom
 	name = "glowshroom cluster"
-	desc = "<I>Mycena Bregprox</I>: This species of mushroom glows in the dark."
+	desc = "This species of mushroom glows in the dark."
 	icon_state = "glowshroom"
 	var/effect_path = /obj/structure/glowshroom
 	wine_power = 50
@@ -111,7 +114,7 @@
 /obj/item/food/grown/mushroom/glowshroom/glowcap
 	seed = /obj/item/plant_seeds/preset/glowcap
 	name = "glowcap cluster"
-	desc = "<I>Mycena Ruthenia</I>: This species of mushroom glows in the dark, but isn't actually bioluminescent. They're warm to the touch..."
+	desc = "This species of mushroom glows in the dark, but isn't actually bioluminescent. They're warm to the touch..."
 	icon_state = "glowcap"
 	effect_path = /obj/structure/glowshroom/glowcap
 	tastes = list("glowcap" = 1)
@@ -121,7 +124,7 @@
 /obj/item/food/grown/mushroom/glowshroom/shadowshroom
 	seed = /obj/item/plant_seeds/preset/shadowshroom
 	name = "shadowshroom cluster"
-	desc = "<I>Mycena Umbra</I>: This species of mushroom emits shadow instead of light."
+	desc = "This species of mushroom emits shadow instead of light."
 	icon_state = "shadowshroom"
 	effect_path = /obj/structure/glowshroom/shadowshroom
 	tastes = list("shadow" = 1, "mushroom" = 1)

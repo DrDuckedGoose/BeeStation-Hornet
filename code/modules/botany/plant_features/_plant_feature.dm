@@ -1,4 +1,3 @@
-//TODO: Add interaction for floral projectiles, from the botany gun thing - Racc
 /datum/plant_feature
 	///The 'scientific' name for our plant feature
 	var/species_name = "testus testium"
@@ -153,16 +152,18 @@
 	setup_parent(null)
 
 /datum/plant_feature/proc/check_needs(_delta_time)
+	. = TRUE
 	if(SEND_SIGNAL(parent.plant_item.loc, COMSIG_PLANT_NEEDS_PAUSE, parent) && length(plant_needs))
 		return
 	for(var/datum/plant_need/need as anything in plant_needs)
 		if(ispath(need))
 			continue
-		if(!need?.buff && !need?.check_need(_delta_time))
-			SEND_SIGNAL(parent, COMSIG_PLANT_NEEDS_FAILS, src)
-			return FALSE
+		if(!need?.check_need(_delta_time) && !need?.buff)
+			. = FALSE
+	if(!.)
+		SEND_SIGNAL(parent, COMSIG_PLANT_NEEDS_FAILS, src)
+		return
 	SEND_SIGNAL(parent, COMSIG_PLANT_NEEDS_PASS, src)
-	return TRUE
 
 /datum/plant_feature/proc/catch_examine(datum/source, mob/user, list/examine_text)
 	SIGNAL_HANDLER
@@ -204,23 +205,11 @@
 //TODO: Port these interactions somehow - Racc
 /*
 
-if(S.has_reagent(/datum/reagent/plantnutriment/eznutriment, 1))
-		yieldmod = 1
-		mutmod = 1
-		cycledelay = 200
-		adjustNutri(round(S.get_reagent_amount(/datum/reagent/plantnutriment/eznutriment) * 1))
-
 	if(S.has_reagent(/datum/reagent/plantnutriment/left4zednutriment, 1))
 		yieldmod = 0
 		mutmod = 2
 		cycledelay = 200
 		adjustNutri(round(S.get_reagent_amount(/datum/reagent/plantnutriment/left4zednutriment) * 1))
-
-	if(S.has_reagent(/datum/reagent/plantnutriment/robustharvestnutriment, 1))
-		yieldmod = 1.3
-		mutmod = 0
-		cycledelay = 200
-		adjustNutri(round(S.get_reagent_amount(/datum/reagent/plantnutriment/robustharvestnutriment) *1 ))
 
 	if(S.has_reagent(/datum/reagent/plantnutriment/slimenutriment, 1))
 		yieldmod = 0.8

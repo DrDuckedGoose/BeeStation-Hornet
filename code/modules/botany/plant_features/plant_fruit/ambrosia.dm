@@ -6,7 +6,7 @@
 	name = "ambrosia vulgaris"
 	icon_state = "ambrosia"
 	fruit_product = /obj/item/food/grown/ambrosia
-	plant_traits = list(/datum/plant_trait/reagent/fruit/nutriment, /datum/plant_trait/reagent/fruit/vitamin)
+	plant_traits = list(/datum/plant_trait/reagent/fruit/nutriment, /datum/plant_trait/reagent/fruit/vitamin, /datum/plant_trait/nectar)
 	fast_reagents = list(/datum/reagent/medicine/bicaridine = PLANT_REAGENT_SMALL, /datum/reagent/medicine/kelotane = PLANT_REAGENT_SMALL, /datum/reagent/drug/space_drugs = PLANT_REAGENT_SMALL, /datum/reagent/toxin = PLANT_REAGENT_SMALL)
 	total_volume = PLANT_FRUIT_VOLUME_SMALL
 	growth_time = PLANT_FRUIT_GROWTH_FAST

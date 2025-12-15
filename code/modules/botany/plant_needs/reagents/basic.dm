@@ -1,9 +1,8 @@
 //Water
 /datum/plant_need/reagent/water
 	need_description = "The basic recipe required to sustain plant life."
-	reagent_needs = list(/datum/reagent/water = 1, /datum/reagent/medicine/earthsblood = 0)
-	success_threshold = 0.5
-	overdraw_need = FALSE
+	reagent_needs = list(/datum/reagent/water = 1, /datum/reagent/medicine/earthsblood = 0.01, /datum/reagent/consumable/sodawater = 5)
+	auto_threshold = TRUE
 
 /datum/plant_need/reagent/water/fufill_need(atom/location)
 	location.reagents.add_reagent(/datum/reagent/water, location?.reagents.maximum_volume)

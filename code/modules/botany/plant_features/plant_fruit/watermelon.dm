@@ -1,13 +1,5 @@
 /*
 	Watermelon
-
-	//TODO: port this - Racc
-	/obj/item/seeds/watermelon/suicide_act(mob/living/user)
-	user.visible_message(span_suicide("[user] is swallowing [src]! It looks like [user.p_theyre()] trying to commit suicide!"))
-	user.gib()
-	new product(drop_location())
-	qdel(src)
-	return MANUAL_SUICIDE
 */
 /datum/plant_feature/fruit/watermelon
 	species_name = "pepo magna"

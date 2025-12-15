@@ -1,11 +1,10 @@
 /*
 	Adds a reagent to the plant, typically fruit
 */
-//TODO: Make blood reagents always o- - Racc
-//TODO: make argument for init-ing this on a fruit - Racc
 /datum/plant_trait/reagent
 	genetic_cost = 0
 	random_trait = FALSE
+	plant_feature_compat = null
 	///What reagent are we adding
 	var/datum/reagent/reagent
 	///How much of that reagent are we adding
@@ -20,6 +19,10 @@
 	//If we're a fast reagent, try add ourselves to the dictionary
 	if(_reagent && _percentage && !copy_rule)
 		SSbotany.append_reagent_trait(copy())
+	//If we're init'ing on a fruit - don't make this a fruit trait subtype, since we might want it on non-fruit features
+	var/obj/obj_parent = _parent
+	if(istype(obj_parent))
+		catch_fruit(src, obj_parent)
 
 /datum/plant_trait/reagent/get_ui_stats()
 	. = ..()

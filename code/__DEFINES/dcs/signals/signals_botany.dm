@@ -32,6 +32,9 @@
 //From /datum/plant_feature/proc/check_needs(): (datum/component/plant)
 #define COMSIG_PLANT_NEEDS_PAUSE "COMSIG_PLANT_NEEDS_PAUSE"
 
+#define COMSIG_PLANT_NECTAR_BUFF "COMSIG_PLANT_NECTAR_BUFF"
+#define COMSIG_PLANT_BEE_BUFF "COMSIG_PLANT_BEE_BUFF"
+
 /*
 	Plant Feature Signals
 		PF signals refer to plant features

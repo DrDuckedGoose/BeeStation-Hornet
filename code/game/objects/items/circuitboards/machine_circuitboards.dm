@@ -1147,8 +1147,6 @@ CREATION_TEST_IGNORE_SUBTYPES(/obj/item/circuitboard/machine/smartfridge)
 		/obj/item/stock_parts/manipulator = 1)
 	needs_anchored = FALSE
 
-//TODO: add machine board for plant tray - Racc
-
 /obj/item/circuitboard/machine/microwave
 	name = "microwave (Machine Board)"
 	icon_state = "service"

@@ -1,11 +1,18 @@
+//Plant loses 10% of current health per tick
+#define BODY_NEEDLESS_DAMAGE 0.025
+
 /datum/plant_feature/body
 	species_name = "testus testium"
 	name = "plant body"
 	icon = 'icons/obj/hydroponics/features/body.dmi'
 	icon_state = "tree"
-	plant_needs = list(/datum/plant_need/reagent/water, /datum/plant_need/reagent/buff/robust)
+	plant_needs = list(/datum/plant_need/reagent/water, /datum/plant_need/reagent/buff/heal/tier_1, /datum/plant_need/reagent/buff/heal/tier_2, /datum/plant_need/reagent/buff/heal/tier_3,
+	/datum/plant_need/reagent/buff/toxin)
 	feature_catagories = PLANT_FEATURE_BODY
 	trait_type_shortcut = /datum/plant_feature/body
+
+	///How much health this plant body has
+	var/health = PLANT_BODY_HEALTH_MEDIUM
 
 	///Max, natural, harvest
 	var/max_harvest = PLANT_BODY_HARVEST_LARGE
@@ -69,17 +76,23 @@
 	. += "Growth Time: [growth_time/10] seconds\n"
 	. += "Fruit Size: [upper_fruit_size]\n"
 	. += "Plant Size: [slot_size]\n"
+	. += "Plant Health: [health]"
 
 /datum/plant_feature/body/get_ui_data()
 	. = ..()
 	. += list(PLANT_DATA("Harvest Size", max_harvest), PLANT_DATA("Yields", yields), PLANT_DATA("Growth Time", "[growth_time/10] seconds"), PLANT_DATA("Fruit Size", "[upper_fruit_size]"), PLANT_DATA("Plant Size", "[slot_size]"),
-	PLANT_DATA(null, null))
+	PLANT_DATA("Plant Health", health), PLANT_DATA(null, null))
 
 /datum/plant_feature/body/process(delta_time)
-	//If we're done growing, and we're resting, and we're not hosting and fruits, and we have more fruits to give- don't bother sucking up needs
-	if(growth_time_elapsed >= growth_time && !COOLDOWN_FINISHED(src, yield_cooldown_time) && !length(fruit_overlays) && yields > 0  || !check_needs(delta_time))
-		//If you want plants to wither away when not watered, put that logic in here. For now, it just pauses everything.
+	var/obj/item/plant_tray/tray = parent.plant_item.loc
+	if(health <= initial(health)*0.5 && istype(tray))
+		tray.add_feature_indicator(src, src, tray.problem_features)
+	if(health <= 0)
+		catch_harvest()
 		return
+	//If needs aren't met, we start taking % damage, but this source can't kill us, just weakens
+	if(!check_needs(delta_time))
+		adjust_health(health*BODY_NEEDLESS_DAMAGE*-1)
 //Growth
 	if(growth_time_elapsed < growth_time)
 		growth_time_elapsed += delta_time SECONDS
@@ -185,7 +198,7 @@
 		parent.plant_item.vis_contents -= fruit_effect
 	yields -= !dummy_harvest
 //Handle yields
-	if(yields <= 0)
+	if(yields <= 0 || health <= 0)
 		if(!wither_state)
 			parent.plant_item.add_filter("wither_colours", 1, color_matrix_filter(list(rgb(193, 87, 87), rgb(76, 128, 76), rgb(76, 76, 128)) ,COLORSPACE_RGB))
 		return
@@ -201,3 +214,10 @@
 	if(tray_component.plant_slots - slot_size < 0)
 		return
 	return TRUE
+
+//Special health logic and signals live here
+/datum/plant_feature/body/proc/adjust_health(amount)
+	health += amount
+	health = clamp(health, 0, initial(health))
+
+#undef BODY_NEEDLESS_DAMAGE

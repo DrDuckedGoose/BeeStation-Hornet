@@ -56,25 +56,7 @@
 	wine_power = 80
 	discovery_points = 300
 
-/*
-//TODO: rip this apart and implement into traits, same with lemon IED - Racc
 /obj/item/food/grown/cherry_bomb/attack_self(mob/living/user)
-	user.visible_message(span_warning("[user] plucks the stem from [src]!"), span_userdanger("You pluck the stem from [src], which begins to hiss loudly!"))
-	log_bomber(user, "primed a", src, "for detonation")
-	prime()
-
-/obj/item/food/grown/cherry_bomb/deconstruct(disassembled = TRUE)
-	if(!disassembled)
-		prime()
-	if(!QDELETED(src))
-		qdel(src)
-
-/obj/item/food/grown/cherry_bomb/ex_act(severity)
-	qdel(src) //Ensuring that it's deleted by its own explosion. Also prevents mass chain reaction with piles of cherry bombs
-
-/obj/item/food/grown/cherry_bomb/proc/prime(mob/living/lanced_by)
-	icon_state = "cherry_bomb_lit"
-	playsound(src, 'sound/effects/fuse.ogg', 30, 0)
-	reagents.chem_temp = 1000 //Sets off the black powder
-	reagents.handle_reactions()
-*/
+	//Preservation of a legacy feature
+	icon_state = (icon_state == "cherry_bomb_lit") ? "cherry_bomb" : "cherry_bomb_lit"
+	playsound(src, (icon_state == "cherry_bomb_lit") ? 'sound/items/cig_snuff.ogg' : 'sound/effects/fuse.ogg', 30, 0)

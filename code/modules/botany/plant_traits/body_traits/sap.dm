@@ -1,4 +1,4 @@
-//TODO: Lets the body take reagent traits. Reagents can be collected from the body, like sap, after building up. - Racc
+//TODO: Makes this plant benehfit from bee buff, but doesn't share it like nectar, also costs a fair amount of genetic budget - Racc
 /datum/plant_trait/body/sap
 	name = "Sap"
 	desc = "empty"

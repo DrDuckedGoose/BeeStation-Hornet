@@ -16,6 +16,7 @@
 	var/seeds = 1
 	///Do / What name override do we use?
 	var/name_override
+	var/desc_override
 
 /obj/item/plant_seeds/Initialize(mapload, list/_plant_features, _species_id)
 	. = ..()
@@ -36,15 +37,58 @@
 	. = ..()
 	. += span_notice("This seed pack contains [seeds] seeds.")
 
+/obj/item/plant_seeds/attackby(obj/item/I, mob/living/user, params)
+	. = ..()
+	//Custom name with a pen
+	if(!istype(I, /obj/item/pen))
+		return
+	if(QDELETED(src) || !user.canUseTopic(src, BE_CLOSE))
+		return
+//Desc / name select
+	var/selection
+	selection = tgui_input_list(user, "Edit name, or description?", "Name or Description", list("name", "desc"))
+	if(!selection || QDELETED(src) || !user.canUseTopic(src, BE_CLOSE))
+		return
+//Text input
+	var/input = tgui_input_text(user, "New text", "New text", selection == "name" ? name_override : desc_override, selection == "name" ? MAX_NAME_LEN : MAX_MESSAGE_LEN)
+	if(QDELETED(src) || !user.canUseTopic(src, BE_CLOSE))
+		return
+	//empty input so we return
+	if(!input)
+		to_chat(user, span_warning("You need to enter something!"))
+		return
+	//check for slurs
+	if(CHAT_FILTER_CHECK(input))
+		to_chat(user, span_warning("Your message contains forbidden words."))
+		return
+	//Apply new override
+	if(selection == "name")
+		name_override = input
+		update_plant_name()
+	else
+		desc_override = input
+
 /obj/item/plant_seeds/afterattack_secondary(atom/target, mob/user, proximity_flag, click_parameters)
 	. = ..()
 	var/info = plant(target, user, proximity_flag, click_parameters)
 	if(istext(info))
 		to_chat(user, info)
 
+/obj/item/plant_seeds/suicide_act(mob/living/user)
+	user.visible_message(span_suicide("[user] is swallowing [src]! It looks like [user.p_theyre()] trying to commit suicide!"))
+	user.gib()
+	var/datum/plant_feature/fruit/fruit = locate(/datum/plant_feature/fruit) in plant_features
+	if(!fruit)
+		return
+	new fruit.fruit_product(drop_location())
+	qdel(src)
+	return MANUAL_SUICIDE
+
 //Throw any extra special copy logic in here
 /obj/item/plant_seeds/proc/copy()
 	var/obj/item/plant_seeds/copy = new type(src.loc, src.plant_features, src.species_id)
+	copy.name_override = name_override
+	copy.desc_override = desc_override
 	return copy
 
 /obj/item/plant_seeds/proc/plant(atom/target, mob/user, proximity_flag, click_parameters, logic)
@@ -67,6 +111,7 @@
 	var/datum/component/plant/plant_component = plant.GetComponent(/datum/component/plant)
 	//Plant appearance stuff
 	plant.name = name_override || plant.name
+	plant.desc = "[plant.desc]\n[desc_override]"
 	plant.forceMove(target) //forceMove instead of creating it inside to proc Entered()
 	SEND_SIGNAL(plant_component, COMSIG_PLANT_PLANTED, target)
 	var/obj/vis_target = target
@@ -139,50 +184,3 @@
 
 #undef PLANT_X_CLAMP
 #undef PLANT_Y_CLAMP
-
-//TODO: port seed naming - Racc
-/*
-if (istype(O, /obj/item/pen))
-		var/penchoice = tgui_input_list(user, "What would you like to edit on [src]?", "Seed editing", list("Plant Name","Plant Description","Seed Description"))
-
-		if(QDELETED(src) || !user.canUseTopic(src, BE_CLOSE))
-			return
-
-		if(penchoice == "Plant Name")
-			var/input = tgui_input_text(user, "What do you want to name the plant?", "Plant Name", plantname, MAX_NAME_LEN)
-			if(QDELETED(src) || !user.canUseTopic(src, BE_CLOSE))
-				return
-			if(!input) // empty input so we return
-				to_chat(user, span_warning("You need to enter a name!"))
-				return
-			if(CHAT_FILTER_CHECK(input)) // check for forbidden words
-				to_chat(user, span_warning("Your message contains forbidden words."))
-				return
-			name = "pack of [input] seeds"
-			plantname = input
-			renamedByPlayer = TRUE
-
-		if(penchoice == "Plant Description")
-			var/input = tgui_input_text(user, "What do you want to change the description of the plant to?", "Plant Description", plantdesc, MAX_NAME_LEN)
-			if(QDELETED(src) || !user.canUseTopic(src, BE_CLOSE))
-				return
-			if(!input) // empty input so we return
-				to_chat(user, span_warning("You need to enter a description!"))
-				return
-			if(CHAT_FILTER_CHECK(input)) // check for forbidden words
-				to_chat(user, span_warning("Your message contains forbidden words."))
-				return
-			plantdesc = input
-
-		if(penchoice == "Seed Description")
-			var/input = tgui_input_text(user, "What do you want to change the description of the seeds to?", "Seed Description", desc, MAX_NAME_LEN)
-			if(QDELETED(src) || !user.canUseTopic(src, BE_CLOSE))
-				return
-			if(!input) // empty input so we return
-				to_chat(user, span_warning("You need to enter a description!"))
-				return
-			if(CHAT_FILTER_CHECK(input)) // check for forbidden words
-				to_chat(user, span_warning("Your message contains forbidden words."))
-				return
-			desc = input
-			*/
