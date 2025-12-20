@@ -97,7 +97,7 @@
 		/obj/item/cultivator,
 		/obj/item/hatchet,
 		/obj/item/shovel/spade,
-		/obj/item/plant_disk,
+		/obj/item/disk/plant_disk,
 		/obj/item/wrench,//because botanists move around trays with those
 		/obj/item/plant_seeds,
 		/obj/item/clothing/gloves/botanic_leather,

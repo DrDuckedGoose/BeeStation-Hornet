@@ -59,8 +59,8 @@
 /datum/plant_feature/body/bush_vine/grape
 	species_name = "uva arbor"
 	name = "grape vine"
-	icon_state = "missing"
-	overlay_positions = list(list(13, 16), list(21, 16), list(13, 9), list(21, 9), list(13, 2), list(21, 2)) //TODO: Remember to update these - Racc
+	icon_state = "grape_vine_2"
+	overlay_positions = list(list(10, 15), list(10, 21), list(11, 18), list(14, 20), list(13, 17), list(15, 15), list(13, 12), list(17, 16), list(25, 18), list(29, 14), list(25, 15), list(20, 10))
 
 /*
 	Ambrosia bush

@@ -121,6 +121,7 @@
 		return
 	RegisterSignal(parent, COMSIG_PLANT_REQUEST_FRUIT, PROC_REF(setup_fruit))
 	RegisterSignal(parent.plant_item, COMSIG_ATOM_ATTACK_HAND, PROC_REF(catch_attack_hand))
+	RegisterSignal(parent.plant_item, COMSIG_ATOM_ATTACKBY, PROC_REF(catch_attackby))
 	START_PROCESSING(SSobj, src)
 
 /datum/plant_feature/fruit/proc/setup_fruit(datum/source, harvest_amount, list/_visual_fruits, skip_growth = FALSE)
@@ -176,6 +177,24 @@
 		fruits -= fruit
 		temp_fruits += fruit
 		fruit.forceMove(T)
+	SEND_SIGNAL(parent, COMSIG_PLANT_ACTION_HARVEST, user, temp_fruits, FALSE)
+	return TRUE
+
+/datum/plant_feature/fruit/proc/catch_attackby(datum/source, obj/item/storage/bag/plants/item, mob/living/user, params)
+	SIGNAL_HANDLER
+
+	//Dupe-ish code but what are ya gonna do?
+	if(!istype(item, /obj/item/storage/bag/plants))
+		return
+	if(!length(fruits))
+		return
+	var/list/temp_fruits = list()
+	var/turf/T = user ? get_turf(user) : get_turf(parent.plant_item)
+	for(var/obj/item/fruit as anything in fruits)
+		fruits -= fruit
+		temp_fruits += fruit
+		fruit.forceMove(T)
+		item.atom_storage?.attempt_insert(fruit, user, TRUE)
 	SEND_SIGNAL(parent, COMSIG_PLANT_ACTION_HARVEST, user, temp_fruits, FALSE)
 	return TRUE
 

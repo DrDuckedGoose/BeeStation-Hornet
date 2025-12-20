@@ -15,14 +15,14 @@
 	var/current_feature_ref
 
 	///Inserted disk we're reading data from
-	var/obj/item/plant_disk/disk
+	var/obj/item/disk/plant_disk/disk
 
 	///Last 'command' for UI stuff
 	var/last_command = ""
 
 /obj/machinery/plant_machine/seed_editor/attackby(obj/item/C, mob/user)
 	//insert disk
-	if(istype(C, /obj/item/plant_disk) && !disk)
+	if(istype(C, /obj/item/disk/plant_disk) && !disk)
 		C.forceMove(src)
 		disk = C
 	//insert seeds

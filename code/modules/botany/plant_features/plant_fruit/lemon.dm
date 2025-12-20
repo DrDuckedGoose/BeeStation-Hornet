@@ -34,5 +34,5 @@
 	fruit_product = /obj/item/food/grown/firelemon
 	plant_traits = list(/datum/plant_trait/fruit/temperature, /datum/plant_trait/fruit/liquid_contents/sensitive)
 	fast_reagents = list(/datum/reagent/sulfur = PLANT_REAGENT_SMALL, /datum/reagent/medicine/charcoal = PLANT_REAGENT_MEDIUM,
-	/datum/reagent/saltpetre = PLANT_REAGENT_SMALL)
+	/datum/reagent/saltpetre = PLANT_REAGENT_SMALL, /datum/reagent/blackpowder = PLANT_REAGENT_MEDIUM)
 	mutations = list(/datum/plant_feature/fruit/lemon)

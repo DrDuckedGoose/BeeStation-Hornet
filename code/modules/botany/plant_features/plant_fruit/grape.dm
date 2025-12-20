@@ -8,7 +8,7 @@
 	fruit_product = /obj/item/food/grown/grapes
 	plant_traits = list(/datum/plant_trait/reagent/fruit/nutriment, /datum/plant_trait/reagent/fruit/vitamin)
 	fast_reagents = list(/datum/reagent/consumable/sugar = PLANT_REAGENT_MEDIUM)
-	colour_override = "#7b194f"
+	colour_override = "#c21273"
 	total_volume = PLANT_FRUIT_VOLUME_MICRO
 	growth_time = PLANT_FRUIT_GROWTH_VERY_FAST
 	mutations = list(/datum/plant_feature/fruit/grape/green)

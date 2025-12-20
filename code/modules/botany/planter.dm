@@ -35,9 +35,14 @@
 	START_PROCESSING(SSobj, src)
 
 /datum/component/planter/process(delta_time)
+	var/obj/obj_parent = parent
+//Weed tick
 	if(!substrate)
 		return
 	weed_level += WEED_RATE * delta_time
+//Tick reagents
+	SEND_SIGNAL(obj_parent.reagents, COMSIG_PLANTER_TICK_REAGENTS,  src, delta_time)
+//Weed overtake
 	if(weed_level < WEED_THRESHOLD)
 		return
 	weed_level = 0
@@ -46,7 +51,6 @@
 	if(!weed.plant(parent, logic = TRUE))
 		qdel(weed)
 		return
-	var/obj/obj_parent = parent
 	obj_parent.visible_message(span_warning("The [parent] is overtaken by some [weed.name_override]!"))
 
 /datum/component/planter/proc/catch_attack(datum/source, obj/item/I, mob/living/attacker, params)

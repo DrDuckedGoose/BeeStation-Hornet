@@ -87,6 +87,8 @@
 	var/obj/item/plant_tray/tray = parent.plant_item.loc
 	if(health <= initial(health)*0.5 && istype(tray))
 		tray.add_feature_indicator(src, src, tray.problem_features)
+	else if(istype(tray))
+		tray.remove_feature_indicator(src, src, tray.problem_features)
 	if(health <= 0)
 		catch_harvest()
 		return

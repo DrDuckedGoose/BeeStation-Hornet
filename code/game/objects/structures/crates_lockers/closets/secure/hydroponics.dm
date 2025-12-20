@@ -12,3 +12,4 @@
 	new /obj/item/hatchet(src)
 	new /obj/item/storage/belt/botanical(src)
 	new /obj/item/storage/box/disks_plantgene(src)
+	new /obj/item/construction/plumbing/botany(src)

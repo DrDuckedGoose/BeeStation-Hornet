@@ -1,4 +1,3 @@
-//TODO: add parts, and machine board. Parts improve reagent capacity - Racc
 /obj/item/plant_tray
 	name = "plant tray"
 	desc = "A fifth generation space compatible botanical growing tray."
@@ -163,7 +162,7 @@
 /obj/item/plant_tray/proc/add_feature_indicator(datum/_source, datum/feature, datum/feature_list)
 	if(!feature_list["[ref(feature)]"])
 		feature_list["[ref(feature)]"] = list()
-	feature_list["[ref(feature)]"] += "[ref(_source)]"
+	feature_list["[ref(feature)]"] |= "[ref(_source)]"
 	update_indicators()
 
 /obj/item/plant_tray/proc/remove_feature_indicator(datum/_source, datum/feature, datum/feature_list)
@@ -212,12 +211,3 @@
 	layer = layer_override
 	over_water = mutable_appearance('icons/obj/hydroponics/features/generic.dmi', "[key]_water_over", layer_override+0.1)
 	add_overlay(over_water)
-
-/*
-TODO: - Racc
-
-else if(istype(O, /obj/item/storage/bag/plants))
-		harvest_plant(user)
-		for(var/obj/item/food/grown/G in locate(user.x,user.y,user.z))
-			O.atom_storage?.attempt_insert(G, user, TRUE)
-*/

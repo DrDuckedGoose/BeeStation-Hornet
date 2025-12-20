@@ -5,7 +5,9 @@
 	Generic toxin that damages the plant
 */
 /datum/plant_need/reagent/buff/toxin
-	reagent_needs = list(/datum/reagent/toxin = 1, /datum/reagent/consumable/ethanol = 5, /datum/reagent/fluorine = 1, /datum/reagent/chlorine = 1)
+	reagent_needs = list(/datum/reagent/toxin = 1, /datum/reagent/consumable/ethanol = 5, /datum/reagent/fluorine = 1, /datum/reagent/chlorine = 1, /datum/reagent/phosphorus = 1,
+	/datum/reagent/toxin/acid = 1, /datum/reagent/toxin/acid/fluacid = 0.5, /datum/reagent/toxin/plantbgone = 0.5, /datum/reagent/napalm = 1, /datum/reagent/toxin/plantbgone/weedkiller = 5,
+	/datum/reagent/toxin/pestkiller = 5)
 	auto_threshold = TRUE
 
 /datum/plant_need/reagent/buff/toxin/New(datum/plant_feature/_parent)

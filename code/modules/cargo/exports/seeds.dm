@@ -13,7 +13,7 @@
 		return 0
 	if(needs_discovery && !(S.species_id in discoveredPlants))
 		return 0
-	return ..()//TODO: Implement a reward for better seeds - Racc * S.rarity // That's right, no bonus for potency. Send a crappy sample first to "show improvement" later.
+	return ..() * S.seeds
 
 /datum/export/seed/sell_object(obj/O, datum/export_report/report, dry_run, allowed_categories)
 	. = ..()

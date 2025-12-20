@@ -16,7 +16,7 @@
 	var/current_feature_ref
 
 	///Inserted disk we're saving data too
-	var/obj/item/plant_disk/disk
+	var/obj/item/disk/plant_disk/disk
 	///Are we in the process of saving a feature
 	var/saving_feature = FALSE
 	///What traits are we not saving with the plant feature, if we are saving a plant feature
@@ -28,7 +28,7 @@
 
 /obj/machinery/plant_machine/plant_analyser/attackby(obj/item/C, mob/user)
 //Disk
-	if(istype(C, /obj/item/plant_disk) && !disk)
+	if(istype(C, /obj/item/disk/plant_disk) && !disk)
 		C.forceMove(src)
 		disk = C
 		ui_update()

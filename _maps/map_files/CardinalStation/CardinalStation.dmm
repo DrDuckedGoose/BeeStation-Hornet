@@ -1796,13 +1796,9 @@
 /obj/structure/table/reinforced{
 	color = "#c2bfa3"
 	},
-/obj/item/storage/box/syringes{
-	pixel_y = 8;
-	pixel_x = -15
-	},
-/obj/item/storage/fancy/rollingpapers{
-	pixel_y = 6;
-	pixel_x = 3
+/obj/item/plant_scanner,
+/obj/item/plant_scanner{
+	pixel_y = 7
 	},
 /turf/open/floor/prison/dark,
 /area/hydroponics)
@@ -2441,10 +2437,6 @@
 "aBG" = (
 /obj/effect/turf_decal/siding/asteroid{
 	dir = 8
-	},
-/obj/machinery/hydroponics/soil{
-	pixel_x = 14;
-	pixel_y = -3
 	},
 /turf/open/floor/grass/no_border,
 /area/hydroponics/garden)
@@ -8770,11 +8762,14 @@
 	alpha = 255
 	},
 /obj/structure/table,
-/obj/machinery/plantgenes{
-	pixel_y = 8;
-	pixel_x = 1
+/obj/machinery/plant_machine/seed_editor{
+	pixel_y = 7;
+	pixel_x = -7
 	},
-/obj/machinery/newscaster/directional/north,
+/obj/machinery/smartfridge/disks{
+	pixel_y = 14;
+	pixel_x = 4
+	},
 /turf/open/floor/iron,
 /area/hydroponics)
 "bNi" = (
@@ -9511,6 +9506,16 @@
 	},
 /obj/structure/cable/yellow{
 	icon_state = "4-8"
+	},
+/obj/structure/table,
+/obj/machinery/reagentgrinder{
+	desc = "Used to grind things up into raw materials and liquids.";
+	pixel_y = 14;
+	pixel_x = -5
+	},
+/obj/item/storage/box/syringes{
+	pixel_x = 2;
+	pixel_y = 2
 	},
 /turf/open/floor/wood/big,
 /area/hydroponics)
@@ -10458,8 +10463,9 @@
 	dir = 4;
 	alpha = 255
 	},
-/obj/machinery/chem_dispenser/mutagensaltpetersmall,
 /obj/machinery/light_switch/directional/west,
+/obj/effect/turf_decal/delivery,
+/obj/machinery/plant_machine/plant_mutator,
 /turf/open/floor/iron,
 /area/hydroponics)
 "ccq" = (
@@ -16273,7 +16279,7 @@
 /obj/effect/turf_decal/siding/dark{
 	dir = 9
 	},
-/obj/structure/flora/bigplant,
+/obj/item/plant_tray/pot/random,
 /turf/open/floor/wood/big,
 /area/hydroponics)
 "djj" = (
@@ -16544,6 +16550,7 @@
 /obj/effect/decal/fakestairs/newstairs/right{
 	dir = 4
 	},
+/obj/structure/platform/black,
 /turf/open/floor/iron/dark/textured_large,
 /area/hydroponics)
 "dmm" = (
@@ -17535,9 +17542,9 @@
 /turf/open/floor/concrete/slab,
 /area/ai_monitored/turret_protected/aisat_interior)
 "dxB" = (
-/obj/machinery/hydroponics/constructable,
 /obj/machinery/light/dim/directional/east,
 /obj/structure/sign/poster/official/random/directional/east,
+/obj/item/plant_tray,
 /turf/open/floor/catwalk_floor/iron_dark,
 /area/hydroponics)
 "dxD" = (
@@ -23239,10 +23246,6 @@
 /obj/item/trash/canned/beans,
 /turf/open/floor/plating,
 /area/maintenance/department/medical/morgue)
-"eMf" = (
-/obj/machinery/hydroponics/soil,
-/turf/open/floor/grass,
-/area/security/prison)
 "eMi" = (
 /obj/effect/turf_decal/stripes/line,
 /obj/effect/decal/cleanable/blood/tracks{
@@ -33702,6 +33705,15 @@
 	dir = 1
 	},
 /area/hallway/secondary/entry)
+"gRa" = (
+/obj/effect/turf_decal/stripes/line{
+	dir = 8
+	},
+/obj/effect/mapping_helpers/color_correction{
+	color_correction = /datum/client_colour/area_color/warm_yellow
+	},
+/turf/open/floor/iron/dark,
+/area/hydroponics)
 "gRe" = (
 /obj/effect/turf_decal/siding/wideplating_new/dark{
 	dir = 4
@@ -43654,7 +43666,6 @@
 /obj/effect/turf_decal/siding/dark/end{
 	dir = 4
 	},
-/obj/machinery/seed_extractor,
 /turf/open/floor/iron/smooth_half,
 /area/hydroponics)
 "iRg" = (
@@ -48885,6 +48896,7 @@
 	},
 /obj/effect/turf_decal/siding/dark,
 /obj/structure/reagent_dispensers/watertank/high,
+/obj/item/reagent_containers/cup/bucket,
 /turf/open/floor/iron/dark,
 /area/hydroponics)
 "jVr" = (
@@ -49349,9 +49361,9 @@
 /turf/open/floor/plating,
 /area/security/main)
 "kaE" = (
-/obj/machinery/hydroponics/constructable,
 /obj/machinery/camera/directional/east,
 /obj/machinery/airalarm/directional/east,
+/obj/item/plant_tray,
 /turf/open/floor/catwalk_floor/iron_dark,
 /area/hydroponics)
 "kaK" = (
@@ -49441,6 +49453,9 @@
 	},
 /obj/effect/decal/fakestairs/newstairs/left{
 	dir = 4
+	},
+/obj/structure/platform/black/stair_cutoff{
+	dir = 1
 	},
 /turf/open/floor/iron/dark/textured_large,
 /area/hydroponics)
@@ -50480,6 +50495,8 @@
 	color = "#909090";
 	dir = 10
 	},
+/obj/machinery/seeder,
+/obj/effect/turf_decal/delivery,
 /turf/open/floor/iron,
 /area/hydroponics)
 "klx" = (
@@ -55015,9 +55032,9 @@
 /turf/open/floor/iron/dark,
 /area/maintenance/club)
 "lhu" = (
-/obj/machinery/seed_extractor,
-/turf/open/floor/grass,
-/area/security/prison)
+/obj/item/plant_tray,
+/turf/open/floor/catwalk_floor/iron_dark,
+/area/hydroponics)
 "lhz" = (
 /obj/effect/turf_decal/trimline/green/filled/line{
 	dir = 6
@@ -56939,13 +56956,6 @@
 /obj/structure/extinguisher_cabinet/directional/east,
 /turf/open/floor/engine,
 /area/ai_monitored/turret_protected/ai)
-"lCZ" = (
-/obj/machinery/hydroponics/soil{
-	pixel_x = 16;
-	pixel_y = 3
-	},
-/turf/open/floor/grass,
-/area/hydroponics/garden)
 "lDa" = (
 /obj/effect/turf_decal/stripes/closeup{
 	dir = 1
@@ -57583,6 +57593,7 @@
 /obj/effect/turf_decal/stripes/corner{
 	dir = 8
 	},
+/obj/item/plant_tray/pot/random,
 /turf/open/floor/iron/dark,
 /area/hydroponics)
 "lKp" = (
@@ -61604,7 +61615,6 @@
 /turf/open/floor/wood/big,
 /area/crew_quarters/dorms)
 "mDg" = (
-/obj/machinery/seed_extractor,
 /turf/open/floor/wood/big,
 /area/hydroponics/garden)
 "mDh" = (
@@ -66406,6 +66416,10 @@
 /obj/structure/cable/yellow{
 	icon_state = "4-8"
 	},
+/obj/machinery/chem_master/condimaster{
+	desc = "Used to separate out liquids - useful for purifying botanical extracts. Also dispenses condiments.";
+	name = "BrewMaster 2199"
+	},
 /turf/open/floor/wood/big,
 /area/hydroponics)
 "nAP" = (
@@ -69143,6 +69157,13 @@
 	dir = 1
 	},
 /obj/item/hatchet,
+/obj/item/toy/figure/botanist{
+	pixel_x = -1
+	},
+/obj/item/substrate_bag/dirt,
+/obj/item/substrate_bag/clay,
+/obj/item/substrate_bag/debris,
+/obj/item/substrate_bag/sand,
 /turf/open/floor/wood/big,
 /area/hydroponics)
 "ocv" = (
@@ -69718,10 +69739,6 @@
 /obj/item/shovel/spade{
 	pixel_y = -2;
 	pixel_x = -3
-	},
-/obj/machinery/hydroponics/soil{
-	pixel_x = -21;
-	pixel_y = 17
 	},
 /turf/open/floor/grass/no_border,
 /area/hydroponics/garden)
@@ -71784,14 +71801,6 @@
 	},
 /turf/open/floor/carpet/grimy,
 /area/security/courtroom)
-"oHi" = (
-/obj/effect/turf_decal/siding/dirt/corner,
-/obj/machinery/hydroponics/soil{
-	pixel_x = -22;
-	pixel_y = 14
-	},
-/turf/open/floor/grass/no_border,
-/area/hydroponics/garden)
 "oHs" = (
 /turf/closed/wall/r_wall,
 /area/maintenance/disposal/incinerator)
@@ -84943,7 +84952,6 @@
 /turf/open/floor/iron/smooth,
 /area/crew_quarters/heads/captain/private)
 "rnN" = (
-/obj/machinery/hydroponics/constructable,
 /obj/structure/railing/perspective/gray/corner,
 /turf/open/floor/catwalk_floor/iron_dark,
 /area/hydroponics)
@@ -90120,13 +90128,9 @@
 /obj/structure/table/reinforced{
 	color = "#c2bfa3"
 	},
-/obj/item/toy/figure/botanist{
-	pixel_x = -1
-	},
-/obj/item/food/grown/flower/harebell{
-	pixel_y = 8;
-	pixel_x = -7
-	},
+/obj/item/wrench,
+/obj/item/construction/plumbing/botany,
+/obj/item/construction/plumbing/botany,
 /turf/open/floor/prison/dark,
 /area/hydroponics)
 "srK" = (
@@ -95983,19 +95987,10 @@
 	alpha = 255
 	},
 /obj/structure/table,
-/obj/machinery/reagentgrinder{
-	desc = "Used to grind things up into raw materials and liquids.";
-	pixel_y = 14;
-	pixel_x = -5
+/obj/machinery/computer/plant_machine_controller{
+	pixel_y = 3
 	},
-/obj/item/grenade/chem_grenade/antiweed{
-	pixel_y = 9;
-	pixel_x = 16
-	},
-/obj/item/grenade/chem_grenade/antiweed{
-	pixel_y = 4;
-	pixel_x = 8
-	},
+/obj/machinery/newscaster/directional/north,
 /turf/open/floor/iron,
 /area/hydroponics)
 "tDs" = (
@@ -97578,9 +97573,7 @@
 /turf/open/floor/iron/techmaint,
 /area/security/main)
 "tSH" = (
-/obj/machinery/hydroponics/soil,
 /obj/machinery/light/small/directional/west,
-/obj/item/seeds/wheat,
 /turf/open/floor/grass,
 /area/security/prison)
 "tSP" = (
@@ -102275,7 +102268,6 @@
 /turf/open/floor/wood/big,
 /area/crew_quarters/heads/captain/private)
 "uPI" = (
-/obj/machinery/hydroponics/constructable,
 /turf/open/floor/catwalk_floor/iron_dark,
 /area/hydroponics)
 "uPM" = (
@@ -112124,11 +112116,6 @@
 	dir = 4;
 	alpha = 255
 	},
-/obj/structure/table,
-/obj/machinery/smartfridge/disks{
-	pixel_y = 3;
-	pixel_x = 2
-	},
 /obj/machinery/light/dim/directional/east,
 /obj/machinery/firealarm{
 	dir = 8;
@@ -114944,9 +114931,9 @@
 	alpha = 255
 	},
 /obj/structure/sign/poster/official/random/directional/north,
-/obj/machinery/chem_master/condimaster{
-	desc = "Used to separate out liquids - useful for purifying botanical extracts. Also dispenses condiments.";
-	name = "BrewMaster 2199"
+/obj/structure/table,
+/obj/machinery/plant_machine/plant_analyser{
+	pixel_y = 5
 	},
 /turf/open/floor/iron,
 /area/hydroponics)
@@ -117178,12 +117165,6 @@
 	},
 /turf/open/floor/vault/rock,
 /area/science/nanite)
-"xRf" = (
-/obj/machinery/hydroponics/soil{
-	pixel_x = 10
-	},
-/turf/open/floor/grass,
-/area/hydroponics/garden)
 "xRg" = (
 /obj/effect/turf_decal/siding/wideplating_new/dark{
 	dir = 4
@@ -140938,8 +140919,8 @@ uOb
 xhd
 aca
 gKX
-lCZ
-xRf
+xVO
+xVO
 aBG
 sIi
 tVb
@@ -141197,7 +141178,7 @@ xhd
 shs
 hrg
 ojB
-oHi
+cRx
 iik
 dgs
 dLP
@@ -152282,7 +152263,7 @@ daw
 fUB
 uPI
 xZH
-uPI
+lhu
 tIE
 uPI
 uZb
@@ -152541,7 +152522,7 @@ uPI
 uiv
 uPI
 aEA
-uPI
+lhu
 uiv
 uPI
 iCU
@@ -153825,7 +153806,7 @@ ccp
 dfG
 lKn
 blI
-blI
+gRa
 blI
 jVm
 aKz
@@ -160497,9 +160478,9 @@ bGY
 wDq
 hlx
 hVa
-eMf
+qMc
 tSH
-eMf
+qMc
 aex
 aex
 qFo
@@ -160756,7 +160737,7 @@ eFM
 gIq
 trr
 tmj
-eMf
+qMc
 aex
 eVy
 aGg
@@ -161013,7 +160994,7 @@ eFM
 eFM
 xQG
 qMc
-eMf
+qMc
 aex
 jYh
 fNS
@@ -161267,7 +161248,7 @@ mEr
 bGY
 wDq
 sgk
-lhu
+qMc
 mzW
 udF
 oSw

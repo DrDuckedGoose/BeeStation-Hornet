@@ -1,10 +1,11 @@
-#define PC_LINK_RANGE 2
+#define PC_LINK_RANGE 3
 
 /obj/machinery/computer/plant_machine_controller
 	name = "hydroponics machine terminal"
 	desc = "A proprietary terminal made by Yamato to control Yamato machines."
 	icon = 'icons/obj/hydroponics/features/generic.dmi'
 	icon_state = "pc"
+	base_icon_state = "pc"
 	interaction_flags_atom = INTERACT_ATOM_ATTACK_HAND
 	///List of linked machines
 	var/list/machines = list()
@@ -15,6 +16,10 @@
 	var/selected_chapter = "features"
 	var/selected_entry
 	var/selected_type_shortcut
+
+/obj/machinery/computer/plant_machine_controller/Initialize(mapload)
+	. = ..()
+	desc += span_notice("\nAlt-click to resync nearby machines.")
 
 /obj/machinery/computer/plant_machine_controller/LateInitialize()
 	. = ..()
@@ -28,6 +33,12 @@
 		return
 	var/obj/machinery/machine = option_links[result]
 	machine.ui_interact(user)
+
+/obj/machinery/computer/plant_machine_controller/AltClick(mob/user)
+	. = ..()
+	to_chat(user, span_notice("Resyncing machines..."))
+	playsound(src, 'sound/effects/fastbeep.ogg', 60)
+	locate_machines()
 
 /obj/machinery/computer/plant_machine_controller/ui_interact(mob/user, datum/tgui/ui)
 	ui = SStgui.try_update_ui(user, src, ui)
@@ -111,7 +122,6 @@
 
 /obj/machinery/computer/plant_machine_controller/proc/locate_machines()
 	//Link machines
-	//TODO: Could probably clean this up with signals - Racc
 	for(var/obj/machinery/machine in range(PC_LINK_RANGE, src))
 		if(machine_options["[machine]"])
 			continue
@@ -119,7 +129,9 @@
 			continue
 		var/obj/machinery/plant_machine/plant_machine = machine
 		plant_machine.controller = src
-		machines += machine
+		machines |= machine
+		RegisterSignal(plant_machine, COMSIG_QDELETING, PROC_REF(catch_qdel))
+		RegisterSignal(plant_machine, COMSIG_MOVABLE_MOVED, PROC_REF(catch_move))
 	assemble_menu()
 
 /obj/machinery/computer/plant_machine_controller/proc/assemble_menu()
@@ -133,5 +145,16 @@
 	var/image/image = image(icon, null, "plant")
 	machine_options["[src]"] = image
 	option_links["[src]"] = src
+
+/obj/machinery/computer/plant_machine_controller/proc/catch_qdel(datum/source)
+	SIGNAL_HANDLER
+
+	machines -= source
+
+/obj/machinery/computer/plant_machine_controller/proc/catch_move(datum/source, atom/newloc, dir)
+	SIGNAL_HANDLER
+
+	if(get_dist(src, source) > PC_LINK_RANGE)
+		machines -= source
 
 #undef PC_LINK_RANGE

@@ -8,6 +8,7 @@
 	chemical_flags = CHEMICAL_RNG_GENERAL | CHEMICAL_RNG_FUN | CHEMICAL_GOAL_BOTANIST_HARVEST
 	taste_description = "bitterness"
 	taste_mult = 1.2
+	weed_kill = 0.25
 
 	/// How much toxin we deal
 	var/toxpwr = 1.5
@@ -27,6 +28,7 @@
 	chemical_flags = CHEMICAL_RNG_GENERAL | CHEMICAL_RNG_FUN | CHEMICAL_GOAL_BOTANIST_HARVEST
 	toxpwr = 2.5
 	taste_description = "mushroom"
+	weed_kill = 0
 
 /datum/reagent/toxin/mutagen
 	name = "Unstable Mutagen"
@@ -71,6 +73,7 @@
 	chemical_flags = CHEMICAL_RNG_GENERAL | CHEMICAL_RNG_FUN | CHEMICAL_RNG_BOTANY
 	toxpwr = 3
 	process_flags = ORGANIC | SYNTHETIC
+	weed_kill = 0.45
 
 /datum/reagent/toxin/plasma/on_mob_life(mob/living/carbon/affected_mob, delta_time, times_fired)
 	. = ..()
@@ -250,6 +253,7 @@
 	chemical_flags = CHEMICAL_RNG_GENERAL | CHEMICAL_RNG_FUN | CHEMICAL_RNG_BOTANY | CHEMICAL_GOAL_BOTANIST_HARVEST
 	toxpwr = 1
 	taste_mult = 1
+	weed_kill = 0.4
 
 /datum/reagent/toxin/plantbgone/expose_obj(obj/exposed_obj, reac_volume)
 	. = ..()
@@ -273,6 +277,7 @@
 	description = "A harmful toxic mixture to kill weeds. Do not ingest!"
 	color = "#4B004B" // rgb: 75, 0, 75
 	chemical_flags = CHEMICAL_RNG_GENERAL | CHEMICAL_RNG_FUN | CHEMICAL_RNG_BOTANY | CHEMICAL_GOAL_BOTANIST_HARVEST
+	weed_kill = 0.35
 
 /datum/reagent/toxin/pestkiller
 	name = "Pest Killer"
@@ -927,6 +932,7 @@
 	chemical_flags = CHEMICAL_RNG_GENERAL | CHEMICAL_RNG_FUN | CHEMICAL_RNG_BOTANY | CHEMICAL_GOAL_BOTANIST_HARVEST
 	toxpwr = 2
 	acidpwr = 42.0
+	weed_kill = 0.4
 
 /datum/reagent/toxin/acid/fluacid/on_mob_life(mob/living/carbon/affected_mob, delta_time, times_fired)
 	. = ..()

@@ -1,7 +1,7 @@
 //Water
 /datum/plant_need/reagent/water
 	need_description = "The basic recipe required to sustain plant life."
-	reagent_needs = list(/datum/reagent/water = 1, /datum/reagent/medicine/earthsblood = 0.01, /datum/reagent/consumable/sodawater = 5)
+	reagent_needs = list(/datum/reagent/water = 1, /datum/reagent/medicine/earthsblood = 0.01, /datum/reagent/consumable/sodawater = 0.5, /datum/reagent/consumable/milk = 0.09)
 	auto_threshold = TRUE
 
 /datum/plant_need/reagent/water/fufill_need(atom/location)

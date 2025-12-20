@@ -1,5 +1,7 @@
 /*
 	The fruit can be turned into a battery
+	//TODO: - Racc
+
 */
 /*
 /datum/plant_gene/trait/battery/on_attackby(obj/item/food/grown/G, obj/item/I, mob/user)

@@ -147,7 +147,7 @@
 
 /obj/item/storage/box/disks_plantgene/PopulateContents()
 	for(var/i in 1 to 7)
-		new /obj/item/plant_disk(src)
+		new /obj/item/disk/plant_disk(src)
 
 /obj/item/storage/box/disks_nanite
 	name = "nanite program disks box"
