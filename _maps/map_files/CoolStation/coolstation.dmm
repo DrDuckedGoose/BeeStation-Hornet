@@ -298,6 +298,18 @@
 	},
 /turf/open/floor/iron/dark,
 /area/space)
+"hq" = (
+/obj/structure/cable/yellow,
+/obj/structure/cable/yellow{
+	icon_state = "0-4"
+	},
+/obj/effect/spawner/structure/window/reinforced,
+/obj/machinery/door/poddoor/preopen{
+	id = "xenobio1";
+	name = "containment Blast Door"
+	},
+/turf/open/floor/plating,
+/area/space)
 "hy" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 1
@@ -350,6 +362,28 @@
 "jm" = (
 /obj/machinery/computer/atmos_alert,
 /turf/open/floor/iron/dark,
+/area/space)
+"jt" = (
+/obj/machinery/door/poddoor/preopen{
+	id = "xenobio1";
+	name = "containment Blast Door"
+	},
+/obj/structure/cable/yellow{
+	icon_state = "1-2"
+	},
+/obj/machinery/door/window/northleft{
+	base_state = "right";
+	dir = 8;
+	icon_state = "right";
+	name = "Containment Pen #1";
+	req_access_txt = "55"
+	},
+/obj/machinery/door/window/northleft{
+	dir = 4;
+	name = "Containment Pen #1";
+	req_access_txt = "55"
+	},
+/turf/open/floor/engine,
 /area/space)
 "jw" = (
 /obj/structure/railing{
@@ -458,6 +492,14 @@
 	},
 /turf/open/floor/iron,
 /area/space)
+"ma" = (
+/obj/machinery/door/firedoor,
+/obj/effect/turf_decal/stripes/closeup{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/dark/fourcorners/contrasted,
+/turf/open/floor/iron,
+/area/space)
 "md" = (
 /obj/effect/spawner/structure/window,
 /turf/open/floor/plating,
@@ -476,6 +518,20 @@
 /turf/open/floor/iron/dark/smooth_corner{
 	dir = 8
 	},
+/area/space)
+"ml" = (
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/obj/structure/cable/yellow{
+	icon_state = "0-2"
+	},
+/obj/effect/spawner/structure/window/reinforced,
+/obj/machinery/door/poddoor/preopen{
+	id = "xenobio1";
+	name = "containment Blast Door"
+	},
+/turf/open/floor/plating,
 /area/space)
 "mo" = (
 /turf/open/floor/iron/white,
@@ -528,12 +584,6 @@
 /obj/machinery/door,
 /turf/open/floor/iron/dark,
 /area/science/explab)
-"nV" = (
-/obj/effect/mapping_helpers/Mapper_Comment{
-	desc = "make each of these bins route to a pen"
-	},
-/turf/open/floor/iron/dark,
-/area/space)
 "oh" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
@@ -931,6 +981,9 @@
 	dir = 1
 	},
 /area/space)
+"zP" = (
+/turf/open/floor/catwalk_floor/iron_dark,
+/area/space)
 "zU" = (
 /turf/open/floor/circuit/green,
 /area/science/server)
@@ -1069,9 +1122,6 @@
 /obj/structure/closet/secure_closet/security/med,
 /turf/open/floor/iron,
 /area/security/checkpoint/customs)
-"Co" = (
-/turf/open/floor/catwalk_floor/iron_dark,
-/area/space)
 "Cq" = (
 /obj/structure/closet/l3closet/scientist,
 /turf/open/floor/iron,
@@ -1263,28 +1313,6 @@
 /obj/structure/table,
 /obj/effect/turf_decal/tile/neutral/fourcorners/contrasted,
 /turf/open/floor/iron/dark,
-/area/space)
-"Gs" = (
-/obj/machinery/door/poddoor/preopen{
-	id = "xenobio1";
-	name = "containment Blast Door"
-	},
-/obj/structure/cable/yellow{
-	icon_state = "1-2"
-	},
-/obj/machinery/door/window/northleft{
-	base_state = "right";
-	dir = 8;
-	icon_state = "right";
-	name = "Containment Pen #1";
-	req_access_txt = "55"
-	},
-/obj/machinery/door/window/northleft{
-	dir = 4;
-	name = "Containment Pen #1";
-	req_access_txt = "55"
-	},
-/turf/open/floor/engine,
 /area/space)
 "Gt" = (
 /obj/machinery/door/airlock/public/glass{
@@ -1502,42 +1530,12 @@
 "LH" = (
 /turf/open/floor/iron/stairs,
 /area/hallway/secondary/entry)
-"LL" = (
-/obj/structure/cable/yellow,
-/obj/structure/cable/yellow{
-	icon_state = "0-4"
-	},
-/obj/effect/spawner/structure/window/reinforced,
-/obj/machinery/door/poddoor/preopen{
-	id = "xenobio1";
-	name = "containment Blast Door"
-	},
-/turf/open/floor/plating,
-/area/space)
 "LM" = (
 /turf/open/floor/iron/corner,
 /area/hallway/secondary/entry)
 "LZ" = (
 /obj/effect/turf_decal/tile/dark_blue,
 /turf/open/floor/iron/dark/smooth_corner,
-/area/space)
-"Ma" = (
-/obj/machinery/disposal/bin,
-/turf/open/floor/iron/dark,
-/area/space)
-"Mk" = (
-/obj/structure/disposalpipe/segment{
-	dir = 4
-	},
-/obj/structure/cable/yellow{
-	icon_state = "0-2"
-	},
-/obj/effect/spawner/structure/window/reinforced,
-/obj/machinery/door/poddoor/preopen{
-	id = "xenobio1";
-	name = "containment Blast Door"
-	},
-/turf/open/floor/plating,
 /area/space)
 "MY" = (
 /obj/effect/turf_decal/stripes/line{
@@ -1618,13 +1616,11 @@
 /obj/structure/platform/gray,
 /turf/open/floor/iron/dark,
 /area/storage/primary)
-"OL" = (
-/obj/machinery/door/firedoor,
-/obj/effect/turf_decal/stripes/closeup{
-	dir = 1
+"OU" = (
+/obj/effect/mapping_helpers/Mapper_Comment{
+	desc = "make each of these bins route to a pen"
 	},
-/obj/effect/turf_decal/tile/dark/fourcorners/contrasted,
-/turf/open/floor/iron,
+/turf/open/floor/iron/dark,
 /area/space)
 "OW" = (
 /obj/structure/railing{
@@ -1634,6 +1630,9 @@
 	dir = 1
 	},
 /turf/open/floor/iron/dark/smooth_corner,
+/area/space)
+"Pb" = (
+/turf/open,
 /area/space)
 "Pe" = (
 /obj/machinery/conveyor{
@@ -1695,6 +1694,13 @@
 /area/storage/primary)
 "PS" = (
 /obj/machinery/processor/slime,
+/turf/open/floor/iron,
+/area/space)
+"PV" = (
+/obj/machinery/door/airlock/atmos{
+	name = "Atmospherics";
+	req_access_txt = "24"
+	},
 /turf/open/floor/iron,
 /area/space)
 "Qe" = (
@@ -1782,6 +1788,10 @@
 "Sp" = (
 /turf/closed/wall,
 /area/storage/primary)
+"St" = (
+/obj/machinery/disposal/bin,
+/turf/open/floor/iron/dark,
+/area/space)
 "Sx" = (
 /obj/machinery/computer/security,
 /turf/open/floor/iron/dark,
@@ -7378,7 +7388,7 @@ mo
 Ov
 bu
 bu
-Ma
+St
 oK
 Ye
 Ye
@@ -7530,7 +7540,7 @@ mo
 Ov
 bu
 bu
-Ma
+St
 wj
 Ye
 Ye
@@ -7682,7 +7692,7 @@ mo
 Ov
 bu
 bu
-Ma
+St
 oK
 Ye
 Ye
@@ -7836,17 +7846,17 @@ bu
 bu
 bu
 oK
-Mk
-Gs
-LL
+ml
+jt
+hq
 oK
-Mk
-Gs
-LL
+ml
+jt
+hq
 oK
-Mk
-Gs
-LL
+ml
+jt
+hq
 oK
 bu
 dj
@@ -7985,20 +7995,20 @@ mo
 mo
 PS
 bu
-nV
+OU
 bu
 Ql
-Co
-Co
-Co
-Co
-Co
-Co
-Co
-Co
-Co
-Co
-Co
+zP
+zP
+zP
+zP
+zP
+zP
+zP
+zP
+zP
+zP
+zP
 UQ
 VX
 dj
@@ -8140,17 +8150,17 @@ bu
 bu
 bu
 Ql
-Co
-Co
-Co
-Co
-Co
-Co
-Co
-Co
-Co
-Co
-Co
+zP
+zP
+zP
+zP
+zP
+zP
+zP
+zP
+zP
+zP
+zP
 db
 Pr
 dj
@@ -8292,17 +8302,17 @@ bu
 bu
 bu
 oK
-Mk
-Gs
-LL
+ml
+jt
+hq
 oK
-Mk
-Gs
-LL
+ml
+jt
+hq
 oK
-Mk
-Gs
-LL
+ml
+jt
+hq
 oK
 bu
 dj
@@ -8442,7 +8452,7 @@ mo
 Nm
 bu
 bu
-Ma
+St
 oK
 Ye
 Ye
@@ -8594,7 +8604,7 @@ mo
 XD
 bu
 bu
-Ma
+St
 wj
 Ye
 Ye
@@ -8746,7 +8756,7 @@ mo
 zi
 bu
 bu
-Ma
+St
 oK
 Ye
 Ye
@@ -9343,7 +9353,7 @@ dj
 dj
 dj
 dj
-OL
+ma
 cV
 CF
 sH
@@ -9495,7 +9505,7 @@ dj
 dj
 dj
 dj
-OL
+ma
 zM
 vG
 Im
@@ -9647,7 +9657,7 @@ dj
 dj
 dj
 dj
-OL
+ma
 Kn
 bO
 tl
@@ -12793,11 +12803,11 @@ vq
 vq
 vq
 vq
+dj
+dj
+dj
 vq
-vq
-vq
-vq
-vq
+oK
 oK
 tY
 oK
@@ -12945,12 +12955,12 @@ vq
 vq
 vq
 vq
-vq
-vq
-vq
-vq
+dj
+dj
+dj
 vq
 oK
+tY
 tY
 oK
 dj
@@ -13097,13 +13107,13 @@ vq
 vq
 vq
 vq
-vq
-vq
-vq
-vq
-vq
+dj
+dj
+dj
 oK
-tY
+oK
+Xf
+oK
 oK
 dj
 dj
@@ -13249,13 +13259,13 @@ vq
 vq
 vq
 vq
-vq
-vq
-vq
-vq
-vq
+dj
+dj
+dj
 oK
-tY
+dj
+dj
+dj
 oK
 dj
 dj
@@ -13401,14 +13411,14 @@ vq
 vq
 vq
 vq
-vq
-vq
-vq
-vq
-vq
-oK
-tY
-oK
+dj
+dj
+dj
+PV
+dj
+dj
+dj
+PV
 dj
 dj
 dj
@@ -13553,13 +13563,13 @@ vq
 vq
 vq
 vq
-vq
-vq
-vq
-vq
-vq
+dj
+dj
+dj
 oK
-tY
+dj
+dj
+dj
 oK
 dj
 dj
@@ -13705,13 +13715,13 @@ vq
 vq
 vq
 vq
-vq
-oK
 dj
 dj
 dj
 oK
-tY
+oK
+Xf
+oK
 oK
 dj
 dj
@@ -13857,12 +13867,12 @@ vq
 vq
 vq
 vq
+dj
+dj
+dj
 vq
 oK
-dj
-dj
-dj
-oK
+tY
 tY
 oK
 dj
@@ -14009,45 +14019,45 @@ vq
 vq
 vq
 vq
+dj
+dj
+dj
 vq
 oK
-dj
-dj
-dj
-oK
-tY
-oK
-dj
-dj
-dj
-oK
-vq
-vq
-vq
-vq
-vq
-vq
-vq
-vq
-vq
-vq
-vq
-vq
-vq
-oK
-dj
-dj
-dj
-oK
-bu
-bu
-bu
-bu
 oK
 tY
-tY
+oK
+dj
+dj
+dj
 oK
 vq
+vq
+vq
+vq
+vq
+vq
+vq
+vq
+vq
+vq
+vq
+vq
+vq
+oK
+dj
+dj
+dj
+oK
+bu
+bu
+bu
+bu
+oK
+tY
+tY
+oK
+Pb
 oK
 tY
 oK
@@ -14162,10 +14172,10 @@ vq
 vq
 vq
 vq
-oK
-dj
-dj
-dj
+vq
+vq
+vq
+vq
 oK
 tY
 oK
@@ -14314,10 +14324,10 @@ vq
 vq
 vq
 vq
-oK
-dj
-dj
-dj
+vq
+vq
+vq
+vq
 oK
 tY
 oK
@@ -14466,10 +14476,10 @@ vq
 vq
 vq
 vq
-oK
-dj
-dj
-dj
+vq
+vq
+vq
+vq
 oK
 tY
 oK
@@ -14618,10 +14628,10 @@ vq
 vq
 vq
 vq
-oK
-dj
-dj
-dj
+vq
+vq
+vq
+vq
 oK
 tY
 oK
@@ -14770,10 +14780,10 @@ vq
 vq
 vq
 vq
-oK
-dj
-dj
-dj
+vq
+vq
+vq
+vq
 oK
 tY
 oK
@@ -14922,10 +14932,10 @@ vq
 vq
 vq
 vq
-oK
-dj
-dj
-dj
+vq
+vq
+vq
+vq
 oK
 tY
 oK
@@ -15074,10 +15084,10 @@ vq
 vq
 vq
 vq
-oK
-dj
-dj
-dj
+vq
+vq
+vq
+vq
 oK
 tY
 oK
@@ -15226,10 +15236,10 @@ vq
 vq
 vq
 vq
-oK
-dj
-dj
-dj
+vq
+vq
+vq
+vq
 oK
 tY
 tY
@@ -15378,10 +15388,10 @@ vq
 vq
 vq
 vq
-oK
-dj
-dj
-dj
+vq
+vq
+vq
+vq
 oK
 oK
 oK
@@ -15530,11 +15540,11 @@ vq
 vq
 vq
 vq
-oK
-dj
-dj
-dj
-oK
+vq
+vq
+vq
+vq
+vq
 vq
 vq
 vq
@@ -15682,11 +15692,11 @@ vq
 vq
 vq
 vq
-oK
-dj
-dj
-dj
-oK
+vq
+vq
+vq
+vq
+vq
 vq
 vq
 vq
@@ -15834,11 +15844,11 @@ vq
 vq
 vq
 vq
-oK
-dj
-dj
-dj
-oK
+vq
+vq
+vq
+vq
+vq
 vq
 vq
 vq
@@ -15986,11 +15996,11 @@ vq
 vq
 vq
 vq
-oK
-dj
-dj
-dj
-oK
+vq
+vq
+vq
+vq
+vq
 oK
 oK
 oK
@@ -16138,11 +16148,11 @@ vq
 vq
 vq
 vq
-oK
-dj
-dj
-dj
-dj
+vq
+vq
+vq
+vq
+vq
 dj
 dj
 dj
@@ -16290,11 +16300,11 @@ vq
 vq
 vq
 vq
-oK
-dj
-dj
-dj
-dj
+vq
+vq
+vq
+vq
+vq
 dj
 dj
 dj
@@ -16442,11 +16452,11 @@ vq
 vq
 vq
 vq
-oK
-dj
-dj
-dj
-dj
+vq
+vq
+vq
+vq
+vq
 dj
 dj
 dj
@@ -16594,11 +16604,11 @@ vq
 vq
 vq
 vq
-oK
-oK
-oK
-oK
-oK
+vq
+vq
+vq
+vq
+vq
 oK
 oK
 oK
