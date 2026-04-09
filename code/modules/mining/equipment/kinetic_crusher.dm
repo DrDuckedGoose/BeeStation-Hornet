@@ -2,7 +2,7 @@
 /obj/item/kinetic_crusher
 	icon = 'icons/obj/mining.dmi'
 	icon_state = "crusher"
-	item_state = "crusher0"
+	inhand_icon_state = "crusher0"
 	lefthand_file = 'icons/mob/inhands/weapons/hammers_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/weapons/hammers_righthand.dmi'
 	name = "proto-kinetic crusher"
@@ -11,6 +11,7 @@
 	force = 0 //You can't hit stuff unless wielded
 	w_class = WEIGHT_CLASS_BULKY
 	slot_flags = ITEM_SLOT_BACK
+	resistance_flags = FIRE_PROOF
 	throwforce = 5
 	throw_speed = 4
 	armour_penetration = 10
@@ -35,7 +36,7 @@
 	block_flags = BLOCKING_ACTIVE
 	block_power = 50
 
-/obj/item/kinetic_crusher/ComponentInitialize()
+/obj/item/kinetic_crusher/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/butchering, 60, 110) //technically it's huge and bulky, but this provides an incentive to use it
 	AddComponent(/datum/component/two_handed, force_unwielded=0, force_wielded=14)
@@ -164,7 +165,7 @@
 	update_appearance()
 
 /obj/item/kinetic_crusher/update_icon_state()
-	item_state = "crusher[HAS_TRAIT(src, TRAIT_WIELDED)]" // this is not icon_state and not supported by 2hcomponent
+	inhand_icon_state = "crusher[HAS_TRAIT(src, TRAIT_WIELDED)]" // this is not icon_state and not supported by 2hcomponent
 	return ..()
 
 /obj/item/kinetic_crusher/update_overlays()

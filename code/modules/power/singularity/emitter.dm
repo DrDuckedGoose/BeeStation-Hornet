@@ -11,11 +11,15 @@
 	req_access = list(ACCESS_ENGINE_EQUIP)
 	circuit = /obj/item/circuitboard/machine/emitter
 
-	use_power = NO_POWER_USE
-	idle_power_usage = 10
-	active_power_usage = 600
+	custom_price = 550
 
+	use_power = NO_POWER_USE
+	idle_power_usage = 500 WATT
+	active_power_usage = 5 KILOWATT
+
+	/// The icon state used by the emitter when it's on.
 	var/icon_state_on = "emitter_+a"
+	/// The icon state used by the emitter when it's on and low on power.
 	var/icon_state_underpowered = "emitter_+u"
 	///Is the machine active?
 	var/active = FALSE
@@ -115,11 +119,11 @@
 
 	if(!active)
 		. += span_notice("Its status display is currently turned off.")
-	else if(!powered)
+	else if(!powered())
 		. += span_notice("Its status display is glowing faintly.")
 	else
 		. += span_notice("Its status display reads: Emitting one beam every <b>[DisplayTimeText(fire_delay)]</b>.")
-		. += span_notice("Power consumption at <b>[display_power(active_power_usage)]</b>.")
+		. += span_notice("Power consumption at <b>[display_power_persec(active_power_usage)]</b>.")
 
 /obj/machinery/power/emitter/Destroy()
 	if(SSticker.IsRoundInProgress())
@@ -132,11 +136,14 @@
 	return ..()
 
 /obj/machinery/power/emitter/update_icon_state()
+	. = ..()
 	if(!active || !powernet)
 		icon_state = base_icon_state
-		return ..()
+		return
+	if(panel_open)
+		icon_state = "[base_icon_state]_open"
+		return
 	icon_state = avail(active_power_usage) ? icon_state_on : icon_state_underpowered
-	return ..()
 
 /obj/machinery/power/emitter/interact(mob/user)
 	add_fingerprint(user)
@@ -161,7 +168,7 @@
 	message_admins("Emitter turned [active ? "ON" : "OFF"] by [ADMIN_LOOKUPFLW(user)] in [ADMIN_VERBOSEJMP(src)]")
 	log_game("Emitter turned [active ? "ON" : "OFF"] by [key_name(user)] in [AREACOORD(src)]")
 	investigate_log("turned [active ? "<font color='green'>ON</font>" : "<font color='red'>OFF</font>"] by [key_name(user)] at [AREACOORD(src)]", INVESTIGATE_ENGINES)
-	update_appearance()
+	update_appearance(UPDATE_ICON_STATE)
 
 /obj/machinery/power/emitter/attack_animal(mob/living/simple_animal/M)
 	if(ismegafauna(M) && anchored)
@@ -177,14 +184,14 @@
 		return
 	if(!welded || (!powernet && active_power_usage))
 		active = FALSE
-		update_appearance()
+		update_appearance(UPDATE_ICON_STATE)
 		return
 	if(!active)
 		return
 	if(active_power_usage && surplus() < active_power_usage)
 		if(powered)
 			powered = FALSE
-			update_appearance()
+			update_appearance(UPDATE_ICON_STATE)
 			investigate_log("lost power and turned <font color='red'>OFF</font> at [AREACOORD(src)]", INVESTIGATE_ENGINES)
 			log_game("Emitter lost power in [AREACOORD(src)]")
 		return
@@ -192,7 +199,7 @@
 	add_load(active_power_usage)
 	if(!powered)
 		powered = TRUE
-		update_appearance()
+		update_appearance(UPDATE_ICON_STATE)
 		investigate_log("regained power and turned <font color='green'>ON</font> at [AREACOORD(src)]", INVESTIGATE_ENGINES)
 	if(charge <= 80)
 		charge += 2.5 * delta_time
@@ -273,7 +280,6 @@
 		welded = FALSE
 		to_chat(user, span_notice("You cut [src] free from the floor."))
 		disconnect_from_network()
-		//update_cable_icons_on_turf(get_turf(src))
 		return TRUE
 
 	if(!anchored)
@@ -289,22 +295,19 @@
 	welded = TRUE
 	to_chat(user, span_notice("You weld [src] to the floor."))
 	connect_to_network()
-	//update_cable_icons_on_turf(get_turf(src))
 	return TRUE
 
-/obj/machinery/power/emitter/crowbar_act(mob/living/user, obj/item/item)
+/obj/machinery/power/emitter/crowbar_act(mob/living/user, obj/item/tool)
 	if(panel_open && gun)
 		return remove_gun(user)
-	default_deconstruction_crowbar(item)
-	return TRUE
 
-/obj/machinery/power/emitter/screwdriver_act(mob/living/user, obj/item/item)
-	if(..())
-		update_appearance()
+	if(default_deconstruction_crowbar(tool))
 		return TRUE
-	default_deconstruction_screwdriver(user, "emitter_open", "emitter", item)
-	update_appearance()
-	return TRUE
+
+/obj/machinery/power/emitter/screwdriver_act(mob/living/user, obj/item/tool)
+	if(default_deconstruction_screwdriver(user, "[base_icon_state]_open", base_icon_state, tool))
+		update_appearance(UPDATE_ICON_STATE)
+		return TRUE
 
 /obj/machinery/power/emitter/attackby(obj/item/item, mob/user, params)
 	if(item.GetID())
@@ -321,9 +324,8 @@
 	if(is_wire_tool(item) && panel_open)
 		wires.interact(user)
 		return
-	if(panel_open && !gun && istype(item,/obj/item/gun/energy))
-		if(integrate(item,user))
-			return
+	if(panel_open && !gun && istype(item, /obj/item/gun/energy) && integrate(item,user))
+		return
 	return ..()
 
 /obj/machinery/power/emitter/AltClick(mob/user)
@@ -344,7 +346,7 @@
 		return
 	user.put_in_hands(gun)
 	gun = null
-	playsound(src, 'sound/items/deconstruct.ogg', 50, 1)
+	playsound(src, 'sound/items/deconstruct.ogg', 50, TRUE)
 	gun_properties = list()
 	set_projectile()
 	return TRUE

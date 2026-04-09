@@ -45,7 +45,12 @@
 
 	rpg_title = "Scissorhands"
 
-	minimal_lightup_areas = list(/area/medical/morgue)
+	minimal_lightup_areas = list(/area/station/medical/morgue)
+
+	manuscript_jobs = list(
+		JOB_NAME_BARBER,
+		JOB_NAME_ASSISTANT
+	)
 
 /datum/outfit/job/gimmick/barber
 	name = JOB_NAME_BARBER
@@ -81,7 +86,8 @@
 		SPECIES_PLASMAMAN = /datum/outfit/plasmaman/magic
 	)
 
-	minimal_lightup_areas = list(/area/crew_quarters/theatre)
+	minimal_lightup_areas = list(
+/area/station/service/theater)
 
 /datum/outfit/job/gimmick/stage_magician
 	name = JOB_NAME_STAGEMAGICIAN
@@ -114,9 +120,15 @@
 	departments = DEPT_BITFLAG_MED
 	bank_account_department = ACCOUNT_MED_BITFLAG
 	payment_per_department = list(ACCOUNT_MED_ID = PAYCHECK_EASY)
-	mind_traits = list(TRAIT_MADNESS_IMMUNE, TRAIT_MEDICAL_METABOLISM)
+	mind_traits = list(TRAIT_MADNESS_IMMUNE, TRAIT_MEDICAL_METABOLISM, TRAIT_SUPERMATTER_SOOTHER)
 
 	rpg_title = "Enchanter"
+
+	manuscript_jobs = list(
+		JOB_NAME_PSYCHIATRIST,
+		JOB_NAME_MEDICALDOCTOR,
+		JOB_NAME_CHEMIST
+	)
 
 /datum/outfit/job/gimmick/psychiatrist //psychiatrist doesnt get much shit, but he has more access and a cushier paycheck
 	name = JOB_NAME_PSYCHIATRIST
@@ -143,6 +155,7 @@
 	departments = DEPT_BITFLAG_VIP
 	bank_account_department = ACCOUNT_VIP_BITFLAG
 	payment_per_department = list(ACCOUNT_VIP_ID = PAYCHECK_VIP)  //our power is being fucking rich
+	mind_traits = list(TRAIT_VIP)
 
 	rpg_title = "Master of Patronage"
 	species_outfits = list(

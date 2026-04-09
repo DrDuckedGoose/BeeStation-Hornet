@@ -28,9 +28,13 @@
 	biohazard = 10
 
 	minimal_lightup_areas = list(
-		/area/library,
-		/area/construction/mining/aux_base
+
+/area/station/service/library,
+		/area/station/construction/mining/aux_base
 	)
+
+	// The power that curator can write a manuscript as any job is written in 'manuscript_writing.dm'
+	// manuscript_jobs = list()
 
 /datum/outfit/job/curator
 	name = JOB_NAME_CURATOR
@@ -48,13 +52,14 @@
 	backpack_contents = list(
 		/obj/item/choice_beacon/radial/hero = 1,
 		/obj/item/soapstone = 1,
-		/obj/item/barcodescanner = 1
+		/obj/item/barcodescanner = 1,
+		/obj/item/book/kindred = 1,
 	)
 
-/datum/outfit/job/curator/post_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
+/datum/outfit/job/curator/post_equip(mob/living/carbon/human/H, visuals_only = FALSE)
 	..()
 
-	if(visualsOnly)
+	if(visuals_only)
 		return
 
 	H.grant_all_languages(source = LANGUAGE_CURATOR)

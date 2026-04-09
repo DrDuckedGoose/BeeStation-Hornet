@@ -2,7 +2,6 @@ SUBSYSTEM_DEF(blackbox)
 	name = "Blackbox"
 	wait = 6000
 	runlevels = RUNLEVEL_GAME | RUNLEVEL_POSTGAME
-	init_order = INIT_ORDER_BLACKBOX
 
 	var/list/feedback = list()	//list of datum/feedback_variable
 	var/list/first_death = list() //the first death of this round, assoc. vars keep track of different things
@@ -350,7 +349,7 @@ Versioning
 		"z_coord" = L.z,
 		"last_words" = L.last_words,
 		"suicide" = L.suiciding,
-		"map" = SSmapping.config.map_name,
+		"map" = SSmapping.current_map.map_name,
 		"internet_address" = world.internet_address || "0",
 		"port" = "[world.port]",
 		"server_name" = CONFIG_GET(string/serversqlname),

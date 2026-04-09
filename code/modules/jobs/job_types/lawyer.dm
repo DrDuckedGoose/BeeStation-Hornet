@@ -26,7 +26,13 @@
 		SPECIES_PLASMAMAN = /datum/outfit/plasmaman/lawyer
 	)
 
-	minimal_lightup_areas = list(/area/lawoffice)
+	minimal_lightup_areas = list(/area/station/service/lawoffice)
+
+	manuscript_jobs = list(
+		JOB_NAME_LAWYER,
+		JOB_NAME_DETECTIVE, // a lawyer should also know how to collect evidences
+		JOB_NAME_CURATOR
+	)
 
 /datum/outfit/job/lawyer
 	name = JOB_NAME_LAWYER
@@ -45,8 +51,8 @@
 	chameleon_extras = /obj/item/stamp/law
 
 
-/datum/outfit/job/lawyer/pre_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
-	if(visualsOnly)
+/datum/outfit/job/lawyer/pre_equip(mob/living/carbon/human/H, visuals_only = FALSE)
+	if(visuals_only)
 		return ..()
 
 	var/static/use_purple_suit = FALSE //If there is one lawyer, they get the default blue suit. If another lawyer joins the round, they start with a purple suit.

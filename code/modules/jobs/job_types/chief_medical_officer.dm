@@ -40,13 +40,23 @@
 	biohazard = 45
 
 	minimal_lightup_areas = list(
-		/area/crew_quarters/heads/cmo,
-		/area/medical/apothecary,
-		/area/medical/chemistry,
-		/area/medical/genetics,
-		/area/medical/morgue,
-		/area/medical/surgery,
-		/area/storage/eva
+		/area/station/command/heads_quarters/cmo,
+		/area/station/medical/pharmacy,
+		/area/station/medical/chemistry,
+		/area/station/medical/genetics,
+		/area/station/medical/morgue,
+		/area/station/medical/surgery,
+		/area/station/ai_monitored/command/storage/eva
+	)
+
+	manuscript_jobs = list(
+		JOB_NAME_CHIEFMEDICALOFFICER,
+		JOB_NAME_MEDICALDOCTOR,
+		JOB_NAME_PARAMEDIC,
+		JOB_NAME_CHEMIST,
+		JOB_NAME_GENETICIST,
+		JOB_NAME_VIROLOGIST,
+		JOB_NAME_PSYCHIATRIST
 	)
 
 /datum/outfit/job/chief_medical_officer
@@ -62,7 +72,7 @@
 	shoes = /obj/item/clothing/shoes/sneakers/brown
 	suit = /obj/item/clothing/suit/toggle/labcoat/cmo
 	suit_store = /obj/item/storage/firstaid/medical
-	backpack_contents = list(/obj/item/melee/classic_baton/police/telescopic=1)
+	backpack_contents = list(/obj/item/melee/baton/telescopic=1)
 
 	backpack = /obj/item/storage/backpack/medic
 	satchel = /obj/item/storage/backpack/satchel/med

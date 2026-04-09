@@ -33,12 +33,17 @@
 	biohazard = 25
 
 	lightup_areas = list(
-		/area/medical/surgery,
-		/area/medical/virology,
-		/area/medical/chemistry,
-		/area/medical/apothecary
+		/area/station/medical/surgery,
+		/area/station/medical/virology,
+		/area/station/medical/chemistry,
+		/area/station/medical/pharmacy
 	)
-	minimal_lightup_areas = list(/area/medical/morgue, /area/medical/genetics)
+	minimal_lightup_areas = list(/area/station/medical/morgue, /area/station/medical/genetics)
+
+	manuscript_jobs = list(
+		JOB_NAME_GENETICIST,
+		JOB_NAME_SCIENTIST // credit to the old age when they're a member of R&D
+	)
 
 /datum/outfit/job/geneticist
 	name = JOB_NAME_GENETICIST
