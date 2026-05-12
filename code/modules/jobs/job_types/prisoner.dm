@@ -25,7 +25,12 @@
 	)
 
 	minimal_lightup_areas = list(
-		/area/security/prison
+		/area/station/security/prison
+	)
+
+	manuscript_jobs = list(
+		JOB_NAME_PRISONER,
+		JOB_NAME_ASSISTANT
 	)
 
 /datum/job/prisoner/announce(mob/living/carbon/human/H)

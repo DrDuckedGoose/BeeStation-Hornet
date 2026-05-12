@@ -1,4 +1,5 @@
 /obj/item/pitchfork
+	icon = 'icons/obj/weapons/spear.dmi'
 	icon_state = "pitchfork0"
 	lefthand_file = 'icons/mob/inhands/weapons/polearms_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/weapons/polearms_righthand.dmi'
@@ -25,7 +26,7 @@
 	fire = 100
 	acid = 30
 
-/obj/item/pitchfork/ComponentInitialize()
+/obj/item/pitchfork/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/two_handed, force_unwielded=7, force_wielded=15, block_power_wielded=25, icon_wielded="pitchfork1")
 
