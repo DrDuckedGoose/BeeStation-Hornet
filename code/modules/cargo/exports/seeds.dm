@@ -5,13 +5,13 @@
 		/obj/item/plant_seeds = TRUE,
 	)
 	var/needs_discovery = FALSE // Only for undiscovered species
-	var/static/list/discoveredPlants = list()
+	var/static/list/discovered_plants = list()
 
 /datum/export/seed/get_cost(obj/O)
 	var/obj/item/plant_seeds/S = O
-	if(!needs_discovery && (S.species_id in discoveredPlants))
+	if(!needs_discovery && (S.species_id in discovered_plants))
 		return 0
-	if(needs_discovery && !(S.species_id in discoveredPlants))
+	if(needs_discovery && !(S.species_id in discovered_plants))
 		return 0
 	return ..() * S.seeds
 
@@ -19,4 +19,4 @@
 	. = ..()
 	if(. && !dry_run)
 		var/obj/item/plant_seeds/S = O
-		discoveredPlants[S.species_id] = TRUE
+		discovered_plants[S.species_id] = TRUE
