@@ -11,7 +11,7 @@
 	juice_typepath = /datum/reagent/consumable/corn_starch
 	tastes = list("corn" = 1)
 	distill_reagent = /datum/reagent/consumable/ethanol/whiskey
-	discovery_points = 300
+	discovery_points = TECHWEB_TIER_1_POINTS
 
 /*
 /obj/item/food/grown/corn/make_microwaveable()
@@ -47,7 +47,7 @@
 	throw_speed = 3
 	throw_range = 7
 	var/snap_pops = 1
-	discovery_points = 300
+	discovery_points = TECHWEB_TIER_1_POINTS
 
 /obj/item/grown/snapcorn/Initialize(mapload)
 	. = ..()

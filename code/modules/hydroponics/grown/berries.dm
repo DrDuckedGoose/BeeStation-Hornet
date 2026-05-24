@@ -21,7 +21,7 @@
 	tastes = list("poison-berry" = 1)
 	distill_reagent = null
 	wine_power = 35
-	discovery_points = 300
+	discovery_points = TECHWEB_TIER_1_POINTS
 
 // Death Berries
 /obj/item/food/grown/berries/death
@@ -34,7 +34,7 @@
 	tastes = list("death-berry" = 1)
 	distill_reagent = null
 	wine_power = 50
-	discovery_points = 300
+	discovery_points = TECHWEB_TIER_1_POINTS
 
 // Glow Berries
 /obj/item/food/grown/berries/glow
@@ -46,7 +46,7 @@
 	tastes = list("glow-berry" = 1)
 	distill_reagent = null
 	wine_power = 60
-	discovery_points = 300
+	discovery_points = TECHWEB_TIER_1_POINTS
 
 // Cherries
 /obj/item/food/grown/cherries
@@ -71,7 +71,7 @@
 	grind_results = list(/datum/reagent/consumable/bluecherryjelly = 0)
 	tastes = list("blue cherry" = 1)
 	wine_power = 50
-	discovery_points = 300
+	discovery_points = TECHWEB_TIER_1_POINTS
 
 //Cherry Bulbs
 /obj/item/food/grown/cherrybulbs
@@ -83,7 +83,7 @@
 	grind_results = list(/datum/reagent/consumable/cherryjelly = 0)
 	tastes = list("cherry" = 1)
 	wine_power = 50
-	discovery_points = 300
+	discovery_points = TECHWEB_TIER_1_POINTS
 
 // Grapes
 /obj/item/food/grown/grapes
@@ -107,4 +107,4 @@
 	bite_consumption_mod = 3
 	tastes = list("green grape" = 1)
 	distill_reagent = /datum/reagent/consumable/ethanol/cognac
-	discovery_points = 300
+	discovery_points = TECHWEB_TIER_1_POINTS

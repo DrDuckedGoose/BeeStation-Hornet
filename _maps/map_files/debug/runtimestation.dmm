@@ -1400,6 +1400,13 @@
 	},
 /turf/open/floor/iron,
 /area/station/medical/medbay)
+"qA" = (
+/obj/machinery/computer/rdconsole/unlocked,
+/obj/effect/turf_decal/tile/purple/half/contrasted{
+	dir = 4
+	},
+/turf/open/floor/iron,
+/area/station/science)
 "qT" = (
 /turf/open/floor/holofloor/plating,
 /area/station/holodeck/debug)
@@ -1461,6 +1468,15 @@
 /obj/machinery/airalarm/directional/west,
 /turf/open/floor/iron,
 /area/station/cargo/storage)
+"ta" = (
+/obj/effect/turf_decal/stripes/line{
+	dir = 6
+	},
+/obj/machinery/telecomms/allinone/no_heat{
+	network = "tcommsat"
+	},
+/turf/open/floor/iron,
+/area/station/engineering/gravity_generator)
 "tg" = (
 /obj/effect/turf_decal/tile/purple/half/contrasted{
 	dir = 1
@@ -1602,13 +1618,11 @@
 	},
 /turf/open/floor/iron,
 /area/station/medical/medbay)
-"wj" = (
-/obj/machinery/computer/rdconsole/core,
-/obj/effect/turf_decal/tile/purple/half/contrasted{
-	dir = 4
-	},
-/turf/open/floor/iron,
-/area/station/science)
+"vY" = (
+/obj/machinery/gravity_generator/main,
+/obj/effect/turf_decal/tile/neutral/fourcorners/contrasted,
+/turf/open/floor/iron/dark,
+/area/station/engineering/gravity_generator)
 "wl" = (
 /obj/machinery/door/airlock{
 	name = "Engineering"
@@ -1679,15 +1693,6 @@
 /obj/effect/turf_decal/tile/purple/anticorner/contrasted,
 /turf/open/floor/iron,
 /area/station/science)
-"xJ" = (
-/obj/effect/turf_decal/stripes/line{
-	dir = 6
-	},
-/obj/machinery/telecomms/allinone{
-	network = "tcommsat"
-	},
-/turf/open/floor/iron,
-/area/station/engineering/gravity_generator)
 "xN" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer2,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer4,
@@ -2509,11 +2514,6 @@
 	},
 /turf/open/floor/iron,
 /area/station/science)
-"Ps" = (
-/obj/machinery/gravity_generator/main,
-/obj/effect/turf_decal/tile/neutral/fourcorners/contrasted,
-/turf/open/floor/iron/dark,
-/area/station/engineering/gravity_generator)
 "Px" = (
 /obj/effect/turf_decal/stripes/line,
 /obj/machinery/light{
@@ -6459,7 +6459,7 @@ bc
 kO
 ZD
 ah
-wj
+qA
 OU
 wD
 bD
@@ -7930,7 +7930,7 @@ TM
 AQ
 oy
 Nf
-xJ
+ta
 ak
 CO
 uI
@@ -8297,7 +8297,7 @@ ak
 dT
 Ha
 av
-Ps
+vY
 av
 ak
 by

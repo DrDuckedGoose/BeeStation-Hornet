@@ -15,4 +15,4 @@
 	bite_consumption_mod = 2
 	distill_reagent = null
 	wine_power = 50
-	discovery_points = 300
+	discovery_points = TECHWEB_TIER_1_POINTS

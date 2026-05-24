@@ -18,7 +18,7 @@
 	foodtypes = FRUIT
 	tastes = list("vanilla" = 1)
 	distill_reagent = /datum/reagent/consumable/vanilla //Takes longer, but you can get even more vanilla from it.
-	discovery_points = 300
+	discovery_points = TECHWEB_TIER_1_POINTS
 
 //Bungo
 /obj/item/food/grown/bungofruit
@@ -31,7 +31,7 @@
 	juice_typepath = /datum/reagent/consumable/bungojuice
 	tastes = list("bungo" = 2, "tropical fruitiness" = 1)
 	distill_reagent = null
-	discovery_points = 300
+	discovery_points = TECHWEB_TIER_1_POINTS
 
 /obj/item/food/grown/bungopit
 	name = "bungo pit"

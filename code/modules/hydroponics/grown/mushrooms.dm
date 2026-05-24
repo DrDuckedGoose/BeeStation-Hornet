@@ -32,7 +32,7 @@
 	desc = "Deadly poisonous basidiomycete fungus filled with alpha amatoxins."
 	icon_state = "angel"
 	wine_power = 60
-	discovery_points = 300
+	discovery_points = TECHWEB_TIER_1_POINTS
 
 // Liberty Cap
 /obj/item/food/grown/mushroom/libertycap
@@ -59,7 +59,7 @@
 	desc = "The beginning of the great walk."
 	icon_state = "walkingmushroom"
 	can_distill = FALSE
-	discovery_points = 300
+	discovery_points = TECHWEB_TIER_1_POINTS
 
 // Chanterelle
 /obj/item/food/grown/mushroom/chanterelle
@@ -74,7 +74,7 @@
 	name = "jupiter cup"
 	desc = "A strange red mushroom, its surface is moist and slick. You wonder how many tiny worms have met their fate inside."
 	icon_state = "jupitercup"
-	discovery_points = 300
+	discovery_points = TECHWEB_TIER_1_POINTS
 
 // Glowshroom
 /obj/item/food/grown/mushroom/glowshroom
@@ -84,7 +84,7 @@
 	icon_state = "glowshroom"
 	var/effect_path = /obj/structure/glowshroom
 	wine_power = 50
-	discovery_points = 300
+	discovery_points = TECHWEB_TIER_1_POINTS
 	trade_flags = TRADE_CONTRABAND
 
 /obj/item/food/grown/mushroom/glowshroom/attack_self(mob/user)
@@ -118,7 +118,7 @@
 	icon_state = "glowcap"
 	effect_path = /obj/structure/glowshroom/glowcap
 	tastes = list("glowcap" = 1)
-	discovery_points = 300
+	discovery_points = TECHWEB_TIER_1_POINTS
 
 //Shadowshroom
 /obj/item/food/grown/mushroom/glowshroom/shadowshroom
@@ -129,7 +129,7 @@
 	effect_path = /obj/structure/glowshroom/shadowshroom
 	tastes = list("shadow" = 1, "mushroom" = 1)
 	wine_power = 60
-	discovery_points = 300
+	discovery_points = TECHWEB_TIER_1_POINTS
 
 /obj/item/food/grown/mushroom/glowshroom/shadowshroom/attack_self(mob/user)
 	. = ..()

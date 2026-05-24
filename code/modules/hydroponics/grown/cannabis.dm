@@ -15,21 +15,21 @@
 	desc = "Is it supposed to be glowing like that...?"
 	icon_state = "megacannabis"
 	wine_power = 60
-	discovery_points = 300
+	discovery_points = TECHWEB_TIER_1_POINTS
 
 /obj/item/food/grown/cannabis/death
 	name = "death cannabis leaf"
 	desc = "Looks a bit dark. Oh well."
 	icon_state = "blackcannabis"
 	wine_power = 40
-	discovery_points = 300
+	discovery_points = TECHWEB_TIER_1_POINTS
 
 /obj/item/food/grown/cannabis/white
 	name = "white cannabis leaf"
 	desc = "It feels smooth and nice to the touch."
 	icon_state = "whitecannabis"
 	wine_power = 10
-	discovery_points = 300
+	discovery_points = TECHWEB_TIER_1_POINTS
 
 /obj/item/food/grown/cannabis/ultimate
 	name = "omega cannabis leaf"
@@ -38,4 +38,4 @@
 	bite_consumption_mod = 2 // Ingesting like 40 units of drugs in 1 bite at 100 potency
 	max_volume = 420
 	wine_power = 90
-	discovery_points = 300
+	discovery_points = TECHWEB_TIER_1_POINTS

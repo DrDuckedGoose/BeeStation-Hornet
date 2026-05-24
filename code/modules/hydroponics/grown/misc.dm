@@ -54,7 +54,7 @@
 	max_volume = 125 //Gives enough room for the black powder at max potency
 	max_integrity = 40
 	wine_power = 80
-	discovery_points = 300
+	discovery_points = TECHWEB_TIER_1_POINTS
 
 /obj/item/food/grown/cherry_bomb/attack_self(mob/living/user)
 	//Preservation of a legacy feature

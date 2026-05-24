@@ -16,7 +16,11 @@
 	var/productivity = 0
 	var/max_items = 40
 	var/datum/techweb/stored_research
-	var/list/show_categories = list("Food", "Botany Chemicals", "Organic Materials")
+	var/list/show_categories = list(
+		RND_CATEGORY_FOOD,
+		RND_CATEGORY_BOTANY_CHEMICALS,
+		RND_CATEGORY_ORGANIC_MATERIALS,
+	)
 	/// Currently selected category in the UI
 	var/selected_cat
 	/// Cooldown for creating materials
@@ -26,10 +30,12 @@
 
 /obj/machinery/biogenerator/Initialize(mapload)
 	. = ..()
-	stored_research = new /datum/techweb/specialized/autounlocking/biogenerator
+	GLOB.autounlock_techwebs[/datum/techweb/autounlocking/biogenerator] ||= new /datum/techweb/autounlocking/biogenerator()
+	stored_research = GLOB.autounlock_techwebs[/datum/techweb/autounlocking/biogenerator]
 	create_reagents(1000)
 
 /obj/machinery/biogenerator/Destroy()
+	stored_research = null
 	QDEL_NULL(beaker)
 	return ..()
 

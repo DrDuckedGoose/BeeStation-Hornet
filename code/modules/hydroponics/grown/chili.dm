@@ -16,7 +16,7 @@
 	bite_consumption_mod = 5
 	foodtypes = FRUIT
 	wine_power = 30
-	discovery_points = 300
+	discovery_points = TECHWEB_TIER_1_POINTS
 
 // Ghost Chili
 /obj/item/food/grown/ghost_chili
@@ -27,7 +27,7 @@
 	bite_consumption_mod = 5
 	foodtypes = FRUIT
 	wine_power = 50
-	discovery_points = 300
+	discovery_points = TECHWEB_TIER_1_POINTS
 
 /obj/item/food/grown/ghost_chili/attack_hand(mob/user, list/modifiers)
 	. = ..()
