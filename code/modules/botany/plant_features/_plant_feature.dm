@@ -81,9 +81,9 @@
 	for(var/datum/plant_trait/trait as anything in plant_traits)
 		plant_traits -= trait
 		qdel(trait)
+	overdraw_needs.Cut()
 	for(var/datum/plant_need/need as anything in plant_needs)
 		plant_needs -= need
-		overdraw_needs -= need
 		qdel(need)
 	//Remove ourselves from a trays concern when self immolating - Only happens with admin fuckery and tubers
 	var/obj/item/plant_tray/tray = parent?.plant_item?.loc

@@ -10,13 +10,13 @@
 	name = "Seperated Contents"
 	desc = "The fruit's chemical reagent's are seperated until triggered."
 
-/datum/plant_trait/seperated_contents/setup_component_parent(datum/source)
+/datum/plant_trait/fruit/seperated_contents/setup_component_parent(datum/source)
 	. = ..()
 	if(!parent)
 		return
 	RegisterSignal(parent.parent, COMSIG_FRUIT_PREPARE, PROC_REF(prepare_fruit))
 
-/datum/plant_trait/seperated_contents/proc/prepare_fruit(datum/source, obj/item/fruit)
+/datum/plant_trait/fruit/seperated_contents/proc/prepare_fruit(datum/source, obj/item/fruit)
 	SIGNAL_HANDLER
 
 	//Reset the reagents to have the no-react flag
@@ -24,10 +24,10 @@
 	RegisterSignal(fruit, COMSIG_FRUIT_ACTIVATE_TARGET, PROC_REF(catch_activate))
 	RegisterSignal(fruit, COMSIG_FRUIT_ACTIVATE_NO_CONTEXT, PROC_REF(catch_activate))
 
-/datum/plant_trait/seperated_contents/proc/catch_activate(datum/source)
+/datum/plant_trait/fruit/seperated_contents/catch_activate(datum/source)
 	INVOKE_ASYNC(src, PROC_REF(async_catch_activate), source)
 
-/datum/plant_trait/seperated_contents/proc/async_catch_activate(datum/source)
+/datum/plant_trait/fruit/seperated_contents/proc/async_catch_activate(datum/source)
 	var/obj/item/fruit = source
 	if(!istype(fruit))
 		return

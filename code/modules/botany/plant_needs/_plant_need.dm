@@ -31,6 +31,10 @@
 	setup_parent(_parent)
 	buff_appearance = new(src)
 
+/datum/plant_need/Destroy(force, ...)
+	. = ..()
+	QDEL_NULL(buff_appearance)
+
 /datum/plant_need/proc/setup_parent(_parent)
 	parent = _parent
 	if(!parent?.parent)

@@ -1,6 +1,7 @@
 //Only super duper common stuff lives here
 /datum/plant_trait/reagent/fruit
 	plant_feature_compat = /datum/plant_feature/fruit
+	abstract_type = /datum/plant_trait/reagent/fruit
 
 //Nutriment
 /datum/plant_trait/reagent/fruit/nutriment

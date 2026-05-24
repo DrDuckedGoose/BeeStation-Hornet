@@ -54,6 +54,7 @@
 	for(var/feature as anything in plant_features)
 		plant_features -= feature
 		qdel(feature)
+	plant_item = null
 	return ..()
 
 ///Item interactions for plants that aren't covered by the individual plant_features

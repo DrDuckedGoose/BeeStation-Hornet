@@ -75,6 +75,7 @@
 			SSbotany.unused_random_traits["[feature.trait_type_shortcut]"] -= trait.type
 		var/datum/plant_trait/trait = SSbotany.get_random_trait("[feature.trait_type_shortcut]")
 		trait = new trait(feature)
-		feature.plant_traits += trait
+		if(!QDELING(trait))
+			feature.plant_traits += trait
 	//Update species ID to reflect new traits
 	plant_component.compile_species_id()

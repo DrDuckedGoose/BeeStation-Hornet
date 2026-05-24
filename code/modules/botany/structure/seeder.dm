@@ -38,7 +38,6 @@
 		seed_amount = initial(seed_amount) * 2
 
 /obj/machinery/seeder/attackby(obj/item/C, mob/user)
-	var/obj/item/food/grown/fruit = C
 //Turn spade plant into seeds
 	if(istype(C, /obj/item/shovel/spade))
 		//Insert plant from spade
@@ -74,13 +73,16 @@
 			store_seed(seed)
 		ui_update()
 		return
-//Turn fruit into seeds
-	if(istype(fruit))
-		C.forceMove(get_turf(src))
-		seedify(C, seed_amount)
-		playsound(src, 'sound/machines/juicer.ogg', 30)
-		to_chat(user, "<span class='notice'>[seed_amount] seeds created!</span>")
-		shake()
+//Turn 'fruit' into seeds
+	var/list/genes = list()
+	SEND_SIGNAL(C, COMSIG_PLANT_GET_GENES, genes)
+	if(!length(genes)) //Essentially just checks if the thing has genes, which means it can be turned into seeds
+		return
+	C.forceMove(get_turf(src))
+	seedify(C, seed_amount)
+	playsound(src, 'sound/machines/juicer.ogg', 30)
+	to_chat(user, "<span class='notice'>[seed_amount] seeds created!</span>")
+	shake()
 
 /obj/machinery/seeder/proc/store_seed(obj/item/plant_seeds/seeds)
 	if(!stored_seeds_amount["[seeds.species_id]"])
