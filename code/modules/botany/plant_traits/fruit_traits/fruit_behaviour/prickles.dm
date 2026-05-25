@@ -7,6 +7,7 @@
 /datum/plant_trait/fruit/prickles
 	name = "Prickles"
 	desc = "The fruit develops hypodermic prickles that inject targets with a % reagents contained in the fruit."
+	scales = "Reagent transfer percentage scales with trait power."
 	blacklist = list(/datum/plant_trait/fruit/liquid_contents)
 
 /datum/plant_trait/fruit/prickles/setup_fruit_parent()

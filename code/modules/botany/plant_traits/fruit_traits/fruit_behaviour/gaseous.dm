@@ -1,6 +1,7 @@
 /datum/plant_trait/fruit/gaseous
 	name = "Gaseous Decomposition"
 	desc = "The fruit releases its reagents as smoke when triggered."
+	scales = "Smoke cloud area scales with trait power"
 	///How much smoke do we make, size
 	var/smoke_amount = 1.4
 

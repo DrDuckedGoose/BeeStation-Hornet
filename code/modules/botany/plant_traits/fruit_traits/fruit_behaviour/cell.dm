@@ -10,6 +10,7 @@
 /datum/plant_trait/fruit/cell
 	name = "Capacitive Cells"
 	desc = "The fruit exhibits capacitive properties. A rudimentary battery can be made by combining this fruit with cable segments."
+	scales = "Max cell charge and ambient self charging scales with trait power."
 	genetic_cost = 2
 	///How far we teleport, at a minimum
 	var/teleport_radius = 10

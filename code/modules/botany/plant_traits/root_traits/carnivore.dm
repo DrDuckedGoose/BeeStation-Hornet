@@ -6,7 +6,7 @@
 /datum/plant_trait/roots/carnivore/setup_parent(_parent)
 	. = ..()
 	if(istype(parent, /datum/plant_feature/roots/hyphae))
-		parent = null
+		parent.plant_traits -= src
 		qdel(src)
 		return
 

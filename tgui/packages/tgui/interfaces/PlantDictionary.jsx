@@ -293,6 +293,7 @@ const InspectionPanelTrait = (props) => {
           title={data_set['trait_name']}
           body={data_set['trait_desc']}
           trait_key={data_set['trait_ref']}
+          scale_hint={data_set['scales']}
           key={data_set}
         />
       </Flex.Item>
@@ -367,6 +368,7 @@ const InspectionPanelFeature = (props) => {
               title={data_set['trait_name']}
               body={data_set['trait_desc']}
               trait_key={data_set['trait_ref']}
+              scale_hint={data_set['scales']}
               key={data_set}
             />
           ))
@@ -469,6 +471,7 @@ const InspectionPanelPlantFeature = (props) => {
               title={data_set['trait_name']}
               body={data_set['trait_desc']}
               trait_key={data_set['trait_ref']}
+              scale_hint={data_set['scales']}
               key={data_set}
             />
           ))
@@ -524,12 +527,16 @@ const PlantDataInstance = (props) => {
 
 const PlantTraitInstance = (props) => {
   const { act, data } = useBackend();
-  const { title, body } = props;
+  const { title, body, scale_hint } = props;
   return (
-    <Button className="plant__dialogue" width={'100%'}>
-      <i>{title}</i>
-      <br />
-      {body}
-    </Button>
+    <Box>
+      <Button className="plant__dialogue" width={'100%'}>
+        <i>{title}</i>
+        <br />
+        {body}
+        <br />
+        {scale_hint}
+      </Button>
+    </Box>
   );
 };

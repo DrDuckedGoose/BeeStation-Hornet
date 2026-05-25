@@ -208,7 +208,6 @@ SUBSYSTEM_DEF(botany)
 		seed = new seed(src)
 		var/datum/component/plant/plant_component = seed.plant(choosen_turf, logic = TRUE)
 		plant_component.skip_growth = TRUE
-
 		//Add some bonus traits to it
 		for(var/datum/plant_feature/feature as anything in plant_component.plant_features)
 			//Remove possible duplicates - kind of a fucked up way of doing it tbh

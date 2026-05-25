@@ -3,6 +3,7 @@
 /datum/plant_trait/roots/parasitic
 	name = "Parasitic"
 	desc = "This gene causes roots to parasitically feed off a plant's fruit, depositing their reagents into their environment."
+	scales = "Reagent volume is multiplied by trait power."
 
 /datum/plant_trait/roots/parasitic/setup_component_parent(datum/source)
 	. = ..()

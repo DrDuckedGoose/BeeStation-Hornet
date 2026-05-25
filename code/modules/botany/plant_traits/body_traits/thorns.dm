@@ -7,6 +7,7 @@
 /datum/plant_trait/body/thorns
 	name = "Thorns"
 	desc = "Injects nearby passing targets with a % of reagents from the plant's location. Wearing thick gloves will block this."
+	scales = "Reagent transfer percentage scales with trait power."
 	///Quick reference to the plant item
 	var/obj/item/plant_item
 	///List of turfs we thorn

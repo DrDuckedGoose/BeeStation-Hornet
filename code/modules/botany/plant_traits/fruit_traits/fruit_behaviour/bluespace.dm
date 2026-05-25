@@ -6,6 +6,7 @@
 	name = "Bluespace Activity"
 	desc = "The fruit exhibits bluespace activity. Triggering the fruit will teleport the target \
 	to a random location nearby, or the fruit itself if there is no target."
+	scales = "Teleportation radius scales with trait power."
 	///How far we teleport, normally
 	var/teleport_radius = 10
 

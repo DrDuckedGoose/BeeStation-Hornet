@@ -2,6 +2,7 @@
 	name = "Conductive Fibers"
 	desc = "This gene causes roots to charge wires below this plant. This works through floor panels."
 	genetic_cost = 1
+	scales = "Power production scales with trait power."
 	///Cable charge per sercond
 	var/cable_charge = 25000 //TODO: Make sure this is balanced - Racc
 

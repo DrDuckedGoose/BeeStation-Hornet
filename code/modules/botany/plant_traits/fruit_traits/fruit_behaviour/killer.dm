@@ -6,6 +6,7 @@
 	name = "Bio-Malignant"
 	desc = "The fruit exhibits semi-sentient tendincies. Triggering the fruit will transform it into a blood \
 	thirsty monster!"
+	scales = "Health and damage scale with trait power."
 	///Are we already awakening
 	var/awakening = FALSE
 	///What kinda of mob do we awaken to be?

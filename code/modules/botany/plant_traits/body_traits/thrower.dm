@@ -7,6 +7,7 @@
 /datum/plant_trait/body/thorns/thrower
 	name = "Oxalis"
 	desc = "The plant will throw grown fruits at nearby trespassers."
+	scales = "Maximum trigger range scales with trait power."
 	turf_range = 2
 	///Quick reference to our neighbour fruit feature
 	var/datum/plant_feature/fruit/fruit_feature

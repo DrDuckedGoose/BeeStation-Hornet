@@ -6,6 +6,8 @@
 	var/genetic_cost = 1
 	///Can this trait appear as a random trait?
 	var/random_trait = TRUE
+	///Does this trait scale? Mostly used for descriptions. When you want to set this, set it as a string explaining what scales
+	var/scales
 //Identity
 	var/name = ""
 	var/desc = ""
@@ -40,7 +42,7 @@
 	parent?.adjust_genetic_budget(genetic_cost, src)
 
 /datum/plant_trait/proc/get_ui_stats()
-	return list(list("trait_name" = name, "trait_desc" = desc, "trait_ref" = REF(src), "dictionary_name" = name, "trait_id" = get_id(), "can_copy" = can_copy, "can_remove" = can_remove))
+	return list(list("trait_name" = name, "trait_desc" = desc, "trait_ref" = REF(src), "dictionary_name" = name, "trait_id" = get_id(), "can_copy" = can_copy, "can_remove" = can_remove, "scales" = scales))
 
 /datum/plant_trait/proc/copy(datum/plant_feature/_parent, datum/plant_trait/_trait)
 	var/datum/plant_trait/new_trait = _trait || new type(_parent)
