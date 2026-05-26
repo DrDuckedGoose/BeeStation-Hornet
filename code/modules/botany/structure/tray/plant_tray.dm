@@ -118,7 +118,7 @@
 	if(!isliving(user))
 		return
 	context.add_right_click_tool_action("Plant Seeds", TOOL_SEED)
-	context.add_right_click_item_action("Remove All Plants", /obj/item/shovel/spade)
+	context.add_right_click_item_action("Remove All Plants", /obj/item/shovel)
 	context.add_left_click_item_action("Check Alerts", /obj/item/plant_scanner)
 	context.add_left_click_item_action("Fill Tray", /obj/item/substrate_bag)
 	context.add_alt_click_action("Rotate Plumbing")

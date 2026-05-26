@@ -61,7 +61,7 @@
 		return
 	var/list/modifiers = params2list(click_parameters)
 //Hasty remove plants
-	if(LAZYACCESS(modifiers, RIGHT_CLICK) && istype(I, /obj/item/shovel/spade) && length(plants))
+	if(LAZYACCESS(modifiers, RIGHT_CLICK) && istype(I, /obj/item/shovel) && length(plants))
 		to_chat(attacker, span_warning("You begin to hastily remove [parent]'s plants! (This will destroy them)"))
 		INVOKE_ASYNC(src, PROC_REF(async_hasty_remove), attacker, I)
 		return
@@ -80,10 +80,10 @@
 		INVOKE_ASYNC(src, PROC_REF(async_plunger_action), attacker, I)
 		return
 //Remove substrate
-	if(istype(I, /obj/item/shovel/spade) && !length(plants) && allow_substrate_change)
+	if(istype(I, /obj/item/shovel) && !length(plants) && allow_substrate_change)
 		INVOKE_ASYNC(src, PROC_REF(async_spade_action), attacker)
 		return
-	else if(istype(I, /obj/item/shovel/spade) && length(plants))
+	else if(istype(I, /obj/item/shovel) && length(plants))
 		to_chat(attacker, span_warning("You can't clear [parent]'s substrate while it still contains plants!"))
 		//special code selecting specific plants to uproot, helps when visiblity is sucky
 		INVOKE_ASYNC(src, PROC_REF(async_spade_options), attacker, I)

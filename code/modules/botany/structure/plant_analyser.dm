@@ -69,7 +69,7 @@
 		ui_update()
 		return
 //Spade / Plant
-	if(!istype(C, /obj/item/shovel/spade))
+	if(!istype(C, /obj/item/shovel))
 		return ..()
 	//Return plant to spade, to remove it
 	if(inserted_plant && !length(C.contents) && plant_component.async_catch_attackby(C, user))

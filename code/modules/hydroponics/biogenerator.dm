@@ -43,7 +43,7 @@
 	. = ..()
 	if(!isliving(user))
 		return
-	context.add_left_click_item_action("Insert Plant", /obj/item/shovel/spade)
+	context.add_left_click_item_action("Insert Plant", /obj/item/shovel)
 
 /obj/machinery/biogenerator/contents_explosion(severity, target)
 	..()
@@ -177,7 +177,7 @@
 		ui_update()
 		return TRUE
 	//Inserting plants from spades
-	else if(istype(O, /obj/item/shovel/spade))
+	else if(istype(O, /obj/item/shovel))
 		for(var/obj/item/potential_plant in O.contents)
 			var/datum/component/plant/plant
 			plant = potential_plant.GetComponent(/datum/component/plant)

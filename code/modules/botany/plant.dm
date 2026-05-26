@@ -62,7 +62,7 @@
 	SIGNAL_HANDLER
 
 //Spade interaction, allows us to dig up plants
-	if((proximity_flag || get_dist(user, plant_item) <= 1) && !spading && istype(item, /obj/item/shovel/spade))
+	if((proximity_flag || get_dist(user, plant_item) <= 1) && !spading && istype(item, /obj/item/shovel))
 		INVOKE_ASYNC(src, PROC_REF(async_catch_attackby), item, user)
 
 /datum/component/plant/proc/async_catch_attackby(obj/item, mob/living/user)

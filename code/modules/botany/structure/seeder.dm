@@ -39,7 +39,7 @@
 
 /obj/machinery/seeder/attackby(obj/item/C, mob/user)
 //Turn spade plant into seeds
-	if(istype(C, /obj/item/shovel/spade))
+	if(istype(C, /obj/item/shovel))
 		//Insert plant from spade
 		var/datum/component/plant/plant
 		var/obj/item/plant_item

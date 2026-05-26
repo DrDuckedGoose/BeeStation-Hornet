@@ -23,7 +23,7 @@
 	. = ..()
 	if(!isliving(user))
 		return
-	context.add_left_click_item_action("Move", /obj/item/shovel/spade)
+	context.add_left_click_item_action("Move", /obj/item/shovel)
 
 /obj/item/plant/attackby_storage_insert(datum/storage, atom/storage_holder, mob/user)
 	return FALSE
