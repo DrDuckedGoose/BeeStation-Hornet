@@ -39,7 +39,7 @@
 	///List of needs we've gained from overdrawing our budget
 	var/list/overdraw_needs = list()
 
-	///Trait type shortcut
+	///Trait type shortcut - This is different from an abstract type, see mushroom fruits & fruits
 	var/trait_type_shortcut = /datum/plant_feature
 
 	///What feature do we default to in the dictionary? leave blank for most cases. Only fill in for once in a case variants

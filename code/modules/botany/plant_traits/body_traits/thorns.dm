@@ -1,6 +1,3 @@
-//Percentage of reagents transfered on prick
-#define BASE_REAGENT_TRANSFER 3
-
 /*
 	Transfers chems from the loc, tray, to mobs passing within 1 tile, deals a small small amount of damage
 */
@@ -80,15 +77,13 @@
 	var/datum/reagents/holder = plant_item.loc.reagents
 	if(!holder)
 		return
-	var/injecting_amount = (parent.trait_power*BASE_REAGENT_TRANSFER)*0.01
+	var/injecting_amount = (parent.trait_power*PRICK_BASE_REAGENT_TRANSFER)*0.01
 	var/fraction = max(holder.maximum_volume*injecting_amount, 1)
 	holder.expose(victim, INJECT, fraction)
 	holder.trans_to(victim, fraction)
 	to_chat(victim, span_danger("You are pricked by [plant_item]!"))
 //Logging
 	var/turf/T = get_turf(victim)
-	victim.investigate_log("has been pricked by [plant_item] at [AREACOORD(T)] injecting themselves with [parent.trait_power*BASE_REAGENT_TRANSFER] % of [holder.log_list()]. \
+	victim.investigate_log("has been pricked by [plant_item] at [AREACOORD(T)] injecting themselves with [parent.trait_power*PRICK_BASE_REAGENT_TRANSFER] % of [holder.log_list()]. \
 	Last fingerprint: [plant_item.fingerprintslast].", INVESTIGATE_BOTANY)
-	log_combat(victim, plant_item, "activated the", null, "injecting them with [parent.trait_power*BASE_REAGENT_TRANSFER]% of [holder.log_list()]. Last fingerprint: [plant_item.fingerprintslast].")
-
-#undef BASE_REAGENT_TRANSFER
+	log_combat(victim, plant_item, "activated the", null, "injecting them with [parent.trait_power*PRICK_BASE_REAGENT_TRANSFER]% of [holder.log_list()]. Last fingerprint: [plant_item.fingerprintslast].")

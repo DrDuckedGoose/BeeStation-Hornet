@@ -11,7 +11,7 @@
 	fruit_product = /obj/item/food/grown/mushroom/glowshroom
 	total_volume = PLANT_FRUIT_VOLUME_MICRO
 	growth_time = PLANT_FRUIT_GROWTH_FAST
-	plant_traits = list(/datum/plant_trait/fruit/biolight/green)
+	plant_traits = list(/datum/plant_trait/fruit/biolight/green, /datum/plant_trait/mutating)
 	fast_reagents = list(/datum/reagent/uranium/radium = PLANT_REAGENT_SMALL, /datum/reagent/phosphorus = PLANT_REAGENT_SMALL)
 	mutations = list(/datum/plant_feature/fruit/mushroom/glowshroom/glowcap)
 	genetic_budget = 3

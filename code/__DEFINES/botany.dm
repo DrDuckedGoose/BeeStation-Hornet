@@ -11,12 +11,18 @@
 #define PLANT_DATA(title, data) list("data_title" = title, "data_field" = data)
 
 //Reagent grid stuff
+	//Minimum grid size length / width
 #define MAX_REAGENT_GRID 33
+	//Data keys
 #define GRID_REAGENT_POSITION "GRID_REAGENT_POSITION"
 #define GRID_REAGENT_OFFSET "REAGENT_OFFSET"
 #define GRID_REAGENT_SIZE "GRID_REAGENT_SIZE"
 #define GRID_REAGENT_NAME "GRID_REAGENT_NAME"
+	//Max variance level
 #define GRID_MAX_ACCURACY 3
+
+//Percentage of reagents transfered on prick
+#define PRICK_BASE_REAGENT_TRANSFER 3
 
 /*
 	Plant stat values
@@ -84,7 +90,7 @@
 #define PLANT_FRUIT_SIZE_MEDIUM 2
 #define PLANT_FRUIT_SIZE_LARGE 3
 
-//plant genes
+//plant gene keys
 #define PLANT_GENE_INDEX_FEATURES "PLANT_GENE_INDEX_FEATURES"
 #define PLANT_GENE_INDEX_ID "PLANT_GENE_INDEX_ID"
 #define PLANT_GENE_INDEX_NAME "PLANT_GENE_INDEX_NAME"
