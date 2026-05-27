@@ -41,18 +41,6 @@
 			if(length(current_feature.whitelist_features) && !is_type_in_typecache(new_feature, current_feature.whitelist_features) || length(new_feature.whitelist_features) && !is_type_in_typecache(current_feature, new_feature.whitelist_features))
 				qdel(new_feature)
 				continue
-		//Transfer old feature's traits to new feature
-		for(var/datum/plant_trait/trait as anything in feature.plant_traits)
-			var/bad_hit = FALSE
-			for(var/datum/plant_trait/local_trait as anything in new_feature.plant_traits)
-				if(!trait.allow_multiple && local_trait.get_id() == trait.get_id())
-					bad_hit = TRUE
-					break
-			if(bad_hit)
-				continue
-			var/datum/plant_trait/new_trait = trait.copy(new_feature)
-			if(!QDELING(new_trait))
-				new_feature.plant_traits += new_trait
 		//In case there's fruit on us and we're mutating a non-fruit feature
 		var/datum/plant_feature/fruit/fruit_feature = locate(/datum/plant_feature/fruit) in plant_comp.plant_features
 		fruit_feature?.force_drop_fruit()
