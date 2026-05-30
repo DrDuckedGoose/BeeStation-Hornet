@@ -9,6 +9,8 @@
 	pass_flags_self = PASSSTRUCTURE
 	pass_flags = NONE
 	interaction_flags_item = NONE
+	///What is this tray labeled as
+	var/label
 	///Reagents volume
 	var/buffer = 200
 	///Do we want the plumbing shit?
@@ -138,6 +140,9 @@
 
 /obj/item/plant_tray/attackby(obj/item/attacking_item, mob/living/user, params)
 	. = ..()
+	if(istype(attacking_item, /obj/item/pen))
+		label_tray(user)
+		return
 	if(attacking_item?.reagents?.total_volume && reagents.total_volume < reagents.maximum_volume)
 		playsound(src, 'sound/effects/footstep/water4.ogg', 30, TRUE)
 	//Quick feedback
@@ -261,3 +266,19 @@
 		vis_contents |= problem
 	else
 		vis_contents -= problem
+
+/obj/item/plant_tray/proc/label_tray(mob/user)
+	if(QDELETED(src) || !user.canUseTopic(src, BE_CLOSE))
+		return
+	var/input = tgui_input_text(user, "New label", "New label", "label", MAX_NAME_LEN)
+	if(QDELETED(src) || !user.canUseTopic(src, BE_CLOSE))
+		return
+	//Blank input removes label
+	if(!input)
+		name = initial(name)
+		return
+	//check for slurs
+	if(CHAT_FILTER_CHECK(input))
+		to_chat(user, span_warning("Your message contains forbidden words."))
+		return
+	name = "[initial(name)] ([input])"

@@ -205,9 +205,10 @@ SUBSYSTEM_DEF(botany)
 		planter.allow_substrate_change = FALSE
 //plant flora
 		var/obj/item/plant_seeds/preset/seed = SSbotany.get_seed(SEED_RANDOM_MAINT)
-		seed = new seed(src)
+		seed = new seed(choosen_turf)
 		var/datum/component/plant/plant_component = seed.plant(choosen_turf, logic = TRUE)
 		plant_component.skip_growth = TRUE
+		QDEL_NULL(seed)
 		//Add some bonus traits to it
 		for(var/datum/plant_feature/feature as anything in plant_component.plant_features)
 			//Remove possible duplicates - kind of a fucked up way of doing it tbh

@@ -9,10 +9,10 @@
 	var/buff_override = FALSE
 
 /datum/plant_need/reagent/buff/robust/apply_buff(__delta_time)
-	. = ..()
 	var/datum/plant_feature/body/body_feature = parent
 	if(!istype(body_feature) || buff_override)
 		return
+	. = ..()
 	body_feature.max_harvest += max(1, initial(body_feature.max_harvest) / 2)
 	buff_override = TRUE
 	RegisterSignal(parent.parent, COMSIG_PLANT_REQUEST_FRUIT, PROC_REF(remove_buff_override))
@@ -30,6 +30,8 @@
 	SIGNAL_HANDLER
 
 	buff_override = FALSE
+	remove_buff()
+	UnregisterSignal(parent.parent, COMSIG_PLANT_REQUEST_FRUIT)
 
 /*
 	Generic healing template

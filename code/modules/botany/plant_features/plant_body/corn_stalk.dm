@@ -89,3 +89,15 @@
 	draw_below_water = FALSE
 	overlay_positions = list(list(23, 7))
 	yields = 1
+
+/datum/plant_feature/body/corn_stalk/ground/growth_step(step)
+	. = ..()
+	//Extra logic for in-growth layering
+	if(step >= growth_stages)
+		draw_below_water = initial(draw_below_water)
+	else
+		draw_below_water = TRUE
+	var/obj/item/plant_tray/tray = parent.plant_item.loc
+	if(istype(tray))
+		parent.plant_item.pixel_y = step < growth_stages ? tray.plant_offset[2]+2 : tray.plant_offset[2]
+	update_water_render()

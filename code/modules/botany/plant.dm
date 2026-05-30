@@ -29,10 +29,11 @@
 	///Do we use the mouse offset when planting - QUICK ACCESS
 	var/use_mouse_offset = FALSE
 
-/datum/component/plant/Initialize(obj/item/_plant_item, list/_plant_features, _species_id, _skip_growth)
+/datum/component/plant/Initialize(obj/item/_plant_item, list/_plant_features, _species_id, _skip_growth, _use_body_appearance)
 	. = ..()
 	plant_item = _plant_item
 	skip_growth = _skip_growth
+	use_body_appearance = _use_body_appearance
 	plant_item.flags_1 |= IS_ONTOP_1
 	//Setup signals for spade behaviour
 	RegisterSignal(plant_item, COMSIG_ATOM_AFTER_ATTACKEDBY, PROC_REF(catch_attackby))
@@ -148,7 +149,7 @@
 		return
 	var/list/plant_genes = list()
 	for(var/datum/plant_feature/gene as anything in plant_features)
-		if(QDELETED(gene))
+		if(QDELETED(gene) || ispath(gene)) // Sometimes this can be a path if it's a reference / cache thing
 			continue
 		plant_genes += gene?.copy()
 	SSbotany.gene_cache[species_id] = plant_genes

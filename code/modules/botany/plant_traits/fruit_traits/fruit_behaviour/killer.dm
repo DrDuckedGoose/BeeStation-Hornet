@@ -5,7 +5,8 @@
 /datum/plant_trait/fruit/killer
 	name = "Bio-Malignant"
 	desc = "The fruit exhibits semi-sentient tendincies. Triggering the fruit will transform it into a blood \
-	thirsty monster!"
+	thirsty monster! \
+	Inherits this fruit's traits."
 	scales = "Health and damage scale with trait power."
 	///Are we already awakening
 	var/awakening = FALSE
@@ -36,6 +37,13 @@
 	awaken_mob.health = awaken_mob.maxHealth
 	awaken_mob.melee_damage += (trait_power-1) * 10
 	awaken_mob.visible_message(span_notice("[awaken_mob] suddenly awakens!"))
+	//Messily clone our parent's traits into the new mob
+	var/list/genes = list()
+	SEND_SIGNAL(fruit_parent, COMSIG_PLANT_GET_GENES, genes)
+	var/datum/plant_feature/fruit/fruit_feature = locate(/datum/plant_feature/fruit) in genes[PLANT_GENE_INDEX_FEATURES]
+	for(var/datum/plant_trait/trait as anything in fruit_feature?.plant_traits)
+		trait.copy(awaken_mob)
+	//KILL MUM!
 	qdel(fruit_parent)
 
 /*
@@ -44,7 +52,8 @@
 
 /datum/plant_trait/fruit/killer/friendly
 	name = "Bio-Benign"
-	desc = "The fruit exhibits semi-sentient tendincies. Triggering the fruit will transform it into a benign 'monster'."
+	desc = "The fruit exhibits semi-sentient tendincies. Triggering the fruit will transform it into a benign 'monster'. \
+	Inherits this fruit's traits."
 	awaken_mob = /mob/living/simple_animal/friendly_fruit
 
 /*

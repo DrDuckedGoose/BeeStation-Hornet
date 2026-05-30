@@ -125,7 +125,8 @@
 				current_feature = null
 			seeds.plant_features -= feature
 			qdel(feature)
-			//We can safely set this to null, so it makes a new ID when planted.
+			//Fix identity
+			seeds.name_override = null
 			seeds.update_species_id()
 			seeds.update_plant_name()
 			last_command = "pit feature remove -f -m [encrypt_ref(params["key"])]"
@@ -215,6 +216,7 @@
 			var/datum/plant_feature/new_feature = feature.copy()
 			new_feature.associate_seeds(seeds)
 			seeds.plant_features += new_feature
+			seeds.name_override = null
 			seeds.update_species_id()
 			seeds.update_plant_name()
 			last_command = "pit feature add -f -cd [encrypt_ref(params["key"])]"

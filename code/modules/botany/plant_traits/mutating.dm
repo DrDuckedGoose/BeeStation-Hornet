@@ -50,6 +50,7 @@
 			plant_comp.plant_features += new_feature
 		//Reset species id so a new one can be made
 		plant_comp.compile_species_id()
+		plant_comp.plant_item.name = get_species_name(plant_comp.plant_features)
 		//Reset the plant's growth
 		for(var/datum/plant_feature/body/body_feature in plant_comp.plant_features)
 			body_feature.growth_time_elapsed = 0

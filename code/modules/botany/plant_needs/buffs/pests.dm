@@ -12,7 +12,7 @@
 	do_buff_appearance = FALSE
 
 	///How fast pests build up per tick
-	var/pest_build_up = 0.05
+	var/pest_build_up = 0.08
 	///Level of pests for damage calculation
 	var/pest_level = 0
 	///Maximum damage from pests per second
@@ -39,7 +39,9 @@
 	if(pest_level <= 0)
 		QDEL_NULL(calibrated_holder)
 		return
-	if(pest_level >= 30 && !calibrated_holder)
+	if(pest_level < 10) //Pests don't do damage until you see them
+		return
+	if(pest_level >= 10 && !calibrated_holder)
 		var/atom/movable/atom_parent = parent.parent.plant_item
 		calibrated_holder = new(atom_parent)
 		calibrated_holder.add_emitter(/obj/emitter/flies, "calibration", 10)

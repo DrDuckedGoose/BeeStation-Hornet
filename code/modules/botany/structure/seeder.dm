@@ -43,12 +43,11 @@
 		//Insert plant from spade
 		var/datum/component/plant/plant
 		var/obj/item/plant_item
-		for(var/obj/item/potential_plant in C.contents)
+		for(var/atom/potential_plant in C.contents)
 			plant = potential_plant.GetComponent(/datum/component/plant)
 			plant_item = potential_plant
-			if(!C)
-				continue
-			break
+			if(plant)
+				break
 		if(!plant)
 			return ..()
 		//Don't let immature plants through
@@ -87,10 +86,9 @@
 /obj/machinery/seeder/proc/store_seed(obj/item/plant_seeds/seeds)
 	if(!stored_seeds_amount["[seeds.species_id]"])
 		stored_seeds_amount["[seeds.species_id]"] = 0
-	stored_seeds_amount["[seeds.species_id]"] += 1
+	stored_seeds_amount["[seeds.species_id]"] += seeds.seeds
 	if(stored_seeds["[seeds.species_id]"])
-		qdel(seeds)
-		return
+		qdel(stored_seeds["[seeds.species_id]"])
 	stored_seeds["[seeds.species_id]"] = seeds
 	seeds.forceMove(src)
 
@@ -139,9 +137,12 @@
 			var/species_id = params["key"]
 			if(stored_seeds_amount[species_id] <= 0) //This shouldn't be possible, but laggier UIs might make it so
 				return
+			//Create sum seeds
 			var/obj/item/plant_seeds/seeds = stored_seeds[species_id]
 			seeds = seeds.copy()
-			stored_seeds_amount[species_id] -= 1
+			//Set the seed packet's seed amount to the max, or the most we can accomodate
+			seeds.seeds = min(stored_seeds_amount[species_id], seeds.seeds)
+			stored_seeds_amount[species_id] -= seeds.seeds
 			seeds.forceMove(get_turf(src))
 			if(stored_seeds_amount[species_id] <= 0 && focused_seeds == REF(seeds))
 				focused_seeds = null

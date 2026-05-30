@@ -138,7 +138,7 @@
 /obj/item/plant_seeds/preset/cactus
 	name = "cactus seeds"
 	name_override = "cactus"
-	plant_features = list(/datum/plant_feature/roots, /datum/plant_feature/body/tuber, /datum/plant_feature/fruit/cactus)
+	plant_features = list(/datum/plant_feature/roots, /datum/plant_feature/body/tuber/lavaland, /datum/plant_feature/fruit/cactus)
 
 //Inocybe
 /obj/item/plant_seeds/preset/inocybe

@@ -27,6 +27,7 @@
 	playsound(parent.plant_item, 'sound/effects/rustle.ogg', 30, TRUE)
 	parent.plant_item.add_emitter(/obj/emitter/confetti/leaves, "leaves", 10, lifespan = 20)
 	parent.plant_item.add_emitter(/obj/emitter/plant_dust, "dust", 10, lifespan = 20)
+	//Extra logic for in-growth layering
 	if(step >= growth_stages)
 		draw_below_water = initial(draw_below_water)
 	else

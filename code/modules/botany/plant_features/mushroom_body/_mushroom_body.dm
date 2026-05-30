@@ -12,7 +12,7 @@
 	max_harvest = PLANT_BODY_HARVEST_SMALL
 	slot_size = PLANT_BODY_SLOT_SIZE_MICRO
 	growth_time = PLANT_BODY_GROWTH_VERY_FAST
-	genetic_budget = 1
+	genetic_budget = 1.5
 	seeds = 5
 	trait_power = 0.5
 	//Mushrooms have no needs

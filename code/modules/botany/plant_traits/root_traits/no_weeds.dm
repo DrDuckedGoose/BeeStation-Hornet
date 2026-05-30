@@ -17,3 +17,4 @@
 	if(!plant_tray)
 		return
 	plant_tray.weed_level -= (weed_remove * parent.trait_power) * delta_time;
+	plant_tray.weed_level = max(0, plant_tray.weed_level)

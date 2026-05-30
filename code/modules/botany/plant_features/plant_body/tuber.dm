@@ -36,6 +36,11 @@
 		parent.plant_item.forceMove(get_turf(parent.plant_item))
 		qdel(parent.plant_item)
 
+// Special variant for lavland, shhh
+/datum/plant_feature/body/tuber/lavaland
+	plant_needs = list() // I wonder how long it will take people to abuse this
+	dictionary_override = /datum/plant_feature/body/tuber
+
 /*
 	Grass Tuber
 */

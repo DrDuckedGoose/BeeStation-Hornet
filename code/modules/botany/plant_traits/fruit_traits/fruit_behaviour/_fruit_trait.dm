@@ -30,7 +30,7 @@
 	var/datum/plant_trait/fruit/new_trait = .
 	//Pre-flight checks
 	new_trait.fruit_parent = _parent
-	if(!istype(new_trait.fruit_parent))
+	if(!isatom(new_trait.fruit_parent))
 		new_trait.fruit_parent = null
 		return
 	//Setup this trait to be associated with an item

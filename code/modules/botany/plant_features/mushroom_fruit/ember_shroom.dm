@@ -14,6 +14,7 @@
 	growth_time = PLANT_FRUIT_GROWTH_FAST
 	fast_reagents = list(/datum/reagent/consumable/tinlux = PLANT_REAGENT_SMALL, /datum/reagent/drug/space_drugs = PLANT_REAGENT_SMALL)
 	mutations = list(/datum/plant_feature/fruit/mushroom/embershroom/inocybe)
+	genetic_budget = 3
 
 /*
 	Inocybe

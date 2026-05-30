@@ -80,6 +80,7 @@
 		icon_state = "analyzer_open"
 		current_feature_ref = null
 		current_feature = null
+		saving_feature = FALSE
 		ui_update()
 		return
 	//Insert plant from spade

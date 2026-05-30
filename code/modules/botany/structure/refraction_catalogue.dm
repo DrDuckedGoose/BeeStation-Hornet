@@ -42,7 +42,10 @@
 	. = ..()
 	if(!isliving(user))
 		return
-	context.add_left_click_item_action("Seedify Produce", /obj/item/food/grown)
+	if(disk)
+		context.add_right_click_action("Remove Plant Disk")
+	else
+		context.add_left_click_action("Insert Plant Disk")
 
 /obj/machinery/refraction_catalogue/RefreshParts()
 	. = ..()

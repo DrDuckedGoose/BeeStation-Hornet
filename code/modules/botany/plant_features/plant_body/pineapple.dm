@@ -7,7 +7,7 @@
 	icon_state = "pineapple_stalk"
 	growth_prefix = "bush"
 	growth_stages = 3
-	overlay_positions = list(list(16, 8))
+	overlay_positions = list(list(17, 9))
 	draw_below_water = FALSE
 	yields = PLANT_BODY_YIELD_MICRO
 	yield_cooldown_time = PLANT_BODY_YIELD_TIME_SLOW
@@ -22,5 +22,12 @@
 	var/obj/emitter/confetti/leaves/particles = parent.plant_item.add_emitter(/obj/emitter/confetti/leaves, "leaves", 10, lifespan = 20)
 	particles.set_colour("#64A344")
 	parent.plant_item.add_emitter(/obj/emitter/plant_dust, "dust", 10, lifespan = 20)
-	draw_below_water = step >= growth_stages ? initial(draw_below_water) : TRUE
+	//Extra logic for in-growth layering
+	if(step >= growth_stages)
+		draw_below_water = initial(draw_below_water)
+	else
+		draw_below_water = TRUE
+	var/obj/item/plant_tray/tray = parent.plant_item.loc
+	if(istype(tray))
+		parent.plant_item.pixel_y = step < growth_stages ? tray.plant_offset[2]+2 : tray.plant_offset[2]
 	update_water_render()

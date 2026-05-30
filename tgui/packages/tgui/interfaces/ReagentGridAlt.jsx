@@ -122,9 +122,9 @@ class ReagentGrid extends Component {
             {' WIP UI '}
             <br />
             {`${this.hovered_reagent ? all_reagent_data[this.hovered_reagent]['GRID_REAGENT_NAME'] : 'No Data'}`}{' '}
-            {`(${Math.floor((this.svgPosition.x + this.dynamicXOffset) / 10)}`}
+            {`(${((this.svgPosition.x + this.dynamicXOffset) / 10)}`}
             {' : '}
-            {`${Math.floor((this.svgPosition.y + 1 + this.dynamicYOffset) / 10)})`}
+            {`${((this.svgPosition.y + this.dynamicYOffset) / 10)})`}
             <Button
               className="plant__button--beacon"
               position="absolute"

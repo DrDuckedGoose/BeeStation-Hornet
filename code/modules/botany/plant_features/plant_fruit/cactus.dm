@@ -16,6 +16,7 @@
 	fruit_size = PLANT_FRUIT_SIZE_MEDIUM
 	genetic_budget = 3
 	whitelist_features = list(/datum/plant_feature/roots, /datum/plant_feature/body/tuber)
+	plant_needs = list()
 
 /datum/plant_feature/fruit/cactus/kirby
 	name = "cactus"
