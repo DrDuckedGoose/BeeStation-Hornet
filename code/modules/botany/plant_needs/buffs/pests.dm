@@ -100,4 +100,4 @@
 /datum/plant_need/reagent/buff/pests/proc/catch_carni(datum/source, _delta_time)
 	SIGNAL_HANDLER
 
-	remove_buff(_delta_time)
+	remove_buff(1+_delta_time)

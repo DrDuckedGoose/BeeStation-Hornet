@@ -255,7 +255,7 @@
 		fruits -= fruit
 		temp_fruits += fruit
 		fruit.forceMove(T)
-	SEND_SIGNAL(parent, COMSIG_PLANT_ACTION_HARVEST, null, temp_fruits, FALSE)
+	SEND_SIGNAL(parent, COMSIG_PLANT_ACTION_HARVEST, null, temp_fruits, TRUE)
 	return TRUE
 
 #undef FRUIT_MINIMUM_BITES

@@ -64,6 +64,7 @@
 //Store seeds
 	if(istype(C, /obj/item/plant_seeds))
 		store_seed(C)
+		focused_seeds = null
 		ui_update()
 		return
 //Plant bag

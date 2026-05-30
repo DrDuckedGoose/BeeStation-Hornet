@@ -6,6 +6,7 @@
 
 /obj/item/substrate_bag
 	name = "substrate bag"
+	desc = "A sack of loose substrate. its smell fills the room."
 	icon = 'icons/obj/hydroponics/features/generic.dmi'
 	icon_state = "substrate_bag"
 	///What substrate does this bag contain
