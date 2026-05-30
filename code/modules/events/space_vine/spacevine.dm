@@ -196,7 +196,7 @@
 	S.master = null
 	vines -= S
 	growth_queue -= S
-	if(!length(vines))
+	if(length(vines))
 		return
 	//if we were the last man standing, drop a seed packet to recreate us
 	var/obj/item/plant_seeds/preset/kudzu/KZ = new(get_turf(S))
