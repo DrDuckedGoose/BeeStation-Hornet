@@ -89,6 +89,7 @@
 	var/obj/item/plant_tray/tray = parent?.plant_item?.loc
 	if(istype(tray))
 		tray.remove_feature_indicator(tray, src, tray.needy_features)
+	parent = null
 	return ..()
 
 /datum/plant_feature/proc/get_mutation_cost_string()
@@ -215,6 +216,8 @@
 
 ///Used to adjust our genetic budget, contains logic for overdrawing our budget
 /datum/plant_feature/proc/adjust_genetic_budget(amount, datum/plant_trait/source)
+	if(!istype(source))
+		return
 	//Adjust budget before anything else, because we need to see this in the editors
 	remaining_genetic_budget += amount
 	//This other shit only happens with a real plant, the only place you can see needs

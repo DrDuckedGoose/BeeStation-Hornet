@@ -1,7 +1,7 @@
 /obj/machinery/plant_machine/plant_analyser
 	name = "plant analyzer"
 	desc = "An advanced device designed to analyse plant genetic makeup."
-	icon = 'icons/obj/hydroponics/features/generic.dmi'
+	icon = 'icons/obj/hydroponics/features/generic_tall.dmi'
 	icon_state = "analyzer_open"
 	density = TRUE
 	pass_flags = PASSTABLE
@@ -62,6 +62,10 @@
 		context.add_left_click_action("Insert Plant Disk")
 
 /obj/machinery/plant_machine/plant_analyser/attackby(obj/item/C, mob/user)
+//Seeds
+	if(istype(C, /obj/item/plant_seeds))
+		to_chat(user, span_danger("A plant can be inserted into [src] using a spade."))
+		return
 //Disk
 	if(istype(C, /obj/item/disk/plant_disk) && !disk)
 		C.forceMove(src)

@@ -59,7 +59,7 @@
 #define COMSIG_FRUIT_PREPARE "COMSIG_FRUIT_PREPARE"
 //From /datum/plant_feature/fruit/proc/build_fruit(): (obj/produce)
 #define COMSIG_FRUIT_BUILT "COMSIG_FRUIT_BUILT"
-//From /datum/plant_feature/fruit/proc/build_fruit(): (obj/produce)
+//From /datum/plant_feature/fruit/proc/build_fruit(): (obj/produce, /datum/plant_feature/fruit)
 #define COMSIG_FRUIT_BUILT_POST "COMSIG_FRUIT_BUILT_POST"
 
 /*

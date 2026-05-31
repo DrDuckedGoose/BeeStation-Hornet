@@ -73,9 +73,9 @@
 		plant_traits += new /datum/plant_trait/reagent(src, reagent, fast_reagents[reagent])
 
 /datum/plant_feature/fruit/Destroy(force, ...)
-	. = ..()
 	if(!catch_attack_hand(src, null) && parent)
 		SEND_SIGNAL(parent, COMSIG_PLANT_ACTION_HARVEST, src, null, TRUE)
+	return ..()
 
 /datum/plant_feature/fruit/associate_seeds(obj/item/plant_seeds/seeds)
 	. = ..()
@@ -201,7 +201,7 @@
 	fruits += new_fruit
 	RegisterSignal(new_fruit, COMSIG_QDELETING, PROC_REF(catch_fruit_qdel))
 	SEND_SIGNAL(parent, COMSIG_FRUIT_BUILT, new_fruit) //Used when we're done prepping the fruit and we want to add stuff to it, like reagents
-	SEND_SIGNAL(parent, COMSIG_FRUIT_BUILT_POST, new_fruit) //Essentially the same as before, but for things that come after reagents
+	SEND_SIGNAL(parent, COMSIG_FRUIT_BUILT_POST, new_fruit, src) //Essentially the same as before, but for things that come after reagents
 	return new_fruit
 
 /datum/plant_feature/fruit/proc/catch_fruit_qdel(datum/source)

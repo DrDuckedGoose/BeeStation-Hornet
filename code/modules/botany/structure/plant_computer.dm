@@ -117,6 +117,8 @@
 /obj/machinery/computer/plant_machine_controller/ui_act(action, params)
 	if(..())
 		return
+	if(isobserver(usr))
+		return
 	switch(action)
 		if("select_entry")
 			selected_entry = selected_entry == params["key"] ? null : params["key"]
@@ -183,7 +185,7 @@
 		machine_options["[machine]"] = image
 		option_links["[machine]"] = machine
 	//Add ourself
-	var/image/image = image(icon, null, "plant")
+	var/image/image = image(icon, null, "dictionary")
 	machine_options["[src]"] = image
 	option_links["[src]"] = src
 

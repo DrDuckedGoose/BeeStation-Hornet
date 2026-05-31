@@ -127,6 +127,8 @@
 /obj/machinery/seeder/ui_act(action, params)
 	if(..())
 		return
+	if(isobserver(usr))
+		return
 	playsound(src, get_sfx("keyboard"), 30, TRUE)
 	switch(action)
 		if("select_entry")

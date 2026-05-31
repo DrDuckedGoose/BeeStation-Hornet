@@ -83,6 +83,10 @@
 /obj/machinery/plant_machine/plant_mutator/attackby(obj/item/C, mob/user)
 	if(working)
 		return ..()
+//Seeds
+	if(istype(C, /obj/item/plant_seeds))
+		to_chat(user, span_danger("A plant can be inserted into [src] using a spade."))
+		return
 //Catalyst
 	if(!catalyst && istype(C, /obj/item/tank))
 		catalyst = C

@@ -1,15 +1,28 @@
-import { useBackend } from '../backend';
+import { Input } from 'tgui-core/components';
+
+import { useBackend, useLocalState } from '../backend';
 import { Box, Button, Divider, Flex, Section } from '../components';
 import { Window } from '../layouts';
 
 export const SeedStorage = (props) => {
   const { act, data } = useBackend();
   const { seeds, focused_seeds, last_command } = data;
+  const [searchText, setSearchText] = useLocalState('searchText', '');
   return (
-    <Window width={600} height={700} theme="plant_menu">
+    <Window width={600} height={735} theme="plant_menu">
       <Window.Content scrollable={1}>
         <Box height={'100%'} width={'100%'} m={'-3px'}>
           <Flex direction={'column'} height={'100%'} width={'100%'}>
+            {/* Search Section */}
+            <Flex.Item>
+              <Section>
+                <Input
+                  width={'100%'}
+                  placeholder={'Search...'}
+                  onInput={(e, value) => setSearchText(value)}
+                />
+              </Section>
+            </Flex.Item>
             {/* Seed tuff */}
             <Flex.Item height={'100%'}>
               <Flex direction={'row'} width={'100%'}>
@@ -23,7 +36,11 @@ export const SeedStorage = (props) => {
                     >
                       {Object.entries(seeds).map(
                         ([data_list_key, data_list]) => (
-                          <Entry key={data_list_key} data_list={data_list} />
+                          data_list['name']
+                            .toLowerCase()
+                            .includes(searchText.toLowerCase()) ?
+                          <Entry key={data_list_key} data_list={data_list} /> :
+                          null
                         ),
                       )}
                     </Box>

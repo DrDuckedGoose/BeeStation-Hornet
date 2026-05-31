@@ -20,6 +20,8 @@
 /obj/machinery/plant_machine/ui_act(action, params)
 	if(..() && (!isliving(usr) || !in_range(controller, usr)))
 		return TRUE
+	if(isobserver(usr))
+		return TRUE
 
 /obj/machinery/plant_machine/attack_hand(mob/living/user, list/modifiers)
 	. = ..()

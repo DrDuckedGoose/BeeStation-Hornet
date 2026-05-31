@@ -43,6 +43,7 @@
 	var/datum/plant_feature/fruit/fruit_feature = locate(/datum/plant_feature/fruit) in genes[PLANT_GENE_INDEX_FEATURES]
 	for(var/datum/plant_trait/trait as anything in fruit_feature?.plant_traits)
 		trait.copy(awaken_mob)
+	awaken_mob.AddElement(/datum/element/plant_genes, SSbotany.gene_cache[genes[PLANT_GENE_INDEX_ID]], genes[PLANT_GENE_INDEX_ID], genes[PLANT_GENE_INDEX_NAME], genes[PLANT_GENE_INDEX_DESC])
 	//KILL MUM!
 	qdel(fruit_parent)
 

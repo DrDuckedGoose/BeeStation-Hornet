@@ -12,7 +12,7 @@
 	do_buff_appearance = FALSE
 
 	///How fast pests build up per tick
-	var/pest_build_up = 0.08
+	var/pest_build_up = 0.05
 	///Level of pests for damage calculation
 	var/pest_level = 0
 	///Maximum damage from pests per second
@@ -26,26 +26,30 @@
 	///original description before we add pest %
 	var/archive_description
 	///Holder for particles
-	var/atom/movable/artifact_particle_holder/calibrated_holder
+	var/obj/effect/abstract/particle_holder/pest_holder
 
 /datum/plant_need/reagent/buff/pests/New(datum/plant_feature/_parent)
 	. = ..()
 	archive_description = need_description
+
+/datum/plant_need/reagent/buff/pests/Destroy(force, ...)
+	. = ..()
+	QDEL_NULL(pest_holder)
 
 /datum/plant_need/reagent/buff/pests/process(delta_time)
 	need_description = "[archive_description]\n	 Pest Level: [pest_level]%"
 	if(SEND_SIGNAL(parent.parent.plant_item.loc, COMSIG_PLANTER_PAUSE_PLANT) || SEND_SIGNAL(parent.parent.plant_item.loc, COMSIG_PLANTER_REPEL_PESTS))
 		return
 	if(pest_level <= 0)
-		QDEL_NULL(calibrated_holder)
+		QDEL_NULL(pest_holder)
 		return
 	if(pest_level < 10) //Pests don't do damage until you see them
 		return
-	if(pest_level >= 10 && !calibrated_holder)
+	if(pest_level >= 10 && !pest_holder)
 		var/atom/movable/atom_parent = parent.parent.plant_item
-		calibrated_holder = new(atom_parent)
-		calibrated_holder.add_emitter(/obj/emitter/flies, "calibration", 10)
-		atom_parent.vis_contents += calibrated_holder
+		pest_holder = new(atom_parent)
+		pest_holder.add_emitter(/obj/emitter/flies, "flies", 10)
+		atom_parent.vis_contents |= pest_holder
 	var/mod = pest_level/100
 	body_parent.adjust_health(mod*pest_damage*-1)
 
@@ -100,4 +104,4 @@
 /datum/plant_need/reagent/buff/pests/proc/catch_carni(datum/source, _delta_time)
 	SIGNAL_HANDLER
 
-	remove_buff(1+_delta_time)
+	pest_level = pest_level / 2

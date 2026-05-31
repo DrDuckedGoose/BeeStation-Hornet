@@ -35,8 +35,10 @@
 	skip_growth = _skip_growth
 	use_body_appearance = !isnull(_use_body_appearance) ? _use_body_appearance : use_body_appearance
 	plant_item.flags_1 |= IS_ONTOP_1
-	//Setup signals for spade behaviour
+	// Setup signals for spade behaviour
 	RegisterSignal(plant_item, COMSIG_ATOM_AFTER_ATTACKEDBY, PROC_REF(catch_attackby))
+	// Setup for investigation
+	RegisterSignal(plant_item, COMSIG_ATOM_ATTACK_GHOST, PROC_REF(catch_observer))
 	//Species ID setup
 	if(!_species_id)
 		compile_species_id()
@@ -52,11 +54,22 @@
 
 /datum/component/plant/Destroy(force, silent)
 	SEND_SIGNAL(src, COMSIG_PLANT_UPROOTED,  null, null, plant_item.loc)
-	for(var/feature as anything in plant_features)
+	for(var/datum/plant_feature/feature as anything in plant_features)
 		plant_features -= feature
 		qdel(feature)
 	plant_item = null
 	return ..()
+
+/// Mostly for admin investigation and curious ghosts
+/datum/component/plant/proc/catch_observer(datum/source, mob/dead/observer/ghost)
+	SIGNAL_HANDLER
+
+	var/dialogue = "<b>[plant_item.name]</b>\n"
+	for(var/datum/plant_feature/feature as anything in plant_features)
+		dialogue = "[dialogue] [feature.name]\n"
+		for(var/datum/plant_trait/trait as anything in feature.plant_traits)
+			dialogue = "[dialogue]	[trait.name]\n"
+	to_chat(ghost, span_notice(dialogue))
 
 ///Item interactions for plants that aren't covered by the individual plant_features
 /datum/component/plant/proc/catch_attackby(datum/source, obj/item, mob/living/user, proximity_flag, click_parameters)
