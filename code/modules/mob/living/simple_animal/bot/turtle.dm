@@ -1,7 +1,7 @@
 /mob/living/simple_animal/bot/turtle
 	name = "\improper turtle"
 	desc = "A hydroponics helper."
-	icon = 'icons/mob/silicon/aibots.dmi.dmi'
+	icon = 'icons/mob/silicon/aibots.dmi'
 	icon_state = "turtle"
 	density = FALSE
 	anchored = FALSE
