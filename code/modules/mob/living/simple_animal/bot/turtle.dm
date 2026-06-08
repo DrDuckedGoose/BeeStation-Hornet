@@ -33,7 +33,7 @@
 	if(prob(5))
 		name = "Louie"
 		icon_state = "louie"
-	on_overlay = icon('icons/mob/aibots.dmi', "turtle on")
+	on_overlay = icon('icons/mob/silicon/aibots.dmi', "turtle on")
 //Tray stuff
 	var/datum/component/planter/tray_component = AddComponent(/datum/component/planter, plant_offset, 1.2, FALSE)
 	tray_component.set_substrate(/datum/plant_subtrate/fairy)
