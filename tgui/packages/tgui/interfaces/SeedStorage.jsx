@@ -35,13 +35,12 @@ export const SeedStorage = (props) => {
                       overflowY="scroll"
                     >
                       {Object.entries(seeds).map(
-                        ([data_list_key, data_list]) => (
+                        ([data_list_key, data_list]) =>
                           data_list['name']
                             .toLowerCase()
-                            .includes(searchText.toLowerCase()) ?
-                          <Entry key={data_list_key} data_list={data_list} /> :
-                          null
-                        ),
+                            .includes(searchText.toLowerCase()) ? (
+                            <Entry key={data_list_key} data_list={data_list} />
+                          ) : null,
                       )}
                     </Box>
                   </Section>
