@@ -47,8 +47,7 @@
 		return
 	if(pest_level >= 10 && !pest_holder)
 		var/atom/movable/atom_parent = parent.parent.plant_item
-		pest_holder = new(atom_parent)
-		pest_holder.add_emitter(/obj/emitter/flies, "flies", 10)
+		pest_holder = new(atom_parent, /obj/emitter/flies)
 		atom_parent.vis_contents |= pest_holder
 	var/mod = pest_level/100
 	body_parent.adjust_health(mod*pest_damage*-1)
