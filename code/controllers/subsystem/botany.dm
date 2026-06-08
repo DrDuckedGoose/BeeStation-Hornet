@@ -3,7 +3,7 @@
 
 SUBSYSTEM_DEF(botany)
 	name = "Botany"
-	flags = SS_NO_FIRE
+	ss_flags = SS_NO_FIRE
 
 	///list of plant species - This is used for the discovery component
 	var/list/plant_species = list()
