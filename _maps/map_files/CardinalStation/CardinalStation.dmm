@@ -14987,10 +14987,7 @@
 /area/station/engineering/atmos)
 "dBU" = (
 /obj/structure/filingcabinet/chestdrawer/wheeled,
-/obj/item/kirbyplants{
-	icon_state = "plant-17";
-	pixel_y = 19
-	},
+/obj/item/plant_tray/pot/random,
 /obj/machinery/light_switch/directional/west,
 /turf/open/floor/wood,
 /area/station/cargo/qm)
@@ -18234,11 +18231,7 @@
 	pixel_y = 4;
 	pixel_x = -20
 	},
-/obj/item/kirbyplants{
-	pixel_y = 28;
-	pixel_x = 16;
-	icon_state = "plant-02"
-	},
+/obj/item/plant_tray/pot/random,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer4,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer2,
 /turf/open/floor/carpet/cyan,
@@ -32107,10 +32100,7 @@
 /area/station/medical/storage)
 "hCD" = (
 /obj/structure/table/wood,
-/obj/item/kirbyplants{
-	icon_state = "plant-21";
-	pixel_y = 10
-	},
+/obj/item/plant_tray/pot/random,
 /obj/effect/turf_decal/siding/dark{
 	dir = 4
 	},
@@ -33642,10 +33632,7 @@
 /turf/open/floor/iron/techmaint,
 /area/station/medical/morgue)
 "hUV" = (
-/obj/item/kirbyplants{
-	icon_state = "plant-21";
-	pixel_y = 6
-	},
+/obj/item/plant_tray/pot/random,
 /obj/structure/platform/wood{
 	dir = 10
 	},
@@ -36454,7 +36441,6 @@
 /turf/open/floor/iron/ridged/steel,
 /area/station/engineering/atmos)
 "iBn" = (
-/obj/machinery/vending/hydroseeds,
 /obj/effect/turf_decal/edges/techfloor{
 	dir = 9
 	},
@@ -36463,6 +36449,7 @@
 	},
 /obj/machinery/camera/directional/north,
 /obj/structure/sign/poster/official/random/directional/north,
+/obj/machinery/vending/hydroseeds/tutorial,
 /turf/open/floor/iron/tech,
 /area/station/service/hydroponics)
 "iBq" = (
@@ -38055,10 +38042,7 @@
 /area/station/service/theater/backstage)
 "iTO" = (
 /obj/structure/table,
-/obj/item/kirbyplants{
-	icon_state = "plant-26";
-	pixel_y = 10
-	},
+/obj/item/plant_tray/pot/random,
 /turf/open/floor/iron/techmaint,
 /area/station/science/mixing)
 "iTS" = (
@@ -58719,11 +58703,7 @@
 /area/station/engineering/atmos)
 "nLA" = (
 /obj/structure/table/reinforced,
-/obj/item/kirbyplants{
-	icon_state = "plant-21";
-	pixel_y = 12;
-	pixel_x = 16
-	},
+/obj/item/plant_tray/pot/random,
 /obj/effect/turf_decal/tile/neutral/opposingcorners,
 /obj/item/clothing/gloves/color/latex,
 /obj/item/clothing/gloves/color/latex{
@@ -58896,7 +58876,8 @@
 	},
 /obj/machinery/light_switch/directional/west,
 /obj/effect/turf_decal/delivery,
-/obj/machinery/plant_machine/plant_mutator,
+/obj/machinery/plant_machine/plant_mutator/tutorial,
+/obj/structure/sign/poster/official/random/directional/north,
 /turf/open/floor/iron,
 /area/station/service/hydroponics)
 "nNW" = (
@@ -61032,10 +61013,7 @@
 /obj/effect/turf_decal/siding/wideplating_new/dark{
 	dir = 6
 	},
-/obj/item/kirbyplants{
-	icon_state = "plant-22";
-	pixel_y = 8
-	},
+/obj/item/plant_tray/pot/random,
 /obj/structure/railing/perspective/black,
 /turf/open/floor/iron/dark/smooth_large,
 /area/station/tcommsat/computer)
@@ -66975,10 +66953,7 @@
 /area/station/maintenance/department/medical)
 "pKW" = (
 /obj/structure/table,
-/obj/item/kirbyplants{
-	icon_state = "plant-17";
-	pixel_y = 10
-	},
+/obj/item/plant_tray/pot/random,
 /obj/machinery/light/directional/north,
 /obj/machinery/airalarm/directional/east,
 /turf/open/floor/iron/dark,
@@ -67718,10 +67693,7 @@
 /turf/open/floor/carpet/purple,
 /area/station/maintenance/club)
 "pSZ" = (
-/obj/item/kirbyplants{
-	icon_state = "plant-21";
-	pixel_y = 6
-	},
+/obj/item/plant_tray/pot/random,
 /obj/structure/platform/wood{
 	dir = 6
 	},
@@ -78929,7 +78901,6 @@
 	dir = 4;
 	alpha = 255
 	},
-/obj/structure/sign/poster/official/random/directional/north,
 /obj/structure/table,
 /obj/machinery/plant_machine/plant_analyser{
 	pixel_y = 5
@@ -82312,11 +82283,7 @@
 /obj/effect/turf_decal/edges/borderfloor/black{
 	dir = 4
 	},
-/obj/structure/sink{
-	dir = 4;
-	pixel_x = 11;
-	pixel_y = 5
-	},
+/obj/structure/sink/directional/west,
 /obj/effect/landmark/start/botanist,
 /turf/open/floor/iron/dark/textured_half{
 	dir = 1
@@ -89751,6 +89718,7 @@
 /obj/item/wrench,
 /obj/item/construction/plumbing/botany,
 /obj/item/construction/plumbing/botany,
+/obj/item/book/manual/wiki/hydroponics/tutorial,
 /turf/open/floor/prison/dark,
 /area/station/service/hydroponics)
 "vcK" = (
@@ -99426,10 +99394,7 @@
 	dir = 10
 	},
 /obj/machinery/airalarm/directional/west,
-/obj/item/kirbyplants{
-	icon_state = "plant-29";
-	pixel_y = 22
-	},
+/obj/item/plant_tray/pot/random,
 /turf/open/floor/carpet/orange,
 /area/station/cargo/qm_bedroom)
 "xsk" = (
@@ -100598,10 +100563,7 @@
 	dir = 5
 	},
 /obj/machinery/light/directional/north,
-/obj/item/kirbyplants/dead{
-	name = "potted plant";
-	desc = "It doesn't look very healthy..."
-	},
+/obj/item/plant_tray/pot/random,
 /obj/machinery/camera/directional/east,
 /turf/open/floor/wood,
 /area/station/commons/vacant_room/office)
@@ -101563,10 +101525,7 @@
 /obj/effect/turf_decal/siding/purple{
 	dir = 6
 	},
-/obj/item/kirbyplants{
-	icon_state = "plant-17";
-	pixel_y = 22
-	},
+/obj/item/plant_tray/pot/random,
 /turf/open/floor/iron/dark,
 /area/station/command/heads_quarters/rd)
 "xUi" = (

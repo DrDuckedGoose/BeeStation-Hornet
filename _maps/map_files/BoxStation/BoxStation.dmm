@@ -2444,9 +2444,7 @@
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
 	},
-/obj/structure/sink{
-	pixel_y = 16
-	},
+/obj/structure/sink/directional/north,
 /obj/effect/mapping_helpers/make_non_slip,
 /turf/open/floor/iron,
 /area/station/service/hydroponics)
@@ -7121,7 +7119,7 @@
 /area/station/maintenance/aft)
 "dqO" = (
 /obj/effect/turf_decal/tile/neutral/fourcorners/contrasted,
-/obj/machinery/vending/hydroseeds,
+/obj/machinery/vending/hydroseeds/tutorial,
 /turf/open/floor/iron/dark,
 /area/station/service/hydroponics)
 "dqR" = (
@@ -9309,10 +9307,7 @@
 "efS" = (
 /obj/effect/decal/cleanable/cobweb,
 /obj/effect/decal/cleanable/dirt,
-/obj/item/kirbyplants/dead{
-	name = "potted plant";
-	desc = "It doesn't look very healthy..."
-	},
+/obj/item/plant_tray/pot/random,
 /obj/effect/turf_decal/siding/purple{
 	dir = 4
 	},
@@ -10217,7 +10212,7 @@
 /obj/structure/railing{
 	dir = 6
 	},
-/obj/item/kirbyplants/photosynthetic,
+/obj/item/plant_tray/pot/random,
 /obj/effect/turf_decal/tile/neutral/fourcorners/contrasted,
 /obj/effect/turf_decal/trimline/dark_blue/filled/end{
 	dir = 1
@@ -17043,7 +17038,7 @@
 	},
 /obj/machinery/airalarm/directional/east,
 /obj/machinery/camera/motion/directional/east,
-/obj/item/kirbyplants/photosynthetic,
+/obj/item/plant_tray/pot/random,
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer2{
 	dir = 8
 	},
@@ -24475,9 +24470,7 @@
 /obj/effect/turf_decal/stripes/line{
 	dir = 5
 	},
-/obj/item/kirbyplants/photosynthetic{
-	pixel_y = 6
-	},
+/obj/item/plant_tray/pot/random,
 /obj/machinery/light/small{
 	dir = 4
 	},
@@ -43107,6 +43100,7 @@
 	pixel_y = -35
 	},
 /obj/machinery/light/directional/south,
+/obj/item/book/manual/wiki/hydroponics/tutorial,
 /turf/open/floor/iron/white,
 /area/station/service/hydroponics)
 "rVH" = (
@@ -43655,10 +43649,7 @@
 /turf/closed/wall,
 /area/station/hallway/primary/port)
 "sfZ" = (
-/obj/item/kirbyplants/dead{
-	name = "potted plant";
-	desc = "It doesn't look very healthy..."
-	},
+/obj/item/plant_tray/pot/random,
 /obj/effect/turf_decal/tile/monorust,
 /obj/effect/decal/cleanable/crayon{
 	icon_state = "amyjon";
@@ -46916,9 +46907,7 @@
 /turf/open/floor/plating,
 /area/station/maintenance/starboard/fore)
 "trd" = (
-/obj/item/kirbyplants{
-	icon_state = "plant-10"
-	},
+/obj/item/plant_tray/pot/random,
 /obj/effect/turf_decal/stripes/corner{
 	dir = 8
 	},
@@ -51226,10 +51215,10 @@
 /area/station/medical/morgue)
 "vcn" = (
 /obj/effect/turf_decal/tile/neutral/fourcorners/contrasted,
-/obj/machinery/plant_machine/plant_mutator,
 /obj/effect/turf_decal/delivery,
 /obj/effect/mapping_helpers/tile_breaker,
 /obj/machinery/light/directional/north,
+/obj/machinery/plant_machine/plant_mutator/tutorial,
 /turf/open/floor/iron/dark,
 /area/station/service/hydroponics)
 "vcr" = (
@@ -54240,9 +54229,7 @@
 /turf/open/floor/wood,
 /area/station/commons/vacant_room/office)
 "wtX" = (
-/obj/item/kirbyplants{
-	icon_state = "plant-10"
-	},
+/obj/item/plant_tray/pot/random,
 /obj/effect/turf_decal/stripes/corner,
 /obj/machinery/light,
 /obj/effect/turf_decal/tile/blue,
@@ -57456,7 +57443,7 @@
 /obj/machinery/light_switch{
 	pixel_y = -23
 	},
-/obj/item/kirbyplants/dead,
+/obj/item/plant_tray/pot/random,
 /obj/structure/cable/yellow,
 /turf/open/floor/iron/cafeteria,
 /area/station/command/heads_quarters/rd)
