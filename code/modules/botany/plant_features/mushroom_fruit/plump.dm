@@ -21,9 +21,10 @@
 	name = "walking mushroom"
 	seed_icon_state = "mycelium-walkingmushroom"
 	fruit_product = /obj/item/food/grown/mushroom/plumphelmet
-	plant_traits = list(/datum/plant_trait/fruit/killer/friendly/walking)
+	plant_traits = list(/datum/plant_trait/fruit/killer/friendly/walking, /datum/plant_trait/fruit/liquid_contents/sensitive)
 	total_volume = PLANT_FRUIT_VOLUME_MICRO
 	growth_time = PLANT_FRUIT_GROWTH_FAST
 	mutations = list(/datum/plant_feature/fruit/mushroom/plump)
+	genetic_budget = 2.5
 
 

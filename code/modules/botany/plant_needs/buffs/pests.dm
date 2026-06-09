@@ -26,7 +26,7 @@
 	///original description before we add pest %
 	var/archive_description
 	///Holder for particles
-	var/obj/effect/abstract/particle_holder/pest_holder
+	var/obj/effect/abstract/pest_holder
 
 /datum/plant_need/reagent/buff/pests/New(datum/plant_feature/_parent)
 	. = ..()
@@ -47,7 +47,8 @@
 		return
 	if(pest_level >= 10 && !pest_holder)
 		var/atom/movable/atom_parent = parent.parent.plant_item
-		pest_holder = new(atom_parent, /obj/emitter/flies)
+		pest_holder = new(atom_parent)
+		pest_holder.add_emitter(/obj/emitter/flies, "flies", 10)
 		atom_parent.vis_contents |= pest_holder
 	var/mod = pest_level/100
 	body_parent.adjust_health(mod*pest_damage*-1)

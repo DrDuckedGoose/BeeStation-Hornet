@@ -19,5 +19,5 @@
 	colour_override = "#c74444"
 	seed_icon_state = "mycelium-glowcap"
 	fruit_product = /obj/item/food/meat/slab/human/mutant/psyphoza
-	fast_reagents = list()
+	plant_traits = list(/datum/plant_trait/reagent/fruit/nutriment)
 	mutations = list(/datum/plant_feature/fruit/mushroom/mess)
