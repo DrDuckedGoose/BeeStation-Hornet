@@ -34,7 +34,7 @@
 	var/list/stickers = list(/obj/item/sticker/series_2/flower, /obj/item/sticker/series_2/banana, /obj/item/sticker/series_2/tomato)
 	for(var/obj/item/sticker/sticker as anything in stickers)
 		var/obj/item/sticker/new_sticker = new sticker(loc)
-		new_sticker.afterattack(src, src, TRUE)
+		new_sticker.stick_to(src)
 		new_sticker.pixel_y = rand(-8, 8)
 		new_sticker.pixel_x = rand(-8, 8)
 

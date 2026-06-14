@@ -41,8 +41,7 @@
 /obj/machinery/plant_machine/plant_mutator/Initialize(mapload)
 	. = ..()
 	RegisterSignal(src, COMSIG_PLANTER_PAUSE_PLANT, PROC_REF(catch_pause))
-	var/obj/item/tank/internals/plasma/plasma_tank = new(get_turf(src))
-	attackby(plasma_tank)
+	catalyst = new /obj/item/tank/internals/plasma(src)
 	rad_ghost = new(src)
 	soundloop = new(src,  FALSE)
 
