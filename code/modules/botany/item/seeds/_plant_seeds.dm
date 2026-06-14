@@ -97,7 +97,7 @@
 /obj/item/plant_seeds/proc/plant(atom/target, mob/user, proximity_flag, click_parameters, logic)
 //Flight checks
 	// How close is close?
-	if(!proximity_flag)
+	if(!proximity_flag && user)
 		return
 	//Is this even a planter?
 	var/datum/component/planter/tray_component = target.GetComponent(/datum/component/planter)
