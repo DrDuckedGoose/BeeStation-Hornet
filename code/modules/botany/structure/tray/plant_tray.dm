@@ -48,6 +48,7 @@
 
 /obj/item/plant_tray/Initialize(mapload)
 	. = ..()
+	START_PROCESSING(SSobj, src)
 	create_reagents(buffer, TRANSPARENT | REFILLABLE)
 	if(plumbing)
 		AddComponent(/datum/component/plumbing/tank, FALSE)
@@ -80,10 +81,6 @@
 //Apply our starting offset
 	pixel_x = rand(starting_offset[1], starting_offset[2])
 	pixel_y = rand(starting_offset[3], starting_offset[4])
-
-/obj/item/plant_tray/LateInitialize()
-	. = ..()
-	START_PROCESSING(SSobj, src)
 
 /obj/item/plant_tray/Destroy(force)
 	. = ..()

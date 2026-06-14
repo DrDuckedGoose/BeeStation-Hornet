@@ -54,6 +54,9 @@
 
 /obj/item/plant_tray/pot/random/Initialize(mapload)
 	. = ..()
+	INVOKE_ASYNC(src, PROC_REF(build_random_plant))
+
+/obj/item/plant_tray/pot/random/proc/build_random_plant()
 //Plant a random seed
 	var/obj/item/plant_seeds/preset/kirby/seed = SSbotany.get_seed()
 	seed = new seed(src)
