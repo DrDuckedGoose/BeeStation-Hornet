@@ -256,6 +256,7 @@
 			//Reset species id so a new one can be made
 			plant_component.compile_species_id()
 			plant_component.plant_item.name = get_species_name(plant_component.plant_features)
+			plant_component.name_override = null
 			//Reset the plant's growth
 			for(var/datum/plant_feature/body/body_feature in plant_component.plant_features)
 				body_feature.growth_time_elapsed = 0

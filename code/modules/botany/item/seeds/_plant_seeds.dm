@@ -92,6 +92,7 @@
 	var/obj/item/plant_seeds/copy = new type(src.loc, src.plant_features, src.species_id)
 	copy.name_override = name_override
 	copy.desc_override = desc_override
+	copy.update_plant_name()
 	return copy
 
 /obj/item/plant_seeds/proc/plant(atom/target, mob/user, proximity_flag, click_parameters, logic)

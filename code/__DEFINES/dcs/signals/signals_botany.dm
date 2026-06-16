@@ -99,6 +99,9 @@
 	Plant gene signals
 		Just used to fetch stuff from the gene element
 */
-//Used in a couple places to get a list of a thing's plant genes
-//From /proc/seedify(): (list/list_to_populate)
+// Used in a couple places to get a list of a thing's plant genes
+// From /proc/seedify(): (list/list_to_populate)
 #define COMSIG_PLANT_GET_GENES "COMSIG_PLANT_GET_GENES"
+// Generally shouldn't be used, mostly used for changing plant nicknames
+// From (): (gene_key, new_gene)
+#define COMSIG_PLANT_MODIFY_GENES "COMSIG_PLANT_MODIFY_GENES"

@@ -85,11 +85,18 @@
 	shake()
 
 /obj/machinery/seeder/proc/store_seed(obj/item/plant_seeds/seeds)
+// Stored amount
 	if(!stored_seeds_amount["[seeds.species_id]"])
 		stored_seeds_amount["[seeds.species_id]"] = 0
 	stored_seeds_amount["[seeds.species_id]"] += seeds.seeds
-	if(stored_seeds["[seeds.species_id]"])
-		qdel(stored_seeds["[seeds.species_id]"])
+// Stored template
+	var/obj/item/plant_seeds/old_seeds = stored_seeds["[seeds.species_id]"]
+	// If we have an existing template, but the new template doesn't have a name override
+	if(!seeds.name_override && old_seeds?.name_override)
+		qdel(seeds)
+		return
+	// If we have an existing template, but the new template has a name override
+	qdel(old_seeds)
 	stored_seeds["[seeds.species_id]"] = seeds
 	seeds.forceMove(src)
 

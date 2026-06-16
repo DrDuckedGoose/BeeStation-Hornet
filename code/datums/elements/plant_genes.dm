@@ -14,6 +14,7 @@
 	//As for name and desc, we do hold onto it. It just lives here so we can re-apply it to seeds from this thing
 	plant_genes[REF(target)] = list(PLANT_GENE_INDEX_FEATURES = _plant_features, PLANT_GENE_INDEX_ID = _species_id, PLANT_GENE_INDEX_NAME = _name, PLANT_GENE_INDEX_DESC = _desc)
 	RegisterSignal(target, COMSIG_PLANT_GET_GENES, PROC_REF(append_genes))
+	RegisterSignal(target, COMSIG_PLANT_MODIFY_GENES, PROC_REF(modify_genes))
 
 /datum/element/plant_genes/Detach(datum/source, ...)
 	. = ..()
@@ -24,3 +25,12 @@
 	SIGNAL_HANDLER
 
 	gene_list += plant_genes[REF(source)]
+
+/datum/element/plant_genes/proc/modify_genes(datum/source, gene_key, new_gene)
+	SIGNAL_HANDLER
+
+	if(isatom(plant_genes[REF(source)][gene_key]))
+		var/atom/gene = plant_genes[REF(source)][gene_key]
+		plant_genes[REF(source)][gene_key] = null
+		qdel(gene)
+	plant_genes[REF(source)][gene_key] = new_gene
