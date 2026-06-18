@@ -1,6 +1,7 @@
 import { Component, createRef } from 'react';
+import { Input } from 'tgui-core/components';
 
-import { useBackend } from '../backend';
+import { useBackend, useLocalState } from '../backend';
 import {
   Box,
   Button,
@@ -115,6 +116,8 @@ class ReagentGrid extends Component {
       all_reagent_data,
     } = this.props;
 
+    const [searchText, setSearchText] = useLocalState('searchText', '');
+
     return (
       <Flex height="100%" width="100%" direction="row">
         <Flex height="100.1%" width="70%" direction="column">
@@ -144,6 +147,13 @@ class ReagentGrid extends Component {
               fontSize="18px"
               color="grey"
               onClick={() => this.setZoomScale(this.lockedZoomScale / 2)}
+            />
+          </Section>
+          <Section>
+            <Input
+              width={'100%'}
+              placeholder={'Search...'}
+              onInput={(e, value) => setSearchText(value)}
             />
           </Section>
           <Section height="100%" width="100%">
@@ -927,7 +937,13 @@ class ReagentGrid extends Component {
                                 ) *
                                   10
                               }
-                              fill={'url(#square_fill)'}
+                              fill={
+                                data_list['GRID_REAGENT_NAME']
+                                  .toLowerCase()
+                                  .includes(searchText.toLowerCase())
+                                  ? 'url(#square_fill)'
+                                  : 'url(#square_fill_alt)'
+                              }
                               rx={data_list['GRID_REAGENT_SIZE'] * 2 + 5}
                               stroke={`${this.checkReagent(selected_reagent, data_list_key) ? '#ffff77' : '#00000000'}`}
                               strokeWidth={0.5}
