@@ -178,8 +178,8 @@
 
 //Mail
 /obj/item/plant_seeds/preset/mail
-	name = "trumpet seeds"
-	name_override = "trumpet"
+	name = "envelope seeds"
+	name_override = "envelope tree"
 	plant_features = list(/datum/plant_feature/roots/sand, /datum/plant_feature/body/tree/gum, /datum/plant_feature/fruit/mail)
 
 //Death Nettle

@@ -140,6 +140,7 @@
 				disk?.set_saved(null)
 			else //otherwise just carry on and null our species ID while we're at it, to gen a new one
 				seeds.update_species_id()
+				seeds.name_override = null
 				seeds.update_plant_name()
 			if(current_feature)
 				current_feature.plant_traits -= trait
@@ -177,6 +178,7 @@
 				return
 			//Reset the species ID
 			seeds.update_species_id()
+			seeds.name_override = null
 			seeds.update_plant_name()
 			last_command = "pit trait add -f -cd [encrypt_ref(params["key"])]"
 			return TRUE

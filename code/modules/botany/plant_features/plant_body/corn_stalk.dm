@@ -101,3 +101,9 @@
 	if(istype(tray))
 		parent.plant_item.pixel_y = step < growth_stages ? tray.plant_offset[2]+2 : tray.plant_offset[2]
 	update_water_render()
+
+/datum/plant_feature/body/corn_stalk/ground/catch_planted(datum/source, atom/destination)
+	. = ..()
+	var/obj/item/plant_tray/tray = parent.plant_item.loc
+	if(istype(tray))
+		parent.plant_item.pixel_y = current_stage < growth_stages ? tray.plant_offset[2]+2 : tray.plant_offset[2]

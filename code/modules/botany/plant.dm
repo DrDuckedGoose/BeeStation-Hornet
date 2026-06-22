@@ -129,8 +129,8 @@
 	UnregisterSignal(spade, COMSIG_ITEM_PRE_ATTACK)
 	if(!(locate(plant_item) in spade))
 		return
-	SEND_SIGNAL(src, COMSIG_PLANT_PLANTED, target)
 	plant_item.forceMove(target)
+	SEND_SIGNAL(src, COMSIG_PLANT_PLANTED, target)
 	plant_item.vis_flags = plant_item::vis_flags
 	target.vis_contents |= plant_item
 	spade.vis_contents -= plant_item

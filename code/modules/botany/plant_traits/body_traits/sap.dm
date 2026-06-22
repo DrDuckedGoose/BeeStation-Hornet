@@ -30,8 +30,8 @@
 
 //Basically copy pasted from nectar.dm with some tweaks to make it unique
 //Visuals
-	playsound(plant_comp.plant_item, 'sound/items/party_horn.ogg', 35, TRUE)
-	plant_comp.plant_item.add_emitter(/obj/emitter/confetti, "confetti", 10, lifespan = 15)
+	playsound(plant_comp.plant_item, 'sound/effects/prick.ogg', 50, TRUE)
+	plant_comp.plant_item.add_emitter(/obj/emitter/bees, "bees", 10, lifespan = 20)
 //Help ourselves
 	SEND_SIGNAL(plant_comp, COMSIG_PLANT_NECTAR_BUFF)
 	var/datum/plant_feature/body/body_feature = locate(/datum/plant_feature/body) in plant_comp.plant_features

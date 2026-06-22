@@ -12,3 +12,10 @@
 	lifespan = 8 SECONDS
 	fade = 1
 	fadein = 1
+
+// Version for bees
+/obj/emitter/bees
+	particles = new/particles/flies/bees
+
+/particles/flies/bees
+	icon_state = list("bee_particle")
