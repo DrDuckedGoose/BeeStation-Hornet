@@ -30,7 +30,7 @@
 	plant_traits = list(/datum/plant_trait/fruit/biolight/yellow)
 	fast_reagents = list(/datum/reagent/water/holywater = PLANT_REAGENT_MEDIUM)
 	mutations = list(/datum/plant_feature/fruit/watermelon)
-
+	trait_power = 2
 
 /*
 	Ballolon
@@ -45,3 +45,4 @@
 	plant_traits = list(/datum/plant_trait/fruit/gaseous)
 	fast_reagents = list(/datum/reagent/hydrogen = PLANT_REAGENT_MEDIUM, /datum/reagent/oxygen = PLANT_REAGENT_MEDIUM)
 	mutations = list(/datum/plant_feature/fruit/watermelon/holy = 8)
+	trait_power = 1.5

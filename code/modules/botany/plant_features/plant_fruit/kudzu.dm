@@ -15,3 +15,4 @@
 	growth_time = PLANT_FRUIT_GROWTH_FAST
 	can_copy = FALSE
 	can_remove = FALSE
+	trait_power = 2

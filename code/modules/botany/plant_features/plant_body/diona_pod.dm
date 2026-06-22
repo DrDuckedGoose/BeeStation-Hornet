@@ -15,6 +15,7 @@
 	can_remove = FALSE
 	overlay_positions = list(list(24, 6))
 	whitelist_features = list(/datum/plant_feature/fruit/cabbage/diona, /datum/plant_feature/roots)
+	trait_power = 2
 
 /datum/plant_feature/body/diona_pod/growth_step(step)
 	. = ..()

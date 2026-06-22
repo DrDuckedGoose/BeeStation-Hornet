@@ -26,3 +26,4 @@
 	fruit_product = /obj/item/food/grown/coffee/robusta
 	fast_reagents = list(/datum/reagent/toxin/coffeepowder = PLANT_REAGENT_SMALL, /datum/reagent/medicine/ephedrine = PLANT_REAGENT_MEDIUM)
 	mutations = list(/datum/plant_feature/fruit/coffee)
+	trait_power = 1.5

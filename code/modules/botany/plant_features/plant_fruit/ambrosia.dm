@@ -26,6 +26,7 @@
 	colour_override = "#075f6b"
 	seed_icon_state = "seed-ambrosiadeus"
 	fruit_product = /obj/item/food/grown/ambrosia/deus
+	trait_power = 1.5
 	plant_traits = list(/datum/plant_trait/reagent/fruit/nutriment, /datum/plant_trait/reagent/fruit/vitamin)
 	fast_reagents = list(/datum/reagent/medicine/synaptizine = PLANT_REAGENT_SMALL, /datum/reagent/medicine/omnizine = PLANT_REAGENT_SMALL, /datum/reagent/drug/space_drugs = PLANT_REAGENT_SMALL)
 	mutations = list(/datum/plant_feature/fruit/ambrosia/gaia = 5)
@@ -39,6 +40,7 @@
 	icon_state = "ambrosia_2"
 	seed_icon_state = "seed-ambrosia_gaia"
 	fruit_product = /obj/item/food/grown/ambrosia/gaia
+	trait_power = 2
 	plant_traits = list(/datum/plant_trait/reagent/fruit/nutriment, /datum/plant_trait/reagent/fruit/vitamin)
 	fast_reagents = list(/datum/reagent/medicine/earthsblood = PLANT_REAGENT_SMALL)
 	mutations = list(/datum/plant_feature/fruit/ambrosia)

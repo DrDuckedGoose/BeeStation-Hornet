@@ -24,3 +24,4 @@
 	fruit_product = /obj/item/food/grown/nettle/death
 	fast_reagents = list(/datum/reagent/toxin/acid/fluacid = PLANT_REAGENT_MEDIUM)
 	mutations = list(/datum/plant_feature/fruit/nettle)
+	trait_power = 2

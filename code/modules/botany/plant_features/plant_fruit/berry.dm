@@ -26,6 +26,7 @@
 	name = "glow berry"
 	seed_icon_state = "seed-glowberry"
 	fruit_product = /obj/item/food/grown/berries/glow
+	trait_power = 1.3
 	fast_reagents = list(/datum/reagent/uranium/radium = PLANT_REAGENT_MEDIUM, /datum/reagent/iodine = PLANT_REAGENT_MEDIUM)
 	colour_override = "#a6ff00"
 	mutations = list(/datum/plant_feature/fruit/berry/poison = 3)
@@ -38,6 +39,7 @@
 	name = "poison berry"
 	seed_icon_state = "seed-poisonberry"
 	fruit_product = /obj/item/food/grown/berries/poison
+	trait_power = 1.5
 	fast_reagents = list(/datum/reagent/toxin/cyanide = PLANT_REAGENT_MEDIUM, /datum/reagent/toxin/staminatoxin = PLANT_REAGENT_MEDIUM)
 	colour_override = "#0dff00"
 	mutations = list(/datum/plant_feature/fruit/berry/death = 5)
@@ -50,6 +52,7 @@
 	name = "death berry"
 	seed_icon_state = "seed-deathberry"
 	fruit_product = /obj/item/food/grown/berries/poison
+	trait_power = 1.5
 	fast_reagents = list(/datum/reagent/toxin/coniine = PLANT_REAGENT_SMALL, /datum/reagent/toxin/staminatoxin = PLANT_REAGENT_MEDIUM)
 	colour_override = "#0dff00"
 	mutations = list(/datum/plant_feature/fruit/berry)

@@ -12,3 +12,4 @@
 	total_volume = PLANT_FRUIT_VOLUME_SMALL
 	growth_time = PLANT_FRUIT_GROWTH_SLOW
 	fruit_size = PLANT_FRUIT_SIZE_LARGE
+	trait_power = 3

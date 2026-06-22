@@ -40,3 +40,4 @@
 	fast_reagents = list(/datum/reagent/sulfur = PLANT_REAGENT_SMALL, /datum/reagent/medicine/charcoal = PLANT_REAGENT_MEDIUM,
 	/datum/reagent/saltpetre = PLANT_REAGENT_SMALL, /datum/reagent/blackpowder = PLANT_REAGENT_MEDIUM)
 	mutations = list(/datum/plant_feature/fruit/lemon)
+	trait_power = 2

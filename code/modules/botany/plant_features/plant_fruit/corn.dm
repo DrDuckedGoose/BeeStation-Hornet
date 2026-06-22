@@ -24,3 +24,4 @@
 	seed_icon_state = "seed-snapcorn"
 	fruit_product = /obj/item/grown/snapcorn
 	mutations = list(/datum/plant_feature/fruit/corn)
+	trait_power = 1.5

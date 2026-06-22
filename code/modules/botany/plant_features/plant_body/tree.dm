@@ -41,6 +41,7 @@
 	overlay_positions = list(list(7, 30), list(13, 25), list(23, 23), list(28, 19), list(13, 15))
 	mutations = list(/datum/plant_feature/body/tree/mini)
 	particle_leaf_colour = "#ffbb00"
+	trait_power = 1.3
 
 /*
 	Cherry
@@ -52,6 +53,7 @@
 	overlay_positions = list(list(7, 30), list(13, 25), list(23, 23), list(28, 19), list(13, 15))
 	mutations = list(/datum/plant_feature/body/tree/mini)
 	particle_leaf_colour = "#ffacf1"
+	trait_power = 1.3
 
 /*
 	Mini
@@ -88,6 +90,7 @@
 	growth_stages = 3
 	overlay_positions = list()
 	mutations = list(/datum/plant_feature/body/tree/gum)
+	trait_power = 1.3
 
 /*
 	Gum
@@ -101,6 +104,7 @@
 	growth_stages = 3
 	overlay_positions = list(list(19, 12), list(9, 23), list(3, 21), list(10, 30), list(15, 27), list(21, 28), list(27, 30))
 	mutations = list(/datum/plant_feature/body/tree/palm)
+	trait_power = 2
 
 /*
 	Palm
@@ -112,6 +116,7 @@
 	icon_state = "palm"
 	overlay_positions = list(list(14, 28), list(19, 26))
 	mutations = list(/datum/plant_feature/body/tree)
+	trait_power = 2
 
 /datum/plant_feature/body/tree/palm/banana
 	name = "banana palm"

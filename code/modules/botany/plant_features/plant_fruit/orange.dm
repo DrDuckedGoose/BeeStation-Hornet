@@ -27,3 +27,4 @@
 	/datum/plant_trait/fruit/biolight/orange)
 	total_volume = PLANT_FRUIT_VOLUME_MEDIUM
 	mutations = list(/datum/plant_feature/fruit/orange)
+	trait_power = 3

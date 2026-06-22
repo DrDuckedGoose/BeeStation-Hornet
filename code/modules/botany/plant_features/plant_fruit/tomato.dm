@@ -26,6 +26,7 @@
 	fruit_product = /obj/item/food/grown/tomato/blue
 	fast_reagents = list(/datum/reagent/lube = PLANT_REAGENT_MEDIUM)
 	mutations = list(/datum/plant_feature/fruit/tomato/bluespace = 8)
+	trait_power = 1.3
 
 /*
 	BlueSpace Tomato
@@ -43,6 +44,7 @@
 	fast_reagents = list(/datum/reagent/bluespace = PLANT_REAGENT_SMALL)
 	growth_time = PLANT_FRUIT_GROWTH_MEDIUM
 	mutations = list(/datum/plant_feature/fruit/tomato)
+	trait_power = 2
 
 /datum/plant_feature/fruit/tomato/bluespace/setup_fruit(datum/source, harvest_amount, list/_visual_fruits, skip_growth)
 	. = ..()
@@ -63,6 +65,7 @@
 	fruit_product = /obj/item/food/grown/tomato/blood
 	fast_reagents = list(/datum/reagent/blood = PLANT_REAGENT_MEDIUM)
 	mutations = list(/datum/plant_feature/fruit/tomato/killer = 8)
+	trait_power = 1.5
 
 /*
 	Killer Tomato
@@ -76,6 +79,7 @@
 	/datum/plant_trait/fruit/liquid_contents, /datum/plant_trait/fruit/killer)
 	fruit_product = /obj/item/food/grown/tomato/killer
 	mutations = list(/datum/plant_feature/fruit/tomato/friendly = 3)
+	trait_power = 2
 
 /*
 	Friendly Tomato
@@ -89,6 +93,7 @@
 	/datum/plant_trait/fruit/liquid_contents/sensitive, /datum/plant_trait/fruit/killer/friendly)
 	fruit_product = /obj/item/food/grown/tomato/friendly
 	mutations = list(/datum/plant_feature/fruit/tomato)
+	trait_power = 2
 
 /obj/item/food/grown/tomato/friendly
 	name = "friendly tomato"

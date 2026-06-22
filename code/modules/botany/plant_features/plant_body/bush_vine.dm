@@ -175,6 +175,7 @@
 	icon_state = "bush_spiky_2"
 	overlay_positions = list(list(17, 16), list(17, 10), list(13, 14), list(21, 14), list(19, 21))
 	seeds = 5
+	trait_power = 1.5
 
 /datum/plant_feature/body/bush_vine/cannabis/tobacco
 	name = "tobacco bush"

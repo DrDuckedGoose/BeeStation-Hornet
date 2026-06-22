@@ -24,3 +24,4 @@
 	seed_icon_state = "seed-durathread"
 	fruit_product = /obj/item/grown/cotton/durathread
 	mutations = list(/datum/plant_feature/fruit/cotton)
+	trait_power = 1.5

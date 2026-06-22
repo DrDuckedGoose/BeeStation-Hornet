@@ -28,3 +28,4 @@
 	fruit_product = /obj/item/food/grown/blumpkin
 	fast_reagents = list(/datum/reagent/ammonia = PLANT_REAGENT_MEDIUM, /datum/reagent/chlorine = PLANT_REAGENT_SMALL)
 	mutations = list(/datum/plant_feature/fruit/pumpkin)
+	trait_power = 2

@@ -15,6 +15,7 @@
 	growth_time = PLANT_BODY_GROWTH_VERY_FAST
 	seeds = 5
 	genetic_budget = 2
+	trait_power = 5
 	///Pre-made mask for making fruits look burried
 	var/icon/tuber_mask
 	var/do_mask = TRUE

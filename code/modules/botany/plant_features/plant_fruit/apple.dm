@@ -22,5 +22,6 @@
 	icon_state = "apple_gold"
 	seed_icon_state = "seed-goldapple"
 	fruit_product = /obj/item/food/grown/apple/gold
+	trait_power = 2.5
 	fast_reagents = list(/datum/reagent/gold = PLANT_REAGENT_SMALL)
 	mutations = list(/datum/plant_feature/fruit/apple)

@@ -27,3 +27,4 @@
 	genetic_budget = 4
 	fast_reagents = list(/datum/reagent/medicine/silibinin = PLANT_REAGENT_SMALL)
 	mutations = list(/datum/plant_feature/fruit/starthistle)
+	trait_power = 1.5

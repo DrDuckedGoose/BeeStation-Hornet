@@ -23,3 +23,4 @@
 	seed_icon_state = "seed-eggy"
 	fruit_product = /obj/item/food/grown/shell/eggy
 	mutations = list(/datum/plant_feature/fruit/eggplant)
+	trait_power = 2

@@ -36,3 +36,4 @@
 	seed_icon_state = "seed-meatwheat"
 	fruit_product = /obj/item/food/grown/meatwheat
 	mutations = list(/datum/plant_feature/fruit/wheat)
+	trait_power = 2

@@ -23,6 +23,7 @@
 	icon_state = "invincible"
 	seed_icon_state = "seed-dionapod"
 	fruit_product = /mob/living/simple_animal/hostile/retaliate/nymph
+	trait_power = 2
 	can_copy = FALSE
 	can_remove = FALSE
 	whitelist_features = list(/datum/plant_feature/body/diona_pod, /datum/plant_feature/roots)

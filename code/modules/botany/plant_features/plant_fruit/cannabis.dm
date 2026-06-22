@@ -23,6 +23,7 @@
 	colour_override = "#918181"
 	seed_icon_state = "seed-blackcannabis"
 	fruit_product = /obj/item/food/grown/cannabis/death
+	trait_power = 1.5
 	fast_reagents = list(/datum/reagent/drug/space_drugs = PLANT_REAGENT_MEDIUM, /datum/reagent/toxin/lipolicide = PLANT_REAGENT_MEDIUM, /datum/reagent/toxin/cyanide = PLANT_REAGENT_MEDIUM)
 	mutations = list(/datum/plant_feature/fruit/cannabis/life = 5)
 
@@ -35,6 +36,7 @@
 	icon_state = "cannabis-2"
 	colour_override = "#deecd3"
 	seed_icon_state = "seed-whitecannabis"
+	trait_power = 1.5
 	fruit_product = /obj/item/food/grown/cannabis/white
 	fast_reagents = list(/datum/reagent/drug/space_drugs = PLANT_REAGENT_MEDIUM, /datum/reagent/toxin/lipolicide = PLANT_REAGENT_MEDIUM, /datum/reagent/medicine/omnizine = PLANT_REAGENT_MEDIUM)
 	mutations = list(/datum/plant_feature/fruit/cannabis/rainbow = 8)
@@ -49,6 +51,7 @@
 	colour_override = "#ff0000"
 	seed_icon_state = "seed-megacannabis"
 	fruit_product = /obj/item/food/grown/cannabis/rainbow
+	trait_power = 2
 	fast_reagents = list(/datum/reagent/toxin/mindbreaker = PLANT_REAGENT_MEDIUM, /datum/reagent/toxin/lipolicide = PLANT_REAGENT_MEDIUM)
 	mutations = list(/datum/plant_feature/fruit/cannabis/omega = 8)
 
@@ -71,6 +74,7 @@
 	seed_icon_state = "seed-ocannabis"
 	genetic_budget = 4
 	fruit_product = /obj/item/food/grown/cannabis/ultimate
+	trait_power = 3
 	fast_reagents = list(/datum/reagent/drug/space_drugs = PLANT_REAGENT_MICRO, /datum/reagent/toxin/mindbreaker = PLANT_REAGENT_MICRO, /datum/reagent/toxin/lipolicide = PLANT_REAGENT_MICRO, /datum/reagent/mercury = PLANT_REAGENT_MICRO,
 	/datum/reagent/lithium = PLANT_REAGENT_MICRO, /datum/reagent/medicine/atropine = PLANT_REAGENT_MICRO, /datum/reagent/medicine/haloperidol = PLANT_REAGENT_MICRO, /datum/reagent/drug/methamphetamine = PLANT_REAGENT_MICRO,
 	/datum/reagent/consumable/capsaicin = PLANT_REAGENT_MICRO, /datum/reagent/barbers_aid = PLANT_REAGENT_MICRO, /datum/reagent/drug/bath_salts = PLANT_REAGENT_MICRO, /datum/reagent/toxin/itching_powder = PLANT_REAGENT_MICRO,

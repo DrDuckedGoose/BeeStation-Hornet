@@ -38,5 +38,6 @@
 	colour_override = "#e4cf15"
 	seed_icon_state = "seed-bungotree"
 	fruit_product = /obj/item/food/grown/bungofruit
+	trait_power = 1.3
 	fast_reagents = list(/datum/reagent/toxin/bungotoxin = PLANT_REAGENT_SMALL)
 	mutations = list(/datum/plant_feature/fruit/cocoa)

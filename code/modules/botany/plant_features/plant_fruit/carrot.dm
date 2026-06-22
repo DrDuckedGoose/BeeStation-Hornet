@@ -23,5 +23,6 @@
 	icon_state = "parsnip"
 	seed_icon_state = "seed-parsnip"
 	fruit_product = /obj/item/food/grown/parsnip
+	trait_power = 1.3
 	fast_reagents = list()
 	mutations = list(/datum/plant_feature/fruit/carrot)

@@ -26,6 +26,7 @@
 	bunch_icon = "mimana_bunch"
 	seed_icon_state = "seed-mimana"
 	fruit_product = /obj/item/food/grown/banana/mime
+	trait_power = 1.5
 	fast_reagents = list(/datum/reagent/consumable/nothing = PLANT_REAGENT_MEDIUM, /datum/reagent/toxin/mutetoxin = PLANT_REAGENT_MEDIUM)
 	mutations = list(/datum/plant_feature/fruit/banana/bluespace = 8)
 
@@ -39,6 +40,7 @@
 	bunch_icon = "mimana_bunch"
 	colour_override = "#4abaff"
 	seed_icon_state = "seed-banana-blue"
+	trait_power = 2
 	fruit_product = /obj/item/food/grown/banana/bluespace
 	plant_traits = list(/datum/plant_trait/reagent/fruit/nutriment, /datum/plant_trait/reagent/fruit/vitamin/large,
 	/datum/plant_trait/fruit/slippery, /datum/plant_trait/fruit/bluespace)

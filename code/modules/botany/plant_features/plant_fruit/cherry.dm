@@ -25,6 +25,7 @@
 	colour_override = "#6200ff"
 	seed_icon_state = "seed-bluecherry"
 	fruit_product = /obj/item/food/grown/bluecherries
+	trait_power = 1.3
 	mutations = list(/datum/plant_feature/fruit/cherry/bulb)
 
 /*
@@ -38,6 +39,7 @@
 	seed_icon_state = "seed-cherrybulb"
 	plant_traits = list(/datum/plant_trait/reagent/fruit/nutriment, /datum/plant_trait/fruit/biolight/orange)
 	fruit_product = /obj/item/food/grown/cherrybulbs
+	trait_power = 1.5
 	mutations = list(/datum/plant_feature/fruit/cherry/bomb = 8)
 
 /*
@@ -51,6 +53,7 @@
 	colour_override = "#412c20"
 	seed_icon_state = "seed-cherry_bomb"
 	fruit_product = /obj/item/food/grown/cherry_bomb
+	trait_power = 2
 	plant_traits = list(/datum/plant_trait/fruit/temperature, /datum/plant_trait/fruit/liquid_contents/sensitive, /datum/plant_trait/fruit/seperated_contents)
 	fast_reagents = list(/datum/reagent/blackpowder = PLANT_REAGENT_MEDIUM)
 	growth_time = PLANT_FRUIT_GROWTH_MEDIUM
