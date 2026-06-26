@@ -40,10 +40,8 @@
 	need_description = "[archive_description]\n	 Pest Level: [pest_level]%"
 	if(SEND_SIGNAL(parent.parent.plant_item.loc, COMSIG_PLANTER_PAUSE_PLANT) || SEND_SIGNAL(parent.parent.plant_item.loc, COMSIG_PLANTER_REPEL_PESTS))
 		return
-	if(pest_level <= 0)
-		QDEL_NULL(pest_holder)
-		return
 	if(pest_level < 10) //Pests don't do damage until you see them
+		QDEL_NULL(pest_holder)
 		return
 	if(pest_level >= 10 && !pest_holder)
 		var/atom/movable/atom_parent = parent.parent.plant_item
