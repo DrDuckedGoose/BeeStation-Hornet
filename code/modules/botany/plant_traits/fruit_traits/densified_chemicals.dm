@@ -15,7 +15,7 @@
 
 /datum/plant_trait/fruit/dense_contents/setup_parent(_parent)
 	. = ..()
-	if(!istype(parent))
+	if(parent && !istype(parent, /datum/plant_feature/fruit))
 		return
 	var/datum/plant_feature/fruit/fruit_parent = parent
 	fruit_parent.total_volume = initial(fruit_parent.total_volume) * (max(fruit_parent.trait_power, 1.5))

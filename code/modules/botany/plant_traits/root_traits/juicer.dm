@@ -28,7 +28,8 @@
 	if(fruit?.reagents.total_volume)
 		fruit.reagents.convert_reagent(/datum/reagent, fruit.juice_typepath, include_source_subtypes = TRUE) // We juice ANY reagent, which makes us an upgrade to the grinder and barrel
 		for(var/datum/reagents/reagents as anything in available_reagents)
-			fruit.reagents.remove_any(JUICE_MULTI*parent.trait_power)
+			if(fruit.reagents.total_volume == fruit.reagents.maximum_volume)
+				fruit.reagents.remove_any(JUICE_MULTI*parent.trait_power)
 			fruit.reagents.trans_to(reagents, divided_reagents, JUICE_MULTI*parent.trait_power)
 	qdel(fruit)
 

@@ -67,7 +67,8 @@
 	var/divided_reagents = (fruit?.reagents.total_volume || 1) / length(available_reagents)
 	if(fruit?.reagents.total_volume)
 		for(var/datum/reagents/reagents as anything in available_reagents)
-			fruit.reagents.remove_any(CANNIBAL_MULTI*parent.trait_power)
+			if(fruit.reagents.total_volume == fruit.reagents.maximum_volume)
+				fruit.reagents.remove_any(CANNIBAL_MULTI*parent.trait_power)
 			fruit.reagents.trans_to(reagents, divided_reagents, CANNIBAL_MULTI*parent.trait_power)
 	qdel(fruit)
 
