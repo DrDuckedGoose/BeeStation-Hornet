@@ -52,7 +52,7 @@
 	create_reagents(buffer, TRANSPARENT | REFILLABLE)
 	if(plumbing)
 		AddComponent(/datum/component/plumbing/tank, FALSE)
-		AddComponent(/datum/component/simple_rotation)
+		AddElement(/datum/element/simple_rotation)
 //Tray component setup
 	tray_component = AddComponent(/datum/component/planter, plant_offset, layer_offset, gain_weeds)
 	RegisterSignal(tray_component, COMSIG_PLANTER_UPDATE_SUBSTRATE_SETUP, PROC_REF(remove_substrate))
