@@ -19,6 +19,12 @@
 	if(!loc)
 		return
 
+	// Chance to be afflicted by cosmic radiation
+	var/area/area = get_area(src)
+	if(prob(area?.cosmic_rad_chance) && get_current_damage_of_type(TOX) <= area.cosmic_rad_upper)
+		apply_damage(area.cosmic_rad_stacks, TOX)
+		balloon_alert(src, "...", "#f00", FALSE, rand(-10, 10), rand(0, 5))
+
 	if(!has_status_effect(/datum/status_effect/grouped/stasis))
 
 		if(stat != DEAD)

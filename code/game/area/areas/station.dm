@@ -7,6 +7,10 @@
 	icon_state = "station"
 	camera_networks = list(CAMERA_NETWORK_STATION)
 
+	cosmic_rad_chance = 33
+	cosmic_rad_upper = 100
+	cosmic_rad_stacks = 1
+
 //Maintenance
 
 /area/station/maintenance
@@ -42,6 +46,8 @@
 	lights_always_start_on = TRUE
 	color_correction = /datum/client_colour/area_color/cold_ish
 	camera_networks = list(CAMERA_NETWORK_STATION) //Maint cameras go fuck yourself
+
+	cosmic_rad_chance = 1
 
 /area/station/maintenance/get_area_textures()
 	return GLOB.turf_texture_maint
@@ -277,6 +283,9 @@
 	lighting_brightness_tube = 8
 	area_flags = parent_type::area_flags | XENOBIOLOGY_CONSOLE_DISALLOWED
 
+	cosmic_rad_chance = 45
+	cosmic_rad_stacks = 2
+
 /area/station/hallway/get_area_textures()
 	return GLOB.turf_texture_hallway
 
@@ -389,6 +398,8 @@
 	color_correction = /datum/client_colour/area_color/cold_ish
 	camera_networks = list(CAMERA_NETWORK_PRIVATE)
 
+	cosmic_rad_chance = 15
+
 /area/station/command/bridge
 	name = "\improper Bridge"
 	icon_state = "bridge"
@@ -474,6 +485,10 @@
 	lights_always_start_on = TRUE
 	color_correction = /datum/client_colour/area_color/warm_ish
 	camera_networks = list(CAMERA_NETWORK_STATION)
+
+	cosmic_rad_chance = 45
+	cosmic_rad_upper = 50
+	cosmic_rad_stacks = 2
 
 /area/station/commons/get_area_textures()
 	return GLOB.turf_texture_hallway
@@ -641,6 +656,9 @@
 	abstract_type = /area/station/service
 	airlock_hack_difficulty = AIRLOCK_WIRE_SECURITY_NONE
 
+	cosmic_rad_chance = 45
+	cosmic_rad_upper = 50
+
 /area/station/service/cafeteria
 	name = "\improper Cafeteria"
 	icon_state = "cafeteria"
@@ -659,6 +677,8 @@
 	icon_state = "kitchen_cold"
 	sound_environment = SOUND_AREA_SMALL_ENCLOSED
 	color_correction = /datum/client_colour/area_color/cold
+
+	cosmic_rad_chance = 15
 
 /area/station/service/kitchen/diner
 	name = "\improper Diner"
@@ -1619,6 +1639,9 @@
 /area/station/science/xenobiology
 	name = "\improper Xenobiology Lab"
 	icon_state = "xenobio"
+
+	cosmic_rad_chance = 45
+	cosmic_rad_stacks = 2
 
 /area/station/science/xenobiology/hallway
 	name = "\improper Xenobiology Hallway"

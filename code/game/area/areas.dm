@@ -149,6 +149,13 @@
 	/// of automated.
 	var/disable_air_alarm_automation = FALSE
 
+	/// Chance to be afflicted by cosmic radiation in this area
+	var/cosmic_rad_chance = 0
+	/// Upper bracket of how much cosmic radiation can afflict you in this area
+	var/cosmic_rad_upper = 100
+	/// How many tox stacks we add when irradiated
+	var/cosmic_rad_stacks = 1
+
 /**
   * A list of teleport locations
   *
