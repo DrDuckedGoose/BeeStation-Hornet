@@ -19,7 +19,7 @@
 	var/on_gs = FALSE
 	var/brightness = 10			// luminosity when on, also used in power calculation
 	var/bulb_power = 1			// basically the alpha of the emitted light source
-	var/bulb_colour = "#FFF6ED"	// default colour of the light.
+	var/bulb_colour = "#c4a78b"	// default colour of the light.
 	var/status = LIGHT_OK		// LIGHT_OK, _EMPTY, _BURNED or _BROKEN
 	var/flickering = FALSE
 	var/light_type = /obj/item/light/tube		// the type of light item
@@ -79,7 +79,15 @@
 /obj/machinery/light/Initialize(mapload)
 	. = ..()
 
+	if(prob(50))
+		bulb_colour = "#ccae90"
+	else if(prob(18))
+		bulb_colour = "#83694f"
+	else if(prob(8))
+		bulb_colour = "#46392b"
+
 	//Setup area colours -pb
+	/*
 	var/area/A = get_area(src)
 	if(bulb_colour == initial(bulb_colour))
 		if(istype(src, /obj/machinery/light/small))
@@ -99,11 +107,13 @@
 	if(!mapload) //sync up nightshift lighting for player made lights
 		var/obj/machinery/power/apc/temp_apc = A.apc
 		nightshift_enabled = temp_apc?.nightshift_lights
+	*/
 
 	if(!start_with_cell || no_emergency)
 		has_mock_cell = FALSE
 
 	spawn(2)
+		/*
 		switch(fitting)
 			if("tube")
 				brightness = A.lighting_brightness_tube
@@ -113,6 +123,7 @@
 				brightness = A.lighting_brightness_bulb
 				if(prob(5))
 					break_light_tube(1)
+		*/
 		if(!mapload)
 			spawn(1)
 				update(FALSE, FALSE, FALSE)

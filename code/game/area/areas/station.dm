@@ -7,9 +7,9 @@
 	icon_state = "station"
 	camera_networks = list(CAMERA_NETWORK_STATION)
 
-	cosmic_rad_chance = 33
-	cosmic_rad_upper = 100
-	cosmic_rad_stacks = 1
+	cosmic_rad_chance = COSMIC_RADIATION_CHANCE_MEDIUM
+	cosmic_rad_upper = COSMIC_RADIATION_BRACKET_MEDIUM
+	cosmic_rad_stacks = COSMIC_RADIATION_TICK_LOW
 
 //Maintenance
 
@@ -47,7 +47,7 @@
 	color_correction = /datum/client_colour/area_color/cold_ish
 	camera_networks = list(CAMERA_NETWORK_STATION) //Maint cameras go fuck yourself
 
-	cosmic_rad_chance = 1
+	cosmic_rad_chance = COSMIC_RADIATION_CHANCE_LOW
 
 /area/station/maintenance/get_area_textures()
 	return GLOB.turf_texture_maint
@@ -276,15 +276,15 @@
 /area/station/hallway
 	abstract_type = /area/station/hallway
 	icon_state = "hall"
-	sound_environment = SOUND_AREA_STANDARD_STATION
+	sound_environment = SOUND_ENVIRONMENT_STONEROOM
 	lights_always_start_on = TRUE
 	lighting_colour_tube = "#ffce99"
 	lighting_colour_bulb = "#ffdbb4"
 	lighting_brightness_tube = 8
 	area_flags = parent_type::area_flags | XENOBIOLOGY_CONSOLE_DISALLOWED
 
-	cosmic_rad_chance = 45
-	cosmic_rad_stacks = 2
+	cosmic_rad_chance = COSMIC_RADIATION_CHANCE_HIGH
+	cosmic_rad_stacks = COSMIC_RADIATION_TICK_MEDIUM
 
 /area/station/hallway/get_area_textures()
 	return GLOB.turf_texture_hallway
@@ -398,7 +398,7 @@
 	color_correction = /datum/client_colour/area_color/cold_ish
 	camera_networks = list(CAMERA_NETWORK_PRIVATE)
 
-	cosmic_rad_chance = 15
+	cosmic_rad_chance = COSMIC_RADIATION_CHANCE_LOW
 
 /area/station/command/bridge
 	name = "\improper Bridge"
@@ -486,9 +486,9 @@
 	color_correction = /datum/client_colour/area_color/warm_ish
 	camera_networks = list(CAMERA_NETWORK_STATION)
 
-	cosmic_rad_chance = 45
-	cosmic_rad_upper = 50
-	cosmic_rad_stacks = 2
+	cosmic_rad_chance = COSMIC_RADIATION_CHANCE_HIGH
+	cosmic_rad_upper = COSMIC_RADIATION_BRACKET_LOW
+	cosmic_rad_stacks = COSMIC_RADIATION_TICK_MEDIUM
 
 /area/station/commons/get_area_textures()
 	return GLOB.turf_texture_hallway
@@ -656,8 +656,9 @@
 	abstract_type = /area/station/service
 	airlock_hack_difficulty = AIRLOCK_WIRE_SECURITY_NONE
 
-	cosmic_rad_chance = 45
-	cosmic_rad_upper = 50
+	cosmic_rad_chance = COSMIC_RADIATION_CHANCE_HEAL_MEDIUM
+	cosmic_rad_upper = COSMIC_RADIATION_BRACKET_HEAL
+	cosmic_rad_stacks = COSMIC_RADIATION_HEAL_HIGH
 
 /area/station/service/cafeteria
 	name = "\improper Cafeteria"
@@ -678,7 +679,7 @@
 	sound_environment = SOUND_AREA_SMALL_ENCLOSED
 	color_correction = /datum/client_colour/area_color/cold
 
-	cosmic_rad_chance = 15
+	cosmic_rad_chance = COSMIC_RADIATION_CHANCE_LOW
 
 /area/station/service/kitchen/diner
 	name = "\improper Diner"
@@ -845,6 +846,10 @@
 	sound_environment = SOUND_AREA_STANDARD_STATION
 	area_flags = HIDDEN_STASH_LOCATION | VALID_TERRITORY | BLOBS_ALLOWED | UNIQUE_AREA | CULT_PERMITTED
 	color_correction = /datum/client_colour/area_color/cold_ish
+
+	cosmic_rad_chance = COSMIC_RADIATION_CHANCE_MEDIUM
+	cosmic_rad_upper = COSMIC_RADIATION_BRACKET_MEDIUM
+	cosmic_rad_stacks = COSMIC_RADIATION_TICK_LOW
 
 /area/station/service/hydroponics/get_area_textures()
 	return GLOB.turf_texture_hallway
@@ -1129,6 +1134,10 @@
 	airlock_hack_difficulty = AIRLOCK_WIRE_SECURITY_SIMPLE
 	color_correction = /datum/client_colour/area_color/cold_ish
 	camera_networks = list(CAMERA_NETWORK_STATION, CAMERA_NETWORK_MEDICAL)
+
+	cosmic_rad_chance = COSMIC_RADIATION_CHANCE_HEAL_LOW
+	cosmic_rad_upper = COSMIC_RADIATION_BRACKET_HEAL
+	cosmic_rad_stacks = COSMIC_RADIATION_HEAL_HIGH
 
 /area/station/medical/abandoned
 	name = "\improper Abandoned Medbay"
@@ -1640,8 +1649,8 @@
 	name = "\improper Xenobiology Lab"
 	icon_state = "xenobio"
 
-	cosmic_rad_chance = 45
-	cosmic_rad_stacks = 2
+	cosmic_rad_chance = COSMIC_RADIATION_CHANCE_HIGH
+	cosmic_rad_stacks = COSMIC_RADIATION_TICK_MEDIUM
 
 /area/station/science/xenobiology/hallway
 	name = "\improper Xenobiology Hallway"

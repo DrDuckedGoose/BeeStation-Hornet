@@ -21,9 +21,12 @@
 
 	// Chance to be afflicted by cosmic radiation
 	var/area/area = get_area(src)
-	if(prob(area?.cosmic_rad_chance) && get_current_damage_of_type(TOX) <= area.cosmic_rad_upper)
-		apply_damage(area.cosmic_rad_stacks, TOX)
-		balloon_alert(src, "...", "#f00", FALSE, rand(-10, 10), rand(0, 5))
+	if(prob(area?.cosmic_rad_chance) && (area.cosmic_rad_upper < 0 || get_current_damage_of_type(TOX) <= area.cosmic_rad_upper))
+		if(area.cosmic_rad_stacks >= 1)
+			apply_damage(area.cosmic_rad_stacks, TOX)
+		else
+			heal_damage_type(area.cosmic_rad_stacks, TOX)
+		balloon_alert(src, area.cosmic_rad_stacks > 0 ? "--" : "++", area.cosmic_rad_stacks > 0 ? "#ffd90096" : "#00ff00ab", FALSE, rand(-10, 10), rand(0, 5))
 
 	if(!has_status_effect(/datum/status_effect/grouped/stasis))
 

@@ -33,8 +33,11 @@
 	/// If we added a leaning component to ourselves
 	var/added_leaning = FALSE
 
+	var/static/wall_colours = list("#b4a085", "#b3b283", "#ac9381")
+
 /turf/closed/wall/Initialize(mapload)
 	. = ..()
+	color = pick(wall_colours)
 	if(is_station_level(z))
 		GLOB.station_turfs += src
 	if(smoothing_flags & SMOOTH_DIAGONAL_CORNERS && fixed_underlay) //Set underlays for the diagonal walls.

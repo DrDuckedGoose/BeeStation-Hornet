@@ -32,8 +32,14 @@
 	/// Probability of a variant occuring
 	var/variant_probability = 0
 
+	var/static/floor_colours = list("#f0dfc7", "#f3e7ca", "#f1decb")
+
 /turf/open/floor/Initialize(mapload)
 	. = ..()
+
+	color = pick(floor_colours)
+	if(istype(loc, /area/station) && prob(15))
+		new /obj/effect/decal/cleanable/dirt(src)
 
 	if (variant_probability && prob(variant_probability))
 		icon_state = "[icon_state][rand(1, variant_states)]"
