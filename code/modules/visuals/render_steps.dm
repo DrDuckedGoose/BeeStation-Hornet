@@ -61,6 +61,7 @@
 /atom/movable/render_step/emissive_blocker/Initialize(mapload, atom/source)
 	. = ..()
 	color = GLOB.em_block_color
+	appearance = source.appearance
 
 /**
  * Render step that makes the passed in render source GLOW
